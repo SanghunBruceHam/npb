@@ -499,6 +499,21 @@
             width: 100% !important;
         }
         
+        /* PC에서 쿠팡 광고 크기 조정 - 카드 크기에 맞춤 */
+        @media (min-width: 1025px) {
+            .coupang-ad-wrapper {
+                max-width: 1200px !important;
+                padding: 20px !important;
+                margin: 20px auto !important;
+            }
+            
+            .coupang-ad-wrapper > div:not([style*="font-size"]),
+            .coupang-ad-wrapper iframe {
+                transform: scale(1.1);
+                transform-origin: center;
+            }
+        }
+        
         /* 모바일에서 쿠팡 광고 크기 조정 */
         @media (max-width: 768px) {
             .coupang-ad-wrapper {
@@ -870,7 +885,7 @@
                 </div>
 
                 <!-- 쿠팡 광고 영역 1 -->
-                <div class="coupang-ad-wrapper" style="text-align: center; margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; max-width: 1000px; margin-left: auto; margin-right: auto; overflow: hidden;">
+                <div class="coupang-ad-wrapper" style="text-align: center; margin: 20px auto; padding: 20px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; overflow: hidden;">
                     <div style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">광고</div>
                     <!-- 쿠팡 파트너스 광고 코드 -->
                     <script src="https://ads-partners.coupang.com/g.js"></script>
@@ -953,7 +968,7 @@
                 </div>
 
                 <!-- 쿠팡 광고 영역 2 -->
-                <div class="coupang-ad-wrapper" style="text-align: center; margin: 15px 0 0 0; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; max-width: 1000px; margin-left: auto; margin-right: auto; overflow: hidden;">
+                <div class="coupang-ad-wrapper" style="text-align: center; margin: 20px auto 0 auto; padding: 20px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; overflow: hidden;">
                     <div style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">광고</div>
                     <!-- 쿠팡 파트너스 광고 코드 -->
                     <script src="https://ads-partners.coupang.com/g.js"></script>
