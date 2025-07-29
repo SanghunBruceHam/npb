@@ -161,11 +161,11 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            width: 1100px;
+            width: 1000px;
             margin: 0 auto;
         }
         
-        @media (max-width: 1150px) {
+        @media (max-width: 1050px) {
             .card {
                 width: 95%;
                 max-width: none;
@@ -420,17 +420,19 @@
             text-align: left;
             border-radius: 8px;
             padding: 10px;
-            position: absolute;
-            z-index: 999999;
-            bottom: 125%;
+            position: fixed;
+            z-index: 2147483647;
+            bottom: auto;
+            top: auto;
             left: 50%;
-            margin-left: -150px;
+            transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.85rem;
             line-height: 1.4;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
         }
 
         .tooltip .tooltiptext::after {
@@ -1695,11 +1697,31 @@
             updateDataStatus();
         }, 30000);
 
-        // 툴팁 클릭 이벤트 (모바일 지원)
+        // 툴팁 클릭 이벤트 (모바일 지원) - 위치 계산 포함
         document.addEventListener('DOMContentLoaded', function() {
             const tooltips = document.querySelectorAll('.tooltip');
             
+            function positionTooltip(tooltip) {
+                const tooltipText = tooltip.querySelector('.tooltiptext');
+                const rect = tooltip.getBoundingClientRect();
+                const tooltipRect = tooltipText.getBoundingClientRect();
+                
+                // 화면 중앙에서 툴팁 버튼 위에 표시
+                const top = rect.top - tooltipRect.height - 20;
+                const left = rect.left + (rect.width / 2);
+                
+                tooltipText.style.top = Math.max(10, top) + 'px';
+                tooltipText.style.left = left + 'px';
+                tooltipText.style.transform = 'translateX(-50%)';
+            }
+            
             tooltips.forEach(tooltip => {
+                // 호버 이벤트
+                tooltip.addEventListener('mouseenter', function() {
+                    positionTooltip(this);
+                });
+                
+                // 클릭 이벤트 (모바일)
                 tooltip.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1707,14 +1729,24 @@
                     // 다른 모든 툴팁 비활성화
                     tooltips.forEach(t => t.classList.remove('active'));
                     
-                    // 현재 툴팁 활성화
+                    // 현재 툴팁 활성화 및 위치 계산
                     this.classList.add('active');
+                    positionTooltip(this);
                 });
             });
             
             // 다른 곳 클릭시 툴팁 닫기
             document.addEventListener('click', function() {
                 tooltips.forEach(tooltip => tooltip.classList.remove('active'));
+            });
+            
+            // 윈도우 리사이즈시 툴팁 위치 재계산
+            window.addEventListener('scroll', function() {
+                tooltips.forEach(tooltip => {
+                    if (tooltip.classList.contains('active') || tooltip.matches(':hover')) {
+                        positionTooltip(tooltip);
+                    }
+                });
             });
         });
 
