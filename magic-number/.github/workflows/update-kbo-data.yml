@@ -1,0 +1,65 @@
+name: KBO 데이터 자동 업데이트
+
+on:
+  schedule:
+    # 매일 오후 11시 30분 (KST) = UTC 14:30
+    - cron: '30 14 * * *'
+  workflow_dispatch:  # 수동 실행 가능
+
+jobs:
+  update-kbo-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 코드 체크아웃
+      uses: actions/checkout@v3
+      
+    - name: Node.js 설정
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: 의존성 설치
+      run: |
+        npm install puppeteer
+        npm install cheerio
+        npm install axios
+        
+    - name: KBO 데이터 크롤링
+      run: |
+        node scripts/crawl-kbo-data.js
+        
+    - name: 매직넘버 계산
+      run: |
+        node scripts/calculate-magic-numbers.js
+        
+    - name: HTML 업데이트
+      run: |
+        node scripts/update-html.js
+        
+    - name: RSS 업데이트
+      run: |
+        node scripts/update-rss.js
+        
+    - name: 사이트맵 업데이트
+      run: |
+        node scripts/update-sitemap.js
+        
+    - name: 변경사항 커밋
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git diff --staged --quiet || git commit -m "📊 KBO 데이터 자동 업데이트 $(date '+%Y-%m-%d %H:%M')"
+        
+    - name: 변경사항 푸시
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+        
+    - name: 배포 알림 (선택사항)
+      if: success()
+      run: |
+        echo "✅ KBO 데이터 업데이트 완료: $(date)"
+        # Slack이나 Discord 웹훅 호출 가능

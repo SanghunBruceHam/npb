@@ -1,0 +1,74 @@
+# KBO 매직넘버 계산기 - robots.txt
+# https://kbo.mahalohana-bruce.com/magic-number/
+
+User-agent: *
+Allow: /
+
+# 주요 페이지들
+Allow: /magic-number/
+Allow: /magic-number/teams/
+Allow: /magic-number/standings/
+Allow: /magic-number/playoff/
+Allow: /magic-number/head-to-head/
+Allow: /magic-number/statistics/
+Allow: /magic-number/archive/
+
+# CSS, JS, 이미지 파일들
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.ico
+
+# 크롤링 빈도 제한 (서버 부하 방지)
+Crawl-delay: 1
+
+# 사이트맵 위치
+Sitemap: https://kbo.mahalohana-bruce.com/magic-number/sitemap.xml
+Sitemap: https://kbo.mahalohana-bruce.com/magic-number/rss.xml
+
+# 주요 검색엔진별 최적화
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: NaverBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: DaumBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+# 차단할 봇들
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# 관리자/임시 폴더 차단
+Disallow: /admin/
+Disallow: /temp/
+Disallow: /backup/
+Disallow: /_private/
+Disallow: /test/
+
+# 중복 URL 차단
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?source=*

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBO 매직넘버 아이콘 생성기</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .icon-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .icon:hover {
+            transform: scale(1.05);
+        }
+        .icon-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        canvas {
+            display: none;
+        }
+        .download-btn {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 KBO 매직넘버 계산기 아이콘 생성</h1>
+        <p>아래 아이콘들을 클릭하면 해당 크기의 PNG 파일이 다운로드됩니다.</p>
+        
+        <div class="icon-preview" id="iconPreview">
+            <!-- 아이콘들이 여기에 생성됩니다 -->
+        </div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const iconPreview = document.getElementById('iconPreview');
+
+        function generateIcon(size) {
+            canvas.width = size;
+            canvas.height = size;
+            
+            // 그라데이션 배경
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#1a237e');
+            gradient.addColorStop(1, '#3949ab');
+            
+            // 배경 그리기
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // 둥근 모서리 효과 (선택사항)
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // 텍스트 그리기
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.3}px "Noto Sans KR", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // KBO 텍스트
+            ctx.fillText('KBO', size / 2, size * 0.35);
+            
+            // 매직넘버 텍스트 (작게)
+            ctx.font = `${size * 0.12}px "Noto Sans KR", sans-serif`;
+            ctx.fillText('매직넘버', size / 2, size * 0.65);
+            
+            // 야구공 이모지 (상단)
+            ctx.font = `${size * 0.2}px serif`;
+            ctx.fillText('⚾', size / 2, size * 0.15);
+            
+            return canvas.toDataURL('image/png');
+        }
+
+        function downloadIcon(size) {
+            const dataURL = generateIcon(size);
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = dataURL;
+            link.click();
+        }
+
+        // 아이콘 미리보기 생성
+        sizes.forEach(size => {
+            const container = document.createElement('div');
+            
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'icon';
+            iconDiv.style.background = 'linear-gradient(135deg, #1a237e, #3949ab)';
+            iconDiv.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 20px;">⚾</div>
+                    <div style="font-size: 16px; font-weight: bold;">KBO</div>
+                    <div style="font-size: 8px;">매직넘버</div>
+                </div>
+            `;
+            iconDiv.onclick = () => downloadIcon(size);
+            
+            const info = document.createElement('div');
+            info.className = 'icon-info';
+            info.innerHTML = `
+                ${size}x${size}px<br>
+                <button class="download-btn" onclick="downloadIcon(${size})">다운로드</button>
+            `;
+            
+            container.appendChild(iconDiv);
+            container.appendChild(info);
+            iconPreview.appendChild(container);
+        });
+
+        // 모든 아이콘 한번에 다운로드
+        function downloadAllIcons() {
+            sizes.forEach((size, index) => {
+                setTimeout(() => downloadIcon(size), index * 500);
+            });
+        }
+
+        // 전체 다운로드 버튼 추가
+        const downloadAllBtn = document.createElement('button');
+        downloadAllBtn.textContent = '🔽 모든 아이콘 다운로드';
+        downloadAllBtn.style.cssText = `
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 30px 0;
+            display: block;
+            width: 100%;
+        `;
+        downloadAllBtn.onclick = downloadAllIcons;
+        iconPreview.parentNode.insertBefore(downloadAllBtn, iconPreview);
+    </script>
+</body>
+</html>
