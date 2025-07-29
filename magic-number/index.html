@@ -217,21 +217,33 @@
         }
 
 
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 10px;
-            font-size: 0.95rem;
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 10px 0;
             border-radius: 8px;
-            overflow: visible;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
+        table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: visible;
+        }
+
         @media (max-width: 768px) {
+            .table-container {
+                margin: 10px -10px;
+            }
+            
             table {
                 font-size: 0.75rem;
+                min-width: 500px;
             }
             
             th, td {
@@ -864,26 +876,28 @@
                             <span>4-5위 (플레이오프권)</span>
                         </div>
                     </div>
-                    <table id="standings-table">
-                        <thead>
-                            <tr>
-                                <th>순위</th>
-                                <th>팀명</th>
-                                <th>경기</th>
-                                <th>승</th>
-                                <th>패</th>
-                                <th>무</th>
-                                <th>승률</th>
-                                <th>게임차 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 팀과의 승수 차이<br>- 예: 1위 57승, 2위 55승 = 게임차 2</span></span></th>
-                                <th>잔여경기</th>
-                                <th>최근10경기 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">최근 10경기 승패 기록<br>- 현재 팀 상태를 파악하는 지표</span></span></th>
-                                <th>연속 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">현재 진행중인 연속 기록<br>- 승/패/무 중 가장 최근 연속 결과</span></span></th>
-                                <th>매직넘버 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">목표 달성에 필요한 승수<br>- 1위: 우승확정 필요승수<br>- 나머지: 플레이오프 진출 필요승수<br><br>계산법:<br>- 1위: (2위 최대가능승수 + 1) - 현재승수<br>- 나머지: 72승 - 현재승수</span></span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <div class="table-container">
+                        <table id="standings-table">
+                            <thead>
+                                <tr>
+                                    <th>순위</th>
+                                    <th>팀명</th>
+                                    <th>경기</th>
+                                    <th>승</th>
+                                    <th>패</th>
+                                    <th>무</th>
+                                    <th>승률</th>
+                                    <th>게임차 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 팀과의 승수 차이<br>- 예: 1위 57승, 2위 55승 = 게임차 2</span></span></th>
+                                    <th>잔여경기</th>
+                                    <th>최근10경기 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">최근 10경기 승패 기록<br>- 현재 팀 상태를 파악하는 지표</span></span></th>
+                                    <th>연속 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">현재 진행중인 연속 기록<br>- 승/패/무 중 가장 최근 연속 결과</span></span></th>
+                                    <th>매직넘버 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">목표 달성에 필요한 승수<br>- 1위: 우승확정 필요승수<br>- 나머지: 플레이오프 진출 필요승수<br><br>계산법:<br>- 1위: (2위 최대가능승수 + 1) - 현재승수<br>- 나머지: 72승 - 현재승수</span></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- 기사간 광고 1 -->
@@ -985,7 +999,8 @@
                 <div class="card">
                     <h2>🎯 1위 탈환 가능성</h2>
                     <div id="chase-analysis">
-                        <table id="chase-table">
+                        <div class="table-container">
+                            <table id="chase-table">
                             <thead>
                                 <tr>
                                     <th>순위</th>
@@ -1000,7 +1015,8 @@
                             </thead>
                             <tbody>
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
                         <div style="margin-top: 15px; font-size: 0.8rem; color: #666; opacity: 0.9; text-align: center;">
                             📌 <strong>안내:</strong> 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                         </div>
@@ -1024,7 +1040,8 @@
                 <div class="card">
                     <h2>🏟️ 플레이오프 진출 조건</h2>
                     <div id="playoff-condition">
-                        <table id="playoff-table">
+                        <div class="table-container">
+                            <table id="playoff-table">
                             <thead>
                                 <tr>
                                     <th>순위</th>
@@ -1038,7 +1055,8 @@
                             </thead>
                             <tbody>
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
                         <div class="playoff-reference" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 0.85rem; color: #6c757d;">
                             <strong>📊 기준:</strong> 역대 5위 팀 평균 72승 | <strong>안전권:</strong> 72승+ | <strong>경합:</strong> 68-71승 | <strong>어려움:</strong> 68승 미만
                         </div>
@@ -1137,7 +1155,7 @@
     </div>
 
     <!-- 광고 3: 푸터 상단 배너 (가로형) -->
-    <div style="text-align: center; margin: 40px 0;">
+    <div style="text-align: center; margin: 20px 0 10px 0;">
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-5508768187151867"
@@ -1151,7 +1169,7 @@
 
     <!-- 푸터 -->
     <footer style="
-        margin-top: 60px;
+        margin-top: 30px;
         padding: 40px 20px 30px;
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
