@@ -500,9 +500,27 @@
         
         /* PC에서 쿠팡 광고 크기 조정 - 카드 크기에 맞춤 */
         @media (min-width: 1025px) {
+            .coupang-ad-wrapper {
+                padding: 40px 60px !important;
+            }
+            
             .coupang-ad-wrapper > div:not([style*="font-size"]),
             .coupang-ad-wrapper iframe {
-                transform: scale(1.1);
+                transform: scale(0.95);
+                transform-origin: center;
+                margin: 0;
+            }
+        }
+        
+        /* 태블릿에서 쿠팡 광고 크기 조정 */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .coupang-ad-wrapper {
+                padding: 30px 40px !important;
+            }
+            
+            .coupang-ad-wrapper > div:not([style*="font-size"]),
+            .coupang-ad-wrapper iframe {
+                transform: scale(0.9);
                 transform-origin: center;
                 margin: 0;
             }
@@ -511,24 +529,27 @@
         /* 모바일에서 쿠팡 광고 크기 조정 */
         @media (max-width: 768px) {
             .coupang-ad-wrapper {
-                padding: 10px !important;
-                margin: 10px 0 !important;
+                padding: 20px !important;
             }
             
             .coupang-ad-wrapper > div:not([style*="font-size"]),
             .coupang-ad-wrapper iframe {
-                transform: scale(0.8);
+                transform: scale(1.0);
                 transform-origin: center;
-                margin: -10% 0;
+                margin: 0;
             }
         }
         
         @media (max-width: 480px) {
+            .coupang-ad-wrapper {
+                padding: 16px !important;
+            }
+            
             .coupang-ad-wrapper > div:not([style*="font-size"]),
             .coupang-ad-wrapper iframe {
-                transform: scale(0.6);
+                transform: scale(0.85);
                 transform-origin: center;
-                margin: -20% 0;
+                margin: -7% 0;
             }
         }
 
