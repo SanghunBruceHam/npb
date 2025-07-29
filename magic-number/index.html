@@ -432,29 +432,18 @@
             text-align: left;
             border-radius: 8px;
             padding: 10px;
-            position: absolute;
+            position: fixed;
             z-index: 999999;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -150px;
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.85rem;
             line-height: 1.4;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
         }
 
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #1a237e transparent transparent transparent;
-        }
+        /* 화살표 제거 - position fixed와 함께 사용시 위치 계산이 복잡함 */
 
         .tooltip:hover .tooltiptext,
         .tooltip.active .tooltiptext {
@@ -1708,7 +1697,43 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tooltips = document.querySelectorAll('.tooltip');
             
+            // 툴팁 위치 계산 함수
+            function positionTooltip(tooltip) {
+                const tooltipText = tooltip.querySelector('.tooltiptext');
+                if (!tooltipText) return;
+                
+                const helpIcon = tooltip.querySelector('.help-icon');
+                if (!helpIcon) return;
+                
+                const rect = helpIcon.getBoundingClientRect();
+                const tooltipWidth = 300;
+                const tooltipHeight = tooltipText.offsetHeight;
+                
+                // 화면 중앙 기준으로 left 위치 계산
+                let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+                let top = rect.top - tooltipHeight - 10;
+                
+                // 화면 밖으로 나가지 않도록 조정
+                if (left < 10) left = 10;
+                if (left + tooltipWidth > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltipWidth - 10;
+                }
+                
+                // 화면 상단을 벗어나면 아래쪽에 표시
+                if (top < 10) {
+                    top = rect.bottom + 10;
+                }
+                
+                tooltipText.style.left = left + 'px';
+                tooltipText.style.top = top + 'px';
+            }
+            
+            // 호버 이벤트 추가
             tooltips.forEach(tooltip => {
+                tooltip.addEventListener('mouseenter', function() {
+                    positionTooltip(this);
+                });
+                
                 tooltip.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1718,12 +1743,21 @@
                     
                     // 현재 툴팁 활성화
                     this.classList.add('active');
+                    positionTooltip(this);
                 });
             });
             
             // 다른 곳 클릭시 툴팁 닫기
             document.addEventListener('click', function() {
                 tooltips.forEach(tooltip => tooltip.classList.remove('active'));
+            });
+            
+            // 스크롤시 툴팁 위치 재계산
+            window.addEventListener('scroll', function() {
+                const activeTooltip = document.querySelector('.tooltip.active');
+                if (activeTooltip) {
+                    positionTooltip(activeTooltip);
+                }
             });
         });
 
