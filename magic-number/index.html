@@ -1695,6 +1695,29 @@
             updateDataStatus();
         }, 30000);
 
+        // 툴팁 클릭 이벤트 (모바일 지원)
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltips = document.querySelectorAll('.tooltip');
+            
+            tooltips.forEach(tooltip => {
+                tooltip.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // 다른 모든 툴팁 비활성화
+                    tooltips.forEach(t => t.classList.remove('active'));
+                    
+                    // 현재 툴팁 활성화
+                    this.classList.add('active');
+                });
+            });
+            
+            // 다른 곳 클릭시 툴팁 닫기
+            document.addEventListener('click', function() {
+                tooltips.forEach(tooltip => tooltip.classList.remove('active'));
+            });
+        });
+
         // PC 버전 보기 기능
         function initDesktopToggle() {
             const toggleBtn = document.getElementById('toggle-desktop-view');
