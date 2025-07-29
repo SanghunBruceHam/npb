@@ -488,18 +488,39 @@
         }
 
         /* 쿠팡 광고 반응형 스타일 */
-        #coupang-ad-1, #coupang-ad-2 {
-            max-width: 100%;
-        }
-        
-        #coupang-container-1, #coupang-container-2 {
-            max-width: 100%;
-            overflow: hidden;
-        }
-        
-        #coupang-container-1 iframe, #coupang-container-2 iframe {
+        .coupang-ad-wrapper {
             max-width: 100% !important;
-            height: auto !important;
+            box-sizing: border-box;
+        }
+        
+        .coupang-ad-wrapper > div,
+        .coupang-ad-wrapper iframe {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+        
+        /* 모바일에서 쿠팡 광고 크기 조정 */
+        @media (max-width: 768px) {
+            .coupang-ad-wrapper {
+                padding: 10px !important;
+                margin: 10px 0 !important;
+            }
+            
+            .coupang-ad-wrapper > div:not([style*="font-size"]),
+            .coupang-ad-wrapper iframe {
+                transform: scale(0.8);
+                transform-origin: center;
+                margin: -10% 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .coupang-ad-wrapper > div:not([style*="font-size"]),
+            .coupang-ad-wrapper iframe {
+                transform: scale(0.6);
+                transform-origin: center;
+                margin: -20% 0;
+            }
         }
 
         @keyframes fadeInUp {
@@ -849,10 +870,13 @@
                 </div>
 
                 <!-- 쿠팡 광고 영역 1 -->
-                <div id="coupang-ad-1" style="text-align: center; margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; max-width: 1000px; margin-left: auto; margin-right: auto; overflow: hidden;">
+                <div class="coupang-ad-wrapper" style="text-align: center; margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; max-width: 1000px; margin-left: auto; margin-right: auto; overflow: hidden;">
                     <div style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">광고</div>
-                    <!-- 쿠팡 파트너스 광고 코드 (반응형) -->
-                    <div id="coupang-container-1"></div>
+                    <!-- 쿠팡 파트너스 광고 코드 -->
+                    <script src="https://ads-partners.coupang.com/g.js"></script>
+                    <script>
+                        new PartnersCoupang.G({"id":867629,"trackingCode":"AF6959276","subId":null,"template":"carousel","width":"960","height":"180"});
+                    </script>
                 </div>
 
                 <!-- 1위 추격팀 가능성 -->
@@ -929,10 +953,13 @@
                 </div>
 
                 <!-- 쿠팡 광고 영역 2 -->
-                <div id="coupang-ad-2" style="text-align: center; margin: 15px 0 0 0; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; max-width: 1000px; margin-left: auto; margin-right: auto; overflow: hidden;">
+                <div class="coupang-ad-wrapper" style="text-align: center; margin: 15px 0 0 0; padding: 15px; background: #f8f9fa; border-radius: 12px; border: 1px solid #e0e0e0; max-width: 1000px; margin-left: auto; margin-right: auto; overflow: hidden;">
                     <div style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">광고</div>
-                    <!-- 쿠팡 파트너스 광고 코드 (반응형) -->
-                    <div id="coupang-container-2"></div>
+                    <!-- 쿠팡 파트너스 광고 코드 -->
+                    <script src="https://ads-partners.coupang.com/g.js"></script>
+                    <script>
+                        new PartnersCoupang.G({"id":867629,"trackingCode":"AF6959276","subId":null,"template":"carousel","width":"960","height":"180"});
+                    </script>
                 </div>
             </div>
         </div>
@@ -1648,74 +1675,6 @@
         // 초기화
         initDesktopToggle();
 
-        // 반응형 쿠팡 광고 로드
-        function loadResponsiveCoupangAds() {
-            // 쿠팡 스크립트가 로드되었는지 확인
-            if (typeof PartnersCoupang === 'undefined') {
-                // 쿠팡 스크립트 로드
-                const script = document.createElement('script');
-                script.src = 'https://ads-partners.coupang.com/g.js';
-                script.onload = function() {
-                    setTimeout(initCoupangAds, 100);
-                };
-                document.head.appendChild(script);
-            } else {
-                initCoupangAds();
-            }
-        }
-
-        function initCoupangAds() {
-            function getCoupangAdSize() {
-                const screenWidth = window.innerWidth;
-                if (screenWidth <= 480) {
-                    return { width: "320", height: "100" }; // 작은 모바일
-                } else if (screenWidth <= 768) {
-                    return { width: "480", height: "120" }; // 큰 모바일/태블릿
-                } else if (screenWidth <= 1024) {
-                    return { width: "728", height: "150" }; // 태블릿/작은 데스크톱
-                } else {
-                    return { width: "960", height: "180" }; // 데스크톱
-                }
-            }
-
-            function renderCoupangAd(containerId, adContainerId) {
-                const container = document.getElementById(adContainerId);
-                if (!container) return;
-
-                const adSize = getCoupangAdSize();
-                container.innerHTML = ''; // 기존 광고 제거
-
-                try {
-                    new PartnersCoupang.G({
-                        "id": 867629,
-                        "trackingCode": "AF6959276",
-                        "subId": null,
-                        "template": "carousel",
-                        "width": adSize.width,
-                        "height": adSize.height
-                    });
-                } catch (error) {
-                    console.log('쿠팡 광고 로드 오류:', error);
-                }
-            }
-
-            // 광고 렌더링
-            renderCoupangAd('coupang-ad-1', 'coupang-container-1');
-            renderCoupangAd('coupang-ad-2', 'coupang-container-2');
-
-            // 화면 크기 변경 시 광고 크기 조정
-            let resizeTimeout;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(function() {
-                    renderCoupangAd('coupang-ad-1', 'coupang-container-1');
-                    renderCoupangAd('coupang-ad-2', 'coupang-container-2');
-                }, 300);
-            });
-        }
-
-        // 쿠팡 광고 초기화
-        loadResponsiveCoupangAds();
     </script>
 
     <!-- 탑으로 가기 버튼 -->
