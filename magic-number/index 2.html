@@ -782,9 +782,12 @@
 
                 <!-- 1위팀 우승 조건 -->
                 <div class="card">
-                    <h2>👑 정규시즌 우승 조건</h2>
-                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
-                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                        <h2 style="margin: 0;">👑 정규시즌 우승 조건</h2>
+                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
+                            <div>📊 <span id="data-status-championship"></span></div>
+                            <div style="margin-top: 2px;">⚠️ 수학적 계산 결과입니다</div>
+                        </div>
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -836,6 +839,9 @@
                             </div>
                             <div id="clinch-date" style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">-</div>
                         </div>
+                        <div style="margin-top: 15px; font-size: 0.8rem; color: #666; opacity: 0.9; text-align: center;">
+                            📌 <strong>안내:</strong> 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                        </div>
                     </div>
                 </div>
 
@@ -864,9 +870,12 @@
 
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card">
-                    <h2>🎯 1위 탈환 가능성</h2>
-                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
-                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                        <h2 style="margin: 0;">🎯 1위 탈환 가능성</h2>
+                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
+                            <div>📊 <span id="data-status-chase"></span></div>
+                            <div style="margin-top: 2px;">⚠️ 수학적 계산 결과입니다</div>
+                        </div>
                     </div>
                     <div id="chase-analysis">
                         <div class="table-container">
@@ -887,6 +896,9 @@
                             </tbody>
                             </table>
                         </div>
+                        <div style="margin-top: 15px; font-size: 0.8rem; color: #666; opacity: 0.9; text-align: center;">
+                            📌 <strong>안내:</strong> 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                        </div>
                     </div>
                 </div>
 
@@ -905,9 +917,12 @@
 
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card">
-                    <h2>🏟️ 플레이오프 진출 조건</h2>
-                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
-                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                        <h2 style="margin: 0;">🏟️ 플레이오프 진출 조건</h2>
+                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
+                            <div>📊 <span id="data-status-playoff"></span></div>
+                            <div style="margin-top: 2px;">⚠️ 수학적 계산 결과입니다</div>
+                        </div>
                     </div>
                     <div id="playoff-condition">
                         <div class="table-container">
@@ -948,7 +963,12 @@
 
                 <!-- 팀간 승패표 -->
                 <div class="card">
-                    <h2>⚔️ 팀간 상대전적</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                        <h2 style="margin: 0;">⚔️ 팀간 상대전적</h2>
+                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
+                            <div>📊 <span id="data-status-h2h"></span></div>
+                        </div>
+                    </div>
                     <div class="h2h-legend" style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
                         <div style="font-weight: 600; color: var(--text-primary);">📖 읽는 방법: 세로축 팀의 가로축 팀 상대 전적</div>
                         <div style="display: flex; align-items: center; gap: 6px;">
@@ -1144,16 +1164,16 @@
 
         // 2025년 7월 27일 기준 실제 KBO 순위 데이터
         let currentStandings = [
-            { rank: 1, team: "한화", games: 97, wins: 57, losses: 37, draws: 3, winPct: 0.606, gamesBehind: 0, recent10: "5승 1무 4패", streak: "3패" },
-            { rank: 2, team: "LG", games: 98, wins: 56, losses: 40, draws: 2, winPct: 0.583, gamesBehind: 2, recent10: "8승 0무 2패", streak: "1승" },
-            { rank: 3, team: "롯데", games: 99, wins: 54, losses: 42, draws: 3, winPct: 0.563, gamesBehind: 4, recent10: "7승 0무 3패", streak: "6승" },
-            { rank: 4, team: "KT", games: 99, wins: 50, losses: 46, draws: 3, winPct: 0.521, gamesBehind: 8, recent10: "5승 0무 5패", streak: "1패" },
-            { rank: 5, team: "SSG", games: 96, wins: 47, losses: 46, draws: 3, winPct: 0.505, gamesBehind: 9.5, recent10: "4승 0무 6패", streak: "3승" },
-            { rank: 6, team: "삼성", games: 96, wins: 48, losses: 47, draws: 1, winPct: 0.505, gamesBehind: 9.5, recent10: "5승 0무 5패", streak: "1승" },
-            { rank: 7, team: "KIA", games: 96, wins: 46, losses: 47, draws: 3, winPct: 0.495, gamesBehind: 10.5, recent10: "1승 0무 9패", streak: "7패" },
-            { rank: 8, team: "NC", games: 93, wins: 43, losses: 45, draws: 5, winPct: 0.489, gamesBehind: 11, recent10: "5승 0무 5패", streak: "1패" },
-            { rank: 9, team: "두산", games: 97, wins: 41, losses: 52, draws: 4, winPct: 0.441, gamesBehind: 15.5, recent10: "6승 1무 3패", streak: "2승" },
-            { rank: 10, team: "키움", games: 99, wins: 28, losses: 68, draws: 3, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패" }
+            { rank: 1, team: "한화", games: 96, wins: 57, losses: 36, draws: 3, winPct: 0.613, gamesBehind: 0, recent10: "6승 1무 3패", streak: "2패" },
+            { rank: 2, team: "LG", games: 97, wins: 55, losses: 40, draws: 2, winPct: 0.579, gamesBehind: 3, recent10: "7승 0무 3패", streak: "1패" },
+            { rank: 3, team: "롯데", games: 98, wins: 53, losses: 42, draws: 3, winPct: 0.558, gamesBehind: 5, recent10: "6승 0무 4패", streak: "5승" },
+            { rank: 4, team: "KT", games: 98, wins: 50, losses: 45, draws: 3, winPct: 0.526, gamesBehind: 8, recent10: "6승 0무 4패", streak: "1승" },
+            { rank: 5, team: "KIA", games: 95, wins: 46, losses: 46, draws: 3, winPct: 0.500, gamesBehind: 10.5, recent10: "1승 0무 9패", streak: "6패" },
+            { rank: 6, team: "삼성", games: 95, wins: 47, losses: 47, draws: 1, winPct: 0.500, gamesBehind: 10.5, recent10: "4승 0무 6패", streak: "1패" },
+            { rank: 7, team: "SSG", games: 95, wins: 46, losses: 46, draws: 3, winPct: 0.500, gamesBehind: 10.5, recent10: "3승 0무 7패", streak: "2승" },
+            { rank: 8, team: "NC", games: 92, wins: 43, losses: 44, draws: 5, winPct: 0.494, gamesBehind: 11, recent10: "6승 0무 4패", streak: "3승" },
+            { rank: 9, team: "두산", games: 96, wins: 40, losses: 52, draws: 4, winPct: 0.435, gamesBehind: 16.5, recent10: "5승 1무 4패", streak: "1승" },
+            { rank: 10, team: "키움", games: 98, wins: 28, losses: 67, draws: 3, winPct: 0.295, gamesBehind: 30, recent10: "2승 0무 8패", streak: "5패" }
         ];
 
         // 2025년 실제 팀간 상대전적 데이터
@@ -1212,6 +1232,21 @@
             }
             
             document.getElementById('data-status').innerHTML = `${statusIcon} ${statusText}`;
+            
+            // 각 테이블에 동일한 데이터 기준 적용
+            const statusElements = [
+                'data-status-championship',
+                'data-status-chase', 
+                'data-status-playoff',
+                'data-status-h2h'
+            ];
+            
+            statusElements.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = statusText;
+                }
+            });
         }
 
         function renderStandingsTable() {
