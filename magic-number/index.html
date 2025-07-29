@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200, initial-scale=0.5, user-scalable=yes">
     
     <!-- SEO 메타 태그 -->
     <title>KBO 매직넘버 계산기 2025 - 플레이오프 진출 및 우승 조건</title>
@@ -172,12 +172,6 @@
             z-index: 1;
         }
         
-        @media (max-width: 1050px) {
-            .card {
-                width: 95%;
-                max-width: none;
-            }
-        }
 
         .card:hover {
             box-shadow: var(--shadow-lg);
@@ -236,44 +230,6 @@
             overflow: visible;
         }
 
-        @media (max-width: 768px) {
-            .table-container {
-                margin: 10px -10px;
-            }
-            
-            table {
-                font-size: 0.75rem;
-                min-width: 500px;
-            }
-            
-            th, td {
-                padding: 6px 3px;
-                line-height: 1.2;
-            }
-            
-            th {
-                font-size: 0.7rem;
-            }
-            
-            .championship-stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
-                gap: 8px !important;
-            }
-            
-            .championship-stats-grid .stat-label {
-                font-size: 0.7rem !important;
-                line-height: 1.2 !important;
-            }
-            
-            .championship-stats-grid .stat-value {
-                font-size: 1rem !important;
-            }
-            
-            .ranking-legend, .h2h-legend {
-                font-size: 0.8rem !important;
-                gap: 12px !important;
-            }
-        }
 
         th, td {
             padding: 16px 12px;
@@ -281,6 +237,43 @@
             position: relative;
             line-height: 1.4;
         }
+        
+        /* 팀 순위표 필드별 너비 조정 */
+        #standings-table th:nth-child(1), 
+        #standings-table td:nth-child(1) { width: 5%; }  /* 순위 */
+        
+        #standings-table th:nth-child(2), 
+        #standings-table td:nth-child(2) { width: 12%; text-align: left; padding-left: 20px; }  /* 팀명 */
+        
+        #standings-table th:nth-child(3), 
+        #standings-table td:nth-child(3) { width: 7%; }  /* 경기 */
+        
+        #standings-table th:nth-child(4), 
+        #standings-table td:nth-child(4) { width: 6%; }  /* 승 */
+        
+        #standings-table th:nth-child(5), 
+        #standings-table td:nth-child(5) { width: 6%; }  /* 패 */
+        
+        #standings-table th:nth-child(6), 
+        #standings-table td:nth-child(6) { width: 6%; }  /* 무 */
+        
+        #standings-table th:nth-child(7), 
+        #standings-table td:nth-child(7) { width: 8%; }  /* 승률 */
+        
+        #standings-table th:nth-child(8), 
+        #standings-table td:nth-child(8) { width: 8%; }  /* 게임차 */
+        
+        #standings-table th:nth-child(9), 
+        #standings-table td:nth-child(9) { width: 8%; }  /* 잔여경기 */
+        
+        #standings-table th:nth-child(10), 
+        #standings-table td:nth-child(10) { width: 15%; }  /* 최근10경기 */
+        
+        #standings-table th:nth-child(11), 
+        #standings-table td:nth-child(11) { width: 8%; }  /* 연속 */
+        
+        #standings-table th:nth-child(12), 
+        #standings-table td:nth-child(12) { width: 11%; }  /* 매직넘버 */
 
         th {
             background: var(--primary-color);
@@ -480,12 +473,6 @@
             opacity: 1;
         }
 
-        @media (max-width: 768px) {
-            .tooltip .tooltiptext {
-                width: 250px;
-                margin-left: -125px;
-            }
-        }
 
         .scroll-to-top {
             position: fixed;
@@ -548,45 +535,9 @@
         }
         
         /* 태블릿에서 쿠팡 광고 크기 조정 */
-        @media (max-width: 1024px) and (min-width: 769px) {
-            .coupang-ad-wrapper {
-                padding: 30px 40px !important;
-            }
-            
-            .coupang-ad-wrapper > div:not([style*="font-size"]),
-            .coupang-ad-wrapper iframe {
-                transform: scale(0.9);
-                transform-origin: center;
-                margin: 0;
-            }
-        }
         
         /* 모바일에서 쿠팡 광고 크기 조정 */
-        @media (max-width: 768px) {
-            .coupang-ad-wrapper {
-                padding: 20px !important;
-            }
-            
-            .coupang-ad-wrapper > div:not([style*="font-size"]),
-            .coupang-ad-wrapper iframe {
-                transform: scale(1.0);
-                transform-origin: center;
-                margin: 0;
-            }
-        }
         
-        @media (max-width: 480px) {
-            .coupang-ad-wrapper {
-                padding: 16px !important;
-            }
-            
-            .coupang-ad-wrapper > div:not([style*="font-size"]),
-            .coupang-ad-wrapper iframe {
-                transform: scale(0.85);
-                transform-origin: center;
-                margin: -7% 0;
-            }
-        }
 
         /* PC 버전 보기 버튼은 모바일에서만 표시 */
         @media (min-width: 769px) {
@@ -742,90 +693,8 @@
             100% { transform: translateX(100%); }
         }
 
-        @media (max-width: 1024px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .team-info-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
 
-        @media (max-width: 768px) {
-            .header {
-                margin: -15px -15px 20px -15px;
-                padding: 30px 0;
-            }
 
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            th, td {
-                padding: 10px 6px;
-                font-size: 0.85rem;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .cards-grid {
-                gap: 20px;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .magic-number {
-                font-size: 2rem;
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                margin: -15px -15px 15px -15px;
-                padding: 25px 0;
-            }
-
-            h1 {
-                font-size: 1.7rem;
-            }
-
-            .subtitle {
-                font-size: 0.9rem;
-            }
-
-            th, td {
-                padding: 8px 4px;
-                font-size: 0.8rem;
-            }
-
-            .card {
-                padding: 16px;
-            }
-
-            .card h2 {
-                font-size: 1.2rem;
-            }
-
-            .vs-grid {
-                font-size: 0.75rem;
-            }
-
-            .magic-number {
-                font-size: 1.8rem;
-                padding: 12px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -877,7 +746,7 @@
                                     <th>승률</th>
                                     <th>게임차 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 팀과의 승수 차이<br>- 예: 1위 57승, 2위 55승 = 게임차 2</span></span></th>
                                     <th>잔여경기</th>
-                                    <th>최근10경기 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">최근 10경기 승패 기록<br>- 현재 팀 상태를 파악하는 지표</span></span></th>
+                                    <th>최근10경기 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">최근 10경기 승패 기록<br>- 현재 팀 상태를 파악하는 지표<br><br>색상 의미:<br>🟢 녹색: 7승 이상 (뜨거운 상승세)<br>🟡 노란색: 5-6승 (양호한 흐름)<br>🔴 빨간색: 4승 이하 (부진한 흐름)</span></span></th>
                                     <th>연속 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">현재 진행중인 연속 기록<br>- 승/패/무 중 가장 최근 연속 결과</span></span></th>
                                     <th>매직넘버 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">목표 달성에 필요한 승수<br>- 1위: 우승확정 필요승수<br>- 나머지: 플레이오프 진출 필요승수<br><br>계산법:<br>- 1위: (2위 최대가능승수 + 1) - 현재승수<br>- 나머지: 72승 - 현재승수</span></span></th>
                                 </tr>
@@ -1430,16 +1299,17 @@
             const wins = winMatch ? parseInt(winMatch[1]) : 0;
             const losses = lossMatch ? parseInt(lossMatch[1]) : 0;
             
-            if (wins > losses + 2) {
+            // 색상 기준: 7승 이상(녹색), 5-6승(노란색), 4승 이하(빨간색)
+            if (wins >= 7) {
+                // 7승 이상 - 뜨거운 상승세
                 return `<span style="color: var(--success-color); font-weight: 700;">${recent10}</span>`;
-            } else if (losses > wins + 2) {
-                return `<span style="color: var(--danger-color); font-weight: 700;">${recent10}</span>`;
-            } else if (wins > losses) {
-                return `<span style="color: var(--success-color); font-weight: 600;">${recent10}</span>`;
-            } else if (losses > wins) {
+            } else if (wins >= 5) {
+                // 5-6승 - 양호한 흐름
+                return `<span style="color: var(--warning-color); font-weight: 600;">${recent10}</span>`;
+            } else {
+                // 4승 이하 - 부진한 흐름
                 return `<span style="color: var(--danger-color); font-weight: 600;">${recent10}</span>`;
             }
-            return recent10;
         }
 
         function getStatusIndicator(team) {
