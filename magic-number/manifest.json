@@ -2,60 +2,60 @@
     "name": "KBO 매직넘버 계산기",
     "short_name": "KBO 매직넘버",
     "description": "2025 KBO 리그 실시간 매직넘버 계산기. 플레이오프 진출 조건과 우승 가능성을 확인하세요.",
-    "start_url": "/magic-number/",
+    "start_url": "/kbo/magic-number/",
     "display": "standalone",
     "background_color": "#1a237e",
     "theme_color": "#1a237e",
     "orientation": "any",
-    "scope": "/magic-number/",
+    "scope": "/kbo/magic-number/",
     "lang": "ko",
     "dir": "ltr",
     "categories": ["sports", "utilities", "productivity"],
     "icons": [
         {
-            "src": "/magic-number/icons/icon-72x72.png",
+            "src": "/kbo/magic-number/icons/icon-72x72.png",
             "sizes": "72x72",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-96x96.png",
+            "src": "/kbo/magic-number/icons/icon-96x96.png",
             "sizes": "96x96",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-128x128.png",
+            "src": "/kbo/magic-number/icons/icon-128x128.png",
             "sizes": "128x128",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-144x144.png",
+            "src": "/kbo/magic-number/icons/icon-144x144.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-152x152.png",
+            "src": "/kbo/magic-number/icons/icon-152x152.png",
             "sizes": "152x152",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-192x192.png",
+            "src": "/kbo/magic-number/icons/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-384x384.png",
+            "src": "/kbo/magic-number/icons/icon-384x384.png",
             "sizes": "384x384",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/magic-number/icons/icon-512x512.png",
+            "src": "/kbo/magic-number/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
@@ -66,22 +66,22 @@
             "name": "팀 순위표",
             "short_name": "순위표",
             "description": "KBO 팀 순위와 매직넘버 확인",
-            "url": "/magic-number/#standings",
-            "icons": [{ "src": "/magic-number/icons/standings-96x96.png", "sizes": "96x96" }]
+            "url": "/kbo/magic-number/#standings",
+            "icons": [{ "src": "/kbo/magic-number/icons/standings-96x96.png", "sizes": "96x96" }]
         },
         {
             "name": "플레이오프 현황",
             "short_name": "플레이오프",
             "description": "플레이오프 진출 조건 확인",
-            "url": "/magic-number/#playoff",
-            "icons": [{ "src": "/magic-number/icons/playoff-96x96.png", "sizes": "96x96" }]
+            "url": "/kbo/magic-number/#playoff",
+            "icons": [{ "src": "/kbo/magic-number/icons/playoff-96x96.png", "sizes": "96x96" }]
         },
         {
             "name": "상대전적",
             "short_name": "전적",
             "description": "팀간 상대전적 확인",
-            "url": "/magic-number/#head-to-head",
-            "icons": [{ "src": "/magic-number/icons/h2h-96x96.png", "sizes": "96x96" }]
+            "url": "/kbo/magic-number/#head-to-head",
+            "icons": [{ "src": "/kbo/magic-number/icons/h2h-96x96.png", "sizes": "96x96" }]
         }
     ],
     "related_applications": [],
