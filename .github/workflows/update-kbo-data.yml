@@ -1,65 +1,67 @@
-name: KBO 데이터 자동 업데이트
+name: Update KBO Data Daily
 
 on:
   schedule:
-    # 매일 오후 11시 30분 (KST) = UTC 14:30
+    # 매일 KST 23:30 (UTC 14:30)에 실행
     - cron: '30 14 * * *'
-  workflow_dispatch:  # 수동 실행 가능
+  workflow_dispatch: # 수동 실행 가능
 
 jobs:
-  update-kbo-data:
+  update-data:
     runs-on: ubuntu-latest
     
     steps:
-    - name: 코드 체크아웃
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
       
-    - name: Node.js 설정
-      uses: actions/setup-node@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         
-    - name: 의존성 설치
+    - name: Install dependencies
       run: |
-        npm install puppeteer
-        npm install cheerio
-        npm install axios
+        npm install puppeteer cheerio axios
         
-    - name: KBO 데이터 크롤링
+    - name: Crawl KBO data and update
       run: |
-        node scripts/crawl-kbo-data.js
+        echo "🚀 KBO 데이터 크롤링 및 업데이트 시작..."
+        node scripts/simple-update.js
+        echo "✅ 데이터 업데이트 완료"
+      
+    - name: Check for changes
+      id: changes
+      run: |
+        git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
         
-    - name: 매직넘버 계산
+    - name: Commit and push changes
+      if: steps.changes.outputs.changed == 'true'
       run: |
-        node scripts/calculate-magic-numbers.js
+        git config --local user.email "noreply@github.com"
+        git config --local user.name "GitHub Actions"
         
-    - name: HTML 업데이트
-      run: |
-        node scripts/update-html.js
+        # 현재 날짜 (KST)
+        DATE=$(TZ='Asia/Seoul' date +'%Y년 %m월 %d일')
         
-    - name: RSS 업데이트
-      run: |
-        node scripts/update-rss.js
-        
-    - name: 사이트맵 업데이트
-      run: |
-        node scripts/update-sitemap.js
-        
-    - name: 변경사항 커밋
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
         git add .
-        git diff --staged --quiet || git commit -m "📊 KBO 데이터 자동 업데이트 $(date '+%Y-%m-%d %H:%M')"
+        git commit -m "📊 KBO 데이터 자동 업데이트 ($DATE)
+
+        - 순위표 및 팀 기록 업데이트
+        - 매직넘버 재계산 
+        - 플레이오프 진출 조건 업데이트
+
+        🤖 Generated with [Claude Code](https://claude.ai/code)
+
+        Co-Authored-By: Claude <noreply@anthropic.com>"
         
-    - name: 변경사항 푸시
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main
+        git push
         
-    - name: 배포 알림 (선택사항)
-      if: success()
+    - name: Summary
       run: |
-        echo "✅ KBO 데이터 업데이트 완료: $(date)"
-        # Slack이나 Discord 웹훅 호출 가능
+        if [ "${{ steps.changes.outputs.changed }}" == "true" ]; then
+          echo "✅ 데이터가 성공적으로 업데이트되어 푸시되었습니다."
+        else
+          echo "ℹ️ 변경사항이 없어 푸시하지 않았습니다."
+        fi

@@ -782,12 +782,9 @@
 
                 <!-- 1위팀 우승 조건 -->
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                        <h2 style="margin: 0;">👑 정규시즌 우승 조건</h2>
-                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
-                            <div>📊 <span id="data-status-championship"></span></div>
-                            <div style="margin-top: 2px;">⚠️ 수학적 계산 결과입니다</div>
-                        </div>
+                    <h2>👑 정규시즌 우승 조건</h2>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+                        일부 지표는 산술적 계산 결과로, 시즌이 진행됨에 따라 현실성있게 바뀝니다.
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -870,12 +867,9 @@
 
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                        <h2 style="margin: 0;">🎯 1위 탈환 가능성</h2>
-                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
-                            <div>📊 <span id="data-status-chase"></span></div>
-                            <div style="margin-top: 2px;">⚠️ 수학적 계산 결과입니다</div>
-                        </div>
+                    <h2>🎯 1위 탈환 가능성</h2>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+                        일부 지표는 산술적 계산 결과로, 시즌이 진행됨에 따라 현실성있게 바뀝니다.
                     </div>
                     <div id="chase-analysis">
                         <div class="table-container">
@@ -917,12 +911,9 @@
 
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                        <h2 style="margin: 0;">🏟️ 플레이오프 진출 조건</h2>
-                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
-                            <div>📊 <span id="data-status-playoff"></span></div>
-                            <div style="margin-top: 2px;">⚠️ 수학적 계산 결과입니다</div>
-                        </div>
+                    <h2>🏟️ 플레이오프 진출 조건</h2>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+                        일부 지표는 산술적 계산 결과로, 시즌이 진행됨에 따라 현실성있게 바뀝니다.
                     </div>
                     <div id="playoff-condition">
                         <div class="table-container">
@@ -963,12 +954,7 @@
 
                 <!-- 팀간 승패표 -->
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                        <h2 style="margin: 0;">⚔️ 팀간 상대전적</h2>
-                        <div style="color: #666; font-size: 0.8rem; text-align: right; line-height: 1.3;">
-                            <div>📊 <span id="data-status-h2h"></span></div>
-                        </div>
-                    </div>
+                    <h2>⚔️ 팀간 상대전적</h2>
                     <div class="h2h-legend" style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
                         <div style="font-weight: 600; color: var(--text-primary);">📖 읽는 방법: 세로축 팀의 가로축 팀 상대 전적</div>
                         <div style="display: flex; align-items: center; gap: 6px;">
@@ -1232,21 +1218,6 @@
             }
             
             document.getElementById('data-status').innerHTML = `${statusIcon} ${statusText}`;
-            
-            // 각 테이블에 동일한 데이터 기준 적용
-            const statusElements = [
-                'data-status-championship',
-                'data-status-chase', 
-                'data-status-playoff',
-                'data-status-h2h'
-            ];
-            
-            statusElements.forEach(elementId => {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.textContent = statusText;
-                }
-            });
         }
 
         function renderStandingsTable() {
