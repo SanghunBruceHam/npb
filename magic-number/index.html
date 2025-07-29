@@ -145,31 +145,6 @@
         .content-container {
             max-width: 1400px;
             margin: 0 auto;
-            display: flex;
-            gap: 20px;
-        }
-        
-        .main-content {
-            flex: 1;
-        }
-        
-        .sidebar-ad {
-            width: 300px;
-            position: sticky;
-            top: 20px;
-            align-self: flex-start;
-        }
-        
-        @media (max-width: 1200px) {
-            .content-container {
-                flex-direction: column;
-            }
-            
-            .sidebar-ad {
-                width: 100%;
-                position: relative;
-                order: 2;
-            }
         }
 
         .cards-grid {
@@ -848,21 +823,20 @@
     
     <div class="container">
         <div class="content-container">
-            <div class="main-content">
-                <!-- 광고 1: 상단 배너 (가로형) -->
-                <div style="text-align: center; margin: 20px 0;">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-5508768187151867"
-                         data-ad-slot="7298546648"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-                
-                <div class="cards-grid">
+            <!-- 광고 1: 상단 배너 (가로형) -->
+            <div style="text-align: center; margin: 20px 0;">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5508768187151867"
+                     data-ad-slot="7298546648"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <div class="cards-grid">
                 <!-- 팀 순위 테이블 -->
                 <div class="card">
                     <h2>📊 팀 순위표</h2>
@@ -1105,39 +1079,10 @@
              (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
     </div>
-            
-            <!-- 사이드바 광고들 -->
-            <div class="sidebar-ad">
-                <!-- 광고 3: 사이드바 상단 (세로형) -->
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-5508768187151867"
-                         data-ad-slot="8583724069"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-                
-                <!-- 광고 4: 사이드바 중간 (세로형) -->
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-5508768187151867"
-                         data-ad-slot="8583724069"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- 광고 5: 푸터 상단 배너 (가로형) -->
+    <!-- 광고 3: 푸터 상단 배너 (가로형) -->
     <div style="text-align: center; margin: 40px 0;">
         <ins class="adsbygoogle"
              style="display:block"
