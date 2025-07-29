@@ -1705,23 +1705,28 @@
                 const helpIcon = tooltip.querySelector('.help-icon');
                 if (!helpIcon) return;
                 
+                // 툴팁을 먼저 표시하여 높이를 계산할 수 있게 함
+                tooltipText.style.visibility = 'visible';
+                tooltipText.style.opacity = '1';
+                
                 const rect = helpIcon.getBoundingClientRect();
                 const tooltipWidth = 300;
-                const tooltipHeight = tooltipText.offsetHeight;
+                const tooltipHeight = tooltipText.getBoundingClientRect().height;
                 
-                // 화면 중앙 기준으로 left 위치 계산
+                // 물음표 아이콘 중앙 기준으로 left 위치 계산
                 let left = rect.left + rect.width / 2 - tooltipWidth / 2;
-                let top = rect.top - tooltipHeight - 10;
+                // 물음표 아이콘 바로 아래에 표시 (5px 간격)
+                let top = rect.bottom + 5;
                 
-                // 화면 밖으로 나가지 않도록 조정
+                // 화면 좌우 밖으로 나가지 않도록 조정
                 if (left < 10) left = 10;
                 if (left + tooltipWidth > window.innerWidth - 10) {
                     left = window.innerWidth - tooltipWidth - 10;
                 }
                 
-                // 화면 상단을 벗어나면 아래쪽에 표시
-                if (top < 10) {
-                    top = rect.bottom + 10;
+                // 화면 하단을 벗어나면 위쪽에 표시
+                if (top + tooltipHeight > window.innerHeight - 10) {
+                    top = rect.top - tooltipHeight - 5;
                 }
                 
                 tooltipText.style.left = left + 'px';
