@@ -229,9 +229,10 @@
         }
 
         th, td {
-            padding: 14px 10px;
+            padding: 16px 12px;
             text-align: center;
             position: relative;
+            line-height: 1.4;
         }
 
         th {
@@ -255,8 +256,11 @@
         }
 
         tbody tr {
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        tbody tr:last-child {
+            border-bottom: none;
         }
 
         tbody tr:hover {
