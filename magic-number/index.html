@@ -721,7 +721,7 @@
                 <div class="card">
                     <h2>📊 팀 순위표</h2>
                     <div id="last-updated" style="text-align: right; color: #666; font-size: 0.9rem; margin-bottom: 10px;">
-                        마지막 업데이트: <span id="update-time"></span>
+                        <span id="data-status"></span>
                     </div>
                     <div class="ranking-legend" style="display: flex; gap: 15px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap;">
                         <div style="display: flex; align-items: center; gap: 6px;">
@@ -1030,9 +1030,48 @@
             "키움": { "한화": "1-9-0", "LG": "4-8-0", "롯데": "3-9-0", "KT": "3-9-0", "KIA": "4-6-2", "삼성": "3-6-0", "SSG": "5-4-0", "NC": "2-9-1", "두산": "3-7-0" }
         };
 
-        function updateLastModified() {
+        function updateDataStatus() {
             const now = new Date();
-            document.getElementById('update-time').textContent = now.toLocaleString('ko-KR');
+            const currentHour = now.getHours();
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            const isMonday = today.getDay() === 1;
+            const wasYesterdayMonday = yesterday.getDay() === 1;
+            
+            let statusText = '';
+            let statusIcon = '';
+            
+            // 월요일 무경기일 처리
+            if (isMonday) {
+                statusIcon = '🔄';
+                statusText = `월요일 무경기일 (${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일까지 반영)`;
+            } else if (wasYesterdayMonday) {
+                // 화요일인 경우, 토요일/일요일 경기 결과가 반영되어 있음
+                const lastGameDay = new Date(today);
+                lastGameDay.setDate(lastGameDay.getDate() - 2); // 일요일
+                statusIcon = '📊';
+                statusText = `데이터 기준: ${lastGameDay.getMonth() + 1}월 ${lastGameDay.getDate()}일까지 반영 (화요일 경기 전)`;
+            } else if (currentHour >= 0 && currentHour < 12) {
+                // 새벽~오전: 어제 경기 결과 반영
+                statusIcon = '📈';
+                statusText = `데이터 기준: ${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일 경기 결과 반영`;
+            } else if (currentHour >= 12 && currentHour < 18) {
+                // 오후~경기 시작 전: 오늘 경기 전 현황
+                statusIcon = '⏰';
+                statusText = `현재 순위 (${today.getMonth() + 1}월 ${today.getDate()}일 경기 전)`;
+            } else if (currentHour >= 18 && currentHour < 23) {
+                // 경기 중: 어제까지 반영, 오늘 경기 진행중
+                statusIcon = '🏟️';
+                statusText = `${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일까지 반영 (경기 진행중)`;
+            } else {
+                // 23시 이후: 오늘 경기 종료, 곧 업데이트 예정
+                statusIcon = '🔄';
+                statusText = `${today.getMonth() + 1}월 ${today.getDate()}일 경기 종료 후 (23:30 업데이트 예정)`;
+            }
+            
+            document.getElementById('data-status').innerHTML = `${statusIcon} ${statusText}`;
         }
 
         function renderStandingsTable() {
@@ -1424,7 +1463,7 @@
         }
 
         function initializeApp() {
-            updateLastModified();
+            updateDataStatus();
             renderStandingsTable();
             renderChampionshipCondition();
             renderChaseAnalysis();
@@ -1508,7 +1547,7 @@
 
         // 30초마다 데이터 업데이트 (실제로는 API 호출)
         setInterval(() => {
-            updateLastModified();
+            updateDataStatus();
         }, 30000);
     </script>
 
