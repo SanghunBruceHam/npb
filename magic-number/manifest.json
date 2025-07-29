@@ -13,49 +13,13 @@
     "categories": ["sports", "utilities", "productivity"],
     "icons": [
         {
-            "src": "/kbo/magic-number/icons/icon-72x72.png",
-            "sizes": "72x72",
+            "src": "./icons/kbo-magic-number-icon.png",
+            "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/kbo/magic-number/icons/icon-96x96.png",
-            "sizes": "96x96",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/kbo/magic-number/icons/icon-128x128.png",
-            "sizes": "128x128",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/kbo/magic-number/icons/icon-144x144.png",
-            "sizes": "144x144",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/kbo/magic-number/icons/icon-152x152.png",
-            "sizes": "152x152",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/kbo/magic-number/icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/kbo/magic-number/icons/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/kbo/magic-number/icons/icon-512x512.png",
+            "src": "./icons/kbo-magic-number-thumbnail.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
@@ -67,21 +31,21 @@
             "short_name": "순위표",
             "description": "KBO 팀 순위와 매직넘버 확인",
             "url": "/kbo/magic-number/#standings",
-            "icons": [{ "src": "/kbo/magic-number/icons/standings-96x96.png", "sizes": "96x96" }]
+            "icons": [{ "src": "./icons/kbo-magic-number-icon.png", "sizes": "512x512" }]
         },
         {
             "name": "플레이오프 현황",
             "short_name": "플레이오프",
             "description": "플레이오프 진출 조건 확인",
             "url": "/kbo/magic-number/#playoff",
-            "icons": [{ "src": "/kbo/magic-number/icons/playoff-96x96.png", "sizes": "96x96" }]
+            "icons": [{ "src": "./icons/kbo-magic-number-icon.png", "sizes": "512x512" }]
         },
         {
             "name": "상대전적",
             "short_name": "전적",
             "description": "팀간 상대전적 확인",
             "url": "/kbo/magic-number/#head-to-head",
-            "icons": [{ "src": "/kbo/magic-number/icons/h2h-96x96.png", "sizes": "96x96" }]
+            "icons": [{ "src": "./icons/kbo-magic-number-icon.png", "sizes": "512x512" }]
         }
     ],
     "related_applications": [],
