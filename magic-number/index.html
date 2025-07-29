@@ -557,6 +557,13 @@
             }
         }
 
+        /* PC 버전 보기 버튼은 모바일에서만 표시 */
+        @media (min-width: 769px) {
+            #mobile-controls {
+                display: none !important;
+            }
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1059,7 +1066,7 @@
                 </div>
                 
                 <!-- PC 버전 보기 기능 (모바일에서만 표시) -->
-                <div id="mobile-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;">
+                <div id="mobile-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; display: none;">
                     <button id="toggle-desktop-view" style="
                         background: rgba(255,255,255,0.1);
                         color: rgba(255,255,255,0.9);
