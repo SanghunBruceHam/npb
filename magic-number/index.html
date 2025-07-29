@@ -420,19 +420,17 @@
             text-align: left;
             border-radius: 8px;
             padding: 10px;
-            position: fixed;
-            z-index: 2147483647;
-            bottom: auto;
-            top: auto;
+            position: absolute;
+            z-index: 999999;
+            bottom: 125%;
             left: 50%;
-            transform: translateX(-50%);
+            margin-left: -150px;
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.85rem;
             line-height: 1.4;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
         }
 
         .tooltip .tooltiptext::after {
@@ -859,9 +857,9 @@
 
                 <!-- 1위팀 우승 조건 -->
                 <div class="card">
-                    <h2>👑 정규시즌 우승 조건</h2>
-                    <div style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 0.85rem; color: #856404; position: relative; z-index: -1;">
-                        📌 <strong>안내:</strong> 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화될 예정입니다.
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0;">👑 정규시즌 우승 조건</h2>
+                        <div style="font-size: 0.75rem; color: #666; opacity: 0.8;">📊 수학적 계산 결과</div>
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -928,9 +926,9 @@
 
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card">
-                    <h2>🎯 1위 탈환 가능성</h2>
-                    <div style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 0.85rem; color: #856404; position: relative; z-index: -1;">
-                        📌 <strong>안내:</strong> 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화될 예정입니다.
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0;">🎯 1위 탈환 가능성</h2>
+                        <div style="font-size: 0.75rem; color: #666; opacity: 0.8;">📊 수학적 계산 결과</div>
                     </div>
                     <div id="chase-analysis">
                         <table id="chase-table">
@@ -954,9 +952,9 @@
 
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card">
-                    <h2>🏟️ 플레이오프 진출 조건</h2>
-                    <div style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 0.85rem; color: #856404; position: relative; z-index: -1;">
-                        📌 <strong>안내:</strong> 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화될 예정입니다.
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0;">🏟️ 플레이오프 진출 조건</h2>
+                        <div style="font-size: 0.75rem; color: #666; opacity: 0.8;">📊 수학적 계산 결과</div>
                     </div>
                     <div id="playoff-condition">
                         <table id="playoff-table">
@@ -1697,31 +1695,11 @@
             updateDataStatus();
         }, 30000);
 
-        // 툴팁 클릭 이벤트 (모바일 지원) - 위치 계산 포함
+        // 툴팁 클릭 이벤트 (모바일 지원)
         document.addEventListener('DOMContentLoaded', function() {
             const tooltips = document.querySelectorAll('.tooltip');
             
-            function positionTooltip(tooltip) {
-                const tooltipText = tooltip.querySelector('.tooltiptext');
-                const rect = tooltip.getBoundingClientRect();
-                const tooltipRect = tooltipText.getBoundingClientRect();
-                
-                // 화면 중앙에서 툴팁 버튼 위에 표시
-                const top = rect.top - tooltipRect.height - 20;
-                const left = rect.left + (rect.width / 2);
-                
-                tooltipText.style.top = Math.max(10, top) + 'px';
-                tooltipText.style.left = left + 'px';
-                tooltipText.style.transform = 'translateX(-50%)';
-            }
-            
             tooltips.forEach(tooltip => {
-                // 호버 이벤트
-                tooltip.addEventListener('mouseenter', function() {
-                    positionTooltip(this);
-                });
-                
-                // 클릭 이벤트 (모바일)
                 tooltip.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1729,24 +1707,14 @@
                     // 다른 모든 툴팁 비활성화
                     tooltips.forEach(t => t.classList.remove('active'));
                     
-                    // 현재 툴팁 활성화 및 위치 계산
+                    // 현재 툴팁 활성화
                     this.classList.add('active');
-                    positionTooltip(this);
                 });
             });
             
             // 다른 곳 클릭시 툴팁 닫기
             document.addEventListener('click', function() {
                 tooltips.forEach(tooltip => tooltip.classList.remove('active'));
-            });
-            
-            // 윈도우 리사이즈시 툴팁 위치 재계산
-            window.addEventListener('scroll', function() {
-                tooltips.forEach(tooltip => {
-                    if (tooltip.classList.contains('active') || tooltip.matches(':hover')) {
-                        positionTooltip(tooltip);
-                    }
-                });
             });
         });
 
