@@ -6,10 +6,6 @@ on:
   push:
     branches: ["main"]
 
-  # Runs daily at 11 PM KST (2 PM UTC)
-  schedule:
-    - cron: '0 14 * * *'
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -36,16 +32,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      
-      - name: Update KBO data
-        run: python magic-number/kbo_crawler.py
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
