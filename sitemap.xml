@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- 메인 매직넘버 계산기 페이지 -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- 팀별 상세 페이지들 (향후 확장) -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/hanwha/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/lg/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/lotte/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/kt/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/kia/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/samsung/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/ssg/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/nc/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/doosan/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/teams/kiwoom/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- 순위표 페이지 -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/standings/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 플레이오프 현황 페이지 -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/playoff/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 상대전적 페이지 -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/head-to-head/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- 통계 페이지 -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/statistics/</loc>
+        <lastmod>2025-07-29</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- 과거 시즌 아카이브 -->
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/archive/2024/</loc>
+        <lastmod>2025-01-15</lastmod>
+        <changefreq>never</changefreq>
+        <priority>0.4</priority>
+    </url>
+    
+    <url>
+        <loc>https://sanghunbruceham.github.io/kbo/magic-number/archive/2023/</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>never</changefreq>
+        <priority>0.3</priority>
+    </url>
+</urlset>
