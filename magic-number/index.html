@@ -871,7 +871,7 @@
         <div class="container">
             <h1>🏆 KBO 매직넘버 계산기</h1>
             <div class="subtitle">2025 KBO 리그 매직넘버 계산기<br>플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 한눈에 확인하세요</div>
-            <div id="data-status" style="margin-top: 10px; font-size: 0.9rem; color: #6c757d;"></div>
+            <div id="data-status" style="display: none;"></div>
         </div>
     </div>
     
@@ -888,9 +888,9 @@
                 </div>
                 
                 <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">🎯 플레이오프 진출 전망</h3>
-                    <div class="value" id="playoff-safe-teams" style="font-size: 2rem; font-weight: 700; color: var(--success-color);">-</div>
-                    <div class="sub-value" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">72승 이상 달성</div>
+                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">✅ 플레이오프 확정</h3>
+                    <div class="value" id="playoff-confirmed-teams" style="font-size: 2rem; font-weight: 700; color: var(--success-color);">-</div>
+                    <div class="sub-value" id="playoff-confirmed-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">72승 이상 달성</div>
                 </div>
                 
                 <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
@@ -900,9 +900,9 @@
                 </div>
                 
                 <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">⚡ 경쟁 상황</h3>
-                    <div class="value" id="competition-status" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-color);">-</div>
-                    <div class="sub-value" id="competition-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">-</div>
+                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">📊 최근 10경기 1위팀</h3>
+                    <div class="value" id="recent-best-team" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">-</div>
+                    <div class="sub-value" id="recent-best-record" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">-</div>
                 </div>
             </div>
             </div>
@@ -1122,7 +1122,7 @@
                                     <th>최대가능승수 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">남은 경기를 모두 이겼을 때 승수<br><br>계산법:<br>- 현재승수 + 잔여경기수</span></span></th>
                                     <th>1위팀 필요<br>조건 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">추격팀이 전승할 때 1위가 져야 할 경기수<br><br>계산법:<br>- 추격팀 최대가능승수 - 1위 현재승수</span></span></th>
                                     <th>현재 1위<br>탈환 가능 여부 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 추월이 가능한지 여부 (산술적인 계산)<br><br>판단기준:<br>- 추격팀 최대가능승수 > 1위 현재승수</span></span></th>
-                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수</span></span></th>
+                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수<br><br>🏆 잔여경기 승률 달성 난이도:<br>🟢 0.000-0.450 (매우 쉬움)<br>🟡 0.451-0.550 (쉬움)<br>🟠 0.551-0.650 (보통)<br>🔴 0.651-0.700 (어려움)<br>⚫ 0.701-1.000 (매우 어려움)<br>⚫ 1.000 초과 (불가능)</span></span></th>
                                     <th>역대 1위 성적<br>달성 가능성 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성이 가능한지 여부<br><br>판단기준:<br>- 현재승수 + 잔여경기수 ≥ 84승</span></span></th>
                                 </tr>
                             </thead>
@@ -1729,9 +1729,9 @@
                 statusIcon = '⏰';
                 statusText = `현재 순위 (${today.getMonth() + 1}월 ${today.getDate()}일 경기 전)`;
             } else if (currentHour >= 18 && currentHour < 23) {
-                // 경기 중: 어제까지 반영, 오늘 경기 진행중
-                statusIcon = '🏟️';
-                statusText = `${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일까지 반영 (경기 진행중)`;
+                // 경기 중: 어제까지 반영
+                statusIcon = '📊';
+                statusText = `${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일까지 반영`;
             } else {
                 // 23시 이후: 오늘 경기 종료, 곧 업데이트 예정
                 statusIcon = '🔄';
@@ -1752,9 +1752,20 @@
             const magicNumber = calculateMagicNumber(firstPlace, secondPlace);
             document.getElementById('first-place-magic').textContent = `매직넘버: ${magicNumber > 0 ? magicNumber : '확정'}`;
 
-            // 플레이오프 안전권 팀 수
-            const safeTeams = currentStandings.filter(team => team.wins >= 72).length;
-            document.getElementById('playoff-safe-teams').textContent = `${safeTeams}개 팀`;
+            // 플레이오프 확정 팀 수 (72승 이상)
+            const confirmedTeams = currentStandings.filter(team => team.wins >= 72).length;
+            document.getElementById('playoff-confirmed-teams').textContent = `${confirmedTeams}개 팀`;
+            
+            // 플레이오프 확정 팀이 있으면 첫 번째 확정 팀 정보 표시
+            if (confirmedTeams > 0) {
+                const firstConfirmedTeam = currentStandings.find(team => team.wins >= 72);
+                if (firstConfirmedTeam) {
+                    const teamData = kboTeams[firstConfirmedTeam.team];
+                    document.getElementById('playoff-confirmed-desc').innerHTML = `<span style="color: ${teamData.color}; font-weight: 600;">${firstConfirmedTeam.team}</span> 외 ${confirmedTeams - 1}팀`;
+                }
+            } else {
+                document.getElementById('playoff-confirmed-desc').textContent = '72승 이상 달성';
+            }
 
             // 최고 연승팀
             let bestStreak = { team: '', count: 0, type: '' };
@@ -1775,21 +1786,31 @@
                 document.getElementById('best-streak-count').textContent = '-';
             }
 
-            // 경쟁 상황 분석
-            const playoffRace = currentStandings.slice(3, 8); // 4-8위 팀들
-            const closeGames = playoffRace.filter(team => 
-                Math.abs(team.gamesBehind - playoffRace[0].gamesBehind) <= 3
-            ).length;
+            // 최근 10경기 성적이 가장 좋은 팀 찾기
+            let bestRecentTeam = null;
+            let bestRecentWins = -1;
             
-            if (closeGames >= 4) {
-                document.getElementById('competition-status').textContent = '치열';
-                document.getElementById('competition-desc').textContent = `${closeGames}개 팀 박빙 경쟁`;
-            } else if (closeGames >= 2) {
-                document.getElementById('competition-status').textContent = '경합';
-                document.getElementById('competition-desc').textContent = `${closeGames}개 팀 경쟁 중`;
+            currentStandings.forEach(team => {
+                if (team.recent10) {
+                    // "8승 0무 2패" 형태에서 승수 추출
+                    const winsMatch = team.recent10.match(/(\d+)승/);
+                    if (winsMatch) {
+                        const wins = parseInt(winsMatch[1]);
+                        if (wins > bestRecentWins) {
+                            bestRecentWins = wins;
+                            bestRecentTeam = team;
+                        }
+                    }
+                }
+            });
+            
+            if (bestRecentTeam && bestRecentWins >= 0) {
+                const teamData = kboTeams[bestRecentTeam.team];
+                document.getElementById('recent-best-team').innerHTML = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${bestRecentTeam.team}</span>`;
+                document.getElementById('recent-best-record').textContent = bestRecentTeam.recent10;
             } else {
-                document.getElementById('competition-status').textContent = '안정';
-                document.getElementById('competition-desc').textContent = '순위 격차 벌어짐';
+                document.getElementById('recent-best-team').textContent = '-';
+                document.getElementById('recent-best-record').textContent = '-';
             }
         }
 
@@ -2070,7 +2091,7 @@
                 };
                 
                 const teamHomeAway = homeAwayRecords[team.team] || { home: "0-0-0", away: "0-0-0" };
-                const homeAwayDisplay = `<div style="line-height: 1.3;"><span style="color: #2563eb;">🏠 ${teamHomeAway.home}</span><br><span style="color: #dc2626;">✈️ ${teamHomeAway.away}</span></div>`;
+                const homeAwayDisplay = `<div style="line-height: 1.4; font-size: 0.95rem;"><span style="color: #2563eb; font-weight: 500;">🏠 ${teamHomeAway.home}</span><br><span style="color: #dc2626; font-weight: 500;">✈️ ${teamHomeAway.away}</span></div>`;
 
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
