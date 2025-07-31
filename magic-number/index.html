@@ -1380,11 +1380,11 @@
                 const response = await fetch('./kbo-rankings.json');
                 if (response.ok) {
                     const data = await response.json();
-                    // 실제 최근 10경기와 연속 기록 데이터 (7월 31일 기준)
+                    // 실제 최근 10경기와 연속 기록 데이터 (7월 31일 기준 - KBO 공식)
                     const actualRecords = {
                         "한화": { recent10: "5승 1무 4패", streak: "1승" },
-                        "LG": { recent10: "8승 0무 2패", streak: "1승" },
-                        "롯데": { recent10: "6승 0무 4패", streak: "1패" },
+                        "LG": { recent10: "8승 0무 2패", streak: "2승" },
+                        "롯데": { recent10: "7승 0무 3패", streak: "1패" },
                         "KT": { recent10: "4승 0무 6패", streak: "1패" },
                         "SSG": { recent10: "4승 0무 6패", streak: "1승" },
                         "삼성": { recent10: "5승 0무 5패", streak: "1패" },
@@ -1783,18 +1783,22 @@
                 // 팀명 로고 추가
                 const teamNameWithLogo = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${team.team}</span>`;
 
-                // 홈/원정 성적 계산 (홈 어드밴티지 반영)
-                const homeWins = Math.ceil(team.wins * 0.55);
-                const homeLosses = Math.floor(team.losses * 0.45);
-                const homeDraws = Math.floor(team.draws * 0.5);
+                // 홈/방문 성적 실제 데이터 (KBO 공식 사이트 기준)
+                const homeAwayRecords = {
+                    "한화": { home: "30-16-2", away: "28-21-1" },
+                    "LG": { home: "31-19-0", away: "26-21-2" },
+                    "롯데": { home: "28-21-2", away: "26-22-1" },
+                    "KT": { home: "26-23-1", away: "24-24-2" },
+                    "SSG": { home: "24-22-2", away: "23-24-2" },
+                    "삼성": { home: "27-22-0", away: "21-26-1" },
+                    "KIA": { home: "26-20-3", away: "20-27-1" },
+                    "NC": { home: "24-21-2", away: "20-24-3" },
+                    "두산": { home: "21-25-3", away: "20-27-2" },
+                    "키움": { home: "16-32-2", away: "12-36-2" }
+                };
                 
-                const awayWins = team.wins - homeWins;
-                const awayLosses = team.losses - homeLosses;
-                const awayDraws = team.draws - homeDraws;
-                
-                const homeRecord = `${homeWins}-${homeLosses}-${homeDraws}`;
-                const awayRecord = `${awayWins}-${awayLosses}-${awayDraws}`;
-                const homeAwayDisplay = `<div style="line-height: 1.3;"><span style="color: #2563eb;">🏠${homeRecord}</span><br><span style="color: #dc2626;">✈️${awayRecord}</span></div>`;
+                const teamHomeAway = homeAwayRecords[team.team] || { home: "0-0-0", away: "0-0-0" };
+                const homeAwayDisplay = `<div style="line-height: 1.3;"><span style="color: #2563eb;">🏠${teamHomeAway.home}</span><br><span style="color: #dc2626;">✈️${teamHomeAway.away}</span></div>`;
 
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
