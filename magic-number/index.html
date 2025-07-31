@@ -871,7 +871,6 @@
         <div class="container">
             <h1>🏆 KBO 매직넘버 계산기</h1>
             <div class="subtitle">2025 KBO 리그 매직넘버 계산기<br>플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 한눈에 확인하세요</div>
-            <div id="data-status" style="display: none;"></div>
         </div>
     </div>
     
@@ -1456,11 +1455,6 @@
                 });
                 this.listeners.clear();
                 
-                // 인터벌 정리
-                if (window.updateIntervalId) {
-                    clearInterval(window.updateIntervalId);
-                    window.updateIntervalId = null;
-                }
             }
         }
         
@@ -1697,49 +1691,6 @@
             "키움": { "한화": "1-10-0", "LG": "4-9-0", "롯데": "4-10-0", "KT": "3-9-0", "KIA": "5-6-3", "삼성": "3-6-0", "SSG": "5-4-0", "NC": "2-10-1", "두산": "3-5-3" }
         };
 
-        function updateDataStatus() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-            
-            const isMonday = today.getDay() === 1;
-            const wasYesterdayMonday = yesterday.getDay() === 1;
-            
-            let statusText = '';
-            let statusIcon = '';
-            
-            // 월요일 무경기일 처리
-            if (isMonday) {
-                statusIcon = '🔄';
-                statusText = `월요일 무경기일 (${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일까지 반영)`;
-            } else if (wasYesterdayMonday) {
-                // 화요일인 경우, 토요일/일요일 경기 결과가 반영되어 있음
-                const lastGameDay = new Date(today);
-                lastGameDay.setDate(lastGameDay.getDate() - 2); // 일요일
-                statusIcon = '📊';
-                statusText = `데이터 기준: ${lastGameDay.getMonth() + 1}월 ${lastGameDay.getDate()}일까지 반영 (화요일 경기 전)`;
-            } else if (currentHour >= 0 && currentHour < 12) {
-                // 새벽~오전: 어제 경기 결과 반영
-                statusIcon = '📈';
-                statusText = `데이터 기준: ${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일 경기 결과 반영`;
-            } else if (currentHour >= 12 && currentHour < 18) {
-                // 오후~경기 시작 전: 오늘 경기 전 현황
-                statusIcon = '⏰';
-                statusText = `현재 순위 (${today.getMonth() + 1}월 ${today.getDate()}일 경기 전)`;
-            } else if (currentHour >= 18 && currentHour < 23) {
-                // 경기 중: 어제까지 반영
-                statusIcon = '📊';
-                statusText = `${yesterday.getMonth() + 1}월 ${yesterday.getDate()}일까지 반영`;
-            } else {
-                // 23시 이후: 오늘 경기 종료, 곧 업데이트 예정
-                statusIcon = '🔄';
-                statusText = `${today.getMonth() + 1}월 ${today.getDate()}일 경기 종료 후 (23:30 업데이트 예정)`;
-            }
-            
-            document.getElementById('data-status').innerHTML = `${statusIcon} ${statusText}`;
-        }
 
         // 요약 대시보드 업데이트
         function updateSummaryDashboard() {
@@ -2688,7 +2639,6 @@
                 
                 // 2. UI 업데이트
                 try {
-                    updateDataStatus();
                     updateSummaryDashboard();
                 } catch (error) {
                     console.error('❌ 대시보드 업데이트 오류:', error);
@@ -2840,46 +2790,28 @@
             }
         }, 200);
 
-        // 시간대별 차등 데이터 업데이트 최적화
-        let updateIntervalId;
-        
-        function setupOptimizedDataUpdate() {
-            // 기존 인터벌 정리
-            if (updateIntervalId) {
-                clearInterval(updateIntervalId);
-            }
-            
+        // KBO 데이터 업데이트 체크 (하루 3번: 18시, 22시, 24시)
+        function checkForDataUpdate() {
             const now = new Date();
-            const currentHour = now.getHours();
+            const currentTime = now.getHours() * 100 + now.getMinutes();
             
-            // 시간대별 업데이트 주기 최적화
-            let updateInterval;
-            if (currentHour >= 18 && currentHour <= 23) {
-                // 경기 시간대: 1분마다 업데이트
-                updateInterval = 60000;
-            } else if (currentHour >= 0 && currentHour <= 2) {
-                // 심야 시간대: 2분마다 업데이트
-                updateInterval = 120000;
-            } else {
-                // 일반 시간대: 5분마다 업데이트
-                updateInterval = 300000;
-            }
+            // 업데이트 시간: 18:00, 22:00, 00:00 (± 5분 오차 허용)
+            const updateTimes = [1800, 2200, 0]; // 18:00, 22:00, 00:00
+            const tolerance = 5; // 5분 오차 허용
             
-            // 최적화된 인터벌 설정
-            updateIntervalId = setInterval(() => {
-                updateDataStatus();
-                // 매 시간마다 업데이트 주기 재설정
-                const checkHour = new Date().getHours();
-                if (checkHour !== currentHour) {
-                    setupOptimizedDataUpdate();
+            for (let updateTime of updateTimes) {
+                if (Math.abs(currentTime - updateTime) <= tolerance) {
+                    console.log(`📊 KBO 데이터 업데이트 시간입니다. (${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')})`);
+                    // 실제 데이터 업데이트는 서버에서 JSON 파일을 업데이트하면 자동으로 반영됨
+                    showNotification('KBO 데이터가 업데이트되었습니다.', 'info', 3000);
+                    return true;
                 }
-            }, updateInterval);
-            
-            console.log(`⚡ 데이터 업데이트 주기: ${updateInterval/1000}초 (${currentHour}시 기준)`);
+            }
+            return false;
         }
         
-        // 최적화된 데이터 업데이트 시작
-        setupOptimizedDataUpdate();
+        // 1시간마다 업데이트 시간 체크
+        setInterval(checkForDataUpdate, 3600000); // 1시간마다 체크
 
         // 툴팁 클릭 이벤트 초기화 함수
         function initializeTooltips() {
