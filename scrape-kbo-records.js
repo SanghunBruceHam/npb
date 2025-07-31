@@ -25,6 +25,8 @@ const TEAM_MAPPING = {
 class KBOScraper {
     constructor() {
         this.homeAwayRecords = {};
+        this.lastUpdateFile = './data/last-update-date.json';
+        this.dataFile = './data/home-away-records.json';
         this.initializeRecords();
     }
 
@@ -43,58 +45,110 @@ class KBOScraper {
         });
     }
 
-    async fetchScoreboardData(date) {
+    async fetchScoreboardData(date, retryCount = 0) {
+        const maxRetries = 3;
+        const timeout = 30000; // 30초 타임아웃
+        
         return new Promise((resolve, reject) => {
             const url = `https://www.koreabaseball.com/Schedule/ScoreBoard.aspx?seriesId=1&gameDate=${date}`;
             
-            https.get(url, (res) => {
+            const req = https.get(url, (res) => {
                 let data = '';
+                
+                res.setTimeout(timeout, () => {
+                    req.destroy();
+                    reject(new Error(`요청 타임아웃: ${date}`));
+                });
+                
                 res.on('data', chunk => data += chunk);
                 res.on('end', () => resolve(data));
-            }).on('error', reject);
+            }).on('error', async (error) => {
+                if (retryCount < maxRetries) {
+                    console.log(`   ⚠️ ${date} 연결 실패, 재시도 ${retryCount + 1}/${maxRetries}`);
+                    await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1))); // 지수 백오프
+                    try {
+                        const result = await this.fetchScoreboardData(date, retryCount + 1);
+                        resolve(result);
+                    } catch (retryError) {
+                        reject(retryError);
+                    }
+                } else {
+                    reject(error);
+                }
+            });
+            
+            req.setTimeout(timeout, () => {
+                req.destroy();
+                reject(new Error(`요청 타임아웃: ${date}`));
+            });
         });
     }
 
     parseGameResults(html, gameDate) {
         const games = [];
         
-        // 정규식으로 경기 결과 파싱 (실제 HTML 구조에 맞게 조정 필요)
-        const gameRegex = /<div class="game-result"[^>]*>[\s\S]*?<\/div>/g;
-        const teamRegex = /class="team[^"]*"[^>]*>([^<]+)</g;
-        const scoreRegex = /class="score[^"]*"[^>]*>(\d+)</g;
-        
-        let match;
-        while ((match = gameRegex.exec(html)) !== null) {
-            const gameHtml = match[0];
-            const teams = [];
-            const scores = [];
+        try {
+            // 실제 KBO HTML 구조에 맞는 파싱
+            // 팀명: <strong class='teamT'>팀명</strong>
+            // 점수: <span id="...Score_숫자">점수</span>
+            const gameFinishedRegex = /경기종료/g;
             
-            let teamMatch;
-            while ((teamMatch = teamRegex.exec(gameHtml)) !== null) {
-                teams.push(teamMatch[1].trim());
-            }
-            
-            let scoreMatch;
-            while ((scoreMatch = scoreRegex.exec(gameHtml)) !== null) {
-                scores.push(parseInt(scoreMatch[1]));
-            }
-            
-            if (teams.length >= 2 && scores.length >= 2) {
-                const awayTeam = teams[0];
-                const homeTeam = teams[1];
-                const awayScore = scores[0];
-                const homeScore = scores[1];
+            // 각 경기종료 위치를 찾아서 주변의 팀명과 점수 추출
+            let match;
+            while ((match = gameFinishedRegex.exec(html)) !== null) {
+                const finishedIndex = match.index;
                 
-                games.push({
-                    date: gameDate,
-                    awayTeam,
-                    homeTeam,
-                    awayScore,
-                    homeScore,
-                    result: awayScore > homeScore ? 'away_win' : 
-                           homeScore > awayScore ? 'home_win' : 'draw'
-                });
+                // 경기종료 앞뒤 1000자 범위에서 해당 경기 정보 추출
+                const startPos = Math.max(0, finishedIndex - 1000);
+                const endPos = Math.min(html.length, finishedIndex + 500);
+                const gameSection = html.substring(startPos, endPos);
+                
+                // 팀명 추출 (leftTeam이 원정, rightTeam이 홈)
+                const teamMatches = gameSection.match(/<strong class='teamT'>([^<]+)<\/strong>/g);
+                const teams = teamMatches ? teamMatches.map(m => 
+                    m.replace(/<strong class='teamT'>([^<]+)<\/strong>/, '$1').trim()
+                ) : [];
+                
+                // 점수 추출 (AwayTeamScore, HomeTeamScore 순서)
+                const awayScoreMatch = gameSection.match(/lblAwayTeamScore_\d+">(\d+)<\/span>/);
+                const homeScoreMatch = gameSection.match(/lblHomeTeamScore_\d+">(\d+)<\/span>/);
+                
+                const awayScore = awayScoreMatch ? parseInt(awayScoreMatch[1]) : null;
+                const homeScore = homeScoreMatch ? parseInt(homeScoreMatch[1]) : null;
+                
+                // 팀명과 점수가 모두 올바르게 추출된 경우만 처리
+                if (teams.length === 2 && awayScore !== null && homeScore !== null) {
+                    const awayTeam = teams[0]; // leftTeam (원정)
+                    const homeTeam = teams[1]; // rightTeam (홈)
+                    
+                    // 유효한 팀명인지 확인
+                    if (Object.keys(TEAM_MAPPING).includes(awayTeam) && 
+                        Object.keys(TEAM_MAPPING).includes(homeTeam)) {
+                        
+                        // 중복 제거 확인
+                        const isDuplicate = games.some(game => 
+                            game.awayTeam === awayTeam && 
+                            game.homeTeam === homeTeam &&
+                            game.date === gameDate
+                        );
+                        
+                        if (!isDuplicate) {
+                            games.push({
+                                date: gameDate,
+                                awayTeam,
+                                homeTeam,
+                                awayScore,
+                                homeScore,
+                                result: awayScore > homeScore ? 'away_win' : 
+                                       homeScore > awayScore ? 'home_win' : 'draw'
+                            });
+                        }
+                    }
+                }
             }
+            
+        } catch (error) {
+            console.log(`   ❌ ${gameDate} 파싱 오류: ${error.message}`);
         }
         
         return games;
@@ -122,13 +176,77 @@ class KBOScraper {
         });
     }
 
+    // 마지막 업데이트 날짜 로드
+    loadLastUpdateDate() {
+        try {
+            if (fs.existsSync(this.lastUpdateFile)) {
+                const data = JSON.parse(fs.readFileSync(this.lastUpdateFile, 'utf8'));
+                return new Date(data.lastUpdate);
+            }
+        } catch (error) {
+            console.log('⚠️ 마지막 업데이트 날짜 로드 실패, 시즌 시작일부터 시작합니다.');
+        }
+        return new Date('2025-03-01'); // 시즌 시작일
+    }
+
+    // 마지막 업데이트 날짜 저장
+    saveLastUpdateDate(date) {
+        try {
+            const data = {
+                lastUpdate: date.toISOString().split('T')[0],
+                timestamp: new Date().toISOString()
+            };
+            fs.writeFileSync(this.lastUpdateFile, JSON.stringify(data, null, 2));
+        } catch (error) {
+            console.log('⚠️ 마지막 업데이트 날짜 저장 실패:', error.message);
+        }
+    }
+
+    // 기존 데이터 로드
+    loadExistingData() {
+        try {
+            if (fs.existsSync(this.dataFile)) {
+                const data = JSON.parse(fs.readFileSync(this.dataFile, 'utf8'));
+                this.homeAwayRecords = data;
+                console.log('✅ 기존 홈/어웨이 전적 데이터 로드 완료');
+                return true;
+            }
+        } catch (error) {
+            console.log('⚠️ 기존 데이터 로드 실패, 새로 시작합니다:', error.message);
+        }
+        return false;
+    }
+
     async scrapeSeasonData() {
-        console.log('🏟️ KBO 2025 시즌 홈/어웨이 상대전적 수집 시작...');
+        console.log('🏟️ KBO 2025 시즌 홈/어웨이 상대전적 증분 업데이트 시작...');
         
-        // 2025년 3월부터 현재까지 데이터 수집
-        const startDate = new Date('2025-03-01');
+        // 기존 데이터 로드
+        const hasExistingData = this.loadExistingData();
+        
+        // 마지막 업데이트 날짜부터 시작
+        const lastUpdateDate = this.loadLastUpdateDate();
+        let startDate = new Date(lastUpdateDate);
+        
+        // 기존 데이터가 있으면 다음 날부터, 없으면 배치 처리
+        if (hasExistingData) {
+            startDate.setDate(startDate.getDate() + 1); // 다음 날부터 시작
+        } else {
+            // 첫 실행시에는 월별 배치 처리
+            const seasonStart = new Date('2025-03-01');
+            console.log('🆕 첫 실행: 시즌 시작부터 월별 배치 처리로 수집합니다.');
+            await this.scrapeByMonths(seasonStart, new Date());
+            return;
+        }
+        
         const endDate = new Date();
         const currentDate = new Date(startDate);
+        
+        if (currentDate > endDate) {
+            console.log('📅 업데이트할 새로운 데이터가 없습니다.');
+            return;
+        }
+        
+        console.log(`📅 ${startDate.toISOString().split('T')[0]}부터 ${endDate.toISOString().split('T')[0]}까지 업데이트`);
         
         let totalGames = 0;
         
@@ -146,11 +264,16 @@ class KBOScraper {
                     console.log(`   ✅ ${games.length}경기 처리 완료`);
                 }
                 
-                // API 부하 방지를 위한 딜레이
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // API 부하 방지를 위한 딜레이 (연결 안정성 향상)
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 
             } catch (error) {
                 console.log(`   ❌ ${dateString} 데이터 수집 실패: ${error.message}`);
+                // 중요한 오류가 5회 연속 발생하면 중단
+                if (error.message.includes('타임아웃') || error.message.includes('ECONNRESET')) {
+                    console.log('⚠️ 연결 불안정으로 잠시 대기합니다...');
+                    await new Promise(resolve => setTimeout(resolve, 10000)); // 10초 대기
+                }
             }
             
             // 다음 날로 이동
@@ -158,6 +281,115 @@ class KBOScraper {
         }
         
         console.log(`🎯 총 ${totalGames}경기 데이터 수집 완료`);
+        
+        // 마지막 업데이트 날짜 저장
+        if (totalGames > 0) {
+            this.saveLastUpdateDate(endDate);
+            this.saveDataToFile();
+        }
+    }
+
+    // 월별 배치 처리로 초기 데이터 수집
+    async scrapeByMonths(startDate, endDate) {
+        console.log('📊 월별 배치 처리로 시즌 데이터 수집 시작...');
+        
+        const currentMonth = new Date(startDate);
+        let totalGames = 0;
+        
+        while (currentMonth <= endDate) {
+            const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+            const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+            
+            // 종료일을 넘지 않도록 조정
+            if (monthEnd > endDate) {
+                monthEnd.setTime(endDate.getTime());
+            }
+            
+            const monthName = monthStart.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long' });
+            console.log(`📅 ${monthName} 데이터 수집 중...`);
+            
+            const monthGames = await this.scrapeMonthData(monthStart, monthEnd);
+            totalGames += monthGames;
+            
+            console.log(`✅ ${monthName} 완료: ${monthGames}경기`);
+            
+            // 월 간 휴식 (서버 부하 방지)
+            if (currentMonth < endDate) {
+                console.log('⏳ 다음 월 처리를 위해 5초 대기...');
+                await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            
+            // 다음 달로 이동
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+        }
+        
+        console.log(`🎉 전체 시즌 데이터 수집 완료: 총 ${totalGames}경기`);
+        
+        if (totalGames > 0) {
+            this.saveLastUpdateDate(endDate);
+            this.saveDataToFile();
+        }
+    }
+
+    // 특정 월의 데이터 수집
+    async scrapeMonthData(startDate, endDate) {
+        const currentDate = new Date(startDate);
+        let monthGames = 0;
+        let errorCount = 0;
+        
+        while (currentDate <= endDate) {
+            const dateString = currentDate.toISOString().split('T')[0].replace(/-/g, '');
+            
+            try {
+                const html = await this.fetchScoreboardData(dateString);
+                const games = this.parseGameResults(html, dateString);
+                
+                if (games.length > 0) {
+                    this.updateRecords(games);
+                    monthGames += games.length;
+                    console.log(`   ⚾ ${dateString}: ${games.length}경기`);
+                }
+                
+                errorCount = 0; // 성공시 에러 카운트 리셋
+                
+                // API 부하 방지
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+            } catch (error) {
+                errorCount++;
+                console.log(`   ❌ ${dateString} 실패: ${error.message}`);
+                
+                // 연속 에러가 많으면 중단
+                if (errorCount >= 5) {
+                    console.log('⚠️ 연속 오류가 많아 월별 처리를 중단합니다.');
+                    break;
+                }
+                
+                // 에러시 더 긴 대기
+                await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            
+            // 다음 날로 이동
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        
+        return monthGames;
+    }
+
+    // 데이터를 파일로 저장
+    saveDataToFile() {
+        try {
+            // data 디렉토리가 없으면 생성
+            const dataDir = './data';
+            if (!fs.existsSync(dataDir)) {
+                fs.mkdirSync(dataDir, { recursive: true });
+            }
+            
+            fs.writeFileSync(this.dataFile, JSON.stringify(this.homeAwayRecords, null, 2));
+            console.log('💾 홈/어웨이 전적 데이터 저장 완료');
+        } catch (error) {
+            console.log('❌ 데이터 저장 실패:', error.message);
+        }
     }
 
     generateJSONData() {
