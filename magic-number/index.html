@@ -871,6 +871,7 @@
         <div class="container">
             <h1>🏆 KBO 매직넘버 계산기</h1>
             <div class="subtitle">2025 KBO 리그 매직넘버 계산기<br>플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 한눈에 확인하세요</div>
+            <div id="data-status" style="margin-top: 10px; font-size: 0.9rem; color: #6c757d;"></div>
         </div>
     </div>
     
@@ -1063,7 +1064,7 @@
                                 <div class="stat-value" id="required-winpct">-</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">역대 1위 기준<br>필요승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위한 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수</span></span></div>
+                                <div class="stat-label">역대 1위 기준<br>필요승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수</span></span></div>
                                 <div class="stat-value" id="historical-required-winpct">-</div>
                             </div>
                         </div>
@@ -1121,7 +1122,7 @@
                                     <th>최대가능승수 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">남은 경기를 모두 이겼을 때 승수<br><br>계산법:<br>- 현재승수 + 잔여경기수</span></span></th>
                                     <th>1위팀 필요<br>조건 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">추격팀이 전승할 때 1위가 져야 할 경기수<br><br>계산법:<br>- 추격팀 최대가능승수 - 1위 현재승수</span></span></th>
                                     <th>현재 1위<br>탈환 가능 여부 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 추월이 가능한지 여부 (산술적인 계산)<br><br>판단기준:<br>- 추격팀 최대가능승수 > 1위 현재승수</span></span></th>
-                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위한 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수<br><br>🏆 KBO 승률 분포 기준 색상:<br>🟢 0.000-0.450 (달성 가능한 수준)<br>🟡 0.451-0.550 (중위권 수준)<br>🟠 0.551-0.650 (플레이오프권 수준)<br>🔴 0.651-0.700 (상위권 우승팀 수준)<br>⚫ 0.701-1.000 (역사상 최고 수준)<br>⚫ 1.000 초과 (수학적 불가능)</span></span></th>
+                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수</span></span></th>
                                     <th>역대 1위 성적<br>달성 가능성 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성이 가능한지 여부<br><br>판단기준:<br>- 현재승수 + 잔여경기수 ≥ 84승</span></span></th>
                                 </tr>
                             </thead>
@@ -1176,7 +1177,7 @@
                                         PO<br>매직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 필요한 승수<br><br>계산법:<br>- 72승(역대 5위 평균) - 현재승수<br><br>색상 의미:<br>🟢 확정 (이미 달성)<br>🟡 진출 유력 (10승 이하)<br>🟠 경합 (11-20승)<br>🔴 어려움 (21승 이상)</span></span>
                                     </th>
                                     <th class="sortable-header" data-sort="requiredWinPct" onclick="sortTable('playoff', 'requiredWinPct')">
-                                        잔여경기<br>필요 승률 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 달성해야 할 승률<br><br>계산법:<br>- PO매직넘버 ÷ 잔여경기수<br><br>🏆 KBO 승률 분포 기준 색상:<br>🟢 0.000-0.450 (달성 가능한 수준)<br>🟡 0.451-0.550 (중위권 수준)<br>🟠 0.551-0.650 (플레이오프권 수준)<br>🔴 0.651-0.700 (상위권 우승팀 수준)<br>⚫ 0.701-1.000 (역사상 최고 수준)<br>⚫ 달성/불가능</span></span>
+                                        잔여경기<br>필요 승률 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- PO매직넘버 ÷ 잔여경기수</span></span>
                                     </th>
                                     <th>진출상황 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출 가능성 평가<br><br>판단기준:<br>- 확정: 이미 72승 달성<br>- 가능: 전승시 72승 달성 가능<br>- 불가능: 전승해도 72승 미달</span></span></th>
                                 </tr>
@@ -1620,9 +1621,12 @@
         // 데이터 로딩 함수
         async function loadKBOData() {
             try {
-                const response = await fetch('./kbo-rankings.json');
+                console.log('🔍 KBO 데이터 로딩 시작...');
+                const response = await fetch('kbo-rankings.json');
+                console.log('📡 응답 상태:', response.status, response.statusText);
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('📊 로드된 데이터:', data);
                     // 실제 최근 10경기와 연속 기록 데이터 (7월 31일 기준 - KBO 공식)
                     const actualRecords = {
                         "한화": { recent10: "5승 1무 4패", streak: "1승" },
@@ -1642,30 +1646,40 @@
                         ...team,
                         winPct: team.winRate || team.winPct || 0, // winRate를 winPct로 변환
                         recent10: actualRecords[team.team]?.recent10 || team.recent10 || "5승 0무 5패",
-                        streak: actualRecords[team.team]?.streak || team.streak || "1승"
+                        streak: actualRecords[team.team]?.streak || team.streak || "1승",
+                        homeAway: { home: "0-0-0", away: "0-0-0" } // 홈/방문 기본값 추가
                     }));
                     console.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
                     showNotification(`최신 KBO 데이터 로딩 완료 (${currentStandings.length}개 팀)`, 'success', 3000);
                     return data;
                 } else {
-                    throw new Error('데이터 로딩 실패');
+                    console.error('❌ 응답 실패:', response.status, response.statusText);
+                    throw new Error(`데이터 로딩 실패: ${response.status} ${response.statusText}`);
                 }
             } catch (error) {
+                console.error('❌ loadKBOData 에러 상세:', error);
                 handleError(error, 'KBO 데이터 로딩 실패');
                 // 백업 데이터 사용
                 currentStandings = [
-                    { rank: 1, team: "한화", games: 98, wins: 58, losses: 37, draws: 3, winPct: 0.611, gamesBehind: 0, recent10: "5승 1무 4패", streak: "1승" },
-                    { rank: 2, team: "LG", games: 99, wins: 57, losses: 40, draws: 2, winPct: 0.588, gamesBehind: 2, recent10: "8승 0무 2패", streak: "2승" },
-                    { rank: 3, team: "롯데", games: 100, wins: 54, losses: 43, draws: 3, winPct: 0.557, gamesBehind: 5, recent10: "7승 0무 3패", streak: "1패" },
-                    { rank: 4, team: "KT", games: 100, wins: 50, losses: 47, draws: 3, winPct: 0.515, gamesBehind: 9, recent10: "4승 0무 6패", streak: "2패" },
-                    { rank: 5, team: "SSG", games: 97, wins: 47, losses: 46, draws: 4, winPct: 0.505, gamesBehind: 10, recent10: "4승 0무 6패", streak: "3승" },
-                    { rank: 6, team: "삼성", games: 97, wins: 48, losses: 48, draws: 1, winPct: 0.5, gamesBehind: 10.5, recent10: "5승 0무 5패", streak: "1패" },
-                    { rank: 7, team: "KIA", games: 97, wins: 46, losses: 47, draws: 4, winPct: 0.495, gamesBehind: 11, recent10: "2승 0무 8패", streak: "7패" },
-                    { rank: 8, team: "NC", games: 94, wins: 44, losses: 45, draws: 5, winPct: 0.494, gamesBehind: 11, recent10: "6승 0무 4패", streak: "1승" },
-                    { rank: 9, team: "두산", games: 98, wins: 41, losses: 52, draws: 5, winPct: 0.441, gamesBehind: 16, recent10: "5승 1무 4패", streak: "2승" },
-                    { rank: 10, team: "키움", games: 100, wins: 28, losses: 68, draws: 4, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패" }
+                    { rank: 1, team: "한화", games: 98, wins: 58, losses: 37, draws: 3, winPct: 0.611, gamesBehind: 0, recent10: "5승 1무 4패", streak: "1승", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 2, team: "LG", games: 99, wins: 57, losses: 40, draws: 2, winPct: 0.588, gamesBehind: 2, recent10: "8승 0무 2패", streak: "2승", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 3, team: "롯데", games: 100, wins: 54, losses: 43, draws: 3, winPct: 0.557, gamesBehind: 5, recent10: "7승 0무 3패", streak: "1패", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 4, team: "KT", games: 100, wins: 50, losses: 47, draws: 3, winPct: 0.515, gamesBehind: 9, recent10: "4승 0무 6패", streak: "2패", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 5, team: "SSG", games: 97, wins: 47, losses: 46, draws: 4, winPct: 0.505, gamesBehind: 10, recent10: "4승 0무 6패", streak: "3승", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 6, team: "삼성", games: 97, wins: 48, losses: 48, draws: 1, winPct: 0.5, gamesBehind: 10.5, recent10: "5승 0무 5패", streak: "1패", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 7, team: "KIA", games: 97, wins: 46, losses: 47, draws: 4, winPct: 0.495, gamesBehind: 11, recent10: "2승 0무 8패", streak: "7패", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 8, team: "NC", games: 94, wins: 44, losses: 45, draws: 5, winPct: 0.494, gamesBehind: 11, recent10: "6승 0무 4패", streak: "1승", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 9, team: "두산", games: 98, wins: 41, losses: 52, draws: 5, winPct: 0.441, gamesBehind: 16, recent10: "5승 1무 4패", streak: "2승", homeAway: { home: "0-0-0", away: "0-0-0" } },
+                    { rank: 10, team: "키움", games: 100, wins: 28, losses: 68, draws: 4, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패", homeAway: { home: "0-0-0", away: "0-0-0" } }
                 ];
-                return null;
+                console.log('📊 백업 데이터 사용:', currentStandings.length + '팀');
+                // 백업 데이터도 JSON 형식으로 반환
+                return {
+                    rankings: currentStandings,
+                    magicNumbers: {},
+                    lastUpdated: new Date().toISOString(),
+                    updateDate: new Date().toLocaleDateString('ko-KR')
+                };
             }
         }
 
@@ -1973,7 +1987,12 @@
 
         function renderStandingsTable() {
             try {
+                console.log('📊 renderStandingsTable 시작');
+                console.log('currentStandings:', currentStandings);
+                
                 const tbody = document.querySelector('#standings-table tbody');
+                console.log('tbody 요소:', tbody);
+                
                 if (!tbody) {
                     throw new Error('순위표 테이블을 찾을 수 없습니다');
                 }
@@ -2642,6 +2661,7 @@
 
         async function initializeApp() {
             try {
+                console.log('🚀 initializeApp 시작');
                 // 1. 데이터 로딩
                 const data = await loadKBOData();
                 
@@ -2862,8 +2882,8 @@
             });
             
             // 다른 곳 클릭시 툴팁 닫기 (한 번만 등록)
-            if (!document.hasAttribute('data-tooltip-global-initialized')) {
-                document.setAttribute('data-tooltip-global-initialized', 'true');
+            if (!document.documentElement.hasAttribute('data-tooltip-global-initialized')) {
+                document.documentElement.setAttribute('data-tooltip-global-initialized', 'true');
                 eventManager.add(document, 'click', function() {
                     tooltips.forEach(tooltip => tooltip.classList.remove('active'));
                 });
