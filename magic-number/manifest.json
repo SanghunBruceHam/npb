@@ -2,12 +2,12 @@
     "name": "KBO 매직넘버 계산기",
     "short_name": "KBO 매직넘버",
     "description": "2025 KBO 리그 실시간 매직넘버 계산기. 플레이오프 진출 조건과 우승 가능성을 확인하세요.",
-    "start_url": "/kbo/magic-number/",
+    "start_url": "/magic-number/",
     "display": "standalone",
     "background_color": "#1a237e",
     "theme_color": "#1a237e",
     "orientation": "any",
-    "scope": "/kbo/magic-number/",
+    "scope": "/magic-number/",
     "lang": "ko",
     "dir": "ltr",
     "categories": ["sports", "utilities", "productivity"],
@@ -30,21 +30,21 @@
             "name": "팀 순위표",
             "short_name": "순위표",
             "description": "KBO 팀 순위와 매직넘버 확인",
-            "url": "/kbo/magic-number/#standings",
+            "url": "/magic-number/#standings",
             "icons": [{ "src": "./icons/kbo-magic-number-icon.png", "sizes": "512x512" }]
         },
         {
             "name": "플레이오프 현황",
             "short_name": "플레이오프",
             "description": "플레이오프 진출 조건 확인",
-            "url": "/kbo/magic-number/#playoff",
+            "url": "/magic-number/#playoff",
             "icons": [{ "src": "./icons/kbo-magic-number-icon.png", "sizes": "512x512" }]
         },
         {
             "name": "상대전적",
             "short_name": "전적",
             "description": "팀간 상대전적 확인",
-            "url": "/kbo/magic-number/#head-to-head",
+            "url": "/magic-number/#head-to-head",
             "icons": [{ "src": "./icons/kbo-magic-number-icon.png", "sizes": "512x512" }]
         }
     ],

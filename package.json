@@ -1,8 +1,13 @@
 {
-  "name": "kbo-magic-number-scraper",
-  "version": "1.0.0",
-  "description": "KBO 홈/어웨이 상대전적 데이터 스크래핑 도구",
+  "name": "kbo-magic-number-calculator",
+  "version": "2.0.0",
+  "description": "🏆 KBO 매직넘버 계산기 - 2025 KBO 리그 실시간 매직넘버, 플레이오프 진출 조건 계산 및 자동화 시스템",
   "main": "scrape-kbo-records.js",
+  "homepage": "https://kbo.mahalohana-bruce.com/magic-number/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanghunBruceHam/kbo.git"
+  },
   "scripts": {
     "scrape": "node scrape-kbo-records.js",
     "update-data": "node scrape-kbo-records.js && echo '데이터 업데이트 완료!'",
@@ -10,9 +15,16 @@
   },
   "keywords": [
     "kbo",
-    "baseball",
+    "baseball", 
+    "magic-number",
+    "playoff",
+    "sports-data",
     "scraping",
-    "sports-data"
+    "automation",
+    "github-actions",
+    "korean-baseball",
+    "pwa",
+    "calculator"
   ],
   "author": "SanghunBruceHam",
   "license": "MIT",

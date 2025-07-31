@@ -5,8 +5,8 @@ on:
   schedule:
     # 매일 오후 6시 (KST) = UTC 09:00
     - cron: '0 9 * * *'
-    # 매일 오후 11시 (KST) = UTC 14:00  
-    - cron: '0 14 * * *'
+    # 매일 오후 10시 (KST) = UTC 13:00  
+    - cron: '0 13 * * *'
     # 매일 밤 12시 (KST) = UTC 15:00
     - cron: '0 15 * * *'
   workflow_dispatch:  # 수동 실행 가능
@@ -34,7 +34,7 @@ jobs:
     - name: KBO 데이터 전체 업데이트
       run: |
         echo "🚀 KBO 데이터 크롤링 및 업데이트 시작..."
-        node scripts/simple-update.js
+        npm run update-data
         echo "✅ 데이터 업데이트 완료"
       
     - name: 변경사항 확인
