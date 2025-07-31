@@ -1,49 +1,51 @@
-name: Update KBO Data Daily
+
+name: KBO 데이터 자동 업데이트
 
 on:
   schedule:
-    # 매일 KST 23:30 (UTC 14:30)에 실행
+    # 매일 오후 11시 30분 (KST) = UTC 14:30
     - cron: '30 14 * * *'
-  workflow_dispatch: # 수동 실행 가능
+  workflow_dispatch:  # 수동 실행 가능
 
 jobs:
-  update-data:
+  update-kbo-data:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
+    - name: 코드 체크아웃
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Setup Node.js
+        
+    - name: Node.js 설정
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '18'
         
-    - name: Install dependencies
+    - name: 의존성 설치
       run: |
-        npm install puppeteer cheerio axios
+        npm install --production
+        npm install axios cheerio
         
-    - name: Crawl KBO data and update
+    - name: KBO 데이터 전체 업데이트
       run: |
         echo "🚀 KBO 데이터 크롤링 및 업데이트 시작..."
         node scripts/simple-update.js
         echo "✅ 데이터 업데이트 완료"
       
-    - name: Check for changes
+    - name: 변경사항 확인
       id: changes
       run: |
         git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
         
-    - name: Commit and push changes
+    - name: 변경사항 커밋 및 푸시
       if: steps.changes.outputs.changed == 'true'
       run: |
         git config --local user.email "noreply@github.com"
         git config --local user.name "GitHub Actions"
         
         # 현재 날짜 (KST)
-        DATE=$(TZ='Asia/Seoul' date +'%Y년 %m월 %d일')
+        DATE=$(TZ='Asia/Seoul' date +'%Y년 %m월 %d일 %H시')
         
         git add .
         git commit -m "📊 KBO 데이터 자동 업데이트 ($DATE)
@@ -51,17 +53,17 @@ jobs:
         - 순위표 및 팀 기록 업데이트
         - 매직넘버 재계산 
         - 플레이오프 진출 조건 업데이트
+        - HTML 파일 자동 업데이트
 
-        🤖 Generated with [Claude Code](https://claude.ai/code)
-
-        Co-Authored-By: Claude <noreply@anthropic.com>"
+        🤖 자동 업데이트"
         
         git push
         
-    - name: Summary
+    - name: 업데이트 결과 요약
       run: |
         if [ "${{ steps.changes.outputs.changed }}" == "true" ]; then
           echo "✅ 데이터가 성공적으로 업데이트되어 푸시되었습니다."
+          echo "📊 업데이트 시간: $(date)"
         else
           echo "ℹ️ 변경사항이 없어 푸시하지 않았습니다."
         fi
