@@ -419,6 +419,30 @@
             gap: 2px;
             font-size: 0.9rem;
         }
+        .vs-grid > div {
+            text-align: center;
+            vertical-align: middle;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+            padding: 8px 4px;
+            border-radius: 6px;
+            line-height: 1.3;
+        }
+        .vs-header {
+            background: rgba(0, 0, 0, 0.05) !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+        .vs-team {
+            background: rgba(0, 0, 0, 0.03) !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
 
         .help-icon {
             display: inline-block;
@@ -434,6 +458,43 @@
             cursor: pointer;
             line-height: 16px;
             transition: all 0.2s ease;
+        }
+
+        /* 에러 알림 스타일 */
+        .error-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.15);
+            z-index: 10000;
+            max-width: 350px;
+            font-size: 0.9rem;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        .error-notification.success {
+            background: #f0f9ff;
+            border-color: #0ea5e9;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+        }
+        
+        .error-notification .close-btn {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 10px;
+            color: #666;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .help-icon:hover {
@@ -849,23 +910,26 @@
                 <!-- 팀 순위 테이블 -->
                 <div class="card">
                     <h2>📊 팀 순위표</h2>
+                    <div style="margin-bottom: 15px; padding: 8px 12px; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border-left: 4px solid #3b82f6; font-size: 0.85rem; color: #1e40af;">
+                        📅 데이터 기준: 2025년 7월 31일 02:46 (KBO 공식)
+                    </div>
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                        <div class="ranking-legend" style="display: flex; gap: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
+                        <div class="ranking-legend" style="display: flex; gap: 20px; font-size: 0.9rem; flex-wrap: wrap; align-items: center; margin-bottom: 8px; padding: 12px 16px; background: rgba(243, 244, 246, 0.8); border-radius: 8px; border: 1px solid rgba(209, 213, 219, 0.5);">
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.15)); border-radius: 4px; border: 1px solid rgba(255, 215, 0, 0.4);"></div>
-                                <span>1위 (우승권)</span>
+                                <span style="font-weight: 500;">🏆 1위 (우승권)</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(192, 192, 192, 0.25), rgba(192, 192, 192, 0.15)); border-radius: 4px; border: 1px solid rgba(192, 192, 192, 0.4);"></div>
-                                <span>2위</span>
+                                <span style="font-weight: 500;">🥈 2위</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(205, 127, 50, 0.25), rgba(205, 127, 50, 0.15)); border-radius: 4px; border: 1px solid rgba(205, 127, 50, 0.4);"></div>
-                                <span>3위</span>
+                                <span style="font-weight: 500;">🥉 3위</span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(26, 35, 126, 0.2), rgba(57, 73, 171, 0.1)); border-radius: 4px; border: 1px solid rgba(26, 35, 126, 0.3);"></div>
-                                <span>4-5위 (플레이오프권)</span>
+                                <span style="font-weight: 500;">⚾ 4-5위 (플레이오프권)</span>
                             </div>
                         </div>
                         <div id="last-updated" style="color: #666; font-size: 0.9rem;">
@@ -933,6 +997,9 @@
                 <!-- 1위팀 우승 조건 -->
                 <div class="card">
                     <h2>👑 정규시즌 우승 조건</h2>
+                    <div style="margin-bottom: 15px; padding: 8px 12px; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border-left: 4px solid #3b82f6; font-size: 0.85rem; color: #1e40af;">
+                        📅 데이터 기준: 2025년 7월 31일 02:46 (KBO 공식)
+                    </div>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
@@ -1052,6 +1119,9 @@
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card">
                     <h2>🎯 1위 탈환 가능성</h2>
+                    <div style="margin-bottom: 15px; padding: 8px 12px; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border-left: 4px solid #3b82f6; font-size: 0.85rem; color: #1e40af;">
+                        📅 데이터 기준: 2025년 7월 31일 02:46 (KBO 공식)
+                    </div>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
@@ -1094,6 +1164,9 @@
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card">
                     <h2>🏟️ 플레이오프 진출 조건</h2>
+                    <div style="margin-bottom: 15px; padding: 8px 12px; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border-left: 4px solid #3b82f6; font-size: 0.85rem; color: #1e40af;">
+                        📅 데이터 기준: 2025년 7월 31일 02:46 (KBO 공식)
+                    </div>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
@@ -1150,19 +1223,22 @@
                 <!-- 팀간 승패표 -->
                 <div class="card">
                     <h2>⚔️ 팀간 상대전적</h2>
-                    <div class="h2h-legend" style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
-                        <div style="font-weight: 600; color: var(--text-primary);">📖 전체전적 / 🏠홈 전적 승률 / ✈️원정 전적 승률</div>
+                    <div style="margin-bottom: 15px; padding: 8px 12px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border-left: 4px solid #10b981; font-size: 0.85rem; color: #065f46;">
+                        📅 데이터 기준: 2025년 7월 31일 11:30 (직접 수집)
+                    </div>
+                    <div class="h2h-legend" style="display: flex; gap: 25px; margin-bottom: 15px; font-size: 0.9rem; flex-wrap: wrap; align-items: center; padding: 12px 16px; background: rgba(243, 244, 246, 0.8); border-radius: 8px; border: 1px solid rgba(209, 213, 219, 0.5);">
+                        <div style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">📖 해석방법: 전체전적 / 🏠홈 승률 / ✈️원정 승률</div>
                         <div style="display: flex; align-items: center; gap: 6px;">
                             <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(22, 163, 74, 0.9), rgba(22, 163, 74, 0.3)); border-radius: 4px; border: 1px solid rgba(22, 163, 74, 0.6);"></div>
-                            <span>우세 (승률 높음)</span>
+                            <span style="font-weight: 500;">💪 상대보다 우세</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 6px;">
                             <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(220, 38, 38, 0.3)); border-radius: 4px; border: 1px solid rgba(220, 38, 38, 0.6);"></div>
-                            <span>열세 (승률 낮음)</span>
+                            <span style="font-weight: 500;">😰 상대보다 열세</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 6px;">
                             <div style="width: 20px; height: 12px; background: white; border-radius: 4px; border: 1px solid rgba(156, 163, 175, 0.5);"></div>
-                            <span>동률 또는 자기팀</span>
+                            <span style="font-weight: 500;">⚪ 동률/자기팀</span>
                         </div>
                     </div>
                     <div id="head-to-head">
@@ -1174,8 +1250,11 @@
                 <!-- 팀간 잔여 경기수 -->
                 <div class="card">
                     <h2>📅 팀간 잔여 경기수</h2>
-                    <div class="h2h-legend" style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
-                        <div style="font-weight: 600; color: var(--text-primary);">📖 읽는 방법: 세로축 팀의 가로축 팀과 남은 경기수</div>
+                    <div style="margin-bottom: 15px; padding: 8px 12px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border-left: 4px solid #10b981; font-size: 0.85rem; color: #065f46;">
+                        📅 데이터 기준: 2025년 7월 31일 11:30 (직접 수집)
+                    </div>
+                    <div class="h2h-legend" style="display: flex; gap: 25px; margin-bottom: 15px; font-size: 0.9rem; flex-wrap: wrap; align-items: center; padding: 12px 16px; background: rgba(243, 244, 246, 0.8); border-radius: 8px; border: 1px solid rgba(209, 213, 219, 0.5);">
+                        <div style="font-weight: 600; color: var(--text-primary); font-size: 0.95rem;">📖 해석방법: 세로축 팀의 가로축 팀과 남은 경기수</div>
                         <div style="display: flex; align-items: center; gap: 6px;">
                             <div style="width: 20px; height: 12px; background: rgba(34, 197, 94, 0.6); border-radius: 4px; border: 1px solid rgba(34, 197, 94, 0.4);"></div>
                             <span>7경기 이상</span>
@@ -1374,6 +1453,234 @@
         // KBO 순위 데이터 (동적 로딩)
         let currentStandings = [];
         
+        // 메모리 관리를 위한 이벤트 리스너 관리자
+        class EventManager {
+            constructor() {
+                this.listeners = new Map();
+                this.boundCleanup = this.cleanup.bind(this);
+                
+                // 페이지 언로드 시 정리
+                window.addEventListener('beforeunload', this.boundCleanup);
+                window.addEventListener('pagehide', this.boundCleanup);
+            }
+            
+            add(element, event, handler, options = {}) {
+                const key = `${element.constructor.name}_${event}_${Date.now()}`;
+                element.addEventListener(event, handler, options);
+                
+                this.listeners.set(key, {
+                    element,
+                    event,
+                    handler,
+                    options
+                });
+                
+                return key; // 나중에 개별 제거할 때 사용
+            }
+            
+            remove(key) {
+                if (this.listeners.has(key)) {
+                    const { element, event, handler } = this.listeners.get(key);
+                    element.removeEventListener(event, handler);
+                    this.listeners.delete(key);
+                }
+            }
+            
+            cleanup() {
+                console.log(`🧹 메모리 정리: ${this.listeners.size}개 이벤트 리스너 제거`);
+                this.listeners.forEach(({ element, event, handler }) => {
+                    try {
+                        element.removeEventListener(event, handler);
+                    } catch (e) {
+                        console.warn('이벤트 리스너 제거 실패:', e);
+                    }
+                });
+                this.listeners.clear();
+                
+                // 인터벌 정리
+                if (window.updateIntervalId) {
+                    clearInterval(window.updateIntervalId);
+                    window.updateIntervalId = null;
+                }
+            }
+        }
+        
+        // 전역 이벤트 관리자 인스턴스
+        const eventManager = new EventManager();
+        
+        // 공통 유틸리티 함수들
+        const Utils = {
+            // 팀명과 로고를 조합한 HTML 생성
+            getTeamNameWithLogo(team, includeRank = false) {
+                const teamData = kboTeams[team.team || team];
+                if (!teamData) return team.team || team;
+                
+                const teamName = team.team || team;
+                const logoAndName = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${teamName}</span>`;
+                
+                if (includeRank && team.rank) {
+                    return `${logoAndName} <span style="color: #666; font-size: 0.9rem;">(${team.rank}위)</span>`;
+                }
+                
+                return logoAndName;
+            },
+            
+            // 홈/어웨이 기록 표시 HTML 생성
+            getHomeAwayDisplay(teamName) {
+                const homeAwayRecords = {
+                    "한화": { home: "30-16-2", away: "28-21-1" },
+                    "LG": { home: "31-19-0", away: "26-21-2" },
+                    "롯데": { home: "28-21-2", away: "26-22-1" },
+                    "KT": { home: "26-23-1", away: "24-24-2" },
+                    "SSG": { home: "24-22-2", away: "23-24-2" },
+                    "삼성": { home: "27-22-0", away: "21-26-1" },
+                    "KIA": { home: "26-20-3", away: "20-27-1" },
+                    "NC": { home: "24-21-2", away: "20-24-3" },
+                    "두산": { home: "21-25-3", away: "20-27-2" },
+                    "키움": { home: "16-32-2", away: "12-36-2" }
+                };
+                
+                const teamHomeAway = homeAwayRecords[teamName] || { home: "0-0-0", away: "0-0-0" };
+                
+                // 홈/방문 승률 계산
+                const parseRecord = (record) => {
+                    const [wins, losses, draws] = record.split('-').map(Number);
+                    const totalGames = wins + losses;
+                    const winRate = totalGames > 0 ? (wins / totalGames) : 0;
+                    return { wins, losses, draws, winRate };
+                };
+                
+                const homeStats = parseRecord(teamHomeAway.home);
+                const awayStats = parseRecord(teamHomeAway.away);
+                
+                return `
+                    <div style="
+                        display: flex; 
+                        flex-direction: column; 
+                        gap: 4px; 
+                        font-size: 0.85rem; 
+                        line-height: 1.2;
+                        text-align: center;
+                    ">
+                        <div style="
+                            padding: 3px 6px; 
+                            background: rgba(37, 99, 235, 0.1); 
+                            border-radius: 4px; 
+                            border-left: 3px solid #2563eb;
+                        ">
+                            <div style="color: #2563eb; font-weight: 600; margin-bottom: 1px;">
+                                🏠 홈
+                            </div>
+                            <div style="color: #1e40af; font-size: 0.8rem;">
+                                ${teamHomeAway.home} <span style="color: #64748b;">(${homeStats.winRate.toFixed(3)})</span>
+                            </div>
+                        </div>
+                        <div style="
+                            padding: 3px 6px; 
+                            background: rgba(220, 38, 38, 0.1); 
+                            border-radius: 4px; 
+                            border-left: 3px solid #dc2626;
+                        ">
+                            <div style="color: #dc2626; font-weight: 600; margin-bottom: 1px;">
+                                ✈️ 원정
+                            </div>
+                            <div style="color: #b91c1c; font-size: 0.8rem;">
+                                ${teamHomeAway.away} <span style="color: #64748b;">(${awayStats.winRate.toFixed(3)})</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            
+            // 매직넘버 표시 HTML 생성
+            getMagicNumberDisplay(team) {
+                const magicNumbers = currentStandings.length > 0 ? 
+                    (JSON.parse(localStorage.getItem('kbo-magic-numbers')) || {}) : {};
+                
+                let magicNumber = 0;
+                if (team.rank === 1) {
+                    // 1위팀: 우승 매직넘버
+                    const firstPlaceMagic = magicNumbers[team.team];
+                    magicNumber = firstPlaceMagic ? firstPlaceMagic.championship : 0;
+                } else {
+                    // 나머지 팀: PO 진출 매직넘버 (72승 기준)
+                    magicNumber = Math.max(0, 72 - team.wins);
+                }
+                
+                if (magicNumber === 0) {
+                    return team.rank === 1 ? 
+                        '<span style="color: #FFD700; font-weight: 700;">우승확정</span>' :
+                        '<span style="color: #4CAF50; font-weight: 700;">PO확정</span>';
+                }
+                
+                // 매직넘버 색상 결정
+                let color = '#666';
+                if (magicNumber <= 3) color = '#4CAF50';      // 초록
+                else if (magicNumber <= 10) color = '#FF9800'; // 주황
+                else if (magicNumber <= 20) color = '#FF5722'; // 빨강
+                else color = '#9E9E9E';                        // 회색
+                
+                return `<span style="color: ${color}; font-weight: 600;">${magicNumber}</span>`;
+            },
+            
+            // 테이블 행 HTML 생성 (공통 스타일 적용)
+            createTableRow(cells, teamColor = null, additionalClasses = '') {
+                const row = document.createElement('tr');
+                if (teamColor) {
+                    row.style.borderLeft = `4px solid ${teamColor}`;
+                }
+                if (additionalClasses) {
+                    row.className = additionalClasses;
+                }
+                
+                row.innerHTML = cells.map(cell => `<td>${cell}</td>`).join('');
+                return row;
+            }
+        };
+        
+        // 에러 처리 및 사용자 알림 함수들
+        function showNotification(message, type = 'error', duration = 5000) {
+            // 기존 알림 제거
+            const existingNotification = document.querySelector('.error-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `error-notification ${type}`;
+            notification.innerHTML = `
+                <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
+                <strong>${type === 'error' ? '⚠️ 오류' : '✅ 알림'}</strong><br>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 자동 제거
+            if (duration > 0) {
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, duration);
+            }
+        }
+        
+        function handleError(error, context = '알 수 없는 오류') {
+            console.error(`❌ ${context}:`, error);
+            
+            let userMessage = '';
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                userMessage = '네트워크 연결을 확인해주세요. 잠시 후 다시 시도합니다.';
+            } else if (error.name === 'SyntaxError') {
+                userMessage = '데이터 형식에 문제가 있습니다. 백업 데이터를 사용합니다.';
+            } else {
+                userMessage = `${context} 발생. 백업 데이터를 사용하여 서비스를 계속 제공합니다.`;
+            }
+            
+            showNotification(userMessage, 'error', 8000);
+        }
+        
         // 데이터 로딩 함수
         async function loadKBOData() {
             try {
@@ -1385,13 +1692,13 @@
                         "한화": { recent10: "5승 1무 4패", streak: "1승" },
                         "LG": { recent10: "8승 0무 2패", streak: "2승" },
                         "롯데": { recent10: "7승 0무 3패", streak: "1패" },
-                        "KT": { recent10: "4승 0무 6패", streak: "1패" },
-                        "SSG": { recent10: "4승 0무 6패", streak: "1승" },
+                        "KT": { recent10: "4승 0무 6패", streak: "2패" },
+                        "SSG": { recent10: "4승 0무 6패", streak: "3승" },
                         "삼성": { recent10: "5승 0무 5패", streak: "1패" },
-                        "KIA": { recent10: "2승 0무 8패", streak: "1승" },
+                        "KIA": { recent10: "2승 0무 8패", streak: "7패" },
                         "NC": { recent10: "6승 0무 4패", streak: "1승" },
-                        "두산": { recent10: "5승 1무 4패", streak: "2패" },
-                        "키움": { recent10: "2승 0무 8패", streak: "5패" }
+                        "두산": { recent10: "5승 1무 4패", streak: "2승" },
+                        "키움": { recent10: "2승 0무 8패", streak: "6패" }
                     };
                     
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
@@ -1402,24 +1709,25 @@
                         streak: actualRecords[team.team]?.streak || team.streak || "1승"
                     }));
                     console.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
+                    showNotification(`최신 KBO 데이터 로딩 완료 (${currentStandings.length}개 팀)`, 'success', 3000);
                     return data;
                 } else {
                     throw new Error('데이터 로딩 실패');
                 }
             } catch (error) {
-                console.error('❌ KBO 데이터 로딩 실패:', error);
+                handleError(error, 'KBO 데이터 로딩 실패');
                 // 백업 데이터 사용
                 currentStandings = [
-                    { rank: 1, team: "한화", games: 97, wins: 57, losses: 37, draws: 3, winPct: 0.606, gamesBehind: 0, recent10: "5승 1무 4패", streak: "3패" },
-                    { rank: 2, team: "LG", games: 98, wins: 56, losses: 40, draws: 2, winPct: 0.583, gamesBehind: 2, recent10: "8승 0무 2패", streak: "1승" },
-                    { rank: 3, team: "롯데", games: 99, wins: 54, losses: 42, draws: 3, winPct: 0.563, gamesBehind: 4, recent10: "7승 0무 3패", streak: "6승" },
-                    { rank: 4, team: "KT", games: 99, wins: 50, losses: 46, draws: 3, winPct: 0.521, gamesBehind: 8, recent10: "5승 0무 5패", streak: "1패" },
-                    { rank: 5, team: "SSG", games: 96, wins: 47, losses: 46, draws: 3, winPct: 0.505, gamesBehind: 9.5, recent10: "4승 0무 6패", streak: "3승" },
-                    { rank: 6, team: "삼성", games: 96, wins: 48, losses: 47, draws: 1, winPct: 0.505, gamesBehind: 9.5, recent10: "5승 0무 5패", streak: "1승" },
-                    { rank: 7, team: "KIA", games: 96, wins: 46, losses: 47, draws: 3, winPct: 0.495, gamesBehind: 10.5, recent10: "1승 0무 9패", streak: "7패" },
-                    { rank: 8, team: "NC", games: 93, wins: 43, losses: 45, draws: 5, winPct: 0.489, gamesBehind: 11, recent10: "5승 0무 5패", streak: "1패" },
-                    { rank: 9, team: "두산", games: 97, wins: 41, losses: 52, draws: 4, winPct: 0.441, gamesBehind: 15.5, recent10: "6승 1무 3패", streak: "2승" },
-                    { rank: 10, team: "키움", games: 99, wins: 28, losses: 68, draws: 3, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패" }
+                    { rank: 1, team: "한화", games: 98, wins: 58, losses: 37, draws: 3, winPct: 0.611, gamesBehind: 0, recent10: "5승 1무 4패", streak: "1승" },
+                    { rank: 2, team: "LG", games: 99, wins: 57, losses: 40, draws: 2, winPct: 0.588, gamesBehind: 2, recent10: "8승 0무 2패", streak: "2승" },
+                    { rank: 3, team: "롯데", games: 100, wins: 54, losses: 43, draws: 3, winPct: 0.557, gamesBehind: 5, recent10: "7승 0무 3패", streak: "1패" },
+                    { rank: 4, team: "KT", games: 100, wins: 50, losses: 47, draws: 3, winPct: 0.515, gamesBehind: 9, recent10: "4승 0무 6패", streak: "2패" },
+                    { rank: 5, team: "SSG", games: 97, wins: 47, losses: 46, draws: 4, winPct: 0.505, gamesBehind: 10, recent10: "4승 0무 6패", streak: "3승" },
+                    { rank: 6, team: "삼성", games: 97, wins: 48, losses: 48, draws: 1, winPct: 0.5, gamesBehind: 10.5, recent10: "5승 0무 5패", streak: "1패" },
+                    { rank: 7, team: "KIA", games: 97, wins: 46, losses: 47, draws: 4, winPct: 0.495, gamesBehind: 11, recent10: "2승 0무 8패", streak: "7패" },
+                    { rank: 8, team: "NC", games: 94, wins: 44, losses: 45, draws: 5, winPct: 0.494, gamesBehind: 11, recent10: "6승 0무 4패", streak: "1승" },
+                    { rank: 9, team: "두산", games: 98, wins: 41, losses: 52, draws: 5, winPct: 0.441, gamesBehind: 16, recent10: "5승 1무 4패", streak: "2승" },
+                    { rank: 10, team: "키움", games: 100, wins: 28, losses: 68, draws: 4, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패" }
                 ];
                 return null;
             }
@@ -1427,16 +1735,16 @@
 
         // 2025년 7월 29일 기준 실제 팀간 상대전적 데이터
         const headToHeadData = {
-            "한화": { "LG": "4-5-1", "롯데": "4-6-0", "KT": "8-3-0", "KIA": "8-3-0", "삼성": "5-4-0", "SSG": "6-6-0", "NC": "7-4-1", "두산": "6-5-1", "키움": "9-1-0" },
-            "LG": { "한화": "5-4-1", "롯데": "6-4-1", "KT": "4-4-0", "KIA": "7-4-0", "삼성": "6-6-0", "SSG": "8-4-0", "NC": "6-5-0", "두산": "6-5-0", "키움": "8-4-0" },
-            "롯데": { "한화": "6-4-0", "LG": "4-6-1", "KT": "6-4-2", "KIA": "6-6-0", "삼성": "7-3-0", "SSG": "5-6-0", "NC": "4-4-0", "두산": "6-6-0", "키움": "9-3-0" },
-            "KT": { "한화": "3-8-0", "LG": "4-4-0", "롯데": "4-6-2", "KIA": "5-7-0", "삼성": "7-3-0", "SSG": "5-6-0", "NC": "6-5-0", "두산": "7-4-1", "키움": "9-3-0" },
-            "KIA": { "한화": "3-8-0", "LG": "4-7-0", "롯데": "6-6-0", "KT": "7-5-0", "삼성": "3-7-0", "SSG": "5-4-1", "NC": "5-3-0", "두산": "7-2-0", "키움": "6-4-2" },
-            "삼성": { "한화": "4-5-0", "LG": "6-6-0", "롯데": "3-7-0", "KT": "3-7-0", "KIA": "7-3-0", "SSG": "6-5-1", "NC": "6-6-0", "두산": "7-5-0", "키움": "6-3-0" },
-            "SSG": { "한화": "6-6-0", "LG": "4-8-0", "롯데": "6-5-0", "KT": "6-5-0", "KIA": "4-5-1", "삼성": "5-6-1", "NC": "6-2-1", "두산": "5-4-0", "키움": "4-5-0" },
-            "NC": { "한화": "4-7-1", "LG": "5-6-0", "롯데": "4-4-0", "KT": "5-6-0", "KIA": "3-5-0", "삼성": "6-6-0", "SSG": "2-6-1", "두산": "5-2-2", "키움": "9-2-1" },
-            "두산": { "한화": "5-6-1", "LG": "5-6-0", "롯데": "6-6-0", "KT": "4-7-1", "KIA": "2-7-0", "삼성": "5-7-0", "SSG": "4-5-0", "NC": "2-5-2", "키움": "7-3-0" },
-            "키움": { "한화": "1-9-0", "LG": "4-8-0", "롯데": "3-9-0", "KT": "3-9-0", "KIA": "4-6-2", "삼성": "3-6-0", "SSG": "5-4-0", "NC": "2-9-1", "두산": "3-7-0" }
+            "한화": { "LG": "4-5-1", "롯데": "4-6-0", "KT": "8-3-0", "KIA": "8-3-0", "삼성": "6-4-0", "SSG": "6-6-0", "NC": "7-4-1", "두산": "6-5-1", "키움": "10-1-0" },
+            "LG": { "한화": "5-4-1", "롯데": "6-4-1", "KT": "5-4-0", "KIA": "7-4-0", "삼성": "6-6-0", "SSG": "8-4-0", "NC": "6-5-0", "두산": "6-5-0", "키움": "9-4-0" },
+            "롯데": { "한화": "6-4-0", "LG": "4-6-1", "KT": "6-4-2", "KIA": "6-6-0", "삼성": "7-3-0", "SSG": "5-6-0", "NC": "4-4-0", "두산": "6-6-0", "키움": "10-4-0" },
+            "KT": { "한화": "3-8-0", "LG": "4-5-0", "롯데": "4-6-2", "KIA": "5-7-0", "삼성": "7-3-0", "SSG": "5-6-0", "NC": "6-5-0", "두산": "7-5-1", "키움": "9-3-0" },
+            "KIA": { "한화": "3-8-0", "LG": "4-7-0", "롯데": "6-6-0", "KT": "7-5-0", "삼성": "3-7-0", "SSG": "5-4-1", "NC": "5-3-0", "두산": "7-2-0", "키움": "6-5-3" },
+            "삼성": { "한화": "4-6-0", "LG": "6-6-0", "롯데": "3-7-0", "KT": "3-7-0", "KIA": "7-3-0", "SSG": "6-5-1", "NC": "6-6-0", "두산": "7-6-0", "키움": "6-3-0" },
+            "SSG": { "한화": "6-6-0", "LG": "4-8-0", "롯데": "6-5-0", "KT": "6-5-0", "KIA": "4-5-1", "삼성": "5-6-1", "NC": "7-2-2", "두산": "5-4-1", "키움": "4-5-0" },
+            "NC": { "한화": "4-7-1", "LG": "5-6-0", "롯데": "4-4-0", "KT": "5-6-0", "KIA": "3-5-0", "삼성": "6-6-0", "SSG": "2-7-2", "두산": "5-3-2", "키움": "10-2-1" },
+            "두산": { "한화": "5-6-1", "LG": "5-6-0", "롯데": "6-6-0", "KT": "5-7-1", "KIA": "2-7-0", "삼성": "6-7-0", "SSG": "4-5-1", "NC": "3-5-2", "키움": "5-3-3" },
+            "키움": { "한화": "1-10-0", "LG": "4-9-0", "롯데": "4-10-0", "KT": "3-9-0", "KIA": "5-6-3", "삼성": "3-6-0", "SSG": "5-4-0", "NC": "2-10-1", "두산": "3-5-3" }
         };
 
         function updateDataStatus() {
@@ -1745,6 +2053,7 @@
                 // 데이터 검증
                 if (!teamData) {
                     console.error('❌ 팀 데이터 없음:', team.team);
+                    showNotification(`${team.team} 팀 데이터를 찾을 수 없습니다.`, 'error', 3000);
                     return;
                 }
                 
@@ -1781,7 +2090,7 @@
                 const recent10Formatted = formatRecent10(team.recent10);
                 
                 // 팀명 로고 추가
-                const teamNameWithLogo = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${team.team}</span>`;
+                const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
 
                 // 홈/방문 성적 실제 데이터 (KBO 공식 사이트 기준)
                 const homeAwayRecords = {
@@ -1994,7 +2303,7 @@
                 row.className = rankClass;
                 
                 // 팀명에 로고 추가
-                const teamNameWithLogo = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${team.team}</span>`;
+                const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
@@ -2111,7 +2420,7 @@
                 row.className = rankClass;
                 
                 // 팀명에 로고 추가
-                const teamNameWithLogo = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${team.team}</span>`;
+                const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
@@ -2157,8 +2466,8 @@
                 
                 teamOrder.forEach(awayTeam => {
                     if (homeTeam === awayTeam) {
-                        const cell = createGridCell('■', 'vs-record');
-                        cell.style.color = '#666';
+                        const cell = createGridCell('', 'vs-record');
+                        cell.innerHTML = '<div style="font-size: 1.2rem; color: #666;">■</div>';
                         cell.style.background = 'white';
                         grid.appendChild(cell);
                     } else {
@@ -2166,7 +2475,7 @@
                         const [wins, losses, draws] = record.split('-').map(Number);
                         const totalGames = wins + losses + draws;
                         const winPct = totalGames > 0 ? (wins / (wins + losses)) : 0.5; // 무승부 제외한 승률
-                        const winPctDisplay = totalGames > 0 ? (winPct * 100).toFixed(1) + '%' : '-';
+                        const winPctDisplay = totalGames > 0 ? winPct.toFixed(3) : '-';
                         
                         // 승률 강도에 따른 그라데이션 색상
                         let backgroundColor;
@@ -2213,21 +2522,18 @@
                         const homeRecord = `${actualHomeWins}-${actualHomeLosses}-${actualHomeDraws}`;
                         const awayRecord = `${actualAwayWins}-${actualAwayLosses}-${actualAwayDraws}`;
                         
-                        const homeWinRate = actualHomeWins + actualHomeLosses > 0 ? (actualHomeWins / (actualHomeWins + actualHomeLosses) * 100).toFixed(1) + '%' : '-';
-                        const awayWinRate = actualAwayWins + actualAwayLosses > 0 ? (actualAwayWins / (actualAwayWins + actualAwayLosses) * 100).toFixed(1) + '%' : '-';
+                        const homeWinRate = actualHomeWins + actualHomeLosses > 0 ? (actualHomeWins / (actualHomeWins + actualHomeLosses)).toFixed(3) : '-';
+                        const awayWinRate = actualAwayWins + actualAwayLosses > 0 ? (actualAwayWins / (actualAwayWins + actualAwayLosses)).toFixed(3) : '-';
 
                         const cell = createGridCell('', 'vs-record');
                         cell.innerHTML = `
-                            <div style="font-weight: 600; font-size: 0.85rem; margin-bottom: 2px;">${record} (${winPctDisplay})</div>
+                            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 3px;">${record}</div>
+                            <div style="font-weight: 500; font-size: 0.8rem; margin-bottom: 3px; color: #333;">${winPctDisplay}</div>
                             <div style="font-size: 0.7rem; opacity: 0.8; margin-bottom: 1px; color: #2563eb;">🏠 ${homeRecord} ${homeWinRate}</div>
                             <div style="font-size: 0.7rem; opacity: 0.8; color: #dc2626;">✈️ ${awayRecord} ${awayWinRate}</div>
                         `;
                         cell.style.background = backgroundColor;
                         cell.style.color = textColor;
-                        cell.style.textAlign = 'center';
-                        cell.style.padding = '8px 4px';
-                        cell.style.lineHeight = '1.2';
-                        cell.style.minHeight = '55px';
                         grid.appendChild(cell);
                     }
                 });
@@ -2359,7 +2665,7 @@
                 setTimeout(adjustTooltipPositions, 100);
                 
                 // 4. 창 크기 변경 시 툴팁 위치 재조정
-                window.addEventListener('resize', () => {
+                eventManager.add(window, 'resize', () => {
                     setTimeout(adjustTooltipPositions, 100);
                 });
                 
@@ -2377,7 +2683,7 @@
                         }
                     };
                     
-                    window.addEventListener('scroll', handleScroll);
+                    eventManager.add(window, 'scroll', handleScroll);
                     handleScroll();
 
                     scrollToTopButton.addEventListener('click', () => {
@@ -2391,7 +2697,7 @@
                 console.log('✅ 앱 초기화 완료');
                 
             } catch (error) {
-                console.error('❌ 앱 초기화 실패:', error);
+                handleError(error, '앱 초기화 실패');
             }
         }
 
@@ -2411,7 +2717,7 @@
         
         // DOMContentLoaded 이벤트
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', runInitialization);
+            eventManager.add(document, 'DOMContentLoaded', runInitialization);
         } else {
             // 이미 DOM이 로드된 경우
             runInitialization();
@@ -2425,7 +2731,7 @@
             
             if (btn) {
                 // 스크롤 이벤트
-                window.addEventListener('scroll', function() {
+                const btnScrollHandler = function() {
                     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                     if (scrollTop > 300) {
                         btn.style.opacity = '1';
@@ -2436,13 +2742,15 @@
                         btn.style.visibility = 'hidden';
                         btn.style.transform = 'translateY(20px)';
                     }
-                });
+                };
+                eventManager.add(window, 'scroll', btnScrollHandler);
                 
                 // 클릭 이벤트
-                btn.addEventListener('click', function() {
+                const btnClickHandler = function() {
                     console.log('버튼 클릭!');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
+                };
+                eventManager.add(btn, 'click', btnClickHandler);
                 
                 console.log('탑으로 가기 버튼 이벤트 등록 완료');
             } else {
@@ -2450,10 +2758,46 @@
             }
         }, 200);
 
-        // 30초마다 데이터 업데이트 (실제로는 API 호출)
-        setInterval(() => {
-            updateDataStatus();
-        }, 30000);
+        // 시간대별 차등 데이터 업데이트 최적화
+        let updateIntervalId;
+        
+        function setupOptimizedDataUpdate() {
+            // 기존 인터벌 정리
+            if (updateIntervalId) {
+                clearInterval(updateIntervalId);
+            }
+            
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            // 시간대별 업데이트 주기 최적화
+            let updateInterval;
+            if (currentHour >= 18 && currentHour <= 23) {
+                // 경기 시간대: 1분마다 업데이트
+                updateInterval = 60000;
+            } else if (currentHour >= 0 && currentHour <= 2) {
+                // 심야 시간대: 2분마다 업데이트
+                updateInterval = 120000;
+            } else {
+                // 일반 시간대: 5분마다 업데이트
+                updateInterval = 300000;
+            }
+            
+            // 최적화된 인터벌 설정
+            updateIntervalId = setInterval(() => {
+                updateDataStatus();
+                // 매 시간마다 업데이트 주기 재설정
+                const checkHour = new Date().getHours();
+                if (checkHour !== currentHour) {
+                    setupOptimizedDataUpdate();
+                }
+            }, updateInterval);
+            
+            console.log(`⚡ 데이터 업데이트 주기: ${updateInterval/1000}초 (${currentHour}시 기준)`);
+        }
+        
+        // 최적화된 데이터 업데이트 시작
+        setupOptimizedDataUpdate();
 
         // 툴팁 클릭 이벤트 (모바일 지원)
         document.addEventListener('DOMContentLoaded', function() {
@@ -2499,7 +2843,7 @@
             updateMobileControlsVisibility();
             
             // 화면 크기 변경 시 업데이트
-            window.addEventListener('resize', updateMobileControlsVisibility);
+            eventManager.add(window, 'resize', updateMobileControlsVisibility);
             
             // 버튼 클릭 이벤트
             if (toggleBtn) {
