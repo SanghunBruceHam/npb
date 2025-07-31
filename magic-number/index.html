@@ -1371,19 +1371,39 @@
             "KT": { fullName: "KT 위즈", color: "#000000", logo: "🧙" }
         };
 
-        // 2025년 7월 27일 기준 실제 KBO 순위 데이터
-        let currentStandings = [
-            { rank: 1, team: "한화", games: 97, wins: 57, losses: 37, draws: 3, winPct: 0.606, gamesBehind: 0, recent10: "5승 1무 4패", streak: "3패" },
-            { rank: 2, team: "LG", games: 98, wins: 56, losses: 40, draws: 2, winPct: 0.583, gamesBehind: 2, recent10: "8승 0무 2패", streak: "1승" },
-            { rank: 3, team: "롯데", games: 99, wins: 54, losses: 42, draws: 3, winPct: 0.563, gamesBehind: 4, recent10: "7승 0무 3패", streak: "6승" },
-            { rank: 4, team: "KT", games: 99, wins: 50, losses: 46, draws: 3, winPct: 0.521, gamesBehind: 8, recent10: "5승 0무 5패", streak: "1패" },
-            { rank: 5, team: "SSG", games: 96, wins: 47, losses: 46, draws: 3, winPct: 0.505, gamesBehind: 9.5, recent10: "4승 0무 6패", streak: "3승" },
-            { rank: 6, team: "삼성", games: 96, wins: 48, losses: 47, draws: 1, winPct: 0.505, gamesBehind: 9.5, recent10: "5승 0무 5패", streak: "1승" },
-            { rank: 7, team: "KIA", games: 96, wins: 46, losses: 47, draws: 3, winPct: 0.495, gamesBehind: 10.5, recent10: "1승 0무 9패", streak: "7패" },
-            { rank: 8, team: "NC", games: 93, wins: 43, losses: 45, draws: 5, winPct: 0.489, gamesBehind: 11, recent10: "5승 0무 5패", streak: "1패" },
-            { rank: 9, team: "두산", games: 97, wins: 41, losses: 52, draws: 4, winPct: 0.441, gamesBehind: 15.5, recent10: "6승 1무 3패", streak: "2승" },
-            { rank: 10, team: "키움", games: 99, wins: 28, losses: 68, draws: 3, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패" }
-        ];
+        // KBO 순위 데이터 (동적 로딩)
+        let currentStandings = [];
+        
+        // 데이터 로딩 함수
+        async function loadKBOData() {
+            try {
+                const response = await fetch('./kbo-rankings.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    currentStandings = data.rankings || [];
+                    console.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
+                    return data;
+                } else {
+                    throw new Error('데이터 로딩 실패');
+                }
+            } catch (error) {
+                console.error('❌ KBO 데이터 로딩 실패:', error);
+                // 백업 데이터 사용
+                currentStandings = [
+                    { rank: 1, team: "한화", games: 97, wins: 57, losses: 37, draws: 3, winPct: 0.606, gamesBehind: 0, recent10: "5승 1무 4패", streak: "3패" },
+                    { rank: 2, team: "LG", games: 98, wins: 56, losses: 40, draws: 2, winPct: 0.583, gamesBehind: 2, recent10: "8승 0무 2패", streak: "1승" },
+                    { rank: 3, team: "롯데", games: 99, wins: 54, losses: 42, draws: 3, winPct: 0.563, gamesBehind: 4, recent10: "7승 0무 3패", streak: "6승" },
+                    { rank: 4, team: "KT", games: 99, wins: 50, losses: 46, draws: 3, winPct: 0.521, gamesBehind: 8, recent10: "5승 0무 5패", streak: "1패" },
+                    { rank: 5, team: "SSG", games: 96, wins: 47, losses: 46, draws: 3, winPct: 0.505, gamesBehind: 9.5, recent10: "4승 0무 6패", streak: "3승" },
+                    { rank: 6, team: "삼성", games: 96, wins: 48, losses: 47, draws: 1, winPct: 0.505, gamesBehind: 9.5, recent10: "5승 0무 5패", streak: "1승" },
+                    { rank: 7, team: "KIA", games: 96, wins: 46, losses: 47, draws: 3, winPct: 0.495, gamesBehind: 10.5, recent10: "1승 0무 9패", streak: "7패" },
+                    { rank: 8, team: "NC", games: 93, wins: 43, losses: 45, draws: 5, winPct: 0.489, gamesBehind: 11, recent10: "5승 0무 5패", streak: "1패" },
+                    { rank: 9, team: "두산", games: 97, wins: 41, losses: 52, draws: 4, winPct: 0.441, gamesBehind: 15.5, recent10: "6승 1무 3패", streak: "2승" },
+                    { rank: 10, team: "키움", games: 99, wins: 28, losses: 68, draws: 3, winPct: 0.292, gamesBehind: 30.5, recent10: "2승 0무 8패", streak: "6패" }
+                ];
+                return null;
+            }
+        }
 
         // 2025년 7월 29일 기준 실제 팀간 상대전적 데이터
         const headToHeadData = {
@@ -2290,65 +2310,77 @@
             });
         }
 
-        function initializeApp() {
-            updateDataStatus();
-            updateSummaryDashboard();
-            renderStandingsTable();
-            renderChampionshipCondition();
-            renderChaseAnalysis();
-            renderPlayoffCondition();
-            renderHeadToHead();
-            renderRemainingGames();
-            
-            // 툴팁 위치 조정
-            setTimeout(adjustTooltipPositions, 100);
-            
-            // 창 크기 변경 시 툴팁 위치 재조정
-            window.addEventListener('resize', () => {
+        async function initializeApp() {
+            try {
+                // 1. 데이터 로딩
+                const data = await loadKBOData();
+                
+                // 2. UI 업데이트
+                updateDataStatus();
+                updateSummaryDashboard();
+                renderStandingsTable();
+                renderChampionshipCondition();
+                renderChaseAnalysis();
+                renderPlayoffCondition();
+                renderHeadToHead();
+                renderRemainingGames();
+                
+                // 3. 툴팁 위치 조정
                 setTimeout(adjustTooltipPositions, 100);
-            });
-            
-            // 탑으로 가기 버튼 기능 초기화
-            const scrollToTopButton = document.getElementById('scrollToTop');
-            
-            if (scrollToTopButton) {
-                console.log('탑으로 가기 버튼 요소를 찾았습니다.');
                 
-                const handleScroll = () => {
-                    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-                    console.log('현재 스크롤 위치:', scrollPosition);
-                    
-                    if (scrollPosition > 300) {
-                        scrollToTopButton.classList.add('show');
-                        console.log('버튼 표시');
-                    } else {
-                        scrollToTopButton.classList.remove('show');
-                        console.log('버튼 숨김');
-                    }
-                };
-                
-                window.addEventListener('scroll', handleScroll);
-                
-                // 초기 스크롤 위치 체크
-                handleScroll();
-
-                scrollToTopButton.addEventListener('click', () => {
-                    console.log('탑으로 가기 버튼 클릭됨');
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
+                // 4. 창 크기 변경 시 툴팁 위치 재조정
+                window.addEventListener('resize', () => {
+                    setTimeout(adjustTooltipPositions, 100);
                 });
-            } else {
-                console.error('탑으로 가기 버튼 요소를 찾을 수 없습니다.');
+                
+                // 5. 탑으로 가기 버튼 기능 초기화
+                const scrollToTopButton = document.getElementById('scrollToTop');
+                
+                if (scrollToTopButton) {
+                    const handleScroll = () => {
+                        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                        
+                        if (scrollPosition > 300) {
+                            scrollToTopButton.classList.add('show');
+                        } else {
+                            scrollToTopButton.classList.remove('show');
+                        }
+                    };
+                    
+                    window.addEventListener('scroll', handleScroll);
+                    handleScroll();
+
+                    scrollToTopButton.addEventListener('click', () => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+                
+                console.log('✅ 앱 초기화 완료');
+                
+            } catch (error) {
+                console.error('❌ 앱 초기화 실패:', error);
             }
         }
 
-        // 초기화
-        setTimeout(() => {
-            console.log('지연된 초기화 시작');
-            initializeApp();
-        }, 100);
+        // 초기화 (비동기)
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 앱 초기화 시작...');
+            await initializeApp();
+        });
+        
+        // 페이지 로드 완료 후에도 실행 (DOMContentLoaded가 이미 지났을 경우)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', async () => {
+                await initializeApp();
+            });
+        } else {
+            setTimeout(async () => {
+                await initializeApp();
+            }, 100);
+        }
 
         // 탑으로 가기 버튼 별도 초기화 (더 안전한 방법)
         setTimeout(() => {
