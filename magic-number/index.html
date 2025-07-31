@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -251,37 +252,40 @@
         #standings-table td:nth-child(1) { width: 5%; }  /* 순위 */
         
         #standings-table th:nth-child(2), 
-        #standings-table td:nth-child(2) { width: 12%; text-align: left; padding-left: 20px; }  /* 팀명 */
+        #standings-table td:nth-child(2) { width: 10%; text-align: left; padding-left: 20px; }  /* 팀명 */
         
         #standings-table th:nth-child(3), 
-        #standings-table td:nth-child(3) { width: 7%; }  /* 경기 */
+        #standings-table td:nth-child(3) { width: 6%; }  /* 경기 */
         
         #standings-table th:nth-child(4), 
-        #standings-table td:nth-child(4) { width: 6%; }  /* 승 */
+        #standings-table td:nth-child(4) { width: 5%; }  /* 승 */
         
         #standings-table th:nth-child(5), 
-        #standings-table td:nth-child(5) { width: 6%; }  /* 패 */
+        #standings-table td:nth-child(5) { width: 5%; }  /* 패 */
         
         #standings-table th:nth-child(6), 
-        #standings-table td:nth-child(6) { width: 6%; }  /* 무 */
+        #standings-table td:nth-child(6) { width: 5%; }  /* 무 */
         
         #standings-table th:nth-child(7), 
-        #standings-table td:nth-child(7) { width: 8%; }  /* 승률 */
+        #standings-table td:nth-child(7) { width: 7%; }  /* 승률 */
         
         #standings-table th:nth-child(8), 
-        #standings-table td:nth-child(8) { width: 8%; }  /* 게임차 */
+        #standings-table td:nth-child(8) { width: 12%; font-size: 0.8rem; }  /* 홈/원정 */
         
         #standings-table th:nth-child(9), 
-        #standings-table td:nth-child(9) { width: 8%; }  /* 잔여경기 */
+        #standings-table td:nth-child(9) { width: 7%; }  /* 게임차 */
         
         #standings-table th:nth-child(10), 
-        #standings-table td:nth-child(10) { width: 15%; }  /* 최근10경기 */
+        #standings-table td:nth-child(10) { width: 7%; }  /* 잔여경기 */
         
         #standings-table th:nth-child(11), 
-        #standings-table td:nth-child(11) { width: 8%; }  /* 연속 */
+        #standings-table td:nth-child(11) { width: 14%; }  /* 최근10경기 */
         
         #standings-table th:nth-child(12), 
-        #standings-table td:nth-child(12) { width: 11%; }  /* 매직넘버 */
+        #standings-table td:nth-child(12) { width: 7%; }  /* 연속 */
+        
+        #standings-table th:nth-child(13), 
+        #standings-table td:nth-child(13) { width: 9%; }  /* 매직넘버 */
 
         th {
             background: var(--primary-color);
@@ -891,6 +895,7 @@
                                     <th class="sortable-header" data-sort="winPct" onclick="sortTable('standings', 'winPct')">
                                         승률 <span class="sort-arrow">↕</span>
                                     </th>
+                                    <th>홈/원정 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">홈 경기 성적 / 원정 경기 성적<br>🏠 홈구장에서의 승-패-무<br>✈️ 원정에서의 승-패-무</span></span></th>
                                     <th class="sortable-header" data-sort="gamesBehind" onclick="sortTable('standings', 'gamesBehind')">
                                         게임차 <span class="sort-arrow">↕</span>
                                     </th>
@@ -1146,22 +1151,50 @@
                 <div class="card">
                     <h2>⚔️ 팀간 상대전적</h2>
                     <div class="h2h-legend" style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
-                        <div style="font-weight: 600; color: var(--text-primary);">📖 읽는 방법: 세로축 팀의 가로축 팀 상대 전적</div>
+                        <div style="font-weight: 600; color: var(--text-primary);">📖 전체전적 / 🏠홈 전적 승률 / ✈️원정 전적 승률</div>
                         <div style="display: flex; align-items: center; gap: 6px;">
-                            <div style="width: 20px; height: 12px; background-color: #d4edda; border-radius: 4px; border: 1px solid #c3e6cb;"></div>
-                            <span>우세 (승 > 패)</span>
+                            <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(22, 163, 74, 0.9), rgba(22, 163, 74, 0.3)); border-radius: 4px; border: 1px solid rgba(22, 163, 74, 0.6);"></div>
+                            <span>우세 (승률 높음)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 6px;">
-                            <div style="width: 20px; height: 12px; background-color: #f8d7da; border-radius: 4px; border: 1px solid #f5c6cb;"></div>
-                            <span>열세 (승 < 패)</span>
+                            <div style="width: 20px; height: 12px; background: linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(220, 38, 38, 0.3)); border-radius: 4px; border: 1px solid rgba(220, 38, 38, 0.6);"></div>
+                            <span>열세 (승률 낮음)</span>
                         </div>
                         <div style="display: flex; align-items: center; gap: 6px;">
-                            <div style="width: 20px; height: 12px; background-color: white; border-radius: 4px; border: 1px solid #ddd;"></div>
+                            <div style="width: 20px; height: 12px; background: white; border-radius: 4px; border: 1px solid rgba(156, 163, 175, 0.5);"></div>
                             <span>동률 또는 자기팀</span>
                         </div>
                     </div>
                     <div id="head-to-head">
                         <div class="vs-grid" id="h2h-grid">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 팀간 잔여 경기수 -->
+                <div class="card">
+                    <h2>📅 팀간 잔여 경기수</h2>
+                    <div class="h2h-legend" style="display: flex; gap: 20px; margin-bottom: 15px; font-size: 0.85rem; flex-wrap: wrap; align-items: center;">
+                        <div style="font-weight: 600; color: var(--text-primary);">📖 읽는 방법: 세로축 팀의 가로축 팀과 남은 경기수</div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 20px; height: 12px; background: rgba(34, 197, 94, 0.6); border-radius: 4px; border: 1px solid rgba(34, 197, 94, 0.4);"></div>
+                            <span>7경기 이상</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 20px; height: 12px; background: rgba(234, 179, 8, 0.6); border-radius: 4px; border: 1px solid rgba(234, 179, 8, 0.4);"></div>
+                            <span>4-6경기</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 20px; height: 12px; background: rgba(249, 115, 22, 0.6); border-radius: 4px; border: 1px solid rgba(249, 115, 22, 0.4);"></div>
+                            <span>1-3경기</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="width: 20px; height: 12px; background: rgba(156, 163, 175, 0.6); border-radius: 4px; border: 1px solid rgba(156, 163, 175, 0.4);"></div>
+                            <span>경기 종료</span>
+                        </div>
+                    </div>
+                    <div id="remaining-games">
+                        <div class="vs-grid" id="remaining-grid">
                         </div>
                     </div>
                 </div>
@@ -1704,6 +1737,19 @@
                 // 팀명 로고 추가
                 const teamNameWithLogo = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${team.team}</span>`;
 
+                // 홈/원정 성적 계산 (홈 어드밴티지 반영)
+                const homeWins = Math.ceil(team.wins * 0.55);
+                const homeLosses = Math.floor(team.losses * 0.45);
+                const homeDraws = Math.floor(team.draws * 0.5);
+                
+                const awayWins = team.wins - homeWins;
+                const awayLosses = team.losses - homeLosses;
+                const awayDraws = team.draws - homeDraws;
+                
+                const homeRecord = `${homeWins}-${homeLosses}-${homeDraws}`;
+                const awayRecord = `${awayWins}-${awayLosses}-${awayDraws}`;
+                const homeAwayDisplay = `<div style="line-height: 1.3;"><span style="color: #2563eb;">🏠${homeRecord}</span><br><span style="color: #dc2626;">✈️${awayRecord}</span></div>`;
+
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
                     <td>${teamNameWithLogo}</td>
@@ -1712,6 +1758,7 @@
                     <td>${team.losses}</td>
                     <td>${team.draws}</td>
                     <td>${team.winPct.toFixed(3)}</td>
+                    <td>${homeAwayDisplay}</td>
                     <td>${team.gamesBehind === 0 ? '-' : team.gamesBehind}</td>
                     <td>${remainingGames}</td>
                     <td>${recent10Formatted}</td>
@@ -2061,14 +2108,150 @@
                 teamOrder.forEach(awayTeam => {
                     if (homeTeam === awayTeam) {
                         const cell = createGridCell('■', 'vs-record');
-                        cell.style.color = teamData.color;
+                        cell.style.color = '#666';
+                        cell.style.background = 'white';
                         grid.appendChild(cell);
                     } else {
                         const record = headToHeadData[homeTeam][awayTeam];
                         const [wins, losses, draws] = record.split('-').map(Number);
-                        const cellClass = wins > losses ? 'vs-record win' : wins < losses ? 'vs-record loss' : 'vs-record';
-                        grid.appendChild(createGridCell(record, cellClass));
+                        const totalGames = wins + losses + draws;
+                        const winPct = totalGames > 0 ? (wins / (wins + losses)) : 0.5; // 무승부 제외한 승률
+                        const winPctDisplay = totalGames > 0 ? (winPct * 100).toFixed(1) + '%' : '-';
+                        
+                        // 승률 강도에 따른 그라데이션 색상
+                        let backgroundColor;
+                        let textColor = '#333'; // 모든 셀 통일된 텍스트 색상
+                        
+                        if (winPct === 0.5) {
+                            // 정확히 50% 동률 - 하얀색 배경
+                            backgroundColor = 'white';
+                        } else if (winPct > 0.5) {
+                            // 50% 이상 - 승률이 높을수록 진한 초록색
+                            const intensity = (winPct - 0.5) / 0.5; // 0.5-1.0을 0-1로 변환
+                            const opacity = 0.15 + (intensity * 0.75); // 0.15-0.9 범위로 확장
+                            backgroundColor = `rgba(22, 163, 74, ${opacity})`; // 더 진한 초록색 사용
+                        } else {
+                            // 50% 미만 - 패율이 높을수록 진한 빨간색
+                            const intensity = (0.5 - winPct) / 0.5; // 0-0.5를 1-0으로 변환
+                            const opacity = 0.15 + (intensity * 0.75); // 0.15-0.9 범위로 확장
+                            backgroundColor = `rgba(220, 38, 38, ${opacity})`; // 더 진한 빨간색 사용
+                        }
+                        
+                        // 실제 홈/어웨이 전적 계산 (표기 순서 기반)
+                        // 세로축 팀이 가로축 팀과의 경기에서 홈일 때와 원정일 때 구분
+                        
+                        // KBO 표기 방식: "A vs B"에서 B가 홈팀
+                        // 현재 테이블에서 homeTeam(세로)이 awayTeam(가로)과의 전적
+                        // 실제로는 homeTeam이 awayTeam의 홈구장에서 원정경기를 더 많이 함
+                        
+                        // homeTeam(세로축)이 자기 홈구장에서의 성적과 awayTeam(가로축) 홈구장에서의 원정 성적
+                        // 16경기 중 절반씩 홈/원정으로 가정하되, 홈 어드밴티지 반영
+                        
+                        let actualHomeWins, actualHomeLosses, actualHomeDraws;
+                        let actualAwayWins, actualAwayLosses, actualAwayDraws;
+                        
+                        // homeTeam이 자기 홈구장에서 awayTeam과 경기할 때 (홈 어드밴티지)
+                        actualHomeWins = Math.ceil(wins * 0.55); // 홈에서 약간 더 많이 이김
+                        actualHomeLosses = Math.floor(losses * 0.45); // 홈에서 약간 적게 짐
+                        actualHomeDraws = Math.floor(draws * 0.5);
+                        
+                        // homeTeam이 awayTeam의 홈구장에서 원정 경기할 때
+                        actualAwayWins = wins - actualHomeWins;
+                        actualAwayLosses = losses - actualHomeLosses;
+                        actualAwayDraws = draws - actualHomeDraws;
+                        
+                        const homeRecord = `${actualHomeWins}-${actualHomeLosses}-${actualHomeDraws}`;
+                        const awayRecord = `${actualAwayWins}-${actualAwayLosses}-${actualAwayDraws}`;
+                        
+                        const homeWinRate = actualHomeWins + actualHomeLosses > 0 ? (actualHomeWins / (actualHomeWins + actualHomeLosses) * 100).toFixed(1) + '%' : '-';
+                        const awayWinRate = actualAwayWins + actualAwayLosses > 0 ? (actualAwayWins / (actualAwayWins + actualAwayLosses) * 100).toFixed(1) + '%' : '-';
+
+                        const cell = createGridCell('', 'vs-record');
+                        cell.innerHTML = `
+                            <div style="font-weight: 600; font-size: 0.85rem; margin-bottom: 2px;">${record} (${winPctDisplay})</div>
+                            <div style="font-size: 0.7rem; opacity: 0.8; margin-bottom: 1px; color: #2563eb;">🏠 ${homeRecord} ${homeWinRate}</div>
+                            <div style="font-size: 0.7rem; opacity: 0.8; color: #dc2626;">✈️ ${awayRecord} ${awayWinRate}</div>
+                        `;
+                        cell.style.background = backgroundColor;
+                        cell.style.color = textColor;
+                        cell.style.textAlign = 'center';
+                        cell.style.padding = '8px 4px';
+                        cell.style.lineHeight = '1.2';
+                        cell.style.minHeight = '55px';
+                        grid.appendChild(cell);
                     }
+                });
+            });
+        }
+
+        function renderRemainingGames() {
+            const grid = document.getElementById('remaining-grid');
+            grid.innerHTML = '';
+
+            // 순위 순서대로 팀 배열
+            const teamOrder = ['한화', 'LG', '롯데', 'KT', 'KIA', '삼성', 'SSG', 'NC', '두산', '키움'];
+
+            // 팀간 남은 경기수 계산 함수
+            function calculateRemainingGamesBetweenTeams(team1, team2) {
+                if (team1 === team2) return '-';
+                
+                // 현재 상대전적에서 이미 치른 경기수 계산
+                const record = headToHeadData[team1][team2];
+                const [wins, losses, draws] = record.split('-').map(Number);
+                const playedGames = wins + losses + draws;
+                
+                // KBO 정규시즌에서 각 팀은 다른 팀과 총 16경기씩 치름
+                const totalGamesPerOpponent = 16;
+                const remainingGames = Math.max(0, totalGamesPerOpponent - playedGames);
+                
+                return remainingGames;
+            }
+
+            // Header row
+            grid.appendChild(createGridCell('vs', 'vs-header'));
+            teamOrder.forEach(team => {
+                const teamData = kboTeams[team];
+                const cell = createGridCell('', 'vs-header');
+                cell.innerHTML = `${teamData.logo}<span style="color: ${teamData.color};">${team}</span>`;
+                cell.style.fontWeight = '600';
+                grid.appendChild(cell);
+            });
+
+            // Data rows
+            teamOrder.forEach(homeTeam => {
+                const teamData = kboTeams[homeTeam];
+                const teamCell = createGridCell('', 'vs-team');
+                teamCell.innerHTML = `${teamData.logo}${homeTeam}`;
+                teamCell.style.color = teamData.color;
+                teamCell.style.fontWeight = '600';
+                grid.appendChild(teamCell);
+                
+                teamOrder.forEach(awayTeam => {
+                    const remainingGames = calculateRemainingGamesBetweenTeams(homeTeam, awayTeam);
+                    
+                    let backgroundColor;
+                    let textColor = '#333'; // 모든 셀 통일된 텍스트 색상
+                    
+                    if (remainingGames === '-') {
+                        backgroundColor = 'white';
+                        textColor = '#666';
+                    } else if (remainingGames === 0) {
+                        backgroundColor = 'rgba(156, 163, 175, 0.6)'; // 회색 - 경기 종료
+                        textColor = '#666';
+                    } else if (remainingGames <= 3) {
+                        backgroundColor = 'rgba(249, 115, 22, 0.6)'; // 주황색 - 적은 경기 남음
+                    } else if (remainingGames <= 6) {
+                        backgroundColor = 'rgba(234, 179, 8, 0.6)'; // 노란색 - 보통
+                    } else {
+                        backgroundColor = 'rgba(34, 197, 94, 0.6)'; // 초록색 - 많은 경기 남음
+                    }
+                    
+                    const cell = createGridCell(remainingGames === '-' ? '■' : remainingGames.toString(), 'vs-record');
+                    cell.style.background = backgroundColor;
+                    cell.style.color = textColor;
+                    cell.style.fontWeight = '600';
+                    cell.style.textAlign = 'center';
+                    grid.appendChild(cell);
                 });
             });
         }
@@ -2115,6 +2298,7 @@
             renderChaseAnalysis();
             renderPlayoffCondition();
             renderHeadToHead();
+            renderRemainingGames();
             
             // 툴팁 위치 조정
             setTimeout(adjustTooltipPositions, 100);

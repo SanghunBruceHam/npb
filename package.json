@@ -1,20 +1,26 @@
 {
-  "name": "kbo-magic-number",
+  "name": "kbo-magic-number-scraper",
   "version": "1.0.0",
-  "description": "KBO 매직넘버 계산기 자동화",
-  "main": "index.js",
+  "description": "KBO 홈/어웨이 상대전적 데이터 스크래핑 도구",
+  "main": "scrape-kbo-records.js",
   "scripts": {
-    "crawl": "node scripts/crawl-kbo-data.js",
-    "calculate": "node scripts/calculate-magic-numbers.js",
-    "update": "node scripts/update-html.js",
-    "build": "npm run crawl && npm run calculate && npm run update"
+    "scrape": "node scrape-kbo-records.js",
+    "update-data": "node scrape-kbo-records.js && echo '데이터 업데이트 완료!'",
+    "test": "echo \"테스트 스크립트 없음\" && exit 1"
   },
-  "dependencies": {
-    "puppeteer": "^21.0.0",
-    "cheerio": "^1.0.0-rc.12",
-    "axios": "^1.5.0"
-  },
-  "keywords": ["kbo", "baseball", "magic-number", "automation"],
+  "keywords": [
+    "kbo",
+    "baseball",
+    "scraping",
+    "sports-data"
+  ],
   "author": "SanghunBruceHam",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
 }
