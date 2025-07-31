@@ -415,7 +415,7 @@
 
         .vs-grid {
             display: grid;
-            grid-template-columns: repeat(11, 1fr);
+            grid-template-columns: 0.8fr repeat(10, 1fr);
             gap: 2px;
             font-size: 0.9rem;
         }
@@ -910,16 +910,15 @@
                 <!-- 팀 순위 테이블 -->
                 <div class="card">
                     <h2>📊 팀 순위표</h2>
-                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 15px 0;">
-                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
-                    </div>
                     <div class="ranking-legend" style="font-size: 0.9rem; color: #666; line-height: 1.4; margin-bottom: 15px;">
                         <strong>순위별 진출권:</strong> 
                         <span style="color: #FFD700; font-weight: 600;">■ 1위</span> 정규시즌 우승 | 
                         <span style="color: #C0C0C0; font-weight: 600;">■ 2위</span> 플레이오프 직행 | 
                         <span style="color: #CD7F32; font-weight: 600;">■ 3위</span> 준플레이오프 직행 | 
                         <span style="color: #1A237E; font-weight: 600;">■ 4-5위</span> 와일드카드
+                    </div>
+                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
+                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
                     </div>
                     <div class="table-container">
                         <table id="standings-table">
@@ -982,12 +981,11 @@
                 <!-- 1위팀 우승 조건 -->
                 <div class="card">
                     <h2>👑 정규시즌 우승 조건</h2>
-                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 15px 0;">
-                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
-                    </div>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    </div>
+                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
+                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -1105,12 +1103,11 @@
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card">
                     <h2>🎯 1위 탈환 가능성</h2>
-                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 15px 0;">
-                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
-                    </div>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    </div>
+                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
+                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
                     </div>
                     <div id="chase-analysis">
                         <div class="table-container">
@@ -1151,12 +1148,11 @@
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card">
                     <h2>🏟️ 플레이오프 진출 조건</h2>
-                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 15px 0;">
-                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
-                    </div>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    </div>
+                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
+                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
                     </div>
                     <div id="playoff-condition">
                         <div class="table-container">
@@ -1211,7 +1207,6 @@
                 <!-- 팀간 승패표 -->
                 <div class="card">
                     <h2>⚔️ 팀간 상대전적</h2>
-                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 15px 0;">
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         데이터 로딩 시간: 2025.07.31 11:30 (직접수집)
                     </div>
@@ -1228,7 +1223,6 @@
                 <!-- 팀간 잔여 경기수 -->
                 <div class="card">
                     <h2>📅 팀간 잔여 경기수</h2>
-                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 15px 0;">
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         데이터 로딩 시간: 2025.07.31 11:30 (직접수집)
                     </div>
@@ -1519,15 +1513,15 @@
                 
                 return `
                     <div style="
-                        font-size: 0.8rem; 
-                        line-height: 1.3;
+                        font-size: 0.9rem; 
+                        line-height: 1.4;
                         text-align: center;
                         color: #555;
                     ">
-                        <div style="margin-bottom: 2px; font-weight: 600;">
+                        <div style="margin-bottom: 3px; font-weight: 600;">
                             ${teamHomeAway.home} / ${teamHomeAway.away}
                         </div>
-                        <div style="font-size: 0.75rem; color: #666;">
+                        <div style="font-size: 0.85rem; color: #666;">
                             🏠 ${homeStats.winRate.toFixed(3)} / ✈️ ${awayStats.winRate.toFixed(3)}
                         </div>
                     </div>
@@ -2516,10 +2510,11 @@
 
                         const cell = createGridCell('', 'vs-record');
                         cell.innerHTML = `
-                            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 3px;">${record}</div>
-                            <div style="font-weight: 500; font-size: 0.8rem; margin-bottom: 3px; color: #333;">${winPctDisplay}</div>
-                            <div style="font-size: 0.7rem; opacity: 0.8; margin-bottom: 1px; color: #2563eb;">🏠 ${homeRecord} ${homeWinRate}</div>
-                            <div style="font-size: 0.7rem; opacity: 0.8; color: #dc2626;">✈️ ${awayRecord} ${awayWinRate}</div>
+                            <div style="font-size: 0.85rem; line-height: 1.3; text-align: center;">
+                                <div style="font-weight: 600; margin-bottom: 2px;">${record} (${winPctDisplay})</div>
+                                <div style="font-size: 0.8rem; color: #555; margin-bottom: 1px;">🏠 ${homeRecord} (${homeWinRate})</div>
+                                <div style="font-size: 0.8rem; color: #555;">✈️ ${awayRecord} (${awayWinRate})</div>
+                            </div>
                         `;
                         cell.style.background = backgroundColor;
                         cell.style.color = textColor;
