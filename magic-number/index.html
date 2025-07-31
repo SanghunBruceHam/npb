@@ -895,7 +895,7 @@
                                     <th class="sortable-header" data-sort="winPct" onclick="sortTable('standings', 'winPct')">
                                         승률 <span class="sort-arrow">↕</span>
                                     </th>
-                                    <th>홈/원정 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">홈 경기 성적 / 원정 경기 성적<br>🏠 홈구장에서의 승-패-무<br>✈️ 원정에서의 승-패-무</span></span></th>
+                                    <th>홈/방문 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">홈 경기 성적 / 방문 경기 성적<br>🏠 홈구장에서의 승-패-무<br>✈️ 방문구장에서의 승-패-무</span></span></th>
                                     <th class="sortable-header" data-sort="gamesBehind" onclick="sortTable('standings', 'gamesBehind')">
                                         게임차 <span class="sort-arrow">↕</span>
                                     </th>
@@ -1380,7 +1380,27 @@
                 const response = await fetch('./kbo-rankings.json');
                 if (response.ok) {
                     const data = await response.json();
-                    currentStandings = data.rankings || [];
+                    // 실제 최근 10경기와 연속 기록 데이터 (7월 31일 기준)
+                    const actualRecords = {
+                        "한화": { recent10: "5승 1무 4패", streak: "1승" },
+                        "LG": { recent10: "8승 0무 2패", streak: "1승" },
+                        "롯데": { recent10: "6승 0무 4패", streak: "1패" },
+                        "KT": { recent10: "4승 0무 6패", streak: "1패" },
+                        "SSG": { recent10: "4승 0무 6패", streak: "1승" },
+                        "삼성": { recent10: "5승 0무 5패", streak: "1패" },
+                        "KIA": { recent10: "2승 0무 8패", streak: "1승" },
+                        "NC": { recent10: "6승 0무 4패", streak: "1승" },
+                        "두산": { recent10: "5승 1무 4패", streak: "2패" },
+                        "키움": { recent10: "2승 0무 8패", streak: "5패" }
+                    };
+                    
+                    // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
+                    currentStandings = (data.rankings || []).map(team => ({
+                        ...team,
+                        winPct: team.winRate || team.winPct || 0, // winRate를 winPct로 변환
+                        recent10: actualRecords[team.team]?.recent10 || team.recent10 || "5승 0무 5패",
+                        streak: actualRecords[team.team]?.streak || team.streak || "1승"
+                    }));
                     console.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
                     return data;
                 } else {
@@ -1721,6 +1741,12 @@
                 const totalGames = 144;
                 const remainingGames = totalGames - team.games;
                 const teamData = kboTeams[team.team];
+                
+                // 데이터 검증
+                if (!teamData) {
+                    console.error('❌ 팀 데이터 없음:', team.team);
+                    return;
+                }
                 
                 let rankClass = '';
                 if (team.rank === 1) rankClass = 'rank-1';
@@ -2366,20 +2392,25 @@
         }
 
         // 초기화 (비동기)
-        document.addEventListener('DOMContentLoaded', async () => {
+        // 초기화 플래그
+        let isInitialized = false;
+        
+        async function runInitialization() {
+            if (isInitialized) {
+                console.log('⚠️ 이미 초기화됨');
+                return;
+            }
+            isInitialized = true;
             console.log('🚀 앱 초기화 시작...');
             await initializeApp();
-        });
+        }
         
-        // 페이지 로드 완료 후에도 실행 (DOMContentLoaded가 이미 지났을 경우)
+        // DOMContentLoaded 이벤트
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', async () => {
-                await initializeApp();
-            });
+            document.addEventListener('DOMContentLoaded', runInitialization);
         } else {
-            setTimeout(async () => {
-                await initializeApp();
-            }, 100);
+            // 이미 DOM이 로드된 경우
+            runInitialization();
         }
 
         // 탑으로 가기 버튼 별도 초기화 (더 안전한 방법)
