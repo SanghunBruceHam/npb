@@ -3,8 +3,12 @@ name: KBO 데이터 자동 업데이트
 
 on:
   schedule:
-    # 매일 오후 11시 30분 (KST) = UTC 14:30
-    - cron: '30 14 * * *'
+    # 매일 오후 6시 (KST) = UTC 09:00
+    - cron: '0 9 * * *'
+    # 매일 오후 11시 (KST) = UTC 14:00  
+    - cron: '0 14 * * *'
+    # 매일 밤 12시 (KST) = UTC 15:00
+    - cron: '0 15 * * *'
   workflow_dispatch:  # 수동 실행 가능
 
 jobs:

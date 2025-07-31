@@ -105,54 +105,54 @@
   ],
   "magicNumbers": {
     "한화": {
-      "playoff": 38,
-      "championship": 45,
-      "elimination": 46
+      "playoff": 0,
+      "championship": 0,
+      "remainingGames": 46
     },
     "LG": {
-      "playoff": 39,
+      "playoff": 2,
       "championship": 0,
-      "elimination": 45
+      "remainingGames": 45
     },
     "롯데": {
-      "playoff": 42,
+      "playoff": 5,
       "championship": 0,
-      "elimination": 44
+      "remainingGames": 44
     },
     "KT": {
-      "playoff": 46,
+      "playoff": 9,
       "championship": 0,
-      "elimination": 44
+      "remainingGames": 44
     },
     "SSG": {
-      "playoff": 49,
+      "playoff": 12,
       "championship": 0,
-      "elimination": 47
+      "remainingGames": 47
     },
     "삼성": {
-      "playoff": 0,
+      "playoff": 25,
       "championship": 0,
-      "elimination": 47
+      "remainingGames": 47
     },
     "KIA": {
-      "playoff": 0,
+      "playoff": 28,
       "championship": 0,
-      "elimination": 47
+      "remainingGames": 47
     },
     "NC": {
-      "playoff": 0,
+      "playoff": 30,
       "championship": 0,
-      "elimination": 50
+      "remainingGames": 50
     },
     "두산": {
-      "playoff": 0,
+      "playoff": 42,
       "championship": 0,
-      "elimination": 46
+      "remainingGames": 46
     },
     "키움": {
-      "playoff": 0,
-      "championship": 0,
-      "elimination": 44
+      "playoff": 999,
+      "championship": 999,
+      "remainingGames": 44
     }
   },
   "totalTeams": 10

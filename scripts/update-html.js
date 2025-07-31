@@ -49,8 +49,7 @@ class HTMLUpdater {
                 <td class="team">${team}</td>
                 <td class="magic-playoff">${magic.playoff === 999 ? '-' : magic.playoff}</td>
                 <td class="magic-championship">${magic.championship === 999 ? '-' : magic.championship}</td>
-                <td class="magic-home">${magic.homeAdvantage === 999 ? '-' : magic.homeAdvantage}</td>
-                <td class="remaining">${magic.remainingGames}</td>
+                <td class="remaining">${magic.remainingGames || 0}</td>
             </tr>`;
         }).join('\n');
     }
@@ -86,6 +85,7 @@ class HTMLUpdater {
                     `<!-- MAGIC_NUMBER_START -->\n${magicHTML}\n<!-- MAGIC_NUMBER_END -->`
                 );
             }
+
             
             // 파일 저장
             fs.writeFileSync(filePath, html, 'utf8');

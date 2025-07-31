@@ -912,10 +912,10 @@
                     <h2>📊 팀 순위표</h2>
                     <div class="ranking-legend" style="font-size: 0.9rem; color: #666; line-height: 1.4; margin-bottom: 15px;">
                         <strong>순위별 진출권:</strong> 
-                        <span style="color: #FFD700; font-weight: 600;">■ 1위</span> 정규시즌 우승 | 
-                        <span style="color: #C0C0C0; font-weight: 600;">■ 2위</span> 플레이오프 직행 | 
-                        <span style="color: #CD7F32; font-weight: 600;">■ 3위</span> 준플레이오프 직행 | 
-                        <span style="color: #1A237E; font-weight: 600;">■ 4-5위</span> 와일드카드
+                        <span style="color: #ffd700; font-weight: 600;">■ 1위</span> 정규시즌 우승 | 
+                        <span style="color: #c0c0c0; font-weight: 600;">■ 2위</span> 플레이오프 직행 | 
+                        <span style="color: #cd7f32; font-weight: 600;">■ 3위</span> 준플레이오프 직행 | 
+                        <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
@@ -1063,7 +1063,7 @@
                                 <div class="stat-value" id="required-winpct">-</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">역대 1위 기준<br>필요승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 89승 달성을 위한 승률<br><br>계산법:<br>- (89승 - 현재승수) ÷ 잔여경기수</span></span></div>
+                                <div class="stat-label">역대 1위 기준<br>필요승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위한 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수</span></span></div>
                                 <div class="stat-value" id="historical-required-winpct">-</div>
                             </div>
                         </div>
@@ -1121,8 +1121,8 @@
                                     <th>최대가능승수 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">남은 경기를 모두 이겼을 때 승수<br><br>계산법:<br>- 현재승수 + 잔여경기수</span></span></th>
                                     <th>1위팀 필요<br>조건 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">추격팀이 전승할 때 1위가 져야 할 경기수<br><br>계산법:<br>- 추격팀 최대가능승수 - 1위 현재승수</span></span></th>
                                     <th>현재 1위<br>탈환 가능 여부 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 추월이 가능한지 여부 (산술적인 계산)<br><br>판단기준:<br>- 추격팀 최대가능승수 > 1위 현재승수</span></span></th>
-                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 89승 달성을 위한 승률<br><br>계산법:<br>- (89승 - 현재승수) ÷ 잔여경기수<br><br>🏆 KBO 승률 분포 기준 색상:<br>🟢 0.000-0.450 (달성 가능한 수준)<br>🟡 0.451-0.550 (중위권 수준)<br>🟠 0.551-0.650 (플레이오프권 수준)<br>🔴 0.651-0.700 (상위권 우승팀 수준)<br>⚫ 0.701-1.000 (역사상 최고 수준)<br>⚫ 1.000 초과 (수학적 불가능)</span></span></th>
-                                    <th>역대 1위 성적<br>달성 가능성 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 89승 달성이 가능한지 여부<br><br>판단기준:<br>- 현재승수 + 잔여경기수 ≥ 89승</span></span></th>
+                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위한 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수<br><br>🏆 KBO 승률 분포 기준 색상:<br>🟢 0.000-0.450 (달성 가능한 수준)<br>🟡 0.451-0.550 (중위권 수준)<br>🟠 0.551-0.650 (플레이오프권 수준)<br>🔴 0.651-0.700 (상위권 우승팀 수준)<br>⚫ 0.701-1.000 (역사상 최고 수준)<br>⚫ 1.000 초과 (수학적 불가능)</span></span></th>
+                                    <th>역대 1위 성적<br>달성 가능성 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성이 가능한지 여부<br><br>판단기준:<br>- 현재승수 + 잔여경기수 ≥ 84승</span></span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -2051,7 +2051,7 @@
                 };
                 
                 const teamHomeAway = homeAwayRecords[team.team] || { home: "0-0-0", away: "0-0-0" };
-                const homeAwayDisplay = `<div style="line-height: 1.3;"><span style="color: #2563eb;">🏠${teamHomeAway.home}</span><br><span style="color: #dc2626;">✈️${teamHomeAway.away}</span></div>`;
+                const homeAwayDisplay = `<div style="line-height: 1.3;"><span style="color: #2563eb;">🏠 ${teamHomeAway.home}</span><br><span style="color: #dc2626;">✈️ ${teamHomeAway.away}</span></div>`;
 
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
@@ -2139,9 +2139,19 @@
 
 
         function renderChampionshipCondition() {
+            console.log('🏆 우승 조건 렌더링 시작');
+            console.log('현재 순위 데이터:', currentStandings);
+            
+            if (!currentStandings || currentStandings.length === 0) {
+                console.error('❌ currentStandings 데이터가 없습니다');
+                return;
+            }
+            
             const firstPlace = currentStandings[0];
             const secondPlace = currentStandings[1];
             const teamData = kboTeams[firstPlace.team];
+            
+            console.log('1위 팀 데이터:', firstPlace);
             
             const totalGames = 144;
             const remainingGames = totalGames - firstPlace.games;
@@ -2156,8 +2166,8 @@
             const neededWinsForMinWins = Math.max(0, minWinsNeeded - firstPlace.wins);
             const requiredWinPct = remainingGames > 0 ? (neededWinsForMinWins / remainingGames) : 0;
             
-            // 역대 1위 평균 기준 필요 승률 계산 (0.620 승률 = 89승)
-            const historicalFirstPlaceWins = 89; // 144게임 × 0.620
+            // 역대 1위 평균 기준 필요 승률 계산 (0.583 승률 = 84승)
+            const historicalFirstPlaceWins = 84; // 144게임 × 0.583
             const neededWinsForHistorical = Math.max(0, historicalFirstPlaceWins - firstPlace.wins);
             const historicalRequiredWinPct = remainingGames > 0 ? (neededWinsForHistorical / remainingGames) : 0;
             
@@ -2187,7 +2197,7 @@
             
             // 각 카드 정보 업데이트
             document.getElementById('first-place-record').textContent = `${firstPlace.wins}승 ${firstPlace.losses}패 ${firstPlace.draws}무`;
-            document.getElementById('first-place-winpct').textContent = `${firstPlace.winPct.toFixed(3)}`;
+            document.getElementById('first-place-winpct').textContent = `${(firstPlace.winPct || firstPlace.winRate).toFixed(3)}`;
             document.getElementById('first-place-max-wins').textContent = `${maxPossibleWins}승`;
             document.getElementById('championship-magic').textContent = `매직넘버: ${magicNumber > 0 ? magicNumber : '우승확정'}`;
             document.getElementById('required-winpct').textContent = neededWinsForMinWins > 0 ? `${requiredWinPct.toFixed(3)}` : '달성';
@@ -2209,9 +2219,9 @@
 
                 const firstPlace = currentStandings[0];
                 
-                // 역대 1위 평균 승률 (0.620 기준, 144경기 기준 약 89승)
-                const historicalFirstPlaceWinPct = 0.620;
-                const historicalFirstPlaceWins = Math.round(144 * historicalFirstPlaceWinPct); // 89승
+                // 역대 1위 평균 승률 (0.583 기준, 144경기 기준 약 84승)
+                const historicalFirstPlaceWinPct = 0.583;
+                const historicalFirstPlaceWins = Math.round(144 * historicalFirstPlaceWinPct); // 84승
 
                 currentStandings.slice(1).forEach(team => {
                 const teamData = kboTeams[team.team];
@@ -2226,7 +2236,7 @@
                 const requiredWinPctForAverage = remainingGames > 0 ? 
                     Math.min(1, neededWinsForHistoricalAverage / remainingGames) : 0;
                 
-                // 역대 1위 성적 달성 가능성 (89승 달성 가능한지)
+                // 역대 1위 성적 달성 가능성 (84승 달성 가능한지)
                 const canReachHistoricalAverage = maxPossibleWins >= historicalFirstPlaceWins;
                 
                 // KBO 승률 분포 기준 색상 계산 (전체 팀 고려)
