@@ -74,6 +74,9 @@ jobs:
         # data 폴더 확인 및 생성
         mkdir -p data
         
+        # 인코딩 문제 해결 스크립트 실행
+        node scripts/fix-encoding.js
+        
         # 크롤링 결과 확인 (이제 clean.txt 파일에 직접 추가됨)
         echo "📁 크롤링 완료 - data/${CURRENT_YEAR}-season-data-clean.txt 업데이트됨"
     

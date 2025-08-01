@@ -251,7 +251,7 @@ class KBOWorkingCrawler:
             print(f"\n🆕 새로운 경기 {len(new_games)}개 발견")
             
             # 새로운 경기를 기존 파일에 append
-            with open(main_clean_file, 'a', encoding='utf-8') as f:
+            with open(main_clean_file, 'a', encoding='utf-8', errors='replace') as f:
                 # 날짜별 그룹화
                 date_groups = {}
                 for game in new_games:
