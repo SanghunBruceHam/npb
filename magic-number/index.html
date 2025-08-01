@@ -918,7 +918,7 @@
                         <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        📊 <span class="data-load-time">2025. 8. 1. 기준 | 10개팀 평균 99경기 | KBO 공식사이트</span>
                     </div>
                     <div class="table-container">
                         <table id="standings-table">
@@ -985,7 +985,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        📊 <span class="data-load-time">2025. 8. 1. 기준 | 10개팀 평균 99경기 | KBO 공식사이트</span>
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -1107,7 +1107,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        📊 <span class="data-load-time">2025. 8. 1. 기준 | 10개팀 평균 99경기 | KBO 공식사이트</span>
                     </div>
                     <div id="chase-analysis">
                         <div class="table-container">
@@ -1152,7 +1152,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        📊 <span class="data-load-time">2025. 8. 1. 기준 | 10개팀 평균 99경기 | KBO 공식사이트</span>
                     </div>
                     <div id="playoff-condition">
                         <div class="table-container">
@@ -1612,51 +1612,60 @@
             showNotification(userMessage, 'error', 8000);
         }
         
-        // 데이터 로딩 시간 업데이트 함수
+        // 데이터 정보 업데이트 함수
         function updateLoadingTime(data) {
             try {
-                let dataUpdateTime = '';
-                let pageLoadTime = '';
+                let displayText = '';
                 
-                // 1. 데이터 업데이트 시간 (크롤링된 시간)
+                // 1. 데이터 업데이트 시간 확인
+                let dataUpdateTime = '';
                 if (data && data.updateDate) {
-                    // JSON에서 updateDate 사용
-                    dataUpdateTime = `${data.updateDate}`;
+                    dataUpdateTime = data.updateDate;
                 } else if (data && data.lastUpdated) {
-                    // lastUpdated에서 날짜 추출
                     const date = new Date(data.lastUpdated);
-                    const koreanDate = date.toLocaleDateString('ko-KR');
-                    const koreanTime = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-                    dataUpdateTime = `${koreanDate} ${koreanTime}`;
+                    dataUpdateTime = date.toLocaleDateString('ko-KR');
                 } else {
-                    // 현재 시간 사용
-                    const now = new Date();
-                    const koreanDate = now.toLocaleDateString('ko-KR');
-                    const koreanTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-                    dataUpdateTime = `${koreanDate} ${koreanTime}`;
+                    dataUpdateTime = new Date().toLocaleDateString('ko-KR');
                 }
                 
-                // 2. 페이지 로딩 시간 (현재 시간)
-                const now = new Date();
-                const loadDate = now.toLocaleDateString('ko-KR');
-                const loadTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-                pageLoadTime = `${loadDate} ${loadTime}`;
+                // 2. 데이터 소스 확인
+                let dataSource = '';
+                let totalTeams = 0;
+                let totalGames = 0;
                 
-                // 3. 합친 표시 텍스트
-                const displayTime = `${dataUpdateTime} (데이터) | ${pageLoadTime} (로딩) - KBO 공식`;
+                if (data && data.source) {
+                    if (data.source.includes('OFFICIAL')) {
+                        dataSource = 'KBO 공식사이트';
+                    } else {
+                        dataSource = 'KBO 데이터';
+                    }
+                }
                 
-                // 모든 데이터 로딩 시간 표시 업데이트
+                if (data && data.rankings) {
+                    totalTeams = data.rankings.length;
+                    // 평균 경기수 계산
+                    const totalGamesSum = data.rankings.reduce((sum, team) => sum + (team.games || 0), 0);
+                    totalGames = Math.round(totalGamesSum / totalTeams);
+                }
+                
+                // 3. 의미있는 정보로 구성
+                if (totalTeams > 0) {
+                    displayText = `${dataUpdateTime} 기준 | ${totalTeams}개팀 평균 ${totalGames}경기 | ${dataSource}`;
+                } else {
+                    displayText = `${dataUpdateTime} 기준 | ${dataSource}`;
+                }
+                
+                // 모든 데이터 정보 표시 업데이트
                 const loadTimeElements = document.querySelectorAll('.data-load-time');
                 loadTimeElements.forEach(element => {
                     if (element) {
-                        element.textContent = displayTime;
+                        element.textContent = displayText;
                     }
                 });
                 
-                console.log('🕐 데이터 업데이트 시간:', dataUpdateTime);
-                console.log('🕐 페이지 로딩 시간:', pageLoadTime);
+                console.log('📊 데이터 정보 업데이트:', displayText);
             } catch (error) {
-                console.error('❌ 데이터 로딩 시간 업데이트 실패:', error);
+                console.error('❌ 데이터 정보 업데이트 실패:', error);
             }
         }
 
