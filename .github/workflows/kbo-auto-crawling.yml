@@ -1,9 +1,14 @@
 name: KBO 자동 데이터 크롤링 및 업데이트
 
 on:
-  # 매일 한국시간 오후 11:30에 실행 (UTC 14:30)
+  # 하루 3번 한국시간 기준 실행
   schedule:
-    - cron: '30 14 * * *'
+    # 오후 6시 (UTC 09:00)
+    - cron: '0 9 * * *'
+    # 오후 10시 (UTC 13:00)  
+    - cron: '0 13 * * *'
+    # 밤 12시 (UTC 15:00)
+    - cron: '0 15 * * *'
   
   # 수동 실행 가능
   workflow_dispatch:
@@ -113,8 +118,20 @@ jobs:
         
         # 커밋 메시지 생성
         CURRENT_DATE=$(TZ='Asia/Seoul' date +"%Y-%m-%d %H:%M")
+        CURRENT_TIME=$(TZ='Asia/Seoul' date +"%H:%M")
+        
+        # 실행 시간에 따른 메시지 설정
+        if [[ "$CURRENT_TIME" < "19:00" ]]; then
+          TIME_MSG="🌅 오후 6시 경기 결과 업데이트"
+        elif [[ "$CURRENT_TIME" < "23:00" ]]; then
+          TIME_MSG="🌆 오후 10시 경기 결과 업데이트"
+        else
+          TIME_MSG="🌙 밤 12시 최종 경기 결과 업데이트"
+        fi
+        
         COMMIT_MESSAGE="🤖 KBO 데이터 자동 업데이트 - ${CURRENT_DATE}
         
+        ${TIME_MSG}
         🎯 자동 크롤링 및 데이터 처리 완료
         📊 웹서비스 데이터 파일 업데이트
         
@@ -139,7 +156,10 @@ jobs:
         echo "   - magic-number/kbo-rankings.json (순위 데이터)"
         echo "   - magic-number/kbo-records.json (상대전적 데이터)"  
         echo "   - output/service-data.json (통합 서비스 데이터)"
-        echo "📅 다음 실행: 매일 한국시간 오후 11:30"
+        echo "📅 다음 실행 스케줄:"
+        echo "   - 🌅 오후 6시 (한국시간)"
+        echo "   - 🌆 오후 10시 (한국시간)"
+        echo "   - 🌙 밤 12시 (한국시간)"
     
     - name: 실패 시 알림 (선택사항)
       if: failure()
