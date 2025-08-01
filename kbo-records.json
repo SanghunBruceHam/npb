@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-01T02:03:04.701Z",
+  "lastUpdated": "2025-08-01T03:00:05.637Z",
   "updateDate": "2025. 8. 1.",
   "totalData": {
     "KT": {
@@ -14,13 +14,13 @@
         "draws": 0
       },
       "SSG": {
-        "wins": 3,
+        "wins": 4,
         "losses": 6,
         "draws": 0
       },
       "NC": {
-        "wins": 4,
-        "losses": 5,
+        "wins": 5,
+        "losses": 6,
         "draws": 0
       },
       "롯데": {
@@ -34,12 +34,12 @@
         "draws": 0
       },
       "KIA": {
-        "wins": 5,
-        "losses": 4,
+        "wins": 7,
+        "losses": 5,
         "draws": 0
       },
       "삼성": {
-        "wins": 4,
+        "wins": 5,
         "losses": 2,
         "draws": 0
       },
@@ -77,7 +77,7 @@
       },
       "두산": {
         "wins": 6,
-        "losses": 5,
+        "losses": 6,
         "draws": 0
       },
       "KIA": {
@@ -91,7 +91,7 @@
         "draws": 0
       },
       "한화": {
-        "wins": 5,
+        "wins": 7,
         "losses": 3,
         "draws": 0
       }
@@ -139,14 +139,14 @@
       },
       "한화": {
         "wins": 1,
-        "losses": 8,
+        "losses": 10,
         "draws": 0
       }
     },
     "SSG": {
       "KT": {
         "wins": 6,
-        "losses": 3,
+        "losses": 4,
         "draws": 0
       },
       "LG": {
@@ -160,8 +160,8 @@
         "draws": 0
       },
       "NC": {
-        "wins": 5,
-        "losses": 2,
+        "wins": 7,
+        "losses": 3,
         "draws": 0
       },
       "롯데": {
@@ -170,13 +170,13 @@
         "draws": 0
       },
       "두산": {
-        "wins": 5,
+        "wins": 6,
         "losses": 4,
         "draws": 0
       },
       "KIA": {
-        "wins": 2,
-        "losses": 5,
+        "wins": 3,
+        "losses": 6,
         "draws": 0
       },
       "삼성": {
@@ -185,15 +185,15 @@
         "draws": 0
       },
       "한화": {
-        "wins": 5,
+        "wins": 6,
         "losses": 6,
         "draws": 0
       }
     },
     "NC": {
       "KT": {
-        "wins": 5,
-        "losses": 4,
+        "wins": 6,
+        "losses": 5,
         "draws": 0
       },
       "LG": {
@@ -207,8 +207,8 @@
         "draws": 0
       },
       "SSG": {
-        "wins": 2,
-        "losses": 5,
+        "wins": 3,
+        "losses": 7,
         "draws": 0
       },
       "롯데": {
@@ -227,13 +227,13 @@
         "draws": 0
       },
       "삼성": {
-        "wins": 4,
+        "wins": 6,
         "losses": 6,
         "draws": 0
       },
       "한화": {
-        "wins": 4,
-        "losses": 7,
+        "wins": 5,
+        "losses": 8,
         "draws": 0
       }
     },
@@ -264,13 +264,13 @@
         "draws": 0
       },
       "두산": {
-        "wins": 5,
-        "losses": 5,
+        "wins": 7,
+        "losses": 7,
         "draws": 0
       },
       "KIA": {
-        "wins": 5,
-        "losses": 4,
+        "wins": 6,
+        "losses": 5,
         "draws": 0
       },
       "삼성": {
@@ -279,8 +279,8 @@
         "draws": 0
       },
       "한화": {
-        "wins": 4,
-        "losses": 3,
+        "wins": 5,
+        "losses": 4,
         "draws": 0
       }
     },
@@ -291,7 +291,7 @@
         "draws": 0
       },
       "LG": {
-        "wins": 5,
+        "wins": 6,
         "losses": 6,
         "draws": 0
       },
@@ -302,7 +302,7 @@
       },
       "SSG": {
         "wins": 4,
-        "losses": 5,
+        "losses": 6,
         "draws": 0
       },
       "NC": {
@@ -311,8 +311,8 @@
         "draws": 0
       },
       "롯데": {
-        "wins": 5,
-        "losses": 5,
+        "wins": 7,
+        "losses": 7,
         "draws": 0
       },
       "KIA": {
@@ -326,15 +326,15 @@
         "draws": 0
       },
       "한화": {
-        "wins": 4,
-        "losses": 4,
+        "wins": 5,
+        "losses": 6,
         "draws": 0
       }
     },
     "KIA": {
       "KT": {
-        "wins": 4,
-        "losses": 5,
+        "wins": 5,
+        "losses": 7,
         "draws": 0
       },
       "LG": {
@@ -348,8 +348,8 @@
         "draws": 0
       },
       "SSG": {
-        "wins": 5,
-        "losses": 2,
+        "wins": 6,
+        "losses": 3,
         "draws": 0
       },
       "NC": {
@@ -358,8 +358,8 @@
         "draws": 0
       },
       "롯데": {
-        "wins": 4,
-        "losses": 5,
+        "wins": 5,
+        "losses": 6,
         "draws": 0
       },
       "두산": {
@@ -374,14 +374,14 @@
       },
       "한화": {
         "wins": 3,
-        "losses": 5,
+        "losses": 6,
         "draws": 0
       }
     },
     "삼성": {
       "KT": {
         "wins": 2,
-        "losses": 4,
+        "losses": 5,
         "draws": 0
       },
       "LG": {
@@ -401,7 +401,7 @@
       },
       "NC": {
         "wins": 6,
-        "losses": 4,
+        "losses": 6,
         "draws": 0
       },
       "롯데": {
@@ -433,36 +433,36 @@
       },
       "LG": {
         "wins": 3,
-        "losses": 5,
+        "losses": 7,
         "draws": 0
       },
       "키움": {
-        "wins": 8,
+        "wins": 10,
         "losses": 1,
         "draws": 0
       },
       "SSG": {
         "wins": 6,
-        "losses": 5,
+        "losses": 6,
         "draws": 0
       },
       "NC": {
-        "wins": 7,
-        "losses": 4,
+        "wins": 8,
+        "losses": 5,
         "draws": 0
       },
       "롯데": {
-        "wins": 3,
-        "losses": 4,
+        "wins": 4,
+        "losses": 5,
         "draws": 0
       },
       "두산": {
-        "wins": 4,
-        "losses": 4,
+        "wins": 6,
+        "losses": 5,
         "draws": 0
       },
       "KIA": {
-        "wins": 5,
+        "wins": 6,
         "losses": 3,
         "draws": 0
       },
@@ -506,7 +506,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 0,
+          "wins": 1,
           "losses": 3,
           "draws": 0
         }
@@ -518,8 +518,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 3,
-          "losses": 0,
+          "wins": 4,
+          "losses": 1,
           "draws": 0
         }
       },
@@ -554,8 +554,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 1,
-          "losses": 2,
+          "wins": 2,
+          "losses": 3,
           "draws": 0
         }
       },
@@ -566,7 +566,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 0,
+          "wins": 1,
           "losses": 1,
           "draws": 0
         }
@@ -799,7 +799,7 @@
         },
         "away": {
           "wins": 1,
-          "losses": 3,
+          "losses": 5,
           "draws": 0
         }
       }
@@ -849,7 +849,7 @@
         },
         "away": {
           "wins": 2,
-          "losses": 1,
+          "losses": 2,
           "draws": 0
         }
       },
@@ -959,7 +959,7 @@
         },
         "away": {
           "wins": 1,
-          "losses": 3,
+          "losses": 5,
           "draws": 0
         }
       },
@@ -1006,7 +1006,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 3,
+          "wins": 5,
           "losses": 6,
           "draws": 0
         }
@@ -1092,8 +1092,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 4,
-          "losses": 2,
+          "wins": 5,
+          "losses": 3,
           "draws": 0
         }
       },
@@ -1104,7 +1104,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 1,
+          "wins": 2,
           "losses": 3,
           "draws": 0
         }
@@ -1128,8 +1128,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 3,
-          "losses": 2,
+          "wins": 4,
+          "losses": 3,
           "draws": 0
         }
       }
@@ -1154,7 +1154,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 2,
+          "wins": 3,
           "losses": 3,
           "draws": 0
         }
@@ -1179,7 +1179,7 @@
         },
         "away": {
           "wins": 2,
-          "losses": 2,
+          "losses": 3,
           "draws": 0
         }
       },
@@ -1202,8 +1202,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 3,
-          "losses": 1,
+          "wins": 4,
+          "losses": 2,
           "draws": 0
         }
       },
@@ -1238,8 +1238,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 2,
-          "losses": 3,
+          "wins": 3,
+          "losses": 4,
           "draws": 0
         }
       }
@@ -1253,7 +1253,7 @@
         },
         "away": {
           "wins": 2,
-          "losses": 4,
+          "losses": 5,
           "draws": 0
         }
       },
@@ -1288,8 +1288,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 2,
-          "losses": 0,
+          "wins": 3,
+          "losses": 1,
           "draws": 0
         }
       },
@@ -1312,7 +1312,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 1,
+          "wins": 2,
           "losses": 4,
           "draws": 0
         }
@@ -1349,7 +1349,7 @@
         },
         "away": {
           "wins": 1,
-          "losses": 2,
+          "losses": 3,
           "draws": 0
         }
       }
@@ -1485,7 +1485,7 @@
         },
         "away": {
           "wins": 1,
-          "losses": 5,
+          "losses": 7,
           "draws": 0
         }
       },
@@ -1509,7 +1509,7 @@
         },
         "away": {
           "wins": 4,
-          "losses": 2,
+          "losses": 3,
           "draws": 0
         }
       },
@@ -1520,8 +1520,8 @@
           "draws": 0
         },
         "away": {
-          "wins": 3,
-          "losses": 3,
+          "wins": 4,
+          "losses": 4,
           "draws": 0
         }
       },
@@ -1544,7 +1544,7 @@
           "draws": 0
         },
         "away": {
-          "wins": 1,
+          "wins": 2,
           "losses": 2,
           "draws": 0
         }

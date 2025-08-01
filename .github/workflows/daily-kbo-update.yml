@@ -39,8 +39,8 @@ jobs:
         echo "🏏 KBO 데이터 업데이트 시작..."
         echo "📅 실행 시간: $(date)"
         
-        # 개선된 크롤링 시스템 실행 (최신 10경기, 연속기록 포함)
-        node enhanced-kbo-crawler.js
+        # 완전 자동화 시스템 실행 (순위 + 경기결과 + 상대전적 + 웹사이트 업데이트)
+        node complete-kbo-automation.js
         
         echo "✅ 데이터 업데이트 완료"
         
@@ -64,15 +64,16 @@ jobs:
         
         git add .
         
-        git commit -m "🤖 KBO 데이터 자동 업데이트 - $(date '+%Y-%m-%d %H:%M:%S')
+        git commit -m "🚀 KBO 완전 자동화 업데이트 - $(date '+%Y-%m-%d %H:%M:%S')
 
-        - 최신 경기 결과 크롤링 및 반영
-        - 팀별 순위표 업데이트  
-        - 상대전적 기록 갱신
-        - 웹사이트 데이터 동기화
-        - 매직넘버 재계산
+        ✅ 완전 통합 자동화 시스템:
+        - 📊 KBO 공식 팀 순위/통계 (최근10경기, 연속기록)
+        - ⚾ 네이버 스포츠 최신 경기 결과 크롤링
+        - 🔄 상대전적 실시간 자동 업데이트  
+        - 🌐 웹사이트 데이터 완전 동기화
+        - 🎯 매직넘버 실시간 재계산
 
-        🤖 Generated with GitHub Actions
+        🤖 Generated with GitHub Actions (Complete Automation)
         🔗 Workflow: ${{ github.workflow }}
         📅 Run: ${{ github.run_number }}"
         

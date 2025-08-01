@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2025-08-01T02:50:36.120Z",
+  "lastUpdated": "2025-08-01T03:00:05.659Z",
   "updateDate": "2025. 8. 1.",
-  "note": "KBO 공식 사이트 기준 (최근10경기, 연속기록 포함)",
+  "note": "KBO 공식 + 네이버 스포츠 통합 (완전 자동화)",
   "rankings": [
     {
       "rank": 1,
@@ -177,6 +177,6 @@
     }
   },
   "totalTeams": 10,
-  "source": "KBO_OFFICIAL_ENHANCED",
+  "source": "COMPLETE_AUTOMATION",
   "dataDate": "2025-08-01"
 }
