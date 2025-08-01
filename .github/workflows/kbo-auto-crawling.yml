@@ -1,0 +1,149 @@
+name: KBO 자동 데이터 크롤링 및 업데이트
+
+on:
+  # 매일 한국시간 오후 11:30에 실행 (UTC 14:30)
+  schedule:
+    - cron: '30 14 * * *'
+  
+  # 수동 실행 가능
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: '크롤링할 날짜 (YYYY-MM-DD, 비어있으면 현재 월)'
+        required: false
+        type: string
+
+jobs:
+  crawl-and-update:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 체크아웃
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Python 환경 설정
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Node.js 환경 설정  
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Chrome 설치
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
+        
+    - name: ChromeDriver 설치
+      uses: nanasess/setup-chromedriver@master
+    
+    - name: Python 패키지 설치
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Node.js 의존성 설치
+      run: npm install
+    
+    - name: KBO 데이터 크롤링 실행
+      run: |
+        echo "🚀 KBO 데이터 크롤링 시작..."
+        
+        # 현재 년월 계산 (한국시간 기준)
+        CURRENT_YEAR=$(TZ='Asia/Seoul' date +%Y)
+        CURRENT_MONTH=$(TZ='Asia/Seoul' date +%m)
+        
+        echo "📅 크롤링 대상: ${CURRENT_YEAR}년 ${CURRENT_MONTH}월"
+        
+        # Python 크롤러 실행 (headless 모드)
+        python kbo-python-working-crawler.py
+        
+        # 크롤링 결과 파일 확인
+        CRAWLED_FILES=$(ls kbo-${CURRENT_YEAR}-${CURRENT_MONTH}-*-clean.txt 2>/dev/null || true)
+        
+        if [ -n "$CRAWLED_FILES" ]; then
+          echo "✅ 크롤링 성공: $CRAWLED_FILES"
+          
+          # 가장 최신 파일을 data 폴더로 복사
+          LATEST_FILE=$(ls -t kbo-${CURRENT_YEAR}-${CURRENT_MONTH}-*-clean.txt | head -1)
+          cp "$LATEST_FILE" "data/${CURRENT_YEAR}-season-data-crawled.txt"
+          
+          echo "📁 파일 복사 완료: data/${CURRENT_YEAR}-season-data-crawled.txt"
+        else
+          echo "⚠️ 크롤링된 파일이 없습니다 (완료된 경기가 없을 수 있음)"
+          exit 0
+        fi
+    
+    - name: Node.js 데이터 처리 실행
+      run: |
+        echo "🔄 Node.js 데이터 처리 시작..."
+        
+        # 크롤링된 데이터를 Node.js로 처리
+        if [ -f "data/2025-season-data-crawled.txt" ]; then
+          # process-season-data.js가 해당 파일을 읽도록 설정되어 있음
+          node scripts/process-season-data.js
+          echo "✅ 데이터 처리 완료"
+        else
+          echo "⚠️ 처리할 크롤링 데이터가 없습니다"
+          exit 0
+        fi
+    
+    - name: 변경사항 확인 및 커밋
+      run: |
+        echo "📝 변경사항 확인 중..."
+        
+        # Git 설정
+        git config --local user.email "action@github.com"
+        git config --local user.name "KBO Auto Crawler"
+        
+        # 변경된 파일들 확인
+        git add -A
+        
+        if git diff --staged --quiet; then
+          echo "📭 변경사항이 없습니다"
+          exit 0
+        fi
+        
+        # 커밋 메시지 생성
+        CURRENT_DATE=$(TZ='Asia/Seoul' date +"%Y-%m-%d %H:%M")
+        COMMIT_MESSAGE="🤖 KBO 데이터 자동 업데이트 - ${CURRENT_DATE}
+        
+        🎯 자동 크롤링 및 데이터 처리 완료
+        📊 웹서비스 데이터 파일 업데이트
+        
+        🤖 Generated with GitHub Actions
+        Co-Authored-By: KBO-Auto-Crawler <action@github.com>"
+        
+        # 변경사항 커밋
+        git commit -m "$COMMIT_MESSAGE"
+        
+        echo "✅ 커밋 완료: $COMMIT_MESSAGE"
+    
+    - name: 변경사항 푸시
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+    
+    - name: 크롤링 결과 요약
+      run: |
+        echo "🎉 KBO 자동 크롤링 완료!"
+        echo "📊 업데이트된 파일들:"
+        echo "   - magic-number/kbo-rankings.json (순위 데이터)"
+        echo "   - magic-number/kbo-records.json (상대전적 데이터)"  
+        echo "   - output/service-data.json (통합 서비스 데이터)"
+        echo "📅 다음 실행: 매일 한국시간 오후 11:30"
+    
+    - name: 실패 시 알림 (선택사항)
+      if: failure()
+      run: |
+        echo "❌ KBO 자동 크롤링 실패"
+        echo "🔍 로그를 확인하여 문제를 해결해주세요"
+        # 여기에 Slack, Discord 등 알림 연동 가능

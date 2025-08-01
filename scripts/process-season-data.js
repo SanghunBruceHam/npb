@@ -11,6 +11,7 @@ const path = require('path');
 class KBODataProcessor {
     constructor() {
         this.teams = ['한화', 'LG', '롯데', 'SSG', 'KT', 'KIA', '삼성', 'NC', '두산', '키움'];
+        this.allStarTeams = ['나눔', '드림']; // 올스타 팀들
         this.totalGamesPerSeason = 144;
         this.gamesPerOpponent = 16; // 각 팀당 16경기씩
         this.playoffSpots = 5;
@@ -29,7 +30,28 @@ class KBODataProcessor {
         console.log('📖 경기 데이터 파싱 시작...');
         
         try {
-            const data = fs.readFileSync('./data/2025-season-data-clean.txt', 'utf8');
+            // 현재 연도에 맞는 파일 찾기
+            const currentYear = new Date().getFullYear();
+            const possibleFiles = [
+                `./data/${currentYear}-season-data-crawled.txt`,
+                './data/2025-season-data-crawled.txt',
+                './data/2024-season-data-crawled.txt'
+            ];
+            
+            let dataFile = null;
+            for (const file of possibleFiles) {
+                if (fs.existsSync(file)) {
+                    dataFile = file;
+                    break;
+                }
+            }
+            
+            if (!dataFile) {
+                throw new Error('크롤링된 데이터 파일을 찾을 수 없습니다.');
+            }
+            
+            console.log(`📁 데이터 파일: ${dataFile}`);
+            const data = fs.readFileSync(dataFile, 'utf8');
             const lines = data.trim().split('\n');
             
             let currentDate = '';
@@ -49,6 +71,12 @@ class KBODataProcessor {
                 const gameMatch = trimmedLine.match(/^(.+?)\s+(\d+):(\d+)\s+(.+?)(\(H\))?$/);
                 if (gameMatch) {
                     const [, team1, score1, score2, team2Raw, homeMarker] = gameMatch;
+                    
+                    // 올스타 경기 제외
+                    if (this.allStarTeams.includes(team1.trim()) || this.allStarTeams.includes(team2Raw.trim())) {
+                        console.log(`  ⭐ 올스타 경기 제외: ${team1} vs ${team2Raw}`);
+                        continue;
+                    }
                     
                     // 홈팀 식별: (H) 표시가 있으면 해당 팀이 홈팀, 없으면 기존 규칙 적용
                     let homeTeam, awayTeam, team2;
