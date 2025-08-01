@@ -229,6 +229,9 @@ class KBOWorkingCrawler:
         # 기존 clean.txt 파일 경로
         main_clean_file = f'data/{year}-season-data-clean.txt'
         
+        # data 폴더 생성
+        os.makedirs('data', exist_ok=True)
+        
         # 기존 경기 데이터 로드
         existing_games = set()
         if os.path.exists(main_clean_file):
@@ -251,7 +254,14 @@ class KBOWorkingCrawler:
             print(f"\n🆕 새로운 경기 {len(new_games)}개 발견")
             
             # 새로운 경기를 기존 파일에 append
-            with open(main_clean_file, 'a', encoding='utf-8', errors='replace') as f:
+            with open(main_clean_file, 'a', encoding='utf-8') as f:
+                # 마지막에 빈 줄 추가 (필요한 경우)
+                if os.path.getsize(main_clean_file) > 0:
+                    f.seek(0, 2)  # 파일 끝으로 이동
+                    f.seek(f.tell() - 1)  # 마지막 문자 확인
+                    if f.read(1) != '\n':
+                        f.write('\n')
+                
                 # 날짜별 그룹화
                 date_groups = {}
                 for game in new_games:
@@ -265,10 +275,9 @@ class KBOWorkingCrawler:
                 
                 # 날짜순 정렬하여 출력
                 for date in sorted(date_groups.keys()):
-                    f.write(f"{date}\n")
+                    f.write(f"\n{date}\n")
                     for line in date_groups[date]:
                         f.write(f"{line}\n")
-                    f.write("\n")
             
             print(f"💾 새 경기 {len(new_games)}개를 {main_clean_file}에 추가")
         else:

@@ -134,6 +134,7 @@ class KBODataProcessor {
     // 2. 팀별 기본 통계 계산
     calculateTeamStats() {
         console.log('📊 팀별 통계 계산 중...');
+        console.log(`  🎮 처리할 경기 수: ${this.games.length}`);
         
         // 초기화
         this.teams.forEach(team => {
@@ -156,6 +157,18 @@ class KBODataProcessor {
         // 경기별 통계 누적
         for (const game of this.games) {
             const { team1, team2, homeTeam, awayTeam, winner, loser, isDraw } = game;
+            
+            // 팀 이름 확인 (디버깅)
+            if (!this.teamStats[team1]) {
+                console.error(`  ❌ 알 수 없는 팀: '${team1}'`);
+                console.error(`     경기 정보:`, JSON.stringify(game));
+                continue;
+            }
+            if (!this.teamStats[team2]) {
+                console.error(`  ❌ 알 수 없는 팀: '${team2}'`);
+                console.error(`     경기 정보:`, JSON.stringify(game));
+                continue;
+            }
             
             // 두 팀 모두 경기수 증가
             this.teamStats[team1].games++;
