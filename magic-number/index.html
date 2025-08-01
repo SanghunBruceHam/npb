@@ -1616,7 +1616,7 @@
         async function loadKBOData() {
             try {
                 console.log('🔍 KBO 데이터 로딩 시작...');
-                const response = await fetch('kbo-rankings.json');
+                const response = await fetch(`kbo-rankings.json?v=${Date.now()}`);
                 console.log('📡 응답 상태:', response.status, response.statusText);
                 if (response.ok) {
                     const data = await response.json();
