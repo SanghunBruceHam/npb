@@ -27,6 +27,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        persist-credentials: true
         fetch-depth: 0
     
     - name: Python 환경 설정
