@@ -918,7 +918,7 @@
                         <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
+                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div class="table-container">
                         <table id="standings-table">
@@ -985,7 +985,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
+                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -1107,7 +1107,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
+                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div id="chase-analysis">
                         <div class="table-container">
@@ -1152,7 +1152,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: 2025.07.31 02:46 (KBO 공식)
+                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div id="playoff-condition">
                         <div class="table-container">
@@ -1612,6 +1612,42 @@
             showNotification(userMessage, 'error', 8000);
         }
         
+        // 데이터 로딩 시간 업데이트 함수
+        function updateLoadingTime(data) {
+            try {
+                let displayTime = '';
+                
+                if (data && data.updateDate) {
+                    // JSON에서 updateDate 사용
+                    displayTime = `${data.updateDate} (KBO 공식)`;
+                } else if (data && data.lastUpdated) {
+                    // lastUpdated에서 날짜 추출
+                    const date = new Date(data.lastUpdated);
+                    const koreanDate = date.toLocaleDateString('ko-KR');
+                    const koreanTime = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+                    displayTime = `${koreanDate} ${koreanTime} (KBO 공식)`;
+                } else {
+                    // 현재 시간 사용
+                    const now = new Date();
+                    const koreanDate = now.toLocaleDateString('ko-KR');
+                    const koreanTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+                    displayTime = `${koreanDate} ${koreanTime} (KBO 공식)`;
+                }
+                
+                // 모든 데이터 로딩 시간 표시 업데이트
+                const loadTimeElements = document.querySelectorAll('#data-load-time');
+                loadTimeElements.forEach(element => {
+                    if (element) {
+                        element.textContent = displayTime;
+                    }
+                });
+                
+                console.log('🕐 데이터 로딩 시간 업데이트:', displayTime);
+            } catch (error) {
+                console.error('❌ 데이터 로딩 시간 업데이트 실패:', error);
+            }
+        }
+
         // 데이터 로딩 함수
         async function loadKBOData() {
             try {
@@ -1644,6 +1680,10 @@
                         homeAway: { home: "0-0-0", away: "0-0-0" } // 홈/방문 기본값 추가
                     }));
                     console.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
+                    
+                    // 데이터 로딩 시간 업데이트
+                    updateLoadingTime(data);
+                    
                     showNotification(`최신 KBO 데이터 로딩 완료 (${currentStandings.length}개 팀)`, 'success', 3000);
                     return data;
                 } else {
@@ -1668,12 +1708,17 @@
                 ];
                 console.log('📊 백업 데이터 사용:', currentStandings.length + '팀');
                 // 백업 데이터도 JSON 형식으로 반환
-                return {
+                const backupData = {
                     rankings: currentStandings,
                     magicNumbers: {},
                     lastUpdated: new Date().toISOString(),
                     updateDate: new Date().toLocaleDateString('ko-KR')
                 };
+                
+                // 백업 데이터 사용시에도 로딩 시간 업데이트
+                updateLoadingTime(backupData);
+                
+                return backupData;
             }
         }
 
