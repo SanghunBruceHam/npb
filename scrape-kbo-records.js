@@ -52,8 +52,20 @@ class KBOScraper {
         return new Promise((resolve, reject) => {
             const url = `https://www.koreabaseball.com/Schedule/ScoreBoard.aspx?seriesId=1&gameDate=${date}`;
             
-            const req = https.get(url, (res) => {
+            const options = {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
+                }
+            };
+            
+            const req = https.get(url, options, (res) => {
                 let data = '';
+                res.setEncoding('utf8');
                 
                 res.setTimeout(timeout, () => {
                     req.destroy();
@@ -88,13 +100,26 @@ class KBOScraper {
         const games = [];
         
         try {
+            // 디버깅: HTML 길이와 경기종료 확인
+            if (html.length < 1000) {
+                console.log(`   ⚠️ ${gameDate}: HTML이 너무 짧음 (${html.length}자)`);
+                return games;
+            }
+            
             // 실제 KBO HTML 구조에 맞는 파싱
-            // 팀명: <strong class='teamT'>팀명</strong>
-            // 점수: <span id="...Score_숫자">점수</span>
             const gameFinishedRegex = /경기종료/g;
+            const gameFinishedCount = (html.match(gameFinishedRegex) || []).length;
+            
+            if (gameFinishedCount === 0) {
+                console.log(`   📅 ${gameDate}: 완료된 경기 없음`);
+                return games;
+            }
+            
+            console.log(`   🔍 ${gameDate}: ${gameFinishedCount}개 경기종료 발견`);
             
             // 각 경기종료 위치를 찾아서 주변의 팀명과 점수 추출
             let match;
+            gameFinishedRegex.lastIndex = 0; // 정규식 리셋
             while ((match = gameFinishedRegex.exec(html)) !== null) {
                 const finishedIndex = match.index;
                 
@@ -142,6 +167,7 @@ class KBOScraper {
                                 result: awayScore > homeScore ? 'away_win' : 
                                        homeScore > awayScore ? 'home_win' : 'draw'
                             });
+                            console.log(`      ✅ ${awayTeam} ${awayScore} - ${homeScore} ${homeTeam}`);
                         }
                     }
                 }
