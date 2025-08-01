@@ -37,8 +37,8 @@ jobs:
         echo "🏏 KBO 데이터 업데이트 시작..."
         echo "📅 실행 시간: $(date)"
         
-        # 통합 크롤링 시스템 실행
-        node integrated-website-crawler.js
+        # 개선된 크롤링 시스템 실행 (최신 10경기, 연속기록 포함)
+        node enhanced-kbo-crawler.js
         
         echo "✅ 데이터 업데이트 완료"
         
