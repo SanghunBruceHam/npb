@@ -16,6 +16,10 @@ class KBODataProcessor {
         this.gamesPerOpponent = 16; // 각 팀당 16경기씩
         this.playoffSpots = 5;
         
+        // KBO 실제 시즌 기준값들
+        this.typicalPlayoffWins = 80; // 일반적인 플레이오프 진출 승수
+        this.typicalChampionshipWins = 85; // 일반적인 우승 승수
+        
         // 데이터 저장소
         this.games = [];
         this.teamStats = {};
@@ -33,9 +37,9 @@ class KBODataProcessor {
             // 현재 연도에 맞는 파일 찾기
             const currentYear = new Date().getFullYear();
             const possibleFiles = [
-                `./data/${currentYear}-season-data-crawled.txt`,
-                './data/2025-season-data-crawled.txt',
-                './data/2024-season-data-crawled.txt'
+                `./data/${currentYear}-season-data-clean.txt`,
+                './data/2025-season-data-clean.txt',
+                './data/2024-season-data-clean.txt'
             ];
             
             let dataFile = null;
@@ -47,7 +51,7 @@ class KBODataProcessor {
             }
             
             if (!dataFile) {
-                throw new Error('크롤링된 데이터 파일을 찾을 수 없습니다.');
+                throw new Error('시즌 데이터 파일을 찾을 수 없습니다.');
             }
             
             console.log(`📁 데이터 파일: ${dataFile}`);
@@ -365,93 +369,118 @@ class KBODataProcessor {
     // 매직넘버 계산 헬퍼 함수들
     calculatePlayoffMagic(team, index) {
         if (index < this.playoffSpots) {
-            // 현재 플레이오프 권 내
+            // 현재 플레이오프 권 내 - 플레이오프 확정을 위한 매직넘버
             const sixthPlace = this.standings[this.playoffSpots];
-            if (!sixthPlace) return 0;
+            if (!sixthPlace) return 0; // 6위 팀이 없으면 이미 확정
             
+            // 6위 팀의 최대 가능 승수보다 1승 더 필요
             const sixthMaxWins = sixthPlace.wins + sixthPlace.remainingGames;
-            return Math.max(0, sixthMaxWins - team.wins + 1);
+            const neededWins = Math.max(0, sixthMaxWins - team.wins + 1);
+            
+            // 남은 경기로 달성 가능한지 확인
+            return neededWins > team.remainingGames ? 999 : neededWins;
         } else {
-            // 플레이오프 권 밖
+            // 플레이오프 권 밖 - 플레이오프 진출을 위한 매직넘버
+            // 5위 팀의 현재 승수를 넘어서기 위해 필요한 승수
             const fifthPlace = this.standings[this.playoffSpots - 1];
             const maxPossibleWins = team.wins + team.remainingGames;
             
-            if (maxPossibleWins <= fifthPlace.wins) {
-                return 999; // 수학적으로 불가능
+            // 수학적으로 불가능한 경우 체크
+            if (maxPossibleWins < fifthPlace.wins) {
+                return 999; // 이미 수학적 탈락
             }
             
-            return Math.max(0, fifthPlace.wins - team.wins + 1);
+            // 5위를 추월하기 위한 최소 승수 계산
+            const neededWins = Math.max(0, fifthPlace.wins - team.wins + 1);
+            return neededWins > team.remainingGames ? 999 : neededWins;
         }
     }
 
     calculateChampionshipMagic(team, index) {
         if (index === 0) {
-            // 현재 1위
+            // 현재 1위 - 우승 확정을 위한 매직넘버
             const secondPlace = this.standings[1];
-            if (!secondPlace) return 0;
+            if (!secondPlace) return 0; // 2위가 없으면 이미 확정
             
+            // 2위 팀의 최대 가능 승수보다 1승 더 필요
             const secondMaxWins = secondPlace.wins + secondPlace.remainingGames;
-            return Math.max(0, secondMaxWins - team.wins + 1);
+            const neededWins = Math.max(0, secondMaxWins - team.wins + 1);
+            
+            // 남은 경기로 달성 가능한지 확인
+            return neededWins > team.remainingGames ? 999 : neededWins;
         } else {
-            // 1위가 아님
+            // 1위가 아님 - 1위 추월을 위한 매직넘버
             const firstPlace = this.standings[0];
             const maxPossibleWins = team.wins + team.remainingGames;
             
-            if (maxPossibleWins <= firstPlace.wins) {
-                return 999; // 수학적으로 불가능
+            // 수학적으로 불가능한 경우
+            if (maxPossibleWins < firstPlace.wins) {
+                return 999; // 이미 수학적 불가능
             }
             
-            return Math.max(0, firstPlace.wins - team.wins + 1);
+            // 1위 팀을 넘어서기 위해 필요한 승수
+            const neededWins = Math.max(0, firstPlace.wins - team.wins + 1);
+            return neededWins > team.remainingGames ? 999 : neededWins;
         }
     }
 
     calculateEliminationMagic(team, index) {
+        // 탈락 매직넘버: 플레이오프 진출이 수학적으로 불가능해지는 패배 수
         if (index < this.playoffSpots) {
-            // 플레이오프 권 내
+            // 현재 플레이오프 권 내 - 탈락까지 몇 패 남았는가
             const sixthPlace = this.standings[this.playoffSpots];
-            if (!sixthPlace) return 999;
+            if (!sixthPlace) return 999; // 6위가 없으면 탈락 불가능
             
-            const remainingGames = team.remainingGames;
-            const minPossibleWins = team.wins;
-            const sixthMinWins = sixthPlace.wins;
+            // 6위 팀이 모든 경기를 이겨도 따라잡을 수 없을 때까지의 패배 수
+            const sixthMaxWins = sixthPlace.wins + sixthPlace.remainingGames;
+            const currentMaxWins = team.wins + team.remainingGames;
             
-            if (minPossibleWins > sixthMinWins) {
-                return 999; // 플레이오프는 확정
+            if (currentMaxWins > sixthMaxWins) {
+                return 999; // 이미 플레이오프 확정
             }
             
-            return Math.max(0, remainingGames - (team.wins - sixthPlace.wins) + 1);
+            // 몇 번 더 지면 6위에게 추월당하는가
+            const lossesToElimination = Math.max(0, team.remainingGames - (sixthMaxWins - team.wins) + 1);
+            return lossesToElimination;
         } else {
-            // 플레이오프 권 밖
+            // 플레이오프 권 밖 - 이미 탈락했거나 진출 가능성 확인
             const fifthPlace = this.standings[this.playoffSpots - 1];
-            const remainingGames = team.remainingGames;
-            const maxPossibleWins = team.wins + remainingGames;
+            const maxPossibleWins = team.wins + team.remainingGames;
             
-            if (maxPossibleWins > fifthPlace.wins) {
-                return Math.max(0, fifthPlace.wins - team.wins + 1);
+            if (maxPossibleWins <= fifthPlace.wins) {
+                return 0; // 이미 수학적으로 탈락
             }
             
-            return 0; // 이미 탈락
+            return 999; // 아직 진출 가능성 있음
         }
     }
 
     calculateHomeAdvantageMagic(team, index) {
+        // 홈 어드밴티지 매직넘버: 2위 이내 확정을 위한 매직넘버
         if (index <= 1) {
-            // 현재 1-2위
+            // 현재 1-2위 - 홈 어드밴티지 확정을 위한 매직넘버
             const thirdPlace = this.standings[2];
-            if (!thirdPlace) return 0;
+            if (!thirdPlace) return 0; // 3위가 없으면 이미 확정
             
+            // 3위 팀의 최대 가능 승수보다 1승 더 필요
             const thirdMaxWins = thirdPlace.wins + thirdPlace.remainingGames;
-            return Math.max(0, thirdMaxWins - team.wins + 1);
+            const neededWins = Math.max(0, thirdMaxWins - team.wins + 1);
+            
+            // 남은 경기로 달성 가능한지 확인
+            return neededWins > team.remainingGames ? 999 : neededWins;
         } else {
-            // 3위 이하
+            // 3위 이하 - 2위 진입을 위한 매직넘버
             const secondPlace = this.standings[1];
             const maxPossibleWins = team.wins + team.remainingGames;
             
-            if (maxPossibleWins <= secondPlace.wins) {
-                return 999; // 수학적으로 불가능
+            // 수학적으로 불가능한 경우
+            if (maxPossibleWins < secondPlace.wins) {
+                return 999; // 이미 수학적 불가능
             }
             
-            return Math.max(0, secondPlace.wins - team.wins + 1);
+            // 2위 팀을 넘어서기 위해 필요한 승수
+            const neededWins = Math.max(0, secondPlace.wins - team.wins + 1);
+            return neededWins > team.remainingGames ? 999 : neededWins;
         }
     }
 

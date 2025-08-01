@@ -226,28 +226,74 @@ class KBOWorkingCrawler:
             json.dump(games, f, ensure_ascii=False, indent=2)
         print(f"\n💾 JSON 저장: {json_file}")
         
-        # Clean.txt 형식 저장
-        clean_file = f'kbo-{year}-{month:02d}-{timestamp}-clean.txt'
-        with open(clean_file, 'w', encoding='utf-8') as f:
-            # 날짜별 그룹화
+        # 기존 clean.txt 파일 경로
+        main_clean_file = f'data/{year}-season-data-clean.txt'
+        
+        # 기존 경기 데이터 로드
+        existing_games = set()
+        if os.path.exists(main_clean_file):
+            with open(main_clean_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # 기존 경기들을 식별자로 저장
+                for line in content.split('\n'):
+                    line = line.strip()
+                    if line and not re.match(r'^\d{4}-\d{2}-\d{2}$', line):
+                        existing_games.add(line)
+        
+        # 새로운 경기만 필터링
+        new_games = []
+        for game in games:
+            game_line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
+            if game_line not in existing_games:
+                new_games.append(game)
+        
+        if new_games:
+            print(f"\n🆕 새로운 경기 {len(new_games)}개 발견")
+            
+            # 새로운 경기를 기존 파일에 append
+            with open(main_clean_file, 'a', encoding='utf-8') as f:
+                # 날짜별 그룹화
+                date_groups = {}
+                for game in new_games:
+                    date = game['date']
+                    if date not in date_groups:
+                        date_groups[date] = []
+                    
+                    # clean.txt 형식: "원정팀 점수:점수 홈팀(H)"
+                    line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
+                    date_groups[date].append(line)
+                
+                # 날짜순 정렬하여 출력
+                for date in sorted(date_groups.keys()):
+                    f.write(f"{date}\n")
+                    for line in date_groups[date]:
+                        f.write(f"{line}\n")
+                    f.write("\n")
+            
+            print(f"💾 새 경기 {len(new_games)}개를 {main_clean_file}에 추가")
+        else:
+            print("ℹ️ 새로운 경기가 없습니다")
+        
+        # 백업용 타임스탬프 파일도 생성
+        backup_clean_file = f'kbo-{year}-{month:02d}-{timestamp}-clean.txt'
+        with open(backup_clean_file, 'w', encoding='utf-8') as f:
+            # 전체 경기 저장 (백업용)
             date_groups = {}
             for game in games:
                 date = game['date']
                 if date not in date_groups:
                     date_groups[date] = []
                 
-                # clean.txt 형식: "원정팀 점수:점수 홈팀(H)"
                 line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
                 date_groups[date].append(line)
             
-            # 날짜순 정렬하여 출력
             for date in sorted(date_groups.keys()):
                 f.write(f"{date}\n")
                 for line in date_groups[date]:
                     f.write(f"{line}\n")
                 f.write("\n")
         
-        print(f"💾 Clean.txt 저장: {clean_file}")
+        print(f"💾 백업 파일 저장: {backup_clean_file}")
         
         # 요약 출력
         print("\n📊 크롤링 결과 요약:")

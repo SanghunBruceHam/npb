@@ -70,33 +70,26 @@ jobs:
         # Python 크롤러 실행 (headless 모드)
         python kbo-python-working-crawler.py
         
-        # 크롤링 결과 파일 확인
-        CRAWLED_FILES=$(ls kbo-${CURRENT_YEAR}-${CURRENT_MONTH}-*-clean.txt 2>/dev/null || true)
+        # data 폴더 확인 및 생성
+        mkdir -p data
         
-        if [ -n "$CRAWLED_FILES" ]; then
-          echo "✅ 크롤링 성공: $CRAWLED_FILES"
-          
-          # 가장 최신 파일을 data 폴더로 복사
-          LATEST_FILE=$(ls -t kbo-${CURRENT_YEAR}-${CURRENT_MONTH}-*-clean.txt | head -1)
-          cp "$LATEST_FILE" "data/${CURRENT_YEAR}-season-data-crawled.txt"
-          
-          echo "📁 파일 복사 완료: data/${CURRENT_YEAR}-season-data-crawled.txt"
-        else
-          echo "⚠️ 크롤링된 파일이 없습니다 (완료된 경기가 없을 수 있음)"
-          exit 0
-        fi
+        # 크롤링 결과 확인 (이제 clean.txt 파일에 직접 추가됨)
+        echo "📁 크롤링 완료 - data/${CURRENT_YEAR}-season-data-clean.txt 업데이트됨"
     
     - name: Node.js 데이터 처리 실행
       run: |
         echo "🔄 Node.js 데이터 처리 시작..."
         
-        # 크롤링된 데이터를 Node.js로 처리
-        if [ -f "data/2025-season-data-crawled.txt" ]; then
-          # process-season-data.js가 해당 파일을 읽도록 설정되어 있음
+        # 현재 연도 계산
+        CURRENT_YEAR=$(TZ='Asia/Seoul' date +%Y)
+        
+        # clean.txt 파일을 Node.js로 처리
+        if [ -f "data/${CURRENT_YEAR}-season-data-clean.txt" ]; then
+          # process-season-data.js가 clean.txt 파일을 읽도록 설정되어 있음
           node scripts/process-season-data.js
           echo "✅ 데이터 처리 완료"
         else
-          echo "⚠️ 처리할 크롤링 데이터가 없습니다"
+          echo "⚠️ 처리할 시즌 데이터가 없습니다: data/${CURRENT_YEAR}-season-data-clean.txt"
           exit 0
         fi
     
