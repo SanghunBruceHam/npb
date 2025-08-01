@@ -63,7 +63,7 @@ Repository → Actions → "KBO 자동 데이터 크롤링 및 업데이트" →
 - `output/service-data.json` - 통합 서비스 데이터
 
 ### 원본 데이터
-- `data/YYYY-season-data-crawled.txt` - 크롤링된 원본 데이터
+- `data/YYYY-season-data-clean.txt` - 시즌 경기 데이터 (단일 소스)
 
 ## 🔍 모니터링
 

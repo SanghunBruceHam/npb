@@ -259,7 +259,7 @@ class KBOWorkingCrawler:
                     if date not in date_groups:
                         date_groups[date] = []
                     
-                    # clean.txt 형식: "원정팀 점수:점수 홈팀(H)"
+                    # clean.txt 형식: "원정팀 원정점수:홈점수 홈팀(H)" (뒤에 나온 팀이 홈팀)
                     line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
                     date_groups[date].append(line)
                 
