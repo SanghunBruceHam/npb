@@ -918,7 +918,7 @@
                         <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div class="table-container">
                         <table id="standings-table">
@@ -985,7 +985,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
@@ -1107,7 +1107,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div id="chase-analysis">
                         <div class="table-container">
@@ -1152,7 +1152,7 @@
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
-                        데이터 로딩 시간: <span id="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
+                        데이터 로딩 시간: <span class="data-load-time">2025.08.01 11:32 (KBO 공식)</span>
                     </div>
                     <div id="playoff-condition">
                         <div class="table-container">
@@ -1646,7 +1646,7 @@
                 const displayTime = `${dataUpdateTime} (데이터) | ${pageLoadTime} (로딩) - KBO 공식`;
                 
                 // 모든 데이터 로딩 시간 표시 업데이트
-                const loadTimeElements = document.querySelectorAll('#data-load-time');
+                const loadTimeElements = document.querySelectorAll('.data-load-time');
                 loadTimeElements.forEach(element => {
                     if (element) {
                         element.textContent = displayTime;
