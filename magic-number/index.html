@@ -1615,24 +1615,35 @@
         // 데이터 로딩 시간 업데이트 함수
         function updateLoadingTime(data) {
             try {
-                let displayTime = '';
+                let dataUpdateTime = '';
+                let pageLoadTime = '';
                 
+                // 1. 데이터 업데이트 시간 (크롤링된 시간)
                 if (data && data.updateDate) {
                     // JSON에서 updateDate 사용
-                    displayTime = `${data.updateDate} (KBO 공식)`;
+                    dataUpdateTime = `${data.updateDate}`;
                 } else if (data && data.lastUpdated) {
                     // lastUpdated에서 날짜 추출
                     const date = new Date(data.lastUpdated);
                     const koreanDate = date.toLocaleDateString('ko-KR');
                     const koreanTime = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-                    displayTime = `${koreanDate} ${koreanTime} (KBO 공식)`;
+                    dataUpdateTime = `${koreanDate} ${koreanTime}`;
                 } else {
                     // 현재 시간 사용
                     const now = new Date();
                     const koreanDate = now.toLocaleDateString('ko-KR');
                     const koreanTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-                    displayTime = `${koreanDate} ${koreanTime} (KBO 공식)`;
+                    dataUpdateTime = `${koreanDate} ${koreanTime}`;
                 }
+                
+                // 2. 페이지 로딩 시간 (현재 시간)
+                const now = new Date();
+                const loadDate = now.toLocaleDateString('ko-KR');
+                const loadTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+                pageLoadTime = `${loadDate} ${loadTime}`;
+                
+                // 3. 합친 표시 텍스트
+                const displayTime = `${dataUpdateTime} (데이터) | ${pageLoadTime} (로딩) - KBO 공식`;
                 
                 // 모든 데이터 로딩 시간 표시 업데이트
                 const loadTimeElements = document.querySelectorAll('#data-load-time');
@@ -1642,7 +1653,8 @@
                     }
                 });
                 
-                console.log('🕐 데이터 로딩 시간 업데이트:', displayTime);
+                console.log('🕐 데이터 업데이트 시간:', dataUpdateTime);
+                console.log('🕐 페이지 로딩 시간:', pageLoadTime);
             } catch (error) {
                 console.error('❌ 데이터 로딩 시간 업데이트 실패:', error);
             }
