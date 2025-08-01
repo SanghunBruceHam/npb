@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const august1Data = `
+
 2025-08-01
 KIA 3:2 한화(H)
 삼성 2:4 LG(H)

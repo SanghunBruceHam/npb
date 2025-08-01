@@ -255,13 +255,6 @@ class KBOWorkingCrawler:
             
             # 새로운 경기를 기존 파일에 append
             with open(main_clean_file, 'a', encoding='utf-8') as f:
-                # 마지막에 빈 줄 추가 (필요한 경우)
-                if os.path.getsize(main_clean_file) > 0:
-                    f.seek(0, 2)  # 파일 끝으로 이동
-                    f.seek(f.tell() - 1)  # 마지막 문자 확인
-                    if f.read(1) != '\n':
-                        f.write('\n')
-                
                 # 날짜별 그룹화
                 date_groups = {}
                 for game in new_games:
@@ -273,9 +266,9 @@ class KBOWorkingCrawler:
                     line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
                     date_groups[date].append(line)
                 
-                # 날짜순 정렬하여 출력
+                # 날짜순 정렬하여 출력 (빈 줄과 함께)
                 for date in sorted(date_groups.keys()):
-                    f.write(f"\n{date}\n")
+                    f.write(f"\n\n{date}\n")  # 두 번 \n으로 빈 줄 추가
                     for line in date_groups[date]:
                         f.write(f"{line}\n")
             
