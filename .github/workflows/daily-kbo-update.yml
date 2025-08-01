@@ -1,12 +1,12 @@
-name: 🏏 KBO 데이터 일일 자동 업데이트
+name: 🏏 KBO 완전 자동화 시스템
 
 on:
   schedule:
-    # 매일 한국시간 오후 6시 (UTC 09:00)
+    # 매일 한국시간 오후 6시 (UTC 09:00) - 경기 시작 시간
     - cron: '0 9 * * *'
-    # 매일 한국시간 오후 10시 (UTC 13:00) 
+    # 매일 한국시간 오후 10시 (UTC 13:00) - 대부분 경기 종료
     - cron: '0 13 * * *'
-    # 매일 한국시간 자정 12시 (UTC 15:00)
+    # 매일 한국시간 자정 12시 (UTC 15:00) - 모든 경기 종료 후
     - cron: '0 15 * * *'
   
   # 수동 실행 가능
@@ -31,18 +31,16 @@ jobs:
     - name: 📦 의존성 설치
       run: |
         npm ci
-        # Puppeteer 의존성 설치
-        npx puppeteer browsers install chrome
         
-    - name: 🤖 KBO 데이터 크롤링 및 업데이트
+    - name: 🤖 KBO 데이터 처리 및 업데이트
       run: |
-        echo "🏏 KBO 데이터 업데이트 시작..."
+        echo "🏏 KBO 완전 자동화 시스템 시작..."
         echo "📅 실행 시간: $(date)"
         
-        # 완전 자동화 시스템 실행 (순위 + 경기결과 + 상대전적 + 웹사이트 업데이트)
-        node complete-kbo-automation.js
+        # 현재 시스템: clean.txt 기반 완전 자동화 처리
+        npm run update-data
         
-        echo "✅ 데이터 업데이트 완료"
+        echo "✅ 데이터 처리 완료"
         
     - name: 📊 변경사항 확인
       id: changes
@@ -64,18 +62,17 @@ jobs:
         
         git add .
         
-        git commit -m "🚀 KBO 완전 자동화 업데이트 - $(date '+%Y-%m-%d %H:%M:%S')
+        git commit -m "🚀 KBO 완전 자동화 업데이트 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M:%S')
 
-        ✅ 완전 통합 자동화 시스템:
-        - 📊 KBO 공식 팀 순위/통계 (최근10경기, 연속기록)
-        - ⚾ 네이버 스포츠 최신 경기 결과 크롤링
-        - 🔄 상대전적 실시간 자동 업데이트  
-        - 🌐 웹사이트 데이터 완전 동기화
-        - 🎯 매직넘버 실시간 재계산
+        ✅ 2025-season-data-clean.txt 기반 완전 자동화:
+        - 📊 팀별 순위 및 통계 (승률, 홈/원정 기록)
+        - 🔮 매직넘버 4종 (플레이오프/우승/탈락/홈어드밴티지)
+        - ⚔️ 상대전적 10x10 매트릭스  
+        - 🌐 웹서비스 JSON 데이터 동기화
+        - 📅 잔여경기 자동 계산
 
-        🤖 Generated with GitHub Actions (Complete Automation)
-        🔗 Workflow: ${{ github.workflow }}
-        📅 Run: ${{ github.run_number }}"
+        🤖 Generated with Claude Code
+        Co-Authored-By: Claude <noreply@anthropic.com>"
         
         git push
         
