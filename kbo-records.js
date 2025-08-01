@@ -1,5 +1,5 @@
-// KBO 2025 홈/어웨이 상대전적 데이터 (자동 생성)
-// 마지막 업데이트: 2025-08-01T00:45:20.156Z
+// KBO 2025 통합 상대전적 데이터 (자동 생성)
+// 마지막 업데이트: 2025-08-01T01:42:57.268Z
 
 const headToHeadData = {
     "KT": {
@@ -1609,4 +1609,4 @@ function getAwayWinRate(team1, team2) {
     return totalGames > 0 ? (record.wins / totalGames) : 0.5;
 }
 
-console.log('📊 KBO 홈/어웨이 상대전적 데이터 로드 완료');
+console.log('📊 KBO 통합 상대전적 데이터 로드 완료');

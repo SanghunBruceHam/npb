@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2025-08-01T00:45:20.156Z",
-  "updateDate": "2025. 7. 31.",
+  "lastUpdated": "2025-08-01T02:03:04.701Z",
+  "updateDate": "2025. 8. 1.",
   "totalData": {
     "KT": {
       "LG": {
         "wins": 3,
-        "losses": 6,
+        "losses": 9,
         "draws": 0
       },
       "키움": {
@@ -51,7 +51,7 @@
     },
     "LG": {
       "KT": {
-        "wins": 6,
+        "wins": 9,
         "losses": 3,
         "draws": 0
       },
@@ -109,7 +109,7 @@
       },
       "SSG": {
         "wins": 3,
-        "losses": 4,
+        "losses": 7,
         "draws": 0
       },
       "NC": {
@@ -155,7 +155,7 @@
         "draws": 0
       },
       "키움": {
-        "wins": 4,
+        "wins": 7,
         "losses": 3,
         "draws": 0
       },
@@ -213,7 +213,7 @@
       },
       "롯데": {
         "wins": 5,
-        "losses": 6,
+        "losses": 9,
         "draws": 0
       },
       "두산": {
@@ -259,7 +259,7 @@
         "draws": 0
       },
       "NC": {
-        "wins": 6,
+        "wins": 9,
         "losses": 5,
         "draws": 0
       },
@@ -317,7 +317,7 @@
       },
       "KIA": {
         "wins": 3,
-        "losses": 7,
+        "losses": 10,
         "draws": 0
       },
       "삼성": {
@@ -363,7 +363,7 @@
         "draws": 0
       },
       "두산": {
-        "wins": 7,
+        "wins": 10,
         "losses": 3,
         "draws": 0
       },
@@ -421,7 +421,7 @@
       },
       "한화": {
         "wins": 4,
-        "losses": 7,
+        "losses": 10,
         "draws": 0
       }
     },
@@ -467,7 +467,7 @@
         "draws": 0
       },
       "삼성": {
-        "wins": 7,
+        "wins": 10,
         "losses": 4,
         "draws": 0
       }
