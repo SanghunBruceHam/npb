@@ -1725,7 +1725,8 @@
                                 const losses = record.losses || 0;
                                 const draws = record.draws || 0;
                                 
-                                headToHeadData[team1][team2] = `${wins}-${losses}-${draws}`;
+                                // 전체 데이터를 보존하여 실제 홈/원정 기록 사용 가능
+                                headToHeadData[team1][team2] = record;
                             }
                         }
                         
@@ -2512,7 +2513,33 @@
                         grid.appendChild(cell);
                     } else {
                         const record = headToHeadData[homeTeam][awayTeam];
-                        const [wins, losses, draws] = record.split('-').map(Number);
+                        
+                        // 새로운 JSON 형식 지원 (전체 객체) 및 기존 문자열 형식 호환
+                        let wins, losses, draws, homeWins, homeLosses, homeDraws, awayWins, awayLosses, awayDraws;
+                        
+                        if (typeof record === 'string') {
+                            // 기존 문자열 형식 지원 (백업용)
+                            [wins, losses, draws] = record.split('-').map(Number);
+                            // 추정치 사용 (기존 로직)
+                            homeWins = Math.ceil(wins * 0.55);
+                            homeLosses = Math.floor(losses * 0.45);
+                            homeDraws = Math.floor(draws * 0.5);
+                            awayWins = wins - homeWins;
+                            awayLosses = losses - homeLosses;
+                            awayDraws = draws - homeDraws;
+                        } else {
+                            // 새로운 객체 형식 - 실제 데이터 사용
+                            wins = record.wins || 0;
+                            losses = record.losses || 0;
+                            draws = record.draws || 0;
+                            homeWins = record.homeWins || 0;
+                            homeLosses = record.homeLosses || 0;
+                            homeDraws = record.homeDraws || 0;
+                            awayWins = record.awayWins || 0;
+                            awayLosses = record.awayLosses || 0;
+                            awayDraws = record.awayDraws || 0;
+                        }
+                        
                         const totalGames = wins + losses + draws;
                         const winPct = totalGames > 0 ? (wins / (wins + losses)) : 0.5; // 무승부 제외한 승률
                         const winPctDisplay = totalGames > 0 ? winPct.toFixed(3) : '-';
@@ -2536,34 +2563,12 @@
                             backgroundColor = `rgba(220, 38, 38, ${opacity})`; // 더 진한 빨간색 사용
                         }
                         
-                        // 실제 홈/어웨이 전적 계산 (표기 순서 기반)
-                        // 세로축 팀이 가로축 팀과의 경기에서 홈일 때와 원정일 때 구분
+                        // 실제 홈/원정 전적 사용
+                        const homeRecord = `${homeWins}-${homeLosses}-${homeDraws}`;
+                        const awayRecord = `${awayWins}-${awayLosses}-${awayDraws}`;
                         
-                        // KBO 표기 방식: "A vs B"에서 B가 홈팀
-                        // 현재 테이블에서 homeTeam(세로)이 awayTeam(가로)과의 전적
-                        // 실제로는 homeTeam이 awayTeam의 홈구장에서 원정경기를 더 많이 함
-                        
-                        // homeTeam(세로축)이 자기 홈구장에서의 성적과 awayTeam(가로축) 홈구장에서의 원정 성적
-                        // 16경기 중 절반씩 홈/원정으로 가정하되, 홈 어드밴티지 반영
-                        
-                        let actualHomeWins, actualHomeLosses, actualHomeDraws;
-                        let actualAwayWins, actualAwayLosses, actualAwayDraws;
-                        
-                        // homeTeam이 자기 홈구장에서 awayTeam과 경기할 때 (홈 어드밴티지)
-                        actualHomeWins = Math.ceil(wins * 0.55); // 홈에서 약간 더 많이 이김
-                        actualHomeLosses = Math.floor(losses * 0.45); // 홈에서 약간 적게 짐
-                        actualHomeDraws = Math.floor(draws * 0.5);
-                        
-                        // homeTeam이 awayTeam의 홈구장에서 원정 경기할 때
-                        actualAwayWins = wins - actualHomeWins;
-                        actualAwayLosses = losses - actualHomeLosses;
-                        actualAwayDraws = draws - actualHomeDraws;
-                        
-                        const homeRecord = `${actualHomeWins}-${actualHomeLosses}-${actualHomeDraws}`;
-                        const awayRecord = `${actualAwayWins}-${actualAwayLosses}-${actualAwayDraws}`;
-                        
-                        const homeWinRate = actualHomeWins + actualHomeLosses > 0 ? (actualHomeWins / (actualHomeWins + actualHomeLosses)).toFixed(3) : '-';
-                        const awayWinRate = actualAwayWins + actualAwayLosses > 0 ? (actualAwayWins / (actualAwayWins + actualAwayLosses)).toFixed(3) : '-';
+                        const homeWinRate = homeWins + homeLosses > 0 ? (homeWins / (homeWins + homeLosses)).toFixed(3) : '-';
+                        const awayWinRate = awayWins + awayLosses > 0 ? (awayWins / (awayWins + awayLosses)).toFixed(3) : '-';
 
                         const cell = createGridCell('', 'vs-record');
                         cell.innerHTML = `
@@ -2596,7 +2601,16 @@
                 
                 // 현재 상대전적에서 이미 치른 경기수 계산
                 const record = headToHeadData[team1][team2];
-                const [wins, losses, draws] = record.split('-').map(Number);
+                let wins, losses, draws;
+                
+                if (typeof record === 'string') {
+                    [wins, losses, draws] = record.split('-').map(Number);
+                } else {
+                    wins = record.wins || 0;
+                    losses = record.losses || 0;
+                    draws = record.draws || 0;
+                }
+                
                 const playedGames = wins + losses + draws;
                 
                 // KBO 정규시즌에서 각 팀은 다른 팀과 총 16경기씩 치름
