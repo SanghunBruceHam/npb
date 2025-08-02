@@ -188,19 +188,20 @@ class KBOWorkingCrawler:
                                 )
                                 
                                 if is_completed:
+                                    # KBO 웹사이트에서 team_home div가 실제로는 원정팀, team_away div가 홈팀을 의미함
                                     game = {
                                         'date': current_date,
-                                        'away_team': self.normalize_team_name(away_team),
-                                        'home_team': self.normalize_team_name(home_team),
-                                        'away_score': away_score,
-                                        'home_score': home_score,
+                                        'away_team': self.normalize_team_name(home_team),  # team_home div = 원정팀
+                                        'home_team': self.normalize_team_name(away_team),  # team_away div = 홈팀
+                                        'away_score': home_score,  # team_home 점수 = 원정팀 점수
+                                        'home_score': away_score,  # team_away 점수 = 홈팀 점수
                                         'state': state
                                     }
                                     
                                     games.append(game)
-                                    print(f"  ✅ {away_team} {away_score}:{home_score} {home_team} [완료]")
+                                    print(f"  ✅ {self.normalize_team_name(home_team)} {home_score}:{away_score} {self.normalize_team_name(away_team)} [완료]")
                                 else:
-                                    print(f"  ⏳ {away_team} vs {home_team} [{state}] - 제외")
+                                    print(f"  ⏳ {self.normalize_team_name(away_team)} vs {self.normalize_team_name(home_team)} [{state}] - 제외")
                 
             except Exception as e:
                 print(f"  ⚠️ 행 {row_idx} 파싱 오류: {e}")

@@ -1646,26 +1646,12 @@
                 if (response.ok) {
                     const data = await response.json();
                     console.log('📊 로드된 데이터:', data);
-                    // 최신 최근 10경기와 연속 기록 데이터 (8월 1일 기준 - 최신 상대전적 반영)
-                    const actualRecords = {
-                        "한화": { recent10: "5승1무4패", streak: "2승" },
-                        "LG": { recent10: "9승0무1패", streak: "3승" },
-                        "롯데": { recent10: "7승0무3패", streak: "1승" },
-                        "KT": { recent10: "5승0무5패", streak: "3패" },
-                        "SSG": { recent10: "5승1무4패", streak: "4승" },
-                        "삼성": { recent10: "5승0무5패", streak: "2패" },
-                        "KIA": { recent10: "2승1무7패", streak: "1승" },
-                        "NC": { recent10: "4승0무6패", streak: "1패" },
-                        "두산": { recent10: "4승2무4패", streak: "1패" },
-                        "키움": { recent10: "1승1무8패", streak: "7패" }
-                    };
-                    
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
                     currentStandings = (data.rankings || []).map(team => ({
                         ...team,
                         winPct: team.winRate || team.winPct || 0, // winRate를 winPct로 변환
-                        recent10: actualRecords[team.team]?.recent10 || team.recent10 || "5승 0무 5패",
-                        streak: actualRecords[team.team]?.streak || team.streak || "1승",
+                        recent10: team.recent10 || "5승 0무 5패",
+                        streak: team.streak || "1승",
                         homeAway: { 
                             home: team.homeRecord || "0-0-0", 
                             away: team.awayRecord || "0-0-0" 
@@ -1687,16 +1673,16 @@
                 handleError(error, 'KBO 데이터 로딩 실패');
                 // 백업 데이터 사용
                 currentStandings = [
-                    { rank: 1, team: "한화", games: 99, wins: 59, losses: 37, draws: 3, winPct: 0.615, gamesBehind: 0, recent10: "5승1무4패", streak: "2승", homeAway: { home: "31-16-2", away: "28-21-1" } },
-                    { rank: 2, team: "LG", games: 100, wins: 58, losses: 40, draws: 2, winPct: 0.592, gamesBehind: 2, recent10: "9승0무1패", streak: "3승", homeAway: { home: "32-19-0", away: "26-21-2" } },
-                    { rank: 3, team: "롯데", games: 101, wins: 55, losses: 43, draws: 3, winPct: 0.561, gamesBehind: 5, recent10: "7승0무3패", streak: "1승", homeAway: { home: "29-21-2", away: "26-22-1" } },
-                    { rank: 4, team: "SSG", games: 98, wins: 48, losses: 46, draws: 4, winPct: 0.511, gamesBehind: 10, recent10: "5승1무4패", streak: "1승", homeAway: { home: "24-21-4", away: "24-25-0" } },
-                    { rank: 5, team: "KT", games: 101, wins: 50, losses: 48, draws: 3, winPct: 0.510, gamesBehind: 10, recent10: "5승0무5패", streak: "3패", homeAway: { home: "26-25-1", away: "24-23-2" } },
-                    { rank: 6, team: "KIA", games: 98, wins: 47, losses: 47, draws: 4, winPct: 0.500, gamesBehind: 11, recent10: "2승1무7패", streak: "1승", homeAway: { home: "28-20-2", away: "19-27-2" } },
-                    { rank: 7, team: "삼성", games: 98, wins: 48, losses: 49, draws: 1, winPct: 0.495, gamesBehind: 11.5, recent10: "5승0무5패", streak: "2패", homeAway: { home: "30-20-0", away: "18-29-1" } },
-                    { rank: 8, team: "NC", games: 95, wins: 44, losses: 46, draws: 5, winPct: 0.489, gamesBehind: 12, recent10: "4승0무6패", streak: "1패", homeAway: { home: "18-19-0", away: "26-27-5" } },
-                    { rank: 9, team: "두산", games: 99, wins: 41, losses: 53, draws: 5, winPct: 0.436, gamesBehind: 17, recent10: "4승2무4패", streak: "1패", homeAway: { home: "20-27-4", away: "21-26-1" } },
-                    { rank: 10, team: "키움", games: 101, wins: 28, losses: 69, draws: 4, winPct: 0.289, gamesBehind: 31.5, recent10: "1승1무8패", streak: "1패", homeAway: { home: "17-35-2", away: "11-34-2" } }
+                    { rank: 1, team: "한화", games: 100, wins: 59, losses: 38, draws: 3, winPct: 0.608, gamesBehind: 0, recent10: "4승1무5패", streak: "1패", homeAway: { home: "31-16-2", away: "28-22-1" } },
+                    { rank: 2, team: "LG", games: 101, wins: 59, losses: 40, draws: 2, winPct: 0.596, gamesBehind: 1, recent10: "9승1패", streak: "4승", homeAway: { home: "32-19-0", away: "27-21-2" } },
+                    { rank: 3, team: "롯데", games: 102, wins: 55, losses: 44, draws: 3, winPct: 0.556, gamesBehind: 5, recent10: "7승3패", streak: "1패", homeAway: { home: "29-21-2", away: "26-23-1" } },
+                    { rank: 4, team: "SSG", games: 99, wins: 49, losses: 46, draws: 4, winPct: 0.516, gamesBehind: 9, recent10: "6승1무3패", streak: "2승", homeAway: { home: "24-21-4", away: "25-25-0" } },
+                    { rank: 5, team: "KIA", games: 99, wins: 48, losses: 47, draws: 4, winPct: 0.505, gamesBehind: 10, recent10: "2승1무7패", streak: "2승", homeAway: { home: "29-20-2", away: "19-27-2" } },
+                    { rank: 6, team: "KT", games: 102, wins: 50, losses: 49, draws: 3, winPct: 0.505, gamesBehind: 10, recent10: "5승5패", streak: "4패", homeAway: { home: "26-25-1", away: "24-24-2" } },
+                    { rank: 7, team: "NC", games: 96, wins: 45, losses: 46, draws: 5, winPct: 0.495, gamesBehind: 11, recent10: "5승5패", streak: "1승", homeAway: { home: "19-19-0", away: "26-27-5" } },
+                    { rank: 8, team: "삼성", games: 99, wins: 48, losses: 50, draws: 1, winPct: 0.49, gamesBehind: 11.5, recent10: "4승6패", streak: "3패", homeAway: { home: "30-21-0", away: "18-29-1" } },
+                    { rank: 9, team: "두산", games: 100, wins: 41, losses: 54, draws: 5, winPct: 0.432, gamesBehind: 17, recent10: "3승2무5패", streak: "2패", homeAway: { home: "20-28-4", away: "21-26-1" } },
+                    { rank: 10, team: "키움", games: 102, wins: 29, losses: 69, draws: 4, winPct: 0.296, gamesBehind: 30.5, recent10: "2승1무7패", streak: "1승", homeAway: { home: "18-35-2", away: "11-34-2" } }
                 ];
                 console.log('📊 백업 데이터 사용:', currentStandings.length + '팀');
                 // 백업 데이터도 JSON 형식으로 반환
