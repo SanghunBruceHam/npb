@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-02T00:24:04.713Z",
+  "lastUpdated": "2025-08-02T00:31:27.255Z",
   "updateDate": "2025. 8. 2.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "source": "CLEAN_TXT_AUTOMATION",
@@ -85,7 +85,7 @@
       "awayLosses": 25,
       "awayDraws": 0,
       "recent10": "6승1무3패",
-      "streak": "2승",
+      "streak": "5승",
       "remainingGames": 45,
       "rank": 4,
       "gamesBehind": 9

@@ -654,18 +654,34 @@ class KBODataProcessor {
     calculateStreak(recent) {
         if (recent.length === 0) return { type: '', count: 0 };
         
-        const lastResult = recent[recent.length - 1];
-        let count = 1;
+        // 가장 최근부터 거꾸로 순회하며 승 또는 패 연속 찾기
+        let streakType = '';
+        let count = 0;
         
-        for (let i = recent.length - 2; i >= 0; i--) {
-            if (recent[i] === lastResult) {
+        for (let i = recent.length - 1; i >= 0; i--) {
+            const result = recent[i];
+            
+            // 무승부는 연속에 영향을 주지 않음 (건드리지 않고 패스)
+            if (result === '무') {
+                continue;
+            }
+            
+            // 첫 번째 승/패 결과를 찾은 경우
+            if (streakType === '') {
+                streakType = result;
+                count = 1;
+            }
+            // 같은 결과가 연속되는 경우
+            else if (result === streakType) {
                 count++;
-            } else {
+            }
+            // 다른 결과가 나오면 연속 중단
+            else {
                 break;
             }
         }
         
-        return { type: lastResult, count: count };
+        return { type: streakType, count: count };
     }
 
     formatStreak(streak) {
