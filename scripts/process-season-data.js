@@ -18,7 +18,7 @@ class KBODataProcessor {
         
         // KBO 실제 시즌 기준값들
         this.typicalPlayoffWins = 80; // 일반적인 플레이오프 진출 승수
-        this.typicalChampionshipWins = 85; // 일반적인 우승 승수
+        this.typicalChampionshipWins = 87; // 역대 1위팀 평균 승수 (2015-2024: 86.9승)
         
         // 데이터 저장소
         this.games = [];
@@ -540,7 +540,7 @@ class KBODataProcessor {
             const canChase = maxPossibleWins > firstPlace.wins;
             const firstTeamNeedToLose = Math.max(0, maxPossibleWins - firstPlace.wins);
             const requiredWinRate = team.remainingGames > 0 ? 
-                Math.min(1, (84 - team.wins) / team.remainingGames) : 0;
+                Math.min(1, (this.typicalChampionshipWins - team.wins) / team.remainingGames) : 0;
             
             return {
                 team: team.team,
@@ -552,7 +552,7 @@ class KBODataProcessor {
                 firstTeamNeedToLose: firstTeamNeedToLose,
                 canChase: canChase,
                 requiredWinRate: requiredWinRate,
-                canReach84Wins: maxPossibleWins >= 84
+                canReachChampionshipWins: maxPossibleWins >= this.typicalChampionshipWins
             };
         });
     }

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-02T13:47:59.068Z",
+  "lastUpdated": "2025-08-02T14:17:00.018Z",
   "updateDate": "2025. 8. 2.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "source": "CLEAN_TXT_AUTOMATION",
@@ -913,8 +913,8 @@
       "maxPossibleWins": 102,
       "firstTeamNeedToLose": 43,
       "canChase": true,
-      "requiredWinRate": 0.5714285714285714,
-      "canReach84Wins": true
+      "requiredWinRate": 0.6428571428571429,
+      "canReachChampionshipWins": true
     },
     {
       "team": "롯데",
@@ -925,8 +925,8 @@
       "maxPossibleWins": 97,
       "firstTeamNeedToLose": 38,
       "canChase": true,
-      "requiredWinRate": 0.6829268292682927,
-      "canReach84Wins": true
+      "requiredWinRate": 0.7560975609756098,
+      "canReachChampionshipWins": true
     },
     {
       "team": "SSG",
@@ -937,8 +937,8 @@
       "maxPossibleWins": 93,
       "firstTeamNeedToLose": 34,
       "canChase": true,
-      "requiredWinRate": 0.7954545454545454,
-      "canReach84Wins": true
+      "requiredWinRate": 0.8636363636363636,
+      "canReachChampionshipWins": true
     },
     {
       "team": "KIA",
@@ -949,8 +949,8 @@
       "maxPossibleWins": 93,
       "firstTeamNeedToLose": 34,
       "canChase": true,
-      "requiredWinRate": 0.8,
-      "canReach84Wins": true
+      "requiredWinRate": 0.8666666666666667,
+      "canReachChampionshipWins": true
     },
     {
       "team": "KT",
@@ -961,8 +961,8 @@
       "maxPossibleWins": 91,
       "firstTeamNeedToLose": 32,
       "canChase": true,
-      "requiredWinRate": 0.8292682926829268,
-      "canReach84Wins": true
+      "requiredWinRate": 0.9024390243902439,
+      "canReachChampionshipWins": true
     },
     {
       "team": "NC",
@@ -973,8 +973,8 @@
       "maxPossibleWins": 93,
       "firstTeamNeedToLose": 34,
       "canChase": true,
-      "requiredWinRate": 0.8085106382978723,
-      "canReach84Wins": true
+      "requiredWinRate": 0.8723404255319149,
+      "canReachChampionshipWins": true
     },
     {
       "team": "삼성",
@@ -985,8 +985,8 @@
       "maxPossibleWins": 92,
       "firstTeamNeedToLose": 33,
       "canChase": true,
-      "requiredWinRate": 0.8181818181818182,
-      "canReach84Wins": true
+      "requiredWinRate": 0.8863636363636364,
+      "canReachChampionshipWins": true
     },
     {
       "team": "두산",
@@ -997,8 +997,8 @@
       "maxPossibleWins": 85,
       "firstTeamNeedToLose": 26,
       "canChase": true,
-      "requiredWinRate": 0.9767441860465116,
-      "canReach84Wins": true
+      "requiredWinRate": 1,
+      "canReachChampionshipWins": false
     },
     {
       "team": "키움",
@@ -1010,7 +1010,7 @@
       "firstTeamNeedToLose": 11,
       "canChase": true,
       "requiredWinRate": 1,
-      "canReach84Wins": false
+      "canReachChampionshipWins": false
     }
   ],
   "playoffData": [
