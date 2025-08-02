@@ -18,7 +18,7 @@ class KBODataProcessor {
         
         // KBO 실제 시즌 기준값들
         this.typicalPlayoffWins = 80; // 일반적인 플레이오프 진출 승수
-        this.typicalChampionshipWins = 87; // 역대 1위팀 평균 승수 (2015-2024: 86.9승)
+        this.typicalChampionshipWins = 87; // 144경기 체제 1위팀 평균 승수 (2015-2024년: 86.9승)
         
         // 데이터 저장소
         this.games = [];
