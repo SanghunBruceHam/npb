@@ -648,7 +648,7 @@ class KBODataProcessor {
         const losses = games.filter(g => g === '패').length;
         const draws = games.filter(g => g === '무').length;
         
-        return `${wins}승${draws > 0 ? draws + '무' : ''}${losses}패`;
+        return `${wins}승${draws}무${losses}패`;
     }
 
     calculateStreak(recent) {
