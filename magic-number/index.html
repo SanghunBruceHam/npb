@@ -1063,7 +1063,7 @@
                                 <div class="stat-value" id="required-winpct">-</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">역대 1위 기준<br>필요승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수</span></span></div>
+                                <div class="stat-label">역대 1위 기준<br>필요승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">144경기 체제 역대 1위 평균 87승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (87승 - 현재승수) ÷ 잔여경기수<br><br>* 2015-2024년 1위팀 평균: 86.9승</span></span></div>
                                 <div class="stat-value" id="historical-required-winpct">-</div>
                             </div>
                         </div>
@@ -1121,8 +1121,8 @@
                                     <th>최대가능승수 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">남은 경기를 모두 이겼을 때 승수<br><br>계산법:<br>- 현재승수 + 잔여경기수</span></span></th>
                                     <th>1위팀 필요<br>조건 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">추격팀이 전승할 때 1위가 져야 할 경기수<br><br>계산법:<br>- 추격팀 최대가능승수 - 1위 현재승수</span></span></th>
                                     <th>현재 1위<br>탈환 가능 여부 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 추월이 가능한지 여부 (산술적인 계산)<br><br>판단기준:<br>- 추격팀 최대가능승수 > 1위 현재승수</span></span></th>
-                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (84승 - 현재승수) ÷ 잔여경기수<br><br>🏆 잔여경기 승률 달성 난이도:<br>🟢 0.000-0.450 (매우 쉬움)<br>🟡 0.451-0.550 (쉬움)<br>🟠 0.551-0.650 (보통)<br>🔴 0.651-0.700 (어려움)<br>⚫ 0.701-1.000 (매우 어려움)<br>⚫ 1.000 초과 (불가능)</span></span></th>
-                                    <th>역대 1위 성적<br>달성 가능성 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">역대 1위 평균 84승 달성이 가능한지 여부<br><br>판단기준:<br>- 현재승수 + 잔여경기수 ≥ 84승</span></span></th>
+                                    <th>역대 1위 기준<br>필요 승률 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">144경기 체제 역대 1위 평균 87승 달성을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- (87승 - 현재승수) ÷ 잔여경기수<br><br>* 2015-2024년 1위팀 평균: 86.9승<br><br>🏆 잔여경기 승률 달성 난이도:<br>🟢 0.000-0.450 (매우 쉬움)<br>🟡 0.451-0.550 (쉬움)<br>🟠 0.551-0.650 (보통)<br>🔴 0.651-0.700 (어려움)<br>⚫ 0.701-1.000 (매우 어려움)<br>⚫ 1.000 초과 (불가능)</span></span></th>
+                                    <th>역대 1위 성적<br>달성 가능성 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">144경기 체제 역대 1위 평균 87승 달성이 가능한지 여부<br><br>판단기준:<br>- 현재승수 + 잔여경기수 ≥ 87승<br><br>* 2015-2024년 1위팀 평균: 86.9승</span></span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -2212,8 +2212,8 @@
             const neededWinsForMinWins = Math.max(0, minWinsNeeded - firstPlace.wins);
             const requiredWinPct = remainingGames > 0 ? (neededWinsForMinWins / remainingGames) : 0;
             
-            // 역대 1위 평균 기준 필요 승률 계산 (0.583 승률 = 84승)
-            const historicalFirstPlaceWins = 84; // 144게임 × 0.583
+            // 144경기 체제 역대 1위 평균 기준 필요 승률 계산 (2015-2024: 86.9승)
+            const historicalFirstPlaceWins = 87; // 2015-2024년 1위팀 평균 승수
             const neededWinsForHistorical = Math.max(0, historicalFirstPlaceWins - firstPlace.wins);
             const historicalRequiredWinPct = remainingGames > 0 ? (neededWinsForHistorical / remainingGames) : 0;
             
@@ -2265,9 +2265,8 @@
 
                 const firstPlace = currentStandings[0];
                 
-                // 역대 1위 평균 승률 (0.583 기준, 144경기 기준 약 84승)
-                const historicalFirstPlaceWinPct = 0.583;
-                const historicalFirstPlaceWins = Math.round(144 * historicalFirstPlaceWinPct); // 84승
+                // 144경기 체제 역대 1위 평균 승수 (2015-2024: 86.9승)
+                const historicalFirstPlaceWins = 87; // 2015-2024년 1위팀 평균 승수
 
                 currentStandings.slice(1).forEach(team => {
                 const teamData = kboTeams[team.team];
@@ -2282,7 +2281,7 @@
                 const requiredWinPctForAverage = remainingGames > 0 ? 
                     Math.min(1, neededWinsForHistoricalAverage / remainingGames) : 0;
                 
-                // 역대 1위 성적 달성 가능성 (84승 달성 가능한지)
+                // 144경기 체제 역대 1위 성적 달성 가능성 (87승 달성 가능한지)
                 const canReachHistoricalAverage = maxPossibleWins >= historicalFirstPlaceWins;
                 
                 // KBO 승률 분포 기준 색상 계산 (전체 팀 고려)
