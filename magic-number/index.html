@@ -2570,10 +2570,13 @@
                         const homeWinRate = homeWins + homeLosses > 0 ? (homeWins / (homeWins + homeLosses)).toFixed(3) : '-';
                         const awayWinRate = awayWins + awayLosses > 0 ? (awayWins / (awayWins + awayLosses)).toFixed(3) : '-';
 
+                        // 전체 전적 문자열 생성
+                        const totalRecord = `${wins}-${losses}-${draws}`;
+
                         const cell = createGridCell('', 'vs-record');
                         cell.innerHTML = `
                             <div style="font-size: 0.85rem; line-height: 1.3; text-align: center;">
-                                <div style="font-weight: 600; margin-bottom: 2px;">${record} (${winPctDisplay})</div>
+                                <div style="font-weight: 600; margin-bottom: 2px;">${totalRecord} (${winPctDisplay})</div>
                                 <div style="font-size: 0.8rem; color: #555; margin-bottom: 1px;">🏠 ${homeRecord} (${homeWinRate})</div>
                                 <div style="font-size: 0.8rem; color: #555;">✈️ ${awayRecord} (${awayWinRate})</div>
                             </div>
