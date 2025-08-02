@@ -239,21 +239,42 @@ class KBODataProcessor {
             this.headToHead[team1] = {};
             this.teams.forEach(team2 => {
                 if (team1 !== team2) {
-                    this.headToHead[team1][team2] = { wins: 0, losses: 0, draws: 0 };
+                    this.headToHead[team1][team2] = { 
+                        wins: 0, losses: 0, draws: 0,
+                        homeWins: 0, homeLosses: 0, homeDraws: 0,
+                        awayWins: 0, awayLosses: 0, awayDraws: 0
+                    };
                 }
             });
         });
         
         // 경기별 상대전적 계산
         for (const game of this.games) {
-            const { team1, team2, winner, loser, isDraw } = game;
+            const { team1, team2, homeTeam, awayTeam, winner, loser, isDraw } = game;
             
             if (isDraw) {
+                // 전체 무승부
                 this.headToHead[team1][team2].draws++;
                 this.headToHead[team2][team1].draws++;
+                
+                // 홈/원정 무승부
+                this.headToHead[homeTeam][awayTeam].homeDraws++;
+                this.headToHead[awayTeam][homeTeam].awayDraws++;
             } else {
+                // 전체 승패
                 this.headToHead[winner][loser].wins++;
                 this.headToHead[loser][winner].losses++;
+                
+                // 홈/원정 승패
+                if (winner === homeTeam) {
+                    // 홈팀 승리
+                    this.headToHead[homeTeam][awayTeam].homeWins++;
+                    this.headToHead[awayTeam][homeTeam].awayLosses++;
+                } else {
+                    // 원정팀 승리
+                    this.headToHead[awayTeam][homeTeam].awayWins++;
+                    this.headToHead[homeTeam][awayTeam].homeLosses++;
+                }
             }
         }
         
