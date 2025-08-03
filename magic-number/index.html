@@ -231,17 +231,17 @@
 
         table {
             width: 100%;
-            min-width: 600px;
+            min-width: 800px;
             border-collapse: separate;
             border-spacing: 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             border-radius: 8px;
             overflow: visible;
         }
 
 
         th, td {
-            padding: 16px 12px;
+            padding: 14px 8px;
             text-align: center;
             position: relative;
             line-height: 1.4;
@@ -264,28 +264,33 @@
         #standings-table td:nth-child(5) { width: 5%; }  /* 패 */
         
         #standings-table th:nth-child(6), 
-        #standings-table td:nth-child(6) { width: 5%; }  /* 무 */
+        #standings-table td:nth-child(6) { width: 4%; }  /* 무 */
         
         #standings-table th:nth-child(7), 
-        #standings-table td:nth-child(7) { width: 7%; }  /* 승률 */
+        #standings-table td:nth-child(7) { width: 7%; font-weight: 600; }  /* 승패마진 */
+        
+        #standings-table th:nth-child(7) { font-size: 0.75rem; }  /* 승패마진 헤더 */
         
         #standings-table th:nth-child(8), 
-        #standings-table td:nth-child(8) { width: 12%; font-size: 0.8rem; }  /* 홈/원정 */
+        #standings-table td:nth-child(8) { width: 6%; }  /* 승률 */
         
         #standings-table th:nth-child(9), 
-        #standings-table td:nth-child(9) { width: 7%; }  /* 게임차 */
+        #standings-table td:nth-child(9) { width: 11%; font-size: 0.75rem; }  /* 홈/원정 */
         
         #standings-table th:nth-child(10), 
-        #standings-table td:nth-child(10) { width: 7%; }  /* 잔여경기 */
+        #standings-table td:nth-child(10) { width: 6%; }  /* 게임차 */
         
         #standings-table th:nth-child(11), 
-        #standings-table td:nth-child(11) { width: 14%; }  /* 최근10경기 */
+        #standings-table td:nth-child(11) { width: 6%; }  /* 잔여경기 */
         
         #standings-table th:nth-child(12), 
-        #standings-table td:nth-child(12) { width: 7%; }  /* 연속 */
+        #standings-table td:nth-child(12) { width: 12%; }  /* 최근10경기 */
         
         #standings-table th:nth-child(13), 
-        #standings-table td:nth-child(13) { width: 9%; }  /* 매직넘버 */
+        #standings-table td:nth-child(13) { width: 6%; }  /* 연속 */
+        
+        #standings-table th:nth-child(14), 
+        #standings-table td:nth-child(14) { width: 8%; }  /* 매직넘버 */
 
         th {
             background: var(--primary-color);
