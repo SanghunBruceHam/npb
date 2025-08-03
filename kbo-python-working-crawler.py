@@ -221,11 +221,11 @@ class KBOWorkingCrawler:
         
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
-        # JSON 저장
-        json_file = f'kbo-{year}-{month:02d}-{timestamp}.json'
-        with open(json_file, 'w', encoding='utf-8') as f:
-            json.dump(games, f, ensure_ascii=False, indent=2)
-        print(f"\n💾 JSON 저장: {json_file}")
+        # JSON 저장 (주석 처리 - 백업 필요시 활성화)
+        # json_file = f'kbo-{year}-{month:02d}-{timestamp}.json'
+        # with open(json_file, 'w', encoding='utf-8') as f:
+        #     json.dump(games, f, ensure_ascii=False, indent=2)
+        # print(f"\n💾 JSON 저장: {json_file}")
         
         # 기존 clean.txt 파일 경로
         main_clean_file = f'data/{year}-season-data-clean.txt'
@@ -277,26 +277,26 @@ class KBOWorkingCrawler:
         else:
             print("ℹ️ 새로운 경기가 없습니다")
         
-        # 백업용 타임스탬프 파일도 생성
-        backup_clean_file = f'kbo-{year}-{month:02d}-{timestamp}-clean.txt'
-        with open(backup_clean_file, 'w', encoding='utf-8') as f:
-            # 전체 경기 저장 (백업용)
-            date_groups = {}
-            for game in games:
-                date = game['date']
-                if date not in date_groups:
-                    date_groups[date] = []
-                
-                line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
-                date_groups[date].append(line)
-            
-            for date in sorted(date_groups.keys()):
-                f.write(f"{date}\n")
-                for line in date_groups[date]:
-                    f.write(f"{line}\n")
-                f.write("\n")
-        
-        print(f"💾 백업 파일 저장: {backup_clean_file}")
+        # 백업용 타임스탬프 파일 (주석 처리 - 백업 필요시 활성화)
+        # backup_clean_file = f'kbo-{year}-{month:02d}-{timestamp}-clean.txt'
+        # with open(backup_clean_file, 'w', encoding='utf-8') as f:
+        #     # 전체 경기 저장 (백업용)
+        #     date_groups = {}
+        #     for game in games:
+        #         date = game['date']
+        #         if date not in date_groups:
+        #             date_groups[date] = []
+        #         
+        #         line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
+        #         date_groups[date].append(line)
+        #     
+        #     for date in sorted(date_groups.keys()):
+        #         f.write(f"{date}\n")
+        #         for line in date_groups[date]:
+        #             f.write(f"{line}\n")
+        #         f.write("\n")
+        # 
+        # print(f"💾 백업 파일 저장: {backup_clean_file}")
         
         # 요약 출력
         print("\n📊 크롤링 결과 요약:")
