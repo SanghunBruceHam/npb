@@ -132,9 +132,137 @@
         .header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 40px 0;
-            margin: -20px -20px 30px -20px;
+            padding: 20px 0 15px 0;
+            margin: -20px -20px 0 -20px;
             box-shadow: var(--shadow-md);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            margin: 0 -20px 30px -20px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .nav-menu li {
+            position: relative;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+        .nav-menu a.active {
+            color: #ffd700;
+            font-weight: 600;
+            position: relative;
+        }
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 3px;
+            background: #ffd700;
+            border-radius: 2px;
+        }
+        .nav-menu a.active:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-container {
+                position: sticky;
+                top: 0;
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(26, 35, 126, 0.95);
+                flex-direction: column;
+                gap: 0;
+                padding: 20px;
+                border-radius: 0 0 12px 12px;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-20px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1001;
+                backdrop-filter: blur(10px);
+            }
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .nav-menu li {
+                margin: 0;
+            }
+            .nav-menu a {
+                padding: 12px 16px;
+                border-radius: 8px;
+                justify-content: center;
+            }
+            .nav-menu a.active {
+                color: #ffd700;
+                font-weight: 600;
+                position: relative;
+            }
+            .nav-menu a.active::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                height: 3px;
+                background: #ffd700;
+                border-radius: 2px;
+            }
+            .nav-toggle {
+                display: block;
+                margin-top: 10px;
+            }
         }
 
         h1 {
@@ -177,6 +305,7 @@
             overflow: visible;
             width: 90%;
             max-width: 1200px;
+            scroll-margin-top: 120px; /* 스티키 네비게이션을 위한 스크롤 마진 */
             margin: 0 auto;
             z-index: 1;
         }
@@ -241,10 +370,10 @@
 
 
         th, td {
-            padding: 14px 8px;
+            padding: 10px 8px;
             text-align: center;
             position: relative;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         
         /* 팀 순위표 필드별 너비 조정 */
@@ -431,8 +560,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 60px;
-            padding: 8px 4px;
+            min-height: 50px;
+            padding: 6px 4px;
             border-radius: 6px;
             line-height: 1.3;
         }
@@ -650,7 +779,7 @@
         }
 
         .vs-header, .vs-team, .vs-record {
-            padding: 8px 4px;
+            padding: 6px 4px;
             text-align: center;
             border: 1px solid #ddd;
         }
@@ -879,6 +1008,19 @@
         </div>
     </div>
     
+    <!-- 독립적인 스티키 네비게이션 -->
+    <nav class="nav-container">
+        <ul class="nav-menu">
+            <li><a href="#standings" class="active">📊 팀 순위표</a></li>
+            <li><a href="#championship" onclick="scrollToChampionship()">👑 정규시즌 우승 조건</a></li>
+            <li><a href="#chase" onclick="scrollToChase()">🎯 1위 탈환 가능성</a></li>
+            <li><a href="#playoff" onclick="scrollToPlayoff()">🏟️ 플레이오프 진출 조건</a></li>
+            <li><a href="#vs-records" onclick="scrollToVsRecords()">⚔️ 팀간 상대전적</a></li>
+            <li><a href="#remaining" onclick="scrollToRemaining()">📅 팀간 잔여 경기수</a></li>
+        </ul>
+        <button class="nav-toggle" onclick="toggleMobileMenu()">☰</button>
+    </nav>
+    
     <div class="container">
         <div class="content-container">
             
@@ -913,7 +1055,7 @@
 
             <div class="cards-grid">
                 <!-- 팀 순위 테이블 -->
-                <div class="card">
+                <div class="card" id="standings">
                     <h2>📊 팀 순위표</h2>
                     <div class="ranking-legend" style="font-size: 0.9rem; color: #666; line-height: 1.4; margin-bottom: 15px;">
                         <strong>순위별 진출권:</strong> 
@@ -987,7 +1129,7 @@
                 </div>
 
                 <!-- 1위팀 우승 조건 -->
-                <div class="card">
+                <div class="card" id="championship">
                     <h2>👑 정규시즌 우승 조건</h2>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
@@ -1109,7 +1251,7 @@
                 </div>
 
                 <!-- 1위 추격팀 가능성 -->
-                <div class="card">
+                <div class="card" id="chase">
                     <h2>🎯 1위 탈환 가능성</h2>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
@@ -1155,7 +1297,7 @@
                 </div>
 
                 <!-- 플레이오프 진출 조건 -->
-                <div class="card">
+                <div class="card" id="playoff">
                     <h2>🏟️ 플레이오프 진출 조건</h2>
                     <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
                         📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
@@ -1217,7 +1359,7 @@
                 </div>
 
                 <!-- 팀간 승패표 -->
-                <div class="card">
+                <div class="card" id="vs-records">
                     <h2>⚔️ 팀간 상대전적</h2>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
@@ -1232,8 +1374,24 @@
                     </div>
                 </div>
 
+                <!-- Google AdSense 광고 -->
+                <div style="width: 90%; max-width: 1200px; margin: 30px auto; text-align: center;">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867"
+                         crossorigin="anonymous"></script>
+                    <!-- KBO 매직넘버 중간 광고 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="1234567890"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
                 <!-- 팀간 잔여 경기수 -->
-                <div class="card">
+                <div class="card" id="remaining">
                     <h2>📅 팀간 잔여 경기수</h2>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
@@ -3039,6 +3197,92 @@
         }
         
         // 초기화는 runInitialization에서 처리됨
+        
+        // 네비게이션 함수들 (CSS scroll-margin-top 활용)
+        function scrollToSection(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            // CSS scroll-margin-top을 활용한 간단한 스크롤
+            element.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            updateActiveNav(elementId);
+            
+            // 모바일 메뉴 닫기
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.remove('active');
+        }
+        
+        function scrollToPlayoff() {
+            scrollToSection('playoff');
+        }
+        
+        function scrollToChampionship() {
+            scrollToSection('championship');
+        }
+        
+        function scrollToChase() {
+            scrollToSection('chase');
+        }
+        
+        function scrollToVsRecords() {
+            scrollToSection('vs-records');
+        }
+        
+        function scrollToRemaining() {
+            scrollToSection('remaining');
+        }
+        
+        // 활성 네비게이션 업데이트
+        function updateActiveNav(activeId) {
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`.nav-menu a[href="#${activeId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+        
+        // 모바일 메뉴 토글
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+        
+        // 스크롤 이벤트로 활성 섹션 감지
+        window.addEventListener('scroll', function() {
+            const sections = ['standings', 'championship', 'chase', 'playoff', 'vs-records', 'remaining'];
+            let current = 'standings';
+            const navHeight = document.querySelector('.nav-container').offsetHeight;
+            
+            for (const section of sections) {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= navHeight + 80 && rect.bottom >= navHeight + 80) {
+                        current = section;
+                        break;
+                    }
+                }
+            }
+            
+            updateActiveNav(current);
+        });
+        
+        // 모바일에서 메뉴 항목 클릭 시 메뉴 닫기
+        document.addEventListener('click', function(e) {
+            const navMenu = document.querySelector('.nav-menu');
+            const navToggle = document.querySelector('.nav-toggle');
+            
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
 
     </script>
 
