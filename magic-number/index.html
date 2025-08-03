@@ -1116,6 +1116,7 @@
                                 <tr>
                                     <th>순위</th>
                                     <th>팀명</th>
+                                    <th>현재승수 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">현재까지 획득한 승수</span></span></th>
                                     <th>게임차 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">1위 팀과의 승수 차이</span></span></th>
                                     <th>잔여경기 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">시즌 끝까지 남은 경기 수</span></span></th>
                                     <th>최대가능승수 <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">남은 경기를 모두 이겼을 때 승수<br><br>계산법:<br>- 현재승수 + 잔여경기수</span></span></th>
@@ -2325,6 +2326,7 @@
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
                     <td>${teamNameWithLogo}</td>
+                    <td style="font-weight: 600;">${team.wins}</td>
                     <td>${team.gamesBehind}</td>
                     <td>${remainingGames}</td>
                     <td>${maxPossibleWins}</td>
@@ -2343,7 +2345,7 @@
                 handleError(error, '1위 탈환 가능성 렌더링 실패');
                 const tbody = document.querySelector('#chase-table tbody');
                 if (tbody) {
-                    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
                 }
             }
         }
