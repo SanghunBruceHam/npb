@@ -940,6 +940,9 @@
                                     <th class="sortable-header" data-sort="draws" onclick="sortTable('standings', 'draws')">
                                         무 <span class="sort-arrow">↕</span>
                                     </th>
+                                    <th class="sortable-header" data-sort="winLossMargin" onclick="sortTable('standings', 'winLossMargin')">
+                                        승패마진 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">승 - 패<br>양수: 승수가 많음<br>음수: 패수가 많음</span></span>
+                                    </th>
                                     <th class="sortable-header" data-sort="winPct" onclick="sortTable('standings', 'winPct')">
                                         승률 <span class="sort-arrow">↕</span>
                                     </th>
@@ -1910,21 +1913,25 @@
                         aValue = parseInt(a.cells[5].textContent);
                         bValue = parseInt(b.cells[5].textContent);
                         break;
+                    case 'winLossMargin':
+                        aValue = parseInt(a.cells[6].textContent.replace('+', ''));
+                        bValue = parseInt(b.cells[6].textContent.replace('+', ''));
+                        break;
                     case 'winPct':
-                        aValue = parseFloat(a.cells[6].textContent);
-                        bValue = parseFloat(b.cells[6].textContent);
+                        aValue = parseFloat(a.cells[7].textContent);
+                        bValue = parseFloat(b.cells[7].textContent);
                         break;
                     case 'gamesBehind':
-                        aValue = a.cells[8].textContent === '-' ? 0 : parseFloat(a.cells[8].textContent);
-                        bValue = b.cells[8].textContent === '-' ? 0 : parseFloat(b.cells[8].textContent);
+                        aValue = a.cells[9].textContent === '-' ? 0 : parseFloat(a.cells[9].textContent);
+                        bValue = b.cells[9].textContent === '-' ? 0 : parseFloat(b.cells[9].textContent);
                         break;
                     case 'recent10':
-                        aValue = parseInt(a.cells[10].textContent.split('승')[0]);
-                        bValue = parseInt(b.cells[10].textContent.split('승')[0]);
+                        aValue = parseInt(a.cells[11].textContent.split('승')[0]);
+                        bValue = parseInt(b.cells[11].textContent.split('승')[0]);
                         break;
                     case 'streak':
-                        const aStreak = a.cells[11].textContent;
-                        const bStreak = b.cells[11].textContent;
+                        const aStreak = a.cells[12].textContent;
+                        const bStreak = b.cells[12].textContent;
                         aValue = aStreak.includes('승') ? parseInt(aStreak) : -parseInt(aStreak);
                         bValue = bStreak.includes('승') ? parseInt(bStreak) : -parseInt(bStreak);
                         break;
@@ -2101,6 +2108,10 @@
                 const teamHomeAway = team.homeAway || { home: "0-0-0", away: "0-0-0" };
                 const homeAwayDisplay = `<div style="line-height: 1.4; font-size: 0.95rem;"><span style="color: #2563eb; font-weight: 500;">🏠 ${teamHomeAway.home}</span><br><span style="color: #dc2626; font-weight: 500;">✈️ ${teamHomeAway.away}</span></div>`;
 
+                const winLossMargin = team.wins - team.losses;
+                const marginColor = winLossMargin > 0 ? '#27ae60' : winLossMargin < 0 ? '#e74c3c' : '#666';
+                const marginDisplay = winLossMargin > 0 ? `+${winLossMargin}` : winLossMargin.toString();
+                
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
                     <td>${teamNameWithLogo}</td>
@@ -2108,6 +2119,7 @@
                     <td>${team.wins}</td>
                     <td>${team.losses}</td>
                     <td>${team.draws}</td>
+                    <td style="color: ${marginColor}; font-weight: 600;">${marginDisplay}</td>
                     <td>${team.winPct.toFixed(3)}</td>
                     <td>${homeAwayDisplay}</td>
                     <td>${team.gamesBehind === 0 ? '-' : team.gamesBehind}</td>
@@ -2124,7 +2136,7 @@
                 // 에러가 발생하면 기본 메시지 표시
                 const tbody = document.querySelector('#standings-table tbody');
                 if (tbody) {
-                    tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="13" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
                 }
             }
         }
