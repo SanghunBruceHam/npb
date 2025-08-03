@@ -450,20 +450,36 @@ class KBODataProcessor {
     }
 
     calculateEliminationMagic(team, index) {
-        // 탈락 매직넘버: 73패 달성까지의 패배 수
-        const ELIMINATION_LOSSES = 73;
+        // 트래직넘버: 72승 달성 불가능해지는 시점까지의 패배 수
+        const PLAYOFF_THRESHOLD = 72;
+        const currentWins = team.wins;
         const currentLosses = team.losses;
+        const remainingGames = team.remainingGames;
+        const maxPossibleWins = currentWins + remainingGames;
         
-        // 이미 73패에 도달했으면 탈락
-        if (currentLosses >= ELIMINATION_LOSSES) {
+        // 이미 72승 달성이 수학적으로 불가능하면 탈락
+        if (maxPossibleWins < PLAYOFF_THRESHOLD) {
             return 0; // 0이면 "탈락"으로 표시
         }
         
-        // 73패까지 남은 패배 수 계산
-        const lossesToElimination = ELIMINATION_LOSSES - currentLosses;
+        // 72승 달성을 위해 필요한 최소 승수
+        const neededWins = PLAYOFF_THRESHOLD - currentWins;
         
-        // 모든 팀의 트래직넘버를 숫자로 반환 (프론트엔드에서 "-숫자" 형태로 표시)
-        return lossesToElimination;
+        // 남은 경기에서 모두 져도 72승 달성 가능한 경우
+        if (neededWins <= 0) {
+            return 999; // 이미 72승 달성했거나 확정적으로 달성 가능
+        }
+        
+        // 72승 달성 불가능해지는 패배 수 계산
+        // 즉, 남은 경기 수가 필요한 승수보다 적어지는 시점
+        const maxAllowableLosses = remainingGames - neededWins;
+        
+        if (maxAllowableLosses <= 0) {
+            return 0; // 이미 탈락
+        }
+        
+        // 현재부터 몇 패 더 하면 탈락인지 계산
+        return maxAllowableLosses;
     }
 
     calculateHomeAdvantageMagic(team, index) {

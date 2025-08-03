@@ -1185,7 +1185,7 @@
                                         PO<br>매직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 필요한 승수<br><br>계산법:<br>- 72승(역대 5위 평균) - 현재승수<br><br>색상 의미:<br>🟢 확정 (이미 달성)<br>🟡 진출 유력 (10승 이하)<br>🟠 경합 (11-20승)<br>🔴 어려움 (21승 이상)</span></span>
                                     </th>
                                     <th class="sortable-header" data-sort="tragic" onclick="sortTable('playoff', 'tragic')">
-                                        PO<br>트래직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">시즌 탈락까지 남은 패배 수<br><br>계산법:<br>- 73패 달성까지의 패배 수<br>- 73패에 도달하면 시즌 탈락<br><br>색상 구분:<br>🔴 탈락: 이미 73패 달성<br>🔴 -1~5: 매우 위험 (임박)<br>🟠 -6~10: 위험<br>🟡 -11~20: 주의<br>🟡 -21~30: 보통<br>🟢 -31+: 안전</span></span>
+                                        PO<br>트래직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 탈락까지 남은 패배 수<br><br>계산법:<br>- 72승 달성이 수학적으로 불가능해지는 시점까지의 패배 수<br>- 72승 달성 불가능하면 플레이오프 탈락<br><br>색상 구분:<br>🔴 탈락: 72승 달성 불가능<br>🔴 -1~5: 매우 위험 (임박)<br>🟠 -6~10: 위험<br>🟡 -11~20: 주의<br>🟡 -21~30: 보통<br>🟢 -31+: 안전</span></span>
                                     </th>
                                     <th class="sortable-header" data-sort="requiredWinPct" onclick="sortTable('playoff', 'requiredWinPct')">
                                         잔여경기<br>필요 승률 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- PO매직넘버 ÷ 잔여경기수</span></span>
@@ -2423,7 +2423,7 @@
                     tragicColor = '#e74c3c'; // 빨간색 - 이미 탈락
                 } else if (eliminationMagicNumber === '-' || eliminationMagicNumber === 999) {
                     tragicDisplay = '-';
-                    tragicColor = '#95a5a6'; // 회색 - 계산 불가
+                    tragicColor = '#2ecc71'; // 녹색 - 72승 달성 또는 확정
                 } else {
                     // 숫자 앞에 - 부호를 붙여서 표시 (그라데이션 색상)
                     tragicDisplay = `-${eliminationMagicNumber}`;

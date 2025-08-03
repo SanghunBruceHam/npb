@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-03T14:02:19.185Z",
+  "lastUpdated": "2025-08-03T14:10:13.396Z",
   "updateDate": "2025. 8. 3.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
@@ -148,7 +148,7 @@
     "한화": {
       "playoff": 13,
       "championship": 44,
-      "elimination": 35,
+      "elimination": 31,
       "homeAdvantage": 39,
       "remainingGames": 44,
       "maxPossibleWins": 103,
@@ -157,7 +157,7 @@
     "LG": {
       "playoff": 11,
       "championship": 0,
-      "elimination": 33,
+      "elimination": 30,
       "homeAdvantage": 37,
       "remainingGames": 41,
       "maxPossibleWins": 102,
@@ -166,7 +166,7 @@
     "롯데": {
       "playoff": 15,
       "championship": 3,
-      "elimination": 29,
+      "elimination": 25,
       "homeAdvantage": 5,
       "remainingGames": 40,
       "maxPossibleWins": 97,
@@ -175,7 +175,7 @@
     "SSG": {
       "playoff": 22,
       "championship": 10,
-      "elimination": 26,
+      "elimination": 21,
       "homeAdvantage": 12,
       "remainingGames": 43,
       "maxPossibleWins": 93,
@@ -184,7 +184,7 @@
     "KIA": {
       "playoff": 24,
       "championship": 12,
-      "elimination": 26,
+      "elimination": 21,
       "homeAdvantage": 14,
       "remainingGames": 45,
       "maxPossibleWins": 93,
@@ -193,7 +193,7 @@
     "KT": {
       "playoff": 22,
       "championship": 10,
-      "elimination": 23,
+      "elimination": 18,
       "homeAdvantage": 12,
       "remainingGames": 40,
       "maxPossibleWins": 90,
@@ -202,7 +202,7 @@
     "NC": {
       "playoff": 26,
       "championship": 14,
-      "elimination": 27,
+      "elimination": 20,
       "homeAdvantage": 16,
       "remainingGames": 46,
       "maxPossibleWins": 92,
@@ -211,7 +211,7 @@
     "삼성": {
       "playoff": 24,
       "championship": 12,
-      "elimination": 21,
+      "elimination": 19,
       "homeAdvantage": 14,
       "remainingGames": 43,
       "maxPossibleWins": 91,
@@ -220,7 +220,7 @@
     "두산": {
       "playoff": 30,
       "championship": 18,
-      "elimination": 18,
+      "elimination": 12,
       "homeAdvantage": 20,
       "remainingGames": 42,
       "maxPossibleWins": 84,
@@ -229,14 +229,14 @@
     "키움": {
       "playoff": 999,
       "championship": 31,
-      "elimination": 2,
+      "elimination": 0,
       "homeAdvantage": 33,
       "remainingGames": 40,
       "maxPossibleWins": 69,
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-03T14:02:19.185Z",
+  "lastMagicUpdate": "2025-08-03T14:10:13.396Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-03"
