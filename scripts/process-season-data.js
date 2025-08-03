@@ -402,32 +402,23 @@ class KBODataProcessor {
 
     // 매직넘버 계산 헬퍼 함수들
     calculatePlayoffMagic(team, index) {
-        if (index < this.playoffSpots) {
-            // 현재 플레이오프 권 내 - 플레이오프 확정을 위한 매직넘버
-            const sixthPlace = this.standings[this.playoffSpots];
-            if (!sixthPlace) return 0; // 6위 팀이 없으면 이미 확정
-            
-            // 6위 팀의 최대 가능 승수보다 1승 더 필요
-            const sixthMaxWins = sixthPlace.wins + sixthPlace.remainingGames;
-            const neededWins = Math.max(0, sixthMaxWins - team.wins + 1);
-            
-            // 남은 경기로 달성 가능한지 확인
-            return neededWins > team.remainingGames ? 999 : neededWins;
-        } else {
-            // 플레이오프 권 밖 - 플레이오프 진출을 위한 매직넘버
-            // 5위 팀의 현재 승수를 넘어서기 위해 필요한 승수
-            const fifthPlace = this.standings[this.playoffSpots - 1];
-            const maxPossibleWins = team.wins + team.remainingGames;
-            
-            // 수학적으로 불가능한 경우 체크
-            if (maxPossibleWins < fifthPlace.wins) {
-                return 999; // 이미 수학적 탈락
-            }
-            
-            // 5위를 추월하기 위한 최소 승수 계산
-            const neededWins = Math.max(0, fifthPlace.wins - team.wins + 1);
-            return neededWins > team.remainingGames ? 999 : neededWins;
+        // 플레이오프 진출 기준: 역대 5위 평균 72승 기준
+        const PLAYOFF_THRESHOLD = 72;
+        
+        // 현재 팀이 72승을 달성하기 위해 필요한 승수
+        const neededWins = Math.max(0, PLAYOFF_THRESHOLD - team.wins);
+        
+        // 남은 경기로 달성 가능한지 확인
+        if (neededWins > team.remainingGames) {
+            return 999; // 수학적으로 불가능
         }
+        
+        // 이미 72승 이상이면 확정
+        if (team.wins >= PLAYOFF_THRESHOLD) {
+            return 0;
+        }
+        
+        return neededWins;
     }
 
     calculateChampionshipMagic(team, index) {
@@ -459,34 +450,20 @@ class KBODataProcessor {
     }
 
     calculateEliminationMagic(team, index) {
-        // 탈락 매직넘버: 플레이오프 진출이 수학적으로 불가능해지는 패배 수
-        if (index < this.playoffSpots) {
-            // 현재 플레이오프 권 내 - 탈락까지 몇 패 남았는가
-            const sixthPlace = this.standings[this.playoffSpots];
-            if (!sixthPlace) return 999; // 6위가 없으면 탈락 불가능
-            
-            // 6위 팀이 모든 경기를 이겨도 따라잡을 수 없을 때까지의 패배 수
-            const sixthMaxWins = sixthPlace.wins + sixthPlace.remainingGames;
-            const currentMaxWins = team.wins + team.remainingGames;
-            
-            if (currentMaxWins > sixthMaxWins) {
-                return 999; // 이미 플레이오프 확정
-            }
-            
-            // 몇 번 더 지면 6위에게 추월당하는가
-            const lossesToElimination = Math.max(0, team.remainingGames - (sixthMaxWins - team.wins) + 1);
-            return lossesToElimination;
-        } else {
-            // 플레이오프 권 밖 - 이미 탈락했거나 진출 가능성 확인
-            const fifthPlace = this.standings[this.playoffSpots - 1];
-            const maxPossibleWins = team.wins + team.remainingGames;
-            
-            if (maxPossibleWins <= fifthPlace.wins) {
-                return 0; // 이미 수학적으로 탈락
-            }
-            
-            return 999; // 아직 진출 가능성 있음
+        // 탈락 매직넘버: 73패 달성까지의 패배 수
+        const ELIMINATION_LOSSES = 73;
+        const currentLosses = team.losses;
+        
+        // 이미 73패에 도달했으면 탈락
+        if (currentLosses >= ELIMINATION_LOSSES) {
+            return 0; // 0이면 "탈락"으로 표시
         }
+        
+        // 73패까지 남은 패배 수 계산
+        const lossesToElimination = ELIMINATION_LOSSES - currentLosses;
+        
+        // 모든 팀의 트래직넘버를 숫자로 반환 (프론트엔드에서 "-숫자" 형태로 표시)
+        return lossesToElimination;
     }
 
     calculateHomeAdvantageMagic(team, index) {
@@ -582,14 +559,32 @@ class KBODataProcessor {
     generatePlayoffData() {
         return this.standings.map(team => {
             const magic = this.magicNumbers[team.team];
-            const requiredWinRate = team.remainingGames > 0 ? 
-                Math.min(1, magic.playoff / team.remainingGames) : 0;
+            const PLAYOFF_THRESHOLD = 72;
             
-            let status = '불가능';
-            if (magic.playoff <= 0) status = '확정';
-            else if (magic.playoff <= 10) status = '진출 유력';
-            else if (magic.playoff <= 20) status = '경합';
-            else if (magic.playoff < 999) status = '어려움';
+            // 잔여경기 필요 승률: 72승 달성을 위한 승률
+            const requiredWinRate = team.remainingGames > 0 ? 
+                Math.min(1, Math.max(0, PLAYOFF_THRESHOLD - team.wins) / team.remainingGames) : 0;
+            
+            // 진출 상황 판정 (그라데이션 기반)
+            let status;
+            if (team.wins >= PLAYOFF_THRESHOLD) {
+                status = '확정'; // 이미 72승 달성
+            } else if (team.wins + team.remainingGames < PLAYOFF_THRESHOLD) {
+                status = '불가능'; // 전승해도 72승 불가
+            } else {
+                // 필요 승률에 따른 그라데이션 구분
+                if (requiredWinRate <= 0.3) {
+                    status = '매우 유력';
+                } else if (requiredWinRate <= 0.5) {
+                    status = '유력';
+                } else if (requiredWinRate <= 0.7) {
+                    status = '경합';
+                } else if (requiredWinRate <= 0.85) {
+                    status = '어려움';
+                } else {
+                    status = '매우 어려움';
+                }
+            }
             
             return {
                 team: team.team,
@@ -597,7 +592,8 @@ class KBODataProcessor {
                 wins: team.wins,
                 remainingGames: team.remainingGames,
                 maxPossibleWins: magic.maxPossibleWins,
-                playoffMagic: magic.playoff === 999 ? '-' : magic.playoff,
+                playoffMagic: magic.playoff === 999 ? '불가능' : magic.playoff,
+                eliminationMagic: magic.elimination === 999 ? '-' : magic.elimination,
                 requiredWinRate: requiredWinRate,
                 status: status
             };
@@ -654,6 +650,10 @@ class KBODataProcessor {
                 };
                 
                 fs.writeFileSync('./magic-number/kbo-records.json', JSON.stringify(recordsData, null, 2));
+                
+                // 4. service-data.json도 magic-number 폴더에 복사 (플레이오프 데이터 포함)
+                fs.writeFileSync('./magic-number/service-data.json', JSON.stringify(serviceData, null, 2));
+                
                 console.log('  ✅ magic-number 폴더 파일들 업데이트 완료');
             }
             

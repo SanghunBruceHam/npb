@@ -1184,6 +1184,9 @@
                                     <th class="sortable-header" data-sort="magic" onclick="sortTable('playoff', 'magic')">
                                         PO<br>매직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 필요한 승수<br><br>계산법:<br>- 72승(역대 5위 평균) - 현재승수<br><br>색상 의미:<br>🟢 확정 (이미 달성)<br>🟡 진출 유력 (10승 이하)<br>🟠 경합 (11-20승)<br>🔴 어려움 (21승 이상)</span></span>
                                     </th>
+                                    <th class="sortable-header" data-sort="tragic" onclick="sortTable('playoff', 'tragic')">
+                                        PO<br>트래직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">시즌 탈락까지 남은 패배 수<br><br>계산법:<br>- 73패 달성까지의 패배 수<br>- 73패에 도달하면 시즌 탈락<br><br>색상 구분:<br>🔴 탈락: 이미 73패 달성<br>🔴 -1~5: 매우 위험 (임박)<br>🟠 -6~10: 위험<br>🟡 -11~20: 주의<br>🟡 -21~30: 보통<br>🟢 -31+: 안전</span></span>
+                                    </th>
                                     <th class="sortable-header" data-sort="requiredWinPct" onclick="sortTable('playoff', 'requiredWinPct')">
                                         잔여경기<br>필요 승률 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 잔여경기에서 얻어야 하는 승률<br><br>계산법:<br>- PO매직넘버 ÷ 잔여경기수</span></span>
                                     </th>
@@ -1650,13 +1653,13 @@
         async function loadKBOData() {
             try {
                 console.log('🔍 KBO 데이터 로딩 시작...');
-                const response = await fetch(`kbo-rankings.json?v=${Date.now()}`);
+                const response = await fetch(`service-data.json?v=${Date.now()}`);
                 console.log('📡 응답 상태:', response.status, response.statusText);
                 if (response.ok) {
                     const data = await response.json();
                     console.log('📊 로드된 데이터:', data);
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
-                    currentStandings = (data.rankings || []).map(team => ({
+                    currentStandings = (data.standings || []).map(team => ({
                         ...team,
                         winPct: team.winRate || team.winPct || 0, // winRate를 winPct로 변환
                         recent10: team.recent10 || "5승 0무 5패",
@@ -1666,6 +1669,9 @@
                             away: team.awayRecord || "0-0-0" 
                         } // 실제 홈/원정 기록 사용
                     }));
+                    
+                    // currentKBOData에 전체 데이터 저장 (playoffData 포함)
+                    currentKBOData = data;
                     console.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
                     
                     // 데이터 로딩 시간 업데이트
@@ -2369,92 +2375,115 @@
 
         function renderPlayoffCondition() {
             try {
-                const totalGames = 144;
-                const playoffBaseline = 72; // 72승 기준선으로 변경
-                
                 const tbody = document.querySelector('#playoff-table tbody');
                 if (!tbody) {
                     throw new Error('플레이오프 진출 조건 테이블을 찾을 수 없습니다');
                 }
                 tbody.innerHTML = '';
 
-                if (!currentStandings || currentStandings.length === 0) {
-                    throw new Error('순위 데이터가 없습니다');
+                if (!currentKBOData || !currentKBOData.playoffData || currentKBOData.playoffData.length === 0) {
+                    throw new Error('플레이오프 데이터가 없습니다');
                 }
 
-                currentStandings.forEach((team) => {
+                currentKBOData.playoffData.forEach((team) => {
                 const teamData = kboTeams[team.team];
-                const remainingGames = totalGames - team.games;
-                const maxPossibleWins = team.wins + remainingGames;
                 
-                // 72승 기준 매직넘버
-                const playoffMagicNumber = Math.max(0, playoffBaseline - team.wins);
+                // JSON 데이터에서 직접 가져오기
+                const playoffMagicNumber = team.playoffMagic;
+                const eliminationMagicNumber = team.eliminationMagic;
+                const statusText = team.status;
+                const requiredWinPct = team.requiredWinRate > 0 ? team.requiredWinRate.toFixed(3) : '-';
+                const remainingGames = team.remainingGames;
+                const maxPossibleWins = team.maxPossibleWins;
                 
-                // 매직넘버 색상 및 표시 계산
+                // 매직넘버 표시
                 let magicDisplay = '';
                 let magicColor = '';
                 
-                if (playoffMagicNumber === 0) {
+                if (playoffMagicNumber === '-' || playoffMagicNumber === 0) {
                     magicDisplay = '확정';
                     magicColor = '#27ae60'; // 녹색
                 } else if (playoffMagicNumber <= 10) {
                     magicDisplay = playoffMagicNumber;
-                    magicColor = '#f1c40f'; // 노란색 (안전권)
+                    magicColor = '#f1c40f'; // 노란색
                 } else if (playoffMagicNumber <= 20) {
                     magicDisplay = playoffMagicNumber;
-                    magicColor = '#e67e22'; // 주황색 (경합)
+                    magicColor = '#e67e22'; // 주황색
                 } else {
                     magicDisplay = playoffMagicNumber;
-                    magicColor = '#e74c3c'; // 빨간색 (어려움)
+                    magicColor = '#e74c3c'; // 빨간색
                 }
                 
-                // 필요 승률 계산 및 색상 적용
-                let requiredWinPct = '-';
-                let requiredWinPctColor = '#666';
+                // 트래직넘버 표시
+                let tragicDisplay = '';
+                let tragicColor = '';
                 
-                if (remainingGames > 0 && playoffMagicNumber > 0) {
-                    const winPct = (playoffMagicNumber / remainingGames);
-                    if (winPct <= 1) {
-                        requiredWinPct = winPct.toFixed(3);
-                        // KBO 승률 분포 기준 색상 분류 (전체 팀 고려)
-                        if (winPct > 0.700) {
-                            requiredWinPctColor = '#2c3e50'; // 검은색 (역사상 최고 수준)
-                        } else if (winPct > 0.650) {
-                            requiredWinPctColor = '#e74c3c'; // 빨간색 (상위권 우승팀 수준)
-                        } else if (winPct > 0.550) {
-                            requiredWinPctColor = '#e67e22'; // 주황색 (플레이오프권 수준)
-                        } else if (winPct > 0.450) {
-                            requiredWinPctColor = '#f1c40f'; // 노란색 (중위권 수준)
-                        } else {
-                            requiredWinPctColor = '#27ae60'; // 녹색 (달성 가능한 수준)
-                        }
-                    } else {
-                        requiredWinPct = '불가능';
-                        requiredWinPctColor = '#2c3e50'; // 검은색
-                    }
-                } else if (playoffMagicNumber === 0) {
-                    requiredWinPct = '달성';
-                    requiredWinPctColor = '#27ae60'; // 녹색
-                }
-                
-                // 진출 상황 판단
-                let status = '';
-                let statusColor = '';
-                if (team.wins >= playoffBaseline) {
-                    status = 'PO 진출 유력';
-                    statusColor = '#27ae60';
-                } else if (team.wins >= 68) {
-                    status = 'PO 유력';
-                    statusColor = '#2ecc71';
-                } else if (maxPossibleWins >= playoffBaseline) {
-                    status = 'PO 가능';
-                    statusColor = '#f39c12';
-                } else if (maxPossibleWins >= 68) {
-                    status = 'PO 경합';
-                    statusColor = '#e67e22';
+                if (eliminationMagicNumber === 0) {
+                    tragicDisplay = '탈락';
+                    tragicColor = '#e74c3c'; // 빨간색 - 이미 탈락
+                } else if (eliminationMagicNumber === '-' || eliminationMagicNumber === 999) {
+                    tragicDisplay = '-';
+                    tragicColor = '#95a5a6'; // 회색 - 계산 불가
                 } else {
-                    status = '진출 어려움';
-                    statusColor = '#e74c3c';
+                    // 숫자 앞에 - 부호를 붙여서 표시 (그라데이션 색상)
+                    tragicDisplay = `-${eliminationMagicNumber}`;
+                    
+                    // 72패까지 남은 패배 수에 따른 그라데이션
+                    if (eliminationMagicNumber <= 5) {
+                        tragicColor = '#e74c3c'; // 진한 빨간색 (매우 위험)
+                    } else if (eliminationMagicNumber <= 10) {
+                        tragicColor = '#e67e22'; // 주황색 (위험)
+                    } else if (eliminationMagicNumber <= 20) {
+                        tragicColor = '#f39c12'; // 연한 주황색 (주의)
+                    } else if (eliminationMagicNumber <= 30) {
+                        tragicColor = '#f1c40f'; // 노란색 (보통)
+                    } else {
+                        tragicColor = '#2ecc71'; // 녹색 (안전)
+                    }
+                }
+                
+                // 상태별 색상 (그라데이션 기반)
+                let statusColor = '';
+                switch(statusText) {
+                    case '확정':
+                        statusColor = '#2ecc71'; // 밝은 녹색
+                        break;
+                    case '매우 유력':
+                        statusColor = '#27ae60'; // 녹색
+                        break;
+                    case '유력':
+                        statusColor = '#f39c12'; // 주황색
+                        break;
+                    case '경합':
+                        statusColor = '#e67e22'; // 진한 주황색
+                        break;
+                    case '어려움':
+                        statusColor = '#e74c3c'; // 빨간색
+                        break;
+                    case '매우 어려움':
+                        statusColor = '#c0392b'; // 진한 빨간색
+                        break;
+                    case '불가능':
+                        statusColor = '#95a5a6'; // 회색
+                        break;
+                    default:
+                        statusColor = '#95a5a6'; // 회색
+                }
+                
+                // 필요 승률 색상 (그라데이션 구분)
+                let requiredWinPctColor = '#666';
+                if (team.requiredWinRate > 0) {
+                    if (team.requiredWinRate <= 0.3) {
+                        requiredWinPctColor = '#2ecc71'; // 밝은 녹색 (매우 쉬움)
+                    } else if (team.requiredWinRate <= 0.5) {
+                        requiredWinPctColor = '#f39c12'; // 주황색 (보통)
+                    } else if (team.requiredWinRate <= 0.7) {
+                        requiredWinPctColor = '#e67e22'; // 진한 주황색 (어려움)
+                    } else if (team.requiredWinRate <= 0.85) {
+                        requiredWinPctColor = '#e74c3c'; // 빨간색 (매우 어려움)
+                    } else {
+                        requiredWinPctColor = '#c0392b'; // 진한 빨간색 (거의 불가능)
+                    }
                 }
 
                 const row = document.createElement('tr');
@@ -2480,8 +2509,9 @@
                     <td>${remainingGames}</td>
                     <td>${maxPossibleWins}</td>
                     <td style="color: ${magicColor}; font-weight: 700; font-size: 1.05rem;">${magicDisplay}</td>
+                    <td style="color: ${tragicColor}; font-weight: 700; font-size: 1.05rem;">${tragicDisplay}</td>
                     <td style="color: ${requiredWinPctColor}; font-weight: 600;">${requiredWinPct}</td>
-                    <td style="color: ${statusColor}; font-weight: 600;">${status}</td>
+                    <td style="color: ${statusColor}; font-weight: 600;">${statusText}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -2489,7 +2519,7 @@
                 handleError(error, '플레이오프 진출 조건 렌더링 실패');
                 const tbody = document.querySelector('#playoff-table tbody');
                 if (tbody) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
                 }
             }
         }
