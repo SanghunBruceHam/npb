@@ -2586,17 +2586,21 @@
                     // 숫자 앞에 - 부호를 붙여서 표시 (그라데이션 색상)
                     tragicDisplay = `-${eliminationMagicNumber}`;
                     
-                    // 72패까지 남은 패배 수에 따른 그라데이션
+                    // 트래직 넘버별 세밀한 그라데이션
                     if (eliminationMagicNumber <= 5) {
-                        tragicColor = '#e74c3c'; // 진한 빨간색 (매우 위험)
+                        tragicColor = '#c0392b'; // 진한 빨간색 (매우 위험)
                     } else if (eliminationMagicNumber <= 10) {
-                        tragicColor = '#e67e22'; // 주황색 (위험)
+                        tragicColor = '#e74c3c'; // 빨간색 (위험)
+                    } else if (eliminationMagicNumber <= 15) {
+                        tragicColor = '#e67e22'; // 주황색 (경고)
                     } else if (eliminationMagicNumber <= 20) {
                         tragicColor = '#f39c12'; // 연한 주황색 (주의)
-                    } else if (eliminationMagicNumber <= 30) {
+                    } else if (eliminationMagicNumber <= 25) {
                         tragicColor = '#f1c40f'; // 노란색 (보통)
+                    } else if (eliminationMagicNumber <= 30) {
+                        tragicColor = '#f4d03f'; // 연한 노란색 (안정)
                     } else {
-                        tragicColor = '#2ecc71'; // 녹색 (안전)
+                        tragicColor = '#27ae60'; // 녹색 (안전)
                     }
                 }
                 
