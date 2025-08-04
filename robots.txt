@@ -22,7 +22,7 @@ Allow: *.json
 Crawl-delay: 1
 
 # 사이트맵 위치
-Sitemap: https://kbo.mahalohana-bruce.com/magic-number/sitemap.xml
+Sitemap: https://kbo.mahalohana-bruce.com/sitemap.xml
 
 # 주요 검색엔진별 최적화
 User-agent: Googlebot
