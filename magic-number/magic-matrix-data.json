@@ -1,129 +1,129 @@
 {
-  "lastUpdated": "2025-08-05T23:20:45.417Z",
+  "lastUpdated": "2025-08-05T23:58:25.460Z",
   "updateDate": "2025. 8. 5.",
   "title": "2025월 8월 05일 기준",
   "teams": [
     {
       "name": "LG",
-      "logo": "../images/lg.png",
+      "logo": "images/lg.png",
       "rank": 1,
       "magicNumbers": {
         "1": {
-          "value": 0,
-          "type": "clinched"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 10,
-          "type": "magic"
+          "value": 8,
+          "type": "competitive"
         },
         "3": {
-          "value": 10,
-          "type": "magic"
+          "value": 8,
+          "type": "competitive"
         },
         "4": {
-          "value": 10,
-          "type": "magic"
+          "value": 8,
+          "type": "competitive"
         },
         "5": {
-          "value": 10,
-          "type": "magic"
+          "value": 8,
+          "type": "competitive"
         },
         "6": {
-          "value": 23,
+          "value": 8,
           "type": "competitive"
         },
         "7": {
-          "value": 18,
+          "value": 8,
           "type": "competitive"
         },
         "8": {
-          "value": 13,
+          "value": 8,
           "type": "competitive"
         },
         "9": {
           "value": 8,
-          "type": "magic"
+          "type": "competitive"
         }
       }
     },
     {
       "name": "한화",
-      "logo": "../images/hanwha.png",
+      "logo": "images/hanwha.png",
       "rank": 2,
       "magicNumbers": {
         "1": {
-          "value": 4,
-          "type": "magic"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 13,
+          "value": 11,
           "type": "competitive"
         },
         "3": {
-          "value": 13,
+          "value": 11,
           "type": "competitive"
         },
         "4": {
-          "value": 13,
+          "value": 11,
           "type": "competitive"
         },
         "5": {
-          "value": 13,
+          "value": 11,
           "type": "competitive"
         },
         "6": {
-          "value": 26,
+          "value": 11,
           "type": "competitive"
         },
         "7": {
-          "value": 21,
+          "value": 11,
           "type": "competitive"
         },
         "8": {
-          "value": 16,
+          "value": 11,
           "type": "competitive"
         },
         "9": {
           "value": 11,
-          "type": "magic"
+          "type": "competitive"
         }
       }
     },
     {
       "name": "롯데",
-      "logo": "../images/lotte.png",
+      "logo": "images/lotte.png",
       "rank": 3,
       "magicNumbers": {
         "1": {
-          "value": 6,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 15,
+          "value": 13,
           "type": "competitive"
         },
         "3": {
-          "value": 15,
+          "value": 13,
           "type": "competitive"
         },
         "4": {
-          "value": 15,
+          "value": 13,
           "type": "competitive"
         },
         "5": {
-          "value": 15,
+          "value": 13,
           "type": "competitive"
         },
         "6": {
-          "value": 28,
-          "type": "tragic"
+          "value": 13,
+          "type": "competitive"
         },
         "7": {
-          "value": 23,
+          "value": 13,
           "type": "competitive"
         },
         "8": {
-          "value": 18,
+          "value": 13,
           "type": "competitive"
         },
         "9": {
@@ -134,39 +134,39 @@
     },
     {
       "name": "KIA",
-      "logo": "../images/kia.png",
+      "logo": "images/kia.png",
       "rank": 4,
       "magicNumbers": {
         "1": {
-          "value": 14,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "3": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "4": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "5": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "6": {
-          "value": 36,
-          "type": "tragic"
+          "value": 21,
+          "type": "competitive"
         },
         "7": {
-          "value": 31,
-          "type": "tragic"
+          "value": 21,
+          "type": "competitive"
         },
         "8": {
-          "value": 26,
+          "value": 21,
           "type": "competitive"
         },
         "9": {
@@ -177,39 +177,39 @@
     },
     {
       "name": "SSG",
-      "logo": "../images/ssg.png",
+      "logo": "images/ssg.png",
       "rank": 5,
       "magicNumbers": {
         "1": {
-          "value": 13,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 22,
+          "value": 20,
           "type": "competitive"
         },
         "3": {
-          "value": 22,
+          "value": 20,
           "type": "competitive"
         },
         "4": {
-          "value": 22,
+          "value": 20,
           "type": "competitive"
         },
         "5": {
-          "value": 22,
+          "value": 20,
           "type": "competitive"
         },
         "6": {
-          "value": 35,
-          "type": "tragic"
+          "value": 20,
+          "type": "competitive"
         },
         "7": {
-          "value": 30,
-          "type": "tragic"
+          "value": 20,
+          "type": "competitive"
         },
         "8": {
-          "value": 25,
+          "value": 20,
           "type": "competitive"
         },
         "9": {
@@ -220,39 +220,39 @@
     },
     {
       "name": "KT",
-      "logo": "../images/kt.png",
+      "logo": "images/kt.png",
       "rank": 6,
       "magicNumbers": {
         "1": {
-          "value": 12,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 21,
+          "value": 19,
           "type": "competitive"
         },
         "3": {
-          "value": 21,
+          "value": 19,
           "type": "competitive"
         },
         "4": {
-          "value": 21,
+          "value": 19,
           "type": "competitive"
         },
         "5": {
-          "value": 21,
+          "value": 19,
           "type": "competitive"
         },
         "6": {
-          "value": 34,
-          "type": "tragic"
+          "value": 19,
+          "type": "competitive"
         },
         "7": {
-          "value": 29,
-          "type": "tragic"
+          "value": 19,
+          "type": "competitive"
         },
         "8": {
-          "value": 24,
+          "value": 19,
           "type": "competitive"
         },
         "9": {
@@ -263,82 +263,82 @@
     },
     {
       "name": "NC",
-      "logo": "../images/nc.png",
+      "logo": "images/nc.png",
       "rank": 7,
       "magicNumbers": {
         "1": {
-          "value": 17,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 26,
-          "type": "competitive"
+          "value": 24,
+          "type": "tragic"
         },
         "3": {
-          "value": 26,
-          "type": "competitive"
+          "value": 24,
+          "type": "tragic"
         },
         "4": {
-          "value": 26,
-          "type": "competitive"
+          "value": 24,
+          "type": "tragic"
         },
         "5": {
-          "value": 26,
-          "type": "competitive"
+          "value": 24,
+          "type": "tragic"
         },
         "6": {
-          "value": 39,
+          "value": 24,
           "type": "tragic"
         },
         "7": {
-          "value": 34,
+          "value": 24,
           "type": "tragic"
         },
         "8": {
-          "value": 29,
-          "type": "competitive"
+          "value": 24,
+          "type": "tragic"
         },
         "9": {
           "value": 24,
-          "type": "competitive"
+          "type": "tragic"
         }
       }
     },
     {
       "name": "삼성",
-      "logo": "../images/samsung.png",
+      "logo": "images/samsung.png",
       "rank": 8,
       "magicNumbers": {
         "1": {
-          "value": 14,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "3": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "4": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "5": {
-          "value": 23,
+          "value": 21,
           "type": "competitive"
         },
         "6": {
-          "value": 36,
-          "type": "tragic"
+          "value": 21,
+          "type": "competitive"
         },
         "7": {
-          "value": 31,
-          "type": "tragic"
+          "value": 21,
+          "type": "competitive"
         },
         "8": {
-          "value": 26,
+          "value": 21,
           "type": "competitive"
         },
         "9": {
@@ -349,55 +349,55 @@
     },
     {
       "name": "두산",
-      "logo": "../images/doosan.png",
+      "logo": "images/doosan.png",
       "rank": 9,
       "magicNumbers": {
         "1": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
-          "value": 30,
-          "type": "competitive"
+          "value": 28,
+          "type": "tragic"
         },
         "3": {
-          "value": 30,
-          "type": "competitive"
+          "value": 28,
+          "type": "tragic"
         },
         "4": {
-          "value": 30,
-          "type": "competitive"
+          "value": 28,
+          "type": "tragic"
         },
         "5": {
-          "value": 30,
-          "type": "competitive"
+          "value": 28,
+          "type": "tragic"
         },
         "6": {
-          "value": 43,
+          "value": 28,
           "type": "tragic"
         },
         "7": {
-          "value": 38,
+          "value": 28,
           "type": "tragic"
         },
         "8": {
-          "value": 33,
+          "value": 28,
           "type": "tragic"
         },
         "9": {
           "value": 28,
-          "type": "competitive"
+          "type": "tragic"
         }
       }
     },
     {
       "name": "키움",
-      "logo": "../images/kiwoom.png",
+      "logo": "images/kiwoom.png",
       "rank": 10,
       "magicNumbers": {
         "1": {
-          "value": 33,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "2": {
           "value": 999,
@@ -416,20 +416,20 @@
           "type": "eliminated"
         },
         "6": {
-          "value": 55,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "7": {
-          "value": 50,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "8": {
-          "value": 45,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "9": {
-          "value": 40,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         }
       }
     }

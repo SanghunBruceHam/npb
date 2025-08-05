@@ -3678,6 +3678,9 @@
                 // 1-1. 상대전적 데이터 로딩
                 await loadHeadToHeadData();
                 
+                // 1-2. 매직넘버 매트릭스 데이터 로딩
+                await loadMagicMatrixData();
+                
                 // 2. UI 업데이트
                 try {
                     updateSummaryDashboard();
@@ -3714,6 +3717,12 @@
                     renderPlayoffCondition();
                 } catch (error) {
                     console.error('❌ 플레이오프 조건 렌더링 오류:', error);
+                }
+                
+                try {
+                    renderMagicNumberMatrix();
+                } catch (error) {
+                    console.error('❌ 매직넘버 매트릭스 렌더링 오류:', error);
                 }
                 
                 try {
@@ -4003,15 +4012,243 @@
             scrollToSection('namuwiki-chart');
         }
         
-        // 매직넘버 차트는 magic-matrix-renderer.js에서 처리
-
-                    }
-                }, 2000);
+        // 매직넘버 매트릭스 렌더링
+        function renderMagicNumberMatrix() {
+            const table = document.getElementById('namuwiki-magic-table');
+            if (!table || !currentStandings.length) return;
+            
+            console.log('🎯 매직넘버 매트릭스 렌더링 시작');
+            
+            // 테이블 초기화
+            table.innerHTML = '';
+            
+            // 헤더 생성
+            const thead = document.createElement('thead');
+            
+            // 첫 번째 행: 현재순위, 구단명, "도달 순위" 라벨
+            const headerRow1 = document.createElement('tr');
+            
+            // 현재순위 헤더
+            const rankHeader = document.createElement('th');
+            rankHeader.innerHTML = '현재<br>순위';
+            rankHeader.rowSpan = 2;
+            rankHeader.style.cssText = `
+                width: 60px; text-align: center; vertical-align: middle;
+                background: var(--primary-color); color: white;
+                padding: 12px 8px; border: 1px solid #ddd;
+            `;
+            headerRow1.appendChild(rankHeader);
+            
+            // 구단명 헤더
+            const teamHeader = document.createElement('th');
+            teamHeader.innerHTML = '구단명';
+            teamHeader.rowSpan = 2;
+            teamHeader.style.cssText = `
+                width: 120px; text-align: center; vertical-align: middle;
+                background: var(--primary-color); color: white;
+                padding: 12px 8px; border: 1px solid #ddd;
+            `;
+            headerRow1.appendChild(teamHeader);
+            
+            // "도달 순위" 라벨 헤더
+            const rankLabelHeader = document.createElement('th');
+            rankLabelHeader.innerHTML = '도달 순위';
+            rankLabelHeader.colSpan = 9;
+            rankLabelHeader.style.cssText = `
+                text-align: center; background: var(--secondary-color);
+                color: white; padding: 8px; border: 1px solid #ddd;
+            `;
+            headerRow1.appendChild(rankLabelHeader);
+            
+            thead.appendChild(headerRow1);
+            
+            // 두 번째 행: 9위부터 1위까지
+            const headerRow2 = document.createElement('tr');
+            for (let rank = 9; rank >= 1; rank--) {
+                const rankCell = document.createElement('th');
+                rankCell.innerHTML = `${rank}위`;
+                
+                // 순위별 색상
+                let bgColor = '#6b7280';
+                let textColor = 'white';
+                
+                if (rank === 1) {
+                    bgColor = '#ffd700'; textColor = 'black';
+                } else if (rank === 2) {
+                    bgColor = '#c0c0c0'; textColor = 'black';
+                } else if (rank === 3) {
+                    bgColor = '#cd7f32'; textColor = 'white';
+                } else if (rank >= 4 && rank <= 5) {
+                    bgColor = '#1a237e'; textColor = 'white';
+                }
+                
+                rankCell.style.cssText = `
+                    background: ${bgColor}; color: ${textColor};
+                    font-weight: 600; text-align: center;
+                    padding: 8px 4px; border: 1px solid #ddd;
+                `;
+                
+                headerRow2.appendChild(rankCell);
+            }
+            
+            thead.appendChild(headerRow2);
+            table.appendChild(thead);
+            
+            // 본문 생성
+            const tbody = document.createElement('tbody');
+            
+            // 순위대로 정렬된 팀들
+            const sortedTeams = [...currentStandings].sort((a, b) => a.rank - b.rank);
+            
+            sortedTeams.forEach(team => {
+                const row = document.createElement('tr');
+                
+                // 현재순위 셀
+                const rankCell = document.createElement('td');
+                rankCell.innerHTML = `${team.rank}위`;
+                rankCell.style.cssText = `
+                    text-align: center; font-weight: 700;
+                    padding: 8px 4px; border: 1px solid #ddd;
+                `;
+                row.appendChild(rankCell);
+                
+                // 구단명 셀
+                const teamCell = document.createElement('td');
+                const teamData = kboTeams[team.team];
+                if (teamData) {
+                    teamCell.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            ${teamData.logo}
+                            <span style="color: ${teamData.color}; font-weight: 600;">${team.team}</span>
+                        </div>
+                    `;
+                } else {
+                    teamCell.innerHTML = team.team;
+                }
+                teamCell.style.cssText = `
+                    padding: 8px 4px; border: 1px solid #ddd;
+                    width: 120px; text-align: center;
+                `;
+                row.appendChild(teamCell);
+                
+                // 매직넘버/트래직넘버 셀들 (9위 → 1위)
+                for (let targetRank = 9; targetRank >= 1; targetRank--) {
+                    const magicCell = createMagicNumberCell(team, targetRank, sortedTeams);
+                    row.appendChild(magicCell);
+                }
+                
+                tbody.appendChild(row);
+            });
+            
+            table.appendChild(tbody);
+            
+            // 타임스탬프 업데이트
+            const timestampElement = document.getElementById('matrix-load-time');
+            if (timestampElement && magicMatrixData) {
+                timestampElement.textContent = `${magicMatrixData.title || '최신 데이터'}`;
+            }
+            
+            console.log('✅ 매직넘버 매트릭스 렌더링 완료');
+        }
+        
+        // 매직넘버/트래직넘버 셀 생성
+        function createMagicNumberCell(team, targetRank, allTeams) {
+            const cell = document.createElement('td');
+            
+            // 실제 매직넘버/트래직넘버 계산
+            const result = calculateMagicOrTragicNumber(team, targetRank, allTeams);
+            
+            // 색상 결정
+            const colors = getMagicNumberColors(result.type);
+            
+            // 셀 내용
+            cell.innerHTML = `<span style="font-weight: 600;">${result.value}</span>`;
+            cell.style.cssText = `
+                background: ${colors.bg}; color: ${colors.text};
+                padding: 8px 4px; text-align: center;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                cursor: help; font-weight: 600;
+            `;
+            
+            // 툴팁
+            cell.title = getMagicNumberTooltip(result.type, result.value, targetRank, team.team);
+            
+            return cell;
+        }
+        
+        // 매직넘버 매트릭스 데이터 로딩
+        let magicMatrixData = null;
+        
+        async function loadMagicMatrixData() {
+            try {
+                console.log('🔍 매직넘버 매트릭스 데이터 로딩 시작...');
+                const response = await fetch(`magic-matrix-data.json?v=${Date.now()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                magicMatrixData = await response.json();
+                console.log('✅ 매직넘버 매트릭스 데이터 로드 완료');
+                return magicMatrixData;
+            } catch (error) {
+                console.error('❌ 매직넘버 매트릭스 데이터 로드 실패:', error);
+                // 백업 데이터나 빈 데이터 반환
+                return { teams: [], lastUpdated: new Date().toISOString() };
             }
         }
         
-        // 테이블 스크롤 초기화
-        setTimeout(initTableScroll, 1500);
+        // 매직넘버/트래직넘버 계산 (매트릭스 데이터 기반)
+        function calculateMagicOrTragicNumber(team, targetRank, allTeams) {
+            if (!magicMatrixData || !magicMatrixData.teams) {
+                return { value: '-', type: 'competitive' };
+            }
+            
+            // 매트릭스 데이터에서 해당 팀 찾기
+            const teamData = magicMatrixData.teams.find(t => t.name === team.team);
+            if (!teamData || !teamData.magicNumbers) {
+                return { value: '-', type: 'competitive' };
+            }
+            
+            // 해당 순위의 매직넘버 데이터 가져오기
+            const rankData = teamData.magicNumbers[targetRank.toString()];
+            if (!rankData) {
+                return { value: '-', type: 'competitive' };
+            }
+            
+            return {
+                value: rankData.value,
+                type: rankData.type
+            };
+        }
+        
+        // 매직넘버 타입별 색상
+        function getMagicNumberColors(type) {
+            const colorMap = {
+                'magic': { bg: '#7dd87d', text: 'black' },      // 연한 초록
+                'competitive': { bg: '#ffff7d', text: 'black' }, // 연한 노랑
+                'tragic': { bg: '#ff7d7d', text: 'black' },     // 연한 분홍
+                'clinched': { bg: '#4169e1', text: 'white' },   // 파란색
+                'eliminated': { bg: '#808080', text: 'white' }   // 회색
+            };
+            return colorMap[type] || { bg: 'white', text: 'black' };
+        }
+        
+        // 매직넘버 툴팁 텍스트
+        function getMagicNumberTooltip(type, value, rank, teamName) {
+            if (type === 'magic') {
+                return `${teamName}이 ${rank}위 달성하려면 ${value}승 더 필요`;
+            } else if (type === 'tragic') {
+                return `${teamName}이 ${value}패 더 하면 ${rank}위에서 탈락`;
+            } else if (type === 'competitive') {
+                return `${teamName}의 ${rank}위 경합 상황 - ${value}승 필요`;
+            } else if (type === 'clinched') {
+                return `${teamName}의 ${rank}위 이미 확정!`;
+            } else if (type === 'eliminated') {
+                return `${teamName}의 ${rank}위 진출 불가능`;
+            }
+            return `${teamName} ${rank}위 관련 정보`;
+        }
         
         // 활성 네비게이션 업데이트
         function updateActiveNav(activeId) {
@@ -4063,8 +4300,6 @@
 
     </script>
 
-    <!-- 매직넘버 매트릭스 렌더러 -->
-    <script src="magic-matrix-renderer.js"></script>
 
     <!-- 탑으로 가기 버튼 -->
     <button class="scroll-to-top" id="scrollToTop">↑</button>

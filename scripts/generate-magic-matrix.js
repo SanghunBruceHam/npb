@@ -11,7 +11,7 @@ const path = require('path');
 class MagicMatrixGenerator {
     constructor() {
         this.serviceData = null;
-        this.outputPath = path.join(__dirname, '../magic-number/namuwiki-data.json');
+        this.outputPath = path.join(__dirname, '../magic-number/magic-matrix-data.json');
     }
 
     // 서비스 데이터 로드
@@ -41,7 +41,7 @@ class MagicMatrixGenerator {
             
             return {
                 name: team.team,
-                logo: `../images/${this.getTeamLogoFileName(team.team)}`,
+                logo: `images/${this.getTeamLogoFileName(team.team)}`,
                 rank: team.rank,
                 magicNumbers: magicNumbers
             };
@@ -52,55 +52,101 @@ class MagicMatrixGenerator {
 
     // 개별 매직넘버 계산
     calculateMagicNumber(team, targetRank) {
-        const currentRank = team.rank;
-        const magicData = this.serviceData.magicNumbers[team.team];
+        const allTeams = this.serviceData.standings;
+        const currentTeam = allTeams.find(t => t.team === team.team);
         
-        if (!magicData) return null;
+        if (!currentTeam) return null;
 
-        let value, type;
+        // targetRank 순위 확정을 위한 매직넘버 계산
+        const result = this.calculateRankMagicNumber(currentTeam, targetRank, allTeams);
+        
+        return result;
+    }
 
+    // 특정 순위 확정을 위한 매직넘버 계산
+    calculateRankMagicNumber(team, targetRank, allTeams) {
+        const currentWins = team.wins;
+        const remainingGames = team.remainingGames;
+        const maxPossibleWins = currentWins + remainingGames;
+
+        // 다른 모든 팀들의 최대 가능 승수 계산 (자신 제외)
+        const otherTeamsMaxWins = allTeams
+            .filter(t => t.team !== team.team)
+            .map(t => t.wins + t.remainingGames)
+            .sort((a, b) => b - a);
+
+        // targetRank 순위를 확정하기 위해 필요한 승수 계산
+        let requiredWins;
+        
         if (targetRank === 1) {
-            // 1위 매직넘버 - 1위 팀은 우승 확정을 위한 매직넘버
-            if (currentRank === 1) {
-                // 현재 1위 팀의 우승 매직넘버
-                value = magicData.championship === 999 ? 0 : magicData.championship;
-                type = value === 0 ? 'clinched' : 
-                       value <= 5 ? 'magic' : 'competitive';
-            } else {
-                // 다른 팀이 1위 달성하기 위한 매직넘버
-                value = magicData.championship;
-                type = value === 999 ? 'eliminated' : 
-                       value === 0 ? 'clinched' : 
-                       value <= 5 ? 'magic' : 'competitive';
-            }
-        } else if (targetRank <= 5) {
-            // 플레이오프 매직넘버 (2-5위)
-            value = magicData.playoff;
-            type = value === 999 ? 'eliminated' : 
-                   value === 0 ? 'clinched' : 
-                   value <= 10 ? 'magic' : 'competitive';
+            // 1위 확정: 다른 팀 중 최고 승수와 같거나 더 많이 이기면 됨
+            // 동점시 승부차로 결정되므로, 최고 승수와 같아도 1위 가능
+            requiredWins = otherTeamsMaxWins[0];
         } else {
-            // 하위권 매직넘버 (6-9위)
-            const remainingGames = magicData.remainingGames;
-            const maxPossibleWins = magicData.maxPossibleWins;
+            // N위 확정: 자신보다 아래 순위가 될 팀들(10-N개)의 최대 승수보다 많이 이겨야 함
+            const teamsToOutrank = 10 - targetRank; // 자신보다 아래 순위가 될 팀 수
             
-            // 순위별 예상 필요 승수 (대략적 계산)
-            const rankThresholds = {
-                6: 85,  // 6위 예상 승수
-                7: 80,  // 7위 예상 승수
-                8: 75,  // 8위 예상 승수
-                9: 70   // 9위 예상 승수
-            };
-            
-            const targetWins = rankThresholds[targetRank] || 70;
-            value = Math.max(0, targetWins - team.wins);
-            
-            type = value === 0 ? 'clinched' : 
-                   value <= remainingGames * 0.3 ? 'magic' : 
-                   value <= remainingGames * 0.7 ? 'competitive' : 'tragic';
+            if (teamsToOutrank >= otherTeamsMaxWins.length) {
+                // 모든 팀을 이길 필요 없음 (N위가 최하위)
+                requiredWins = currentWins; // 이미 확정
+            } else {
+                // 상위 (teamsToOutrank)개 팀의 최대 승수보다 많아야 함
+                requiredWins = otherTeamsMaxWins[teamsToOutrank - 1];
+            }
         }
 
-        return { value, type };
+        // 매직넘버 = 필요 승수 - 현재 승수 + 1 (같으면 승부차, 1승 더 이기면 확정)
+        let magicNumber;
+        if (currentWins > requiredWins) {
+            magicNumber = 0; // 이미 확정
+        } else if (currentWins === requiredWins) {
+            magicNumber = 1; // 1승만 더 이기면 확정
+        } else {
+            magicNumber = requiredWins - currentWins + 1;
+        }
+        
+        // 불가능한 경우 체크 (최대 가능 승수로도 달성 불가)
+        if (requiredWins + 1 > maxPossibleWins) {
+            magicNumber = 999; // 불가능
+        }
+
+        // 매직넘버가 0이거나 음수인 경우 이미 확정
+        if (magicNumber <= 0) {
+            magicNumber = 0;
+        }
+
+        // 타입 결정
+        let type;
+        if (magicNumber === 999) {
+            type = 'eliminated';
+        } else if (magicNumber === 0) {
+            type = 'clinched';
+        } else if (magicNumber <= 5) {
+            type = 'magic';
+        } else if (magicNumber <= remainingGames * 0.5) {
+            type = 'competitive';
+        } else {
+            type = 'tragic';
+        }
+
+        return { value: magicNumber, type: type };
+    }
+
+    // 특정 순위가 이미 확정되었는지 확인
+    isRankAlreadySecured(team, targetRank, allTeams) {
+        const currentWins = team.wins;
+        const otherTeams = allTeams.filter(t => t.team !== team.team);
+        
+        // targetRank보다 아래 순위가 될 수 있는 팀들의 최대 가능 승수 확인
+        const lowerRankTeamsMaxWins = otherTeams
+            .map(t => t.wins + t.remainingGames)
+            .sort((a, b) => b - a);
+
+        const teamsToDefeat = 10 - targetRank;
+        if (teamsToDefeat <= 0) return true;
+        
+        const thresholdWins = lowerRankTeamsMaxWins[teamsToDefeat - 1] || 0;
+        return currentWins > thresholdWins;
     }
 
     // 팀 로고 파일명 반환
