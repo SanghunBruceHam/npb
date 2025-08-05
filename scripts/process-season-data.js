@@ -621,9 +621,9 @@ class KBODataProcessor {
         console.log('💾 데이터 파일 저장 중...');
         
         try {
-            // 1. 통합 서비스 데이터
-            fs.writeFileSync('./output/service-data.json', JSON.stringify(serviceData, null, 2));
-            console.log('  ✅ output/service-data.json 저장 완료');
+            // 1. magic-number 폴더에 웹서비스용 통합 데이터 저장
+            fs.writeFileSync('./magic-number/service-data.json', JSON.stringify(serviceData, null, 2));
+            console.log('  ✅ magic-number/service-data.json 저장 완료');
             
             // 2. magic-number 폴더에 웹서비스용 파일들 생성
             const rankingsData = {
@@ -667,8 +667,7 @@ class KBODataProcessor {
                 
                 fs.writeFileSync('./magic-number/kbo-records.json', JSON.stringify(recordsData, null, 2));
                 
-                // 4. service-data.json도 magic-number 폴더에 복사 (플레이오프 데이터 포함)
-                fs.writeFileSync('./magic-number/service-data.json', JSON.stringify(serviceData, null, 2));
+                // service-data.json은 이미 위에서 저장됨
                 
                 console.log('  ✅ magic-number 폴더 파일들 업데이트 완료');
             }
@@ -759,7 +758,7 @@ class KBODataProcessor {
             console.log(`📊 총 ${parseResult.gameCount}경기 처리`);
             console.log(`📅 최신 데이터: ${parseResult.lastDate}`);
             console.log('📁 생성된 파일:');
-            console.log('   - output/service-data.json (통합 데이터)');
+            console.log('   - magic-number/service-data.json (통합 웹서비스 데이터)');
             console.log('   - magic-number/kbo-rankings.json (웹서비스용 순위)');
             console.log('   - magic-number/kbo-records.json (웹서비스용 상대전적)');
             

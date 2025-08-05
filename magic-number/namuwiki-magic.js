@@ -258,7 +258,7 @@ class NamuwikiMagicChart {
 const namuwikiChart = new NamuwikiMagicChart();
 
 // DOM 로드 완료 시 자동 렌더링
-document.addEventListener('DOMContentLoaded', async () => {
+async function initNamuwikiChart() {
     try {
         console.log('🚀 나무위키 차트 초기화 시작');
         await namuwikiChart.render('namuwiki-magic-table');
@@ -266,7 +266,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('❌ 나무위키 차트 초기화 실패:', error);
     }
-});
+}
+
+// DOM이 이미 로드되었는지 확인하고 적절히 실행
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNamuwikiChart);
+} else {
+    // DOM이 이미 로드된 경우 즉시 실행
+    initNamuwikiChart();
+}
 
 // 외부에서 사용할 수 있도록 전역 함수 제공
 window.renderNamuwikiChart = () => namuwikiChart.render();
