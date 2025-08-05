@@ -113,6 +113,11 @@
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
             --shadow-lg: 0 8px 16px rgba(0,0,0,0.16);
+            /* 일관된 브랜딩을 위한 추가 색상 */
+            --kbo-blue: #1a237e;
+            --kbo-light-blue: #3949ab;
+            --text-muted: #6c757d;
+            --border-light: #e9ecef;
         }
 
         body {
@@ -144,16 +149,16 @@
             position: sticky;
             top: 0;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            z-index: 1000;
+            z-index: 9999;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
             margin: 0 -20px 30px -20px;
         }
         .nav-menu {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             list-style: none;
             margin: 0;
-            padding: 8px 16px;
+            padding: 12px 24px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 25px;
             backdrop-filter: blur(10px);
@@ -165,13 +170,14 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.95rem;
-            padding: 8px 16px;
+            font-size: 1rem;
+            padding: 12px 20px;
             border-radius: 6px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            white-space: nowrap;
         }
         .nav-menu a:hover {
             background: rgba(255, 255, 255, 0.15);
@@ -272,6 +278,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .subtitle {
@@ -280,6 +287,7 @@
             margin-top: 10px;
             font-size: 1.1rem;
             font-weight: 300;
+            line-height: 1.5;
         }
 
         .content-container {
@@ -290,24 +298,238 @@
         .cards-grid {
             display: flex;
             flex-direction: column;
-            gap: 30px;
-            margin-bottom: 20px;
+            gap: 32px;
+            margin-bottom: 24px;
         }
 
         .card {
             background: var(--bg-secondary);
             border-radius: 16px;
-            padding: 24px;
+            padding: 32px;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             position: relative;
+            text-align: center;
             overflow: visible;
-            width: 90%;
+            width: 100%;
             max-width: 1200px;
-            scroll-margin-top: 120px; /* 스티키 네비게이션을 위한 스크롤 마진 */
             margin: 0 auto;
-            z-index: 1;
+        }
+        
+        #namuwiki-chart {
+            /* 다른 카드들과 동일한 스타일 사용 */
+        }
+        
+        .namuwiki-table-container {
+            padding: 0;
+            overflow-x: auto;
+            margin: 0 0 20px 0;
+        }
+        
+        .namuwiki-magic-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            table-layout: fixed;
+            min-width: 500px;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        
+        .magic-table-wrapper {
+            width: 100% !important;
+            margin: 0 auto !important;
+            text-align: center !important;
+        }
+        
+        .magic-table-wrapper > div {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        
+        .magic-table-wrapper table {
+            margin: 0 auto !important;
+            display: table !important;
+        }
+        
+        .chart-footer {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-top: 1px solid #e2e8f0;
+            border-radius: 0 0 8px 8px;
+            margin-top: 10px;
+        }
+        
+        .legend-container {
+            margin-bottom: 15px;
+        }
+        
+        .legend-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .legend-items {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .legend-color.magic {
+            background-color: #7dd87d;
+        }
+        
+        .legend-color.competitive {
+            background-color: #ffff7d;
+        }
+        
+        .legend-color.tragic {
+            background-color: #ff7d7d;
+        }
+        
+        .update-info {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 기본 team-logo 스타일은 위에서 정의됨 */
+        
+        .team-name {
+            font-weight: 600;
+        }
+        
+        /* 로고 스타일 - PNG 파일 실제 비율 강제 적용 */
+        .team-logo {
+            height: 20px !important;
+            width: auto !important;
+            max-width: none !important;
+            min-width: auto !important;
+            object-fit: contain !important;
+            vertical-align: middle !important;
+            margin-right: 6px;
+            display: inline-block !important;
+            aspect-ratio: auto !important;
+        }
+        
+        /* 팀별 실제 PNG 사이즈 비율 적용 - 더 구체적인 선택자 */
+        img[src*="doosan.png"], img[alt*="두산"] { 
+            aspect-ratio: 1/1 !important; 
+            width: auto !important;
+        } /* 1:1 */
+        
+        img[src*="hanwha.png"], img[alt*="한화"] { 
+            aspect-ratio: 1.175/1 !important; 
+            width: auto !important;
+        } /* 1.175:1 */
+        
+        img[src*="kt.png"], img[alt*="KT"] { 
+            aspect-ratio: 1.105/1 !important; 
+            width: auto !important;
+        } /* 1.105:1 */
+        
+        img[src*="lg.png"], img[alt*="LG"] { 
+            aspect-ratio: 1.255/1 !important; 
+            width: auto !important;
+        } /* 1.255:1 */
+        
+        img[src*="samsung.png"], img[alt*="삼성"] { 
+            aspect-ratio: 1.33/1 !important; 
+            width: auto !important;
+        } /* 1.33:1 */
+        
+        img[src*="lotte.png"], img[alt*="롯데"] { 
+            aspect-ratio: 1.335/1 !important; 
+            width: auto !important;
+        } /* 1.335:1 */
+        
+        img[src*="kia.png"], img[alt*="KIA"] { 
+            aspect-ratio: 1.345/1 !important; 
+            width: auto !important;
+        } /* 1.345:1 */
+        
+        img[src*="kiwoom.png"], img[alt*="키움"] { 
+            aspect-ratio: 1.365/1 !important; 
+            width: auto !important;
+        } /* 1.365:1 */
+        
+        img[src*="nc.png"], img[alt*="NC"] { 
+            aspect-ratio: 1.485/1 !important; 
+            width: auto !important;
+        } /* 1.485:1 */
+        
+        img[src*="ssg.png"], img[alt*="SSG"] { 
+            aspect-ratio: 1.7/1 !important; 
+            width: auto !important;
+        } /* 1.7:1 */
+        
+        /* 큰 테이블용 로고 */
+        .standings-table .team-logo {
+            height: 24px !important;
+            width: auto !important;
+            object-fit: contain !important;
+        }
+        
+        /* VS 그리드 로고 */
+        .vs-grid .team-logo {
+            height: 18px !important;
+            width: auto !important;
+            object-fit: contain !important;
+        }
+        
+        /* 매직넘버 차트 로고 */
+        .namuwiki-magic-table img {
+            height: 28px !important;
+            width: auto !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+        
+        /* 통계 섹션 로고 */
+        .stat-item .team-logo,
+        .playoff-condition .team-logo,
+        .championship-condition .team-logo {
+            height: 20px !important;
+            width: auto !important;
+            object-fit: contain !important;
+            vertical-align: middle !important;
+        }
+        
+        /* 첫 번째 위치 메인 로고 */
+        #first-place-logo img {
+            height: 40px !important;
+            width: auto !important;
+            object-fit: contain !important;
         }
         
 
@@ -327,25 +549,213 @@
         }
 
         .card h2 {
-            color: var(--text-primary);
+            color: var(--primary-color);
             margin-bottom: 20px;
-            padding-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid var(--border-color);
             font-size: 1.4rem;
+            text-align: center;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        /* 하위 제목 통일 */
+        .section-subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        /* 대시보드 값 스타일 통일 */
+        .dashboard-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .dashboard-sub-value {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* 범례 스타일 통일 */
+        .legend-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .h2h-legend {
+            text-align: left;
+        }
+
         #chase-analysis, #playoff-condition {
             position: relative;
-            z-index: 100000;
+            z-index: 1;
         }
 
         #chase-table, #playoff-table {
             position: relative;
-            z-index: 100001;
+            z-index: 1;
+        }
+
+        /* 나무위키 스타일 매직넘버 테이블 */
+        .namuwiki-table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .namuwiki-magic-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            table-layout: fixed !important;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        
+        .namuwiki-magic-table:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        /* 매직넘버 테이블 통합 보더 설정 */
+        .namuwiki-magic-table th,
+        .namuwiki-magic-table td {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .namuwiki-magic-table th {
+            background: var(--bg-primary);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: auto;
+            height: 48px;
+        }
+
+        .namuwiki-magic-table td {
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.85rem;
+            height: 48px;
+            width: auto;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .namuwiki-magic-table tr:hover td {
+            background-color: rgba(59, 130, 246, 0.08) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .namuwiki-magic-table .team-cell {
+            width: 120px;
+            min-width: 120px;
+            max-width: 120px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .namuwiki-magic-table tr:hover .team-cell {
+            background-color: rgba(59, 130, 246, 0.08) !important;
+        }
+
+        .namuwiki-magic-table .team-cell img {
+            height: 20px;
+            width: auto;
+            vertical-align: middle;
+            object-fit: contain;
+        }
+
+        /* 나무위키 실제 색상 (스크린샷 완전 재현) */
+        .namu-magic {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .namu-competitive {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .namu-tragic {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .namu-clinched-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .namu-clinched-dark {
+            background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .namu-clinched-darker {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .namu-eliminated {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            border-radius: 6px !important;
+            padding: 4px 8px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
         }
 
 
@@ -353,19 +763,21 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: white;
         }
 
         table {
             width: 100%;
             min-width: 800px;
-            border-collapse: separate;
+            border-collapse: collapse;
             border-spacing: 0;
             font-size: 0.9rem;
-            border-radius: 8px;
-            overflow: visible;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
         }
 
 
@@ -374,6 +786,7 @@
             text-align: center;
             position: relative;
             line-height: 1.3;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         /* 팀 순위표 필드별 너비 조정 */
@@ -430,7 +843,7 @@
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 9998;
             text-align: center !important;
             vertical-align: middle;
         }
@@ -539,13 +952,7 @@
             box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
         }
 
-        .team-logo {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
+        /* 이 선택자는 위의 .team-logo로 통합됨 */
 
         .vs-grid {
             display: grid;
@@ -638,7 +1045,7 @@
 
         .tooltip {
             position: relative;
-            z-index: 50000;
+            z-index: 10000;
         }
 
         .tooltip .tooltiptext {
@@ -650,7 +1057,7 @@
             border-radius: 8px;
             padding: 10px;
             position: absolute;
-            z-index: 999999;
+            z-index: 10001;
             top: 100%;
             left: 50%;
             margin-left: -150px;
@@ -1014,6 +1421,7 @@
             <li><a href="#standings" class="active">📊 팀 순위표</a></li>
             <li><a href="#championship" onclick="scrollToChampionship()">👑 정규시즌 우승 조건</a></li>
             <li><a href="#chase" onclick="scrollToChase()">🎯 1위 탈환 가능성</a></li>
+            <li><a href="#namuwiki-chart" onclick="scrollToNamuwikiChart()">📋 매직넘버 매트릭스</a></li>
             <li><a href="#playoff" onclick="scrollToPlayoff()">🏟️ 플레이오프 진출 조건</a></li>
             <li><a href="#vs-records" onclick="scrollToVsRecords()">⚔️ 팀간 상대전적</a></li>
             <li><a href="#remaining" onclick="scrollToRemaining()">📅 팀간 잔여 경기수</a></li>
@@ -1028,41 +1436,40 @@
             <div style="width: 90%; max-width: 1200px; margin: 0 auto;">
                 <div class="summary-dashboard" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
                     <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">🏆 현재 1위</h3>
-                    <div class="value" id="first-place-team" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">-</div>
-                    <div class="sub-value" id="first-place-magic" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">매직넘버: -</div>
+                    <h3 class="section-subtitle">🏆 현재 1위</h3>
+                    <div class="dashboard-value" id="first-place-team" style="color: var(--primary-color);">-</div>
+                    <div class="dashboard-sub-value" id="first-place-magic">매직넘버: -</div>
                 </div>
                 
                 <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">✅ 플레이오프 확정</h3>
-                    <div class="value" id="playoff-confirmed-teams" style="font-size: 2rem; font-weight: 700; color: var(--success-color);">-</div>
-                    <div class="sub-value" id="playoff-confirmed-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">72승 이상 달성</div>
+                    <h3 class="section-subtitle">✅ 플레이오프 확정</h3>
+                    <div class="dashboard-value" id="playoff-confirmed-teams" style="color: var(--success-color);">-</div>
+                    <div class="dashboard-sub-value" id="playoff-confirmed-desc">72승 이상 달성</div>
                 </div>
                 
                 <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">🔥 최고 연승팀</h3>
-                    <div class="value" id="best-streak-team" style="font-size: 2rem; font-weight: 700; color: var(--warning-color);">-</div>
-                    <div class="sub-value" id="best-streak-count" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">-</div>
+                    <h3 class="section-subtitle">🔥 최고 연승팀</h3>
+                    <div class="dashboard-value" id="best-streak-team" style="color: var(--warning-color);">-</div>
+                    <div class="dashboard-sub-value" id="best-streak-count">-</div>
                 </div>
                 
                 <div class="summary-card" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
-                    <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">📊 최근 10경기 1위팀</h3>
-                    <div class="value" id="recent-best-team" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">-</div>
-                    <div class="sub-value" id="recent-best-record" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px;">-</div>
+                    <h3 class="section-subtitle">📊 최근 10경기 1위팀</h3>
+                    <div class="dashboard-value" id="recent-best-team" style="color: var(--primary-color);">-</div>
+                    <div class="dashboard-sub-value" id="recent-best-record">-</div>
                 </div>
             </div>
-            </div>
+        </div>
+    </div>
 
-            <div class="cards-grid">
+    <div class="container">
+        <div class="content-container">
+                <div class="cards-grid" style="width: 100%; max-width: 1200px; margin: 0 auto;">
                 <!-- 팀 순위 테이블 -->
                 <div class="card" id="standings">
                     <h2>📊 팀 순위표</h2>
-                    <div class="ranking-legend" style="font-size: 0.9rem; color: #666; line-height: 1.4; margin-bottom: 15px;">
-                        <strong>순위별 진출권:</strong> 
-                        <span style="color: #ffd700; font-weight: 600;">■ 1위</span> 정규시즌 우승 | 
-                        <span style="color: #c0c0c0; font-weight: 600;">■ 2위</span> 플레이오프 직행 | 
-                        <span style="color: #cd7f32; font-weight: 600;">■ 3위</span> 준플레이오프 직행 | 
-                        <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
+                    <div class="ranking-legend legend-text">
+                        <strong>순위별 진출권:</strong> <span style="color: #ffd700; font-weight: 600;">■ 1위</span> 정규시즌 우승 | <span style="color: #c0c0c0; font-weight: 600;">■ 2위</span> 플레이오프 직행 | <span style="color: #cd7f32; font-weight: 600;">■ 3위</span> 준플레이오프 직행 | <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
                     </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
@@ -1131,9 +1538,6 @@
                 <!-- 1위팀 우승 조건 -->
                 <div class="card" id="championship">
                     <h2>👑 정규시즌 우승 조건</h2>
-                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
-                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
-                    </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
                     </div>
@@ -1152,7 +1556,7 @@
                                 <!-- 팀 정보 -->
                                 <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px;">
                                     <span id="first-place-logo" style="
-                                        font-size: 2.4rem; 
+                                        display: inline-block;
                                         filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
                                         position: relative;
                                         animation: logoGlow 3s ease-in-out infinite alternate;
@@ -1225,6 +1629,9 @@
                             <div id="clinch-date" style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">-</div>
                         </div>
                     </div>
+                    <div style="color: #666; font-size: 0.85rem; margin-top: 15px; text-align: left; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    </div>
                 </div>
 
                 <!-- 쿠팡 광고 영역 1 -->
@@ -1253,9 +1660,6 @@
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card" id="chase">
                     <h2>🎯 1위 탈환 가능성</h2>
-                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
-                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
-                    </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
                     </div>
@@ -1281,6 +1685,9 @@
                             </table>
                         </div>
                     </div>
+                    <div style="color: #666; font-size: 0.85rem; margin-top: 15px; text-align: left; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
+                    </div>
                 </div>
 
                 <!-- 광고 3: 기사간 배너 -->
@@ -1296,12 +1703,44 @@
                     </script>
                 </div>
 
+                <!-- KBO 매직넘버 차트 -->
+                <div class="card" id="namuwiki-chart">
+                    <h2>📋 매직넘버 매트릭스</h2>
+                    <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
+                        📊 <span class="data-load-time">2025. 8. 4. 오후 09:04 KBO 공식</span>
+                    </div>
+                    <div class="legend-text">
+                        <strong>매직넘버 매트릭스:</strong> 각 팀이 특정 순위에 도달하기 위해 필요한 승수를 나타냅니다<br>
+                        <strong>색상:</strong> <span style="color: #10b981; font-weight: 600;">■ 초록</span> = 매직넘버, <span style="color: #f59e0b; font-weight: 600;">■ 노랑</span> = 경합상황, <span style="color: #ef4444; font-weight: 600;">■ 빨강</span> = 트래직넘버, <span style="color: #3b82f6; font-weight: 600;">■ 파랑</span> = 확정상황<br>
+                        <strong>순위별 진출권:</strong> <span style="color: #ffd700; font-weight: 600;">■ 1위</span> 정규시즌 우승 | <span style="color: #c0c0c0; font-weight: 600;">■ 2위</span> 플레이오프 직행 | <span style="color: #cd7f32; font-weight: 600;">■ 3위</span> 준플레이오프 직행 | <span style="color: #1a237e; font-weight: 600;">■ 4-5위</span> 와일드카드
+                    </div>
+                    <div class="table-container">
+                        <table class="namuwiki-magic-table" id="namuwiki-magic-table">
+                            <!-- 매직넘버 차트 테이블이 여기에 생성됩니다 -->
+                        </table>
+                    </div>
+                    <div style="color: #666; font-size: 0.85rem; margin-top: 15px; text-align: left; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.<br>
+                        이 차트는 나무위키 매트릭스를 참고했습니다.
+                    </div>
+                </div>
+
+                <!-- 광고 5: 기사간 배너 -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="7298546648"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card" id="playoff">
                     <h2>🏟️ 플레이오프 진출 조건</h2>
-                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 15px; text-align: right;">
-                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
-                    </div>
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
                     </div>
@@ -1324,7 +1763,7 @@
                                         최대가능 승수 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">남은 경기를 모두 이겼을 때 승수<br><br>계산법:<br>- 현재승수 + 잔여경기수</span></span>
                                     </th>
                                     <th class="sortable-header" data-sort="magic" onclick="sortTable('playoff', 'magic')">
-                                        PO<br>매직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 필요한 승수<br><br>계산법:<br>- 72승(역대 5위 평균) - 현재승수<br><br>색상 의미:<br>🟢 확정 (이미 달성)<br>🟡 진출 유력 (10승 이하)<br>🟠 경합 (11-20승)<br>🔴 어려움 (21승 이상)</span></span>
+                                        PO<br>매직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 진출을 위해 필요한 승수<br><br>계산법:<br>- 72승(역대 5위 평균) - 현재승수<br><br>📊 기준: 역대 5위 팀 평균 72승 | 진출 유력: 72승+ | 경합: 68-71승 | 어려움: 68승 미만<br><br>색상 의미:<br>🟢 확정 (이미 달성)<br>🟡 진출 유력 (10승 이하)<br>🟠 경합 (11-20승)<br>🔴 어려움 (21승 이상)</span></span>
                                     </th>
                                     <th class="sortable-header" data-sort="tragic" onclick="sortTable('playoff', 'tragic')">
                                         PO<br>트래직넘버 <span class="sort-arrow">↕</span> <span class="tooltip"><span class="help-icon">?</span><span class="tooltiptext">플레이오프 탈락까지 남은 패배 수<br><br>계산법:<br>- 72승 달성이 수학적으로 불가능해지는 시점까지의 패배 수<br>- 72승 달성 불가능하면 플레이오프 탈락<br><br>색상 구분:<br>🔴 탈락: 72승 달성 불가능<br>🔴 -1~5: 매우 위험 (임박)<br>🟠 -6~10: 위험<br>🟡 -11~20: 주의<br>🟡 -21~30: 보통<br>🟢 -31+: 안전</span></span>
@@ -1339,9 +1778,9 @@
                             </tbody>
                             </table>
                         </div>
-                        <div class="playoff-reference" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 0.85rem; color: #6c757d;">
-                            <strong>📊 기준:</strong> 역대 5위 팀 평균 72승 | <strong>진출 유력:</strong> 72승+ | <strong>경합:</strong> 68-71승 | <strong>어려움:</strong> 68승 미만
-                        </div>
+                    </div>
+                    <div style="color: #666; font-size: 0.85rem; margin-top: 15px; text-align: left; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+                        📌 안내: 일부 지표는 수학적인 계산 결과입니다. 시즌이 진행되면서 현실화됩니다.
                     </div>
                 </div>
 
@@ -1364,9 +1803,8 @@
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
                     </div>
-                    <div class="h2h-legend" style="margin-bottom: 15px; font-size: 0.9rem; color: #666; line-height: 1.4;">
-                        <strong>읽는 법:</strong> 세로축 팀이 가로축 팀과의 전체전적(승-패-무) / 홈 승률 / 원정 승률 | 
-                        <strong>색상:</strong> <span style="color: #16A34A; font-weight: 600;">■ 초록</span> = 상대보다 우세, <span style="color: #DC2626; font-weight: 600;">■ 빨강</span> = 상대보다 열세, <span style="color: #9CA3AF; font-weight: 600;">■ 회색</span> = 동률/자기팀
+                    <div class="h2h-legend section-subtitle" style="margin-bottom: 15px;">
+                        <strong>읽는 법:</strong> 세로축 팀이 가로축 팀과의 전체전적(승-패-무) / 홈 승률 / 원정 승률 | <strong>색상:</strong> <span style="color: #16A34A; font-weight: 600;">■ 초록</span> = 상대보다 우세, <span style="color: #DC2626; font-weight: 600;">■ 빨강</span> = 상대보다 열세, <span style="color: #9CA3AF; font-weight: 600;">■ 회색</span> = 동률/자기팀
                     </div>
                     <div id="head-to-head">
                         <div class="vs-grid" id="h2h-grid">
@@ -1396,9 +1834,8 @@
                     <div style="text-align: right; font-size: 0.75rem; color: #999; margin-bottom: 15px;">
                         📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
                     </div>
-                    <div class="h2h-legend" style="margin-bottom: 15px; font-size: 0.9rem; color: #666; line-height: 1.4;">
-                        <strong>읽는 법:</strong> 세로축 팀이 가로축 팀과 남은 경기수 | 
-                        <strong>색상:</strong> <span style="color: #22C55E; font-weight: 600;">■ 초록</span> = 7경기 이상, <span style="color: #EAB308; font-weight: 600;">■ 노랑</span> = 4-6경기, <span style="color: #F97316; font-weight: 600;">■ 주황</span> = 1-3경기, <span style="color: #9CA3AF; font-weight: 600;">■ 회색</span> = 경기 종료
+                    <div class="h2h-legend section-subtitle" style="margin-bottom: 15px;">
+                        <strong>읽는 법:</strong> 세로축 팀이 가로축 팀과 남은 경기수 | <strong>색상:</strong> <span style="color: #22C55E; font-weight: 600;">■ 초록</span> = 7경기 이상, <span style="color: #EAB308; font-weight: 600;">■ 노랑</span> = 4-6경기, <span style="color: #F97316; font-weight: 600;">■ 주황</span> = 1-3경기, <span style="color: #9CA3AF; font-weight: 600;">■ 회색</span> = 경기 종료
                     </div>
                     <div id="remaining-games">
                         <div class="vs-grid" id="remaining-grid">
@@ -1415,22 +1852,6 @@
                         new PartnersCoupang.G({"id":867629,"trackingCode":"AF6959276","subId":null,"template":"carousel","width":"960","height":"180"});
                     </script>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 광고 5: 중간 배너 (가로형) -->
-    <div style="text-align: center; margin: 40px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5508768187151867"
-             data-ad-slot="7298546648"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
 
                 <!-- 개선 제안 카드 -->
                 <div class="card">
@@ -1457,6 +1878,8 @@
                         </a>
                     </div>
                 </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1475,17 +1898,18 @@
 
     <!-- 푸터 -->
     <footer style="
+        width: 100%;
         margin-top: 30px;
-        padding: 40px 20px 30px;
+        padding: 20px 0 15px;
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
         text-align: center;
         border-top: 1px solid var(--border-color);
     ">
-        <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="container">
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 0 0 10px 0; font-size: 1.2rem; font-weight: 600;">⚾ KBO 매직넘버 계산기</h3>
-                <p style="margin: 0 0 15px 0; font-size: 0.9rem; opacity: 0.9;">2025 KBO 리그 매직넘버 계산기<br>플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 한눈에 확인하세요</p>
+                <h3 style="margin: 0 0 12px 0; font-size: 1.1rem; font-weight: 500; color: white;">⚾ KBO 매직넘버 계산기</h3>
+                <p style="margin: 0 0 15px 0; font-size: 0.9rem; opacity: 0.9;">플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 한눈에 확인하세요</p>
                 
                 <div style="text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 15px;">
                     <a href="https://www.koreabaseball.com/" target="_blank" style="
@@ -1556,7 +1980,8 @@
                     © 2025 <a href="https://kbo.mahalohana-bruce.com/magic-number/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500;">KBO 매직넘버 계산기</a>
                 </p>
                 <p style="margin: 0; font-size: 0.75rem; opacity: 0.7;">
-                    KBO 공식 데이터 기반 | 📅 매일 오후 11시 30분 자동 업데이트
+                    KBO 공식 데이터 기반 | 📅 매일 오후 11시 30분 자동 업데이트<br>
+                    ⚾ 본 사이트에 사용된 구단 로고는 각 구단의 공식 자료를 사용했습니다
                 </p>
                 
             </div>
@@ -1566,16 +1991,16 @@
     <script>
         // KBO 팀 데이터 (2025 시즌 기준)
         const kboTeams = {
-            "한화": { fullName: "한화 이글스", color: "#FF6600", logo: "🦅" },
-            "LG": { fullName: "LG 트윈스", color: "#C50E2E", logo: "⚾" },
-            "두산": { fullName: "두산 베어스", color: "#131230", logo: "🐻" },
-            "삼성": { fullName: "삼성 라이온즈", color: "#1F4E8C", logo: "🦁" },
-            "KIA": { fullName: "KIA 타이거즈", color: "#EA0029", logo: "🐅" },
-            "SSG": { fullName: "SSG 랜더스", color: "#CE0E2D", logo: "🏟️" },
-            "롯데": { fullName: "롯데 자이언츠", color: "#041E42", logo: "⚡" },
-            "NC": { fullName: "NC 다이노스", color: "#315288", logo: "🦕" },
-            "키움": { fullName: "키움 히어로즈", color: "#570514", logo: "🦸" },
-            "KT": { fullName: "KT 위즈", color: "#000000", logo: "🧙" }
+            "한화": { fullName: "한화 이글스", color: "#FF6600", logo: '<img src="images/hanwha.png" class="team-logo" alt="한화">' },
+            "LG": { fullName: "LG 트윈스", color: "#C50E2E", logo: '<img src="images/lg.png" class="team-logo" alt="LG">' },
+            "두산": { fullName: "두산 베어스", color: "#131230", logo: '<img src="images/doosan.png" class="team-logo" alt="두산">' },
+            "삼성": { fullName: "삼성 라이온즈", color: "#1F4E8C", logo: '<img src="images/samsung.png" class="team-logo" alt="삼성">' },
+            "KIA": { fullName: "KIA 타이거즈", color: "#EA0029", logo: '<img src="images/kia.png" class="team-logo" alt="KIA">' },
+            "SSG": { fullName: "SSG 랜더스", color: "#CE0E2D", logo: '<img src="images/ssg.png" class="team-logo" alt="SSG">' },
+            "롯데": { fullName: "롯데 자이언츠", color: "#041E42", logo: '<img src="images/lotte.png" class="team-logo" alt="롯데">' },
+            "NC": { fullName: "NC 다이노스", color: "#315288", logo: '<img src="images/nc.png" class="team-logo" alt="NC">' },
+            "키움": { fullName: "키움 히어로즈", color: "#570514", logo: '<img src="images/kiwoom.png" class="team-logo" alt="키움">' },
+            "KT": { fullName: "KT 위즈", color: "#000000", logo: '<img src="images/kt.png" class="team-logo" alt="KT">' }
         };
 
         // KBO 순위 데이터 (동적 로딩)
@@ -1639,7 +2064,12 @@
                 if (!teamData) return team.team || team;
                 
                 const teamName = team.team || team;
-                const logoAndName = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${teamName}</span>`;
+                const logoAndName = `
+                    <div style="display: flex; align-items: center; gap: 3px;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color}; font-weight: 600;">${teamName}</span>
+                    </div>
+                `;
                 
                 if (includeRank && team.rank) {
                     return `${logoAndName} <span style="color: #666; font-size: 0.9rem;">(${team.rank}위)</span>`;
@@ -1941,7 +2371,12 @@
             
             // 1위 팀 정보
             const firstTeamData = kboTeams[firstPlace.team];
-            document.getElementById('first-place-team').innerHTML = `${firstTeamData.logo} <span style="color: ${firstTeamData.color}; font-weight: 600;">${firstPlace.team}</span>`;
+            document.getElementById('first-place-team').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 4px; justify-content: center;">
+                    ${firstTeamData.logo}
+                    <span style="color: ${firstTeamData.color}; font-weight: 600;">${firstPlace.team}</span>
+                </div>
+            `;
             const magicNumber = calculateMagicNumber(firstPlace, secondPlace);
             document.getElementById('first-place-magic').textContent = `매직넘버: ${magicNumber > 0 ? magicNumber : '확정'}`;
 
@@ -1972,7 +2407,12 @@
             });
             if (bestStreak.team) {
                 const bestTeamData = kboTeams[bestStreak.team];
-                document.getElementById('best-streak-team').innerHTML = `${bestTeamData.logo} <span style="color: ${bestTeamData.color}; font-weight: 600;">${bestStreak.team}</span>`;
+                document.getElementById('best-streak-team').innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 4px; justify-content: center;">
+                        ${bestTeamData.logo}
+                        <span style="color: ${bestTeamData.color}; font-weight: 600;">${bestStreak.team}</span>
+                    </div>
+                `;
                 document.getElementById('best-streak-count').textContent = `${bestStreak.count}연승 중`;
             } else {
                 document.getElementById('best-streak-team').textContent = '없음';
@@ -1999,7 +2439,12 @@
             
             if (bestRecentTeam && bestRecentWins >= 0) {
                 const teamData = kboTeams[bestRecentTeam.team];
-                document.getElementById('recent-best-team').innerHTML = `${teamData.logo} <span style="color: ${teamData.color}; font-weight: 600;">${bestRecentTeam.team}</span>`;
+                document.getElementById('recent-best-team').innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 4px; justify-content: center;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color}; font-weight: 600;">${bestRecentTeam.team}</span>
+                    </div>
+                `;
                 document.getElementById('recent-best-record').textContent = bestRecentTeam.recent10;
             } else {
                 document.getElementById('recent-best-team').textContent = '-';
@@ -2416,7 +2861,7 @@
             }
             
             // 팀 로고와 이름 업데이트
-            document.getElementById('first-place-logo').textContent = teamData.logo;
+            document.getElementById('first-place-logo').innerHTML = teamData.logo;
             document.getElementById('first-place-team-name').textContent = `${firstPlace.team} 1위`;
             document.getElementById('first-place-team-name').style.color = teamData.color;
             
@@ -2686,6 +3131,266 @@
             }
         }
 
+
+        function determineCellData(team, rankPosition, championshipMagic, playoffMagic, tragicNumber, teamIndex) {
+            // 나무위키 스타일 매직넘버 차트 색상 결정 로직
+            const currentRank = teamIndex + 1; // 1-based rank
+            
+            // 1위 열: 우승 매직넘버
+            if (rankPosition === 1) {
+                if (championshipMagic > 0 && championshipMagic <= 50) {
+                    // 확정 상황 체크
+                    if (championshipMagic === 0 || (currentRank === 1 && championshipMagic <= 3)) {
+                        return { display: '우승확정', cssClass: 'namu-clinched-blue' };
+                    }
+                    
+                    // 나무위키 스타일 색상 결정
+                    const cssClass = getColorByNamuWikiLogic(currentRank, rankPosition, championshipMagic);
+                    return { display: championshipMagic.toString(), cssClass: cssClass };
+                }
+                return { display: '', cssClass: '' };
+            }
+            
+            // 2-5위 열: 해당 순위 달성 매직넘버
+            if (rankPosition >= 2 && rankPosition <= 5) {
+                const targetMagic = calculateRankMagic(team, currentStandings, rankPosition - 1);
+                if (targetMagic > 0 && targetMagic <= 50) {
+                    // 확정 상황 체크
+                    if (targetMagic === 0 || (currentRank <= rankPosition && targetMagic <= 3)) {
+                        const confirmText = rankPosition === 2 ? '2위확정' : 
+                                          rankPosition === 3 ? '3위확정' : 
+                                          rankPosition === 4 ? '4위확정' : '5위확정';
+                        return { display: confirmText, cssClass: 'namu-clinched-blue' };
+                    }
+                    
+                    // 나무위키 스타일 색상 결정
+                    const cssClass = getColorByNamuWikiLogic(currentRank, rankPosition, targetMagic);
+                    return { display: targetMagic.toString(), cssClass: cssClass };
+                }
+            }
+            
+            // 6-9위 열: 해당 순위까지 떨어질 트래직넘버
+            if (rankPosition >= 6 && rankPosition <= 9) {
+                const dropMagic = calculateDropRankMagic(team, currentStandings, rankPosition - 1);
+                if (dropMagic > 0 && dropMagic <= 50) {
+                    // 탈락 확정 상황 체크
+                    if (dropMagic === 0 || (currentRank >= rankPosition && dropMagic <= 3)) {
+                        return { display: '탈락확정', cssClass: 'namu-eliminated' };
+                    }
+                    
+                    // 나무위키 스타일 색상 결정
+                    const cssClass = getColorByNamuWikiLogic(currentRank, rankPosition, dropMagic);
+                    return { display: dropMagic.toString(), cssClass: cssClass };
+                }
+            }
+
+            // 빈 셀 (최소화)
+            return { display: '', cssClass: '' };
+        }
+
+        // 나무위키 스타일 색상 결정 로직
+        function getColorByNamuWikiLogic(currentRank, targetRank, magicNumber) {
+            // 40 이상이면 대부분 경합(노란색)
+            if (magicNumber >= 40) {
+                return 'namu-competitive';
+            }
+            
+            // 현재 순위와 목표 순위 비교
+            if (currentRank >= targetRank) {
+                // 현재 순위 >= 목표 순위: 매직넘버 가능성 (초록색)
+                // 단, 매직넘버가 너무 크면 경합(노란색)
+                if (magicNumber >= 25) {
+                    return 'namu-competitive';
+                } else {
+                    return 'namu-magic';
+                }
+            } else {
+                // 현재 순위 < 목표 순위: 트래직넘버 가능성 (빨간색)
+                // 단, 매직넘버가 크면 경합(노란색)으로 완화
+                if (magicNumber >= 30) {
+                    return 'namu-competitive';
+                } else {
+                    return 'namu-tragic';
+                }
+            }
+        }
+
+        // 특정 순위 도달을 위한 매직넘버 계산
+        function calculateRankMagic(team, standings, targetRank) {
+            const totalGames = 144;
+            const remainingGames = totalGames - team.games;
+            
+            if (targetRank >= 0 && targetRank < standings.length) {
+                const targetTeam = standings[targetRank];
+                const targetMaxWins = targetTeam.wins + (totalGames - targetTeam.games);
+                const magicNumber = Math.max(0, targetMaxWins - team.wins + 1);
+                
+                // 이미 목표 달성했거나 불가능한 경우 처리
+                if (team.wins > targetMaxWins) return 0;
+                if (team.wins + remainingGames < targetTeam.wins) return 999;
+                
+                return Math.min(magicNumber, remainingGames);
+            }
+            return 0;
+        }
+
+        // 현재 순위 유지를 위한 매직넘버 계산  
+        function calculateMaintainRankMagic(team, standings, currentIndex) {
+            const totalGames = 144;
+            
+            if (currentIndex + 1 < standings.length) {
+                const nextTeam = standings[currentIndex + 1];
+                const nextMaxWins = nextTeam.wins + (totalGames - nextTeam.games);
+                return Math.max(0, nextMaxWins - team.wins + 1);
+            }
+            return 0;
+        }
+
+        // 특정 순위로 떨어질 위험을 나타내는 트래직넘버 계산
+        function calculateDropRankMagic(team, standings, dropToRank) {
+            const totalGames = 144;
+            const remainingGames = totalGames - team.games;
+            
+            if (dropToRank >= 0 && dropToRank < standings.length) {
+                const dropToTeam = standings[dropToRank];
+                const dropToMaxWins = dropToTeam.wins + (totalGames - dropToTeam.games);
+                
+                // 우리가 모든 경기를 져도 해당 순위로 떨어지지 않으면
+                if (team.wins > dropToMaxWins) return 999;
+                
+                // 해당 순위까지 떨어지려면 몇 경기를 더 져야 하는가
+                const magicNumber = Math.max(0, dropToMaxWins - team.wins + 1);
+                return Math.min(magicNumber, remainingGames);
+            }
+            return 0;
+        }
+
+        function calculateChampionshipMagic(team, rankings, index) {
+            const totalGames = 144;
+            const remainingGames = totalGames - team.games;
+            
+            if (index === 0) {
+                // 현재 1위 - 우승 확정까지
+                const secondPlace = rankings[1];
+                if (!secondPlace) return 0;
+                const secondMaxWins = secondPlace.wins + (totalGames - secondPlace.games);
+                return Math.max(0, secondMaxWins - team.wins + 1);
+            } else {
+                // 1위가 아님 - 1위 추월까지
+                const firstPlace = rankings[0];
+                const maxPossibleWins = team.wins + remainingGames;
+                if (maxPossibleWins <= firstPlace.wins) return 999;
+                return Math.max(0, firstPlace.wins - team.wins + 1);
+            }
+        }
+
+        function calculatePlayoffMagic(team, rankings, index) {
+            const totalGames = 144;
+            const playoffSpots = 5;
+            const remainingGames = totalGames - team.games;
+            
+            if (index < playoffSpots) {
+                // 현재 플레이오프 권 내
+                const sixthPlace = rankings[playoffSpots];
+                if (!sixthPlace) return 0;
+                const sixthMaxWins = sixthPlace.wins + (totalGames - sixthPlace.games);
+                return Math.max(0, sixthMaxWins - team.wins + 1);
+            } else {
+                // 플레이오프 권 밖
+                const fifthPlace = rankings[playoffSpots - 1];
+                const maxPossibleWins = team.wins + remainingGames;
+                if (maxPossibleWins <= fifthPlace.wins) return 999;
+                return Math.max(0, fifthPlace.wins - team.wins + 1);
+            }
+        }
+
+        function calculateTragicNumber(team, rankings, index) {
+            const totalGames = 144;
+            const remainingGames = totalGames - team.games;
+            const playoffSpots = 5;
+            
+            if (index < playoffSpots) {
+                // 플레이오프 권 내 - 탈락까지
+                const sixthPlace = rankings[playoffSpots];
+                if (!sixthPlace) return 999;
+                const minPossibleWins = team.wins;
+                const sixthMinWins = sixthPlace.wins;
+                if (minPossibleWins > sixthMinWins) return 999;
+                return Math.max(0, remainingGames - (team.wins - sixthPlace.wins) + 1);
+            } else {
+                // 플레이오프 권 밖
+                const baselineWins = 72; // 플레이오프 진출 기준선
+                const maxPossibleWins = team.wins + remainingGames;
+                if (maxPossibleWins >= baselineWins) {
+                    return Math.max(0, maxPossibleWins - baselineWins + 1);
+                }
+                return 0; // 이미 탈락
+            }
+        }
+
+        function determineTeamStatus(team, championshipMagic, playoffMagic, tragicNumber, index) {
+            // 우승 확정
+            if (championshipMagic === 0 || (index === 0 && championshipMagic <= 3)) {
+                return {
+                    label: '우승확정',
+                    backgroundColor: '#2563eb',
+                    textColor: '#ffffff'
+                };
+            }
+            
+            // 플레이오프 확정
+            if (playoffMagic === 0 || playoffMagic <= 3) {
+                return {
+                    label: 'PO확정',
+                    backgroundColor: '#2563eb',
+                    textColor: '#ffffff'
+                };
+            }
+            
+            // 매직넘버 (유력)
+            if (playoffMagic <= 10) {
+                return {
+                    label: 'PO유력',
+                    backgroundColor: '#16a34a',
+                    textColor: '#ffffff'
+                };
+            }
+            
+            // 경합
+            if (playoffMagic <= 20 && tragicNumber > 10) {
+                return {
+                    label: '경합',
+                    backgroundColor: '#eab308',
+                    textColor: '#000000'
+                };
+            }
+            
+            // 탈락 위험
+            if (tragicNumber <= 5) {
+                return {
+                    label: '탈락위험',
+                    backgroundColor: '#dc2626',
+                    textColor: '#ffffff'
+                };
+            }
+            
+            // 탈락
+            if (tragicNumber === 0) {
+                return {
+                    label: '탈락',
+                    backgroundColor: '#991b1b',
+                    textColor: '#ffffff'
+                };
+            }
+            
+            // 기본 (경합)
+            return {
+                label: '경합',
+                backgroundColor: '#eab308',
+                textColor: '#000000'
+            };
+        }
+
         function renderHeadToHead() {
             const grid = document.getElementById('h2h-grid');
             grid.innerHTML = '';
@@ -2699,10 +3404,13 @@
             grid.appendChild(createGridCell('vs', 'vs-header'));
             teamOrder.forEach(team => {
                 const teamData = kboTeams[team];
-                const teamWithLogo = `${teamData.logo}${team}`;
-                const cell = createGridCell(teamWithLogo, 'vs-header');
-                // 헤더는 기본 회색 배경, 팀명만 팀 색상으로 표시
-                cell.innerHTML = `${teamData.logo}<span style="color: ${teamData.color};">${team}</span>`;
+                const cell = createGridCell('', 'vs-header');
+                cell.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color}; font-weight: 600;">${team}</span>
+                    </div>
+                `;
                 cell.style.fontWeight = '600';
                 grid.appendChild(cell);
             });
@@ -2710,8 +3418,13 @@
             // Data rows
             teamOrder.forEach(homeTeam => {
                 const teamData = kboTeams[homeTeam];
-                const teamWithLogo = `${teamData.logo}${homeTeam}`;
-                const teamCell = createGridCell(teamWithLogo, 'vs-team');
+                const teamCell = createGridCell('', 'vs-team');
+                teamCell.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 3px;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color}; font-weight: 600;">${homeTeam}</span>
+                    </div>
+                `;
                 teamCell.style.color = teamData.color;
                 teamCell.style.fontWeight = '600';
                 grid.appendChild(teamCell);
@@ -2839,7 +3552,12 @@
             teamOrder.forEach(team => {
                 const teamData = kboTeams[team];
                 const cell = createGridCell('', 'vs-header');
-                cell.innerHTML = `${teamData.logo}<span style="color: ${teamData.color};">${team}</span>`;
+                cell.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color}; font-weight: 600;">${team}</span>
+                    </div>
+                `;
                 cell.style.fontWeight = '600';
                 grid.appendChild(cell);
             });
@@ -2848,7 +3566,12 @@
             teamOrder.forEach(homeTeam => {
                 const teamData = kboTeams[homeTeam];
                 const teamCell = createGridCell('', 'vs-team');
-                teamCell.innerHTML = `${teamData.logo}${homeTeam}`;
+                teamCell.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 3px;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color}; font-weight: 600;">${homeTeam}</span>
+                    </div>
+                `;
                 teamCell.style.color = teamData.color;
                 teamCell.style.fontWeight = '600';
                 grid.appendChild(teamCell);
@@ -2949,6 +3672,13 @@
                     renderChaseAnalysis();
                 } catch (error) {
                     console.error('❌ 1위 탈환 가능성 렌더링 오류:', error);
+                }
+                
+                try {
+                    // 새로운 나무위키 차트는 자동으로 로드됩니다
+                    console.log('📊 나무위키 매직넘버 차트 준비 중...');
+                } catch (error) {
+                    console.error('❌ 나무위키 매직넘버 차트 렌더링 오류:', error);
                 }
                 
                 try {
@@ -3239,6 +3969,595 @@
         function scrollToRemaining() {
             scrollToSection('remaining');
         }
+
+        function scrollToNamuwikiChart() {
+            scrollToSection('namuwiki-chart');
+        }
+        
+        // 나무위키 매직넘버 차트 직접 구현
+        class NamuwikiMagicChart {
+            constructor() {
+                this.data = null;
+                this.tableElement = null;
+            }
+
+            async loadData() {
+                // 스크린샷 기반 하드코딩 데이터
+                this.data = {
+                    "title": "8월 4일 0시 (3일 경기 종료)",
+                    "teams": [
+                        {
+                            "name": "한화",
+                            "logo": "images/hanwha.png",
+                            "magicNumbers": {
+                                "9": { "value": 11, "type": "magic" },
+                                "8": { "value": 27, "type": "magic" },
+                                "7": { "value": 31, "type": "magic" },
+                                "6": { "value": 32, "type": "magic" },
+                                "5": { "value": 35, "type": "magic" },
+                                "4": { "value": 35, "type": "magic" },
+                                "3": { "value": 36, "type": "magic" },
+                                "2": { "value": 39, "type": "magic" },
+                                "1": { "value": 44, "type": "competitive" }
+                            }
+                        },
+                        {
+                            "name": "LG",
+                            "logo": "images/lg.png",
+                            "magicNumbers": {
+                                "9": { "value": 9, "type": "magic" },
+                                "8": { "value": 25, "type": "magic" },
+                                "7": { "value": 30, "type": "magic" },
+                                "6": { "value": 31, "type": "magic" },
+                                "5": { "value": 34, "type": "magic" },
+                                "4": { "value": 34, "type": "magic" },
+                                "3": { "value": 34, "type": "magic" },
+                                "2": { "value": 37, "type": "magic" },
+                                "1": { "value": 41, "type": "competitive" }
+                            }
+                        },
+                        {
+                            "name": "롯데",
+                            "logo": "images/lotte.png",
+                            "magicNumbers": {
+                                "9": { "value": 13, "type": "magic" },
+                                "8": { "value": 29, "type": "magic" },
+                                "7": { "value": 33, "type": "magic" },
+                                "6": { "value": 34, "type": "magic" },
+                                "5": { "value": 37, "type": "magic" },
+                                "4": { "value": 37, "type": "magic" },
+                                "3": { "value": 38, "type": "magic" },
+                                "2": { "value": 39, "type": "tragic" },
+                                "1": { "value": 37, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "SSG",
+                            "logo": "images/ssg.png",
+                            "magicNumbers": {
+                                "9": { "value": 20, "type": "magic" },
+                                "8": { "value": 35, "type": "magic" },
+                                "7": { "value": 40, "type": "magic" },
+                                "6": { "value": 43, "type": "competitive" },
+                                "5": { "value": 43, "type": "competitive" },
+                                "4": { "value": 43, "type": "competitive" },
+                                "3": { "value": 37, "type": "tragic" },
+                                "2": { "value": 35, "type": "tragic" },
+                                "1": { "value": 33, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "KIA",
+                            "logo": "images/kia.png",
+                            "magicNumbers": {
+                                "9": { "value": 22, "type": "magic" },
+                                "8": { "value": 37, "type": "magic" },
+                                "7": { "value": 42, "type": "magic" },
+                                "6": { "value": 45, "type": "competitive" },
+                                "5": { "value": 45, "type": "competitive" },
+                                "4": { "value": 45, "type": "competitive" },
+                                "3": { "value": 37, "type": "tragic" },
+                                "2": { "value": 35, "type": "tragic" },
+                                "1": { "value": 33, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "KT",
+                            "logo": "images/kt.png",
+                            "magicNumbers": {
+                                "9": { "value": 20, "type": "magic" },
+                                "8": { "value": 35, "type": "magic" },
+                                "7": { "value": 40, "type": "magic" },
+                                "6": { "value": 40, "type": "competitive" },
+                                "5": { "value": 40, "type": "competitive" },
+                                "4": { "value": 40, "type": "competitive" },
+                                "3": { "value": 34, "type": "tragic" },
+                                "2": { "value": 32, "type": "tragic" },
+                                "1": { "value": 30, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "NC",
+                            "logo": "images/nc.png",
+                            "magicNumbers": {
+                                "9": { "value": 23, "type": "magic" },
+                                "8": { "value": 38, "type": "magic" },
+                                "7": { "value": 46, "type": "competitive" },
+                                "6": { "value": 46, "type": "competitive" },
+                                "5": { "value": 46, "type": "competitive" },
+                                "4": { "value": 46, "type": "competitive" },
+                                "3": { "value": 37, "type": "tragic" },
+                                "2": { "value": 35, "type": "tragic" },
+                                "1": { "value": 33, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "삼성",
+                            "logo": "images/samsung.png",
+                            "magicNumbers": {
+                                "9": { "value": 23, "type": "magic" },
+                                "8": { "value": 39, "type": "magic" },
+                                "7": { "value": 43, "type": "competitive" },
+                                "6": { "value": 42, "type": "tragic" },
+                                "5": { "value": 40, "type": "tragic" },
+                                "4": { "value": 40, "type": "tragic" },
+                                "3": { "value": 34, "type": "tragic" },
+                                "2": { "value": 32, "type": "tragic" },
+                                "1": { "value": 30, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "두산",
+                            "logo": "images/doosan.png",
+                            "magicNumbers": {
+                                "9": { "value": 27, "type": "magic" },
+                                "8": { "value": 38, "type": "tragic" },
+                                "7": { "value": 38, "type": "tragic" },
+                                "6": { "value": 37, "type": "tragic" },
+                                "5": { "value": 35, "type": "tragic" },
+                                "4": { "value": 35, "type": "tragic" },
+                                "3": { "value": 28, "type": "tragic" },
+                                "2": { "value": 26, "type": "tragic" },
+                                "1": { "value": 25, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "키움",
+                            "logo": "images/kiwoom.png",
+                            "magicNumbers": {
+                                "9": { "value": 27, "type": "tragic" },
+                                "8": { "value": 23, "type": "tragic" },
+                                "7": { "value": 23, "type": "tragic" },
+                                "6": { "value": 22, "type": "tragic" },
+                                "5": { "value": 20, "type": "tragic" },
+                                "4": { "value": 20, "type": "tragic" },
+                                "3": { "value": 13, "type": "tragic" },
+                                "2": { "value": 11, "type": "tragic" },
+                                "1": { "value": 9, "type": "tragic" }
+                            }
+                        }
+                    ]
+                };
+                return true;
+            }
+
+            async render(containerId = 'namuwiki-magic-table') {
+                try {
+                    await this.loadData();
+                    
+                    this.tableElement = document.getElementById(containerId);
+                    if (!this.tableElement) {
+                        console.error(`❌ 컨테이너 ${containerId}를 찾을 수 없습니다`);
+                        return;
+                    }
+
+                    this.renderTable();
+                    console.log('✅ 나무위키 매직넘버 차트 렌더링 완료');
+                } catch (error) {
+                    console.error('❌ 렌더링 실패:', error);
+                }
+            }
+
+            renderTable() {
+                this.tableElement.innerHTML = '';
+                
+                const thead = this.createHeader();
+                this.tableElement.appendChild(thead);
+                
+                const tbody = this.createBody();
+                this.tableElement.appendChild(tbody);
+            }
+
+            createHeader() {
+                const thead = document.createElement('thead');
+                
+                // 첫 번째 행
+                const headerRow = document.createElement('tr');
+                
+                // 순위 헤더 (rowspan으로 두 행에 걸쳐 표시)
+                const rankHeader = document.createElement('th');
+                rankHeader.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">순위</span>
+                    </div>
+                `;
+                rankHeader.style.width = '60px';
+                rankHeader.style.textAlign = 'center';
+                rankHeader.style.verticalAlign = 'middle';
+                rankHeader.style.background = 'var(--primary-color)';
+                rankHeader.style.color = 'white';
+                rankHeader.style.padding = '12px 8px';
+                rankHeader.rowSpan = 2;
+                headerRow.appendChild(rankHeader);
+
+                // 구단 헤더 (rowspan으로 두 행에 걸쳐 표시)
+                const teamHeader = document.createElement('th');
+                teamHeader.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">구단명</span>
+                    </div>
+                `;
+                teamHeader.style.width = '120px';
+                teamHeader.style.textAlign = 'center';
+                teamHeader.style.verticalAlign = 'middle';
+                teamHeader.style.background = 'var(--primary-color)';
+                teamHeader.style.color = 'white';
+                teamHeader.style.padding = '12px 8px';
+                teamHeader.rowSpan = 2;
+                headerRow.appendChild(teamHeader);
+
+                // 첫 번째 행: "도달 순위" 라벨
+                const rankLabelHeader = document.createElement('th');
+                rankLabelHeader.innerHTML = '<span style="font-size: 0.85rem; font-weight: 500;">도달 순위</span>';
+                rankLabelHeader.colSpan = 9;
+                rankLabelHeader.style.textAlign = 'center';
+                rankLabelHeader.style.background = 'var(--secondary-color)';
+                rankLabelHeader.style.color = 'white';
+                headerRow.appendChild(rankLabelHeader);
+                
+                thead.appendChild(headerRow);
+                
+                // 두 번째 행: 실제 순위 번호들 (9위부터 1위까지)
+                const rankNumberRow = document.createElement('tr');
+                for (let i = 9; i >= 1; i--) {
+                    const th = document.createElement('th');
+                    th.textContent = i + '위';
+                    th.style.width = 'auto'; // 자동 균등 분배
+                    th.style.textAlign = 'center';
+                    
+                    // KBO 플레이오프 기준 색상 적용 (다른 테이블과 일치)
+                    let headerBgColor = '#6b7280'; // 6위 이하 회색 (탈락)
+                    if (i === 1) {
+                        headerBgColor = '#ffd700'; // 1위 골드 (정규시즌 우승)
+                    } else if (i === 2) {
+                        headerBgColor = '#c0c0c0'; // 2위 실버 (플레이오프 직행)
+                    } else if (i === 3) {
+                        headerBgColor = '#cd7f32'; // 3위 브론즈 (준플레이오프 직행)
+                    } else if (i >= 4 && i <= 5) {
+                        headerBgColor = '#1a237e'; // 4-5위 파란색 (와일드카드)
+                    }
+                    
+                    th.style.background = headerBgColor;
+                    // 골드, 실버는 검은색 텍스트, 나머지는 흰색 텍스트
+                    th.style.color = (i === 1 || i === 2) ? 'black' : 'white';
+                    th.style.fontWeight = '600';
+                    th.style.borderRadius = '0';
+                    rankNumberRow.appendChild(th);
+                }
+                
+                thead.appendChild(rankNumberRow);
+                return thead;
+
+            }
+
+            createBody() {
+                const tbody = document.createElement('tbody');
+                
+                this.data.teams.forEach(team => {
+                    const row = this.createTeamRow(team);
+                    tbody.appendChild(row);
+                });
+                
+                return tbody;
+            }
+
+            createTeamRow(team) {
+                const row = document.createElement('tr');
+                
+                const teamCell = document.createElement('td');
+                
+                // 동적 순위 계산 (실제 데이터 기반)
+                const currentRank = this.data.teams.findIndex(t => t.name === team.name) + 1;
+                
+                // 팀 정보 매핑 (풀네임만 고정, 순위는 동적)
+                const teamFullNames = {
+                    '한화': { full: '한화 이글스', short: '한화' },
+                    'LG': { full: 'LG 트윈스', short: 'LG' },
+                    '롯데': { full: '롯데 자이언츠', short: '롯데' },
+                    'SSG': { full: 'SSG 랜더스', short: 'SSG' },
+                    'KIA': { full: 'KIA 타이거즈', short: 'KIA' },
+                    'KT': { full: 'KT 위즈', short: 'KT' },
+                    'NC': { full: 'NC 다이노스', short: 'NC' },
+                    '삼성': { full: '삼성 라이온즈', short: '삼성' },
+                    '두산': { full: '두산 베어스', short: '두산' },
+                    '키움': { full: '키움 히어로즈', short: '키움' }
+                };
+                
+                const teamInfo = teamFullNames[team.name] || { full: team.name, short: team.name };
+                teamInfo.rank = currentRank; // 실제 순위 할당
+                
+                // KBO 플레이오프 기준 배지 색상 설정 (헤더와 일치)
+                let rankBadgeColor = '#6b7280'; // 6위 이하 회색 (탈락)
+                if (currentRank === 1) {
+                    rankBadgeColor = '#ffd700'; // 1위 골드 (정규시즌 우승)
+                } else if (currentRank === 2) {
+                    rankBadgeColor = '#c0c0c0'; // 2위 실버 (플레이오프 직행)
+                } else if (currentRank === 3) {
+                    rankBadgeColor = '#cd7f32'; // 3위 브론즈 (준플레이오프 직행)
+                } else if (currentRank >= 4 && currentRank <= 5) {
+                    rankBadgeColor = '#1a237e'; // 4-5위 파란색 (와일드카드)
+                }
+                
+                // 순위 셀 생성
+                const rankCell = document.createElement('td');
+                // 배지 텍스트 색상 결정 (골드, 실버는 검은색, 나머지는 흰색)
+                const badgeTextColor = (currentRank === 1 || currentRank === 2) ? 'black' : 'white';
+                
+                rankCell.innerHTML = `
+                    <span style="font-size: 0.85rem; font-weight: 700; color: ${badgeTextColor}; width: 28px; height: 28px; background: ${rankBadgeColor}; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.2); margin: 0 auto;">${teamInfo.rank}</span>
+                `;
+                rankCell.style.cssText = `
+                    width: 60px !important;
+                    min-width: 60px !important;
+                    max-width: 60px !important;
+                    padding: 8px !important;
+                    background: white !important;
+                    text-align: center !important;
+                    vertical-align: middle !important;
+                `;
+                row.appendChild(rankCell);
+
+                // 팀명 셀 생성
+                teamCell.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <img src="${team.logo}" alt="${teamInfo.short}" style="height: 20px; width: auto;">
+                        <span style="font-size: 0.85rem; font-weight: 600;">${teamInfo.short}</span>
+                    </div>
+                `;
+                teamCell.className = 'team-cell';
+                teamCell.style.cssText = `
+                    width: 120px !important;
+                    min-width: 120px !important;
+                    max-width: 120px !important;
+                    padding: 8px !important;
+                    background: white !important;
+                    text-align: center !important;
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                `;
+                row.appendChild(teamCell);
+
+                for (let rank = 9; rank >= 1; rank--) {
+                    const magicCell = this.createMagicCell(team, rank);
+                    row.appendChild(magicCell);
+                }
+                
+                return row;
+            }
+
+            createMagicCell(team, rank) {
+                const cell = document.createElement('td');
+                const rankStr = rank.toString();
+                const magicData = team.magicNumbers[rankStr];
+                
+                if (magicData) {
+                    const colors = this.getColorByType(magicData.type);
+                    
+                    // 툴팁 정보 생성
+                    const tooltipText = this.getTooltipText(magicData.type, magicData.value, rank);
+                    
+                    cell.innerHTML = `
+                        <div style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 45px;">
+                            <span style="font-size: 16px; font-weight: 700; line-height: 1;">${magicData.value}</span>
+                            <span style="font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px;">${this.getTypeLabel(magicData.type)}</span>
+                        </div>
+                    `;
+                    
+                    cell.style.cssText = `
+                        background: linear-gradient(135deg, ${colors.bg} 0%, ${colors.bgSecondary || colors.bg} 100%);
+                        color: ${colors.text};
+                        padding: 8px 6px;
+                        font-size: 14px;
+                        font-weight: bold;
+                        text-align: center;
+                        border: none;
+                        min-width: 70px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        position: relative;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+                    `;
+                    
+                    // 호버 효과 추가
+                    cell.addEventListener('mouseenter', function() {
+                        this.style.transform = 'scale(1.05)';
+                        this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+                        this.style.zIndex = '15';
+                    });
+                    
+                    cell.addEventListener('mouseleave', function() {
+                        this.style.transform = 'scale(1)';
+                        this.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
+                        this.style.zIndex = '1';
+                    });
+                    
+                    // 툴팁 설정
+                    cell.title = tooltipText;
+                    
+                } else {
+                    cell.style.cssText = `
+                        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                        padding: 8px 6px;
+                        font-size: 14px;
+                        text-align: center;
+                        border: none;
+                        min-width: 70px;
+                        color: #9ca3af;
+                        font-style: italic;
+                    `;
+                    cell.textContent = '-';
+                }
+                
+                return cell;
+            }
+
+            getColorByType(type) {
+                const colorMap = {
+                    'magic': { 
+                        bg: '#7dd87d', 
+                        bgSecondary: '#68d391',
+                        text: '#1a365d', 
+                        border: '#38a169'
+                    },
+                    'competitive': { 
+                        bg: '#ffff7d', 
+                        bgSecondary: '#f6e05e',
+                        text: '#744210', 
+                        border: '#d69e2e'
+                    },
+                    'tragic': { 
+                        bg: '#ff7d7d', 
+                        bgSecondary: '#fc8181',
+                        text: '#742a2a', 
+                        border: '#e53e3e'
+                    },
+                    'clinched': { 
+                        bg: '#4169e1', 
+                        bgSecondary: '#3182ce',
+                        text: 'white', 
+                        border: '#2c5aa0'
+                    },
+                    'eliminated': { 
+                        bg: '#808080', 
+                        bgSecondary: '#6b7280',
+                        text: 'white', 
+                        border: '#4b5563'
+                    }
+                };
+                
+                return colorMap[type] || { bg: '#f8f9fa', bgSecondary: '#e9ecef', text: '#6c757d', border: '#dee2e6' };
+            }
+            
+            getTypeLabel(type) {
+                const labelMap = {
+                    'magic': 'M',
+                    'competitive': 'C', 
+                    'tragic': 'T',
+                    'clinched': '확정',
+                    'eliminated': '탈락'
+                };
+                return labelMap[type] || '';
+            }
+            
+            getTooltipText(type, value, rank) {
+                const typeNames = {
+                    'magic': '매직넘버',
+                    'competitive': '경합상황',
+                    'tragic': '트래직넘버',
+                    'clinched': '순위확정',
+                    'eliminated': '탈락확정'
+                };
+                
+                const typeName = typeNames[type] || '알 수 없음';
+                
+                if (type === 'magic') {
+                    return `${rank}위 달성까지 ${value}승 필요 (${typeName})`;
+                } else if (type === 'tragic') {
+                    return `${rank}위 탈락까지 ${value}패 남음 (${typeName})`;
+                } else if (type === 'competitive') {
+                    return `${rank}위 경합 중 - ${value}경기 (${typeName})`;
+                } else {
+                    return `${rank}위 ${typeName} - ${value}`;
+                }
+            }
+            
+        }
+
+        // 매직넘버 차트 수동 렌더링 테스트
+        setTimeout(() => {
+            console.log('🔧 수동 렌더링 시도');
+            if (typeof NamuwikiMagicChart !== 'undefined') {
+                const testChart = new NamuwikiMagicChart();
+                testChart.render('namuwiki-magic-table').then(() => {
+                    console.log('✅ 수동 렌더링 성공');
+                }).catch(error => {
+                    console.error('❌ 수동 렌더링 실패:', error);
+                });
+            } else {
+                console.error('❌ NamuwikiMagicChart 클래스를 찾을 수 없습니다');
+            }
+        }, 2000);
+        
+        // 테이블 반응형 스크롤 개선
+        function initTableScroll() {
+            const tableWrapper = document.querySelector('.magic-table-wrapper');
+            const scrollContainer = tableWrapper?.querySelector('div');
+            
+            if (tableWrapper && scrollContainer) {
+                // 스크롤 컨테이너 스타일 업데이트
+                scrollContainer.style.cssText = `
+                    overflow-x: auto !important;
+                    -webkit-overflow-scrolling: touch !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    display: block !important;
+                `;
+                
+                // 스크롤 인디케이터 추가
+                const scrollIndicator = document.createElement('div');
+                scrollIndicator.style.cssText = `
+                    position: absolute;
+                    bottom: 10px;
+                    right: 20px;
+                    background: rgba(0,0,0,0.7);
+                    color: white;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                    pointer-events: none;
+                    z-index: 1000;
+                    white-space: nowrap;
+                `;
+                scrollIndicator.textContent = '← 좌우로 스크롤하세요 →';
+                tableWrapper.style.position = 'relative';
+                tableWrapper.appendChild(scrollIndicator);
+                
+                // 스크롤 감지
+                let scrollTimeout;
+                scrollContainer.addEventListener('scroll', function() {
+                    scrollIndicator.style.opacity = '1';
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        scrollIndicator.style.opacity = '0';
+                    }, 2000);
+                });
+                
+                // 초기 표시 (테이블이 스크롤 가능한 경우에만)
+                setTimeout(() => {
+                    if (scrollContainer.scrollWidth > scrollContainer.clientWidth) {
+                        scrollIndicator.style.opacity = '1';
+                        setTimeout(() => {
+                            scrollIndicator.style.opacity = '0';
+                        }, 3000);
+                    }
+                }, 2000);
+            }
+        }
+        
+        // 테이블 스크롤 초기화
+        setTimeout(initTableScroll, 1500);
         
         // 활성 네비게이션 업데이트
         function updateActiveNav(activeId) {
@@ -3290,8 +4609,11 @@
 
     </script>
 
+    <!-- 나무위키 매직넘버 차트 -->
+    <script src="namuwiki-magic.js"></script>
+
     <!-- 탑으로 가기 버튼 -->
     <button class="scroll-to-top" id="scrollToTop">↑</button>
     
 </body>
-</html>
+</html><!-- Updated at Tue Aug  5 10:21:58 JST 2025 -->
