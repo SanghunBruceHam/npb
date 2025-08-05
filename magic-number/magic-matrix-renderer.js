@@ -12,19 +12,16 @@ class NamuwikiMagicChart {
     // 데이터 로드
     async loadData() {
         try {
-            console.log('🔍 데이터 로드 시작... URL:', `./namuwiki-data.json?v=${Date.now()}`);
             const response = await fetch(`./namuwiki-data.json?v=${Date.now()}`);
-            console.log('📡 응답 상태:', response.status, response.statusText);
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
             this.data = await response.json();
-            console.log('✅ 나무위키 데이터 로드 완료:', this.data);
-            console.log('🏆 첫 번째 팀:', this.data.teams[0].name, '순위:', this.data.teams[0].rank);
+            console.log('✅ 매직넘버 매트릭스 데이터 로드 완료:', this.data.teams[0].name, '1위');
         } catch (error) {
-            console.error('❌ 데이터 로드 실패:', error);
+            console.error('❌ 매직넘버 매트릭스 데이터 로드 실패:', error);
             throw error;
         }
     }
@@ -32,21 +29,18 @@ class NamuwikiMagicChart {
     // 메인 렌더링 함수
     async render(containerId = 'namuwiki-magic-table') {
         try {
-            console.log('🎯 렌더링 시작, 컨테이너 ID:', containerId);
-            
             await this.loadData();
             
             this.tableElement = document.getElementById(containerId);
-            console.log('📋 테이블 요소 찾기:', this.tableElement ? '성공' : '실패');
             if (!this.tableElement) {
                 throw new Error(`컨테이너 ${containerId}를 찾을 수 없습니다`);
             }
 
             this.renderTable();
             this.updateTimestamp();
-            console.log('✅ 나무위키 매직넘버 차트 렌더링 완료');
+            console.log('✅ 매직넘버 매트릭스 렌더링 완료');
         } catch (error) {
-            console.error('❌ 렌더링 실패:', error);
+            console.error('❌ 매직넘버 매트릭스 렌더링 실패:', error);
             this.renderError(error.message);
         }
     }
@@ -68,54 +62,82 @@ class NamuwikiMagicChart {
     // 헤더 생성
     createHeader() {
         const thead = document.createElement('thead');
+        
+        // 첫 번째 행: 구단 + "도달 순위" 라벨
         const headerRow = document.createElement('tr');
         
-        // 구단 헤더
+        // 구단 헤더 (2행 병합)
         const teamHeader = document.createElement('th');
-        teamHeader.textContent = '구단';
-        teamHeader.style.cssText = `
-            background-color: #2d3748;
-            color: white;
-            border: 2px solid #002561;
-            padding: 4px 8px;
-            font-size: 11px;
-            font-weight: bold;
-            text-align: center;
+        teamHeader.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span style="font-size: 0.9rem; font-weight: 600;">구단명</span>
+            </div>
         `;
+        teamHeader.style.cssText = `
+            width: 120px;
+            text-align: center;
+            vertical-align: middle;
+            background: var(--primary-color, #1e40af);
+            color: white;
+            padding: 12px 8px;
+            border: 1px solid #ddd;
+        `;
+        teamHeader.rowSpan = 2;
         headerRow.appendChild(teamHeader);
 
-        // 순위 헤더 (9위 → 1위)
+        // "도달 순위" 라벨 헤더
+        const rankLabelHeader = document.createElement('th');
+        rankLabelHeader.innerHTML = '<span style="font-size: 0.85rem; font-weight: 500;">도달 순위</span>';
+        rankLabelHeader.colSpan = 9;
+        rankLabelHeader.style.cssText = `
+            text-align: center;
+            background: var(--secondary-color, #6b7280);
+            color: white;
+            padding: 8px;
+            border: 1px solid #ddd;
+        `;
+        headerRow.appendChild(rankLabelHeader);
+        
+        thead.appendChild(headerRow);
+        
+        // 두 번째 행: 실제 순위 번호들 (9위부터 1위까지)
+        const rankNumberRow = document.createElement('tr');
         for (let rank = 9; rank >= 1; rank--) {
             const rankHeader = document.createElement('th');
-            rankHeader.textContent = rank.toString();
+            rankHeader.textContent = rank + '위';
             
-            // 순위별 헤더 색상 (나무위키 스타일)
-            let bgColor;
-            if (rank >= 7) {
-                bgColor = '#8B4513'; // 갈색 (7-9위)
-            } else if (rank === 6) {
-                bgColor = '#B22222'; // 빨간색 (6위)
-            } else if (rank === 5) {
-                bgColor = '#1E3A8A'; // 파란색 (5위)
-            } else {
-                bgColor = '#1E40AF'; // 진한 파란색 (1-4위)
+            // KBO 플레이오프 기준 색상 적용
+            let headerBgColor = '#6b7280'; // 6위 이하 회색 (탈락)
+            let textColor = 'white';
+            
+            if (rank === 1) {
+                headerBgColor = '#ffd700'; // 1위 골드 (정규시즌 우승)
+                textColor = 'black';
+            } else if (rank === 2) {
+                headerBgColor = '#c0c0c0'; // 2위 실버 (플레이오프 직행)
+                textColor = 'black';
+            } else if (rank === 3) {
+                headerBgColor = '#cd7f32'; // 3위 브론즈 (준플레이오프 직행)
+                textColor = 'white';
+            } else if (rank >= 4 && rank <= 5) {
+                headerBgColor = '#1a237e'; // 4-5위 파란색 (와일드카드)
+                textColor = 'white';
             }
             
             rankHeader.style.cssText = `
-                background-color: ${bgColor};
-                color: white;
-                border: 2px solid #002561;
-                padding: 4px 8px;
-                font-size: 11px;
-                font-weight: bold;
+                background: ${headerBgColor};
+                color: ${textColor};
+                font-weight: 600;
                 text-align: center;
-                width: 10%;
+                padding: 8px 4px;
+                border: 1px solid #ddd;
+                width: auto;
             `;
             
-            headerRow.appendChild(rankHeader);
+            rankNumberRow.appendChild(rankHeader);
         }
         
-        thead.appendChild(headerRow);
+        thead.appendChild(rankNumberRow);
         return thead;
     }
 
@@ -138,18 +160,47 @@ class NamuwikiMagicChart {
         // 팀명 셀
         const teamCell = document.createElement('td');
         teamCell.className = 'team-cell';
+        
+        // 동적 순위 계산 (실제 데이터 기반)
+        const currentRank = this.data.teams.findIndex(t => t.name === team.name) + 1;
+        
+        // 팀 정보 매핑 (풀네임)
+        const teamFullNames = {
+            '한화': { full: '한화 이글스', short: '한화' },
+            'LG': { full: 'LG 트윈스', short: 'LG' },
+            '롯데': { full: '롯데 자이언츠', short: '롯데' },
+            'KT': { full: 'KT 위즈', short: 'KT' },
+            'SSG': { full: 'SSG 랜더스', short: 'SSG' },
+            'KIA': { full: 'KIA 타이거즈', short: 'KIA' },
+            '삼성': { full: '삼성 라이온즈', short: '삼성' },
+            'NC': { full: 'NC 다이노스', short: 'NC' },
+            '두산': { full: '두산 베어스', short: '두산' },
+            '키움': { full: '키움 히어로즈', short: '키움' }
+        };
+        
+        const teamInfo = teamFullNames[team.name] || { full: team.name, short: team.name };
+        
         teamCell.innerHTML = `
-            <img src="${team.logo}" alt="${team.name}" 
-                 style="width: 12px; height: 12px; vertical-align: middle; margin-right: 3px;">
-            ${team.name}
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                <img src="${team.logo}" alt="${team.name}" 
+                     style="width: 20px; height: 20px; object-fit: contain;">
+                <div style="font-size: 0.75rem; font-weight: 600; color: #374151;">
+                    ${teamInfo.short}
+                </div>
+                <div style="font-size: 0.65rem; color: #6b7280;">
+                    ${currentRank}위
+                </div>
+            </div>
         `;
         teamCell.style.cssText = `
             background-color: white;
-            padding: 3px 8px;
-            font-size: 10px;
-            font-weight: bold;
+            padding: 8px 4px;
             text-align: center;
             border: 1px solid #ddd;
+            width: 120px;
+            min-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
         `;
         row.appendChild(teamCell);
 
@@ -171,33 +222,81 @@ class NamuwikiMagicChart {
         const magicData = team.magicNumbers[rankStr];
         
         if (magicData) {
-            cell.textContent = magicData.value;
-            
-            // 색상 적용
             const colors = this.getColorByType(magicData.type);
-            cell.style.cssText = `
-                background-color: ${colors.bg};
-                color: ${colors.text};
-                padding: 2px 4px;
-                font-size: 10px;
-                font-weight: bold;
-                text-align: center;
-                border: 1px solid #ddd;
-                width: 10%;
+            
+            // 툴팁 정보 생성
+            const tooltipText = this.getTooltipText(magicData.type, magicData.value, rank);
+            
+            cell.innerHTML = `
+                <div class="magic-cell-content" title="${tooltipText}" style="position: relative;">
+                    <span style="font-weight: 600; font-size: 0.8rem;">${magicData.value}</span>
+                </div>
             `;
+            
+            cell.style.cssText = `
+                background: ${colors.bg};
+                color: ${colors.text};
+                padding: 8px 4px;
+                text-align: center;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                cursor: help;
+                transition: all 0.2s ease;
+                font-weight: 600;
+                position: relative;
+            `;
+            
+            // 호버 효과
+            cell.addEventListener('mouseenter', () => {
+                cell.style.transform = 'scale(1.05)';
+                cell.style.zIndex = '10';
+                cell.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            });
+            
+            cell.addEventListener('mouseleave', () => {
+                cell.style.transform = 'scale(1)';
+                cell.style.zIndex = '1';
+                cell.style.boxShadow = 'none';
+            });
         } else {
             // 빈 셀
             cell.style.cssText = `
-                background-color: white;
-                padding: 2px 4px;
-                font-size: 10px;
+                background-color: #f8f9fa;
+                padding: 8px 4px;
                 text-align: center;
-                border: 1px solid #ddd;
-                width: 10%;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                color: #6b7280;
             `;
+            cell.innerHTML = '<span style="font-size: 0.7rem;">-</span>';
         }
         
         return cell;
+    }
+
+    // 툴팁 텍스트 생성
+    getTooltipText(type, value, rank) {
+        const typeNames = {
+            'magic': '매직넘버',
+            'competitive': '경합상황', 
+            'tragic': '트래직넘버',
+            'clinched': '확정상황',
+            'eliminated': '탈락확정'
+        };
+        
+        const typeName = typeNames[type] || '알 수 없음';
+        
+        if (type === 'magic') {
+            return `${rank}위 달성까지 ${value}승 필요 (${typeName})`;
+        } else if (type === 'tragic') {
+            return `${rank}위 탈락까지 ${value}패 남음 (${typeName})`;
+        } else if (type === 'competitive') {
+            return `${rank}위 경합 중 - ${value}경기 (${typeName})`;
+        } else if (type === 'clinched') {
+            return `${rank}위 확정 (${typeName})`;
+        } else if (type === 'eliminated') {
+            return `${rank}위 진출 불가능 (${typeName})`;
+        } else {
+            return `${rank}위 ${typeName} - ${value}`;
+        }
     }
 
     // 타입별 색상 반환
