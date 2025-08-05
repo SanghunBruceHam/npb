@@ -421,7 +421,8 @@
         .team-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 4px;
         }
         
         /* 기본 team-logo 스타일은 위에서 정의됨 */
@@ -430,106 +431,133 @@
             font-weight: 600;
         }
         
-        /* 로고 스타일 - PNG 파일 실제 비율 강제 적용 */
+        /* 로고 스타일 - 가로 기준 통일, 세로는 비율에 따라 자동 조정 */
         .team-logo {
-            height: 20px !important;
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
             max-width: none !important;
             min-width: auto !important;
             object-fit: contain !important;
             vertical-align: middle !important;
-            margin-right: 6px;
+            margin-right: 4px;
             display: inline-block !important;
-            aspect-ratio: auto !important;
         }
         
-        /* 팀별 실제 PNG 사이즈 비율 적용 - 더 구체적인 선택자 */
+        /* 팀별 실제 PNG 사이즈 비율 적용 - 가로 기준 통일 */
         img[src*="doosan.png"], img[alt*="두산"] { 
             aspect-ratio: 1/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1:1 */
         
         img[src*="hanwha.png"], img[alt*="한화"] { 
             aspect-ratio: 1.175/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.175:1 */
         
         img[src*="kt.png"], img[alt*="KT"] { 
             aspect-ratio: 1.105/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.105:1 */
         
         img[src*="lg.png"], img[alt*="LG"] { 
             aspect-ratio: 1.255/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.255:1 */
         
         img[src*="samsung.png"], img[alt*="삼성"] { 
             aspect-ratio: 1.33/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.33:1 */
         
         img[src*="lotte.png"], img[alt*="롯데"] { 
             aspect-ratio: 1.335/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.335:1 */
         
         img[src*="kia.png"], img[alt*="KIA"] { 
             aspect-ratio: 1.345/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.345:1 */
         
         img[src*="kiwoom.png"], img[alt*="키움"] { 
             aspect-ratio: 1.365/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.365:1 */
         
         img[src*="nc.png"], img[alt*="NC"] { 
             aspect-ratio: 1.485/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.485:1 */
         
         img[src*="ssg.png"], img[alt*="SSG"] { 
             aspect-ratio: 1.7/1 !important; 
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
         } /* 1.7:1 */
         
-        /* 큰 테이블용 로고 */
-        .standings-table .team-logo {
-            height: 24px !important;
-            width: auto !important;
-            object-fit: contain !important;
-        }
-        
-        /* VS 그리드 로고 */
-        .vs-grid .team-logo {
-            height: 18px !important;
-            width: auto !important;
-            object-fit: contain !important;
-        }
-        
-        /* 매직넘버 차트 로고 */
+        /* 모든 테이블 로고 통일 */
+        .standings-table .team-logo,
+        .vs-grid .team-logo,
         .namuwiki-magic-table img {
-            height: 28px !important;
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
             object-fit: contain !important;
-            display: inline-block !important;
+        }
+        
+        .namuwiki-magic-table img {
+            display: inline-block !important;  
+        }
+        
+        /* 테이블 셀 기본 중앙 정렬 */
+        table td,
+        table th {
+            text-align: center !important;
+        }
+        
+        /* 각 테이블별 팀명 셀 정렬 */
+        .vs-team {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 4px !important;
+        }
+        
+        /* 매직넘버 테이블은 기본 text-align만 사용 */
+        .namuwiki-magic-table .team-cell {
+            text-align: center !important;
+            display: table-cell !important;
+        }
+        
+        /* 모든 테이블 팀명 컬럼은 기본 text-align만 사용 */
+        #standings-table tbody tr td:nth-child(2),
+        #playoff-table tbody tr td:nth-child(2),
+        #chase-table tbody tr td:nth-child(2) {
+            text-align: center !important;
         }
         
         /* 통계 섹션 로고 */
         .stat-item .team-logo,
         .playoff-condition .team-logo,
         .championship-condition .team-logo {
-            height: 20px !important;
-            width: auto !important;
+            width: 24px !important;
+            height: auto !important;
             object-fit: contain !important;
             vertical-align: middle !important;
         }
         
         /* 첫 번째 위치 메인 로고 */
         #first-place-logo img {
-            height: 40px !important;
-            width: auto !important;
+            width: 48px !important;
+            height: auto !important;
             object-fit: contain !important;
         }
         
