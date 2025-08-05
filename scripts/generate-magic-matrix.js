@@ -60,11 +60,19 @@ class MagicMatrixGenerator {
         let value, type;
 
         if (targetRank === 1) {
-            // 1위 매직넘버
-            value = magicData.championship;
-            type = value === 999 ? 'eliminated' : 
-                   value === 0 ? 'clinched' : 
-                   value <= 5 ? 'magic' : 'competitive';
+            // 1위 매직넘버 - 1위 팀은 우승 확정을 위한 매직넘버
+            if (currentRank === 1) {
+                // 현재 1위 팀의 우승 매직넘버
+                value = magicData.championship === 999 ? 0 : magicData.championship;
+                type = value === 0 ? 'clinched' : 
+                       value <= 5 ? 'magic' : 'competitive';
+            } else {
+                // 다른 팀이 1위 달성하기 위한 매직넘버
+                value = magicData.championship;
+                type = value === 999 ? 'eliminated' : 
+                       value === 0 ? 'clinched' : 
+                       value <= 5 ? 'magic' : 'competitive';
+            }
         } else if (targetRank <= 5) {
             // 플레이오프 매직넘버 (2-5위)
             value = magicData.playoff;

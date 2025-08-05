@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>매트릭스 수동 새로고침</title>
+</head>
+<body>
+    <h1>매직넘버 매트릭스 수동 새로고침</h1>
+    
+    <button onclick="forceRefreshMatrix()" style="padding: 10px 20px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        🔄 매트릭스 강제 새로고침
+    </button>
+    
+    <div id="debug-info" style="margin: 20px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;"></div>
+    
+    <table class="namuwiki-magic-table" id="namuwiki-magic-table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <!-- 매트릭스가 여기에 생성됩니다 -->
+    </table>
+
+    <script>
+        async function forceRefreshMatrix() {
+            try {
+                const timestamp = Date.now();
+                const url = `./namuwiki-data.json?v=${timestamp}`;
+                
+                document.getElementById('debug-info').innerHTML = `
+                    <p>🔄 강제 새로고침 시작...</p>
+                    <p>📡 URL: ${url}</p>
+                    <p>⏰ 타임스탬프: ${new Date(timestamp).toLocaleString()}</p>
+                `;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                document.getElementById('debug-info').innerHTML += `
+                    <p>✅ 데이터 로드 성공!</p>
+                    <p>🏆 1위: ${data.teams[0].name} (순위: ${data.teams[0].rank})</p>
+                    <p>🥈 2위: ${data.teams[1].name} (순위: ${data.teams[1].rank})</p>
+                    <p>🥉 3위: ${data.teams[2].name} (순위: ${data.teams[2].rank})</p>
+                    <p>📅 업데이트: ${data.updateDate}</p>
+                `;
+                
+                // 매트릭스 재렌더링
+                if (window.namuwikiChart) {
+                    await window.namuwikiChart.render();
+                    document.getElementById('debug-info').innerHTML += `<p>🎨 매트릭스 렌더링 완료!</p>`;
+                }
+                
+            } catch (error) {
+                document.getElementById('debug-info').innerHTML += `<p>❌ 오류: ${error.message}</p>`;
+            }
+        }
+    </script>
+    
+    <script src="magic-matrix-renderer.js"></script>
+</body>
+</html>

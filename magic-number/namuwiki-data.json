@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-05T23:06:02.865Z",
+  "lastUpdated": "2025-08-05T23:20:45.417Z",
   "updateDate": "2025. 8. 5.",
   "title": "2025월 8월 05일 기준",
   "teams": [
@@ -9,8 +9,8 @@
       "rank": 1,
       "magicNumbers": {
         "1": {
-          "value": 999,
-          "type": "eliminated"
+          "value": 0,
+          "type": "clinched"
         },
         "2": {
           "value": 10,

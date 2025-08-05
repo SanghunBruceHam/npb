@@ -4005,6 +4005,557 @@
         
         // 매직넘버 차트는 magic-matrix-renderer.js에서 처리
 
+        // 매직넘버 차트 수동 렌더링 테스트
+                        {
+                            "name": "LG",
+                            "logo": "images/lg.png",
+                            "magicNumbers": {
+                                "9": { "value": 9, "type": "magic" },
+                                "8": { "value": 25, "type": "magic" },
+                                "7": { "value": 30, "type": "magic" },
+                                "6": { "value": 31, "type": "magic" },
+                                "5": { "value": 34, "type": "magic" },
+                                "4": { "value": 34, "type": "magic" },
+                                "3": { "value": 34, "type": "magic" },
+                                "2": { "value": 37, "type": "magic" },
+                                "1": { "value": 41, "type": "competitive" }
+                            }
+                        },
+                        {
+                            "name": "롯데",
+                            "logo": "images/lotte.png",
+                            "magicNumbers": {
+                                "9": { "value": 13, "type": "magic" },
+                                "8": { "value": 29, "type": "magic" },
+                                "7": { "value": 33, "type": "magic" },
+                                "6": { "value": 34, "type": "magic" },
+                                "5": { "value": 37, "type": "magic" },
+                                "4": { "value": 37, "type": "magic" },
+                                "3": { "value": 38, "type": "magic" },
+                                "2": { "value": 39, "type": "tragic" },
+                                "1": { "value": 37, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "SSG",
+                            "logo": "images/ssg.png",
+                            "magicNumbers": {
+                                "9": { "value": 20, "type": "magic" },
+                                "8": { "value": 35, "type": "magic" },
+                                "7": { "value": 40, "type": "magic" },
+                                "6": { "value": 43, "type": "competitive" },
+                                "5": { "value": 43, "type": "competitive" },
+                                "4": { "value": 43, "type": "competitive" },
+                                "3": { "value": 37, "type": "tragic" },
+                                "2": { "value": 35, "type": "tragic" },
+                                "1": { "value": 33, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "KIA",
+                            "logo": "images/kia.png",
+                            "magicNumbers": {
+                                "9": { "value": 22, "type": "magic" },
+                                "8": { "value": 37, "type": "magic" },
+                                "7": { "value": 42, "type": "magic" },
+                                "6": { "value": 45, "type": "competitive" },
+                                "5": { "value": 45, "type": "competitive" },
+                                "4": { "value": 45, "type": "competitive" },
+                                "3": { "value": 37, "type": "tragic" },
+                                "2": { "value": 35, "type": "tragic" },
+                                "1": { "value": 33, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "KT",
+                            "logo": "images/kt.png",
+                            "magicNumbers": {
+                                "9": { "value": 20, "type": "magic" },
+                                "8": { "value": 35, "type": "magic" },
+                                "7": { "value": 40, "type": "magic" },
+                                "6": { "value": 40, "type": "competitive" },
+                                "5": { "value": 40, "type": "competitive" },
+                                "4": { "value": 40, "type": "competitive" },
+                                "3": { "value": 34, "type": "tragic" },
+                                "2": { "value": 32, "type": "tragic" },
+                                "1": { "value": 30, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "NC",
+                            "logo": "images/nc.png",
+                            "magicNumbers": {
+                                "9": { "value": 23, "type": "magic" },
+                                "8": { "value": 38, "type": "magic" },
+                                "7": { "value": 46, "type": "competitive" },
+                                "6": { "value": 46, "type": "competitive" },
+                                "5": { "value": 46, "type": "competitive" },
+                                "4": { "value": 46, "type": "competitive" },
+                                "3": { "value": 37, "type": "tragic" },
+                                "2": { "value": 35, "type": "tragic" },
+                                "1": { "value": 33, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "삼성",
+                            "logo": "images/samsung.png",
+                            "magicNumbers": {
+                                "9": { "value": 23, "type": "magic" },
+                                "8": { "value": 39, "type": "magic" },
+                                "7": { "value": 43, "type": "competitive" },
+                                "6": { "value": 42, "type": "tragic" },
+                                "5": { "value": 40, "type": "tragic" },
+                                "4": { "value": 40, "type": "tragic" },
+                                "3": { "value": 34, "type": "tragic" },
+                                "2": { "value": 32, "type": "tragic" },
+                                "1": { "value": 30, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "두산",
+                            "logo": "images/doosan.png",
+                            "magicNumbers": {
+                                "9": { "value": 27, "type": "magic" },
+                                "8": { "value": 38, "type": "tragic" },
+                                "7": { "value": 38, "type": "tragic" },
+                                "6": { "value": 37, "type": "tragic" },
+                                "5": { "value": 35, "type": "tragic" },
+                                "4": { "value": 35, "type": "tragic" },
+                                "3": { "value": 28, "type": "tragic" },
+                                "2": { "value": 26, "type": "tragic" },
+                                "1": { "value": 25, "type": "tragic" }
+                            }
+                        },
+                        {
+                            "name": "키움",
+                            "logo": "images/kiwoom.png",
+                            "magicNumbers": {
+                                "9": { "value": 27, "type": "tragic" },
+                                "8": { "value": 23, "type": "tragic" },
+                                "7": { "value": 23, "type": "tragic" },
+                                "6": { "value": 22, "type": "tragic" },
+                                "5": { "value": 20, "type": "tragic" },
+                                "4": { "value": 20, "type": "tragic" },
+                                "3": { "value": 13, "type": "tragic" },
+                                "2": { "value": 11, "type": "tragic" },
+                                "1": { "value": 9, "type": "tragic" }
+                            }
+                        }
+                    ]
+                };
+                return true;
+            }
+
+            async render(containerId = 'namuwiki-magic-table') {
+                try {
+                    await this.loadData();
+                    
+                    this.tableElement = document.getElementById(containerId);
+                    if (!this.tableElement) {
+                        console.error(`❌ 컨테이너 ${containerId}를 찾을 수 없습니다`);
+                        return;
+                    }
+
+                    this.renderTable();
+                    console.log('✅ 나무위키 매직넘버 차트 렌더링 완료');
+                } catch (error) {
+                    console.error('❌ 렌더링 실패:', error);
+                }
+            }
+
+            renderTable() {
+                this.tableElement.innerHTML = '';
+                
+                const thead = this.createHeader();
+                this.tableElement.appendChild(thead);
+                
+                const tbody = this.createBody();
+                this.tableElement.appendChild(tbody);
+            }
+
+            createHeader() {
+                const thead = document.createElement('thead');
+                
+                // 첫 번째 행
+                const headerRow = document.createElement('tr');
+                
+                // 순위 헤더 (rowspan으로 두 행에 걸쳐 표시)
+                const rankHeader = document.createElement('th');
+                rankHeader.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">순위</span>
+                    </div>
+                `;
+                rankHeader.style.width = '60px';
+                rankHeader.style.textAlign = 'center';
+                rankHeader.style.verticalAlign = 'middle';
+                rankHeader.style.background = 'var(--primary-color)';
+                rankHeader.style.color = 'white';
+                rankHeader.style.padding = '12px 8px';
+                rankHeader.rowSpan = 2;
+                headerRow.appendChild(rankHeader);
+
+                // 구단 헤더 (rowspan으로 두 행에 걸쳐 표시)
+                const teamHeader = document.createElement('th');
+                teamHeader.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                        <span style="font-size: 0.9rem; font-weight: 600; color: white;">구단명</span>
+                    </div>
+                `;
+                teamHeader.style.width = '120px';
+                teamHeader.style.textAlign = 'center';
+                teamHeader.style.verticalAlign = 'middle';
+                teamHeader.style.background = 'var(--primary-color)';
+                teamHeader.style.color = 'white';
+                teamHeader.style.padding = '12px 8px';
+                teamHeader.rowSpan = 2;
+                headerRow.appendChild(teamHeader);
+
+                // 첫 번째 행: "도달 순위" 라벨
+                const rankLabelHeader = document.createElement('th');
+                rankLabelHeader.innerHTML = '<span style="font-size: 0.85rem; font-weight: 500;">도달 순위</span>';
+                rankLabelHeader.colSpan = 9;
+                rankLabelHeader.style.textAlign = 'center';
+                rankLabelHeader.style.background = 'var(--secondary-color)';
+                rankLabelHeader.style.color = 'white';
+                headerRow.appendChild(rankLabelHeader);
+                
+                thead.appendChild(headerRow);
+                
+                // 두 번째 행: 실제 순위 번호들 (9위부터 1위까지)
+                const rankNumberRow = document.createElement('tr');
+                for (let i = 9; i >= 1; i--) {
+                    const th = document.createElement('th');
+                    th.textContent = i + '위';
+                    th.style.width = 'auto'; // 자동 균등 분배
+                    th.style.textAlign = 'center';
+                    
+                    // KBO 플레이오프 기준 색상 적용 (다른 테이블과 일치)
+                    let headerBgColor = '#6b7280'; // 6위 이하 회색 (탈락)
+                    if (i === 1) {
+                        headerBgColor = '#ffd700'; // 1위 골드 (정규시즌 우승)
+                    } else if (i === 2) {
+                        headerBgColor = '#c0c0c0'; // 2위 실버 (플레이오프 직행)
+                    } else if (i === 3) {
+                        headerBgColor = '#cd7f32'; // 3위 브론즈 (준플레이오프 직행)
+                    } else if (i >= 4 && i <= 5) {
+                        headerBgColor = '#1a237e'; // 4-5위 파란색 (와일드카드)
+                    }
+                    
+                    th.style.background = headerBgColor;
+                    // 골드, 실버는 검은색 텍스트, 나머지는 흰색 텍스트
+                    th.style.color = (i === 1 || i === 2) ? 'black' : 'white';
+                    th.style.fontWeight = '600';
+                    th.style.borderRadius = '0';
+                    rankNumberRow.appendChild(th);
+                }
+                
+                thead.appendChild(rankNumberRow);
+                return thead;
+
+            }
+
+            createBody() {
+                const tbody = document.createElement('tbody');
+                
+                this.data.teams.forEach(team => {
+                    const row = this.createTeamRow(team);
+                    tbody.appendChild(row);
+                });
+                
+                return tbody;
+            }
+
+            createTeamRow(team) {
+                const row = document.createElement('tr');
+                
+                const teamCell = document.createElement('td');
+                
+                // 동적 순위 계산 (실제 데이터 기반)
+                const currentRank = this.data.teams.findIndex(t => t.name === team.name) + 1;
+                
+                // 팀 정보 매핑 (풀네임만 고정, 순위는 동적)
+                const teamFullNames = {
+                    '한화': { full: '한화 이글스', short: '한화' },
+                    'LG': { full: 'LG 트윈스', short: 'LG' },
+                    '롯데': { full: '롯데 자이언츠', short: '롯데' },
+                    'SSG': { full: 'SSG 랜더스', short: 'SSG' },
+                    'KIA': { full: 'KIA 타이거즈', short: 'KIA' },
+                    'KT': { full: 'KT 위즈', short: 'KT' },
+                    'NC': { full: 'NC 다이노스', short: 'NC' },
+                    '삼성': { full: '삼성 라이온즈', short: '삼성' },
+                    '두산': { full: '두산 베어스', short: '두산' },
+                    '키움': { full: '키움 히어로즈', short: '키움' }
+                };
+                
+                const teamInfo = teamFullNames[team.name] || { full: team.name, short: team.name };
+                teamInfo.rank = currentRank; // 실제 순위 할당
+                
+                // KBO 플레이오프 기준 배지 색상 설정 (헤더와 일치)
+                let rankBadgeColor = '#6b7280'; // 6위 이하 회색 (탈락)
+                if (currentRank === 1) {
+                    rankBadgeColor = '#ffd700'; // 1위 골드 (정규시즌 우승)
+                } else if (currentRank === 2) {
+                    rankBadgeColor = '#c0c0c0'; // 2위 실버 (플레이오프 직행)
+                } else if (currentRank === 3) {
+                    rankBadgeColor = '#cd7f32'; // 3위 브론즈 (준플레이오프 직행)
+                } else if (currentRank >= 4 && currentRank <= 5) {
+                    rankBadgeColor = '#1a237e'; // 4-5위 파란색 (와일드카드)
+                }
+                
+                // 순위 셀 생성
+                const rankCell = document.createElement('td');
+                // 배지 텍스트 색상 결정 (골드, 실버는 검은색, 나머지는 흰색)
+                const badgeTextColor = (currentRank === 1 || currentRank === 2) ? 'black' : 'white';
+                
+                rankCell.innerHTML = `
+                    <span style="font-size: 0.85rem; font-weight: 700; color: ${badgeTextColor}; width: 28px; height: 28px; background: ${rankBadgeColor}; border-radius: 6px; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.2); margin: 0 auto;">${teamInfo.rank}</span>
+                `;
+                rankCell.style.cssText = `
+                    width: 60px !important;
+                    min-width: 60px !important;
+                    max-width: 60px !important;
+                    padding: 8px !important;
+                    background: white !important;
+                    text-align: center !important;
+                    vertical-align: middle !important;
+                `;
+                row.appendChild(rankCell);
+
+                // 팀명 셀 생성
+                teamCell.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <img src="${team.logo}" alt="${teamInfo.short}" style="height: 20px; width: auto;">
+                        <span style="font-size: 0.85rem; font-weight: 600;">${teamInfo.short}</span>
+                    </div>
+                `;
+                teamCell.className = 'team-cell';
+                teamCell.style.cssText = `
+                    width: 120px !important;
+                    min-width: 120px !important;
+                    max-width: 120px !important;
+                    padding: 8px !important;
+                    background: white !important;
+                    text-align: center !important;
+                    white-space: nowrap !important;
+                    overflow: hidden !important;
+                `;
+                row.appendChild(teamCell);
+
+                for (let rank = 9; rank >= 1; rank--) {
+                    const magicCell = this.createMagicCell(team, rank);
+                    row.appendChild(magicCell);
+                }
+                
+                return row;
+            }
+
+            createMagicCell(team, rank) {
+                const cell = document.createElement('td');
+                const rankStr = rank.toString();
+                const magicData = team.magicNumbers[rankStr];
+                
+                if (magicData) {
+                    const colors = this.getColorByType(magicData.type);
+                    
+                    // 툴팁 정보 생성
+                    const tooltipText = this.getTooltipText(magicData.type, magicData.value, rank);
+                    
+                    cell.innerHTML = `
+                        <div style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 45px;">
+                            <span style="font-size: 16px; font-weight: 700; line-height: 1;">${magicData.value}</span>
+                            <span style="font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px;">${this.getTypeLabel(magicData.type)}</span>
+                        </div>
+                    `;
+                    
+                    cell.style.cssText = `
+                        background: linear-gradient(135deg, ${colors.bg} 0%, ${colors.bgSecondary || colors.bg} 100%);
+                        color: ${colors.text};
+                        padding: 8px 6px;
+                        font-size: 14px;
+                        font-weight: bold;
+                        text-align: center;
+                        border: none;
+                        min-width: 70px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        position: relative;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+                    `;
+                    
+                    // 호버 효과 추가
+                    cell.addEventListener('mouseenter', function() {
+                        this.style.transform = 'scale(1.05)';
+                        this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+                        this.style.zIndex = '15';
+                    });
+                    
+                    cell.addEventListener('mouseleave', function() {
+                        this.style.transform = 'scale(1)';
+                        this.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
+                        this.style.zIndex = '1';
+                    });
+                    
+                    // 툴팁 설정
+                    cell.title = tooltipText;
+                    
+                } else {
+                    cell.style.cssText = `
+                        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                        padding: 8px 6px;
+                        font-size: 14px;
+                        text-align: center;
+                        border: none;
+                        min-width: 70px;
+                        color: #9ca3af;
+                        font-style: italic;
+                    `;
+                    cell.textContent = '-';
+                }
+                
+                return cell;
+            }
+
+            getColorByType(type) {
+                const colorMap = {
+                    'magic': { 
+                        bg: '#7dd87d', 
+                        bgSecondary: '#68d391',
+                        text: '#1a365d', 
+                        border: '#38a169'
+                    },
+                    'competitive': { 
+                        bg: '#ffff7d', 
+                        bgSecondary: '#f6e05e',
+                        text: '#744210', 
+                        border: '#d69e2e'
+                    },
+                    'tragic': { 
+                        bg: '#ff7d7d', 
+                        bgSecondary: '#fc8181',
+                        text: '#742a2a', 
+                        border: '#e53e3e'
+                    },
+                    'clinched': { 
+                        bg: '#4169e1', 
+                        bgSecondary: '#3182ce',
+                        text: 'white', 
+                        border: '#2c5aa0'
+                    },
+                    'eliminated': { 
+                        bg: '#808080', 
+                        bgSecondary: '#6b7280',
+                        text: 'white', 
+                        border: '#4b5563'
+                    }
+                };
+                
+                return colorMap[type] || { bg: '#f8f9fa', bgSecondary: '#e9ecef', text: '#6c757d', border: '#dee2e6' };
+            }
+            
+            getTypeLabel(type) {
+                const labelMap = {
+                    'magic': 'M',
+                    'competitive': 'C', 
+                    'tragic': 'T',
+                    'clinched': '확정',
+                    'eliminated': '탈락'
+                };
+                return labelMap[type] || '';
+            }
+            
+            getTooltipText(type, value, rank) {
+                const typeNames = {
+                    'magic': '매직넘버',
+                    'competitive': '경합상황',
+                    'tragic': '트래직넘버',
+                    'clinched': '순위확정',
+                    'eliminated': '탈락확정'
+                };
+                
+                const typeName = typeNames[type] || '알 수 없음';
+                
+                if (type === 'magic') {
+                    return `${rank}위 달성까지 ${value}승 필요 (${typeName})`;
+                } else if (type === 'tragic') {
+                    return `${rank}위 탈락까지 ${value}패 남음 (${typeName})`;
+                } else if (type === 'competitive') {
+                    return `${rank}위 경합 중 - ${value}경기 (${typeName})`;
+                } else {
+                    return `${rank}위 ${typeName} - ${value}`;
+                }
+            }
+            
+        }
+
+        // 매직넘버 차트 수동 렌더링 테스트
+        setTimeout(() => {
+            console.log('🔧 수동 렌더링 시도');
+            if (typeof NamuwikiMagicChart !== 'undefined') {
+                const testChart = new NamuwikiMagicChart();
+                testChart.render('namuwiki-magic-table').then(() => {
+                    console.log('✅ 수동 렌더링 성공');
+                }).catch(error => {
+                    console.error('❌ 수동 렌더링 실패:', error);
+                });
+            } else {
+                console.error('❌ NamuwikiMagicChart 클래스를 찾을 수 없습니다');
+            }
+        }, 2000);
+        
+        // 테이블 반응형 스크롤 개선
+        function initTableScroll() {
+            const tableWrapper = document.querySelector('.magic-table-wrapper');
+            const scrollContainer = tableWrapper?.querySelector('div');
+            
+            if (tableWrapper && scrollContainer) {
+                // 스크롤 컨테이너 스타일 업데이트
+                scrollContainer.style.cssText = `
+                    overflow-x: auto !important;
+                    -webkit-overflow-scrolling: touch !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    display: block !important;
+                `;
+                
+                // 스크롤 인디케이터 추가
+                const scrollIndicator = document.createElement('div');
+                scrollIndicator.style.cssText = `
+                    position: absolute;
+                    bottom: 10px;
+                    right: 20px;
+                    background: rgba(0,0,0,0.7);
+                    color: white;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                    pointer-events: none;
+                    z-index: 1000;
+                    white-space: nowrap;
+                `;
+                scrollIndicator.textContent = '← 좌우로 스크롤하세요 →';
+                tableWrapper.style.position = 'relative';
+                tableWrapper.appendChild(scrollIndicator);
+                
+                // 스크롤 감지
+                let scrollTimeout;
+                scrollContainer.addEventListener('scroll', function() {
+                    scrollIndicator.style.opacity = '1';
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        scrollIndicator.style.opacity = '0';
+                    }, 2000);
+                });
+                
+                // 초기 표시 (테이블이 스크롤 가능한 경우에만)
+                setTimeout(() => {
+                    if (scrollContainer.scrollWidth > scrollContainer.clientWidth) {
+                        scrollIndicator.style.opacity = '1';
+                        setTimeout(() => {
+                            scrollIndicator.style.opacity = '0';
+                        }, 3000);
                     }
                 }, 2000);
             }
