@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * 나무위키 스타일 매직넘버 매트릭스 데이터 생성기
- * service-data.json을 기반으로 매트릭스 데이터 생성
+ * KBO 매직넘버 매트릭스 데이터 생성기
+ * service-data.json을 기반으로 나무위키 스타일 매트릭스 데이터 생성
  */
 
 const fs = require('fs');
 const path = require('path');
 
-class NamuwikiMatrixGenerator {
+class MagicMatrixGenerator {
     constructor() {
         this.serviceData = null;
         this.outputPath = path.join(__dirname, '../magic-number/namuwiki-data.json');
@@ -170,8 +170,8 @@ class NamuwikiMatrixGenerator {
 
 // 직접 실행시 매트릭스 생성
 if (require.main === module) {
-    const generator = new NamuwikiMatrixGenerator();
+    const generator = new MagicMatrixGenerator();
     generator.generate();
 }
 
-module.exports = NamuwikiMatrixGenerator;
+module.exports = MagicMatrixGenerator;
