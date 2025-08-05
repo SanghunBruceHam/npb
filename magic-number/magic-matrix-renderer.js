@@ -12,7 +12,7 @@ class NamuwikiMagicChart {
     // 데이터 로드
     async loadData() {
         try {
-            const response = await fetch('./namuwiki-data.json');
+            const response = await fetch(`./namuwiki-data.json?v=${Date.now()}`);
             this.data = await response.json();
             console.log('✅ 나무위키 데이터 로드 완료:', this.data);
         } catch (error) {
