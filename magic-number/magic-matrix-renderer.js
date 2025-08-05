@@ -32,6 +32,7 @@ class NamuwikiMagicChart {
             }
 
             this.renderTable();
+            this.updateTimestamp();
             console.log('✅ 나무위키 매직넘버 차트 렌더링 완료');
         } catch (error) {
             console.error('❌ 렌더링 실패:', error);
@@ -251,6 +252,14 @@ class NamuwikiMagicChart {
                 📊 <span>${this.data.updateDate} ${this.data.title}</span>
             </div>
         `;
+    }
+
+    // 타임스탬프 업데이트
+    updateTimestamp() {
+        const timestampElement = document.getElementById('matrix-load-time');
+        if (timestampElement && this.data) {
+            timestampElement.textContent = `${this.data.updateDate} ${this.data.title}`;
+        }
     }
 }
 
