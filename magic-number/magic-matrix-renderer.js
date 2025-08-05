@@ -12,9 +12,17 @@ class NamuwikiMagicChart {
     // 데이터 로드
     async loadData() {
         try {
+            console.log('🔍 데이터 로드 시작... URL:', `./namuwiki-data.json?v=${Date.now()}`);
             const response = await fetch(`./namuwiki-data.json?v=${Date.now()}`);
+            console.log('📡 응답 상태:', response.status, response.statusText);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
             this.data = await response.json();
             console.log('✅ 나무위키 데이터 로드 완료:', this.data);
+            console.log('🏆 첫 번째 팀:', this.data.teams[0].name, '순위:', this.data.teams[0].rank);
         } catch (error) {
             console.error('❌ 데이터 로드 실패:', error);
             throw error;
@@ -24,9 +32,12 @@ class NamuwikiMagicChart {
     // 메인 렌더링 함수
     async render(containerId = 'namuwiki-magic-table') {
         try {
+            console.log('🎯 렌더링 시작, 컨테이너 ID:', containerId);
+            
             await this.loadData();
             
             this.tableElement = document.getElementById(containerId);
+            console.log('📋 테이블 요소 찾기:', this.tableElement ? '성공' : '실패');
             if (!this.tableElement) {
                 throw new Error(`컨테이너 ${containerId}를 찾을 수 없습니다`);
             }
