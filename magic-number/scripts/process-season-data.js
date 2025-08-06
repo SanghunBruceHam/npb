@@ -37,9 +37,10 @@ class KBODataProcessor {
             // 현재 연도에 맞는 파일 찾기
             const currentYear = new Date().getFullYear();
             const possibleFiles = [
-                `../../data/${currentYear}-season-data-clean.txt`,
-                '../../data/2025-season-data-clean.txt',
-                '../../data/2024-season-data-clean.txt'
+                path.join(__dirname, `../../../data/${currentYear}-season-data-clean.txt`),
+                path.join(__dirname, '../../../data/2025-season-data-clean.txt'),
+                path.join(__dirname, '../../../data/clean.txt'),
+                path.join(__dirname, '../../../data/2024-season-data-clean.txt')
             ];
             
             let dataFile = null;
