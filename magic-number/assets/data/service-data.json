@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2025-08-06T08:22:18.390Z",
-  "updateDate": "2025. 8. 6.",
+  "lastUpdated": "2025-08-06T23:27:00.000Z",
+  "updateDate": "2025. 8. 7.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "source": "CLEAN_TXT_AUTOMATION",
-  "dataDate": "2025-08-05",
+  "dataDate": "2025-08-06",
   "totalGames": 513,
   "standings": [
     {
