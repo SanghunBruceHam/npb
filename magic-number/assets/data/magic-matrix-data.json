@@ -1,7 +1,9 @@
 {
-  "lastUpdated": "2025-08-05T23:58:25.460Z",
-  "updateDate": "2025. 8. 5.",
+  "lastUpdated": "2025-08-06T17:41:46.537Z",
+  "updateDate": "2025. 8. 6.",
   "title": "2025월 8월 05일 기준",
+  "note": "나무위키 스타일 순위별 매직넘버/트래직넘버",
+  "type": "rank_based",
   "teams": [
     {
       "name": "LG",
@@ -9,40 +11,40 @@
       "rank": 1,
       "magicNumbers": {
         "1": {
-          "value": 999,
-          "type": "eliminated"
+          "value": 0,
+          "type": "clinched"
         },
         "2": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "3": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "4": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "5": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "6": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "7": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 8,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -56,36 +58,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "3": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "4": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "5": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "6": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "7": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 11,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -99,36 +101,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 13,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "4": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "5": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "6": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "7": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 13,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -142,36 +144,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "4": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "5": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "6": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "7": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -185,36 +187,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 20,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 20,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "4": {
-          "value": 20,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "5": {
-          "value": 20,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "6": {
-          "value": 20,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "7": {
-          "value": 20,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 20,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 20,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -228,36 +230,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 19,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 19,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "4": {
-          "value": 19,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "5": {
-          "value": 19,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "6": {
-          "value": 19,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "7": {
-          "value": 19,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 19,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 19,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -271,36 +273,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 24,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 24,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "4": {
-          "value": 24,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "5": {
-          "value": 24,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "6": {
-          "value": 24,
+          "value": 45,
           "type": "tragic"
         },
         "7": {
-          "value": 24,
-          "type": "tragic"
+          "value": 0,
+          "type": "clinched"
         },
         "8": {
-          "value": 24,
-          "type": "tragic"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 24,
-          "type": "tragic"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -314,36 +316,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "4": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "5": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "6": {
-          "value": 21,
-          "type": "competitive"
+          "value": 42,
+          "type": "tragic"
         },
         "7": {
-          "value": 21,
-          "type": "competitive"
+          "value": 999,
+          "type": "eliminated"
         },
         "8": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         },
         "9": {
-          "value": 21,
-          "type": "competitive"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -357,36 +359,36 @@
           "type": "eliminated"
         },
         "2": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "3": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "4": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "5": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "6": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "7": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "8": {
-          "value": 28,
-          "type": "tragic"
+          "value": 999,
+          "type": "eliminated"
         },
         "9": {
-          "value": 28,
-          "type": "tragic"
+          "value": 0,
+          "type": "clinched"
         }
       }
     },
@@ -434,6 +436,18 @@
       }
     }
   ],
+  "teamOrder": [
+    "LG",
+    "한화",
+    "롯데",
+    "KIA",
+    "SSG",
+    "KT",
+    "NC",
+    "삼성",
+    "두산",
+    "키움"
+  ],
   "legend": {
     "magic": {
       "color": "#7dd87d",
@@ -449,11 +463,15 @@
     },
     "clinched": {
       "color": "#4169e1",
-      "label": "확정상황"
+      "label": "이미달성"
     },
     "eliminated": {
       "color": "#808080",
-      "label": "탈락확정"
+      "label": "불가능"
+    },
+    "self": {
+      "color": "#f0f0f0",
+      "label": "자기자신"
     }
   }
 }

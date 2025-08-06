@@ -1,0 +1,243 @@
+{
+  "lastUpdated": "2025-08-06T08:22:18.390Z",
+  "updateDate": "2025. 8. 6.",
+  "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
+  "rankings": [
+    {
+      "rank": 1,
+      "team": "LG",
+      "games": 104,
+      "wins": 62,
+      "losses": 40,
+      "draws": 2,
+      "winRate": 0.608,
+      "gamesBehind": 0,
+      "recent10": "9승0무1패",
+      "streak": "7승",
+      "homeRecord": "33-19-0",
+      "awayRecord": "29-21-2"
+    },
+    {
+      "rank": 2,
+      "team": "한화",
+      "games": 101,
+      "wins": 59,
+      "losses": 39,
+      "draws": 3,
+      "winRate": 0.602,
+      "gamesBehind": 1,
+      "recent10": "3승1무6패",
+      "streak": "2패",
+      "homeRecord": "31-17-2",
+      "awayRecord": "28-22-1"
+    },
+    {
+      "rank": 3,
+      "team": "롯데",
+      "games": 105,
+      "wins": 57,
+      "losses": 45,
+      "draws": 3,
+      "winRate": 0.559,
+      "gamesBehind": 5,
+      "recent10": "7승0무3패",
+      "streak": "1패",
+      "homeRecord": "29-22-2",
+      "awayRecord": "28-23-1"
+    },
+    {
+      "rank": 4,
+      "team": "KIA",
+      "games": 100,
+      "wins": 49,
+      "losses": 47,
+      "draws": 4,
+      "winRate": 0.51,
+      "gamesBehind": 10,
+      "recent10": "3승1무6패",
+      "streak": "3승",
+      "homeRecord": "29-20-2",
+      "awayRecord": "20-27-2"
+    },
+    {
+      "rank": 5,
+      "team": "SSG",
+      "games": 102,
+      "wins": 50,
+      "losses": 48,
+      "draws": 4,
+      "winRate": 0.51,
+      "gamesBehind": 10,
+      "recent10": "6승1무3패",
+      "streak": "1패",
+      "homeRecord": "24-22-4",
+      "awayRecord": "26-26-0"
+    },
+    {
+      "rank": 6,
+      "team": "KT",
+      "games": 105,
+      "wins": 51,
+      "losses": 50,
+      "draws": 4,
+      "winRate": 0.505,
+      "gamesBehind": 10.5,
+      "recent10": "3승1무6패",
+      "streak": "1승",
+      "homeRecord": "26-25-1",
+      "awayRecord": "25-25-3"
+    },
+    {
+      "rank": 7,
+      "team": "NC",
+      "games": 99,
+      "wins": 46,
+      "losses": 47,
+      "draws": 6,
+      "winRate": 0.495,
+      "gamesBehind": 11.5,
+      "recent10": "6승1무3패",
+      "streak": "1패",
+      "homeRecord": "20-20-1",
+      "awayRecord": "26-27-5"
+    },
+    {
+      "rank": 8,
+      "team": "삼성",
+      "games": 102,
+      "wins": 49,
+      "losses": 52,
+      "draws": 1,
+      "winRate": 0.485,
+      "gamesBehind": 12.5,
+      "recent10": "3승0무7패",
+      "streak": "1승",
+      "homeRecord": "30-23-0",
+      "awayRecord": "19-29-1"
+    },
+    {
+      "rank": 9,
+      "team": "두산",
+      "games": 103,
+      "wins": 42,
+      "losses": 56,
+      "draws": 5,
+      "winRate": 0.429,
+      "gamesBehind": 18,
+      "recent10": "3승1무6패",
+      "streak": "2패",
+      "homeRecord": "21-29-4",
+      "awayRecord": "21-27-1"
+    },
+    {
+      "rank": 10,
+      "team": "키움",
+      "games": 105,
+      "wins": 30,
+      "losses": 71,
+      "draws": 4,
+      "winRate": 0.297,
+      "gamesBehind": 31.5,
+      "recent10": "2승1무7패",
+      "streak": "1승",
+      "homeRecord": "18-37-2",
+      "awayRecord": "12-34-2"
+    }
+  ],
+  "magicNumbers": {
+    "LG": {
+      "playoff": 10,
+      "championship": 999,
+      "elimination": 30,
+      "homeAdvantage": 35,
+      "remainingGames": 40,
+      "maxPossibleWins": 102,
+      "currentRank": 1
+    },
+    "한화": {
+      "playoff": 13,
+      "championship": 4,
+      "elimination": 30,
+      "homeAdvantage": 38,
+      "remainingGames": 43,
+      "maxPossibleWins": 102,
+      "currentRank": 2
+    },
+    "롯데": {
+      "playoff": 15,
+      "championship": 6,
+      "elimination": 24,
+      "homeAdvantage": 3,
+      "remainingGames": 39,
+      "maxPossibleWins": 96,
+      "currentRank": 3
+    },
+    "KIA": {
+      "playoff": 23,
+      "championship": 14,
+      "elimination": 21,
+      "homeAdvantage": 11,
+      "remainingGames": 44,
+      "maxPossibleWins": 93,
+      "currentRank": 4
+    },
+    "SSG": {
+      "playoff": 22,
+      "championship": 13,
+      "elimination": 20,
+      "homeAdvantage": 10,
+      "remainingGames": 42,
+      "maxPossibleWins": 92,
+      "currentRank": 5
+    },
+    "KT": {
+      "playoff": 21,
+      "championship": 12,
+      "elimination": 18,
+      "homeAdvantage": 9,
+      "remainingGames": 39,
+      "maxPossibleWins": 90,
+      "currentRank": 6
+    },
+    "NC": {
+      "playoff": 26,
+      "championship": 17,
+      "elimination": 19,
+      "homeAdvantage": 14,
+      "remainingGames": 45,
+      "maxPossibleWins": 91,
+      "currentRank": 7
+    },
+    "삼성": {
+      "playoff": 23,
+      "championship": 14,
+      "elimination": 19,
+      "homeAdvantage": 11,
+      "remainingGames": 42,
+      "maxPossibleWins": 91,
+      "currentRank": 8
+    },
+    "두산": {
+      "playoff": 30,
+      "championship": 21,
+      "elimination": 11,
+      "homeAdvantage": 18,
+      "remainingGames": 41,
+      "maxPossibleWins": 83,
+      "currentRank": 9
+    },
+    "키움": {
+      "playoff": 999,
+      "championship": 33,
+      "elimination": 0,
+      "homeAdvantage": 30,
+      "remainingGames": 39,
+      "maxPossibleWins": 69,
+      "currentRank": 10
+    }
+  },
+  "lastMagicUpdate": "2025-08-06T08:22:18.390Z",
+  "totalTeams": 10,
+  "source": "CLEAN_TXT_AUTOMATION",
+  "dataDate": "2025-08-05"
+}
