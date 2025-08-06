@@ -2,17 +2,18 @@
   "name": "kbo-magic-number-calculator",
   "version": "2.0.0",
   "description": "🏆 KBO 매직넘버 계산기 - 2025 KBO 리그 실시간 매직넘버, 플레이오프 진출 조건 계산 및 자동화 시스템",
-  "main": "scripts/process-season-data.js",
+  "main": "magic-number/js/process-season-data.js",
   "homepage": "https://kbo.mahalohana-bruce.com/magic-number/",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanghunBruceHam/kbo.git"
   },
   "scripts": {
-    "process": "node scripts/process-season-data.js",
-    "update-data": "node scripts/process-season-data.js && echo '✅ KBO 데이터 업데이트 완료!'",
+    "process": "cd magic-number/js && node process-season-data.js",
+    "update-data": "cd magic-number/js && node process-season-data.js && echo '✅ KBO 데이터 업데이트 완료!'",
     "serve": "npx http-server magic-number -p 8080",
-    "test": "node -e \"console.log('✅ 시스템 정상 작동 확인'); const data = JSON.parse(require('fs').readFileSync('output/service-data.json')); console.log('총 경기수:', data.totalGames);\""
+    "test": "node -e \"console.log('✅ 시스템 정상 작동 확인'); const data = JSON.parse(require('fs').readFileSync('magic-number/data/service-data.json')); console.log('총 경기수:', data.totalGames);\"",
+    "matrix": "cd magic-number/js && node generate-magic-matrix.js"
   },
   "keywords": [
     "kbo",

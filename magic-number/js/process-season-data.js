@@ -37,10 +37,10 @@ class KBODataProcessor {
             // 현재 연도에 맞는 파일 찾기
             const currentYear = new Date().getFullYear();
             const possibleFiles = [
-                path.join(__dirname, `../../../data/${currentYear}-season-data-clean.txt`),
-                path.join(__dirname, '../../../data/2025-season-data-clean.txt'),
-                path.join(__dirname, '../../../data/clean.txt'),
-                path.join(__dirname, '../../../data/2024-season-data-clean.txt')
+                path.join(__dirname, `../data/${currentYear}-season-data-clean.txt`),
+                path.join(__dirname, '../data/2025-season-data-clean.txt'),
+                path.join(__dirname, '../data/clean.txt'),
+                path.join(__dirname, '../data/2024-season-data-clean.txt')
             ];
             
             let dataFile = null;
@@ -623,8 +623,8 @@ class KBODataProcessor {
         
         try {
             // 1. magic-number 폴더에 웹서비스용 통합 데이터 저장
-            fs.writeFileSync('../assets/data/service-data.json', JSON.stringify(serviceData, null, 2));
-            console.log('  ✅ ../assets/data/service-data.json 저장 완료');
+            fs.writeFileSync('../data/service-data.json', JSON.stringify(serviceData, null, 2));
+            console.log('  ✅ ../data/service-data.json 저장 완료');
             
             // 2. magic-number 폴더에 웹서비스용 파일들 생성
             const rankingsData = {
@@ -653,8 +653,8 @@ class KBODataProcessor {
             };
             
             // 3. magic-number 폴더에 웹서비스 파일들 생성
-            // assets/data 폴더에 파일들 생성
-            fs.writeFileSync('../assets/data/kbo-rankings.json', JSON.stringify(rankingsData, null, 2));
+            // data 폴더에 파일들 생성
+            fs.writeFileSync('../data/kbo-rankings.json', JSON.stringify(rankingsData, null, 2));
             
             // 상대전적 데이터도 업데이트
             const recordsData = {
@@ -666,11 +666,11 @@ class KBODataProcessor {
                 dataDate: serviceData.dataDate
             };
             
-            fs.writeFileSync('../assets/data/kbo-records.json', JSON.stringify(recordsData, null, 2));
+            fs.writeFileSync('../data/kbo-records.json', JSON.stringify(recordsData, null, 2));
             
             // service-data.json은 이미 위에서 저장됨
             
-            console.log('  ✅ assets/data 폴더 파일들 업데이트 완료');
+            console.log('  ✅ data 폴더 파일들 업데이트 완료');
             
         } catch (error) {
             console.error('❌ 파일 저장 실패:', error.message);
@@ -758,9 +758,9 @@ class KBODataProcessor {
             console.log(`📊 총 ${parseResult.gameCount}경기 처리`);
             console.log(`📅 최신 데이터: ${parseResult.lastDate}`);
             console.log('📁 생성된 파일:');
-            console.log('   - ../assets/data/service-data.json (통합 웹서비스 데이터)');
-            console.log('   - ../assets/data/kbo-rankings.json (웹서비스용 순위)');
-            console.log('   - ../assets/data/kbo-records.json (웹서비스용 상대전적)');
+            console.log('   - ../data/service-data.json (통합 웹서비스 데이터)');
+            console.log('   - ../data/kbo-rankings.json (웹서비스용 순위)');
+            console.log('   - ../data/kbo-records.json (웹서비스용 상대전적)');
             
         } catch (error) {
             console.error('\n❌ 처리 중 오류 발생:', error.message);

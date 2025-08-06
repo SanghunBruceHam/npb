@@ -252,7 +252,7 @@ const kboTeams = {
         async function loadKBOData() {
             try {
                 console.log('🔍 KBO 데이터 로딩 시작...');
-                const response = await fetch(`assets/data/service-data.json?v=${Date.now()}`);
+                const response = await fetch(`data/service-data.json?v=${Date.now()}`);
                 console.log('📡 응답 상태:', response.status, response.statusText);
                 if (response.ok) {
                     const data = await response.json();
@@ -321,7 +321,7 @@ const kboTeams = {
         async function loadHeadToHeadData() {
             try {
                 console.log('🔍 상대전적 데이터 로딩 시작...');
-                const response = await fetch(`assets/data/kbo-records.json?v=${Date.now()}`);
+                const response = await fetch(`data/kbo-records.json?v=${Date.now()}`);
                 
                 if (response.ok) {
                     const data = await response.json();

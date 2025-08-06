@@ -11,13 +11,13 @@ const path = require('path');
 class MagicMatrixGenerator {
     constructor() {
         this.serviceData = null;
-        this.outputPath = path.join(__dirname, '../assets/data/magic-matrix-data.json');
+        this.outputPath = path.join(__dirname, '../data/magic-matrix-data.json');
     }
 
     // 서비스 데이터 로드
     loadServiceData() {
         try {
-            const dataPath = path.join(__dirname, '../assets/data/service-data.json');
+            const dataPath = path.join(__dirname, '../data/service-data.json');
             this.serviceData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
             console.log('✅ 서비스 데이터 로드 완료');
         } catch (error) {

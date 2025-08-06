@@ -10,7 +10,7 @@ const path = require('path');
 
 function fixEncoding() {
     const year = new Date().getFullYear();
-    const filePath = path.join(__dirname, '..', '..', 'data', `${year}-season-data-clean.txt`);
+    const filePath = path.join(__dirname, '..', 'data', `${year}-season-data-clean.txt`);
     
     if (!fs.existsSync(filePath)) {
         console.log('파일이 없습니다:', filePath);
