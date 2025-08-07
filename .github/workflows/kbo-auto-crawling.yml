@@ -17,11 +17,9 @@ on:
           - 'false'
           - 'true'
 
-# GitHub Pages 배포를 위한 권한 설정
+# 권한 설정 (Pages Actions 배포 제거)
 permissions:
   contents: write  # 코드 체크아웃 및 커밋
-  pages: write     # GitHub Pages 배포
-  id-token: write  # OIDC 토큰 (Pages 배포용)
 
 jobs:
   kbo-auto-update:
@@ -192,15 +190,11 @@ jobs:
         
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-    # 15. GitHub Pages 배포 (데이터 업데이트 직후 바로 배포)
-    - name: ⚙️ GitHub Pages 설정
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      uses: actions/configure-pages@v3
-
-    - name: 🚀 GitHub Pages 배포 준비
+    # 15. 파일 확인 (Pages는 main 브랜치에서 자동 배포됨)
+    - name: 📁 배포 파일 확인
       if: steps.check_changes.outputs.changes_detected == 'true'
       run: |
-        echo "🌐 GitHub Pages 배포 시작..."
+        echo "🌐 GitHub Pages 자동 배포 확인..."
         
         # magic-number 폴더 존재 확인
         if [ ! -d "magic-number" ]; then
@@ -208,9 +202,10 @@ jobs:
           exit 1
         fi
         
-        # 주요 파일들 배포 준비 확인
-        echo "📁 배포할 파일들 확인:"
-        echo "  - index.html: $([ -f magic-number/index.html ] && echo '✅' || echo '❌')"
+        # 주요 파일들 확인
+        echo "📁 업데이트된 파일들:"
+        echo "  - index.html: $([ -f index.html ] && echo '✅' || echo '❌')"
+        echo "  - magic-number/index.html: $([ -f magic-number/index.html ] && echo '✅' || echo '❌')"
         echo "  - service-data.json: $([ -f magic-number/data/service-data.json ] && echo '✅' || echo '❌')"
         echo "  - kbo-rankings.json: $([ -f magic-number/data/kbo-rankings.json ] && echo '✅' || echo '❌')"
         
@@ -220,19 +215,7 @@ jobs:
           echo "  - 일일 히스토리: ${HISTORY_COUNT}개 파일"
         fi
         
-        echo "✅ 배포 준비 완료"
-
-    - name: 📦 Pages 아티팩트 업로드
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      uses: actions/upload-pages-artifact@v3
-      with:
-        # 전체 프로젝트를 GitHub Pages로 배포
-        path: '.'
-
-    - name: 🌐 Pages 배포 실행
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      id: pages_deployment
-      uses: actions/deploy-pages@v3
+        echo "✅ 파일 확인 완료 - GitHub Pages가 main 브랜치에서 자동 배포됩니다"
 
     # 16. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
@@ -245,9 +228,9 @@ jobs:
         if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
           echo "✅ 데이터 업데이트: 완료"
           echo "✅ 자동 커밋: 완료" 
-          echo "✅ GitHub Pages 배포: 완료"
-          if [ -n "${{ steps.pages_deployment.outputs.page_url }}" ]; then
-            echo "🌐 배포 URL: ${{ steps.pages_deployment.outputs.page_url }}"
+          echo "✅ GitHub Pages: main 브랜치에서 자동 배포됨"
+          if [ -n "https://kbo.mahalohana-bruce.com" ]; then
+            echo "🌐 배포 URL: https://kbo.mahalohana-bruce.com"
           fi
         else
           echo "📋 변경사항이 없어서 배포를 건너뜁니다"
