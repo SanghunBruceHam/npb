@@ -15,16 +15,28 @@ import time
 import re
 from datetime import datetime
 import os
+import sys
 from pathlib import Path
+
+# PathManager 추가 - config 디렉토리를 Python path에 추가
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / 'config'))
+from paths import get_path_manager
 
 class KBOWorkingCrawler:
     def __init__(self):
         self.base_url = 'https://sports.daum.net/schedule/kbo'
         
-        # 프로젝트 루트 찾기
-        self.project_root = self.find_project_root()
-        self.data_dir = self.project_root / 'magic-number' / 'data'
-        self.data_dir.mkdir(parents=True, exist_ok=True)
+        # PathManager 사용
+        self.paths = get_path_manager()
+        self.paths.setup_python_path()  # Python 모듈 import 경로 설정
+        
+        print(f"🏟️ KBO 실제 작동 크롤러 초기화 완료 - 데이터 경로: {self.paths.data_dir}")
+        
+        # 필요한 디렉토리들 생성
+        self.paths.ensure_dir(Path(self.paths.data_dir))
+        self.paths.ensure_dir(Path(self.paths.history_dir))
+        self.paths.ensure_dir(Path(self.paths.daily_history_dir))
+        self.paths.ensure_dir(Path(self.paths.monthly_history_dir))
         
         self.team_mapping = {
             'KIA': 'KIA', 'KT': 'KT', 'LG': 'LG', 'NC': 'NC', 'SSG': 'SSG',
@@ -32,16 +44,7 @@ class KBOWorkingCrawler:
             'SK': 'SSG', '기아': 'KIA'
         }
         
-        print(f"🏟️ KBO 실제 작동 크롤러 초기화 완료 - 데이터 경로: {self.data_dir}")
-
-    def find_project_root(self):
-        """package.json이 있는 프로젝트 루트 디렉토리 찾기"""
-        current = Path(__file__).parent
-        while current != current.parent:
-            if (current / 'package.json').exists():
-                return current
-            current = current.parent
-        raise Exception("프로젝트 루트를 찾을 수 없습니다.")
+        print(f"🏟️ KBO 실제 작동 크롤러 초기화 완료 - 데이터 경로: {self.paths.data_dir}")
 
     def setup_driver(self, headless=False):
         """Chrome WebDriver 설정"""
@@ -95,7 +98,7 @@ class KBOWorkingCrawler:
             time.sleep(2)
             
             # 스크린샷
-            screenshot_path = self.data_dir.parent / 'crawlers' / 'kbo-working-screenshot.png'
+            screenshot_path = Path(self.paths.crawlers_dir) / 'kbo-working-screenshot.png'
             driver.save_screenshot(str(screenshot_path))
             print("📸 스크린샷 저장: kbo-working-screenshot.png")
             
@@ -244,7 +247,7 @@ class KBOWorkingCrawler:
         # print(f"\n💾 JSON 저장: {json_file}")
         
         # PathManager와 일치하는 안전한 경로 사용
-        main_clean_file = self.data_dir / f'{year}-season-data-clean.txt'
+        main_clean_file = Path(self.paths.data_dir) / f'{year}-season-data-clean.txt'
         
         # 기존 경기 데이터 로드
         existing_games = set()

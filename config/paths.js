@@ -1,15 +1,16 @@
 const path = require('path');
 const fs = require('fs');
+const environment = require('./environment');
 
 /**
  * 중앙화된 경로 관리 시스템
- * 프로젝트 루트를 자동으로 감지하고 모든 경로를 절대경로로 관리
+ * 환경변수와 프로젝트 구조를 기반으로 모든 경로를 절대경로로 관리
  */
 class PathManager {
     constructor() {
         this.projectRoot = this.findProjectRoot();
         this.magicNumberRoot = path.join(this.projectRoot, 'magic-number');
-        this.dataDir = path.join(this.magicNumberRoot, 'data');
+        this.dataDir = this.getDataDir();
         this.jsDir = path.join(this.magicNumberRoot, 'js');
         this.crawlersDir = path.join(this.magicNumberRoot, 'crawlers');
         this.cssDir = path.join(this.magicNumberRoot, 'css');
@@ -17,15 +18,30 @@ class PathManager {
         this.iconsDir = path.join(this.magicNumberRoot, 'icons');
         this.utilsDir = path.join(this.magicNumberRoot, 'utils');
         this.screenshotsDir = path.join(this.magicNumberRoot, 'screenshots');
+        this.historyDir = path.join(this.magicNumberRoot, 'history');
+        this.dailyHistoryDir = path.join(this.historyDir, 'daily');
+        this.monthlyHistoryDir = path.join(this.historyDir, 'monthly');
         this.archiveDir = path.join(this.projectRoot, 'archive');
         this.docsDir = path.join(this.projectRoot, 'docs');
         this.logsDir = path.join(this.projectRoot, 'logs');
+        this.configDir = path.join(this.projectRoot, 'config');
+        this.scriptsDir = path.join(this.projectRoot, 'scripts');
     }
 
     /**
      * package.json이 있는 프로젝트 루트 디렉토리를 찾습니다
      */
     findProjectRoot() {
+        // 1. 환경변수에서 프로젝트 루트 확인
+        const envRoot = environment.getProjectRoot();
+        if (envRoot && fs.existsSync(envRoot)) {
+            const packageJsonPath = path.join(envRoot, 'package.json');
+            if (fs.existsSync(packageJsonPath)) {
+                return envRoot;
+            }
+        }
+        
+        // 2. 자동 감지
         let currentDir = __dirname;
         
         // 최대 10단계까지만 상위 디렉토리를 찾습니다 (무한루프 방지)
@@ -43,7 +59,21 @@ class PathManager {
             currentDir = parentDir;
         }
         
-        throw new Error('프로젝트 루트를 찾을 수 없습니다. package.json이 있는 디렉토리가 필요합니다.');
+        throw new Error(
+            '프로젝트 루트를 찾을 수 없습니다. package.json이 있는 디렉토리가 필요합니다.\n' +
+            '또는 KBO_PROJECT_ROOT 환경변수를 설정하세요.'
+        );
+    }
+
+    /**
+     * 데이터 디렉토리 경로를 반환합니다 (환경변수 우선)
+     */
+    getDataDir() {
+        const customDir = environment.getDataDir();
+        if (customDir && fs.existsSync(customDir)) {
+            return customDir;
+        }
+        return path.join(this.magicNumberRoot, 'data');
     }
 
     /**

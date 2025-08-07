@@ -24,7 +24,7 @@ class DailySnapshotManager {
         console.log(`📁 히스토리 저장 경로: ${this.historyDir}`);
     }
 
-    // 현재 서비스 데이터 로드
+    // 현재 서비스 데이터 로드 (상세 통계 포함)
     loadCurrentData() {
         try {
             const serviceDataPath = pathManager.getDataFile('service-data.json');
@@ -35,11 +35,54 @@ class DailySnapshotManager {
             const serviceData = JSON.parse(fs.readFileSync(serviceDataPath, 'utf8'));
             console.log(`✅ 현재 데이터 로드: ${serviceData.dataDate} (${serviceData.totalGames}경기)`);
             
+            // 상세 통계도 포함하여 출력
+            this.printDetailedStats(serviceData);
+            
             return serviceData;
         } catch (error) {
             console.error('❌ 현재 데이터 로드 실패:', error.message);
             throw error;
         }
+    }
+
+    // 상세 통계 출력 (process-season-data.js와 동일한 형식)
+    printDetailedStats(serviceData) {
+        console.log('📊 팀별 통계 계산 중...');
+        console.log(`  🎮 처리할 경기 수: ${serviceData.totalGames}`);
+        
+        // 순위표 출력
+        serviceData.standings.forEach(team => {
+            const draws = team.draws || 0;
+            const winRate = team.winRate.toFixed(3);
+            console.log(`  📈 ${team.team}: ${team.games}경기 ${team.wins}승${team.losses}패${draws}무 (.${winRate})`);
+        });
+
+        console.log('⚔️ 상대전적 계산 중...');
+        console.log('  ⚔️ 상대전적 매트릭스 완성');
+        serviceData.standings.forEach(team => {
+            console.log(`    ${team.team}: 총 ${team.games}경기`);
+        });
+
+        console.log('📅 잔여경기 계산 중...');
+        serviceData.standings.forEach(team => {
+            console.log(`  📅 ${team.team}: ${team.remainingGames}경기 남음`);
+        });
+
+        console.log('🏆 순위 계산 중...');
+        console.log('  🏆 순위표 완성:');
+        serviceData.standings.forEach(team => {
+            const draws = team.draws || 0;
+            const winRate = team.winRate.toFixed(3);
+            console.log(`    ${team.rank}위 ${team.team} (${team.wins}-${team.losses}-${draws}, .${winRate})`);
+        });
+
+        console.log('🔮 매직넘버 계산 중...');
+        Object.entries(serviceData.magicNumbers).forEach(([teamName, magicNumber]) => {
+            const team = serviceData.standings.find(t => t.team === teamName);
+            const playoffMN = magicNumber.playoff === 999 ? '999' : magicNumber.playoff;
+            const championshipMN = magicNumber.championship === 0 ? '0' : magicNumber.championship;
+            console.log(`  🎯 ${teamName} (${team?.rank}위): PO ${playoffMN}, 우승 ${championshipMN}`);
+        });
     }
 
     // 어제 스냅샷 로드 (변화 계산용)
@@ -205,6 +248,23 @@ class DailySnapshotManager {
             console.log(`   - 순위 변동: ${rankChanges.length}개 팀`);
             console.log(`   - 매직넘버 변화: ${magicNumberChanges.length}개 변화`);
             console.log(`   - 새로운 경기: ${gamesSummary.gamesPlayedSinceYesterday}경기`);
+            
+            // 상세한 변화 정보 출력
+            if (rankChanges.length > 0) {
+                console.log(`📈 순위 변화 상세:`);
+                rankChanges.forEach(change => {
+                    const arrow = change.direction === 'up' ? '⬆️' : '⬇️';
+                    console.log(`   ${arrow} ${change.team}: ${change.from}위 → ${change.to}위 (${change.change})`);
+                });
+            }
+            
+            if (magicNumberChanges.length > 0) {
+                console.log(`🔮 매직넘버 변화 상세:`);
+                magicNumberChanges.forEach(change => {
+                    const changeText = change.change > 0 ? `+${change.change}` : change.change;
+                    console.log(`   🎯 ${change.team} ${change.type}: ${change.from} → ${change.to} (${changeText})`);
+                });
+            }
             
             // 월별 요약도 업데이트
             this.updateMonthlySummary(snapshotDate, snapshot);

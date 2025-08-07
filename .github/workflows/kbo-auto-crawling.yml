@@ -54,7 +54,15 @@ jobs:
       with:
         chrome-version: stable
 
-    # 5. 의존성 설치
+    # 5. 환경변수 설정
+    - name: ⚙️ 환경변수 설정
+      run: |
+        echo "GITHUB_ACTIONS=true" >> $GITHUB_ENV
+        echo "KBO_PROJECT_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+        echo "NODE_ENV=production" >> $GITHUB_ENV
+        echo "KBO_LOG_LEVEL=INFO" >> $GITHUB_ENV
+
+    # 6. 의존성 설치
     - name: 📦 Node.js 의존성 설치
       run: npm ci
 
@@ -66,11 +74,11 @@ jobs:
           pip install selenium beautifulsoup4
         fi
 
-    # 6. 경로 시스템 검증
+    # 7. 경로 시스템 검증
     - name: 🔍 프로젝트 경로 검증
       run: npm test
 
-    # 7. KBO 데이터 크롤링 (조건부)
+    # 8. KBO 데이터 크롤링 (조건부)
     - name: 🕷️ KBO 데이터 크롤링
       if: ${{ github.event.inputs.skip_crawling != 'true' }}
       run: |
@@ -79,27 +87,28 @@ jobs:
         echo "✅ 크롤링 완료"
       continue-on-error: true
 
-    # 8. 데이터 처리 및 변환
+    # 9. 데이터 처리 및 변환
     - name: 📊 시즌 데이터 처리
       run: |
         echo "📈 시즌 데이터 처리 시작..."
         npm run process
         echo "✅ 데이터 처리 완료"
 
-    # 9. 매직넘버 매트릭스 생성
+    # 10. 매직넘버 매트릭스 생성
     - name: 🔮 매직넘버 매트릭스 생성
       run: |
         echo "🎯 매직넘버 매트릭스 생성 중..."
         npm run matrix
         echo "✅ 매트릭스 생성 완료"
 
-    # 10. 일일 스냅샷 저장 (NEW!)
+    # 11. 일일 스냅샷 저장
     - name: 📸 일일 순위 스냅샷 저장
       run: |
         echo "💾 일일 스냅샷 저장 중..."
         npm run snapshot
         echo "✅ 스냅샷 저장 완료"
-    # 11. 변경사항 확인 및 커밋
+        
+    # 12. 변경사항 확인 및 커밋
     - name: 📝 변경사항 확인
       id: check_changes
       run: |
@@ -116,7 +125,7 @@ jobs:
           echo "📋 변경사항 없음"
         fi
 
-    # 12. 자동 커밋 (변경사항이 있을 때만)
+    # 13. 자동 커밋 (변경사항이 있을 때만)
     - name: 🔄 자동 커밋 및 푸시
       if: steps.check_changes.outputs.changes_detected == 'true'
       run: |
@@ -152,7 +161,7 @@ jobs:
         git push
         echo "✅ 자동 커밋 및 푸시 완료"
 
-    # 13. 실행 결과 요약
+    # 14. 실행 결과 요약
     - name: 📊 실행 결과 요약
       if: always()
       run: |
@@ -183,7 +192,7 @@ jobs:
         
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-    # 14. GitHub Pages 배포 (데이터 업데이트 직후 바로 배포)
+    # 15. GitHub Pages 배포 (데이터 업데이트 직후 바로 배포)
     - name: ⚙️ GitHub Pages 설정
       if: steps.check_changes.outputs.changes_detected == 'true'
       uses: actions/configure-pages@v4
@@ -225,7 +234,7 @@ jobs:
       id: pages_deployment
       uses: actions/deploy-pages@v4
 
-    # 15. 최종 완료 알림
+    # 16. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
       if: always()
       run: |
