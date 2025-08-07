@@ -1,166 +1,251 @@
 name: KBO 자동 데이터 크롤링 및 업데이트
 
 on:
-  # 수동 실행 가능
-  workflow_dispatch:
-    inputs:
-      target_date:
-        description: '크롤링할 날짜 (YYYY-MM-DD, 비어있으면 현재 월)'
-        required: false
-        type: string
-  
-  # 하루 3번 한국시간 기준 실행
   schedule:
-    # 오후 6시 (UTC 09:00)
-    - cron: '0 9 * * *'
-    # 오후 10시 (UTC 13:00)  
-    - cron: '0 13 * * *'
-    # 밤 12시 (UTC 15:00)
-    - cron: '0 15 * * *'
+    # 한국시간 기준: 오후 6시, 오후 10시, 밤 12시 (UTC +9시간 차이)
+    - cron: '0 9 * * *'   # UTC 09:00 = KST 18:00 (오후 6시)
+    - cron: '0 13 * * *'  # UTC 13:00 = KST 22:00 (오후 10시)
+    - cron: '0 15 * * *'  # UTC 15:00 = KST 00:00 (밤 12시)
+  workflow_dispatch: # 수동 실행 허용
+    inputs:
+      skip_crawling:
+        description: '크롤링 건너뛰기 (데이터 처리만)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+# GitHub Pages 배포를 위한 권한 설정
+permissions:
+  contents: write  # 코드 체크아웃 및 커밋
+  pages: write     # GitHub Pages 배포
+  id-token: write  # OIDC 토큰 (Pages 배포용)
 
 jobs:
-  crawl-and-update:
+  kbo-auto-update:
     runs-on: ubuntu-latest
     
     steps:
-    - name: 체크아웃
+    # 1. 저장소 체크아웃
+    - name: 📁 저장소 체크아웃
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        persist-credentials: true
-        fetch-depth: 0
-    
-    - name: Python 환경 설정
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        cache: 'pip'
-    
-    - name: Node.js 환경 설정  
+
+    # 2. Node.js 환경 설정
+    - name: 🟢 Node.js 설정
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
-    
-    - name: Chrome 설치
+
+    # 3. Python 환경 설정
+    - name: 🐍 Python 설정
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    # 4. Chrome 브라우저 설치 (크롤링용)
+    - name: 🌐 Chrome 브라우저 설치
       uses: browser-actions/setup-chrome@latest
       with:
         chrome-version: stable
-        
-    - name: ChromeDriver 설치
-      uses: nanasess/setup-chromedriver@master
-    
-    - name: Python 패키지 설치
+
+    # 5. 의존성 설치
+    - name: 📦 Node.js 의존성 설치
+      run: npm ci
+
+    - name: 📦 Python 의존성 설치
       run: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
-    
-    - name: Node.js 의존성 설치
-      run: npm install
-    
-    - name: KBO 데이터 크롤링 실행
-      run: |
-        echo "🚀 KBO 데이터 크롤링 시작..."
-        
-        # 현재 년월 계산 (한국시간 기준)
-        CURRENT_YEAR=$(TZ='Asia/Seoul' date +%Y)
-        CURRENT_MONTH=$(TZ='Asia/Seoul' date +%m)
-        
-        echo "📅 크롤링 대상: ${CURRENT_YEAR}년 ${CURRENT_MONTH}월"
-        
-        # Python 크롤러 실행 (headless 모드)
-        python kbo-python-working-crawler.py
-        
-        # data 폴더 확인 및 생성
-        mkdir -p data
-        
-        # 인코딩 문제 해결 스크립트 실행
-        node scripts/fix-encoding.js
-        
-        # 크롤링 결과 확인 (이제 clean.txt 파일에 직접 추가됨)
-        echo "📁 크롤링 완료 - data/${CURRENT_YEAR}-season-data-clean.txt 업데이트됨"
-    
-    - name: Node.js 데이터 처리 실행
-      run: |
-        echo "🔄 Node.js 데이터 처리 시작..."
-        
-        # 현재 연도 계산
-        CURRENT_YEAR=$(TZ='Asia/Seoul' date +%Y)
-        
-        # clean.txt 파일을 Node.js로 처리
-        if [ -f "data/${CURRENT_YEAR}-season-data-clean.txt" ]; then
-          # process-season-data.js가 clean.txt 파일을 읽도록 설정되어 있음
-          node scripts/process-season-data.js
-          echo "✅ 데이터 처리 완료"
+        if [ -f magic-number/crawlers/requirements.txt ]; then
+          pip install -r magic-number/crawlers/requirements.txt
         else
-          echo "⚠️ 처리할 시즌 데이터가 없습니다: data/${CURRENT_YEAR}-season-data-clean.txt"
-          exit 0
+          pip install selenium beautifulsoup4
         fi
-    
-    - name: 변경사항 확인 및 커밋
+
+    # 6. 경로 시스템 검증
+    - name: 🔍 프로젝트 경로 검증
+      run: npm test
+
+    # 7. KBO 데이터 크롤링 (조건부)
+    - name: 🕷️ KBO 데이터 크롤링
+      if: ${{ github.event.inputs.skip_crawling != 'true' }}
       run: |
-        echo "📝 변경사항 확인 중..."
-        
-        # Git 설정
+        echo "🚀 KBO 크롤링 시작..."
+        npm run crawl
+        echo "✅ 크롤링 완료"
+      continue-on-error: true
+
+    # 8. 데이터 처리 및 변환
+    - name: 📊 시즌 데이터 처리
+      run: |
+        echo "📈 시즌 데이터 처리 시작..."
+        npm run process
+        echo "✅ 데이터 처리 완료"
+
+    # 9. 매직넘버 매트릭스 생성
+    - name: 🔮 매직넘버 매트릭스 생성
+      run: |
+        echo "🎯 매직넘버 매트릭스 생성 중..."
+        npm run matrix
+        echo "✅ 매트릭스 생성 완료"
+
+    # 10. 일일 스냅샷 저장 (NEW!)
+    - name: 📸 일일 순위 스냅샷 저장
+      run: |
+        echo "💾 일일 스냅샷 저장 중..."
+        npm run snapshot
+        echo "✅ 스냅샷 저장 완료"
+    # 11. 변경사항 확인 및 커밋
+    - name: 📝 변경사항 확인
+      id: check_changes
+      run: |
         git config --local user.email "action@github.com"
         git config --local user.name "KBO Auto Crawler"
         
-        # 변경된 파일들 확인
-        git add -A
+        # 변경사항 있는지 확인
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes_detected=true" >> $GITHUB_OUTPUT
+          echo "📋 변경사항 발견됨"
+          git status --short
+        else
+          echo "changes_detected=false" >> $GITHUB_OUTPUT
+          echo "📋 변경사항 없음"
+        fi
+
+    # 12. 자동 커밋 (변경사항이 있을 때만)
+    - name: 🔄 자동 커밋 및 푸시
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        # 현재 시간 (한국시간)
+        CURRENT_TIME=$(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')
+        CURRENT_HOUR=$(TZ='Asia/Seoul' date '+%H')
         
-        if git diff --staged --quiet; then
-          echo "📭 변경사항이 없습니다"
-          exit 0
+        # 시간대별 이모지 및 메시지
+        if [ "$CURRENT_HOUR" -ge 18 ] && [ "$CURRENT_HOUR" -lt 22 ]; then
+          TIME_EMOJI="🌅"
+          TIME_MSG="오후 6시 경기 결과 업데이트"
+        elif [ "$CURRENT_HOUR" -ge 22 ] || [ "$CURRENT_HOUR" -lt 2 ]; then
+          TIME_EMOJI="🌆"
+          TIME_MSG="오후 10시 경기 결과 업데이트"
+        else
+          TIME_EMOJI="🌙"
+          TIME_MSG="최종 경기 결과 업데이트"
         fi
         
         # 커밋 메시지 생성
-        CURRENT_DATE=$(TZ='Asia/Seoul' date +"%Y-%m-%d %H:%M")
-        CURRENT_TIME=$(TZ='Asia/Seoul' date +"%H:%M")
-        
-        # 실행 시간에 따른 메시지 설정
-        if [[ "$CURRENT_TIME" < "19:00" ]]; then
-          TIME_MSG="🌅 오후 6시 경기 결과 업데이트"
-        elif [[ "$CURRENT_TIME" < "23:00" ]]; then
-          TIME_MSG="🌆 오후 10시 경기 결과 업데이트"
-        else
-          TIME_MSG="🌙 밤 12시 최종 경기 결과 업데이트"
-        fi
-        
-        COMMIT_MESSAGE="🤖 KBO 데이터 자동 업데이트 - ${CURRENT_DATE}
-        
-        ${TIME_MSG}
-        🎯 자동 크롤링 및 데이터 처리 완료
-        📊 웹서비스 데이터 파일 업데이트
+        git add .
+        git commit -m "🤖 KBO 데이터 자동 업데이트 - ${CURRENT_TIME}
+
+        ${TIME_EMOJI} ${TIME_MSG}
+        🎯 PathManager 기반 안정적 데이터 처리 완료
+        📊 순위표, 매직넘버, 상대전적 업데이트
+        📸 일일 스냅샷 히스토리 저장
         
         🤖 Generated with GitHub Actions
         Co-Authored-By: KBO-Auto-Crawler <action@github.com>"
         
-        # 변경사항 커밋
-        git commit -m "$COMMIT_MESSAGE"
+        # 푸시 실행
+        git push
+        echo "✅ 자동 커밋 및 푸시 완료"
+
+    # 13. 실행 결과 요약
+    - name: 📊 실행 결과 요약
+      if: always()
+      run: |
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "🎯 KBO 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         
-        echo "✅ 커밋 완료: $COMMIT_MESSAGE"
-    
-    - name: 변경사항 푸시
-      uses: ad-m/github-push-action@master
+        # 데이터 파일 확인
+        echo "📁 데이터 파일 현황:"
+        if [ -f magic-number/data/service-data.json ]; then
+          SERVICE_SIZE=$(du -h magic-number/data/service-data.json | cut -f1)
+          echo "  ✅ service-data.json (${SERVICE_SIZE})"
+        fi
+        if [ -f magic-number/data/kbo-rankings.json ]; then
+          RANKING_SIZE=$(du -h magic-number/data/kbo-rankings.json | cut -f1)
+          echo "  ✅ kbo-rankings.json (${RANKING_SIZE})"
+        fi
+        if [ -f magic-number/history/daily/$(TZ='Asia/Seoul' date '+%Y-%m-%d').json ]; then
+          SNAPSHOT_SIZE=$(du -h magic-number/history/daily/$(TZ='Asia/Seoul' date '+%Y-%m-%d').json | cut -f1)
+          echo "  ✅ 오늘 스냅샷 (${SNAPSHOT_SIZE})"
+        fi
+        
+        # 히스토리 통계
+        if [ -d magic-number/history/daily ]; then
+          DAILY_COUNT=$(ls -1 magic-number/history/daily/*.json 2>/dev/null | wc -l)
+          echo "  📈 총 히스토리: ${DAILY_COUNT}개 일일 스냅샷"
+        fi
+        
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # 14. GitHub Pages 배포 (데이터 업데이트 직후 바로 배포)
+    - name: ⚙️ GitHub Pages 설정
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      uses: actions/configure-pages@v4
+
+    - name: 🚀 GitHub Pages 배포 준비
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        echo "🌐 GitHub Pages 배포 시작..."
+        
+        # magic-number 폴더 존재 확인
+        if [ ! -d "magic-number" ]; then
+          echo "❌ magic-number 폴더를 찾을 수 없습니다."
+          exit 1
+        fi
+        
+        # 주요 파일들 배포 준비 확인
+        echo "📁 배포할 파일들 확인:"
+        echo "  - index.html: $([ -f magic-number/index.html ] && echo '✅' || echo '❌')"
+        echo "  - service-data.json: $([ -f magic-number/data/service-data.json ] && echo '✅' || echo '❌')"
+        echo "  - kbo-rankings.json: $([ -f magic-number/data/kbo-rankings.json ] && echo '✅' || echo '❌')"
+        
+        # 히스토리 파일 수 확인
+        if [ -d magic-number/history/daily ]; then
+          HISTORY_COUNT=$(ls -1 magic-number/history/daily/*.json 2>/dev/null | wc -l)
+          echo "  - 일일 히스토리: ${HISTORY_COUNT}개 파일"
+        fi
+        
+        echo "✅ 배포 준비 완료"
+
+    - name: 📦 Pages 아티팩트 업로드
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-    
-    - name: 크롤링 결과 요약
+        # magic-number 폴더만 GitHub Pages로 배포
+        path: './magic-number'
+
+    - name: 🌐 Pages 배포 실행
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      id: pages_deployment
+      uses: actions/deploy-pages@v4
+
+    # 15. 최종 완료 알림
+    - name: 🎉 전체 프로세스 완료 알림
+      if: always()
       run: |
-        echo "🎉 KBO 자동 크롤링 완료!"
-        echo "📊 업데이트된 파일들:"
-        echo "   - magic-number/kbo-rankings.json (순위 데이터)"
-        echo "   - magic-number/kbo-records.json (상대전적 데이터)"  
-        echo "   - output/service-data.json (통합 서비스 데이터)"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "🎯 KBO 자동 업데이트 & 배포 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        
+        if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
+          echo "✅ 데이터 업데이트: 완료"
+          echo "✅ 자동 커밋: 완료" 
+          echo "✅ GitHub Pages 배포: 완료"
+          if [ -n "${{ steps.pages_deployment.outputs.page_url }}" ]; then
+            echo "🌐 배포 URL: ${{ steps.pages_deployment.outputs.page_url }}"
+          fi
+        else
+          echo "📋 변경사항이 없어서 배포를 건너뜁니다"
+        fi
+        
         echo "📅 다음 실행 스케줄:"
-        echo "   - 🌅 오후 6시 (한국시간)"
-        echo "   - 🌆 오후 10시 (한국시간)"
-        echo "   - 🌙 밤 12시 (한국시간)"
-    
-    - name: 실패 시 알림 (선택사항)
-      if: failure()
-      run: |
-        echo "❌ KBO 자동 크롤링 실패"
-        echo "🔍 로그를 확인하여 문제를 해결해주세요"
-        # 여기에 Slack, Discord 등 알림 연동 가능
+        echo "   - 🌅 오후 6시 (한국시간 18:00)"
+        echo "   - 🌆 오후 10시 (한국시간 22:00)"  
+        echo "   - 🌙 밤 12시 (한국시간 00:00)"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
