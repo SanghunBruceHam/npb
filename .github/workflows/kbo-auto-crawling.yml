@@ -43,7 +43,7 @@ jobs:
 
     # 3. Python 환경 설정
     - name: 🐍 Python 설정
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         cache: 'pip'
@@ -215,7 +215,7 @@ jobs:
 
     - name: 📦 Pages 아티팩트 업로드
       if: steps.check_changes.outputs.changes_detected == 'true'
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         # magic-number 폴더만 GitHub Pages로 배포
         path: './magic-number'
