@@ -415,9 +415,14 @@ class KBODataProcessor {
             const secondPlace = this.standings[1];
             if (!secondPlace) return 0; // 2위가 없으면 이미 확정
             
-            // 2위 팀의 최대 가능 승수보다 1승 더 필요
+            // 2위 팀의 최대 가능 승수
             const secondMaxWins = secondPlace.wins + secondPlace.remainingGames;
-            const neededWins = Math.max(0, secondMaxWins - team.wins + 1);
+            
+            // 1위가 우승을 확정하기 위해 필요한 총 승수
+            const targetWins = secondMaxWins + 1;
+            
+            // 현재 승수에서 추가로 필요한 승수
+            const neededWins = Math.max(0, targetWins - team.wins);
             
             // 남은 경기로 달성 가능한지 확인
             return neededWins > team.remainingGames ? 999 : neededWins;
