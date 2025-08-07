@@ -7,19 +7,23 @@
 
 const fs = require('fs');
 const path = require('path');
+const pathManager = require('../../config/paths');
 
 class MagicMatrixGenerator {
     constructor() {
         this.serviceData = null;
-        this.outputPath = path.join(__dirname, '../data/magic-matrix-data.json');
+        this.outputPath = pathManager.getDataFile('magic-matrix-data.json');
     }
 
     // 서비스 데이터 로드
     loadServiceData() {
         try {
-            const dataPath = path.join(__dirname, '../data/service-data.json');
+            const dataPath = pathManager.getDataFile('service-data.json');
+            if (!pathManager.exists(dataPath)) {
+                throw new Error(`서비스 데이터 파일이 존재하지 않습니다: ${dataPath}`);
+            }
             this.serviceData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-            console.log('✅ 서비스 데이터 로드 완료');
+            console.log(`✅ 서비스 데이터 로드 완료: ${dataPath}`);
         } catch (error) {
             console.error('❌ 서비스 데이터 로드 실패:', error);
             throw error;

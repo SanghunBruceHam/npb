@@ -15,10 +15,16 @@ import time
 import re
 from datetime import datetime
 import os
+from pathlib import Path
 
 class KBOWorkingCrawler:
     def __init__(self):
         self.base_url = 'https://sports.daum.net/schedule/kbo'
+        
+        # 프로젝트 루트 찾기
+        self.project_root = self.find_project_root()
+        self.data_dir = self.project_root / 'magic-number' / 'data'
+        self.data_dir.mkdir(parents=True, exist_ok=True)
         
         self.team_mapping = {
             'KIA': 'KIA', 'KT': 'KT', 'LG': 'LG', 'NC': 'NC', 'SSG': 'SSG',
@@ -26,7 +32,16 @@ class KBOWorkingCrawler:
             'SK': 'SSG', '기아': 'KIA'
         }
         
-        print("🏟️ KBO 실제 작동 크롤러 초기화 완료")
+        print(f"🏟️ KBO 실제 작동 크롤러 초기화 완료 - 데이터 경로: {self.data_dir}")
+
+    def find_project_root(self):
+        """package.json이 있는 프로젝트 루트 디렉토리 찾기"""
+        current = Path(__file__).parent
+        while current != current.parent:
+            if (current / 'package.json').exists():
+                return current
+            current = current.parent
+        raise Exception("프로젝트 루트를 찾을 수 없습니다.")
 
     def setup_driver(self, headless=False):
         """Chrome WebDriver 설정"""
@@ -227,15 +242,12 @@ class KBOWorkingCrawler:
         #     json.dump(games, f, ensure_ascii=False, indent=2)
         # print(f"\n💾 JSON 저장: {json_file}")
         
-        # 기존 clean.txt 파일 경로
-        main_clean_file = f'data/{year}-season-data-clean.txt'
-        
-        # data 폴더 생성
-        os.makedirs('data', exist_ok=True)
+        # PathManager와 일치하는 안전한 경로 사용
+        main_clean_file = self.data_dir / f'{year}-season-data-clean.txt'
         
         # 기존 경기 데이터 로드
         existing_games = set()
-        if os.path.exists(main_clean_file):
+        if main_clean_file.exists():
             with open(main_clean_file, 'r', encoding='utf-8') as f:
                 content = f.read()
                 # 기존 경기들을 식별자로 저장
