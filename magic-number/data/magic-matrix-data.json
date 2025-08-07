@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2025-08-07T18:33:18.786Z",
+  "lastUpdated": "2025-08-07T22:46:20.881Z",
   "updateDate": "2025. 8. 7.",
-  "title": "2025월 8월 06일 기준",
+  "title": "2025월 8월 07일 기준",
   "note": "나무위키 스타일 순위별 매직넘버/트래직넘버",
   "type": "rank_based",
   "teams": [
     {
-      "name": "한화",
-      "logo": "images/hanwha.png",
+      "name": "LG",
+      "logo": "images/lg.png",
       "rank": 1,
       "magicNumbers": {
         "1": {
@@ -49,8 +49,8 @@
       }
     },
     {
-      "name": "LG",
-      "logo": "images/lg.png",
+      "name": "한화",
+      "logo": "images/hanwha.png",
       "rank": 2,
       "magicNumbers": {
         "1": {
@@ -135,8 +135,8 @@
       }
     },
     {
-      "name": "SSG",
-      "logo": "images/ssg.png",
+      "name": "KIA",
+      "logo": "images/kia.png",
       "rank": 4,
       "magicNumbers": {
         "1": {
@@ -178,8 +178,8 @@
       }
     },
     {
-      "name": "KIA",
-      "logo": "images/kia.png",
+      "name": "SSG",
+      "logo": "images/ssg.png",
       "rank": 5,
       "magicNumbers": {
         "1": {
@@ -332,7 +332,7 @@
           "type": "eliminated"
         },
         "6": {
-          "value": 41,
+          "value": 40,
           "type": "tragic"
         },
         "7": {
@@ -437,11 +437,11 @@
     }
   ],
   "teamOrder": [
-    "한화",
     "LG",
+    "한화",
     "롯데",
-    "SSG",
     "KIA",
+    "SSG",
     "KT",
     "NC",
     "삼성",
