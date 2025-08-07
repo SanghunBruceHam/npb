@@ -226,8 +226,8 @@ jobs:
       if: steps.check_changes.outputs.changes_detected == 'true'
       uses: actions/upload-pages-artifact@v3
       with:
-        # magic-number 폴더만 GitHub Pages로 배포
-        path: './magic-number'
+        # 전체 프로젝트를 GitHub Pages로 배포
+        path: '.'
 
     - name: 🌐 Pages 배포 실행
       if: steps.check_changes.outputs.changes_detected == 'true'
