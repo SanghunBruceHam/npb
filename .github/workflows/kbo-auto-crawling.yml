@@ -195,7 +195,7 @@ jobs:
     # 15. GitHub Pages 배포 (데이터 업데이트 직후 바로 배포)
     - name: ⚙️ GitHub Pages 설정
       if: steps.check_changes.outputs.changes_detected == 'true'
-      uses: actions/configure-pages@v4
+      uses: actions/configure-pages@v3
 
     - name: 🚀 GitHub Pages 배포 준비
       if: steps.check_changes.outputs.changes_detected == 'true'
@@ -224,7 +224,7 @@ jobs:
 
     - name: 📦 Pages 아티팩트 업로드
       if: steps.check_changes.outputs.changes_detected == 'true'
-      uses: actions/upload-pages-artifact@v4
+      uses: actions/upload-pages-artifact@v3
       with:
         # magic-number 폴더만 GitHub Pages로 배포
         path: './magic-number'
@@ -232,7 +232,7 @@ jobs:
     - name: 🌐 Pages 배포 실행
       if: steps.check_changes.outputs.changes_detected == 'true'
       id: pages_deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v3
 
     # 16. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
