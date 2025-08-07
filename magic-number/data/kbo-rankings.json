@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-07T13:46:20.628Z",
+  "lastUpdated": "2025-08-07T15:28:11.511Z",
   "updateDate": "2025. 8. 7.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
@@ -89,20 +89,6 @@
     },
     {
       "rank": 7,
-      "team": "NC",
-      "games": 100,
-      "wins": 46,
-      "losses": 48,
-      "draws": 6,
-      "winRate": 0.489,
-      "gamesBehind": 12,
-      "recent10": "5승1무4패",
-      "streak": "2패",
-      "homeRecord": "20-21-1",
-      "awayRecord": "26-27-5"
-    },
-    {
-      "rank": 8,
       "team": "삼성",
       "games": 104,
       "wins": 50,
@@ -114,6 +100,20 @@
       "streak": "1승",
       "homeRecord": "30-23-0",
       "awayRecord": "20-30-1"
+    },
+    {
+      "rank": 8,
+      "team": "NC",
+      "games": 101,
+      "wins": 46,
+      "losses": 49,
+      "draws": 6,
+      "winRate": 0.484,
+      "gamesBehind": 12.5,
+      "recent10": "4승1무5패",
+      "streak": "3패",
+      "homeRecord": "20-22-1",
+      "awayRecord": "26-27-5"
     },
     {
       "rank": 9,
@@ -132,16 +132,16 @@
     {
       "rank": 10,
       "team": "키움",
-      "games": 106,
-      "wins": 31,
+      "games": 107,
+      "wins": 32,
       "losses": 71,
       "draws": 4,
-      "winRate": 0.304,
-      "gamesBehind": 31,
-      "recent10": "3승1무6패",
-      "streak": "2승",
+      "winRate": 0.311,
+      "gamesBehind": 30.5,
+      "recent10": "4승1무5패",
+      "streak": "3승",
       "homeRecord": "18-37-2",
-      "awayRecord": "13-34-2"
+      "awayRecord": "14-34-2"
     }
   ],
   "magicNumbers": {
@@ -199,15 +199,6 @@
       "maxPossibleWins": 89,
       "currentRank": 6
     },
-    "NC": {
-      "playoff": 26,
-      "championship": 18,
-      "elimination": 18,
-      "homeAdvantage": 15,
-      "remainingGames": 44,
-      "maxPossibleWins": 90,
-      "currentRank": 7
-    },
     "삼성": {
       "playoff": 22,
       "championship": 14,
@@ -215,6 +206,15 @@
       "homeAdvantage": 11,
       "remainingGames": 40,
       "maxPossibleWins": 90,
+      "currentRank": 7
+    },
+    "NC": {
+      "playoff": 26,
+      "championship": 18,
+      "elimination": 17,
+      "homeAdvantage": 15,
+      "remainingGames": 43,
+      "maxPossibleWins": 89,
       "currentRank": 8
     },
     "두산": {
@@ -228,15 +228,15 @@
     },
     "키움": {
       "playoff": 999,
-      "championship": 33,
+      "championship": 32,
       "elimination": 0,
-      "homeAdvantage": 30,
-      "remainingGames": 38,
+      "homeAdvantage": 29,
+      "remainingGames": 37,
       "maxPossibleWins": 69,
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-07T13:46:20.628Z",
+  "lastMagicUpdate": "2025-08-07T15:28:11.511Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-07"

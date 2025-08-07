@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-07T22:46:20.881Z",
+  "lastUpdated": "2025-08-08T00:28:11.746Z",
   "updateDate": "2025. 8. 7.",
   "title": "2025월 8월 07일 기준",
   "note": "나무위키 스타일 순위별 매직넘버/트래직넘버",
@@ -264,52 +264,9 @@
       }
     },
     {
-      "name": "NC",
-      "logo": "images/nc.png",
-      "rank": 7,
-      "magicNumbers": {
-        "1": {
-          "value": 999,
-          "type": "eliminated"
-        },
-        "2": {
-          "value": 999,
-          "type": "eliminated"
-        },
-        "3": {
-          "value": 999,
-          "type": "eliminated"
-        },
-        "4": {
-          "value": 999,
-          "type": "eliminated"
-        },
-        "5": {
-          "value": 999,
-          "type": "eliminated"
-        },
-        "6": {
-          "value": 44,
-          "type": "tragic"
-        },
-        "7": {
-          "value": 0,
-          "type": "clinched"
-        },
-        "8": {
-          "value": 0,
-          "type": "clinched"
-        },
-        "9": {
-          "value": 0,
-          "type": "clinched"
-        }
-      }
-    },
-    {
       "name": "삼성",
       "logo": "images/samsung.png",
-      "rank": 8,
+      "rank": 7,
       "magicNumbers": {
         "1": {
           "value": 999,
@@ -334,6 +291,49 @@
         "6": {
           "value": 40,
           "type": "tragic"
+        },
+        "7": {
+          "value": 0,
+          "type": "clinched"
+        },
+        "8": {
+          "value": 0,
+          "type": "clinched"
+        },
+        "9": {
+          "value": 0,
+          "type": "clinched"
+        }
+      }
+    },
+    {
+      "name": "NC",
+      "logo": "images/nc.png",
+      "rank": 8,
+      "magicNumbers": {
+        "1": {
+          "value": 999,
+          "type": "eliminated"
+        },
+        "2": {
+          "value": 999,
+          "type": "eliminated"
+        },
+        "3": {
+          "value": 999,
+          "type": "eliminated"
+        },
+        "4": {
+          "value": 999,
+          "type": "eliminated"
+        },
+        "5": {
+          "value": 999,
+          "type": "eliminated"
+        },
+        "6": {
+          "value": 999,
+          "type": "eliminated"
         },
         "7": {
           "value": 999,
@@ -443,8 +443,8 @@
     "KIA",
     "SSG",
     "KT",
-    "NC",
     "삼성",
+    "NC",
     "두산",
     "키움"
   ],
