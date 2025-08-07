@@ -27,7 +27,7 @@ echo "KT 5:4 삼성(H)" >> data/2025-season-data-clean.txt
 ### 2️⃣ 데이터 처리
 ```bash
 # 모든 지표 자동 계산 및 업데이트
-node scripts/process-season-data.js
+npm run process
 ```
 
 ### 3️⃣ 결과 확인
@@ -140,7 +140,7 @@ KT 0:18 LG(H)       # LG 홈구장에서 LG가 18:0로 승리
 npm install
 
 # 데이터 처리
-node scripts/process-season-data.js
+npm run process
 
 # 웹서버 실행 (개발용)
 npx http-server magic-number -p 8080
@@ -149,7 +149,7 @@ npx http-server magic-number -p 8080
 ### 프로덕션 배포
 ```bash
 # 최신 데이터로 업데이트 후
-node scripts/process-season-data.js
+npm run process
 
 # magic-number/ 폴더를 웹서버에 배포
 # (모든 필요한 파일이 magic-number/ 안에 포함됨)
@@ -176,7 +176,7 @@ node scripts/process-season-data.js
 
 ### 새 경기 데이터 추가
 1. `data/2025-season-data-clean.txt`에 경기 결과 추가
-2. `node scripts/process-season-data.js` 실행
+2. `npm run process` 실행
 3. 결과 확인 후 커밋
 
 ### 기능 개선

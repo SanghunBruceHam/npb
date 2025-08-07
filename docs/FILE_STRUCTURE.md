@@ -117,7 +117,7 @@ echo "한화 3:2 LG(H)" >> data/2025-season-data-clean.txt
 ### 2️⃣ 데이터 처리 및 업데이트
 ```bash
 # 메인 자동화 스크립트 실행
-node scripts/process-season-data.js
+npm run process
 ```
 
 ### 3️⃣ 결과 확인
@@ -204,7 +204,7 @@ node scripts/process-season-data.js
 ## 🆘 문제 해결
 
 ### Q: 데이터가 업데이트되지 않아요
-A: `node scripts/process-season-data.js` 실행 후 브라우저 새로고침
+A: `npm run process` 실행 후 브라우저 새로고침
 
 ### Q: 새 경기를 어떻게 추가하나요?
 A: `data/2025-season-data-clean.txt`에 `한화 3:2 LG(H)` 형식으로 추가

@@ -28,7 +28,7 @@ echo "KT 5:4 삼성(H)" >> data/2025-season-data-clean.txt
 ### 2️⃣ 자동화 스크립트 실행
 ```bash
 # 모든 지표 자동 계산 및 JSON 파일 생성
-node scripts/process-season-data.js
+npm run process
 ```
 
 ### 3️⃣ 결과 확인
@@ -107,7 +107,7 @@ echo "한화 4:2 롯대(H)" >> data/2025-season-data-clean.txt
 echo "LG 3:1 키움(H)" >> data/2025-season-data-clean.txt
 
 # 2. 자동 처리
-node scripts/process-season-data.js
+npm run process
 
 # 3. 결과 확인
 open magic-number/index.html  # Mac
@@ -129,7 +129,7 @@ vim data/2025-season-data-clean.txt
 # KIA 1:0 두산(H)
 
 # 자동 처리
-node scripts/process-season-data.js
+npm run process
 ```
 
 #### 시나리오 3: 데이터 검증
@@ -299,7 +299,7 @@ open http://localhost:8080
 ### 프로덕션 배포
 ```bash
 # 데이터 업데이트 후
-node scripts/process-season-data.js
+npm run process
 
 # magic-number/ 폴더 전체를 웹서버에 업로드
 # (모든 필요한 파일이 magic-number/ 안에 포함됨)
@@ -326,7 +326,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '16'
-    - run: node scripts/process-season-data.js
+    - run: npm run process
     - run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"

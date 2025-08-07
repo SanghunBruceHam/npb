@@ -95,7 +95,8 @@ class KBOWorkingCrawler:
             time.sleep(2)
             
             # 스크린샷
-            driver.save_screenshot('kbo-working-screenshot.png')
+            screenshot_path = self.data_dir.parent / 'crawlers' / 'kbo-working-screenshot.png'
+            driver.save_screenshot(str(screenshot_path))
             print("📸 스크린샷 저장: kbo-working-screenshot.png")
             
             # HTML 파싱
