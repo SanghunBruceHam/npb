@@ -5,19 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KBO 매직넘버 계산기 - 페이지를 찾을 수 없습니다</title>
     <script>
-        // GitHub Pages에서 /magic-number/ 경로 접근 시 루트로 리다이렉트
+        // GitHub Pages에서 404 에러 시 index.html로 리다이렉트
         (function() {
-            const currentPath = window.location.pathname;
-            
-            // /magic-number/ 또는 /magic-number로 접근한 경우 루트로 리다이렉트
-            if (currentPath.includes('/magic-number')) {
-                window.location.replace(window.location.origin + '/');
-                return;
-            }
-            
-            // 다른 404 에러의 경우 3초 후 자동으로 홈으로 이동
+            // 3초 후 자동으로 index.html로 이동
             setTimeout(function() {
-                window.location.replace(window.location.origin + '/');
+                window.location.replace(window.location.origin + '/index.html');
             }, 3000);
         })();
     </script>
