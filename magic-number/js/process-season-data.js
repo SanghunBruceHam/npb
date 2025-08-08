@@ -411,34 +411,51 @@ class KBODataProcessor {
 
     calculateChampionshipMagic(team, index) {
         if (index === 0) {
-            // 현재 1위 - 우승 확정을 위한 매직넘버
+            // 현재 1위 - 승률 기반 우승 확정 매직넘버
             const secondPlace = this.standings[1];
             if (!secondPlace) return 0; // 2위가 없으면 이미 확정
             
-            // 2위 팀의 최대 가능 승수
+            // 2위 팀의 최대 가능 승률 계산
             const secondMaxWins = secondPlace.wins + secondPlace.remainingGames;
+            const secondMaxLosses = secondPlace.losses; // 모든 경기 승리 가정
+            const secondMaxWinRate = secondMaxWins / (secondMaxWins + secondMaxLosses);
             
-            // 1위가 우승을 확정하기 위해 필요한 총 승수
-            const targetWins = secondMaxWins + 1;
-            
-            // 현재 승수에서 추가로 필요한 승수
-            const neededWins = Math.max(0, targetWins - team.wins);
-            
-            // 남은 경기로 달성 가능한지 확인
-            return neededWins > team.remainingGames ? 999 : neededWins;
-        } else {
-            // 1위가 아님 - 1위 추월을 위한 매직넘버
-            const firstPlace = this.standings[0];
-            const maxPossibleWins = team.wins + team.remainingGames;
-            
-            // 수학적으로 불가능한 경우
-            if (maxPossibleWins < firstPlace.wins) {
-                return 999; // 이미 수학적 불가능
+            // 1위 팀이 2위 최대 승률을 넘기 위한 매직넘버 계산
+            for (let additionalWins = 0; additionalWins <= team.remainingGames; additionalWins++) {
+                const finalWins = team.wins + additionalWins;
+                const finalLosses = team.losses + (team.remainingGames - additionalWins);
+                const finalWinRate = finalWins / (finalWins + finalLosses);
+                
+                if (finalWinRate > secondMaxWinRate) {
+                    return additionalWins;
+                }
             }
             
-            // 1위 팀을 넘어서기 위해 필요한 승수
-            const neededWins = Math.max(0, firstPlace.wins - team.wins + 1);
-            return neededWins > team.remainingGames ? 999 : neededWins;
+            // 모든 경기를 이겨도 2위를 넘을 수 없는 경우 - 잔여경기수+1 표시
+            return team.remainingGames + 1;
+            
+        } else {
+            // 1위가 아님 - 승률 기반 1위 추월 매직넘버
+            const firstPlace = this.standings[0];
+            
+            // 1위 팀의 최대 가능 승률 계산
+            const firstMaxWins = firstPlace.wins + firstPlace.remainingGames;
+            const firstMaxLosses = firstPlace.losses; // 모든 경기 승리 가정
+            const firstMaxWinRate = firstMaxWins / (firstMaxWins + firstMaxLosses);
+            
+            // 현재 팀이 1위 최대 승률을 넘기 위한 매직넘버 계산
+            for (let additionalWins = 0; additionalWins <= team.remainingGames; additionalWins++) {
+                const finalWins = team.wins + additionalWins;
+                const finalLosses = team.losses + (team.remainingGames - additionalWins);
+                const finalWinRate = finalWins / (finalWins + finalLosses);
+                
+                if (finalWinRate > firstMaxWinRate) {
+                    return additionalWins;
+                }
+            }
+            
+            // 모든 경기를 이겨도 1위를 넘을 수 없는 경우 - 잔여경기수+1 표시
+            return team.remainingGames + 1;
         }
     }
 
