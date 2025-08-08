@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-08T00:23:39.196Z",
+  "lastUpdated": "2025-08-08T00:35:07.570Z",
   "updateDate": "2025. 8. 8.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
@@ -147,7 +147,7 @@
   "magicNumbers": {
     "LG": {
       "playoff": 9,
-      "championship": 39,
+      "championship": 38,
       "elimination": 29,
       "homeAdvantage": 33,
       "remainingGames": 38,
@@ -165,7 +165,7 @@
     },
     "롯데": {
       "playoff": 14,
-      "championship": 38,
+      "championship": 37,
       "elimination": 23,
       "homeAdvantage": 3,
       "remainingGames": 37,
@@ -174,7 +174,7 @@
     },
     "KIA": {
       "playoff": 22,
-      "championship": 43,
+      "championship": 42,
       "elimination": 20,
       "homeAdvantage": 11,
       "remainingGames": 42,
@@ -183,7 +183,7 @@
     },
     "SSG": {
       "playoff": 21,
-      "championship": 41,
+      "championship": 40,
       "elimination": 19,
       "homeAdvantage": 10,
       "remainingGames": 40,
@@ -192,7 +192,7 @@
     },
     "KT": {
       "playoff": 20,
-      "championship": 38,
+      "championship": 37,
       "elimination": 17,
       "homeAdvantage": 9,
       "remainingGames": 37,
@@ -201,7 +201,7 @@
     },
     "삼성": {
       "playoff": 22,
-      "championship": 41,
+      "championship": 40,
       "elimination": 18,
       "homeAdvantage": 11,
       "remainingGames": 40,
@@ -210,7 +210,7 @@
     },
     "NC": {
       "playoff": 26,
-      "championship": 44,
+      "championship": 43,
       "elimination": 17,
       "homeAdvantage": 15,
       "remainingGames": 43,
@@ -219,7 +219,7 @@
     },
     "두산": {
       "playoff": 29,
-      "championship": 40,
+      "championship": 39,
       "elimination": 10,
       "homeAdvantage": 18,
       "remainingGames": 39,
@@ -228,7 +228,7 @@
     },
     "키움": {
       "playoff": 999,
-      "championship": 38,
+      "championship": 37,
       "elimination": 0,
       "homeAdvantage": 29,
       "remainingGames": 37,
@@ -236,7 +236,7 @@
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-08T00:23:39.196Z",
+  "lastMagicUpdate": "2025-08-08T00:35:07.570Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-07"
