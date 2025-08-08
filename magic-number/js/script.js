@@ -252,11 +252,51 @@ const kboTeams = {
         async function loadKBOData() {
             try {
                 console.log('🔍 KBO 데이터 로딩 시작...');
-                const response = await fetch(`data/service-data.json?v=${Date.now()}`);
-                console.log('📡 응답 상태:', response.status, response.statusText);
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('📊 로드된 데이터:', data);
+                // 개별 JSON 파일들을 병렬로 로드
+                const [rankingsResponse, recordsResponse] = await Promise.all([
+                    fetch(`data/kbo-rankings.json?v=${Date.now()}`),
+                    fetch(`data/kbo-records.json?v=${Date.now()}`)
+                ]);
+                
+                // 둘 다 성공하면 개별 JSON 사용, 실패하면 service-data.json 사용
+                if (rankingsResponse.ok && recordsResponse.ok) {
+                    console.log('📊 개별 JSON 파일 사용');
+                    const rankingsData = await rankingsResponse.json();
+                    const recordsData = await recordsResponse.json();
+                    
+                    // currentStandings 업데이트
+                    currentStandings = (rankingsData.rankings || []).map(team => ({
+                        ...team,
+                        winPct: team.winRate || 0,
+                        recent10: team.recent10 || "정보없음",
+                        streak: team.streak || "정보없음",
+                        homeAway: {
+                            home: team.homeRecord || "0-0-0",
+                            away: team.awayRecord || "0-0-0"
+                        }
+                    }));
+                    
+                    // currentKBOData 구성
+                    currentKBOData = {
+                        standings: currentStandings,
+                        rankings: rankingsData.rankings,
+                        magicNumbers: rankingsData.magicNumbers || {},
+                        lastUpdated: rankingsData.lastUpdated,
+                        updateDate: rankingsData.updateDate,
+                        totalData: recordsData.totalData || {}
+                    };
+                    
+                    console.log('✅ 개별 JSON 데이터 로딩 완료:', currentStandings.length + '팀');
+                    updateLoadingTime(rankingsData);
+                    showNotification(`최신 KBO 데이터 로딩 완료 (개별 JSON)`, 'success', 3000);
+                    return currentKBOData;
+                } else {
+                    console.log('⚠️ 개별 JSON 실패, service-data.json 사용');
+                    const response = await fetch(`data/service-data.json?v=${Date.now()}`);
+                    console.log('📡 응답 상태:', response.status, response.statusText);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('📊 로드된 데이터:', data);
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
                     currentStandings = (data.standings || []).map(team => ({
                         ...team,
