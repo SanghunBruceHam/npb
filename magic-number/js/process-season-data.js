@@ -431,8 +431,8 @@ class KBODataProcessor {
                 }
             }
             
-            // 모든 경기를 이겨도 2위를 넘을 수 없는 경우 - 잔여경기수+1 표시
-            return team.remainingGames + 1;
+            // 모든 경기를 이겨도 2위를 넘을 수 없는 경우 - 잔여경기수 표시
+            return team.remainingGames;
             
         } else {
             // 1위가 아님 - 승률 기반 1위 추월 매직넘버
@@ -454,8 +454,8 @@ class KBODataProcessor {
                 }
             }
             
-            // 모든 경기를 이겨도 1위를 넘을 수 없는 경우 - 잔여경기수+1 표시
-            return team.remainingGames + 1;
+            // 모든 경기를 이겨도 1위를 넘을 수 없는 경우 - 잔여경기수 표시
+            return team.remainingGames;
         }
     }
 
