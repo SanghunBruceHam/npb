@@ -110,7 +110,6 @@ git push
 - `magic-number/data/service-data.json` - 통합 서비스 데이터
 - `magic-number/data/kbo-rankings.json` - 팀 순위 및 기록  
 - `magic-number/data/kbo-records.json` - 팀간 상대전적
-- `magic-number/data/magic-matrix-data.json` - 매직넘버 매트릭스
 
 ### **히스토리 데이터 (NEW!)**
 - `magic-number/history/daily/YYYY-MM-DD.json` - 일일 스냅샷

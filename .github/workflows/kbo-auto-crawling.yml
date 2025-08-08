@@ -92,21 +92,14 @@ jobs:
         npm run process
         echo "✅ 데이터 처리 완료"
 
-    # 10. 매직넘버 매트릭스 생성
-    - name: 🔮 매직넘버 매트릭스 생성
-      run: |
-        echo "🎯 매직넘버 매트릭스 생성 중..."
-        npm run matrix
-        echo "✅ 매트릭스 생성 완료"
-
-    # 11. 일일 스냅샷 저장
+    # 10. 일일 스냅샷 저장
     - name: 📸 일일 순위 스냅샷 저장
       run: |
         echo "💾 일일 스냅샷 저장 중..."
         npm run snapshot
         echo "✅ 스냅샷 저장 완료"
         
-    # 12. 변경사항 확인 및 커밋
+    # 11. 변경사항 확인 및 커밋
     - name: 📝 변경사항 확인
       id: check_changes
       run: |
@@ -123,7 +116,7 @@ jobs:
           echo "📋 변경사항 없음"
         fi
 
-    # 13. 자동 커밋 (변경사항이 있을 때만)
+    # 12. 자동 커밋 (변경사항이 있을 때만)
     - name: 🔄 자동 커밋 및 푸시
       if: steps.check_changes.outputs.changes_detected == 'true'
       run: |
@@ -159,7 +152,7 @@ jobs:
         git push
         echo "✅ 자동 커밋 및 푸시 완료"
 
-    # 14. 실행 결과 요약
+    # 13. 실행 결과 요약
     - name: 📊 실행 결과 요약
       if: always()
       run: |
@@ -190,7 +183,7 @@ jobs:
         
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-    # 15. 파일 확인 (Pages는 main 브랜치에서 자동 배포됨)
+    # 14. 파일 확인 (Pages는 main 브랜치에서 자동 배포됨)
     - name: 📁 배포 파일 확인
       if: steps.check_changes.outputs.changes_detected == 'true'
       run: |
@@ -217,7 +210,7 @@ jobs:
         
         echo "✅ 파일 확인 완료 - GitHub Pages가 main 브랜치에서 자동 배포됩니다"
 
-    # 16. 최종 완료 알림
+    # 15. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
       if: always()
       run: |

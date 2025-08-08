@@ -101,7 +101,6 @@ class CrossPlatformRunner {
         console.log('사용 가능한 스크립트:');
         console.log('  📊 데이터 처리:');
         console.log('    magic-number/js/process-season-data.js    - 시즌 데이터 처리');
-        console.log('    magic-number/js/generate-magic-matrix.js  - 매직넘버 매트릭스 생성');
         console.log('');
         console.log('  🕷️ 크롤링:');
         console.log('    magic-number/crawlers/kbo-python-working-crawler.py - KBO 데이터 크롤링');

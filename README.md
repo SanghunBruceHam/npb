@@ -15,7 +15,6 @@ kbo/
 │   ├── index.html           # 매직넘버 계산기 웹사이트
 │   ├── js/                  # 모든 JavaScript (백엔드 + 프론트엔드)
 │   │   ├── process-season-data.js    # 메인 데이터 처리
-│   │   ├── generate-magic-matrix.js  # 매트릭스 생성
 │   │   ├── fix-encoding.js          # 인코딩 수정
 │   │   ├── script.js               # 웹 UI 스크립트
 │   │   └── README.md               # 스크립트 가이드
@@ -23,7 +22,6 @@ kbo/
 │   ├── data/                # 모든 데이터 파일
 │   │   ├── 2025-season-data-clean.txt  # 경기 결과 원본
 │   │   ├── service-data.json           # 통합 서비스 데이터
-│   │   ├── magic-matrix-data.json      # 매트릭스 데이터
 │   │   └── *.json                     # 기타 JSON 데이터
 │   ├── images/              # 팀 로고
 │   ├── icons/               # 앱 아이콘
@@ -67,7 +65,6 @@ echo "한화 5:3 삼성" >> magic-number/data/2025-season-data-clean.txt
 ```bash
 cd magic-number/js/
 node process-season-data.js      # 메인 데이터 처리
-node generate-magic-matrix.js    # 매트릭스 생성
 ```
 
 ### 3. 데이터 수집 (Python)
@@ -107,7 +104,6 @@ npm run serve  # http://localhost:8080/magic-number/
 
 ### 주요 스크립트
 - `js/process-season-data.js` - 핵심 데이터 처리 엔진
-- `js/generate-magic-matrix.js` - 매직넘버 매트릭스 생성
 - `js/script.js` - 웹페이지 UI 로직 (2,200+ 줄)
 
 ## 📚 상세 문서

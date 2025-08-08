@@ -121,7 +121,6 @@ class PathValidator {
             { desc: 'PathManager', path: path.join(pathManager.projectRoot, 'config/paths.js') },
             { desc: 'CrossPlatform Runner', path: path.join(pathManager.projectRoot, 'scripts/runner.js') },
             { desc: 'Process Season Data', path: pathManager.getJsFile('process-season-data.js') },
-            { desc: 'Generate Magic Matrix', path: pathManager.getJsFile('generate-magic-matrix.js') },
             { desc: 'Python Crawler', path: pathManager.getCrawlerFile('kbo-python-working-crawler.py') }
         ];
 
@@ -214,7 +213,6 @@ class PathValidator {
             console.log('\n🎉 모든 경로 검증이 성공적으로 완료되었습니다!');
             console.log('\n📋 사용 가능한 npm 명령어:');
             console.log('  npm run process    - 시즌 데이터 처리');
-            console.log('  npm run matrix     - 매직넘버 매트릭스 생성');
             console.log('  npm run crawl      - KBO 데이터 크롤링');
             console.log('  npm run serve      - 로컬 서버 실행');
             console.log('  npm run help       - 도움말 표시');

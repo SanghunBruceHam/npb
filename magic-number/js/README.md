@@ -7,7 +7,6 @@ KBO 매직넘버 프로젝트의 모든 JavaScript 파일들을 통합 관리합
 ```
 js/
 ├── process-season-data.js     # 🔧 메인 데이터 처리 엔진
-├── generate-magic-matrix.js   # 📊 매직넘버 매트릭스 생성기
 ├── fix-encoding.js           # 🔤 인코딩 문제 해결
 ├── script.js                 # 🌐 웹 UI 스크립트 (2,200+ 줄)
 └── README.md                 # 📖 이 문서
@@ -40,30 +39,9 @@ node process-season-data.js
 ../data/2025-season-data-clean.txt → 파싱 → 통계계산 → JSON 생성
 ```
 
-### 2. generate-magic-matrix.js
-**매직넘버 매트릭스 생성기**
+### 2. fix-encoding.js
 
-```bash
-node generate-magic-matrix.js
-```
-
-**기능:**
-- `../data/service-data.json`을 기반으로 나무위키 스타일 매직넘버 매트릭스 생성
-- 각 팀이 각 순위(1위~10위)를 달성하기 위한 매직넘버 계산
-- 시각적 구분을 위한 타입 분류 (magic, competitive, tragic, clinched, eliminated)
-- 팀 로고 매핑 및 레전드 정보 자동 포함
-
-**출력 파일:**
-- `../data/magic-matrix-data.json` - 매직넘버 매트릭스 데이터
-
-**색상 코드:**
-- `#7dd87d` - 매직넘버 (magic)
-- `#ffff7d` - 경합상황 (competitive) 
-- `#ff7d7d` - 트래직넘버 (tragic)
-- `#4169e1` - 확정상황 (clinched)
-- `#808080` - 탈락확정 (eliminated)
-
-### 3. fix-encoding.js
+### 3. script.js
 **인코딩 문제 해결 도구**
 
 ```bash
@@ -75,7 +53,7 @@ node fix-encoding.js
 - 깨진 팀명 복원 (두산, 삼성, 한화, 롯데, 키움 등)
 - `../data/YYYY-season-data-clean.txt` 파일의 UTF-8 인코딩 정상화
 
-### 4. script.js
+### 4. 실행 방법
 **웹 UI 메인 스크립트 (2,200+ 줄)**
 
 **기능:**
@@ -108,8 +86,6 @@ node fix-encoding.js
 # 2. 메인 데이터 처리 (핵심)
 node process-season-data.js
 
-# 3. 매직넘버 매트릭스 생성
-node generate-magic-matrix.js
 
 # 4. 웹브라우저에서 확인
 # ../index.html 열기
@@ -150,9 +126,7 @@ node generate-magic-matrix.js
 정제된 경기 데이터
     ↓ process-season-data.js (핵심)
 ../data/service-data.json, kbo-rankings.json, kbo-records.json
-    ↓ generate-magic-matrix.js
-../data/magic-matrix-data.json
-    ↓ script.js (웹 UI)
+        ↓ script.js (웹 UI)
 실시간 매직넘버 웹사이트
 ```
 
@@ -190,9 +164,8 @@ node fix-encoding.js
 
 ### 파일 크기
 - **process-season-data.js**: ~700줄 (핵심 로직)
-- **generate-magic-matrix.js**: ~300줄 (매트릭스 생성)
 - **script.js**: ~2,200줄 (UI 전체)
-- **총합**: ~3,200줄의 효율적인 코드
+- **총합**: ~2,900줄의 효율적인 코드
 
 ### 메모리 관리
 - `EventManager` 클래스로 이벤트 리스너 자동 정리

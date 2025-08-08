@@ -12,7 +12,6 @@ magic-number/                    # 완전 독립적인 웹애플리케이션
 │
 ├── js/                          # 모든 JavaScript (통합 관리)
 │   ├── process-season-data.js   # 🔧 메인 데이터 처리 엔진
-│   ├── generate-magic-matrix.js # 📊 매직넘버 매트릭스 생성기
 │   ├── fix-encoding.js         # 🔤 인코딩 문제 해결
 │   ├── script.js               # 🌐 웹 UI 스크립트 (2,200+ 줄)
 │   └── README.md               # JavaScript 상세 가이드
@@ -23,7 +22,6 @@ magic-number/                    # 완전 독립적인 웹애플리케이션
 ├── data/                        # 모든 데이터 파일
 │   ├── 2025-season-data-clean.txt  # 경기 결과 원본 데이터
 │   ├── service-data.json           # 통합 웹서비스 데이터
-│   ├── magic-matrix-data.json      # 매직넘버 매트릭스
 │   ├── kbo-records.json           # 팀간 상대전적
 │   ├── kbo-rankings.json          # 순위 데이터
 │   └── manifest.json              # PWA 매니페스트
@@ -87,7 +85,6 @@ magic-number/                    # 완전 독립적인 웹애플리케이션
 ```bash
 cd js/
 node process-season-data.js      # 핵심 데이터 처리
-node generate-magic-matrix.js    # 매트릭스 생성
 ```
 
 ### 2. 데이터 수집 (Python)
@@ -124,8 +121,7 @@ graph TD
 1. **데이터 수집**: `crawlers/kbo-python-working-crawler.py`
 2. **인코딩 수정**: `js/fix-encoding.js` (필요시)
 3. **데이터 처리**: `js/process-season-data.js` (핵심)
-4. **매트릭스 생성**: `js/generate-magic-matrix.js`
-5. **웹사이트 반영**: `js/script.js`가 JSON 로딩
+4. **웹사이트 반영**: `js/script.js`가 JSON 로딩
 
 ## 🛠️ 개발자 가이드
 
