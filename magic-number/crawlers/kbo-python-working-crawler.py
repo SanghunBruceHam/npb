@@ -249,23 +249,46 @@ class KBOWorkingCrawler:
         # PathManager와 일치하는 안전한 경로 사용
         main_clean_file = Path(self.paths.data_dir) / f'{year}-season-data-clean.txt'
         
-        # 기존 경기 데이터 로드
+        # 기존 경기 데이터 로드 (날짜별 매핑)
         existing_games = set()
+        existing_by_date = {}
         if main_clean_file.exists():
             with open(main_clean_file, 'r', encoding='utf-8') as f:
                 content = f.read()
-                # 기존 경기들을 식별자로 저장
+                current_date = None
+                
                 for line in content.split('\n'):
                     line = line.strip()
-                    if line and not re.match(r'^\d{4}-\d{2}-\d{2}$', line):
+                    if not line:
+                        continue
+                    
+                    # 날짜 라인인지 확인
+                    if re.match(r'^\d{4}-\d{2}-\d{2}$', line):
+                        current_date = line
+                        if current_date not in existing_by_date:
+                            existing_by_date[current_date] = set()
+                    elif current_date:
+                        # 경기 라인 저장 (날짜별 + 전체)
                         existing_games.add(line)
+                        existing_by_date[current_date].add(line)
+                        
+        print(f"📚 기존 경기 데이터 로드: {len(existing_games)}개 경기")
         
-        # 새로운 경기만 필터링
+        # 새로운 경기만 필터링 (날짜별 정확한 중복 체크)
         new_games = []
         for game in games:
             game_line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
-            if game_line not in existing_games:
+            game_date = game['date']
+            
+            # 1차: 해당 날짜에 같은 경기가 있는지 확인
+            date_exists = game_date in existing_by_date and game_line in existing_by_date[game_date]
+            
+            # 2차: 전체에서 중복 확인 (동일 스코어 다른 날짜 허용)
+            if not date_exists:
                 new_games.append(game)
+                print(f"  🆕 새 경기 추가: {game_date} {game_line}")
+            else:
+                print(f"  ♻️ 중복 경기 제외: {game_date} {game_line} (해당 날짜에 이미 존재)")
         
         if new_games:
             print(f"\n🆕 새로운 경기 {len(new_games)}개 발견")
@@ -292,6 +315,27 @@ class KBOWorkingCrawler:
             print(f"💾 새 경기 {len(new_games)}개를 {main_clean_file}에 추가")
         else:
             print("ℹ️ 새로운 경기가 없습니다")
+            
+            # GitHub Actions 환경에서 새 경기가 없을 때 상세 분석
+            if os.getenv('GITHUB_ACTIONS') == 'true' and len(games) > 0:
+                print("\n🔍 GitHub Actions 자동화 상태 분석:")
+                print(f"  📊 크롤링된 경기 수: {len(games)}개")
+                print(f"  📚 기존 경기 수: {len(existing_games)}개")
+                
+                # 최근 크롤링된 날짜별 경기 수 표시
+                date_counts = {}
+                for game in games:
+                    date = game['date']
+                    date_counts[date] = date_counts.get(date, 0) + 1
+                
+                print("  📅 크롤링된 날짜별 경기:")
+                for date in sorted(date_counts.keys())[-7:]:  # 최근 7일
+                    existing_count = len(existing_by_date.get(date, set()))
+                    crawled_count = date_counts[date]
+                    status = "✅" if existing_count == crawled_count else "⚠️"
+                    print(f"    {status} {date}: 크롤링 {crawled_count}개, 기존 {existing_count}개")
+                
+                print("\n💡 자동화가 제대로 작동하려면 새 경기가 감지되어야 합니다.")
         
         # 백업용 타임스탬프 파일 (주석 처리 - 백업 필요시 활성화)
         # backup_clean_file = f'kbo-{year}-{month:02d}-{timestamp}-clean.txt'

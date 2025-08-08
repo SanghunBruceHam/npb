@@ -140,6 +140,6 @@ npm run serve  # http://localhost:8080/magic-number/
 이 프로젝트는 KBO 데이터 분석 및 시각화를 위한 개인 프로젝트입니다.
 
 ---
-**최종 업데이트**: 2025년 8월 7일  
+**최종 업데이트**: 2025년 8월 9일  
 **개발자**: SanghunBruceHam  
 **웹사이트**: https://kbo.mahalohana-bruce.com/

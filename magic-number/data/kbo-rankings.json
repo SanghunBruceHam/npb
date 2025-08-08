@@ -1,11 +1,17 @@
 {
+<<<<<<< HEAD
   "lastUpdated": "2025-08-08T15:58:16.087Z",
   "updateDate": "2025. 8. 8.",
+=======
+  "lastUpdated": "2025-08-08T15:50:25.790Z",
+  "updateDate": "2025. 8. 9.",
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
     {
       "rank": 1,
       "team": "LG",
+<<<<<<< HEAD
       "games": 106,
       "wins": 63,
       "losses": 41,
@@ -15,11 +21,23 @@
       "recent10": "8승0무2패",
       "streak": "1승",
       "homeRecord": "34-20-0",
+=======
+      "games": 107,
+      "wins": 64,
+      "losses": 41,
+      "draws": 2,
+      "winRate": 0.61,
+      "gamesBehind": 0,
+      "recent10": "9승0무1패",
+      "streak": "2승",
+      "homeRecord": "35-20-0",
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "awayRecord": "29-21-2"
     },
     {
       "rank": 2,
       "team": "한화",
+<<<<<<< HEAD
       "games": 103,
       "wins": 60,
       "losses": 40,
@@ -30,6 +48,18 @@
       "streak": "1패",
       "homeRecord": "32-18-2",
       "awayRecord": "28-22-1"
+=======
+      "games": 104,
+      "wins": 60,
+      "losses": 41,
+      "draws": 3,
+      "winRate": 0.594,
+      "gamesBehind": 2,
+      "recent10": "3승0무7패",
+      "streak": "2패",
+      "homeRecord": "32-18-2",
+      "awayRecord": "28-23-1"
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
     },
     {
       "rank": 3,
@@ -39,7 +69,11 @@
       "losses": 47,
       "draws": 3,
       "winRate": 0.552,
+<<<<<<< HEAD
       "gamesBehind": 5.5,
+=======
+      "gamesBehind": 6,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "5승0무5패",
       "streak": "2패",
       "homeRecord": "30-24-2",
@@ -53,7 +87,11 @@
       "losses": 49,
       "draws": 4,
       "winRate": 0.515,
+<<<<<<< HEAD
       "gamesBehind": 9.5,
+=======
+      "gamesBehind": 10,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "6승1무3패",
       "streak": "1승",
       "homeRecord": "25-23-4",
@@ -67,7 +105,11 @@
       "losses": 49,
       "draws": 4,
       "winRate": 0.505,
+<<<<<<< HEAD
       "gamesBehind": 10.5,
+=======
+      "gamesBehind": 11,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "4승1무5패",
       "streak": "1패",
       "homeRecord": "29-20-2",
@@ -81,7 +123,11 @@
       "losses": 52,
       "draws": 4,
       "winRate": 0.5,
+<<<<<<< HEAD
       "gamesBehind": 11,
+=======
+      "gamesBehind": 11.5,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "2승1무7패",
       "streak": "1패",
       "homeRecord": "26-26-1",
@@ -95,7 +141,11 @@
       "losses": 53,
       "draws": 1,
       "winRate": 0.49,
+<<<<<<< HEAD
       "gamesBehind": 12,
+=======
+      "gamesBehind": 12.5,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "4승0무6패",
       "streak": "2승",
       "homeRecord": "30-23-0",
@@ -109,7 +159,11 @@
       "losses": 49,
       "draws": 6,
       "winRate": 0.49,
+<<<<<<< HEAD
       "gamesBehind": 12,
+=======
+      "gamesBehind": 12.5,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "4승1무5패",
       "streak": "1승",
       "homeRecord": "21-22-1",
@@ -123,7 +177,11 @@
       "losses": 57,
       "draws": 5,
       "winRate": 0.436,
+<<<<<<< HEAD
       "gamesBehind": 17.5,
+=======
+      "gamesBehind": 18,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "4승1무5패",
       "streak": "1승",
       "homeRecord": "21-29-4",
@@ -137,7 +195,11 @@
       "losses": 72,
       "draws": 4,
       "winRate": 0.308,
+<<<<<<< HEAD
       "gamesBehind": 31,
+=======
+      "gamesBehind": 31.5,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "recent10": "4승1무5패",
       "streak": "1패",
       "homeRecord": "18-38-2",
@@ -146,21 +208,37 @@
   ],
   "magicNumbers": {
     "LG": {
+<<<<<<< HEAD
       "playoff": 9,
       "championship": 38,
       "elimination": 29,
       "homeAdvantage": 32,
       "remainingGames": 38,
+=======
+      "playoff": 8,
+      "championship": 37,
+      "elimination": 29,
+      "homeAdvantage": 31,
+      "remainingGames": 37,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "maxPossibleWins": 101,
       "currentRank": 1
     },
     "한화": {
       "playoff": 12,
+<<<<<<< HEAD
       "championship": 41,
       "elimination": 29,
       "homeAdvantage": 35,
       "remainingGames": 41,
       "maxPossibleWins": 101,
+=======
+      "championship": 40,
+      "elimination": 28,
+      "homeAdvantage": 35,
+      "remainingGames": 40,
+      "maxPossibleWins": 100,
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
       "currentRank": 2
     },
     "롯데": {
@@ -236,7 +314,11 @@
       "currentRank": 10
     }
   },
+<<<<<<< HEAD
   "lastMagicUpdate": "2025-08-08T15:58:16.087Z",
+=======
+  "lastMagicUpdate": "2025-08-08T15:50:25.790Z",
+>>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-08"
