@@ -307,6 +307,15 @@ const kboTeams = {
                 }
             } catch (error) {
                 logger.error('❌ loadKBOData 에러 상세:', error);
+                
+                // 에러 모니터링 로깅
+                if (window.logDataError) {
+                    window.logDataError('service-data', error.message, {
+                        url: dataUrl,
+                        status: error.status || 'unknown'
+                    });
+                }
+                
                 handleError(error, 'KBO 데이터 로딩 실패');
                 // 백업 데이터 사용
                 currentStandings = [
@@ -377,6 +386,13 @@ const kboTeams = {
                 }
             } catch (error) {
                 logger.error('❌ 상대전적 데이터 로딩 실패:', error);
+                
+                // 에러 모니터링 로깅
+                if (window.logDataError) {
+                    window.logDataError('kbo-records', error.message, {
+                        status: error.status || 'unknown'
+                    });
+                }
                 
                 // 백업 데이터 사용
                 logger.log('📊 상대전적 백업 데이터 사용');
@@ -684,6 +700,9 @@ const kboTeams = {
 
         function renderStandingsTable() {
             try {
+                // 성능 모니터링 시작
+                const startTime = performance.now();
+                
                 logger.log('📊 renderStandingsTable 시작');
                 logger.log('currentStandings:', currentStandings);
                 
@@ -782,7 +801,22 @@ const kboTeams = {
 
                 tbody.appendChild(row);
             });
+            
+            // 성능 모니터링 완료
+            const renderTime = performance.now() - startTime;
+            if (renderTime > 100 && window.logPerformanceIssue) {
+                window.logPerformanceIssue({
+                    function: 'renderStandingsTable',
+                    duration: renderTime,
+                    message: `순위표 렌더링이 ${renderTime.toFixed(2)}ms 소요되었습니다`
+                });
+            }
+            
             } catch (error) {
+                // 에러 모니터링 로깅
+                if (window.logUserError) {
+                    window.logUserError('standings_render', error.message);
+                }
                 handleError(error, '순위표 렌더링 실패');
                 // 에러가 발생하면 기본 메시지 표시
                 const tbody = document.querySelector('#standings-table tbody');

@@ -33,9 +33,24 @@
     <meta name="twitter:image" content="https://kbo.mahalohana-bruce.com/magic-number/icons/kbo-magic-number-thumbnail.png">
     <meta name="twitter:image:alt" content="KBO 매직넘버 계산기">
     
-    <!-- 추가 SEO 태그 -->
+    <!-- 추가 SEO 및 성능 태그 -->
     <meta name="theme-color" content="#1a237e">
     <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="KBO 매직넘버">
+    <meta name="application-name" content="KBO 매직넘버">
+    <meta name="msapplication-TileColor" content="#1a237e">
+    <meta name="msapplication-TileImage" content="./icons/kbo-magic-number-icon.png">
+    
+    <!-- 성능 최적화 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://ads-partners.coupang.com">
     
     <!-- 사이트맵 및 RSS 링크 -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/magic-number/sitemap.xml">
@@ -55,26 +70,56 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
+        "@type": ["WebApplication", "SportsActivityLocation"],
         "name": "KBO 매직넘버 계산기",
-        "description": "2025 KBO 리그 매직넘버 계산기. 플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 제공합니다.",
+        "alternateName": "KBO Magic Number Calculator",
+        "description": "2025 KBO 리그 매직넘버 계산기. 플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 실시간으로 제공합니다.",
         "url": "https://kbo.mahalohana-bruce.com/magic-number/",
         "applicationCategory": "SportsApplication",
-        "operatingSystem": "Web",
+        "operatingSystem": ["Web", "Any"],
+        "browserRequirements": "Requires JavaScript",
+        "screenshot": "https://kbo.mahalohana-bruce.com/magic-number/icons/kbo-magic-number-thumbnail.png",
+        "featureList": [
+            "실시간 KBO 리그 순위표",
+            "매직넘버 계산 및 시뮬레이션",
+            "플레이오프 진출 조건 분석",
+            "팀간 상대전적 통계",
+            "우승 확률 및 시나리오"
+        ],
+        "inLanguage": "ko-KR",
+        "dateCreated": "2025-01-01",
+        "dateModified": "2025-08-09",
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "KRW"
+            "priceCurrency": "KRW",
+            "availability": "https://schema.org/InStock"
         },
         "creator": {
+            "@type": "Person",
+            "name": "SanghunBruceHam",
+            "url": "https://kbo.mahalohana-bruce.com"
+        },
+        "publisher": {
             "@type": "Organization",
-            "name": "mahalohana-bruce.com"
+            "name": "KBO 매직넘버 계산기",
+            "url": "https://kbo.mahalohana-bruce.com",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://kbo.mahalohana-bruce.com/magic-number/icons/kbo-magic-number-icon.png"
+            }
         },
         "about": {
-            "@type": "SportsOrganization",
+            "@type": "SportsOrganization", 
             "name": "KBO 리그",
-            "sport": "Baseball"
-        }
+            "sport": "Baseball",
+            "url": "https://www.koreabaseball.com"
+        },
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "야구팬, KBO 리그 관심자, 스포츠 분석가"
+        },
+        "keywords": "KBO, 매직넘버, 플레이오프, 우승, 야구, 한화, LG, 롯데, KT, KIA, 삼성, SSG, NC, 두산, 키움, 2025시즌, 순위표, 상대전적"
     }
     </script>
     
@@ -650,6 +695,9 @@
         </div>
     </footer>
 
+    <!-- 에러 모니터링 시스템 -->
+    <script src="js/error-monitor.js"></script>
+    
     <!-- 외부 JavaScript 파일 -->
     <script src="js/script.js"></script>
 
