@@ -8,9 +8,9 @@ const DEBUG_MODE = !window.location.hostname ||
 
 // 프로덕션 환경에서는 logger.log 비활성화
 const logger = {
-    log: DEBUG_MODE ? logger.log.bind(console) : () => {},
-    warn: DEBUG_MODE ? logger.warn.bind(console) : () => {},
-    error: logger.error.bind(console) // 에러는 항상 표시
+    log: DEBUG_MODE ? console.log.bind(console) : () => {},
+    warn: DEBUG_MODE ? console.warn.bind(console) : () => {},
+    error: console.error.bind(console) // 에러는 항상 표시
 };
 
 // KBO 팀 데이터 (2025 시즌 기준)
@@ -260,9 +260,11 @@ const kboTeams = {
         // 데이터 로딩 함수
         async function loadKBOData() {
             try {
-                logger.log('🔍 KBO 데이터 로딩 시작...');
+                console.log('🔍 KBO 데이터 로딩 시작...');
+                const dataUrl = `data/service-data.json?v=${Date.now()}`;
+                console.log('📡 데이터 URL:', dataUrl);
                 // service-data.json 하나만 사용 (중복 제거)
-                const response = await fetch(`data/service-data.json?v=${Date.now()}`, {
+                const response = await fetch(dataUrl, {
                     cache: 'no-cache',
                     headers: {
                         'Cache-Control': 'no-cache, no-store, must-revalidate',
