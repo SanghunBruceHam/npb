@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "lastUpdated": "2025-08-08T15:58:16.087Z",
-  "updateDate": "2025. 8. 8.",
-=======
-  "lastUpdated": "2025-08-08T15:50:25.790Z",
+  "lastUpdated": "2025-08-09T00:44:51.702Z",
   "updateDate": "2025. 8. 9.",
->>>>>>> f1da2fe (🔧 실제 LG vs 한화 경기 데이터 수정 및 크롤러 자동화 개선)
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-08",
