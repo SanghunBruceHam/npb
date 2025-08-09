@@ -17,13 +17,20 @@ on:
           - 'false'
           - 'true'
 
-# 권한 설정 (Pages Actions 배포 제거)
+# 권한 설정 (Pages 배포 포함)
 permissions:
-  contents: write  # 코드 체크아웃 및 커밋
+  contents: write    # 코드 체크아웃 및 커밋
+  pages: write       # GitHub Pages 배포
+  id-token: write    # OIDC 토큰 (Pages 배포용)
 
 jobs:
   kbo-auto-update:
     runs-on: ubuntu-latest
+    
+    # GitHub Pages 배포를 위한 환경 설정
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
     # 1. 저장소 체크아웃
@@ -242,9 +249,31 @@ jobs:
           echo "  - 일일 히스토리: ${HISTORY_COUNT}개 파일"
         fi
         
-        echo "✅ 파일 확인 완료 - GitHub Pages가 main 브랜치에서 자동 배포됩니다"
+        echo "✅ 파일 확인 완료 - GitHub Pages 수동 배포 준비됨"
 
-    # 16. 최종 완료 알림
+    # 16. GitHub Pages 아티팩트 업로드
+    - name: 📦 Pages 아티팩트 업로드
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # magic-number 폴더를 Pages로 업로드
+        path: './magic-number'
+        
+    # 17. GitHub Pages 배포
+    - name: 🌐 GitHub Pages 배포
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      id: deployment
+      uses: actions/deploy-pages@v4
+        
+    # 18. 배포 완료 확인
+    - name: ✅ 배포 완료 확인
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        echo "🚀 GitHub Pages 배포 완료!"
+        echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
+        echo "📊 JSON 업데이트가 즉시 반영되었습니다"
+
+    # 19. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
       if: always()
       run: |
@@ -255,8 +284,10 @@ jobs:
         if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
           echo "✅ 데이터 업데이트: 완료"
           echo "✅ 자동 커밋: 완료" 
-          echo "✅ GitHub Pages: main 브랜치에서 자동 배포됨"
-          if [ -n "https://kbo.mahalohana-bruce.com" ]; then
+          echo "✅ GitHub Pages 배포: 완료"
+          if [ -n "${{ steps.deployment.outputs.page_url }}" ]; then
+            echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
+          else
             echo "🌐 배포 URL: https://kbo.mahalohana-bruce.com"
           fi
         else
