@@ -2,15 +2,59 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=./magic-number/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=https://kbo.mahalohana-bruce.com/magic-number/">
     <title>KBO 매직넘버 계산기 - 리다이렉트 중...</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #1a237e, #3949ab);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+        }
+        .redirect-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
     <script>
         // 즉시 리다이렉트
-        window.location.replace('./magic-number/');
+        window.location.replace('https://kbo.mahalohana-bruce.com/magic-number/');
     </script>
 </head>
 <body>
-    <p>KBO 매직넘버 계산기로 이동 중...</p>
-    <p><a href="./magic-number/">수동으로 이동하기</a></p>
+    <div class="redirect-container">
+        <h1>🏆 KBO 매직넘버 계산기</h1>
+        <div class="spinner"></div>
+        <p>KBO 매직넘버 계산기로 이동 중...</p>
+        <p>자동으로 이동되지 않으면 <a href="https://kbo.mahalohana-bruce.com/magic-number/">여기를 클릭</a>해주세요.</p>
+    </div>
 </body>
 </html>

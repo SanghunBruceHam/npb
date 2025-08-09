@@ -262,7 +262,7 @@ const kboTeams = {
             try {
                 logger.log('🔍 KBO 데이터 로딩 시작...');
                 // service-data.json 하나만 사용 (중복 제거)
-                const response = await fetch(`/data/service-data.json?v=${Date.now()}`, {
+                const response = await fetch(`data/service-data.json?v=${Date.now()}`, {
                     cache: 'no-cache',
                     headers: {
                         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -342,7 +342,7 @@ const kboTeams = {
         async function loadHeadToHeadData() {
             try {
                 logger.log('🔍 상대전적 데이터 로딩 시작...');
-                const response = await fetch(`/data/kbo-records.json?v=${Date.now()}`);
+                const response = await fetch(`data/kbo-records.json?v=${Date.now()}`);
                 
                 if (response.ok) {
                     const data = await response.json();
