@@ -1,49 +1,49 @@
 {
   "date": "2025-08-08",
-  "createdAt": "2025-08-08T15:58:16.322Z",
+  "createdAt": "2025-08-09T01:24:23.619Z",
   "snapshot": {
     "standings": [
       {
         "team": "LG",
-        "games": 106,
-        "wins": 63,
+        "games": 107,
+        "wins": 64,
         "losses": 41,
         "draws": 2,
-        "winRate": 0.6057692307692307,
-        "homeRecord": "34-20-0",
+        "winRate": 0.6095238095238096,
+        "homeRecord": "35-20-0",
         "awayRecord": "29-21-2",
-        "homeWins": 34,
+        "homeWins": 35,
         "homeLosses": 20,
         "homeDraws": 0,
         "awayWins": 29,
         "awayLosses": 21,
         "awayDraws": 2,
-        "recent10": "8승0무2패",
-        "streak": "1승",
-        "remainingGames": 38,
+        "recent10": "9승0무1패",
+        "streak": "2승",
+        "remainingGames": 37,
         "rank": 1,
         "gamesBehind": 0
       },
       {
         "team": "한화",
-        "games": 103,
+        "games": 104,
         "wins": 60,
-        "losses": 40,
+        "losses": 41,
         "draws": 3,
-        "winRate": 0.6,
+        "winRate": 0.594059405940594,
         "homeRecord": "32-18-2",
-        "awayRecord": "28-22-1",
+        "awayRecord": "28-23-1",
         "homeWins": 32,
         "homeLosses": 18,
         "homeDraws": 2,
         "awayWins": 28,
-        "awayLosses": 22,
+        "awayLosses": 23,
         "awayDraws": 1,
-        "recent10": "4승0무6패",
-        "streak": "1패",
-        "remainingGames": 41,
+        "recent10": "3승0무7패",
+        "streak": "2패",
+        "remainingGames": 40,
         "rank": 2,
-        "gamesBehind": 1
+        "gamesBehind": 2
       },
       {
         "team": "롯데",
@@ -64,7 +64,7 @@
         "streak": "2패",
         "remainingGames": 36,
         "rank": 3,
-        "gamesBehind": 5.5
+        "gamesBehind": 6
       },
       {
         "team": "SSG",
@@ -85,7 +85,7 @@
         "streak": "1승",
         "remainingGames": 39,
         "rank": 4,
-        "gamesBehind": 9.5
+        "gamesBehind": 10
       },
       {
         "team": "KIA",
@@ -106,7 +106,7 @@
         "streak": "1패",
         "remainingGames": 41,
         "rank": 5,
-        "gamesBehind": 10.5
+        "gamesBehind": 11
       },
       {
         "team": "KT",
@@ -127,7 +127,7 @@
         "streak": "1패",
         "remainingGames": 36,
         "rank": 6,
-        "gamesBehind": 11
+        "gamesBehind": 11.5
       },
       {
         "team": "삼성",
@@ -148,7 +148,7 @@
         "streak": "2승",
         "remainingGames": 39,
         "rank": 7,
-        "gamesBehind": 12
+        "gamesBehind": 12.5
       },
       {
         "team": "NC",
@@ -169,7 +169,7 @@
         "streak": "1승",
         "remainingGames": 42,
         "rank": 8,
-        "gamesBehind": 12
+        "gamesBehind": 12.5
       },
       {
         "team": "두산",
@@ -190,7 +190,7 @@
         "streak": "1승",
         "remainingGames": 38,
         "rank": 9,
-        "gamesBehind": 17.5
+        "gamesBehind": 18
       },
       {
         "team": "키움",
@@ -211,26 +211,26 @@
         "streak": "1패",
         "remainingGames": 36,
         "rank": 10,
-        "gamesBehind": 31
+        "gamesBehind": 31.5
       }
     ],
     "magicNumbers": {
       "LG": {
-        "playoff": 9,
-        "championship": 38,
+        "playoff": 8,
+        "championship": 37,
         "elimination": 29,
-        "homeAdvantage": 32,
-        "remainingGames": 38,
+        "homeAdvantage": 31,
+        "remainingGames": 37,
         "maxPossibleWins": 101,
         "currentRank": 1
       },
       "한화": {
         "playoff": 12,
-        "championship": 41,
-        "elimination": 29,
+        "championship": 40,
+        "elimination": 28,
         "homeAdvantage": 35,
-        "remainingGames": 41,
-        "maxPossibleWins": 101,
+        "remainingGames": 40,
+        "maxPossibleWins": 100,
         "currentRank": 2
       },
       "롯데": {
@@ -307,9 +307,9 @@
       }
     },
     "gamesSummary": {
-      "totalGames": 527,
+      "totalGames": 528,
       "dataDate": "2025-08-08",
-      "gamesPlayedSinceYesterday": 4
+      "gamesPlayedSinceYesterday": 5
     },
     "changes": {
       "rankChanges": [
@@ -329,6 +329,27 @@
         }
       ],
       "magicNumberChanges": [
+        {
+          "team": "LG",
+          "type": "playoff",
+          "from": 9,
+          "to": 8,
+          "change": -1
+        },
+        {
+          "team": "LG",
+          "type": "championship",
+          "from": 38,
+          "to": 37,
+          "change": -1
+        },
+        {
+          "team": "한화",
+          "type": "championship",
+          "from": 41,
+          "to": 40,
+          "change": -1
+        },
         {
           "team": "롯데",
           "type": "championship",
@@ -417,7 +438,7 @@
     },
     "metadata": {
       "source": "CLEAN_TXT_AUTOMATION",
-      "lastUpdated": "2025-08-08T15:58:16.087Z",
+      "lastUpdated": "2025-08-09T01:24:23.377Z",
       "totalTeams": 10
     }
   }
