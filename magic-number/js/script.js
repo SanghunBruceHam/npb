@@ -1894,30 +1894,37 @@ const kboTeams = {
                 }
                 
                 try {
+                    console.log('🏆 우승 조건 렌더링 시작...');
                     renderChampionshipCondition();
+                    console.log('✅ 우승 조건 렌더링 완료');
                 } catch (error) {
-                    logger.error('❌ 우승 조건 렌더링 오류:', error);
+                    console.error('❌ 우승 조건 렌더링 오류:', error);
                 }
                 
                 try {
+                    console.log('🎯 1위 탈환 가능성 렌더링 시작...');
                     renderChaseAnalysis();
+                    console.log('✅ 1위 탈환 가능성 렌더링 완료');
                 } catch (error) {
-                    logger.error('❌ 1위 탈환 가능성 렌더링 오류:', error);
+                    console.error('❌ 1위 탈환 가능성 렌더링 오류:', error);
                 }
                 
                 
                 try {
+                    console.log('🏟️ 플레이오프 조건 렌더링 시작...');
                     renderPlayoffCondition();
+                    console.log('✅ 플레이오프 조건 렌더링 완료');
                 } catch (error) {
-                    logger.error('❌ 플레이오프 조건 렌더링 오류:', error);
+                    console.error('❌ 플레이오프 조건 렌더링 오류:', error);
                 }
                 
                 
                 try {
+                    console.log('⚔️ 팀간 상대전적 렌더링 시작...');
                     renderHeadToHead();
-                    logger.log('✅ 팀간 상대전적 현재 순위대로 재배치 완료');
+                    console.log('✅ 팀간 상대전적 렌더링 완료');
                 } catch (error) {
-                    logger.error('❌ 팀간 상대전적 렌더링 오류:', error);
+                    console.error('❌ 팀간 상대전적 렌더링 오류:', error);
                 }
                 
                 try {
