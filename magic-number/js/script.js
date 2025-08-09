@@ -232,13 +232,16 @@ const kboTeams = {
         // 데이터 정보 업데이트 함수
         function updateLoadingTime(data) {
             try {
-                // 현재 시간 (데이터 로딩 시간)
+                // 데이터 날짜 표시 (실제 경기 데이터 날짜)
+                const dataDate = data?.dataDate || '날짜 없음';
+                const updateDate = data?.updateDate || new Date().toLocaleDateString('ko-KR');
+                
+                // 현재 시간 (페이지 로딩 시간)
                 const now = new Date();
-                const loadDate = now.toLocaleDateString('ko-KR');
                 const loadTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
                 
-                // 표시 텍스트 구성
-                const displayText = `${loadDate} ${loadTime} KBO 공식`;
+                // 표시 텍스트 구성 - 데이터 날짜를 명확하게 표시
+                const displayText = `${dataDate} 경기 데이터 (${loadTime} 로드)`;
                 
                 // 모든 데이터 정보 표시 업데이트
                 const loadTimeElements = document.querySelectorAll('.data-load-time');
@@ -272,6 +275,9 @@ const kboTeams = {
                 if (response.ok) {
                     const data = await response.json();
                     logger.log('📊 로드된 데이터:', data);
+                    logger.log(`📅 데이터 날짜: ${data.dataDate || 'Unknown'}`);
+                    logger.log(`🕐 최종 업데이트: ${data.lastUpdated || 'Unknown'}`);
+                    console.log(`🎯 KBO 데이터 로드 완료 - 데이터 날짜: ${data.dataDate}, 업데이트: ${data.updateDate}`);
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
                     currentStandings = (data.standings || []).map(team => ({
                         ...team,
@@ -1852,6 +1858,12 @@ const kboTeams = {
         async function initializeApp() {
             try {
                 logger.log('🚀 initializeApp 시작');
+                console.log('🔄 KBO 매직넘버 계산기 초기화 중...');
+                
+                // 현재 날짜 표시
+                const today = new Date().toLocaleDateString('ko-KR');
+                console.log(`📅 오늘 날짜: ${today}`);
+                
                 // 1. 모든 데이터를 병렬로 로딩 (성능 최적화)
                 logger.log('🚀 모든 데이터 병렬 로딩 시작...');
                 const [kboData, headToHeadData] = await Promise.all([
@@ -1859,6 +1871,12 @@ const kboTeams = {
                     loadHeadToHeadData()
                 ]);
                 logger.log('✅ 모든 데이터 로딩 완료');
+                
+                // 로드된 데이터 날짜 확인
+                if (kboData?.dataDate) {
+                    console.log(`✅ 로드된 데이터 날짜: ${kboData.dataDate}`);
+                    console.log(`📊 데이터 업데이트 시간: ${kboData.updateDate}`);
+                }
                 
                 // 2. UI 업데이트
                 try {
