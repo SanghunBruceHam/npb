@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2025-08-09T15:23:25.148Z",
-  "updateDate": "2025. 8. 9.",
+  "lastUpdated": "2025-08-10T09:27:01.509Z",
+  "updateDate": "2025. 8. 10.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
     {
@@ -118,29 +118,29 @@
     {
       "rank": 9,
       "team": "두산",
-      "games": 107,
+      "games": 108,
       "wins": 45,
-      "losses": 57,
+      "losses": 58,
       "draws": 5,
-      "winRate": 0.441,
-      "gamesBehind": 18,
-      "recent10": "4승1무5패",
-      "streak": "2승",
+      "winRate": 0.437,
+      "gamesBehind": 18.5,
+      "recent10": "4승0무6패",
+      "streak": "1패",
       "homeRecord": "21-29-4",
-      "awayRecord": "24-28-1"
+      "awayRecord": "24-29-1"
     },
     {
       "rank": 10,
       "team": "키움",
-      "games": 109,
-      "wins": 32,
+      "games": 110,
+      "wins": 33,
       "losses": 73,
       "draws": 4,
-      "winRate": 0.305,
-      "gamesBehind": 32.5,
-      "recent10": "4승1무5패",
-      "streak": "2패",
-      "homeRecord": "18-39-2",
+      "winRate": 0.311,
+      "gamesBehind": 32,
+      "recent10": "5승0무5패",
+      "streak": "1승",
+      "homeRecord": "19-39-2",
       "awayRecord": "14-34-2"
     }
   ],
@@ -219,25 +219,25 @@
     },
     "두산": {
       "playoff": 27,
-      "championship": 37,
-      "elimination": 10,
+      "championship": 36,
+      "elimination": 9,
       "homeAdvantage": 16,
-      "remainingGames": 37,
-      "maxPossibleWins": 82,
+      "remainingGames": 36,
+      "maxPossibleWins": 81,
       "currentRank": 9
     },
     "키움": {
       "playoff": 999,
-      "championship": 35,
+      "championship": 34,
       "elimination": 0,
-      "homeAdvantage": 29,
-      "remainingGames": 35,
+      "homeAdvantage": 28,
+      "remainingGames": 34,
       "maxPossibleWins": 67,
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-09T15:23:25.148Z",
+  "lastMagicUpdate": "2025-08-10T09:27:01.509Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
-  "dataDate": "2025-08-09"
+  "dataDate": "2025-08-10"
 }
