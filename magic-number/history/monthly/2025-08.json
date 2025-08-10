@@ -273,56 +273,56 @@
     },
     "2025-08-10": {
       "dataDate": "2025-08-10",
-      "totalGames": 532,
-      "rankChanges": 0,
+      "totalGames": 536,
+      "rankChanges": 2,
       "standings": [
         {
           "team": "LG",
           "rank": 1,
           "wins": 65,
-          "losses": 41
+          "losses": 42
         },
         {
           "team": "한화",
           "rank": 2,
-          "wins": 60,
+          "wins": 61,
           "losses": 42
         },
         {
           "team": "롯데",
           "rank": 3,
           "wins": 58,
-          "losses": 47
+          "losses": 48
         },
         {
           "team": "SSG",
           "rank": 4,
-          "wins": 52,
-          "losses": 49
-        },
-        {
-          "team": "KIA",
-          "rank": 5,
-          "wins": 50,
+          "wins": 53,
           "losses": 49
         },
         {
           "team": "KT",
-          "rank": 6,
-          "wins": 53,
+          "rank": 5,
+          "wins": 54,
           "losses": 52
+        },
+        {
+          "team": "KIA",
+          "rank": 6,
+          "wins": 50,
+          "losses": 50
         },
         {
           "team": "NC",
           "rank": 7,
-          "wins": 47,
+          "wins": 48,
           "losses": 49
         },
         {
           "team": "삼성",
           "rank": 8,
           "wins": 51,
-          "losses": 54
+          "losses": 55
         },
         {
           "team": "두산",
@@ -344,5 +344,5 @@
     "rankingChanges": {},
     "playoffRace": {}
   },
-  "lastUpdated": "2025-08-10T09:27:01.935Z"
+  "lastUpdated": "2025-08-10T13:35:23.006Z"
 }
