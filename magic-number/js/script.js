@@ -775,8 +775,9 @@ const kboTeams = {
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
 
                 // 홈/방문 성적 - JSON 데이터에서 실제 값 사용
-                const teamHomeAway = team.homeAway || { home: "0-0-0", away: "0-0-0" };
-                const homeAwayDisplay = `<div style="line-height: 1.4; font-size: 0.95rem;"><span style="color: #2563eb; font-weight: 500;">🏠 ${teamHomeAway.home}</span><br><span style="color: #dc2626; font-weight: 500;">✈️ ${teamHomeAway.away}</span></div>`;
+                const homeRecord = team.homeRecord || "0-0-0";
+                const awayRecord = team.awayRecord || "0-0-0";
+                const homeAwayDisplay = `<div style="line-height: 1.4; font-size: 0.95rem;"><span style="color: #2563eb; font-weight: 500;">🏠 ${homeRecord}</span><br><span style="color: #dc2626; font-weight: 500;">✈️ ${awayRecord}</span></div>`;
 
                 const winLossMargin = team.wins - team.losses;
                 const marginColor = winLossMargin > 0 ? '#27ae60' : winLossMargin < 0 ? '#e74c3c' : '#666';
