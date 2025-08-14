@@ -1097,6 +1097,14 @@
             opacity: 0.7;
         }
 
+        /* 무승부일 때 글자 크기를 연승/연패 숫자만큼 크게 */
+        .result-letter.draw-result {
+            font-size: 1.1rem;
+            font-weight: 900;
+            opacity: 1;
+            line-height: 1;
+        }
+
         .legend {
             background: white;
             border-radius: 8px;
@@ -1811,12 +1819,16 @@
                                          game.result === 'L' ? '패' : 
                                          game.result === 'D' || game.result === 'T' ? '무' : game.result;
                         
+                        // 무승부일 때 특별한 클래스 추가
+                        const isDraw = game.result === 'D' || game.result === 'T';
+                        const resultClass = isDraw ? 'result-letter draw-result' : 'result-letter';
+                        
                         html += `
                         <td class="game-result-cell ${game.result === 'W' ? 'cell-win' : game.result === 'L' ? 'cell-loss' : 'cell-draw'}" 
                             title="${team} vs ${game.opponent} (${game.score}) - ${game.date}">
                             <div class="result-display">
                                 ${streakNumber ? `<span class="streak-number">${streakNumber}</span>` : ''}
-                                <span class="result-letter">${resultText}</span>
+                                <span class="${resultClass}">${resultText}</span>
                             </div>
                         </td>`;
                     } else {
