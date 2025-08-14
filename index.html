@@ -1778,12 +1778,17 @@
                         const streakInfo = calculateStreakAtGame(teamRecord.games, gameNum - 1);
                         const streakNumber = streakInfo.count > 0 ? streakInfo.count : '';
                         
+                        // 결과를 한글로 변환
+                        const resultText = game.result === 'W' ? '승' : 
+                                         game.result === 'L' ? '패' : 
+                                         game.result === 'D' || game.result === 'T' ? '무' : game.result;
+                        
                         html += `
                         <td class="game-result-cell ${game.result === 'W' ? 'cell-win' : game.result === 'L' ? 'cell-loss' : 'cell-draw'}" 
                             title="${team} vs ${game.opponent} (${game.score}) - ${game.date}">
                             <div class="result-display">
                                 ${streakNumber ? `<span class="streak-number">${streakNumber}</span>` : ''}
-                                <span class="result-letter">${game.result}</span>
+                                <span class="result-letter">${resultText}</span>
                             </div>
                         </td>`;
                     } else {
