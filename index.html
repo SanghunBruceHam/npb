@@ -1548,16 +1548,43 @@
             return teamName;
         }
 
+        // getTeamWithLogo 함수 추가
+        function getTeamWithLogo(teamName, logoClass = 'team-logo-small') {
+            return `<span class="team-name-with-logo">
+                <img src="magic-number/images/${teamName.toLowerCase()}.png" 
+                     alt="${teamName}" 
+                     class="${logoClass}" 
+                     style="width: 20px; height: 20px; margin-right: 5px; vertical-align: middle;"
+                     onerror="this.style.display='none'">
+                ${teamName}
+            </span>`;
+        }
+
         // 데이터 로드
         async function loadDashboardData() {
             try {
+                console.log('🔄 데이터 로드 시작...');
                 const response = await fetch('magic-number/data/enhanced-dashboard.json');
+                console.log('📡 Fetch 응답:', response.status, response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 dashboardData = await response.json();
+                console.log('📊 대시보드 데이터 로드 완료:', {
+                    standings: dashboardData.standings?.length || 0,
+                    weekdayPerformance: Object.keys(dashboardData.weekdayPerformance || {}).length,
+                    stadiumRecords: Object.keys(dashboardData.stadiumRecords || {}).length
+                });
+                
+                console.log('🎯 renderDashboard 호출 시작');
                 renderDashboard();
+                console.log('✅ 모든 데이터 로드 및 렌더링 완료');
                 return Promise.resolve();
             } catch (error) {
-                console.error('데이터 로드 실패:', error);
-                document.getElementById('updateInfo').textContent = '❌ 데이터 로드 실패';
+                console.error('❌ 데이터 로드 실패:', error);
+                document.getElementById('updateInfo').textContent = '❌ 데이터 로드 실패: ' + error.message;
                 return Promise.reject(error);
             }
         }
@@ -1565,45 +1592,90 @@
         // 주차별 분석 데이터 로드
         async function loadWeeklyAnalysisData() {
             try {
+                console.log('🔄 주차별/게임별/팀별 데이터 로드 시작...');
+                
                 const [weeklyResponse, recordsResponse] = await Promise.all([
                     fetch('magic-number/data/weekly-analysis.json'),
                     fetch('magic-number/data/game-by-game-records.json')
                 ]);
                 
+                console.log('📡 주차별 데이터 응답:', weeklyResponse.status, weeklyResponse.ok);
+                console.log('📡 게임별 데이터 응답:', recordsResponse.status, recordsResponse.ok);
+                
+                if (!weeklyResponse.ok) {
+                    throw new Error(`주차별 데이터 HTTP ${weeklyResponse.status}: ${weeklyResponse.statusText}`);
+                }
+                if (!recordsResponse.ok) {
+                    throw new Error(`게임별 데이터 HTTP ${recordsResponse.status}: ${recordsResponse.statusText}`);
+                }
+                
                 weeklyAnalysisData = await weeklyResponse.json();
                 gameRecordsData = await recordsResponse.json();
                 
+                console.log('📊 주차별 데이터 키:', Object.keys(weeklyAnalysisData));
+                console.log('📊 게임별 데이터 키:', Object.keys(gameRecordsData));
+                
                 // 각각 개별 렌더링
+                console.log('🎯 renderWeeklyTable 호출');
                 renderWeeklyTable();
+                
+                console.log('🎯 renderGameByGameTable 호출');
                 renderGameByGameTable();
+                
+                console.log('🎯 renderTeamDetailedRecords 호출');
                 renderTeamDetailedRecords();
+                
+                console.log('✅ 모든 주차별/게임별/팀별 데이터 렌더링 완료');
+                
             } catch (error) {
-                console.error('주차별 분석 데이터 로드 실패:', error);
+                console.error('❌ 주차별 분석 데이터 로드 실패:', error);
                 document.getElementById('weeklyStatsContent').innerHTML = 
-                    '<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 주차별 데이터 로드 실패</div>';
+                    `<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 주차별 데이터 로드 실패: ${error.message}</div>`;
                 document.getElementById('gameRecordsContent').innerHTML = 
-                    '<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 게임별 데이터 로드 실패</div>';
+                    `<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 게임별 데이터 로드 실패: ${error.message}</div>`;
                 document.getElementById('teamDetailedRecordsContent').innerHTML = 
-                    '<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 팀별 상세 데이터 로드 실패</div>';
+                    `<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 팀별 상세 데이터 로드 실패: ${error.message}</div>`;
             }
         }
 
         // 대시보드 렌더링
         function renderDashboard() {
-            if (!dashboardData) return;
+            if (!dashboardData) {
+                console.error('❌ dashboardData가 없습니다');
+                return;
+            }
 
+            console.log('📊 대시보드 렌더링 시작');
+            
             // 업데이트 정보
             document.getElementById('updateInfo').textContent = 
                 `📅 ${dashboardData.updateDate} 업데이트`;
 
-            renderFullStandings();
-            renderPythagoreanFullAnalysis();
-            renderClutchFullAnalysis();
-            renderHomeAwayFullAnalysis();
-            renderHeadToHeadMatrix();
-            renderMonthlyFullAnalysis();
-            renderWeekdayFullAnalysis();
-            renderStadiumFullAnalysis();
+            console.log('1️⃣ renderFullStandings 호출');
+            try { renderFullStandings(); } catch(e) { console.error('renderFullStandings 오류:', e); }
+            
+            console.log('2️⃣ renderPythagoreanFullAnalysis 호출');
+            try { renderPythagoreanFullAnalysis(); } catch(e) { console.error('renderPythagoreanFullAnalysis 오류:', e); }
+            
+            console.log('3️⃣ renderClutchFullAnalysis 호출');
+            try { renderClutchFullAnalysis(); } catch(e) { console.error('renderClutchFullAnalysis 오류:', e); }
+            
+            console.log('4️⃣ renderHomeAwayFullAnalysis 호출');
+            try { renderHomeAwayFullAnalysis(); } catch(e) { console.error('renderHomeAwayFullAnalysis 오류:', e); }
+            
+            console.log('5️⃣ renderHeadToHeadMatrix 호출');
+            try { renderHeadToHeadMatrix(); } catch(e) { console.error('renderHeadToHeadMatrix 오류:', e); }
+            
+            console.log('6️⃣ renderMonthlyFullAnalysis 호출');
+            try { renderMonthlyFullAnalysis(); } catch(e) { console.error('renderMonthlyFullAnalysis 오류:', e); }
+            
+            console.log('7️⃣ renderWeekdayFullAnalysis 호출');
+            try { renderWeekdayFullAnalysis(); } catch(e) { console.error('renderWeekdayFullAnalysis 오류:', e); }
+            
+            console.log('8️⃣ renderStadiumFullAnalysis 호출');
+            try { renderStadiumFullAnalysis(); } catch(e) { console.error('renderStadiumFullAnalysis 오류:', e); }
+            
+            console.log('✅ 대시보드 렌더링 완료');
         }
 
         // 팀 변경
@@ -2344,7 +2416,7 @@
                         
                         html += `
                             <td class="month-record-cell" style="${recordStyle}">${record}</td>
-                            <td class="${winRateClass} month-rate-cell" style="${rateStyle}">${monthData.win_rate}</td>
+                            <td class="${winRateClass} month-rate-cell" style="${rateStyle}">${(winRate * 100).toFixed(1)}%</td>
                         `;
                     } else {
                         html += '<td class="month-data" style="color: #999;">-</td><td class="month-data" style="color: #999;">-</td>';
@@ -2406,11 +2478,25 @@
 
         // 요일별 성적 전체 분석
         function renderWeekdayFullAnalysis() {
+            console.log('🔍 renderWeekdayFullAnalysis 호출됨');
             const tbody = document.getElementById('weekdayBody');
+            console.log('weekdayBody 요소:', tbody);
+            
+            if (!tbody) {
+                console.error('❌ weekdayBody 요소를 찾을 수 없습니다');
+                return;
+            }
+            
+            if (!dashboardData || !dashboardData.standings) {
+                console.error('❌ dashboardData.standings가 없습니다');
+                return;
+            }
+            
             const days = ['월', '화', '수', '목', '금', '토', '일'];
             
             // 순위 순서대로 팀 정렬
             const rankedTeams = dashboardData.standings.map(team => team.team_name);
+            console.log('rankedTeams:', rankedTeams);
             
             let html = '';
             
@@ -2420,7 +2506,7 @@
                 
                 html += `<tr>
                     <td><strong>${rank}</strong></td>
-                    <td class="team-name"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></td>
+                    <td class="team-name"><strong>${team}</strong></td>
                 `;
                 
                 // 각 요일별 데이터
@@ -2479,16 +2565,32 @@
                 </tr>`;
             });
             
+            console.log('생성된 HTML 길이:', html.length);
+            console.log('HTML 미리보기:', html.substring(0, 200) + '...');
             tbody.innerHTML = html;
+            console.log('✅ renderWeekdayFullAnalysis 완료');
         }
 
         // 경기장별 성적 표 분석
         function renderStadiumFullAnalysis() {
+            console.log('🔍 renderStadiumFullAnalysis 호출됨');
             const thead = document.getElementById('stadiumTableHead');
             const tbody = document.getElementById('stadiumTableBody');
+            console.log('stadiumTableHead:', thead, 'stadiumTableBody:', tbody);
+            
+            if (!thead || !tbody) {
+                console.error('❌ stadiumTableHead 또는 stadiumTableBody 요소를 찾을 수 없습니다');
+                return;
+            }
+            
+            if (!dashboardData || !dashboardData.standings) {
+                console.error('❌ dashboardData.standings가 없습니다');
+                return;
+            }
             
             // 순위 순으로 팀 정렬
             const rankedTeams = dashboardData.standings.map(team => team.team_name);
+            console.log('rankedTeams:', rankedTeams);
             
             // 헤더 생성 (순위 순으로 팀명만)
             let headerHtml = '<tr><th>경기장</th>';
@@ -2579,7 +2681,11 @@
                 html += '</tr>';
             });
             
+            console.log('경기장별 헤더 HTML:', headerHtml.substring(0, 100));
+            console.log('경기장별 바디 HTML 길이:', html.length);
+            console.log('경기장별 HTML 미리보기:', html.substring(0, 200) + '...');
             tbody.innerHTML = html;
+            console.log('✅ renderStadiumFullAnalysis 완료');
         }
 
         // 테이블 정렬 기능
@@ -2673,17 +2779,23 @@
             tableIds.forEach(id => makeTableSortable(id));
         }
 
+
         // 페이지 로드 시 데이터 로드 및 정렬 기능 초기화
         window.addEventListener('DOMContentLoaded', () => {
+            // 대시보드 데이터 로드
             loadDashboardData().then(() => {
-                // 데이터 로드 완료 후 정렬 기능 초기화
+                // 대시보드 로드 완료 후 정렬 기능 초기화
                 setTimeout(() => {
                     initializeTableSorting();
                 }, 100);
+            }).catch(error => {
+                console.error('대시보드 데이터 로드 실패:', error);
             });
             
-            // 주차별 분석 데이터도 로드
-            loadWeeklyAnalysisData();
+            // 주차별/게임별/팀별 데이터 로드 (병렬)
+            loadWeeklyAnalysisData().catch(error => {
+                console.error('주차별 데이터 로드 실패:', error);
+            });
         });
     </script>
 </body>
