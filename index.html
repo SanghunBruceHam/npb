@@ -597,6 +597,34 @@
             vertical-align: middle;
         }
 
+        /* 주말승률과 평일승률 열 구분선 추가 */
+        #weekdayTable th:nth-child(10), /* 주말승률 헤더 */
+        #weekdayTable td:nth-child(10) { /* 주말승률 데이터 */
+            border-left: 3px solid #3498db;
+            position: relative;
+        }
+
+        /* 주말승률 열 앞에 여백 추가 */
+        #weekdayTable th:nth-child(10)::before,
+        #weekdayTable td:nth-child(10)::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), transparent);
+        }
+
+        /* 주말승률과 평일승률 헤더 배경 강조 */
+        #weekdayTable th:nth-child(10),
+        #weekdayTable th:nth-child(11) {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
         #weekdayTable .positive {
             background-color: rgba(34, 197, 94, 0.1);
             color: #059669;
