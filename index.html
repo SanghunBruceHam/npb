@@ -1525,39 +1525,35 @@
         let gameRecordsData = null;
         let currentSelectedTeam = 'LG';
 
-        // 팀 로고 매핑
+        // 팀 로고 매핑 (통합)
         const teamLogos = {
-            'LG': 'images/lg.png',
-            'KIA': 'images/kia.png',
-            'SSG': 'images/ssg.png',
-            '두산': 'images/doosan.png',
-            '삼성': 'images/samsung.png',
-            'KT': 'images/kt.png',
-            'NC': 'images/nc.png',
-            '롯데': 'images/lotte.png',
-            '키움': 'images/kiwoom.png',
-            '한화': 'images/hanwha.png'
+            'LG': 'magic-number/images/lg.png',
+            'KIA': 'magic-number/images/kia.png',
+            'SSG': 'magic-number/images/ssg.png',
+            '두산': 'magic-number/images/doosan.png',
+            '삼성': 'magic-number/images/samsung.png',
+            'KT': 'magic-number/images/kt.png',
+            'NC': 'magic-number/images/nc.png',
+            '롯데': 'magic-number/images/lotte.png',
+            '키움': 'magic-number/images/kiwoom.png',
+            '한화': 'magic-number/images/hanwha.png'
         };
 
-        // 팀명과 로고를 함께 표시하는 함수
-        function getTeamWithLogo(teamName, className = 'team-logo') {
+        // 팀명과 로고를 함께 표시하는 함수 (통합)
+        function getTeamWithLogo(teamName, className = 'team-logo-small') {
             const logoPath = teamLogos[teamName];
             if (logoPath) {
-                return `<div class="team-name-with-logo"><img src="${logoPath}" alt="${teamName}" class="${className}">${teamName}</div>`;
+                return `<span class="team-name-with-logo">
+                    <img src="${logoPath}" 
+                         alt="${teamName}" 
+                         class="${className}" 
+                         style="width: 20px; height: 20px; margin-right: 5px; vertical-align: middle;"
+                         onerror="this.style.display='none'; console.warn('로고 로드 실패:', '${teamName}', '${logoPath}');">
+                    ${teamName}
+                </span>`;
             }
-            return teamName;
-        }
-
-        // getTeamWithLogo 함수 추가
-        function getTeamWithLogo(teamName, logoClass = 'team-logo-small') {
-            return `<span class="team-name-with-logo">
-                <img src="magic-number/images/${teamName.toLowerCase()}.png" 
-                     alt="${teamName}" 
-                     class="${logoClass}" 
-                     style="width: 20px; height: 20px; margin-right: 5px; vertical-align: middle;"
-                     onerror="this.style.display='none'">
-                ${teamName}
-            </span>`;
+            console.warn('팀 로고 매핑 없음:', teamName);
+            return `<span>${teamName}</span>`;
         }
 
         // 데이터 로드
