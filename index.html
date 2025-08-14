@@ -3,58 +3,2688 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=https://kbo.mahalohana-bruce.com/magic-number/">
-    <title>KBO 매직넘버 계산기 - 리다이렉트 중...</title>
+    <title>KBO 2025 종합 분석 대시보드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #1a237e, #3949ab);
-            color: white;
-            text-align: center;
-            padding: 50px 20px;
-            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
         }
-        .redirect-container {
-            max-width: 600px;
+
+        .container {
+            max-width: 1600px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 40px;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
         }
-        .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
         }
-        a {
-            color: #ffd700;
-            text-decoration: none;
+
+        .update-info {
+            display: inline-block;
+            background: #e8f4fd;
+            color: #2980b9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .full-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .wide-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 25px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* 전체 순위표 - 가로 스크롤 */
+        .full-standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .full-standings-table th,
+        .full-standings-table td {
+            padding: 10px 6px;
+            text-align: center;
+            border: 1px solid #ecf0f1;
+            white-space: nowrap;
+        }
+
+        .full-standings-table th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .full-standings-table .team-name {
+            text-align: center !important;
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .full-standings-table .rank-1 { background: #fff3cd; }
+        .full-standings-table .rank-2 { background: #f8f9fa; }
+        .full-standings-table .rank-3 { background: #f8f9fa; }
+
+        /* 지표 그리드 */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+
+        .metric-card.positive {
+            border-left-color: #27ae60;
+            background: #f0f9f4;
+        }
+
+        .metric-card.negative {
+            border-left-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .metric-card.neutral {
+            border-left-color: #f39c12;
+            background: #fffbf0;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .metric-team {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2980b9;
+            margin-bottom: 5px;
+        }
+
+        /* 상세 테이블 */
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .detail-table th,
+        .detail-table td {
+            padding: 8px 6px;
+            text-align: center;
+            border: 1px solid #ecf0f1;
+        }
+
+        .detail-table th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            user-select: none;
+            position: relative;
+        }
+        
+        .detail-table th:hover {
+            background: #2c3e50;
+        }
+        
+        .detail-table th.sortable::after {
+            content: ' ↕️';
+            font-size: 0.8rem;
+            margin-left: 5px;
+            opacity: 0.7;
+        }
+        
+        .detail-table th.sort-asc::after {
+            content: ' ⬆️';
+            opacity: 1;
+        }
+        
+        .detail-table th.sort-desc::after {
+            content: ' ⬇️';
+            opacity: 1;
+        }
+
+        .detail-table .team-name {
+            text-align: center !important;
             font-weight: 600;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .positive { color: #27ae60; font-weight: 600; }
+        .negative { color: #e74c3c; font-weight: 600; }
+        .neutral { color: #f39c12; font-weight: 600; }
+        
+        /* 승-패-승률 셀 스타일 개선 */
+        .record-cell {
+            text-align: center;
+            padding: 8px 4px;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            border-radius: 4px;
+            transition: all 0.2s ease;
         }
+        
+        .record-cell:hover {
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .record-cell .record {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+            display: block;
+        }
+        
+        .record-cell .rate {
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0.9;
+            display: block;
+            padding: 1px 4px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.7);
+        }
+        
+        .record-cell .games {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 2px;
+            display: block;
+            opacity: 0.8;
+        }
+
+        /* 매트릭스 테이블 */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            min-width: 90px;
+        }
+
+        .matrix-table th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 12px 8px;
+        }
+
+        .matrix-table td {
+            background: white;
+            transition: background-color 0.2s ease;
+        }
+
+        .matrix-table td:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.02);
+        }
+
+        .matrix-record {
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .matrix-cell-detailed {
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .matrix-details {
+            margin-top: 4px;
+            padding-top: 4px;
+            border-top: 1px solid #eee;
+        }
+        
+        .home-away-split {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+        }
+        
+        .home-record, .away-record {
+            font-size: 0.75rem;
+            padding: 1px 3px;
+            border-radius: 3px;
+            background: #f8f9fa;
+            color: #666;
+        }
+        
+        .home-record:hover, .away-record:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .matrix-rate {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* 월별/요일별 그리드 */
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 1400px) {
+            .performance-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .performance-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .performance-item {
+            background: white;
+            border-radius: 15px;
+        }
+        
+        .stadium-analysis-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e1e8ed;
+        }
+        
+        .stadium-team-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        
+        .team-rank {
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .team-name-large {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .team-logo {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+
+        .team-logo-small {
+            width: 18px;
+            height: 18px;
+            margin-right: 5px;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        
+        #monthlyTable .team-logo-small {
+            width: 16px;
+            height: 16px;
+            margin-right: 3px;
+        }
+
+        .team-name-with-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .matrix-table .team-name-with-logo {
+            gap: 3px;
+            font-size: 0.85rem;
+        }
+
+        .weekly-table .team-name-with-logo, 
+        .all-teams-table .team-name-with-logo {
+            gap: 6px;
+        }
+
+        /* 월별 테이블 스타일 개선 */
+        #monthlyTable {
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            width: 100%;
+        }
+
+        #monthlyTable th,
+        #monthlyTable td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        
+        #monthlyTable .stats-row {
+            border-top: 2px solid #d1d5db;
+        }
+        
+        #monthlyTable .stats-row:first-of-type {
+            border-top: 3px solid #6b7280;
+        }
+
+        #monthlyTable th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        #monthlyTable th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background: #34495e;
+        }
+
+        #monthlyTable td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 9;
+            background: inherit;
+        }
+
+        #monthlyTable .team-name-with-logo {
+            gap: 2px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #monthlyTable th {
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        /* 월별 테이블 통계 행들 스타일 */
+        #monthlyTable .stats-row {
+            border-top: 2px solid #34495e;
+        }
+
+        #monthlyTable .stats-row td {
+            border-color: #d1d5db;
+            font-weight: 500;
+            padding: 10px 8px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* 월별 테이블 라벨 셀 (월, 통계 라벨) */
+        #monthlyTable .month-label,
+        #monthlyTable .stats-label {
+            font-weight: 600;
+            color: white;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        #monthlyTable .month-label {
+            background: #f8f9fa;
+            color: #2d3748;
+            font-size: 0.9rem;
+            padding: 8px 6px;
+        }
+
+        #monthlyTable .stats-label {
+            font-size: 0.85rem;
+            padding: 8px 6px;
+        }
+
+        /* 월별 테이블 데이터 셀 */
+        #monthlyTable .month-data {
+            font-size: 0.85rem;
+            line-height: 1.3;
+            padding: 8px 6px;
+            text-align: center;
+        }
+
+        #monthlyTable .month-data .record {
+            margin-bottom: 2px;
+        }
+
+        #monthlyTable .month-data .rate {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        /* 새로운 분리된 셀 스타일 */
+        #monthlyTable .month-record-cell {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 8px 4px;
+            background: rgba(248, 249, 250, 0.5);
+            line-height: 1.3;
+        }
+        
+        #monthlyTable .month-rate-cell {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 8px 4px;
+            line-height: 1.3;
+        }
+
+        /* 요일별 테이블 스타일 개선 */
+        #weekdayTable th,
+        #weekdayTable td {
+            padding: 8px 6px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #weekdayTable .positive {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #059669;
+            font-weight: 600;
+        }
+
+        #weekdayTable .negative {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        #weekdayTable .neutral {
+            background-color: rgba(251, 191, 36, 0.1);
+            color: #d97706;
+            font-weight: 500;
+        }
+
+        /* 월별 테이블 일반 데이터 행 */
+        #monthlyTable tbody tr:not(.stats-row) td {
+            background: white;
+        }
+
+        #monthlyTable tbody tr:not(.stats-row):hover td {
+            background-color: #f8f9fa;
+        }
+        
+        .home-away-summary {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .home-summary, .away-summary {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        .location-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .record-large {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+        
+        .rate-large {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+        
+        .stadium-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .best-stadium, .worst-stadium {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .best-stadium {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .worst-stadium {
+            background: #fdf2f2;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .highlight-label {
+            font-weight: 600;
+            min-width: 35px;
+        }
+        
+        .stadium-name {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 50px;
+        }
+        
+        .highlight-record {
+            font-weight: 700;
+            margin-left: auto;
+        }
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .performance-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .performance-team {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .performance-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f8f8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            transition: all 0.2s ease;
+        }
+
+        .performance-detail:last-child {
+            border-bottom: none;
+        }
+        
+        .performance-detail:hover {
+            background-color: #fafafa;
+            border-radius: 6px;
+            padding: 8px 6px;
+        }
+
+        .performance-period {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 80px;
+            line-height: 1.3;
+        }
+
+        .performance-result {
+            font-weight: 600;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .performance-wins {
+            color: #2ecc71;
+            font-size: 1rem;
+        }
+
+        .performance-losses {
+            color: #e67e22;
+            font-size: 1rem;
+        }
+
+        .performance-rate {
+            background: #ecf0f1;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .full-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+            
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detailed-game-table {
+                font-size: 0.75rem;
+            }
+            
+            .detailed-game-table th,
+            .detailed-game-table td {
+                padding: 6px 4px;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .detailed-game-table tr {
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+        }
+
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 2px;
+            margin: 40px 0 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-top: 30px;
+            color: #7f8c8d;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc8 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* 통일된 테이블 스타일 - 기존 테이블과 동일한 스타일 적용 */
+
+        .weekly-table, .game-record-table, .all-teams-table, .detailed-game-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 15px;
+        }
+
+        .weekly-table th, .weekly-table td,
+        .game-record-table th, .game-record-table td,
+        .all-teams-table th, .all-teams-table td,
+        .detailed-game-table th, .detailed-game-table td {
+            border: 1px solid #ecf0f1;
+            padding: 8px 6px;
+            text-align: center;
+        }
+
+        .weekly-table th, .game-record-table th, .detailed-game-table th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .team-header, .team-header-column {
+            background: #34495e !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .week-cell, .game-number-cell, .game-num-cell {
+            font-weight: bold;
+            background: #f8f9fa;
+            color: #2c3e50;
+            font-size: 0.85rem;
+        }
+
+        .date-cell {
+            font-size: 0.8rem;
+            white-space: nowrap;
+            color: #2c3e50;
+            padding: 8px 12px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .team-stats {
+            padding: 8px 6px;
+        }
+
+        .record {
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .win-rate {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: 3px;
+        }
+
+        .team-selector {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .team-selector select {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .streak-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .streak-item {
+            text-align: center;
+        }
+
+        .streak-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .streak-value {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .win-streak {
+            color: #38a169;
+        }
+
+        .lose-streak {
+            color: #e53e3e;
+        }
+
+
+        .result-badge {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .result-badge.w {
+            background: #27ae60;
+        }
+
+        .result-badge.l {
+            background: #e74c3c;
+        }
+
+        .result-badge.d {
+            background: #f39c12;
+        }
+
+        /* 모든 팀 게임 테이블 스타일 */
+        .all-teams-game-table {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .all-teams-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .all-teams-table th,
+        .all-teams-table td {
+            border: 1px solid #e2e8f0;
+            padding: 6px;
+            text-align: center;
+            min-width: 40px;
+        }
+
+        .all-teams-table th {
+            background: #2c3e50;
+            font-weight: 700;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .team-header-column {
+            background: #1a365d !important;
+            color: white !important;
+            font-weight: 900;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+        }
+
+        .game-number-cell {
+            font-weight: bold;
+            background: #fff3e0;
+            font-size: 0.75rem;
+        }
+
+        .game-result-cell {
+            position: relative;
+            padding: 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .game-result-cell:hover {
+            transform: scale(1.1);
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .cell-win, .win-row {
+            background: #d5fdd5;
+            color: #27ae60;
+        }
+
+        .cell-loss, .loss-row {
+            background: #f8d7da;
+            color: #e74c3c;
+        }
+
+        .cell-draw, .draw-row {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .cell-empty {
+            background: #f8fafc;
+            color: #9ca3af;
+        }
+
+        .result-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+        }
+
+        .streak-number {
+            font-size: 1.1rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .result-letter {
+            font-size: 0.6rem;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .legend {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        /* 팀별 상세 기록 스타일 */
+        .team-detailed-records {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .team-stats-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .stat-title {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .stat-subtitle {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        .win-color {
+            color: #38a169 !important;
+        }
+
+        .loss-color {
+            color: #e53e3e !important;
+        }
+
+        .detailed-game-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.85rem;
+        }
+
+        .detailed-game-table th,
+        .detailed-game-table td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 8px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .detailed-game-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #2d3748;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .detailed-game-table th.sortable {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .detailed-game-table th.sortable:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .game-num-cell {
+            font-weight: bold;
+            background: #fff3e0;
+            color: #d97706;
+        }
+
+        .date-cell {
+            font-size: 0.75rem;
+            color: #4a5568;
+        }
+
+        .opponent-cell {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .venue-cell {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .score-cell {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .runs-cell {
+            font-weight: 600;
+        }
+
+        .diff-cell {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .diff-cell.positive {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .diff-cell.negative {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .diff-cell.neutral {
+            color: #34495e;
+        }
+
     </style>
-    <script>
-        // 즉시 리다이렉트
-        window.location.replace('https://kbo.mahalohana-bruce.com/magic-number/');
-    </script>
 </head>
 <body>
-    <div class="redirect-container">
-        <h1>🏆 KBO 매직넘버 계산기</h1>
-        <div class="spinner"></div>
-        <p>KBO 매직넘버 계산기로 이동 중...</p>
-        <p>자동으로 이동되지 않으면 <a href="https://kbo.mahalohana-bruce.com/magic-number/">여기를 클릭</a>해주세요.</p>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>🏆 KBO 2025 종합 분석 대시보드</h1>
+            <p class="subtitle">피타고리안 기대승률, 클러치 상황, 홈 어드밴티지 등 15가지 확장 지표 완전 분석</p>
+            <div class="update-info" id="updateInfo">
+                📅 데이터 업데이트 중...
+            </div>
+        </div>
+
+        <!-- 1. 종합 순위표 (전체 지표) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🏆</span>
+                <h2 class="card-title">종합 순위 - 전체 지표</h2>
+            </div>
+            <div class="table-container">
+                <table class="full-standings-table" id="fullStandingsTable">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>팀</th>
+                            <th>경기</th>
+                            <th>승</th>
+                            <th>무</th>
+                            <th>패</th>
+                            <th>승률</th>
+                            <th>게임차</th>
+                            <th>득점</th>
+                            <th>실점</th>
+                            <th>득실차</th>
+                            <th>P승률</th>
+                            <th>운지수</th>
+                            <th>1점차승률</th>
+                            <th>홈승률</th>
+                            <th>원정승률</th>
+                            <th>홈우위</th>
+                            <th>연승패</th>
+                            <th>최대연승</th>
+                            <th>최대연패</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fullStandingsBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- 2. 피타고리안 & 운 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">⚡</span>
+                <h2 class="card-title">피타고리안 기대승률 & 운 지수 분석</h2>
+            </div>
+            <div class="table-container">
+                <table class="detail-table" id="pythagoreanTable">
+                    <thead>
+                        <tr>
+                            <th>팀</th>
+                            <th>실제승률</th>
+                            <th>피타고리안 기대승률</th>
+                            <th>운 지수</th>
+                            <th>운 상태</th>
+                            <th>득점</th>
+                            <th>실점</th>
+                            <th>경기당 득점</th>
+                            <th>경기당 실점</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pythagoreanBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. 클러치 상황 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🎯</span>
+                <h2 class="card-title">클러치 상황 완전 분석</h2>
+            </div>
+            <div class="table-container">
+                <table class="detail-table" id="clutchTable">
+                    <thead>
+                        <tr>
+                            <th>팀</th>
+                            <th>1점차 승</th>
+                            <th>1점차 패</th>
+                            <th>1점차 승률</th>
+                            <th>대량득점승</th>
+                            <th>대량실점패</th>
+                            <th>완봉승</th>
+                            <th>완봉패</th>
+                            <th>접전경기 비중</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clutchBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 4. 홈/원정 상세 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🏟️</span>
+                <h2 class="card-title">홈/원정 상세 분석</h2>
+            </div>
+            <div class="table-container">
+                <table class="detail-table" id="homeAwayTable">
+                    <thead>
+                        <tr>
+                            <th>팀</th>
+                            <th>홈 경기</th>
+                            <th>홈 승</th>
+                            <th>홈 패</th>
+                            <th>홈 승률</th>
+                            <th>원정 경기</th>
+                            <th>원정 승</th>
+                            <th>원정 패</th>
+                            <th>원정 승률</th>
+                            <th>홈 어드밴티지</th>
+                            <th>홈구장</th>
+                        </tr>
+                    </thead>
+                    <tbody id="homeAwayBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- 5. 상대전적 매트릭스 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">⚔️</span>
+                <h2 class="card-title">팀간 상대전적 매트릭스</h2>
+            </div>
+            <div class="table-container">
+                <div id="matrixContent">
+                    <!-- 동적으로 생성 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 월별 성적 완전 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📊</span>
+                <h2 class="card-title">월별 성적 완전 분석</h2>
+            </div>
+            <div class="table-container">
+                <table class="detail-table" id="monthlyTable">
+                    <thead id="monthlyTableHead">
+                        <!-- 동적으로 생성 -->
+                    </thead>
+                    <tbody id="monthlyBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 월별 성적 분석 범례 -->
+            <div style="margin-top: 15px; padding: 15px; background: rgba(248, 249, 250, 0.8); border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; color: #374151;">📋 범례</div>
+                <div style="display: flex; gap: 25px; flex-wrap: wrap; font-size: 0.8rem;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 16px; border: 2px solid #059669; background: white; border-radius: 3px;"></div>
+                        <span style="color: #059669; font-weight: 600;">최고 성적 월</span>
+                        <span style="color: #6b7280;">(팀별 최고 승률)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 16px; border: 2px solid #dc2626; background: white; border-radius: 3px;"></div>
+                        <span style="color: #dc2626; font-weight: 600;">최저 성적 월</span>
+                        <span style="color: #6b7280;">(팀별 최저 승률)</span>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; font-size: 0.75rem; color: #6b7280;">
+                    💡 각 팀의 월별 성적 중 가장 좋았던 달과 가장 아쉬웠던 달이 테두리로 표시됩니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. 요일별 성적 완전 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📅</span>
+                <h2 class="card-title">요일별 성적 완전 분석</h2>
+            </div>
+            <div class="table-container">
+                <table class="detail-table" id="weekdayTable">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>팀</th>
+                            <th>월요일</th>
+                            <th>화요일</th>
+                            <th>수요일</th>
+                            <th>목요일</th>
+                            <th>금요일</th>
+                            <th>토요일</th>
+                            <th>일요일</th>
+                            <th>주말승률</th>
+                            <th>평일승률</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weekdayBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 8. 주차별 성적 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📅</span>
+                <h2 class="card-title">주차별 성적 분석</h2>
+            </div>
+            <div id="weeklyStatsContent">
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    데이터를 로드하고 있습니다...
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. 게임별 기록 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🏆</span>
+                <h2 class="card-title">게임별 기록 & 연승/연패 분석</h2>
+            </div>
+            <div id="gameRecordsContent">
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    데이터를 로드하고 있습니다...
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. 팀별 상세 게임 기록 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📋</span>
+                <h2 class="card-title">팀별 상세 게임 기록</h2>
+            </div>
+            <div id="teamDetailedRecordsContent">
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    데이터를 로드하고 있습니다...
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. 경기장별 성적 완전 분석 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🏟️</span>
+                <h2 class="card-title">경기장별 성적 완전 분석</h2>
+            </div>
+            <div class="table-container">
+                <table class="detail-table" id="stadiumTable">
+                    <thead id="stadiumTableHead">
+                        <!-- 동적으로 생성 -->
+                    </thead>
+                    <tbody id="stadiumTableBody">
+                        <!-- 동적으로 생성 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>🤖 <span class="highlight">KBO 2025 종합 분석 대시보드</span></p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">피타고리안 기대승률 | 클러치 지수 | 홈 어드밴티지 | 상대전적 매트릭스 | 월별/요일별/경기장별 성적 | 15가지 고급 지표</p>
+        </div>
     </div>
+
+    <script>
+        let dashboardData = null;
+        let weeklyAnalysisData = null;
+        let gameRecordsData = null;
+        let currentSelectedTeam = 'LG';
+
+        // 팀 로고 매핑
+        const teamLogos = {
+            'LG': 'images/lg.png',
+            'KIA': 'images/kia.png',
+            'SSG': 'images/ssg.png',
+            '두산': 'images/doosan.png',
+            '삼성': 'images/samsung.png',
+            'KT': 'images/kt.png',
+            'NC': 'images/nc.png',
+            '롯데': 'images/lotte.png',
+            '키움': 'images/kiwoom.png',
+            '한화': 'images/hanwha.png'
+        };
+
+        // 팀명과 로고를 함께 표시하는 함수
+        function getTeamWithLogo(teamName, className = 'team-logo') {
+            const logoPath = teamLogos[teamName];
+            if (logoPath) {
+                return `<div class="team-name-with-logo"><img src="${logoPath}" alt="${teamName}" class="${className}">${teamName}</div>`;
+            }
+            return teamName;
+        }
+
+        // 데이터 로드
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('magic-number/data/enhanced-dashboard.json');
+                dashboardData = await response.json();
+                renderDashboard();
+                return Promise.resolve();
+            } catch (error) {
+                console.error('데이터 로드 실패:', error);
+                document.getElementById('updateInfo').textContent = '❌ 데이터 로드 실패';
+                return Promise.reject(error);
+            }
+        }
+
+        // 주차별 분석 데이터 로드
+        async function loadWeeklyAnalysisData() {
+            try {
+                const [weeklyResponse, recordsResponse] = await Promise.all([
+                    fetch('magic-number/data/weekly-analysis.json'),
+                    fetch('magic-number/data/game-by-game-records.json')
+                ]);
+                
+                weeklyAnalysisData = await weeklyResponse.json();
+                gameRecordsData = await recordsResponse.json();
+                
+                // 각각 개별 렌더링
+                renderWeeklyTable();
+                renderGameByGameTable();
+                renderTeamDetailedRecords();
+            } catch (error) {
+                console.error('주차별 분석 데이터 로드 실패:', error);
+                document.getElementById('weeklyStatsContent').innerHTML = 
+                    '<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 주차별 데이터 로드 실패</div>';
+                document.getElementById('gameRecordsContent').innerHTML = 
+                    '<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 게임별 데이터 로드 실패</div>';
+                document.getElementById('teamDetailedRecordsContent').innerHTML = 
+                    '<div style="text-align: center; padding: 40px; color: #e53e3e;">❌ 팀별 상세 데이터 로드 실패</div>';
+            }
+        }
+
+        // 대시보드 렌더링
+        function renderDashboard() {
+            if (!dashboardData) return;
+
+            // 업데이트 정보
+            document.getElementById('updateInfo').textContent = 
+                `📅 ${dashboardData.updateDate} 업데이트`;
+
+            renderFullStandings();
+            renderPythagoreanFullAnalysis();
+            renderClutchFullAnalysis();
+            renderHomeAwayFullAnalysis();
+            renderHeadToHeadMatrix();
+            renderMonthlyFullAnalysis();
+            renderWeekdayFullAnalysis();
+            renderStadiumFullAnalysis();
+        }
+
+        // 팀 변경
+        function changeSelectedTeam(team) {
+            currentSelectedTeam = team;
+            renderTeamDetailedRecords();
+        }
+
+        // 주차별 성적 테이블 렌더링
+        function renderWeeklyTable() {
+            if (!weeklyAnalysisData) return;
+
+            const weeks = Object.keys(weeklyAnalysisData).sort();
+            const teams = ['LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
+
+            // 시즌 시작 주차 계산 (3월 마지막 주를 1주차로)
+            const seasonStartWeek = Math.min(...weeks.map(w => parseInt(w.split('-W')[1])));
+
+            let html = `
+            <div class="table-container" style="overflow-x: auto;">
+                <table class="weekly-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="min-width: 60px;">주차</th>
+                            <th rowspan="2" style="min-width: 120px;">기간</th>
+                            <th colspan="${teams.length}">팀별 성적 (승-패-무 / 승률)</th>
+                        </tr>
+                        <tr>
+                            ${teams.map(team => `<th class="team-header">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            weeks.forEach((week, index) => {
+                const weekData = weeklyAnalysisData[week];
+                const weekNumber = index + 1; // 1주차부터 시작
+                
+                // 날짜를 요일과 함께 포맷
+                const startDate = new Date(weekData.startDate);
+                const endDate = new Date(weekData.endDate);
+                const startDayName = ['일', '월', '화', '수', '목', '금', '토'][startDate.getDay()];
+                const endDayName = ['일', '월', '화', '수', '목', '금', '토'][endDate.getDay()];
+                
+                const dateRange = `${weekData.startDate}(${startDayName}) ~ ${weekData.endDate}(${endDayName})`;
+                
+                html += `
+                    <tr>
+                        <td class="week-cell">${weekNumber}주차</td>
+                        <td class="date-cell">${dateRange}</td>
+                        ${teams.map(team => {
+                            const stats = weekData.teams[team];
+                            const winRate = stats.games > 0 ? (stats.wins / (stats.wins + stats.losses) * 100).toFixed(1) : '0.0';
+                            const bgColor = getWinRateColor(parseFloat(winRate));
+                            return `
+                                <td class="team-stats" style="background-color: ${bgColor};">
+                                    <div class="record">${stats.wins}-${stats.losses}-${stats.draws}</div>
+                                    <div class="win-rate">${winRate}%</div>
+                                </td>
+                            `;
+                        }).join('')}
+                    </tr>`;
+            });
+
+            html += `</tbody></table></div>`;
+            document.getElementById('weeklyStatsContent').innerHTML = html;
+        }
+
+        // 게임별 기록 테이블 렌더링 (모든 팀 동시 표시)
+        function renderGameByGameTable() {
+            if (!gameRecordsData) return;
+
+            const teams = ['LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
+            
+            // 최대 경기 수 계산
+            const maxGames = Math.max(...teams.map(team => gameRecordsData[team]?.games.length || 0));
+            
+            let html = `
+            <div class="all-teams-game-table">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">🏆 전체 팀 게임별 승패 기록</h3>
+                <div style="text-align: center; margin-bottom: 15px; font-size: 0.9rem; color: #666;">
+                    💡 연승/연패가 이어질 때마다 숫자로 표시됩니다 (예: 1승→2승→3승 또는 1패→2패→3패)
+                </div>
+                <div class="table-container" style="overflow-x: auto; max-height: 700px; overflow-y: auto;">
+                    <table class="all-teams-table">
+                        <thead>
+                            <tr>
+                                <th style="position: sticky; left: 0; z-index: 15; background: #2c3e50; top: 0;">경기#</th>
+                                ${teams.map(team => `<th class="team-header-column" style="position: sticky; top: 0; z-index: 10;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            // 각 경기별로 행 생성
+            for (let gameNum = 1; gameNum <= maxGames; gameNum++) {
+                html += `<tr>
+                    <td class="game-number-cell" style="position: sticky; left: 0; z-index: 5; background: #f8f9fa; font-weight: bold;">${gameNum}</td>`;
+                
+                teams.forEach(team => {
+                    const teamRecord = gameRecordsData[team];
+                    const game = teamRecord?.games[gameNum - 1];
+                    
+                    if (game) {
+                        // 현재 게임에서의 연승/연패 카운트 계산
+                        const streakInfo = calculateStreakAtGame(teamRecord.games, gameNum - 1);
+                        const streakNumber = streakInfo.count > 0 ? streakInfo.count : '';
+                        
+                        html += `
+                        <td class="game-result-cell ${game.result === 'W' ? 'cell-win' : game.result === 'L' ? 'cell-loss' : 'cell-draw'}" 
+                            title="${team} vs ${game.opponent} (${game.score}) - ${game.date}">
+                            <div class="result-display">
+                                ${streakNumber ? `<span class="streak-number">${streakNumber}</span>` : ''}
+                                <span class="result-letter">${game.result}</span>
+                            </div>
+                        </td>`;
+                    } else {
+                        html += `<td class="game-result-cell cell-empty">-</td>`;
+                    }
+                });
+                
+                html += `</tr>`;
+            }
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="legend" style="margin-top: 20px; text-align: center;">
+                    <h4 style="margin-bottom: 10px; color: #2d3748;">범례</h4>
+                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                        <div class="legend-item">
+                            <span class="legend-color cell-win" style="display: inline-block; width: 20px; height: 20px; border-radius: 4px; margin-right: 5px; vertical-align: middle;"></span>
+                            <span>승리 (W)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color cell-loss" style="display: inline-block; width: 20px; height: 20px; border-radius: 4px; margin-right: 5px; vertical-align: middle;"></span>
+                            <span>패배 (L)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color cell-draw" style="display: inline-block; width: 20px; height: 20px; border-radius: 4px; margin-right: 5px; vertical-align: middle;"></span>
+                            <span>무승부 (D)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            document.getElementById('gameRecordsContent').innerHTML = html;
+        }
+
+        // 특정 게임에서의 연승/연패 카운트 계산
+        function calculateStreakAtGame(games, gameIndex) {
+            if (gameIndex < 0 || gameIndex >= games.length) {
+                return { type: null, count: 0 };
+            }
+            
+            const currentGame = games[gameIndex];
+            if (currentGame.result === 'D') {
+                return { type: null, count: 0 };
+            }
+            
+            let count = 1;
+            let streakType = currentGame.result;
+            
+            // 이전 게임들을 거슬러 올라가며 연속 기록 계산
+            for (let i = gameIndex - 1; i >= 0; i--) {
+                const prevGame = games[i];
+                if (prevGame.result === streakType) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            
+            return { type: streakType, count: count };
+        }
+
+        // 팀별 상세 게임 기록 렌더링
+        function renderTeamDetailedRecords() {
+            if (!gameRecordsData) return;
+
+            const teams = ['LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
+            
+            let html = `
+            <div class="team-detailed-records">
+                <div class="team-selector" style="text-align: center; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 15px; color: #2d3748;">📋 팀 선택</h3>
+                    <select onchange="changeSelectedTeam(this.value)" style="padding: 10px 20px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 8px; background: white;">
+                        ${teams.map(team => 
+                            `<option value="${team}" ${team === currentSelectedTeam ? 'selected' : ''}>${team}</option>`
+                        ).join('')}
+                    </select>
+                </div>`;
+
+            const teamRecord = gameRecordsData[currentSelectedTeam];
+            if (teamRecord) {
+                // 최근 10경기 기록
+                const recentGames = teamRecord.games.slice(-10);
+                const recent10Record = recentGames.reduce((acc, game) => {
+                    if (game.result === 'W') acc.wins++;
+                    else if (game.result === 'L') acc.losses++;
+                    else acc.draws++;
+                    return acc;
+                }, { wins: 0, losses: 0, draws: 0 });
+
+                // 전체 기록
+                const totalRecord = teamRecord.games.reduce((acc, game) => {
+                    if (game.result === 'W') acc.wins++;
+                    else if (game.result === 'L') acc.losses++;
+                    else acc.draws++;
+                    return acc;
+                }, { wins: 0, losses: 0, draws: 0 });
+
+                const winRate = totalRecord.wins > 0 ? ((totalRecord.wins / (totalRecord.wins + totalRecord.losses)) * 100).toFixed(1) : '0.0';
+
+                html += `
+                <div class="selected-team-details">
+                    <h4 style="text-align: center; margin-bottom: 25px; color: #2d3748; font-size: 1.4rem;">${currentSelectedTeam} 상세 기록</h4>
+                    
+                    <!-- 팀 통계 요약 -->
+                    <div class="team-stats-summary">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-title">총 경기</div>
+                                <div class="stat-number">${teamRecord.games.length}</div>
+                                <div class="stat-subtitle">경기</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">전체 성적</div>
+                                <div class="stat-number">${totalRecord.wins}-${totalRecord.losses}-${totalRecord.draws}</div>
+                                <div class="stat-subtitle">승률 ${winRate}%</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">최근 10경기</div>
+                                <div class="stat-number">${recent10Record.wins}-${recent10Record.losses}-${recent10Record.draws}</div>
+                                <div class="stat-subtitle">최근 성적</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">현재 연속</div>
+                                <div class="stat-number ${teamRecord.currentStreak.type === 'W' ? 'win-color' : teamRecord.currentStreak.type === 'L' ? 'loss-color' : ''}">
+                                    ${teamRecord.currentStreak.type === 'W' ? `${teamRecord.currentStreak.count}연승` : 
+                                      teamRecord.currentStreak.type === 'L' ? `${teamRecord.currentStreak.count}연패` : '없음'}
+                                </div>
+                                <div class="stat-subtitle">현재 상태</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">최장 연승</div>
+                                <div class="stat-number win-color">${teamRecord.longestWinStreak}</div>
+                                <div class="stat-subtitle">연승</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">최장 연패</div>
+                                <div class="stat-number loss-color">${teamRecord.longestLoseStreak}</div>
+                                <div class="stat-subtitle">연패</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 상세 게임 기록 테이블 -->
+                    <div class="detailed-games-section">
+                        <h5 style="text-align: center; margin: 30px 0 20px 0; color: #2d3748;">🎮 전체 게임 기록</h5>
+                        <div class="table-container" style="overflow-x: auto; max-height: 600px; overflow-y: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            <table class="detailed-game-table" id="detailedGameTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable" data-column="gameNumber">경기# ↕️</th>
+                                        <th class="sortable" data-column="date">날짜 ↕️</th>
+                                        <th class="sortable" data-column="opponent">상대팀 ↕️</th>
+                                        <th class="sortable" data-column="venue">홈/원정 ↕️</th>
+                                        <th>스코어</th>
+                                        <th class="sortable" data-column="result">결과 ↕️</th>
+                                        <th class="sortable" data-column="runs_scored">득점 ↕️</th>
+                                        <th class="sortable" data-column="runs_allowed">실점 ↕️</th>
+                                        <th class="sortable" data-column="scoreDiff">득실차 ↕️</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailedGameTableBody">`;
+
+                teamRecord.games.forEach((game, index) => {
+                    const scoreDiff = game.runs_scored - game.runs_allowed;
+                    const scoreDiffText = scoreDiff > 0 ? `+${scoreDiff}` : scoreDiff.toString();
+                    
+                    html += `
+                        <tr class="${game.result === 'W' ? 'win-row' : game.result === 'L' ? 'loss-row' : 'draw-row'}">
+                            <td class="game-num-cell">${game.gameNumber}</td>
+                            <td class="date-cell">${game.date}</td>
+                            <td class="opponent-cell">${game.opponent}</td>
+                            <td class="venue-cell">${game.isHome ? '홈' : '원정'}</td>
+                            <td class="score-cell">${game.score}</td>
+                            <td class="result-cell">
+                                <span class="result-badge ${game.result.toLowerCase()}">${
+                                    game.result === 'W' ? '승' : game.result === 'L' ? '패' : '무'
+                                }</span>
+                            </td>
+                            <td class="runs-cell">${game.runs_scored}</td>
+                            <td class="runs-cell">${game.runs_allowed}</td>
+                            <td class="diff-cell ${scoreDiff > 0 ? 'positive' : scoreDiff < 0 ? 'negative' : 'neutral'}">${scoreDiffText}</td>
+                        </tr>`;
+                });
+
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: #666;">
+                            🔄 컬럼 헤더를 클릭하면 해당 항목으로 정렬할 수 있습니다
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            html += `</div>`;
+            document.getElementById('teamDetailedRecordsContent').innerHTML = html;
+            
+            // 정렬 기능 초기화
+            if (teamRecord) {
+                initializeDetailedTableSorting();
+            }
+        }
+
+        // 팀별 상세 테이블 정렬 기능 초기화
+        function initializeDetailedTableSorting() {
+            const table = document.getElementById('detailedGameTable');
+            const headers = table.querySelectorAll('th.sortable');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const column = header.dataset.column;
+                    sortDetailedTable(column);
+                });
+            });
+        }
+
+        // 팀별 상세 테이블 정렬 함수
+        function sortDetailedTable(column) {
+            const table = document.getElementById('detailedGameTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // 현재 정렬 방향 확인
+            const isAscending = table.dataset.sortDirection !== 'asc';
+            table.dataset.sortDirection = isAscending ? 'asc' : 'desc';
+            
+            // 헤더 업데이트
+            table.querySelectorAll('th.sortable').forEach(th => {
+                th.textContent = th.textContent.replace(/\s[↑↓↕️]/g, '') + ' ↕️';
+            });
+            const currentHeader = table.querySelector(`th[data-column="${column}"]`);
+            currentHeader.textContent = currentHeader.textContent.replace(/\s[↑↓↕️]/g, '') + (isAscending ? ' ↑' : ' ↓');
+            
+            // 행 정렬
+            rows.sort((a, b) => {
+                let aVal, bVal;
+                
+                switch(column) {
+                    case 'gameNumber':
+                        aVal = parseInt(a.querySelector('.game-num-cell').textContent);
+                        bVal = parseInt(b.querySelector('.game-num-cell').textContent);
+                        break;
+                    case 'date':
+                        aVal = new Date(a.querySelector('.date-cell').textContent);
+                        bVal = new Date(b.querySelector('.date-cell').textContent);
+                        break;
+                    case 'opponent':
+                        aVal = a.querySelector('.opponent-cell').textContent;
+                        bVal = b.querySelector('.opponent-cell').textContent;
+                        break;
+                    case 'venue':
+                        aVal = a.querySelector('.venue-cell').textContent;
+                        bVal = b.querySelector('.venue-cell').textContent;
+                        break;
+                    case 'result':
+                        aVal = a.querySelector('.result-badge').textContent;
+                        bVal = b.querySelector('.result-badge').textContent;
+                        // 승 > 무 > 패 순서로 정렬
+                        const resultOrder = {'승': 3, '무': 2, '패': 1};
+                        aVal = resultOrder[aVal] || 0;
+                        bVal = resultOrder[bVal] || 0;
+                        break;
+                    case 'runs_scored':
+                        aVal = parseInt(a.querySelectorAll('.runs-cell')[0].textContent);
+                        bVal = parseInt(b.querySelectorAll('.runs-cell')[0].textContent);
+                        break;
+                    case 'runs_allowed':
+                        aVal = parseInt(a.querySelectorAll('.runs-cell')[1].textContent);
+                        bVal = parseInt(b.querySelectorAll('.runs-cell')[1].textContent);
+                        break;
+                    case 'scoreDiff':
+                        const aDiff = a.querySelector('.diff-cell').textContent.replace('+', '');
+                        const bDiff = b.querySelector('.diff-cell').textContent.replace('+', '');
+                        aVal = parseInt(aDiff);
+                        bVal = parseInt(bDiff);
+                        break;
+                    default:
+                        aVal = a.cells[0].textContent;
+                        bVal = b.cells[0].textContent;
+                }
+                
+                if (aVal < bVal) return isAscending ? -1 : 1;
+                if (aVal > bVal) return isAscending ? 1 : -1;
+                return 0;
+            });
+            
+            // 정렬된 행들을 테이블에 다시 추가
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        // 승률에 따른 배경색 계산
+        function getWinRateColor(winRate) {
+            if (winRate >= 70) return '#d5fdd5';     // 매우 높은 승률 - 연한 초록
+            if (winRate >= 60) return '#e8f5e8';     // 높은 승률 - 더 연한 초록
+            if (winRate >= 50) return '#fff3cd';     // 보통 승률 - 연한 노랑
+            if (winRate >= 40) return '#fde2e4';     // 낮은 승률 - 연한 분홍
+            return '#f8d7da';                        // 매우 낮은 승률 - 연한 빨강
+        }
+
+        // 전체 순위표 (모든 지표 포함)
+        function renderFullStandings() {
+            const tbody = document.getElementById('fullStandingsBody');
+            tbody.innerHTML = '';
+
+            dashboardData.standings.forEach((team, index) => {
+                // 해당 팀의 상세 데이터 찾기
+                const teamSummary = dashboardData.teamSummaries.find(t => t.team_name === team.team_name);
+                const pythagorean = dashboardData.pythagoreanAnalysis.find(t => t.team_name === team.team_name);
+                const oneRun = dashboardData.oneRunGames.find(t => t.team_name === team.team_name);
+                const homeAway = dashboardData.homeAwayStats.find(t => t.team_name === team.team_name);
+                const streak = dashboardData.streakAnalysis.find(t => t.team_name === team.team_name);
+
+                const row = document.createElement('tr');
+                row.className = index < 3 ? `rank-${index + 1}` : '';
+                
+                row.innerHTML = `
+                    <td><strong>${team.rank}</strong></td>
+                    <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
+                    <td>${team.games_played}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.draws}</td>
+                    <td>${team.losses}</td>
+                    <td><strong>${team.win_rate}</strong></td>
+                    <td>${team.games_behind}</td>
+                    <td>${team.runs_scored}</td>
+                    <td>${team.runs_allowed}</td>
+                    <td class="${team.run_differential > 0 ? 'positive' : team.run_differential < 0 ? 'negative' : 'neutral'}">${team.run_differential}</td>
+                    <td>${pythagorean ? pythagorean.expected_win_rate : '-'}</td>
+                    <td class="${pythagorean && parseFloat(pythagorean.luck_factor) > 0.02 ? 'positive' : pythagorean && parseFloat(pythagorean.luck_factor) < -0.02 ? 'negative' : 'neutral'}">${pythagorean ? pythagorean.luck_factor : '-'}</td>
+                    <td class="${oneRun && parseFloat(oneRun.win_rate) > 0.55 ? 'positive' : oneRun && parseFloat(oneRun.win_rate) < 0.45 ? 'negative' : 'neutral'}">${oneRun ? oneRun.win_rate : '-'}</td>
+                    <td>${homeAway ? homeAway.home_win_rate : '-'}</td>
+                    <td>${homeAway ? homeAway.away_win_rate : '-'}</td>
+                    <td class="${homeAway && parseFloat(homeAway.home_advantage) > 0.05 ? 'positive' : homeAway && parseFloat(homeAway.home_advantage) < -0.05 ? 'negative' : 'neutral'}">${homeAway ? homeAway.home_advantage : '-'}</td>
+                    <td>${team.current_streak}</td>
+                    <td>${streak ? streak.max_win_streak : '-'}</td>
+                    <td>${streak ? streak.max_lose_streak : '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 피타고리안 전체 분석
+        function renderPythagoreanFullAnalysis() {
+            const tbody = document.getElementById('pythagoreanBody');
+            tbody.innerHTML = '';
+
+            dashboardData.pythagoreanAnalysis.forEach(team => {
+                const teamData = dashboardData.standings.find(t => t.team_name === team.team_name);
+                const avgScored = teamData ? (teamData.runs_scored / teamData.games_played).toFixed(2) : '-';
+                const avgAllowed = teamData ? (teamData.runs_allowed / teamData.games_played).toFixed(2) : '-';
+
+                const row = document.createElement('tr');
+                const luckClass = parseFloat(team.luck_factor) > 0.02 ? 'positive' : 
+                                 parseFloat(team.luck_factor) < -0.02 ? 'negative' : 'neutral';
+                
+                row.innerHTML = `
+                    <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
+                    <td><strong>${team.actual_win_rate}</strong></td>
+                    <td>${team.expected_win_rate}</td>
+                    <td class="${luckClass}"><strong>${team.luck_factor}</strong></td>
+                    <td class="${luckClass}">${team.luck_status}</td>
+                    <td>${teamData ? teamData.runs_scored : '-'}</td>
+                    <td>${teamData ? teamData.runs_allowed : '-'}</td>
+                    <td>${avgScored}</td>
+                    <td>${avgAllowed}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 클러치 상황 전체 분석
+        function renderClutchFullAnalysis() {
+            const tbody = document.getElementById('clutchBody');
+            tbody.innerHTML = '';
+
+            dashboardData.oneRunGames.forEach(team => {
+                const specialSit = dashboardData.specialSituations.find(t => t.team_name === team.team_name);
+                const totalGames = dashboardData.standings.find(t => t.team_name === team.team_name)?.games_played || 0;
+                const closeGameRatio = totalGames > 0 ? ((team.total_games / totalGames) * 100).toFixed(1) : '0';
+
+                const row = document.createElement('tr');
+                const winRateClass = parseFloat(team.win_rate) > 0.55 ? 'positive' : 
+                                   parseFloat(team.win_rate) < 0.45 ? 'negative' : 'neutral';
+                
+                row.innerHTML = `
+                    <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.losses}</td>
+                    <td class="${winRateClass}"><strong>${team.win_rate}</strong></td>
+                    <td>${specialSit ? specialSit.blowout_wins : '-'}</td>
+                    <td>${specialSit ? specialSit.blowout_losses : '-'}</td>
+                    <td>${specialSit ? specialSit.shutout_wins : '-'}</td>
+                    <td>${specialSit ? specialSit.shutout_losses : '-'}</td>
+                    <td>${closeGameRatio}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 홈/원정 전체 분석
+        function renderHomeAwayFullAnalysis() {
+            const tbody = document.getElementById('homeAwayBody');
+            tbody.innerHTML = '';
+
+            const stadiumMap = {
+                'KIA': '광주 챔피언스필드',
+                'LG': '서울 잠실야구장',
+                '두산': '서울 잠실야구장',
+                '삼성': '대구 삼성라이온즈파크',
+                'SSG': '인천 SSG랜더스필드',
+                'KT': '수원 KT위즈파크',
+                'NC': '창원 NC파크',
+                '롯데': '부산 사직야구장',
+                '한화': '대전 한화생명이글스파크',
+                '키움': '서울 고척스카이돔'
+            };
+
+            dashboardData.homeAwayStats.forEach(team => {
+                const homeGames = team.home_wins + team.home_losses;
+                const awayGames = team.away_wins + team.away_losses;
+
+                const row = document.createElement('tr');
+                const advantageClass = parseFloat(team.home_advantage) > 0.05 ? 'positive' : 
+                                     parseFloat(team.home_advantage) < -0.05 ? 'negative' : 'neutral';
+                
+                row.innerHTML = `
+                    <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
+                    <td>${homeGames}</td>
+                    <td>${team.home_wins}</td>
+                    <td>${team.home_losses}</td>
+                    <td><strong>${team.home_win_rate}</strong></td>
+                    <td>${awayGames}</td>
+                    <td>${team.away_wins}</td>
+                    <td>${team.away_losses}</td>
+                    <td><strong>${team.away_win_rate}</strong></td>
+                    <td class="${advantageClass}"><strong>${team.home_advantage}</strong></td>
+                    <td style="font-size: 0.8rem;">${stadiumMap[team.team_name] || '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 상대전적 매트릭스
+        function renderHeadToHeadMatrix() {
+            const container = document.getElementById('matrixContent');
+            
+            // 순위 순서대로 팀 정렬
+            const rankedTeams = dashboardData.standings.map(team => team.team_name);
+            
+            let html = '<div>';
+            
+            // 전체 매트릭스만 표시
+            html += '<table class="matrix-table"><thead><tr><th style="min-width: 70px;">vs</th>';
+            rankedTeams.forEach(team => {
+                html += `<th style="min-width: 75px;"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></th>`;
+            });
+            html += '</tr></thead><tbody>';
+            
+            rankedTeams.forEach(team1 => {
+                html += `<tr><th style="text-align: center; font-weight: 700; background: #2c3e50;"><strong>${getTeamWithLogo(team1, 'team-logo-small')}</strong></th>`;
+                rankedTeams.forEach(team2 => {
+                    html += renderMatrixCell(team1, team2);
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        // 매트릭스 셀 렌더링 함수 (무승부 및 홈/원정 분리 포함)
+        function renderMatrixCell(team1, team2) {
+            if (team1 === team2) {
+                return '<td style="background: #ecf0f1; color: #999; font-weight: 600; font-size: 1.2rem;">-</td>';
+            }
+            
+            if (dashboardData.headToHeadMatrix[team1] && dashboardData.headToHeadMatrix[team1][team2]) {
+                const record = dashboardData.headToHeadMatrix[team1][team2];
+                
+                // 실제 데이터에서 파싱
+                const recordParts = record.record.split('-');
+                const wins = parseInt(recordParts[0]);
+                const losses = parseInt(recordParts[1]);
+                const draws = recordParts.length > 2 ? parseInt(recordParts[2]) : 0;
+                
+                const winRateClass = parseFloat(record.win_rate) > 0.55 ? 'positive' : 
+                                   parseFloat(record.win_rate) < 0.45 ? 'negative' : 'neutral';
+                
+                // 실제 홈/원정 데이터 사용
+                const homeRecordParts = record.home_record.split('-');
+                const homeWins = parseInt(homeRecordParts[0]);
+                const homeLosses = parseInt(homeRecordParts[1]);
+                const homeDraws = homeRecordParts.length > 2 ? parseInt(homeRecordParts[2]) : 0;
+                
+                const awayRecordParts = record.away_record.split('-');
+                const awayWins = parseInt(awayRecordParts[0]);
+                const awayLosses = parseInt(awayRecordParts[1]);
+                const awayDraws = awayRecordParts.length > 2 ? parseInt(awayRecordParts[2]) : 0;
+                
+                // 홈/원정 승률 계산
+                const homeWinRate = (homeWins + homeLosses) > 0 ? (homeWins / (homeWins + homeLosses)) : 0;
+                const awayWinRate = (awayWins + awayLosses) > 0 ? (awayWins / (awayWins + awayLosses)) : 0;
+                
+                // 승률에 따른 배경색 설정
+                const winRate = parseFloat(record.win_rate);
+                let backgroundColor = '#f8f9fa';
+                let textColor = '#333';
+                
+                if (winRate > 0.6) {
+                    backgroundColor = 'rgba(22, 163, 74, 0.2)';
+                } else if (winRate > 0.5) {
+                    backgroundColor = 'rgba(22, 163, 74, 0.1)';
+                } else if (winRate < 0.4) {
+                    backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                } else if (winRate < 0.5) {
+                    backgroundColor = 'rgba(220, 38, 38, 0.1)';
+                }
+
+                return `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 8px;">
+                    <div style="font-size: 0.85rem; line-height: 1.3; text-align: center;">
+                        <div style="font-weight: 600; margin-bottom: 2px;">${wins}-${losses}-${draws} (${(winRate * 100).toFixed(1)}%)</div>
+                        <div style="font-size: 0.8rem; color: #555; margin-bottom: 1px;">🏠 ${homeWins}-${homeLosses}-${homeDraws} (${(homeWinRate * 100).toFixed(1)}%)</div>
+                        <div style="font-size: 0.8rem; color: #555;">✈️ ${awayWins}-${awayLosses}-${awayDraws} (${(awayWinRate * 100).toFixed(1)}%)</div>
+                    </div>
+                </td>`;
+            } else {
+                return '<td style="color: #999; font-weight: 500;">0승 0패<br><span style="font-size: 0.7rem;">(0.0%)</span></td>';
+            }
+        }
+
+        // 월별 성적 전체 분석 (행/열 반전)
+        function renderMonthlyFullAnalysis() {
+            const thead = document.getElementById('monthlyTableHead');
+            const tbody = document.getElementById('monthlyBody');
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+            
+            // 순위 순서대로 팀 정렬
+            const rankedTeams = dashboardData.standings.map(team => team.team_name);
+            
+            // 헤더 생성: 월 + 각 팀 (로고와 함께) - 승패와 승률 분리
+            const headerRow1 = document.createElement('tr');
+            const headerRow2 = document.createElement('tr');
+            
+            headerRow1.innerHTML = `
+                <th rowspan="2" style="min-width: 50px; vertical-align: middle; font-size: 0.85rem; white-space: nowrap;">월</th>
+                ${rankedTeams.map(team => `<th colspan="2" style="min-width: 120px; font-size: 0.8rem; white-space: nowrap; padding: 8px 4px;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+            `;
+            
+            headerRow2.innerHTML = `
+                ${rankedTeams.map(team => `<th style="min-width: 60px; font-size: 0.75rem; white-space: nowrap; padding: 6px 2px;">성적</th><th style="min-width: 50px; font-size: 0.75rem; white-space: nowrap; padding: 6px 2px;">승률</th>`).join('')}
+            `;
+            
+            thead.appendChild(headerRow1);
+            thead.appendChild(headerRow2);
+            
+            // 월별 데이터 (3월~8월)
+            const months = [3, 4, 5, 6, 7, 8];
+            const monthNames = ['3월', '4월', '5월', '6월', '7월', '8월'];
+            
+            // 먼저 팀별 데이터를 미리 계산 (최고월/최저월 판단용)
+            const teamStats = {};
+            rankedTeams.forEach(team => {
+                const monthlyData = dashboardData.monthlyPerformance[team];
+                const validMonths = monthlyData.filter(month => month.wins + month.losses > 0);
+                
+                if (validMonths.length > 0) {
+                    const teamRates = validMonths.map(month => ({
+                        rate: parseFloat(month.win_rate),
+                        month: month.month,
+                        record: `${month.wins}-${month.losses}${month.draws ? '-' + month.draws : ''}`,
+                        wins: month.wins,
+                        losses: month.losses,
+                        draws: month.draws || 0
+                    }));
+                    
+                    const bestMonth = teamRates.reduce((best, current) => current.rate > best.rate ? current : best);
+                    const worstMonth = teamRates.reduce((worst, current) => current.rate < worst.rate ? current : worst);
+                    
+                    teamStats[team] = {
+                        bestMonth: bestMonth,
+                        worstMonth: worstMonth
+                    };
+                }
+            });
+
+            months.forEach((monthNum, index) => {
+                const row = document.createElement('tr');
+                let html = `<td class="month-label"><strong>${monthNames[index]}</strong></td>`;
+                
+                let monthRates = []; // 해당 월의 모든 팀 승률
+                
+                // 각 팀의 해당 월 데이터 - 승패와 승률 분리
+                rankedTeams.forEach(team => {
+                    const monthlyData = dashboardData.monthlyPerformance[team];
+                    const monthData = monthlyData?.find(month => month.month === monthNum);
+                    
+                    if (monthData && monthData.wins + monthData.losses > 0) {
+                        const winRate = parseFloat(monthData.win_rate);
+                        monthRates.push(winRate);
+                        const winRateClass = winRate > 0.55 ? 'positive' : winRate < 0.45 ? 'negative' : 'neutral';
+                        
+                        const record = monthData.draws > 0 ? 
+                            `${monthData.wins}-${monthData.losses}-${monthData.draws}` : 
+                            `${monthData.wins}-${monthData.losses}`;
+                        
+                        // 최고월/최저월 확인
+                        const isBestMonth = teamStats[team] && teamStats[team].bestMonth.month === monthNum;
+                        const isWorstMonth = teamStats[team] && teamStats[team].worstMonth.month === monthNum;
+                        
+                        let recordStyle = '';
+                        let rateStyle = '';
+                        
+                        if (isBestMonth) {
+                            recordStyle = 'border-top: 2px solid #059669; border-left: 2px solid #059669; border-bottom: 2px solid #059669; border-right: 1px solid #e2e8f0;';
+                            rateStyle = 'border-top: 2px solid #059669; border-right: 2px solid #059669; border-bottom: 2px solid #059669; border-left: 1px solid #e2e8f0;';
+                        } else if (isWorstMonth) {
+                            recordStyle = 'border-top: 2px solid #dc2626; border-left: 2px solid #dc2626; border-bottom: 2px solid #dc2626; border-right: 1px solid #e2e8f0;';
+                            rateStyle = 'border-top: 2px solid #dc2626; border-right: 2px solid #dc2626; border-bottom: 2px solid #dc2626; border-left: 1px solid #e2e8f0;';
+                        }
+                        
+                        html += `
+                            <td class="month-record-cell" style="${recordStyle}">${record}</td>
+                            <td class="${winRateClass} month-rate-cell" style="${rateStyle}">${monthData.win_rate}</td>
+                        `;
+                    } else {
+                        html += '<td class="month-data" style="color: #999;">-</td><td class="month-data" style="color: #999;">-</td>';
+                    }
+                });
+                
+                
+                row.innerHTML = html;
+                tbody.appendChild(row);
+            });
+            
+            // 평균 승률 계산 추가
+            rankedTeams.forEach(team => {
+                if (teamStats[team]) {
+                    const monthlyData = dashboardData.monthlyPerformance[team];
+                    const validMonths = monthlyData.filter(month => month.wins + month.losses > 0);
+                    const teamRates = validMonths.map(month => parseFloat(month.win_rate));
+                    const teamAverage = (teamRates.reduce((a, b) => a + b, 0) / teamRates.length);
+                    teamStats[team].average = (teamAverage * 100).toFixed(1) + '%';
+                    teamStats[team].averageNum = teamAverage; // 비교용 숫자값
+                }
+            });
+            
+            // 전체 평균 계산
+            let allRates = [];
+            rankedTeams.forEach(team => {
+                const monthlyData = dashboardData.monthlyPerformance[team];
+                monthlyData.forEach(month => {
+                    if (month.wins + month.losses > 0) {
+                        allRates.push(parseFloat(month.win_rate));
+                    }
+                });
+            });
+            const totalAverage = allRates.length > 0 ? 
+                (allRates.reduce((a, b) => a + b, 0) / allRates.length).toFixed(3) : '-';
+
+            // 1. 팀별 평균 승률 행
+            const avgRow = document.createElement('tr');
+            avgRow.className = 'stats-row';
+            let avgHtml = `<td class="stats-label" style="background: #6b7280; color: white; border: 1px solid #4b5563;"><strong>평균 승률</strong></td>`;
+            
+            rankedTeams.forEach(team => {
+                if (teamStats[team]) {
+                    const avgClass = teamStats[team].averageNum > 0.55 ? 'positive' : 
+                                   teamStats[team].averageNum < 0.45 ? 'negative' : 'neutral';
+                    avgHtml += `<td colspan="2" class="${avgClass}" style="background: rgba(107, 114, 128, 0.1); text-align: center; border: 1px solid #d1d5db;"><strong>${teamStats[team].average}</strong></td>`;
+                } else {
+                    avgHtml += '<td colspan="2" style="background: rgba(107, 114, 128, 0.1); color: #999; text-align: center; border: 1px solid #d1d5db;">-</td>';
+                }
+            });
+            avgRow.innerHTML = avgHtml;
+            tbody.appendChild(avgRow);
+
+            // 월별 테이블 정렬 기능 초기화
+            const monthlyTable = document.getElementById('monthlyTable');
+            initializeSorting(monthlyTable);
+
+        }
+
+        // 요일별 성적 전체 분석
+        function renderWeekdayFullAnalysis() {
+            const tbody = document.getElementById('weekdayBody');
+            const days = ['월', '화', '수', '목', '금', '토', '일'];
+            
+            // 순위 순서대로 팀 정렬
+            const rankedTeams = dashboardData.standings.map(team => team.team_name);
+            
+            let html = '';
+            
+            rankedTeams.forEach(team => {
+                const weekdayData = dashboardData.weekdayPerformance[team];
+                const rank = dashboardData.standings.find(t => t.team_name === team).rank;
+                
+                html += `<tr>
+                    <td><strong>${rank}</strong></td>
+                    <td class="team-name"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></td>
+                `;
+                
+                // 각 요일별 데이터
+                days.forEach(day => {
+                    if (weekdayData && weekdayData[day]) {
+                        const winRate = (parseFloat(weekdayData[day].win_rate) * 100).toFixed(1);
+                        const winRateClass = parseFloat(weekdayData[day].win_rate) > 0.55 ? 'positive' : 
+                                           parseFloat(weekdayData[day].win_rate) < 0.45 ? 'negative' : 'neutral';
+                        const totalGames = weekdayData[day].wins + weekdayData[day].losses;
+                        html += `<td class="${winRateClass}" style="font-size: 0.8rem; padding: 8px; line-height: 1.3;">
+                            <div>${weekdayData[day].wins}-${weekdayData[day].losses} (${winRate}%)</div>
+                            <div style="font-size: 0.75rem; color: #666; margin-top: 2px;">${totalGames}경기</div>
+                        </td>`;
+                    } else {
+                        html += `<td style="color: #999; font-size: 0.85rem; padding: 8px;">0-0 (0.0%)</td>`;
+                    }
+                });
+                
+                // 주말승률 (토요일, 일요일)
+                let weekendWins = 0, weekendLosses = 0;
+                ['토', '일'].forEach(day => {
+                    if (weekdayData && weekdayData[day]) {
+                        weekendWins += weekdayData[day].wins;
+                        weekendLosses += weekdayData[day].losses;
+                    }
+                });
+                const weekendRate = (weekendWins + weekendLosses > 0) ? (weekendWins / (weekendWins + weekendLosses) * 100).toFixed(1) : '0.0';
+                const weekendClass = parseFloat(weekendRate) > 55 ? 'positive' : parseFloat(weekendRate) < 45 ? 'negative' : 'neutral';
+                
+                // 평일승률 (월~금)
+                let weekdayWins = 0, weekdayLosses = 0;
+                ['월', '화', '수', '목', '금'].forEach(day => {
+                    if (weekdayData && weekdayData[day]) {
+                        weekdayWins += weekdayData[day].wins;
+                        weekdayLosses += weekdayData[day].losses;
+                    }
+                });
+                const weekdayRate = (weekdayWins + weekdayLosses > 0) ? (weekdayWins / (weekdayWins + weekdayLosses) * 100).toFixed(1) : '0.0';
+                const weekdayClass = parseFloat(weekdayRate) > 55 ? 'positive' : parseFloat(weekdayRate) < 45 ? 'negative' : 'neutral';
+                
+                html += `
+                    <td>
+                        <div class="record-cell ${weekendClass}">
+                            <div class="record">${weekendWins}승 ${weekendLosses}패</div>
+                            <div class="rate">${weekendRate}%</div>
+                            <div class="games">${weekendWins + weekendLosses}경기</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="record-cell ${weekdayClass}">
+                            <div class="record">${weekdayWins}승 ${weekdayLosses}패</div>
+                            <div class="rate">${weekdayRate}%</div>
+                            <div class="games">${weekdayWins + weekdayLosses}경기</div>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            
+            tbody.innerHTML = html;
+        }
+
+        // 경기장별 성적 표 분석
+        function renderStadiumFullAnalysis() {
+            const thead = document.getElementById('stadiumTableHead');
+            const tbody = document.getElementById('stadiumTableBody');
+            
+            // 순위 순으로 팀 정렬
+            const rankedTeams = dashboardData.standings.map(team => team.team_name);
+            
+            // 헤더 생성 (순위 순으로 팀명만)
+            let headerHtml = '<tr><th>경기장</th>';
+            rankedTeams.forEach(team => {
+                headerHtml += `<th><strong>${team}</strong></th>`;
+            });
+            headerHtml += '</tr>';
+            thead.innerHTML = headerHtml;
+            
+            // 모든 경기장 수집
+            const stadiums = new Set();
+            rankedTeams.forEach(team => {
+                const stadiumData = dashboardData.stadiumRecords[team];
+                if (stadiumData) {
+                    stadiumData.forEach(record => stadiums.add(record.stadium));
+                }
+            });
+            
+            const stadiumList = Array.from(stadiums).sort();
+            let html = '';
+            
+            stadiumList.forEach(stadium => {
+                // 경기장 이름 단순화
+                let stadiumName = stadium;
+                if (stadium.includes('서울')) {
+                    stadiumName = stadium.includes('잠실') ? '서울 잠실야구장' : '서울 고척스카이돔';
+                } else {
+                    const parts = stadium.split(' ');
+                    stadiumName = parts[0] + ' ' + parts[1];
+                }
+                
+                // 홈팀 확인
+                const homeTeam = 
+                    stadium.includes('광주') ? 'KIA' :
+                    stadium.includes('잠실') ? 'LG/두산' :
+                    stadium.includes('대구') ? '삼성' :
+                    stadium.includes('인천') ? 'SSG' :
+                    stadium.includes('수원') ? 'KT' :
+                    stadium.includes('창원') ? 'NC' :
+                    stadium.includes('부산') ? '롯데' :
+                    stadium.includes('대전') ? '한화' :
+                    stadium.includes('고척') ? '키움' : '';
+                
+                html += `<tr>
+                    <td><strong>${stadiumName}</strong><br><span style="font-size: 0.8rem; color: #666;">🏠 ${homeTeam}</span></td>
+                `;
+                
+                // 각 팀별 해당 경기장 성적 (순위순)
+                rankedTeams.forEach(team => {
+                    const stadiumData = dashboardData.stadiumRecords[team];
+                    const teamRecord = stadiumData ? stadiumData.find(r => r.stadium === stadium) : null;
+                    
+                    if (teamRecord) {
+                        const winRate = (parseFloat(teamRecord.win_rate) * 100).toFixed(1);
+                        const winRateClass = parseFloat(teamRecord.win_rate) > 0.55 ? 'positive' : 
+                                           parseFloat(teamRecord.win_rate) < 0.45 ? 'negative' : 'neutral';
+                        const totalGames = teamRecord.wins + teamRecord.losses;
+                        
+                        // 홈팀인지 확인
+                        const isHome = 
+                            (team === 'KIA' && stadium.includes('광주')) ||
+                            ((team === 'LG' || team === '두산') && stadium.includes('잠실')) ||
+                            (team === '삼성' && stadium.includes('대구')) ||
+                            (team === 'SSG' && stadium.includes('인천')) ||
+                            (team === 'KT' && stadium.includes('수원')) ||
+                            (team === 'NC' && stadium.includes('창원')) ||
+                            (team === '롯데' && stadium.includes('부산')) ||
+                            (team === '한화' && stadium.includes('대전')) ||
+                            (team === '키움' && stadium.includes('고척'));
+                        
+                        html += `<td>
+                            <div class="record-cell ${winRateClass}" ${isHome ? 'style="background: #e8f4fd; border: 2px solid #3498db;"' : ''}>
+                                <div class="record">${teamRecord.wins}승 ${teamRecord.losses}패</div>
+                                <div class="rate">${winRate}%</div>
+                                <div class="games">${totalGames}경기${isHome ? ' 🏠' : ''}</div>
+                            </div>
+                        </td>`;
+                    } else {
+                        html += `<td>
+                            <div class="record-cell neutral">
+                                <div class="record">-</div>
+                                <div class="rate">-</div>
+                            </div>
+                        </td>`;
+                    }
+                });
+                
+                html += '</tr>';
+            });
+            
+            tbody.innerHTML = html;
+        }
+
+        // 테이블 정렬 기능
+        function makeTableSortable(tableId) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+            
+            const headers = table.querySelectorAll('th');
+            headers.forEach((header, index) => {
+                header.classList.add('sortable');
+                header.addEventListener('click', () => {
+                    sortTable(table, index, header);
+                });
+            });
+        }
+        
+        function sortTable(table, columnIndex, header) {
+            const tbody = table.querySelector('tbody');
+            const allRows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // 일반 데이터 행과 통계 행(월평균 등) 분리
+            const dataRows = allRows.filter(row => !row.classList.contains('stats-row'));
+            const statsRows = allRows.filter(row => row.classList.contains('stats-row'));
+            
+            // 현재 정렬 상태 확인
+            const currentSort = header.classList.contains('sort-asc') ? 'asc' : 
+                               header.classList.contains('sort-desc') ? 'desc' : 'none';
+            
+            // 모든 헤더의 정렬 클래스 제거
+            table.querySelectorAll('th').forEach(h => {
+                h.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            // 다음 정렬 방향 결정
+            const nextSort = currentSort === 'none' ? 'desc' : 
+                            currentSort === 'desc' ? 'asc' : 'desc';
+            
+            // 일반 데이터 행만 정렬
+            dataRows.sort((a, b) => {
+                const aCell = a.cells[columnIndex];
+                const bCell = b.cells[columnIndex];
+                
+                // 텍스트 추출 (HTML 태그 제거)
+                let aValue = aCell.textContent || aCell.innerText;
+                let bValue = bCell.textContent || bCell.innerText;
+                
+                // 숫자인지 확인 (승률, 득점 등)
+                const aNum = parseFloat(aValue.replace(/[^\d.-]/g, ''));
+                const bNum = parseFloat(bValue.replace(/[^\d.-]/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return nextSort === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+                
+                // 승-패 기록 정렬 (승수 기준)
+                if (aValue.includes('-') && bValue.includes('-')) {
+                    const aWins = parseInt(aValue.split('-')[0]);
+                    const bWins = parseInt(bValue.split('-')[0]);
+                    if (!isNaN(aWins) && !isNaN(bWins)) {
+                        return nextSort === 'asc' ? aWins - bWins : bWins - aWins;
+                    }
+                }
+                
+                // 문자열 정렬
+                return nextSort === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            });
+            
+            // tbody 초기화 후 데이터 행들 먼저 추가
+            tbody.innerHTML = '';
+            dataRows.forEach(row => tbody.appendChild(row));
+            
+            // 통계 행들을 맨 마지막에 추가 (고정 위치)
+            statsRows.forEach(row => tbody.appendChild(row));
+            
+            // 헤더에 정렬 상태 표시
+            header.classList.add(nextSort === 'asc' ? 'sort-asc' : 'sort-desc');
+        }
+        
+        // 모든 테이블에 정렬 기능 적용
+        function initializeTableSorting() {
+            const tableIds = [
+                'fullStandingsTable',
+                'pythagoreanTable', 
+                'clutchTable',
+                'homeAwayTable',
+                'monthlyTable',
+                'weekdayTable',
+                'stadiumTable'
+            ];
+            
+            tableIds.forEach(id => makeTableSortable(id));
+        }
+
+        // 페이지 로드 시 데이터 로드 및 정렬 기능 초기화
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDashboardData().then(() => {
+                // 데이터 로드 완료 후 정렬 기능 초기화
+                setTimeout(() => {
+                    initializeTableSorting();
+                }, 100);
+            });
+            
+            // 주차별 분석 데이터도 로드
+            loadWeeklyAnalysisData();
+        });
+    </script>
 </body>
 </html>
