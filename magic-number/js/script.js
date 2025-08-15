@@ -24,7 +24,7 @@ const kboTeams = {
     "롯데": { fullName: "롯데 자이언츠", color: "#041E42", logo: '<img src="images/lotte.png" class="team-logo" alt="롯데">' },
     "NC": { fullName: "NC 다이노스", color: "#315288", logo: '<img src="images/nc.png" class="team-logo" alt="NC">' },
     "키움": { fullName: "키움 히어로즈", color: "#570514", logo: '<img src="images/kiwoom.png" class="team-logo" alt="키움">' },
-    "KT": { fullName: "KT 위즈", color: "#000000", logo: '<img src="images/kt.png" class="team-logo" alt="KT">' }
+    "KT": { fullName: "KT 위즈", color: "#333333", logo: '<img src="images/kt.png" class="team-logo" alt="KT">' }
 };
 
         // KBO 순위 데이터 (동적 로딩)
@@ -500,6 +500,7 @@ const kboTeams = {
                 document.getElementById('recent-best-team').textContent = '-';
                 document.getElementById('recent-best-record').textContent = '-';
             }
+
         }
 
         // 테이블 정렬 상태
@@ -1104,7 +1105,7 @@ const kboTeams = {
                         <td>${maxPossibleWins}</td>
                         <td>${playoffMagic > 0 ? playoffMagic : '확정'}</td>
                         <td>${eliminationMagic > 0 ? '-' + eliminationMagic : '-'}</td>
-                        <td>${requiredWinRate > 0 ? (requiredWinRate * 100).toFixed(1) + '%' : '-'}</td>
+                        <td>${requiredWinRate > 0 ? requiredWinRate.toFixed(3) : '-'}</td>
                         <td class="${statusClass}">${status}</td>
                     `;
                     
@@ -1724,9 +1725,9 @@ const kboTeams = {
                         let backgroundColor;
                         let textColor = '#333'; // 모든 셀 통일된 텍스트 색상
                         
-                        if (winPct === 0.5) {
-                            // 정확히 50% 동률 - 하얀색 배경
-                            backgroundColor = 'white';
+                        if (winPct === 0.5 || draws > 0) {
+                            // 정확히 50% 동률 또는 무승부가 있는 경우 - 노란색 배경
+                            backgroundColor = 'rgba(255, 193, 7, 0.3)';
                         } else if (winPct > 0.5) {
                             // 50% 이상 - 승률이 높을수록 진한 초록색
                             const intensity = (winPct - 0.5) / 0.5; // 0.5-1.0을 0-1로 변환
@@ -1980,6 +1981,16 @@ const kboTeams = {
                     initDesktopToggle();
                 } catch (error) {
                     logger.error('❌ 데스크톱 토글 초기화 오류:', error);
+                }
+                
+                // 주차별 분석 초기화
+                try {
+                    if (typeof weeklyAnalysisDisplay !== 'undefined') {
+                        weeklyAnalysisDisplay.init();
+                        logger.log('✅ 주차별 분석 초기화 완료');
+                    }
+                } catch (error) {
+                    logger.error('❌ 주차별 분석 초기화 오류:', error);
                 }
                 
                 // 4. 툴팁 위치 조정
@@ -2236,6 +2247,10 @@ const kboTeams = {
         
         function scrollToRemaining() {
             scrollToSection('remaining');
+        }
+        
+        function scrollToWeeklyAnalysis() {
+            scrollToSection('weekly-analysis');
         }
 
         
