@@ -2323,6 +2323,57 @@
             }
         }
 
+        /* 시즌 진행률 카드 애니메이션 */
+        @keyframes progress-shine {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: calc(200px + 100%) 0;
+            }
+        }
+
+        .team-progress-item {
+            padding: 12px;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .team-progress-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .team-progress-bar {
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .team-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease-out;
+            position: relative;
+        }
+
+        .team-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.3) 25%, rgba(255,255,255,0.3) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.3) 75%);
+            background-size: 12px 12px;
+            animation: progress-shine 2s linear infinite;
+        }
+
     </style>
 </head>
 <body>
@@ -2344,6 +2395,7 @@
             <div class="nav-container">
                 <div class="nav-menu">
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
+                    <a href="#season-progress" class="nav-item">📈 시즌진행률</a>
                     <a href="#pythagorean" class="nav-item">📊 피타고리안</a>
                     <a href="#clutch" class="nav-item">⚾ 클러치</a>
                     <a href="#homeaway" class="nav-item">🏠 홈/원정</a>
@@ -2428,6 +2480,52 @@
                     <div><strong>홈우위:</strong> 홈승률-원정승률</div>
                     <div><strong>잔여경기:</strong> 정규시즌 총 144경기 중 남은 경기수</div>
                     <div><strong>연승패:</strong> 현재 연속 승/패 상태</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 시즌 진행률 카드 -->
+        <div class="card" id="season-progress">
+            <div class="card-header">
+                <span class="card-icon">📈</span>
+                <h2 class="card-title">2025 KBO 시즌 진행률</h2>
+            </div>
+            <div style="padding: 20px;">
+                <!-- 전체 시즌 진행률 -->
+                <div style="margin-bottom: 25px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: 600; font-size: 1.1rem; color: #374151;">전체 시즌 진행률</span>
+                        <span id="overall-progress-text" style="font-weight: 700; font-size: 1.2rem; color: #059669;">0%</span>
+                    </div>
+                    <div style="background: #e5e7eb; border-radius: 10px; height: 20px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                        <div id="overall-progress-bar" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: 0%; transition: width 1s ease-out; border-radius: 10px; position: relative;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.2) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.2) 75%); background-size: 20px 20px; animation: progress-shine 2s linear infinite;"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem; color: #6b7280;">
+                        <span>시즌 시작</span>
+                        <span id="games-info">0/1440 경기 완료</span>
+                        <span>정규시즌 종료</span>
+                    </div>
+                </div>
+
+                <!-- 팀별 경기 소화율 -->
+                <div>
+                    <h3 style="font-weight: 600; font-size: 1.1rem; color: #374151; margin-bottom: 15px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">팀별 경기 소화율</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;" id="team-progress-container">
+                        <!-- 팀별 진행률이 여기에 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+
+                <!-- 시즌 주요 일정 -->
+                <div style="margin-top: 30px; padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                    <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">🗓️ 시즌 주요 일정</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem; color: #4b5563;">
+                        <div><strong>정규시즌:</strong> 3월 ~ 10월</div>
+                        <div><strong>총 경기:</strong> 1,440경기 (팀당 144경기)</div>
+                        <div><strong>플레이오프:</strong> 10월 중순</div>
+                        <div><strong>한국시리즈:</strong> 10월 말 ~ 11월 초</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -5094,6 +5192,108 @@
             return html;
         }
 
+        // 시즌 진행률 업데이트 함수
+        function updateSeasonProgress() {
+            console.log('updateSeasonProgress 함수 호출됨');
+            console.log('dashboardData:', dashboardData);
+            
+            if (!dashboardData || !dashboardData.standings) {
+                console.log('dashboardData 또는 standings가 없음');
+                return;
+            }
+
+            const teams = dashboardData.standings;
+            let totalGamesPlayed = 0;
+            const totalPossibleGames = 720; // 10팀이 서로 경기하는 총 경기 수 (1440÷2)
+            const gamesPerTeam = 144;
+            
+            console.log('teams 배열:', teams);
+            console.log('teams 길이:', teams?.length);
+            
+            // 팀별 색상 정의 (JSON의 team_name 기준)
+            const teamColors = {
+                'LG': '#C30452',
+                'KIA': '#EA0029', 
+                'SSG': '#CE0E2D',
+                '삼성': '#1E22AA',
+                '두산': '#131230',
+                'KT': '#000000',
+                'NC': '#315288',
+                '롯데': '#041E42',
+                '한화': '#FF6600',
+                '키움': '#570D28'
+            };
+            
+            // 팀명 매핑 (JSON 이름 → 전체 이름)
+            const teamFullNames = {
+                'LG': 'LG 트윈스',
+                'KIA': 'KIA 타이거즈', 
+                'SSG': 'SSG 랜더스',
+                '삼성': '삼성 라이온즈',
+                '두산': '두산 베어스',
+                'KT': 'KT 위즈',
+                'NC': 'NC 다이노스',
+                '롯데': '롯데 자이언츠',
+                '한화': '한화 이글스',
+                '키움': '키움 히어로즈'
+            };
+
+            // 전체 경기 수 계산
+            teams.forEach(team => {
+                totalGamesPlayed += parseInt(team.games_played);
+            });
+            totalGamesPlayed = Math.floor(totalGamesPlayed / 2); // 각 경기가 두 팀에 계산되므로 나누기 2
+
+            const overallProgress = Math.min((totalGamesPlayed / totalPossibleGames) * 100, 100);
+
+            // 전체 진행률 업데이트
+            setTimeout(() => {
+                document.getElementById('overall-progress-bar').style.width = `${overallProgress}%`;
+                document.getElementById('overall-progress-text').textContent = `${overallProgress.toFixed(1)}%`;
+                document.getElementById('games-info').textContent = `${totalGamesPlayed}/${totalPossibleGames} 경기 완료`;
+            }, 500);
+
+            // 팀별 진행률 생성
+            const teamProgressContainer = document.getElementById('team-progress-container');
+            teamProgressContainer.innerHTML = '';
+
+            teams.forEach((team, index) => {
+                const gamesPlayed = parseInt(team.games_played);
+                const progress = Math.min((gamesPlayed / gamesPerTeam) * 100, 100);
+                const teamColor = teamColors[team.team_name] || '#6366f1';
+                const fullTeamName = teamFullNames[team.team_name] || team.team_name;
+
+                const teamProgressItem = document.createElement('div');
+                teamProgressItem.className = 'team-progress-item';
+                teamProgressItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <img src="images/${team.team_name.toLowerCase()}.png" 
+                                 alt="${fullTeamName}" 
+                                 style="width: 20px; height: 20px; object-fit: contain;">
+                            <span style="font-weight: 600; font-size: 0.95rem;">${fullTeamName}</span>
+                        </div>
+                        <span style="font-weight: 700; color: ${teamColor};">${progress.toFixed(1)}%</span>
+                    </div>
+                    <div class="team-progress-bar">
+                        <div class="team-progress-fill" 
+                             style="background: linear-gradient(90deg, ${teamColor}, ${teamColor}aa); width: 0%;">
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #6b7280;">
+                        <span>${gamesPlayed}경기 완료</span>
+                        <span>${gamesPerTeam - gamesPlayed}경기 남음</span>
+                    </div>
+                `;
+
+                teamProgressContainer.appendChild(teamProgressItem);
+
+                // 애니메이션 효과로 진행률 바 채우기
+                setTimeout(() => {
+                    teamProgressItem.querySelector('.team-progress-fill').style.width = `${progress}%`;
+                }, 800 + (index * 100));
+            });
+        }
 
 
 
@@ -5107,7 +5307,13 @@
                 // 대시보드 로드 완료 후 정렬 기능 초기화
                 setTimeout(() => {
                     initializeTableSorting();
+                    updateSeasonProgress(); // 시즌 진행률 업데이트
                 }, 100);
+                
+                // 추가로 조금 더 늦게 한번 더 호출
+                setTimeout(() => {
+                    updateSeasonProgress();
+                }, 1000);
             }).catch(error => {
                 console.error('대시보드 데이터 로드 실패:', error);
             });
