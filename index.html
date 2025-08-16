@@ -4461,7 +4461,10 @@
                 let backgroundColor = colorScheme.default.bg;
                 let textColor = colorScheme.default.color;
                 
-                if (winRate > 0.6) {
+                if (winRate === 0.5 || (draws > 0 && totalGames > 0)) {
+                    // 정확히 50% 동률 또는 무승부가 있는 경우 - 노란색 배경
+                    backgroundColor = colorScheme.neutral.bgMedium;
+                } else if (winRate > 0.6) {
                     backgroundColor = colorScheme.positive.bgStrong;
                 } else if (winRate > 0.5) {
                     backgroundColor = colorScheme.positive.bgMedium;
