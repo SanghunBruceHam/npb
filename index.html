@@ -1414,7 +1414,7 @@
         
         /* rowspan 헤더 (주차, 기간) */
         .weekly-table th[rowspan="2"] {
-            font-size: var(--font-md);
+            font-size: var(--font-base);
             font-weight: var(--font-weight-bold);
             min-width: 80px;
             vertical-align: middle;
@@ -1557,10 +1557,16 @@
             font-weight: var(--winrate-font-weight) !important;
         }
         
-        /* 모든 테이블의 모든 요소에 강제 폰트 적용 */
-        table td *, table th *, table strong, table b, table span {
+        /* 모든 테이블의 td 요소에만 강제 폰트 적용 (th는 제외) */
+        table td *, table strong, table b, table span {
             font-family: inherit !important;
             font-weight: inherit !important;
+        }
+        
+        /* 테이블 헤더는 별도로 폰트 강제 적용 */
+        table th {
+            font-family: var(--font-family-base) !important;
+            font-size: var(--font-base) !important;
         }
         
         /* 숫자가 포함된 모든 셀에 데이터 폰트 강제 적용 */
@@ -4162,11 +4168,11 @@
             
             headerRow1.innerHTML = `
                 <th rowspan="2" style="min-width: 50px; vertical-align: middle; font-size: var(--font-base); white-space: nowrap;">월</th>
-                ${rankedTeams.map(team => `<th colspan="2" style="min-width: 110px; font-size: var(--font-sm); white-space: nowrap; padding: 8px 4px;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                ${rankedTeams.map(team => `<th colspan="2" style="min-width: 110px; font-size: var(--font-base); white-space: nowrap; padding: 8px 4px;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
             `;
             
             headerRow2.innerHTML = `
-                ${rankedTeams.map(team => `<th style="min-width: 55px; font-size: var(--font-xs); white-space: nowrap; padding: 6px 2px;">성적</th><th style="min-width: 50px; font-size: var(--font-xs); white-space: nowrap; padding: 6px 2px;">승률</th>`).join('')}
+                ${rankedTeams.map(team => `<th style="min-width: 55px; font-size: var(--font-base); white-space: nowrap; padding: 6px 2px;">성적</th><th style="min-width: 50px; font-size: var(--font-base); white-space: nowrap; padding: 6px 2px;">승률</th>`).join('')}
             `;
             
             thead.appendChild(headerRow1);
