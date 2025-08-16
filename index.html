@@ -144,8 +144,8 @@
             --data-font-weight: var(--font-weight-semibold);
             --data-font-size: var(--font-base);
             
-            /* 승률 표시용 통합 스타일 (기존 모노스페이스 유지) */
-            --winrate-font-family: var(--font-family-mono);
+            /* 승률 표시용 통합 스타일 (일반 폰트로 통일) */
+            --winrate-font-family: var(--font-family-base);
             --winrate-font-weight: var(--font-weight-semibold);
             --winrate-font-size: var(--font-base);
             
@@ -1584,6 +1584,22 @@
         * th {
             font-family: var(--font-family-base) !important;
             font-size: var(--font-base) !important;
+        }
+        
+        /* 승률 관련 헤더 특별 처리 - 절대 우선순위 */
+        table th:nth-child(8),   /* 승률 헤더 */
+        table th:nth-child(13),  /* P승률 헤더 */
+        table th:nth-child(16),  /* 1점차승률 헤더 */
+        table th:nth-child(17),  /* 홈승률 헤더 */
+        table th:nth-child(18),  /* 원정승률 헤더 */
+        #fullStandingsTable th:nth-child(8),
+        #fullStandingsTable th:nth-child(13),
+        #fullStandingsTable th:nth-child(16),
+        #fullStandingsTable th:nth-child(17),
+        #fullStandingsTable th:nth-child(18) {
+            font-family: var(--font-family-base) !important;
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-semibold) !important;
         }
         
         /* 숫자가 포함된 모든 셀에 데이터 폰트 강제 적용 */
