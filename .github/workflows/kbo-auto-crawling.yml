@@ -150,7 +150,14 @@ jobs:
         npm run database-update
         echo "✅ 데이터베이스 업데이트 완료"
 
-    # 10-3. 추가 분석 데이터 생성 (루트 index.html용)
+    # 10-3. 게임별 기록 분석 (의존성 파일 생성)
+    - name: 🏆 게임별 기록 분석
+      run: |
+        echo "🏆 게임별 기록 분석 중..."
+        npm run weekly-game-analysis
+        echo "✅ game-by-game-records.json 생성 완료"
+
+    # 10-4. 추가 분석 데이터 생성 (루트 index.html용)
     - name: 📈 고급 분석 데이터 생성
       run: |
         echo "🔍 고급 분석 데이터 생성 중..."
