@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KBO 2025 종합 분석 대시보드 - 한국프로야구 순위표, 상대전적, 매직넘버</title>
+    <title>KBO 2025 시즌 진행률 및 순위표 | 한국프로야구 실시간 분석 대시보드</title>
     
     <!-- SEO 메타데이터 -->
-    <meta name="description" content="KBO 2025시즌 종합 분석 대시보드. 팀 순위표, 상대전적, 매직넘버, 홈/원정 성적, 클러치 상황 분석 등 한국프로야구의 모든 데이터를 실시간으로 제공합니다.">
-    <meta name="keywords" content="KBO, 한국프로야구, 2025시즌, 순위표, 상대전적, 매직넘버, 야구통계, 프로야구분석, 홈원정성적, 클러치분석">
+    <meta name="description" content="KBO 2025시즌 종합 분석 대시보드. 시즌 진행률, 팀 순위표, 상대전적, 매직넘버, 홈/원정 성적, 클러치 상황 분석 등 한국프로야구의 모든 데이터를 실시간으로 제공합니다.">
+    <meta name="keywords" content="KBO, 한국프로야구, 2025시즌, 시즌진행률, 순위표, 상대전적, 매직넘버, 야구통계, 프로야구분석, 홈원정성적, 클러치분석, 팀별소화율">
     <meta name="author" content="KBO 분석 대시보드">
     <link rel="canonical" href="https://sanghunbruceham.github.io/kbo/">
     
     <!-- Open Graph 메타데이터 -->
     <meta property="og:title" content="KBO 2025 종합 분석 대시보드">
-    <meta property="og:description" content="한국프로야구 2025시즌의 모든 데이터를 한눈에 분석하고 비교할 수 있는 종합 대시보드">
+    <meta property="og:description" content="한국프로야구 2025시즌의 모든 데이터를 한눈에 분석하고 비교할 수 있는 종합 대시보드. 시즌 진행률, 실시간 순위, 상대전적, 매직넘버 등 제공">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sanghunbruceham.github.io/kbo/">
     <meta property="og:image" content="https://sanghunbruceham.github.io/kbo/images/kbo-dashboard-preview.png">
@@ -23,7 +23,7 @@
     <!-- Twitter Card 메타데이터 -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="KBO 2025 종합 분석 대시보드">
-    <meta name="twitter:description" content="한국프로야구 2025시즌 종합 분석 - 순위표, 상대전적, 매직넘버, 홈원정성적 등">
+    <meta name="twitter:description" content="한국프로야구 2025시즌 종합 분석 - 시즌 진행률, 순위표, 상대전적, 매직넘버, 홈원정성적 등">
     <meta name="twitter:image" content="https://sanghunbruceham.github.io/kbo/images/kbo-dashboard-preview.png">
     
     <!-- 파비콘 및 앱 아이콘 -->
@@ -40,20 +40,87 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
     
+    <!-- 추가 SEO 최적화 -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
+    <!-- 성능 최적화 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preload" href="magic-number/data/enhanced-dashboard.json" as="fetch" crossorigin>
+    
+    <!-- 지역/언어 설정 -->
+    <meta name="geo.region" content="KR">
+    <meta name="geo.country" content="KR">
+    <meta name="language" content="Korean">
+    <link rel="alternate" hreflang="ko" href="https://sanghunbruceham.github.io/kbo/">
+    
     <!-- 구조화된 데이터 (JSON-LD) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebSite",
+        "@type": ["WebSite", "DataCatalog"],
         "name": "KBO 2025 종합 분석 대시보드",
-        "description": "한국프로야구 2025시즌의 모든 데이터를 한눈에 분석하고 비교할 수 있는 종합 대시보드",
+        "alternateName": "한국프로야구 실시간 분석 대시보드",
+        "description": "한국프로야구 2025시즌의 모든 데이터를 한눈에 분석하고 비교할 수 있는 종합 대시보드. 시즌 진행률, 실시간 순위, 상대전적, 매직넘버 등 제공",
         "url": "https://sanghunbruceham.github.io/kbo/",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://sanghunbruceham.github.io/kbo/"
+        },
         "author": {
             "@type": "Organization",
             "name": "KBO 분석 대시보드"
         },
-        "inLanguage": "ko",
-        "keywords": "KBO, 한국프로야구, 2025시즌, 순위표, 상대전적, 매직넘버, 야구통계"
+        "publisher": {
+            "@type": "Organization",
+            "name": "KBO 분석 대시보드"
+        },
+        "inLanguage": "ko-KR",
+        "dateCreated": "2025-01-01",
+        "dateModified": "2025-08-16",
+        "keywords": ["KBO", "한국프로야구", "2025시즌", "시즌진행률", "순위표", "상대전적", "매직넘버", "야구통계", "실시간분석"],
+        "about": {
+            "@type": "SportsOrganization",
+            "name": "한국야구위원회",
+            "alternateName": "KBO"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://sanghunbruceham.github.io/kbo/#{search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "홈",
+                    "item": "https://sanghunbruceham.github.io/kbo/"
+                },
+                {
+                    "@type": "ListItem", 
+                    "position": 2,
+                    "name": "시즌 진행률",
+                    "item": "https://sanghunbruceham.github.io/kbo/#season-progress"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3, 
+                    "name": "종합 순위",
+                    "item": "https://sanghunbruceham.github.io/kbo/#standings"
+                }
+            ]
+        }
     }
     </script>
     
@@ -2323,15 +2390,7 @@
             }
         }
 
-        /* 시즌 진행률 카드 애니메이션 */
-        @keyframes progress-shine {
-            0% {
-                background-position: -200px 0;
-            }
-            100% {
-                background-position: calc(200px + 100%) 0;
-            }
-        }
+        /* 시즌 진행률 카드 스타일 */
 
         .team-progress-item {
             padding: 12px;
@@ -2369,9 +2428,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.3) 25%, rgba(255,255,255,0.3) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.3) 75%);
-            background-size: 12px 12px;
-            animation: progress-shine 2s linear infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            /* 애니메이션 제거 - 정적인 글로우 효과만 */
         }
 
     </style>
@@ -2381,7 +2439,8 @@
     <div class="header">
         <div class="header-content">
             <h1>🏆 KBO 2025 종합 분석 대시보드</h1>
-            <p class="subtitle">피타고리안 기대승률, 클러치 상황, 홈 어드밴티지 등 15가지 확장 지표 분석</p>
+            <p class="subtitle">실시간 순위 · 시즌 진행률 · 피타고리안 승률 · 클러치 지수 · 팀별 상대전적 등<br>
+            KBO 리그의 모든 데이터를 한눈에 분석하는 종합 통계 플랫폼</p>
             <div class="update-info" id="updateInfo">
                 📅 데이터 업데이트 중...
             </div>
@@ -2394,8 +2453,8 @@
         <nav class="navigation">
             <div class="nav-container">
                 <div class="nav-menu">
+                    <a href="#season-progress" class="nav-item">📈 진행률</a>
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
-                    <a href="#season-progress" class="nav-item">📈 시즌진행률</a>
                     <a href="#pythagorean" class="nav-item">📊 피타고리안</a>
                     <a href="#clutch" class="nav-item">⚾ 클러치</a>
                     <a href="#homeaway" class="nav-item">🏠 홈/원정</a>
@@ -2428,6 +2487,67 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <!-- 시즌 진행률 카드 -->
+        <div class="card" id="season-progress">
+            <div class="card-header">
+                <span class="card-icon">📈</span>
+                <h2 class="card-title">2025 KBO 시즌 진행률</h2>
+            </div>
+            <div style="padding: 20px;">
+                <!-- 전체 시즌 진행률 -->
+                <div style="margin-bottom: 25px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: 600; font-size: 1.1rem; color: #374151;">전체 시즌 진행률</span>
+                        <span id="overall-progress-text" style="font-weight: 700; font-size: 1.2rem; color: #059669;">0%</span>
+                    </div>
+                    <div style="background: #e5e7eb; border-radius: 10px; height: 20px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                        <div id="overall-progress-bar" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: 0%; transition: width 1s ease-out; border-radius: 10px; position: relative;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem; color: #6b7280;">
+                        <span>시즌 시작</span>
+                        <span id="games-info">0/720 경기 완료</span>
+                        <span>정규시즌 종료</span>
+                    </div>
+                </div>
+
+                <!-- 팀별 경기 소화율 -->
+                <div>
+                    <h3 style="font-weight: 600; font-size: 1.1rem; color: #374151; margin-bottom: 15px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">팀별 경기 소화율</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;" id="team-progress-container">
+                        <!-- 팀별 진행률이 여기에 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+
+                <!-- 시즌 주요 일정 -->
+                <div style="margin-top: 30px; padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                    <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">🗓️ 시즌 주요 일정</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem; color: #4b5563;">
+                        <div><strong>정규시즌:</strong> 3월 ~ 9월</div>
+                        <div><strong>총 경기:</strong> 720경기 (팀당 144경기)</div>
+                        <div><strong>올스타전:</strong> 7월 11~12일 (대전)</div>
+                        <div><strong>와일드카드:</strong> 10월 초</div>
+                        <div><strong>플레이오프:</strong> 10월 중순</div>
+                        <div><strong>한국시리즈:</strong> 10월 말</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 광고: 시즌 진행률과 종합 순위 사이 -->
+        <div style="text-align: center; margin: 30px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5508768187151867"
+                 data-ad-slot="7298546648"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
         <!-- 1. 종합 순위표 (전체 지표) -->
@@ -2480,52 +2600,6 @@
                     <div><strong>홈우위:</strong> 홈승률-원정승률</div>
                     <div><strong>잔여경기:</strong> 정규시즌 총 144경기 중 남은 경기수</div>
                     <div><strong>연승패:</strong> 현재 연속 승/패 상태</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 시즌 진행률 카드 -->
-        <div class="card" id="season-progress">
-            <div class="card-header">
-                <span class="card-icon">📈</span>
-                <h2 class="card-title">2025 KBO 시즌 진행률</h2>
-            </div>
-            <div style="padding: 20px;">
-                <!-- 전체 시즌 진행률 -->
-                <div style="margin-bottom: 25px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="font-weight: 600; font-size: 1.1rem; color: #374151;">전체 시즌 진행률</span>
-                        <span id="overall-progress-text" style="font-weight: 700; font-size: 1.2rem; color: #059669;">0%</span>
-                    </div>
-                    <div style="background: #e5e7eb; border-radius: 10px; height: 20px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                        <div id="overall-progress-bar" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: 0%; transition: width 1s ease-out; border-radius: 10px; position: relative;">
-                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.2) 25%, rgba(255,255,255,0.2) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.2) 75%); background-size: 20px 20px; animation: progress-shine 2s linear infinite;"></div>
-                        </div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem; color: #6b7280;">
-                        <span>시즌 시작</span>
-                        <span id="games-info">0/1440 경기 완료</span>
-                        <span>정규시즌 종료</span>
-                    </div>
-                </div>
-
-                <!-- 팀별 경기 소화율 -->
-                <div>
-                    <h3 style="font-weight: 600; font-size: 1.1rem; color: #374151; margin-bottom: 15px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">팀별 경기 소화율</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;" id="team-progress-container">
-                        <!-- 팀별 진행률이 여기에 동적으로 생성됩니다 -->
-                    </div>
-                </div>
-
-                <!-- 시즌 주요 일정 -->
-                <div style="margin-top: 30px; padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #3b82f6;">
-                    <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">🗓️ 시즌 주요 일정</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem; color: #4b5563;">
-                        <div><strong>정규시즌:</strong> 3월 ~ 10월</div>
-                        <div><strong>총 경기:</strong> 1,440경기 (팀당 144경기)</div>
-                        <div><strong>플레이오프:</strong> 10월 중순</div>
-                        <div><strong>한국시리즈:</strong> 10월 말 ~ 11월 초</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -5237,6 +5311,20 @@
                 '한화': '한화 이글스',
                 '키움': '키움 히어로즈'
             };
+            
+            // 팀 로고 파일명 매핑 (JSON 이름 → 파일명)
+            const teamLogoFiles = {
+                'LG': 'lg',
+                'KIA': 'kia', 
+                'SSG': 'ssg',
+                '삼성': 'samsung',
+                '두산': 'doosan',
+                'KT': 'kt',
+                'NC': 'nc',
+                '롯데': 'lotte',
+                '한화': 'hanwha',
+                '키움': 'kiwoom'
+            };
 
             // 전체 경기 수 계산
             teams.forEach(team => {
@@ -5262,15 +5350,17 @@
                 const progress = Math.min((gamesPlayed / gamesPerTeam) * 100, 100);
                 const teamColor = teamColors[team.team_name] || '#6366f1';
                 const fullTeamName = teamFullNames[team.team_name] || team.team_name;
+                const logoFile = teamLogoFiles[team.team_name] || team.team_name.toLowerCase();
 
                 const teamProgressItem = document.createElement('div');
                 teamProgressItem.className = 'team-progress-item';
                 teamProgressItem.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <img src="images/${team.team_name.toLowerCase()}.png" 
+                            <img src="images/${logoFile}.png" 
                                  alt="${fullTeamName}" 
-                                 style="width: 20px; height: 20px; object-fit: contain;">
+                                 style="width: 20px; height: 20px; object-fit: contain;"
+                                 onerror="this.style.display='none';">
                             <span style="font-weight: 600; font-size: 0.95rem;">${fullTeamName}</span>
                         </div>
                         <span style="font-weight: 700; color: ${teamColor};">${progress.toFixed(1)}%</span>
@@ -5393,7 +5483,7 @@
             
             // 페이지 상단에 있을 때는 첫 번째 섹션을 활성화
             if (window.scrollY < 100) {
-                activeSection = 'standings';
+                activeSection = 'season-progress';
             }
             
             // 네비게이션 아이템 활성 상태 업데이트
