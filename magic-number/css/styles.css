@@ -111,6 +111,22 @@ body {
     background: rgba(255, 255, 255, 0.1);
     transform: translateY(-1px);
 }
+
+/* 메인 대시보드 링크 스타일 */
+.nav-menu a.main-dashboard {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-menu a.main-dashboard:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
 .nav-toggle {
     display: none;
     background: none;

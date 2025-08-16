@@ -2187,6 +2187,121 @@
             transform: translateY(-1px);
         }
 
+        /* 매직넘버 카드 스타일 */
+        .magic-number-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .magic-number-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .magic-number-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0;
+        }
+
+        .magic-number-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .magic-number-icon {
+            font-size: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+        }
+
+        .magic-number-text h3 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .magic-number-text p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .magic-number-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .magic-number-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .magic-number-button .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .magic-number-button:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 768px) {
+            .magic-number-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .magic-number-left {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .magic-number-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .magic-number-text h3 {
+                font-size: 1.3rem;
+            }
+
+            .magic-number-text p {
+                font-size: 0.9rem;
+            }
+
+            .magic-number-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
         @media (max-width: 1024px) {
             .nav-menu {
                 justify-content: flex-start;
@@ -2243,6 +2358,25 @@
                 </div>
             </div>
         </nav>
+
+        <!-- 매직넘버 계산기 링크 카드 -->
+        <div class="card magic-number-card" style="margin-bottom: 30px;">
+            <div class="magic-number-content">
+                <div class="magic-number-left">
+                    <div class="magic-number-icon">📊</div>
+                    <div class="magic-number-text">
+                        <h3>2025 KBO 매직넘버 계산기</h3>
+                        <p>플레이오프 진출 조건과 우승 가능성을 상세히 분석해보세요</p>
+                    </div>
+                </div>
+                <div class="magic-number-right">
+                    <a href="magic-number/index.html" class="magic-number-button">
+                        <span>자세히 보기</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <!-- 1. 종합 순위표 (전체 지표) -->
         <div class="card" id="standings">
