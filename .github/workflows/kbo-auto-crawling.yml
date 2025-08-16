@@ -134,18 +134,39 @@ jobs:
         npm run process
         echo "✅ 기본 데이터 처리 완료"
 
-    # 10-1. 데이터베이스 업데이트
+    # 10-1. 데이터 디렉토리 권한 확인 및 설정
+    - name: 📁 데이터 디렉토리 권한 설정
+      run: |
+        echo "📁 데이터 디렉토리 권한 확인 중..."
+        mkdir -p magic-number/data
+        chmod -R 755 magic-number/data
+        ls -la magic-number/data/
+        echo "✅ 데이터 디렉토리 권한 설정 완료"
+
+    # 10-2. 데이터베이스 업데이트
     - name: 🗄️ 데이터베이스 업데이트
       run: |
         echo "🗄️ SQLite 데이터베이스 업데이트 중..."
         npm run database-update
         echo "✅ 데이터베이스 업데이트 완료"
 
-    # 10-2. 추가 분석 데이터 생성 (루트 index.html용)
+    # 10-3. 추가 분석 데이터 생성 (루트 index.html용)
     - name: 📈 고급 분석 데이터 생성
       run: |
         echo "🔍 고급 분석 데이터 생성 중..."
         npm run analysis
+        
+        # 생성된 JSON 파일들 확인
+        echo "📋 생성된 분석 데이터 파일 확인:"
+        for file in enhanced-dashboard.json weekly-analysis.json clutch-analysis.json home-away-analysis.json series-analysis.json; do
+          if [ -f "magic-number/data/$file" ]; then
+            SIZE=$(du -h "magic-number/data/$file" | cut -f1)
+            echo "  ✅ $file (${SIZE})"
+          else
+            echo "  ❌ $file - 파일이 생성되지 않음"
+          fi
+        done
+        
         echo "✅ 모든 분석 데이터 생성 완료"
 
     # 11. 자동 백업 생성
