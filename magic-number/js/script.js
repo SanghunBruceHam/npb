@@ -236,12 +236,31 @@ const kboTeams = {
                 const dataDate = data?.dataDate || '날짜 없음';
                 const updateDate = data?.updateDate || new Date().toLocaleDateString('ko-KR');
                 
-                // 현재 시간 (페이지 로딩 시간)
-                const now = new Date();
-                const loadTime = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+                // 실제 크롤링 시간 사용 (lastUpdated 필드에서)
+                let crawlTime = '';
+                if (data?.lastUpdated) {
+                    const lastUpdated = new Date(data.lastUpdated);
+                    crawlTime = lastUpdated.toLocaleString('ko-KR', { 
+                        year: 'numeric',
+                        month: 'numeric', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }).replace(/\. /g, '. ').replace(/\.$/, '');
+                } else {
+                    // 백업: 현재 시간 사용
+                    const now = new Date();
+                    crawlTime = now.toLocaleString('ko-KR', { 
+                        year: 'numeric',
+                        month: 'numeric', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }).replace(/\. /g, '. ').replace(/\.$/, '');
+                }
                 
-                // 표시 텍스트 구성 - 데이터 날짜를 명확하게 표시
-                const displayText = `${dataDate} 경기 데이터 (${loadTime} 로드)`;
+                // 표시 텍스트 구성 - 마지막 크롤링 시간 표시
+                const displayText = `${crawlTime} KBO 공식`;
                 
                 // 모든 데이터 정보 표시 업데이트
                 const loadTimeElements = document.querySelectorAll('.data-load-time');
