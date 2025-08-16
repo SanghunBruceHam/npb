@@ -10,24 +10,24 @@
     "run_diff": 8
   },
   "LG": {
-    "games": 111,
+    "games": 112,
     "wins": 67,
-    "losses": 42,
+    "losses": 43,
     "draws": 2,
-    "runs_scored": 590,
-    "runs_allowed": 426,
-    "win_rate": "0.615",
-    "run_diff": 164
+    "runs_scored": 597,
+    "runs_allowed": 436,
+    "win_rate": "0.609",
+    "run_diff": 161
   },
   "삼성": {
-    "games": 111,
-    "wins": 52,
+    "games": 112,
+    "wins": 53,
     "losses": 58,
     "draws": 1,
-    "runs_scored": 562,
-    "runs_allowed": 507,
-    "win_rate": "0.473",
-    "run_diff": 55
+    "runs_scored": 566,
+    "runs_allowed": 508,
+    "win_rate": "0.477",
+    "run_diff": 58
   },
   "두산": {
     "games": 112,
@@ -50,44 +50,44 @@
     "run_diff": -14
   },
   "SSG": {
-    "games": 109,
-    "wins": 54,
+    "games": 110,
+    "wins": 55,
     "losses": 51,
     "draws": 4,
-    "runs_scored": 432,
-    "runs_allowed": 415,
-    "win_rate": "0.514",
-    "run_diff": 17
+    "runs_scored": 442,
+    "runs_allowed": 422,
+    "win_rate": "0.519",
+    "run_diff": 20
   },
   "롯데": {
-    "games": 113,
+    "games": 114,
     "wins": 58,
-    "losses": 52,
+    "losses": 53,
     "draws": 3,
-    "runs_scored": 528,
-    "runs_allowed": 553,
-    "win_rate": "0.527",
-    "run_diff": -25
+    "runs_scored": 529,
+    "runs_allowed": 557,
+    "win_rate": "0.523",
+    "run_diff": -28
   },
   "한화": {
-    "games": 110,
+    "games": 111,
     "wins": 65,
-    "losses": 42,
+    "losses": 43,
     "draws": 3,
-    "runs_scored": 497,
-    "runs_allowed": 406,
-    "win_rate": "0.607",
-    "run_diff": 91
+    "runs_scored": 503,
+    "runs_allowed": 415,
+    "win_rate": "0.602",
+    "run_diff": 88
   },
   "NC": {
-    "games": 106,
-    "wins": 49,
+    "games": 107,
+    "wins": 50,
     "losses": 51,
     "draws": 6,
-    "runs_scored": 529,
-    "runs_allowed": 559,
-    "win_rate": "0.490",
-    "run_diff": -30
+    "runs_scored": 538,
+    "runs_allowed": 565,
+    "win_rate": "0.495",
+    "run_diff": -27
   },
   "키움": {
     "games": 114,
