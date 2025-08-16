@@ -2442,7 +2442,7 @@
             <p class="subtitle">실시간 순위 · 시즌 진행률 · 피타고리안 승률 · 클러치 지수 · 팀별 상대전적 등<br>
             KBO 리그의 모든 데이터를 한눈에 분석하는 종합 통계 플랫폼</p>
             <div class="update-info" id="updateInfo">
-                📅 데이터 업데이트 중...
+                📅 데이터 로딩 중...
             </div>
         </div>
     </div>
@@ -3198,6 +3198,42 @@
             return `<span>${teamName}</span>`;
         }
 
+        // 데이터 정보 업데이트 함수 (header + footer)
+        function updateDataInfo(data) {
+            try {
+                // enhanced-dashboard.json에서는 updateTime 필드 사용
+                const updateTimeField = data?.lastUpdated || data?.updateTime;
+                if (updateTimeField) {
+                    const lastUpdated = new Date(updateTimeField);
+                    const updateTimeText = lastUpdated.toLocaleString('ko-KR', { 
+                        year: 'numeric',
+                        month: 'numeric', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }).replace(/\. /g, '. ').replace(/\.$/, '');
+                    
+                    // 헤더 업데이트
+                    const updateInfoElement = document.getElementById('updateInfo');
+                    if (updateInfoElement) {
+                        updateInfoElement.textContent = `📅 ${updateTimeText} 데이터 사용중`;
+                        console.log('📊 헤더 데이터 정보 업데이트:', updateTimeText);
+                    }
+                    
+                    // Footer 업데이트
+                    const dataInfoElement = document.querySelector('.data-info');
+                    if (dataInfoElement) {
+                        dataInfoElement.textContent = `${updateTimeText} 데이터 사용중`;
+                        console.log('📊 Footer 데이터 정보 업데이트:', updateTimeText);
+                    }
+                } else {
+                    console.warn('⚠️ 데이터 정보 업데이트 실패: updateTime/lastUpdated 데이터 없음', data);
+                }
+            } catch (error) {
+                console.error('❌ 데이터 정보 업데이트 실패:', error);
+            }
+        }
+        
         // 데이터 로드
         async function loadDashboardData() {
             try {
@@ -3218,11 +3254,17 @@
                 
                 console.log('🎯 renderDashboard 호출 시작');
                 await renderDashboard();
+                
+                // 데이터 정보 업데이트 (renderDashboard 호출 후)
+                updateDataInfo(dashboardData);
                 console.log('✅ 모든 데이터 로드 및 렌더링 완료');
                 return Promise.resolve();
             } catch (error) {
                 console.error('❌ 데이터 로드 실패:', error);
-                document.getElementById('updateInfo').textContent = '❌ 데이터 로드 실패: ' + error.message;
+                const updateInfoElement = document.getElementById('updateInfo');
+                if (updateInfoElement) {
+                    updateInfoElement.textContent = '❌ 데이터 로드 실패';
+                }
                 return Promise.reject(error);
             }
         }
@@ -3285,9 +3327,7 @@
 
             console.log('📊 대시보드 렌더링 시작');
             
-            // 업데이트 정보
-            document.getElementById('updateInfo').textContent = 
-                `📅 ${dashboardData.updateDate} 업데이트`;
+            // 업데이트 정보는 updateDataInfo 함수에서 처리됨
 
             console.log('1️⃣ renderFullStandings 호출');
             try { renderFullStandings(); } catch(e) { console.error('renderFullStandings 오류:', e); }
@@ -4507,11 +4547,11 @@
             
             headerRow1.innerHTML = `
                 <th rowspan="2" style="min-width: 50px; vertical-align: middle; font-size: var(--font-base); white-space: nowrap;">월</th>
-                ${rankedTeams.map(team => `<th colspan="2" style="min-width: 110px; font-size: var(--font-base); white-space: nowrap; padding: 8px 4px;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                ${rankedTeams.map(team => `<th colspan="2" style="min-width: 100px; font-size: var(--font-sm); white-space: nowrap; padding: 6px 2px;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
             `;
             
             headerRow2.innerHTML = `
-                ${rankedTeams.map(team => `<th style="min-width: 55px; font-size: var(--font-base); white-space: nowrap; padding: 6px 2px;">성적</th><th style="min-width: 50px; font-size: var(--font-base); white-space: nowrap; padding: 6px 2px;">승률</th>`).join('')}
+                ${rankedTeams.map(team => `<th style="min-width: 45px; font-size: var(--font-sm); white-space: nowrap; padding: 4px 2px;">성적</th><th style="min-width: 40px; font-size: var(--font-sm); white-space: nowrap; padding: 4px 2px;">승률</th>`).join('')}
             `;
             
             thead.appendChild(headerRow1);
@@ -4596,11 +4636,11 @@
                         const monthWinRateClass = getWinRateClass(winRate);
                         
                         html += `
-                            <td class="month-record-cell ${monthWinRateClass}" style="${cellStyle}">${record}</td>
-                            <td class="month-rate-cell ${monthWinRateClass}" style="${cellStyle}">${winRate.toFixed(3)}</td>
+                            <td class="month-record-cell ${monthWinRateClass}" style="${cellStyle} white-space: nowrap; font-size: var(--font-xs); padding: 6px 2px; text-align: center;">${record}</td>
+                            <td class="month-rate-cell ${monthWinRateClass}" style="${cellStyle} white-space: nowrap; font-size: var(--font-xs); padding: 6px 2px; text-align: center;">${winRate.toFixed(3)}</td>
                         `;
                     } else {
-                        html += '<td class="month-data" style="background: #f8f9fa; color: #999; padding: 8px;">-</td><td class="month-data" style="background: #f8f9fa; color: #999; padding: 8px;">-</td>';
+                        html += '<td class="month-data" style="background: #f8f9fa; color: #999; padding: 6px 2px; white-space: nowrap; font-size: var(--font-xs); text-align: center;">-</td><td class="month-data" style="background: #f8f9fa; color: #999; padding: 6px 2px; white-space: nowrap; font-size: var(--font-xs); text-align: center;">-</td>';
                     }
                 });
                 
@@ -4637,15 +4677,15 @@
             // 1. 팀별 평균 승률 행
             const avgRow = document.createElement('tr');
             avgRow.className = 'stats-row';
-            let avgHtml = `<td class="stats-label" style="background: #6b7280; color: white; border: 1px solid #4b5563;"><strong>승률</strong></td>`;
+            let avgHtml = `<td class="stats-label" style="background: #6b7280; color: white; border: 1px solid #4b5563; white-space: nowrap; font-size: var(--font-sm); padding: 6px 4px;"><strong>평균</strong></td>`;
             
             rankedTeams.forEach(team => {
                 if (teamStats[team]) {
                     const avgClass = teamStats[team].averageNum > 0.55 ? 'positive' : 
                                    teamStats[team].averageNum < 0.45 ? 'negative' : 'neutral';
-                    avgHtml += `<td colspan="2" class="${avgClass}" style="background: rgba(107, 114, 128, 0.1); text-align: center; border: 1px solid #d1d5db;"><strong>${teamStats[team].average}</strong></td>`;
+                    avgHtml += `<td colspan="2" class="${avgClass}" style="background: rgba(107, 114, 128, 0.1); text-align: center; border: 1px solid #d1d5db; white-space: nowrap; font-size: var(--font-sm); padding: 6px 2px;"><strong>${teamStats[team].average}</strong></td>`;
                 } else {
-                    avgHtml += '<td colspan="2" style="background: rgba(107, 114, 128, 0.1); color: #999; text-align: center; border: 1px solid #d1d5db;">-</td>';
+                    avgHtml += '<td colspan="2" style="background: rgba(107, 114, 128, 0.1); color: #999; text-align: center; border: 1px solid #d1d5db; white-space: nowrap; font-size: var(--font-sm); padding: 6px 2px;">-</td>';
                 }
             });
             avgRow.innerHTML = avgHtml;
@@ -4825,7 +4865,7 @@
             // 헤더 생성 (순위 순으로 팀명과 로고)
             let headerHtml = '<tr><th style="min-width: 180px; padding: 8px 12px; white-space: nowrap;">경기장</th>';
             rankedTeams.forEach(team => {
-                headerHtml += `<th style="min-width: 90px; padding: 8px 4px; font-size: var(--font-base); white-space: nowrap;"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></th>`;
+                headerHtml += `<th style="min-width: 80px; padding: 6px 4px; font-size: var(--font-sm); white-space: nowrap;"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></th>`;
             });
             headerHtml += '</tr>';
             thead.innerHTML = headerHtml;
@@ -4923,17 +4963,18 @@
                             recordColor = '#1d4ed8'; // 파란색 텍스트
                         }
                         
-                        html += `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 8px;">
-                            <div style="font-size: var(--font-base); line-height: 1.3; text-align: center;">
-                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 2px; color: ${recordColor};">${teamRecord.wins}-${teamRecord.losses}-${teamRecord.draws || 0} (${winRate})</div>
-                                <div style="font-size: var(--font-sm); color: ${textColor}; margin-top: 1px;">${totalGames}경기${isHome ? ' 🏠' : ''}</div>
+                        html += `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 6px 4px; white-space: nowrap; min-width: 80px;">
+                            <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
+                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; color: ${recordColor}; white-space: nowrap;">${teamRecord.wins}-${teamRecord.losses}-${teamRecord.draws || 0}</div>
+                                <div style="font-size: var(--font-xs); color: ${recordColor}; white-space: nowrap;">(${winRate})</div>
+                                <div style="font-size: var(--font-xs); color: ${textColor}; margin-top: 1px; white-space: nowrap;">${totalGames}경기${isHome ? ' 🏠' : ''}</div>
                             </div>
                         </td>`;
                     } else {
-                        html += `<td style="background: #f8f9fa; color: #999; padding: 8px;">
-                            <div style="font-size: var(--font-base); line-height: 1.3; text-align: center;">
-                                <div style="font-weight: var(--font-weight-semibold);">-</div>
-                                <div style="font-size: var(--font-sm);">&nbsp;</div>
+                        html += `<td style="background: #f8f9fa; color: #999; padding: 6px 4px; white-space: nowrap; min-width: 80px;">
+                            <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
+                                <div style="font-weight: var(--font-weight-semibold); white-space: nowrap;">-</div>
+                                <div style="font-size: var(--font-xs); white-space: nowrap;">&nbsp;</div>
                             </div>
                         </td>`;
                     }
