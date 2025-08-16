@@ -1,102 +1,102 @@
 {
   "KIA": {
-    "games": 107,
+    "games": 109,
     "wins": 53,
-    "losses": 50,
+    "losses": 52,
     "draws": 4,
-    "runs_scored": 519,
-    "runs_allowed": 509,
-    "win_rate": "0.515",
-    "run_diff": 10
+    "runs_scored": 527,
+    "runs_allowed": 519,
+    "win_rate": "0.505",
+    "run_diff": 8
   },
   "LG": {
-    "games": 110,
-    "wins": 66,
+    "games": 111,
+    "wins": 67,
     "losses": 42,
     "draws": 2,
-    "runs_scored": 585,
-    "runs_allowed": 423,
-    "win_rate": "0.611",
-    "run_diff": 162
+    "runs_scored": 590,
+    "runs_allowed": 426,
+    "win_rate": "0.615",
+    "run_diff": 164
   },
   "삼성": {
-    "games": 110,
-    "wins": 51,
+    "games": 111,
+    "wins": 52,
     "losses": 58,
     "draws": 1,
-    "runs_scored": 552,
-    "runs_allowed": 503,
-    "win_rate": "0.468",
-    "run_diff": 49
+    "runs_scored": 562,
+    "runs_allowed": 507,
+    "win_rate": "0.473",
+    "run_diff": 55
   },
   "두산": {
-    "games": 110,
-    "wins": 46,
+    "games": 112,
+    "wins": 48,
     "losses": 59,
     "draws": 5,
-    "runs_scored": 489,
-    "runs_allowed": 506,
-    "win_rate": "0.438",
-    "run_diff": -17
+    "runs_scored": 499,
+    "runs_allowed": 514,
+    "win_rate": "0.449",
+    "run_diff": -15
   },
   "KT": {
-    "games": 111,
+    "games": 113,
     "wins": 54,
-    "losses": 53,
+    "losses": 55,
     "draws": 4,
-    "runs_scored": 479,
-    "runs_allowed": 488,
-    "win_rate": "0.505",
-    "run_diff": -9
+    "runs_scored": 485,
+    "runs_allowed": 499,
+    "win_rate": "0.495",
+    "run_diff": -14
   },
   "SSG": {
-    "games": 108,
+    "games": 109,
     "wins": 54,
-    "losses": 50,
+    "losses": 51,
     "draws": 4,
-    "runs_scored": 429,
-    "runs_allowed": 410,
-    "win_rate": "0.519",
-    "run_diff": 19
+    "runs_scored": 432,
+    "runs_allowed": 415,
+    "win_rate": "0.514",
+    "run_diff": 17
   },
   "롯데": {
-    "games": 112,
+    "games": 113,
     "wins": 58,
-    "losses": 51,
+    "losses": 52,
     "draws": 3,
-    "runs_scored": 524,
-    "runs_allowed": 543,
-    "win_rate": "0.532",
-    "run_diff": -19
+    "runs_scored": 528,
+    "runs_allowed": 553,
+    "win_rate": "0.527",
+    "run_diff": -25
   },
   "한화": {
-    "games": 109,
-    "wins": 64,
+    "games": 110,
+    "wins": 65,
     "losses": 42,
     "draws": 3,
-    "runs_scored": 488,
-    "runs_allowed": 404,
-    "win_rate": "0.604",
-    "run_diff": 84
+    "runs_scored": 497,
+    "runs_allowed": 406,
+    "win_rate": "0.607",
+    "run_diff": 91
   },
   "NC": {
-    "games": 105,
+    "games": 106,
     "wins": 49,
-    "losses": 50,
+    "losses": 51,
     "draws": 6,
-    "runs_scored": 527,
-    "runs_allowed": 550,
-    "win_rate": "0.495",
-    "run_diff": -23
+    "runs_scored": 529,
+    "runs_allowed": 559,
+    "win_rate": "0.490",
+    "run_diff": -30
   },
   "키움": {
-    "games": 112,
-    "wins": 34,
+    "games": 114,
+    "wins": 36,
     "losses": 74,
     "draws": 4,
-    "runs_scored": 428,
-    "runs_allowed": 684,
-    "win_rate": "0.315",
-    "run_diff": -256
+    "runs_scored": 439,
+    "runs_allowed": 690,
+    "win_rate": "0.327",
+    "run_diff": -251
   }
 }

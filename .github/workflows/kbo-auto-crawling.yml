@@ -143,21 +143,28 @@ jobs:
         ls -la magic-number/data/
         echo "✅ 데이터 디렉토리 권한 설정 완료"
 
-    # 10-2. 데이터베이스 업데이트
+    # 10-2. 시즌 데이터 파싱 (데이터베이스용)
+    - name: 📊 시즌 데이터 파싱
+      run: |
+        echo "📊 시즌 데이터 파싱 중..."
+        npm run parse-season-data
+        echo "✅ 2025-season-games.json 생성 완료"
+
+    # 10-3. 데이터베이스 업데이트
     - name: 🗄️ 데이터베이스 업데이트
       run: |
         echo "🗄️ SQLite 데이터베이스 업데이트 중..."
         npm run database-update
         echo "✅ 데이터베이스 업데이트 완료"
 
-    # 10-3. 게임별 기록 분석 (의존성 파일 생성)
+    # 10-4. 게임별 기록 분석 (의존성 파일 생성)
     - name: 🏆 게임별 기록 분석
       run: |
         echo "🏆 게임별 기록 분석 중..."
         npm run weekly-game-analysis
         echo "✅ game-by-game-records.json 생성 완료"
 
-    # 10-4. 추가 분석 데이터 생성 (루트 index.html용)
+    # 10-5. 추가 분석 데이터 생성 (루트 index.html용)
     - name: 📈 고급 분석 데이터 생성
       run: |
         echo "🔍 고급 분석 데이터 생성 중..."
