@@ -1563,8 +1563,25 @@
             font-weight: inherit !important;
         }
         
-        /* 테이블 헤더는 별도로 폰트 강제 적용 */
-        table th {
+        /* 테이블 헤더는 별도로 폰트 강제 적용 - 최우선순위 */
+        table th,
+        .full-standings-table th,
+        .detail-table th,
+        .matrix-table th,
+        #monthlyTable th,
+        .weekly-table th,
+        .all-teams-table th,
+        .detailed-game-table th,
+        .series-stats-table th,
+        #weekdayTable th,
+        th[style*="font-size"] {
+            font-family: var(--font-family-base) !important;
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-semibold) !important;
+        }
+        
+        /* 모든 테이블 헤더에 대한 최우선 적용 */
+        * th {
             font-family: var(--font-family-base) !important;
             font-size: var(--font-base) !important;
         }
