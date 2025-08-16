@@ -133,7 +133,14 @@ jobs:
         npm run process
         echo "✅ 기본 데이터 처리 완료"
 
-    # 10-1. 추가 분석 데이터 생성 (루트 index.html용)
+    # 10-1. 데이터베이스 업데이트
+    - name: 🗄️ 데이터베이스 업데이트
+      run: |
+        echo "🗄️ SQLite 데이터베이스 업데이트 중..."
+        npm run database-update
+        echo "✅ 데이터베이스 업데이트 완료"
+
+    # 10-2. 추가 분석 데이터 생성 (루트 index.html용)
     - name: 📈 고급 분석 데이터 생성
       run: |
         echo "🔍 고급 분석 데이터 생성 중..."
