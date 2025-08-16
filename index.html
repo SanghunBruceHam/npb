@@ -4863,7 +4863,7 @@
             console.log('rankedTeams:', rankedTeams);
             
             // 헤더 생성 (순위 순으로 팀명과 로고)
-            let headerHtml = '<tr><th style="min-width: 180px; padding: 8px 12px; white-space: nowrap;">경기장</th>';
+            let headerHtml = '<tr><th style="min-width: 140px; padding: 6px 8px; white-space: nowrap;">경기장</th>';
             rankedTeams.forEach(team => {
                 headerHtml += `<th style="min-width: 80px; padding: 6px 4px; font-size: var(--font-sm); white-space: nowrap;"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></th>`;
             });
@@ -4967,7 +4967,7 @@
                             <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
                                 <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; color: ${recordColor}; white-space: nowrap;">${teamRecord.wins}-${teamRecord.losses}-${teamRecord.draws || 0}</div>
                                 <div style="font-size: var(--font-xs); color: ${recordColor}; white-space: nowrap;">(${winRate})</div>
-                                <div style="font-size: var(--font-xs); color: ${textColor}; margin-top: 1px; white-space: nowrap;">${totalGames}경기${isHome ? ' 🏠' : ''}</div>
+                                <div style="font-size: var(--font-xs); color: ${textColor}; margin-top: 1px; white-space: nowrap;">${isHome ? '🏠 ' : ''}${totalGames}경기</div>
                             </div>
                         </td>`;
                     } else {
