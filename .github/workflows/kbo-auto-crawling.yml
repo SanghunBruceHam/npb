@@ -38,6 +38,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # 전체 히스토리 가져오기
 
     # 2. Node.js 환경 설정
     - name: 🟢 Node.js 설정
@@ -210,8 +211,28 @@ jobs:
         🤖 Generated with GitHub Actions
         Co-Authored-By: KBO-Auto-Crawler <action@github.com>"
         
-        # 푸시 실행
-        git push
+        # 원격 변경사항 확인 및 안전한 푸시
+        git fetch origin main
+        
+        # 원격에 새로운 커밋이 있는지 확인
+        LOCAL_HEAD=$(git rev-parse HEAD)
+        REMOTE_HEAD=$(git rev-parse origin/main)
+        
+        if [ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]; then
+          echo "⚠️ 원격에 새로운 변경사항이 있습니다. 리베이스 시도..."
+          git pull --rebase origin main
+          if [ $? -ne 0 ]; then
+            echo "❌ 리베이스 실패. 현재 변경사항으로 강제 푸시합니다."
+            git push --force-with-lease origin main
+          else
+            echo "✅ 리베이스 성공. 정상 푸시합니다."
+            git push origin main
+          fi
+        else
+          echo "✅ 원격과 동기화됨. 정상 푸시합니다."
+          git push origin main
+        fi
+        
         echo "✅ 자동 커밋 및 푸시 완료"
 
     # 14. 실행 결과 요약
