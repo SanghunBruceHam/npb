@@ -127,19 +127,6 @@
     </script>
     
     <script>
-        function requestDesktopSite() {
-            // 모바일 기기 체크
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // viewport를 PC 버전으로 변경
-                document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1400, initial-scale=0.5, user-scalable=yes');
-                // 페이지 새로고침
-                location.reload();
-            } else {
-                alert('이미 PC 버전으로 보고 계십니다.');
-            }
-        }
         
         // 모바일/태블릿 기기에서만 안내 메시지 표시
         document.addEventListener('DOMContentLoaded', function() {
@@ -147,13 +134,35 @@
             const isSmallScreen = window.innerWidth <= 768;
             const deviceNotice = document.getElementById('deviceNotice');
             
-            // 모바일 기기이거나 화면이 작은 경우에만 표시
+            // 사용자가 PC 버전 선택했는지 확인
+            const forcePCVersion = localStorage.getItem('forcePCVersion') === 'true';
+            
+            // PC 버전으로 보기 버튼 이벤트
+            window.switchToPCVersion = function() {
+                localStorage.setItem('forcePCVersion', 'true');
+                if (deviceNotice) deviceNotice.style.display = 'none';
+                // 모바일 스타일 무효화
+                document.body.classList.add('force-desktop');
+            };
+            
+            // 모바일 버전으로 돌아가기 기능
+            window.switchToMobileVersion = function() {
+                localStorage.removeItem('forcePCVersion');
+                location.reload();
+            };
+            
+            // 모바일 기기이거나 화면이 작은 경우에만 표시 (PC 버전 강제 선택하지 않은 경우)
             if (deviceNotice) {
-                if (isMobile || isSmallScreen) {
+                if (!forcePCVersion && (isMobile || isSmallScreen)) {
                     deviceNotice.style.display = 'block';
                 } else {
                     deviceNotice.style.display = 'none';
                 }
+            }
+            
+            // PC 버전 강제 선택된 상태라면 모바일 스타일 무효화
+            if (forcePCVersion) {
+                document.body.classList.add('force-desktop');
             }
         });
     </script>
@@ -1666,6 +1675,16 @@
             .mobile-notice {
                 display: block !important;
             }
+            
+            /* PC 버전 강제 모드에서는 모바일 스타일 무효화 */
+            body.force-desktop .mobile-notice {
+                display: none !important;
+            }
+            
+            /* PC 버전 강제 시 일부 모바일 최적화 해제 */
+            body.force-desktop {
+                min-width: 1200px;
+            }
 
             /* 모바일에서 업데이트 정보 스타일 개선 */
             .update-info {
@@ -2833,7 +2852,7 @@
                         모바일에서는 <strong>가로 모드</strong> 사용을 권장합니다.
                     </div>
                     <div style="margin-top: 6px;">
-                        <a href="javascript:void(0);" onclick="requestDesktopSite()" style="color: #ffd700; text-decoration: underline; font-size: 0.75rem; font-weight: 500;">PC 버전으로 보기</a>
+                        <a href="javascript:void(0);" onclick="switchToPCVersion()" style="color: #ffd700; text-decoration: underline; font-size: 0.75rem; font-weight: 500;">PC 버전으로 보기</a>
                     </div>
                 </div>
             </div>
