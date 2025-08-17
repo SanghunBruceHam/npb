@@ -279,7 +279,7 @@
         }
 
         .header-content {
-            max-width: 1600px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 0;
         }
@@ -317,9 +317,27 @@
         
         @media (min-width: 900px) {
             .full-grid {
-                grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
                 gap: 25px;
                 margin-bottom: 30px;
+                max-width: 1400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        /* 대형 화면에서는 최대 2-3컬럼으로 제한 */
+        @media (min-width: 1400px) {
+            .full-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 1200px;
+            }
+        }
+
+        /* PC 버전 전체 컨테이너 폭 제한 */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1300px;
             }
         }
 
@@ -661,7 +679,7 @@
 
         .matrix-table th,
         .matrix-table td {
-            padding: 10px 8px;
+            padding: 6px 8px;
             text-align: center;
             border: 1px solid #d1d5db;
             position: relative;
@@ -679,6 +697,15 @@
             padding: 12px 8px;
             text-align: center;
         }
+        
+        /* 왼쪽 팀명 열 간격 조정 */
+        .matrix-table th:first-child,
+        .matrix-table td:first-child {
+            padding: 8px 4px !important;
+            min-width: 70px !important;
+            width: 70px !important;
+            max-width: 70px !important;
+        }
 
         .matrix-table td {
             background: white;
@@ -690,12 +717,17 @@
             transform: scale(1.02);
         }
 
-        .matrix-record {
-            font-family: var(--data-font-family);
-            font-weight: var(--data-font-weight);
-            font-size: var(--font-md);
-            display: block;
-            margin-bottom: 2px;
+        .matrix-table .matrix-record {
+            font-family: var(--data-font-family) !important;
+            font-weight: var(--font-weight-bold) !important;
+            font-size: var(--font-lg) !important;
+            display: block !important;
+            margin-bottom: 12px !important;
+            color: #1f2937 !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            padding: 4px 6px !important;
+            border-radius: 6px !important;
+            border: 1px solid rgba(209, 213, 219, 0.6) !important;
         }
         
         .matrix-cell-detailed {
@@ -703,10 +735,13 @@
             font-size: var(--font-base);
         }
         
-        .matrix-details {
-            margin-top: 4px;
-            padding-top: 4px;
-            border-top: 1px solid #eee;
+        .matrix-table .matrix-details {
+            margin-top: 12px !important;
+            padding-top: 10px !important;
+            border-top: 2px solid #d1d5db !important;
+            background: rgba(248, 249, 250, 0.5) !important;
+            border-radius: 4px !important;
+            padding: 8px 4px 6px 4px !important;
         }
         
         .home-away-split {
@@ -715,17 +750,38 @@
             gap: 4px;
         }
         
-        .home-record, .away-record {
-            font-size: var(--font-xs);
-            padding: 1px 3px;
-            border-radius: 3px;
-            background: #f8f9fa;
-            color: #666;
+        .matrix-table .home-record, 
+        .matrix-table .away-record {
+            font-size: var(--font-xs) !important;
+            padding: 3px 6px !important;
+            border-radius: 4px !important;
+            background: #f8f9fa !important;
+            border: 1px solid #e9ecef !important;
+            font-weight: var(--font-weight-medium) !important;
         }
         
-        .home-record:hover, .away-record:hover {
-            background: #e9ecef;
-            color: #333;
+        .matrix-table .home-record {
+            color: #2563eb !important;
+            background: rgba(37, 99, 235, 0.1) !important;
+            border-color: rgba(37, 99, 235, 0.2) !important;
+        }
+        
+        .matrix-table .away-record {
+            color: #dc2626 !important;
+            background: rgba(220, 38, 38, 0.1) !important;
+            border-color: rgba(220, 38, 38, 0.2) !important;
+        }
+        
+        .matrix-table .home-record:hover {
+            background: rgba(37, 99, 235, 0.2) !important;
+            border-color: rgba(37, 99, 235, 0.4) !important;
+            color: #1d4ed8 !important;
+        }
+        
+        .matrix-table .away-record:hover {
+            background: rgba(220, 38, 38, 0.2) !important;
+            border-color: rgba(220, 38, 38, 0.4) !important;
+            color: #b91c1c !important;
         }
 
         .matrix-rate {
@@ -3226,6 +3282,32 @@
             }
         };
 
+        // 통합 색상 관리 함수 - 승률에 따라 배경색과 텍스트 색상을 모두 반환
+        function getUnifiedCellStyle(winRate) {
+            let backgroundColor = colorScheme.default.bg;
+            let textColor = colorScheme.default.color;
+            
+            if (winRate === 0.5) {
+                // 정확히 50% 동률인 경우만 - 노란색 배경
+                backgroundColor = colorScheme.neutral.bgMedium;
+                textColor = colorScheme.neutral.color;
+            } else if (winRate > 0.6) {
+                backgroundColor = colorScheme.positive.bgStrong;
+                textColor = colorScheme.positive.color;
+            } else if (winRate > 0.5) {
+                backgroundColor = colorScheme.positive.bgMedium;
+                textColor = colorScheme.positive.color;
+            } else if (winRate < 0.4) {
+                backgroundColor = colorScheme.negative.bgStrong;
+                textColor = colorScheme.negative.color;
+            } else if (winRate < 0.5) {
+                backgroundColor = colorScheme.negative.bgMedium;
+                textColor = colorScheme.negative.color;
+            }
+            
+            return { backgroundColor, textColor };
+        }
+
         // 팀 로고 매핑 (통합)
         const teamLogos = {
             'LG': 'magic-number/images/lg.png',
@@ -3507,9 +3589,9 @@
                             }
                             
                             return `
-                                <td class="${winRateClass}" style="font-size: var(--font-sm); padding: 8px; line-height: 1.3; text-align: center;">
-                                    <div style="font-weight: var(--font-weight-semibold); margin-bottom: 2px;">${weekStats.wins}-${weekStats.losses}-${weekStats.draws} (<span class="baseball-winrate-inline">${normalizedWinRate.toFixed(3)}</span>)</div>
-                                    <div style="font-size: var(--font-xs); color: #666; margin-top: 2px;">${totalGames}경기</div>
+                                <td class="${winRateClass}" style="font-size: var(--font-sm); padding: 6px; line-height: 1.2; text-align: center;">
+                                    <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekStats.wins}-${weekStats.losses}-${weekStats.draws} (<span class="baseball-winrate-inline">${normalizedWinRate.toFixed(3)}</span>)</div>
+                                    <div style="font-size: var(--font-xs); color: #666; margin-top: 1px;">${totalGames}경기</div>
                                 </td>
                             `;
                         }).join('')}
@@ -3941,9 +4023,10 @@
 
         // 승률에 따른 CSS 클래스 계산 (0.xxx 형식 기준)
         function getWinRateClass(winRate) {
+            if (winRate === 0.5) return 'neutral';     // 정확히 0.500 - 노란색  
             if (winRate > 0.55) return 'positive';     // 0.550 초과 - 좋음
             if (winRate < 0.45) return 'negative';     // 0.450 미만 - 나쁨  
-            return 'neutral';                          // 0.450-0.550 - 보통
+            return 'default';                          // 0.450-0.550 (0.5 제외) - 기본색
         }
         
         // 레거시 지원용 (0.xxx 형식 기준)
@@ -4516,27 +4599,15 @@
                 const awayGames = awayWins + awayLosses;
                 const awayWinRate = awayGames > 0 ? awayWins / awayGames : 0;
                 
-                // 승률에 따른 배경색 설정
-                let backgroundColor = colorScheme.default.bg;
-                let textColor = colorScheme.default.color;
-                
-                if (winRate === 0.5) {
-                    // 정확히 50% 동률인 경우만 - 노란색 배경
-                    backgroundColor = colorScheme.neutral.bgMedium;
-                } else if (winRate > 0.6) {
-                    backgroundColor = colorScheme.positive.bgStrong;
-                } else if (winRate > 0.5) {
-                    backgroundColor = colorScheme.positive.bgMedium;
-                } else if (winRate < 0.4) {
-                    backgroundColor = colorScheme.negative.bgStrong;
-                } else if (winRate < 0.5) {
-                    backgroundColor = colorScheme.negative.bgMedium;
-                }
+                // 통합 색상 관리 함수 사용
+                const cellStyle = getUnifiedCellStyle(winRate);
+                const backgroundColor = cellStyle.backgroundColor;
+                const textColor = cellStyle.textColor;
 
-                return `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 8px;">
+                return `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 4px 6px;">
                     <div style="font-size: var(--font-base); line-height: 1.3; text-align: center;">
-                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 2px;">${wins}-${losses}-${draws} (${winRate.toFixed(3)})</div>
-                        <div style="font-size: var(--font-sm); color: ${textColor}; margin-bottom: 1px;">🏠 ${homeWins}-${homeLosses}-${homeDraws} (${homeWinRate.toFixed(3)})</div>
+                        <div style="font-weight: var(--font-weight-bold); font-size: var(--font-base); margin-bottom: 4px;">${wins}-${losses}-${draws} (${winRate.toFixed(3)})</div>
+                        <div style="font-size: var(--font-sm); color: ${textColor}; margin-bottom: 2px;">🏠 ${homeWins}-${homeLosses}-${homeDraws} (${homeWinRate.toFixed(3)})</div>
                         <div style="font-size: var(--font-sm); color: ${textColor};">✈️ ${awayWins}-${awayLosses}-${awayDraws} (${awayWinRate.toFixed(3)})</div>
                     </div>
                 </td>`;
@@ -4671,35 +4742,28 @@
                         const isBestMonth = teamStats[team] && teamStats[team].bestMonth.month === monthNum;
                         const isWorstMonth = teamStats[team] && teamStats[team].worstMonth.month === monthNum;
                         
-                        // 다른 테이블과 동일한 색상 스타일 적용
-                        let backgroundColor = colorScheme.default.bg;
-                        let textColor = colorScheme.default.color;
+                        // 통합 색상 관리 함수 사용
+                        let cellStyle = getUnifiedCellStyle(winRate);
+                        let backgroundColor = cellStyle.backgroundColor;
+                        let textColor = cellStyle.textColor;
                         
-                        if (winRate === 0.5 || (monthData.draws && monthData.draws > 0)) {
-                            // 정확히 50% 동률 또는 무승부가 있는 경우 - 노란색 배경
-                            backgroundColor = colorScheme.neutral.bgMedium;
-                        } else if (isBestMonth) {
+                        // 최고월/최저월 특별 처리
+                        if (isBestMonth) {
                             backgroundColor = colorScheme.positive.bgStrong; // 최고월 - 연한 초록
+                            textColor = colorScheme.positive.color;
                         } else if (isWorstMonth) {
                             backgroundColor = colorScheme.negative.bgStrong;  // 최저월 - 연한 빨강
-                        } else if (winRate > 0.6) {
-                            backgroundColor = colorScheme.positive.bgMedium;
-                        } else if (winRate > 0.5) {
-                            backgroundColor = colorScheme.positive.bgLight;
-                        } else if (winRate < 0.4) {
-                            backgroundColor = colorScheme.negative.bgMedium;
-                        } else if (winRate < 0.5) {
-                            backgroundColor = colorScheme.negative.bgLight;
+                            textColor = colorScheme.negative.color;
                         }
                         
-                        const cellStyle = `background: ${backgroundColor}; padding: 8px;`;
+                        const cellStyleString = `background: ${backgroundColor}; color: ${textColor}; padding: 8px;`;
                         
                         // 승률에 따른 클래스 결정
                         const monthWinRateClass = getWinRateClass(winRate);
                         
                         html += `
-                            <td class="month-record-cell ${monthWinRateClass}" style="${cellStyle} white-space: nowrap; font-size: var(--font-xs); padding: 6px 2px; text-align: center;">${record}</td>
-                            <td class="month-rate-cell ${monthWinRateClass}" style="${cellStyle} white-space: nowrap; font-size: var(--font-xs); padding: 6px 2px; text-align: center;">${winRate.toFixed(3)}</td>
+                            <td style="${cellStyleString} white-space: nowrap; font-size: var(--font-xs); padding: 6px 2px; text-align: center;">${record}</td>
+                            <td style="${cellStyleString} white-space: nowrap; font-size: var(--font-xs); padding: 6px 2px; text-align: center;">${winRate.toFixed(3)}</td>
                         `;
                     } else {
                         html += '<td class="month-data" style="background: #f8f9fa; color: #999; padding: 6px 2px; white-space: nowrap; font-size: var(--font-xs); text-align: center;">-</td><td class="month-data" style="background: #f8f9fa; color: #999; padding: 6px 2px; white-space: nowrap; font-size: var(--font-xs); text-align: center;">-</td>';
@@ -4799,30 +4863,15 @@
                         const normalizedWinRate = winRateValue > 1 ? winRateValue / 100 : winRateValue;
                         const winRate = normalizedWinRate.toFixed(3);
                         
-                        // 다른 테이블과 동일한 색상 적용
-                        let backgroundColor = colorScheme.default.bg;
-                        let textColor = colorScheme.default.color;
+                        // 통합 색상 관리 함수 사용
+                        const dayCellStyle = getUnifiedCellStyle(normalizedWinRate);
+                        const backgroundColor = dayCellStyle.backgroundColor;
+                        const textColor = dayCellStyle.textColor;
                         
-                        if (normalizedWinRate === 0.5 || (weekdayData[day].draws && weekdayData[day].draws > 0)) {
-                            // 정확히 50% 동률 또는 무승부가 있는 경우 - 노란색 배경
-                            backgroundColor = colorScheme.neutral.bgMedium;
-                        } else if (normalizedWinRate > 0.6) {
-                            backgroundColor = colorScheme.positive.bgStrong;
-                        } else if (normalizedWinRate > 0.5) {
-                            backgroundColor = colorScheme.positive.bgMedium;
-                        } else if (normalizedWinRate < 0.4) {
-                            backgroundColor = colorScheme.negative.bgStrong;
-                        } else if (normalizedWinRate < 0.5) {
-                            backgroundColor = colorScheme.negative.bgMedium;
-                        } else {
-                            backgroundColor = colorScheme.neutral.bgLight;
-                        }
-                        
-                        // 승률에 따른 클래스 결정
-                        const dayWinRateClass = getWinRateClass(normalizedWinRate);
+                        // 통합 색상 관리로 CSS 클래스 불필요
                         
                         const totalGames = weekdayData[day].wins + weekdayData[day].losses + (weekdayData[day].draws || 0);
-                        html += `<td class="${dayWinRateClass}" style="background: ${backgroundColor}; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
+                        html += `<td style="background: ${backgroundColor} !important; color: ${textColor} !important; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
                             <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekdayData[day].wins}-${weekdayData[day].losses}-${weekdayData[day].draws || 0} (${winRate})</div>
                             <div style="font-size: var(--font-xs); margin-top: 2px;">${totalGames}경기</div>
                         </td>`;
@@ -4842,19 +4891,10 @@
                 const weekendWinRate = (weekendWins + weekendLosses > 0) ? (weekendWins / (weekendWins + weekendLosses)) : 0;
                 const weekendRate = weekendWinRate.toFixed(3);
                 
-                // 주말승률 색상
-                let weekendBgColor = colorScheme.default.bg;
-                if (weekendWinRate > 0.6) {
-                    weekendBgColor = colorScheme.positive.bgStrong;
-                } else if (weekendWinRate > 0.5) {
-                    weekendBgColor = colorScheme.positive.bgMedium;
-                } else if (weekendWinRate < 0.4) {
-                    weekendBgColor = colorScheme.negative.bgStrong;
-                } else if (weekendWinRate < 0.5) {
-                    weekendBgColor = colorScheme.negative.bgMedium;
-                } else {
-                    weekendBgColor = colorScheme.neutral.bgLight;
-                }
+                // 주말승률 색상 - 통합 함수 사용
+                const weekendCellStyle = getUnifiedCellStyle(weekendWinRate);
+                const weekendBgColor = weekendCellStyle.backgroundColor;
+                const weekendTextColor = weekendCellStyle.textColor;
                 
                 // 평일승률 (월~금)
                 let weekdayWins = 0, weekdayLosses = 0;
@@ -4867,30 +4907,19 @@
                 const weekdayWinRate = (weekdayWins + weekdayLosses > 0) ? (weekdayWins / (weekdayWins + weekdayLosses)) : 0;
                 const weekdayRate = weekdayWinRate.toFixed(3);
                 
-                // 평일승률 색상
-                let weekdayBgColor = colorScheme.default.bg;
-                if (weekdayWinRate > 0.6) {
-                    weekdayBgColor = colorScheme.positive.bgStrong;
-                } else if (weekdayWinRate > 0.5) {
-                    weekdayBgColor = colorScheme.positive.bgMedium;
-                } else if (weekdayWinRate < 0.4) {
-                    weekdayBgColor = colorScheme.negative.bgStrong;
-                } else if (weekdayWinRate < 0.5) {
-                    weekdayBgColor = colorScheme.negative.bgMedium;
-                } else {
-                    weekdayBgColor = colorScheme.neutral.bgLight;
-                }
+                // 평일승률 색상 - 통합 함수 사용
+                const weekdayCellStyle = getUnifiedCellStyle(weekdayWinRate);
+                const weekdayBgColor = weekdayCellStyle.backgroundColor;
+                const weekdayTextColor = weekdayCellStyle.textColor;
                 
-                // 주말/평일 승률에 따른 클래스 결정
-                const weekendWinRateClass = getWinRateClass(weekendWinRate);
-                const weekdayWinRateClass = getWinRateClass(weekdayWinRate);
+                // 통합 색상 관리로 CSS 클래스 불필요
                 
                 html += `
-                    <td class="${weekendWinRateClass}" style="background: ${weekendBgColor}; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
+                    <td style="background: ${weekendBgColor} !important; color: ${weekendTextColor} !important; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
                         <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekendWins}-${weekendLosses} (${weekendRate})</div>
                         <div style="font-size: var(--font-xs); margin-top: 2px;">${weekendWins + weekendLosses}경기</div>
                     </td>
-                    <td class="${weekdayWinRateClass}" style="background: ${weekdayBgColor}; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
+                    <td style="background: ${weekdayBgColor} !important; color: ${weekdayTextColor} !important; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
                         <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekdayWins}-${weekdayLosses} (${weekdayRate})</div>
                         <div style="font-size: var(--font-xs); margin-top: 2px;">${weekdayWins + weekdayLosses}경기</div>
                     </td>
@@ -5720,7 +5749,7 @@
         }
 
         .footer-content {
-            max-width: 1600px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 0;
             display: grid;
