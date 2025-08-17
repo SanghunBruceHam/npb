@@ -354,3 +354,36 @@ img[src*="ssg.png"] { aspect-ratio: 1.7/1 !important; }
 .text-success { color: var(--success-color) !important; }
 .text-warning { color: var(--warning-color) !important; }
 .text-danger { color: var(--danger-color) !important; }
+
+/* ================================
+ * 12. 피타고리안 테이블 컬럼 폭 최적화
+ * ================================ */
+
+/* 피타고리안 테이블 특별 설정 */
+#pythagoreanTable {
+    table-layout: fixed !important;
+    width: 100% !important;
+}
+
+/* 피타고리안 테이블 컬럼 폭 설정 */
+#pythagoreanTable th:nth-child(1) { width: 8% !important; }   /* 순위 */
+#pythagoreanTable th:nth-child(2) { width: 12% !important; }  /* 팀 */
+#pythagoreanTable th:nth-child(3) { width: 12% !important; }  /* 실제승률 */
+#pythagoreanTable th:nth-child(4) { width: 15% !important; }  /* 피타고리안 기대승률 */
+#pythagoreanTable th:nth-child(5) { width: 10% !important; }  /* 운 지수 */
+#pythagoreanTable th:nth-child(6) { width: 10% !important; }  /* 운 상태 */
+#pythagoreanTable th:nth-child(7) { width: 10% !important; }  /* 득점 */
+#pythagoreanTable th:nth-child(8) { width: 10% !important; }  /* 실점 */
+#pythagoreanTable th:nth-child(9) { width: 11% !important; }  /* 경기당 득점 */
+#pythagoreanTable th:nth-child(10) { width: 12% !important; } /* 경기당 실점 */
+
+#pythagoreanTable td:nth-child(1) { width: 8% !important; }   /* 순위 */
+#pythagoreanTable td:nth-child(2) { width: 12% !important; }  /* 팀 */
+#pythagoreanTable td:nth-child(3) { width: 12% !important; }  /* 실제승률 */
+#pythagoreanTable td:nth-child(4) { width: 15% !important; }  /* 피타고리안 기대승률 */
+#pythagoreanTable td:nth-child(5) { width: 10% !important; }  /* 운 지수 */
+#pythagoreanTable td:nth-child(6) { width: 10% !important; }  /* 운 상태 */
+#pythagoreanTable td:nth-child(7) { width: 10% !important; }  /* 득점 */
+#pythagoreanTable td:nth-child(8) { width: 10% !important; }  /* 실점 */
+#pythagoreanTable td:nth-child(9) { width: 11% !important; }  /* 경기당 득점 */
+#pythagoreanTable td:nth-child(10) { width: 12% !important; } /* 경기당 실점 */

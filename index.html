@@ -2886,7 +2886,7 @@
                 <span class="card-icon">📈</span>
                 <h2 class="card-title">2025 KBO 시즌 진행률</h2>
             </div>
-            <div style="padding: 20px;">
+            <div class="table-container">
                 <!-- 전체 시즌 진행률 -->
                 <div style="margin-bottom: 25px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -2908,7 +2908,7 @@
                 <!-- 팀별 경기 소화율 -->
                 <div>
                     <h3 style="font-weight: 600; font-size: 1.1rem; color: #374151; margin-bottom: 15px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">팀별 경기 소화율</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;" id="team-progress-container">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px;" id="team-progress-container">
                         <!-- 팀별 진행률이 여기에 동적으로 생성됩니다 -->
                     </div>
                 </div>
@@ -4594,7 +4594,7 @@
                     <td><strong>${team.actual_win_rate}</strong></td>
                     <td>${team.expected_win_rate}</td>
                     <td class="${luckClass}"><strong>${team.luck_factor}</strong></td>
-                    <td class="${luckClass}">${team.luck_status}</td>
+                    <td class="${luckClass}" style="white-space: nowrap;">${team.luck_status}</td>
                     <td>${teamData ? teamData.runs_scored : '-'}</td>
                     <td>${teamData ? teamData.runs_allowed : '-'}</td>
                     <td>${avgScored}</td>
