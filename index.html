@@ -124,6 +124,32 @@
     }
     </script>
     
+    <script>
+        function requestDesktopSite() {
+            // 모바일 기기 체크
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // viewport를 PC 버전으로 변경
+                document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1400, initial-scale=0.5, user-scalable=yes');
+                // 페이지 새로고침
+                location.reload();
+            } else {
+                alert('이미 PC 버전으로 보고 계십니다.');
+            }
+        }
+        
+        // 모바일 기기에서만 안내 메시지 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const deviceNotice = document.getElementById('deviceNotice');
+            
+            if (!isMobile && deviceNotice) {
+                deviceNotice.style.display = 'none';
+            }
+        });
+    </script>
+    
     <!-- Google Analytics G4A -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDV2VSSNHN"></script>
     <script>
@@ -217,10 +243,10 @@
             --winrate-font-size: var(--font-base);
             
             /* 카드 공통 스타일 변수 */
-            --card-width: calc(100% - 20px);
-            --card-max-width: 1400px;
-            --card-padding: 25px;
-            --card-margin: 0 auto 25px auto;
+            --card-width: 100%;
+            --card-max-width: 100%;
+            --card-padding: 15px;
+            --card-margin: 0 auto 15px auto;
             --card-border-radius: 15px;
             --card-background: rgba(255, 255, 255, 0.95);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -230,15 +256,21 @@
         .container {
             max-width: var(--card-max-width);
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
             width: 100%;
             box-sizing: border-box;
+        }
+        
+        @media (min-width: 769px) {
+            .container {
+                padding: 20px;
+            }
         }
 
         .header {
             background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
             color: #ffffff;
-            padding: 40px 20px;
+            padding: 40px 20px 25px 20px;
             margin: 0 0 30px 0;
             width: 100%;
             text-align: center;
@@ -278,9 +310,17 @@
 
         .full-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 900px) {
+            .full-grid {
+                grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
+                gap: 25px;
+                margin-bottom: 30px;
+            }
         }
 
         .wide-card {
@@ -1291,10 +1331,22 @@
                 --font-2xl: 1.2rem;
                 --font-3xl: 1.5rem;
                 --font-4xl: 2rem;
+                --card-padding: 15px;
+                --card-max-width: 100%;
             }
             
             .header h1 {
                 font-size: var(--font-3xl);
+            }
+            
+            .header {
+                padding: 30px 15px !important;
+            }
+            
+            .wide-card,
+            .card {
+                padding: 15px !important;
+                border-radius: 12px !important;
             }
             
             .full-grid {
@@ -2443,6 +2495,13 @@
             KBO 리그의 모든 데이터를 한눈에 분석하는 종합 통계 플랫폼</p>
             <div class="update-info" id="updateInfo">
                 📅 데이터 로딩 중...
+            </div>
+            <div style="margin-top: 8px; font-size: 0.75rem; color: rgba(255,255,255,0.85); text-align: center;" id="deviceNotice">
+                <span style="opacity: 0.9;">
+                    ※ 본 대시보드는 PC 환경에 최적화되어 있습니다. 
+                    모바일에서는 가로 모드 사용을 권장합니다.
+                    <a href="javascript:void(0);" onclick="requestDesktopSite()" style="color: #ffd700; text-decoration: underline; margin-left: 5px;">PC 버전으로 보기</a>
+                </span>
             </div>
         </div>
     </div>
