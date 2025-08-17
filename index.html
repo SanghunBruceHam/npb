@@ -1989,8 +1989,9 @@
         #fullStandingsTable td:nth-child(18), /* 원정승률 컬럼 */
         #pythagoreanTable td:nth-child(3),    /* 실제승률 컬럼 */
         #pythagoreanTable td:nth-child(4),    /* 기대승률 컬럼 */
-        #clutchTable td:nth-child(4),         /* 1점차승률 컬럼 */
-        #clutchTable td:nth-child(9) {        /* 클러치지수 컬럼 */
+        #clutchTable td:nth-child(5),         /* 1점차승률 컬럼 */
+        #clutchTable td:nth-child(8),         /* 3점차승률 컬럼 */
+        #clutchTable td:nth-child(13) {       /* 클러치지수 컬럼 */
             font-family: var(--winrate-font-family) !important;
             font-weight: var(--winrate-font-weight) !important;
         }
@@ -3079,6 +3080,9 @@
                             <th>1점차승</th>
                             <th>1점차패</th>
                             <th>1점차승률</th>
+                            <th>3점차내승</th>
+                            <th>3점차내패</th>
+                            <th>3점차내승률</th>
                             <th>대량득점</th>
                             <th>대량실점</th>
                             <th>완봉승</th>
@@ -3098,8 +3102,10 @@
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                     <div style="margin-bottom: 6px;"><strong>클러치:</strong> 중요한 순간, 특히 승부가 갈리는 상황에서의 경기력</div>
                     <div style="margin-bottom: 6px;"><strong>1점차 경기:</strong> 1점 차이로 승부가 난 경기 (가장 치열한 접전)</div>
-                    <div style="margin-bottom: 6px;"><strong>클러치 지수:</strong> 1.00 기준, 높을수록 중요한 순간에 강함</div>
-                    <div><strong>대량득점/실점:</strong> 5점 이상 득점하거나 5점 이상 내준 경기 수</div>
+                    <div style="margin-bottom: 6px;"><strong>3점차 이내:</strong> 2-3점 차이로 승부가 난 경기 (중간 강도 접전)</div>
+                    <div style="margin-bottom: 6px;"><strong>클러치 지수:</strong> 1점차(50%), 2점차이하(30%), 3점차이내(20%) 승률의 가중평균</div>
+                    <div style="margin-bottom: 6px;"><strong>색상 구분:</strong> 녹색(0.5 초과), 노란색(0.5 기준), 빨간색(0.5 미만)</div>
+                    <div><strong>대량득점/실점:</strong> 7점 이상 득점하거나 7점차 이상 패배 경기 수</div>
                 </div>
             </div>
         </div>
@@ -4630,12 +4636,37 @@
                     
                     const row = document.createElement('tr');
                     
+                    // 0.5 기준 색상 함수
+                    function getWinRateClass(rate) {
+                        if (rate > 0.5) {
+                            // 0.5 초과 - 녹색 그라데이션
+                            if (rate >= 0.65) return 'positive-very-strong';
+                            if (rate >= 0.6) return 'positive-strong';
+                            if (rate >= 0.55) return 'positive-medium';
+                            return 'positive-light';
+                        } else if (rate === 0.5) {
+                            // 0.5 정확히 - 노란색
+                            return 'neutral-medium';
+                        } else {
+                            // 0.5 미만 - 빨간색 그라데이션
+                            if (rate >= 0.45) return 'negative-light';
+                            if (rate >= 0.4) return 'negative-medium';
+                            if (rate >= 0.35) return 'negative-strong';
+                            return 'negative-very-strong';
+                        }
+                    }
+                    
                     const oneRunWinRateValue = parseFloat(team.oneRunWinRate);
                     const normalizedOneRunRate = oneRunWinRateValue > 1 ? oneRunWinRateValue / 100 : oneRunWinRateValue;
-                    const oneRunClass = normalizedOneRunRate > 0.55 ? 'positive' : 
-                                       normalizedOneRunRate < 0.45 ? 'negative' : 'neutral';
-                    const clutchClass = parseFloat(team.clutchIndex) > 0.55 ? 'positive' : 
-                                       parseFloat(team.clutchIndex) < 0.45 ? 'negative' : 'neutral';
+                    const oneRunClass = getWinRateClass(normalizedOneRunRate);
+                    
+                    const clutchIndexValue = parseFloat(team.clutchIndex) / 100; // 클러치 지수는 이미 백분율
+                    const clutchClass = getWinRateClass(clutchIndexValue);
+                    
+                    // 3점차 승률 계산 및 클래스 설정
+                    const threeRunWinRateValue = parseFloat(team.threeRunWinRate || '0');
+                    const normalizedThreeRunRate = threeRunWinRateValue > 1 ? threeRunWinRateValue / 100 : threeRunWinRateValue;
+                    const threeRunClass = getWinRateClass(normalizedThreeRunRate);
                     
                     row.innerHTML = `
                         <td class="rank-${rank <= 3 ? rank : 'other'}" style="font-weight: var(--font-weight-bold); text-align: center;">${rank}</td>
@@ -4643,6 +4674,9 @@
                         <td>${team.oneRunWins}</td>
                         <td>${team.oneRunLosses}</td>
                         <td class="${oneRunClass}"><strong>${normalizedOneRunRate.toFixed(3)}</strong></td>
+                        <td>${team.threeRunWins || 0}</td>
+                        <td>${team.threeRunLosses || 0}</td>
+                        <td class="${threeRunClass}"><strong>${normalizedThreeRunRate.toFixed(3)}</strong></td>
                         <td>${team.blowoutWins}</td>
                         <td>${team.blowoutLosses}</td>
                         <td>${team.shutoutWins}</td>
@@ -4653,7 +4687,7 @@
                 });
             } catch (error) {
                 console.error('클러치 분석 데이터 로드 실패:', error);
-                document.getElementById('clutchBody').innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 20px; color: #e74c3c;">클러치 분석 데이터를 로드할 수 없습니다.</td></tr>';
+                document.getElementById('clutchBody').innerHTML = '<tr><td colspan="13" style="text-align: center; padding: 20px; color: #e74c3c;">클러치 분석 데이터를 로드할 수 없습니다.</td></tr>';
             }
         }
 

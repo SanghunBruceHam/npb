@@ -64,6 +64,12 @@ class ClutchAnalyzer {
                 closeLosses: 0,
                 closeWinRate: '0.0',
                 
+                // 3점차 경기 
+                threeRunGames: 0,
+                threeRunWins: 0,
+                threeRunLosses: 0,
+                threeRunWinRate: '0.0',
+                
                 // 대량득점 경기 (7점 이상)
                 blowoutWins: 0,
                 blowoutScored: [], // 대량득점 경기들
@@ -107,6 +113,13 @@ class ClutchAnalyzer {
                     analysis.closeGames++;
                     if (game.result === 'W') analysis.closeWins++;
                     else if (game.result === 'L') analysis.closeLosses++;
+                }
+                
+                // 3점차 이내 경기 (2점차 또는 3점차)
+                if ((scoreDiff === 2 || scoreDiff === 3) && game.result !== 'D') {
+                    analysis.threeRunGames++;
+                    if (game.result === 'W') analysis.threeRunWins++;
+                    else if (game.result === 'L') analysis.threeRunLosses++;
                 }
                 
                 // 대량득점 (7점 이상 득점하고 이긴 경우)
@@ -155,13 +168,19 @@ class ClutchAnalyzer {
             if (analysis.closeGames > 0) {
                 analysis.closeWinRate = ((analysis.closeWins / (analysis.closeWins + analysis.closeLosses)) * 100).toFixed(1);
             }
+            
+            if (analysis.threeRunGames > 0) {
+                analysis.threeRunWinRate = ((analysis.threeRunWins / (analysis.threeRunWins + analysis.threeRunLosses)) * 100).toFixed(1);
+            }
 
-            // 클러치 지수 계산 (1점차 승률 + 접전 승률의 가중평균)
-            const oneRunWeight = 0.6;
-            const closeWeight = 0.4;
+            // 클러치 지수 계산 (1점차 승률 + 접전 승률 + 3점차 승률의 가중평균)
+            const oneRunWeight = 0.5;
+            const closeWeight = 0.3;
+            const threeRunWeight = 0.2;
             analysis.clutchIndex = (
                 (parseFloat(analysis.oneRunWinRate) * oneRunWeight + 
-                 parseFloat(analysis.closeWinRate) * closeWeight)
+                 parseFloat(analysis.closeWinRate) * closeWeight +
+                 parseFloat(analysis.threeRunWinRate) * threeRunWeight)
             ).toFixed(1);
 
             this.clutchData[team] = analysis;
@@ -213,7 +232,20 @@ class ClutchAnalyzer {
         console.log('\n⚡ 클러치 지수 순위:');
         clutchRankings.forEach((t, i) => {
             const a = t.analysis;
-            console.log(`${i+1}. ${t.team}: ${a.clutchIndex} (1점차: ${a.oneRunWinRate}%, 접전: ${a.closeWinRate}%)`);
+            console.log(`${i+1}. ${t.team}: ${a.clutchIndex} (1점차: ${a.oneRunWinRate}%, 접전: ${a.closeWinRate}%, 3점차내: ${a.threeRunWinRate}%)`);
+        });
+
+        // 3점차 승률 순위
+        const threeRunRankings = this.teams.map(team => ({
+            team: team,
+            analysis: this.clutchData[team]
+        })).filter(t => t.analysis && t.analysis.threeRunGames > 0)
+          .sort((a, b) => parseFloat(b.analysis.threeRunWinRate) - parseFloat(a.analysis.threeRunWinRate));
+
+        console.log('\n🎯 3점차 이내 승률 순위:');
+        threeRunRankings.forEach((t, i) => {
+            const a = t.analysis;
+            console.log(`${i+1}. ${t.team}: ${a.threeRunWinRate}% (${a.threeRunWins}승 ${a.threeRunLosses}패, 총 ${a.threeRunGames}경기)`);
         });
 
         // 대량득점 순위
