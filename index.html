@@ -382,6 +382,13 @@
             min-width: 0 !important;
             box-sizing: border-box;
             text-align: center;
+            overflow: hidden; /* 광고가 카드 밖으로 넘치지 않도록 */
+        }
+        .ad-card .adsbygoogle {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
         }
 
         /* 개선 제안 카드 전용 스타일 */
@@ -2721,7 +2728,7 @@
         </div>
 
         <!-- 광고: 시즌 진행률과 종합 순위 사이 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -2788,7 +2795,7 @@
         </div>
 
         <!-- 광고 1: 종합순위표 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -2842,7 +2849,7 @@
         </div>
 
         <!-- 광고 8: 피타고리안 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -2897,7 +2904,7 @@
         </div>
 
         <!-- 광고 2: 클러치 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -2975,7 +2982,7 @@
         </div>
 
         <!-- 광고 5: 상대전적 매트릭스 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3001,7 +3008,7 @@
         </div>
 
         <!-- 광고 11: 팀간 잔여경기수 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3055,7 +3062,7 @@
         </div>
 
         <!-- 광고 3: 월별 성적 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3109,7 +3116,7 @@
         </div>
 
         <!-- 광고 6: 요일별 성적 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3157,7 +3164,7 @@
         </div>
 
         <!-- 광고 9: 게임별 기록 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3184,7 +3191,7 @@
         </div>
 
         <!-- 광고 4: 팀별 상세 게임 기록 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3210,7 +3217,7 @@
         </div>
 
         <!-- 광고 7: 위닝/루징 시리즈 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
@@ -3250,7 +3257,7 @@
         </div>
 
         <!-- 광고 10: 경기장별 성적 분석 후 -->
-        <div style="text-align: center; margin: 30px 0;">
+        <div class="ad-card">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-5508768187151867"
