@@ -9208,11 +9208,21 @@
         "result": "L",
         "runs_scored": 3,
         "runs_allowed": 4
+      },
+      {
+        "gameNumber": 114,
+        "date": "2025-08-17",
+        "opponent": "키움",
+        "isHome": false,
+        "score": "5:3",
+        "result": "W",
+        "runs_scored": 5,
+        "runs_allowed": 3
       }
     ],
     "currentStreak": {
-      "type": "L",
-      "count": 3
+      "type": "W",
+      "count": 1
     },
     "longestWinStreak": 4,
     "longestLoseStreak": 5,
@@ -9444,6 +9454,10 @@
       {
         "type": "W",
         "count": 2
+      },
+      {
+        "type": "L",
+        "count": 3
       }
     ]
   },
@@ -11902,11 +11916,21 @@
         "result": "W",
         "runs_scored": 4,
         "runs_allowed": 3
+      },
+      {
+        "gameNumber": 115,
+        "date": "2025-08-17",
+        "opponent": "KT",
+        "isHome": true,
+        "score": "3:5",
+        "result": "L",
+        "runs_scored": 3,
+        "runs_allowed": 5
       }
     ],
     "currentStreak": {
-      "type": "W",
-      "count": 3
+      "type": "L",
+      "count": 1
     },
     "longestWinStreak": 4,
     "longestLoseStreak": 9,
@@ -12086,6 +12110,10 @@
       {
         "type": "L",
         "count": 1
+      },
+      {
+        "type": "W",
+        "count": 3
       }
     ]
   },

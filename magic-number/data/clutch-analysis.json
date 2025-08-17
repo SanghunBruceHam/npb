@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2025-08-16T15:22:03.832Z",
-  "updateDate": "2025. 8. 16.",
+  "lastUpdated": "2025-08-17T09:24:55.505Z",
+  "updateDate": "2025. 8. 17.",
   "clutchAnalysis": {
     "LG": {
       "totalGames": 112,
@@ -873,15 +873,15 @@
       "clutchIndex": "35.2"
     },
     "KT": {
-      "totalGames": 113,
+      "totalGames": 114,
       "oneRunGames": 33,
       "oneRunWins": 14,
       "oneRunLosses": 19,
       "oneRunWinRate": "42.4",
-      "closeGames": 51,
-      "closeWins": 25,
+      "closeGames": 52,
+      "closeWins": 26,
       "closeLosses": 26,
-      "closeWinRate": "49.0",
+      "closeWinRate": "50.0",
       "blowoutWins": 23,
       "blowoutScored": [
         {
@@ -1095,7 +1095,7 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "45.0"
+      "clutchIndex": "45.4"
     },
     "SSG": {
       "totalGames": 110,
@@ -1956,15 +1956,15 @@
       "clutchIndex": "49.7"
     },
     "키움": {
-      "totalGames": 114,
+      "totalGames": 115,
       "oneRunGames": 22,
       "oneRunWins": 14,
       "oneRunLosses": 8,
       "oneRunWinRate": "63.6",
-      "closeGames": 45,
+      "closeGames": 46,
       "closeWins": 19,
-      "closeLosses": 26,
-      "closeWinRate": "42.2",
+      "closeLosses": 27,
+      "closeWinRate": "41.3",
       "blowoutWins": 14,
       "blowoutScored": [
         {
@@ -2154,7 +2154,7 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "55.0"
+      "clutchIndex": "54.7"
     }
   }
 }

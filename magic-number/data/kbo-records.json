@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2025-08-16T15:21:59.161Z",
-  "updateDate": "2025. 8. 16.",
+  "lastUpdated": "2025-08-17T09:24:52.687Z",
+  "updateDate": "2025. 8. 17.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "totalData": {
     "한화": {
@@ -497,13 +497,13 @@
         "awayDraws": 1
       },
       "키움": {
-        "wins": 9,
+        "wins": 10,
         "losses": 5,
         "draws": 0,
         "homeWins": 4,
         "homeLosses": 2,
         "homeDraws": 0,
-        "awayWins": 5,
+        "awayWins": 6,
         "awayLosses": 3,
         "awayDraws": 0
       }
@@ -959,10 +959,10 @@
       },
       "KT": {
         "wins": 5,
-        "losses": 9,
+        "losses": 10,
         "draws": 0,
         "homeWins": 3,
-        "homeLosses": 5,
+        "homeLosses": 6,
         "homeDraws": 0,
         "awayWins": 2,
         "awayLosses": 4,
@@ -1015,5 +1015,5 @@
     }
   },
   "source": "CLEAN_TXT_AUTOMATION",
-  "dataDate": "2025-08-16"
+  "dataDate": "2025-08-17"
 }

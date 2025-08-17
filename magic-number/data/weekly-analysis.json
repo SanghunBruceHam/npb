@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2025-08-16T15:22:03.617Z",
-  "updateDate": "2025. 8. 16.",
+  "lastUpdated": "2025-08-17T09:24:55.294Z",
+  "updateDate": "2025. 8. 17.",
   "seasonStart": "2025-03-22T00:00:00.000Z",
   "currentWeek": 22,
   "weeklyAnalysis": {
@@ -7559,16 +7559,16 @@
             "startStr": "8월 12일",
             "endStr": "8월 18일"
           },
-          "games": 3,
-          "wins": 0,
+          "games": 4,
+          "wins": 1,
           "losses": 3,
           "draws": 0,
-          "winRate": "0.0",
-          "runsScored": 8,
-          "runsAllowed": 22,
-          "runDifferential": -14,
-          "avgRunsScored": "2.67",
-          "avgRunsAllowed": "7.33",
+          "winRate": "25.0",
+          "runsScored": 13,
+          "runsAllowed": 25,
+          "runDifferential": -12,
+          "avgRunsScored": "3.25",
+          "avgRunsAllowed": "6.25",
           "gameDetails": [
             {
               "date": "2025-08-12",
@@ -7589,6 +7589,13 @@
               "opponent": "키움",
               "score": "3:4",
               "result": "L",
+              "isHome": false
+            },
+            {
+              "date": "2025-08-17",
+              "opponent": "키움",
+              "score": "5:3",
+              "result": "W",
               "isHome": false
             }
           ]
@@ -7933,20 +7940,20 @@
           "runDifferential": -37
         },
         "8월": {
-          "games": 9,
-          "wins": 4,
+          "games": 10,
+          "wins": 5,
           "losses": 5,
           "draws": 0,
-          "runsScored": 38,
-          "runsAllowed": 44,
+          "runsScored": 43,
+          "runsAllowed": 47,
           "weeks": [
             21,
             22
           ],
-          "winRate": "44.4",
-          "avgRunsScored": "4.22",
-          "avgRunsAllowed": "4.89",
-          "runDifferential": -6
+          "winRate": "50.0",
+          "avgRunsScored": "4.30",
+          "avgRunsAllowed": "4.70",
+          "runDifferential": -4
         }
       }
     },
@@ -15421,16 +15428,16 @@
             "startStr": "8월 12일",
             "endStr": "8월 18일"
           },
-          "games": 4,
+          "games": 5,
           "wins": 3,
-          "losses": 1,
+          "losses": 2,
           "draws": 0,
-          "winRate": "75.0",
-          "runsScored": 14,
-          "runsAllowed": 9,
-          "runDifferential": 5,
-          "avgRunsScored": "3.50",
-          "avgRunsAllowed": "2.25",
+          "winRate": "60.0",
+          "runsScored": 17,
+          "runsAllowed": 14,
+          "runDifferential": 3,
+          "avgRunsScored": "3.40",
+          "avgRunsAllowed": "2.80",
           "gameDetails": [
             {
               "date": "2025-08-12",
@@ -15458,6 +15465,13 @@
               "opponent": "KT",
               "score": "4:3",
               "result": "W",
+              "isHome": true
+            },
+            {
+              "date": "2025-08-17",
+              "opponent": "KT",
+              "score": "3:5",
+              "result": "L",
               "isHome": true
             }
           ]
@@ -15788,20 +15802,20 @@
           "runDifferential": -61
         },
         "8월": {
-          "games": 10,
+          "games": 11,
           "wins": 7,
-          "losses": 3,
+          "losses": 4,
           "draws": 0,
-          "runsScored": 54,
-          "runsAllowed": 49,
+          "runsScored": 57,
+          "runsAllowed": 54,
           "weeks": [
             21,
             22
           ],
-          "winRate": "70.0",
-          "avgRunsScored": "5.40",
-          "avgRunsAllowed": "4.90",
-          "runDifferential": 5
+          "winRate": "63.6",
+          "avgRunsScored": "5.18",
+          "avgRunsAllowed": "4.91",
+          "runDifferential": 3
         }
       }
     }

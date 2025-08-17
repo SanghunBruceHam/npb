@@ -40,14 +40,14 @@
     "run_diff": -15
   },
   "KT": {
-    "games": 113,
-    "wins": 54,
+    "games": 114,
+    "wins": 55,
     "losses": 55,
     "draws": 4,
-    "runs_scored": 485,
-    "runs_allowed": 499,
-    "win_rate": "0.495",
-    "run_diff": -14
+    "runs_scored": 490,
+    "runs_allowed": 502,
+    "win_rate": "0.500",
+    "run_diff": -12
   },
   "SSG": {
     "games": 110,
@@ -90,13 +90,13 @@
     "run_diff": -27
   },
   "키움": {
-    "games": 114,
+    "games": 115,
     "wins": 36,
-    "losses": 74,
+    "losses": 75,
     "draws": 4,
-    "runs_scored": 439,
-    "runs_allowed": 690,
-    "win_rate": "0.327",
-    "run_diff": -251
+    "runs_scored": 442,
+    "runs_allowed": 695,
+    "win_rate": "0.324",
+    "run_diff": -253
   }
 }

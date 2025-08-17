@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2025-08-16T15:22:04.053Z",
-  "updateDate": "2025. 8. 16.",
+  "lastUpdated": "2025-08-17T09:24:55.734Z",
+  "updateDate": "2025. 8. 17.",
   "homeAwayAnalysis": {
     "LG": {
       "totalGames": 112,
@@ -971,7 +971,7 @@
       }
     },
     "KT": {
-      "totalGames": 113,
+      "totalGames": 114,
       "home": {
         "games": 56,
         "wins": 28,
@@ -985,18 +985,18 @@
         "runDifferential": -19
       },
       "away": {
-        "games": 57,
-        "wins": 26,
+        "games": 58,
+        "wins": 27,
         "losses": 28,
         "draws": 3,
-        "winRate": "48.1",
-        "runsScored": 246,
-        "runsAllowed": 241,
-        "avgRunsScored": "4.32",
-        "avgRunsAllowed": "4.23",
-        "runDifferential": 5
+        "winRate": "49.1",
+        "runsScored": 251,
+        "runsAllowed": 244,
+        "avgRunsScored": "4.33",
+        "avgRunsAllowed": "4.21",
+        "runDifferential": 7
       },
-      "homeAdvantage": "2.8",
+      "homeAdvantage": "1.8",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "수원": {
@@ -1036,13 +1036,13 @@
           "runsAllowed": 26
         },
         "고척": {
-          "games": 8,
-          "wins": 5,
+          "games": 9,
+          "wins": 6,
           "losses": 3,
           "draws": 0,
-          "winRate": "62.5",
-          "runsScored": 44,
-          "runsAllowed": 25
+          "winRate": "66.7",
+          "runsScored": 49,
+          "runsAllowed": 28
         },
         "대전": {
           "games": 9,
@@ -1169,11 +1169,11 @@
           "winRate": "16.7"
         },
         "키움": {
-          "games": 8,
-          "wins": 5,
+          "games": 9,
+          "wins": 6,
           "losses": 3,
           "draws": 0,
-          "winRate": "62.5"
+          "winRate": "66.7"
         },
         "한화": {
           "games": 9,
@@ -2181,18 +2181,18 @@
       }
     },
     "키움": {
-      "totalGames": 114,
+      "totalGames": 115,
       "home": {
-        "games": 62,
+        "games": 63,
         "wins": 21,
-        "losses": 39,
+        "losses": 40,
         "draws": 2,
-        "winRate": "35.0",
-        "runsScored": 206,
-        "runsAllowed": 342,
+        "winRate": "34.4",
+        "runsScored": 209,
+        "runsAllowed": 347,
         "avgRunsScored": "3.32",
-        "avgRunsAllowed": "5.52",
-        "runDifferential": -136
+        "avgRunsAllowed": "5.51",
+        "runDifferential": -138
       },
       "away": {
         "games": 52,
@@ -2206,7 +2206,7 @@
         "avgRunsAllowed": "6.69",
         "runDifferential": -115
       },
-      "homeAdvantage": "5.0",
+      "homeAdvantage": "4.4",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "대구": {
@@ -2228,13 +2228,13 @@
           "runsAllowed": 47
         },
         "고척": {
-          "games": 62,
+          "games": 63,
           "wins": 21,
-          "losses": 39,
+          "losses": 40,
           "draws": 2,
-          "winRate": "35.0",
-          "runsScored": 206,
-          "runsAllowed": 342
+          "winRate": "34.4",
+          "runsScored": 209,
+          "runsAllowed": 347
         },
         "잠실": {
           "games": 10,
@@ -2314,11 +2314,11 @@
           "winRate": "50.0"
         },
         "KT": {
-          "games": 8,
+          "games": 9,
           "wins": 3,
-          "losses": 5,
+          "losses": 6,
           "draws": 0,
-          "winRate": "37.5"
+          "winRate": "33.3"
         },
         "두산": {
           "games": 9,
