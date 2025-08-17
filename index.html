@@ -277,7 +277,7 @@
             background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
             color: #ffffff;
             padding: 40px 20px 25px 20px;
-            margin: 0 0 30px 0;
+            margin: 0 0 10px 0;
             width: 100%;
             text-align: center;
             box-sizing: border-box;
@@ -2548,8 +2548,12 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             padding: 8px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
         }
 
         .navigation::before {
@@ -2851,6 +2855,7 @@
                     <a href="#weekly" class="nav-item">📈 주차별</a>
                     <a href="#gamerecords" class="nav-item">🎮 게임기록</a>
                     <a href="#teamdetail" class="nav-item">👥 팀상세</a>
+                    <a href="#series" class="nav-item">⚔️ 시리즈</a>
                     <a href="#stadium" class="nav-item">🏟️ 경기장별</a>
                 </div>
             </div>
@@ -3400,7 +3405,7 @@
         </div>
 
         <!-- 11. 위닝/루징 시리즈 및 스윕 -->
-        <div class="card">
+        <div class="card" id="series">
             <div class="card-header">
                 <span class="card-icon">⚔️</span>
                 <h2 class="card-title">위닝/루징 시리즈 분석</h2>
