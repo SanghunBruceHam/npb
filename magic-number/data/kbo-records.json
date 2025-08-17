@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-17T09:24:52.687Z",
+  "lastUpdated": "2025-08-17T13:33:24.672Z",
   "updateDate": "2025. 8. 17.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "totalData": {
@@ -72,13 +72,13 @@
       },
       "NC": {
         "wins": 8,
-        "losses": 5,
+        "losses": 6,
         "draws": 1,
         "homeWins": 4,
         "homeLosses": 1,
         "homeDraws": 1,
         "awayWins": 4,
-        "awayLosses": 4,
+        "awayLosses": 5,
         "awayDraws": 0
       },
       "두산": {
@@ -128,13 +128,13 @@
         "awayDraws": 1
       },
       "SSG": {
-        "wins": 9,
+        "wins": 10,
         "losses": 5,
         "draws": 0,
         "homeWins": 4,
         "homeLosses": 2,
         "homeDraws": 0,
-        "awayWins": 5,
+        "awayWins": 6,
         "awayLosses": 3,
         "awayDraws": 0
       },
@@ -264,10 +264,10 @@
       "삼성": {
         "wins": 7,
         "losses": 5,
-        "draws": 0,
+        "draws": 1,
         "homeWins": 5,
         "homeLosses": 2,
-        "homeDraws": 0,
+        "homeDraws": 1,
         "awayWins": 2,
         "awayLosses": 3,
         "awayDraws": 0
@@ -320,10 +320,10 @@
       },
       "LG": {
         "wins": 5,
-        "losses": 9,
+        "losses": 10,
         "draws": 0,
         "homeWins": 3,
-        "homeLosses": 5,
+        "homeLosses": 6,
         "homeDraws": 0,
         "awayWins": 2,
         "awayLosses": 4,
@@ -588,13 +588,13 @@
       },
       "두산": {
         "wins": 8,
-        "losses": 5,
+        "losses": 6,
         "draws": 1,
         "homeWins": 4,
         "homeLosses": 1,
         "homeDraws": 1,
         "awayWins": 4,
-        "awayLosses": 4,
+        "awayLosses": 5,
         "awayDraws": 0
       },
       "키움": {
@@ -635,13 +635,13 @@
       "롯데": {
         "wins": 5,
         "losses": 7,
-        "draws": 0,
+        "draws": 1,
         "homeWins": 3,
         "homeLosses": 2,
         "homeDraws": 0,
         "awayWins": 2,
         "awayLosses": 5,
-        "awayDraws": 0
+        "awayDraws": 1
       },
       "SSG": {
         "wins": 8,
@@ -712,10 +712,10 @@
     },
     "NC": {
       "한화": {
-        "wins": 5,
+        "wins": 6,
         "losses": 8,
         "draws": 1,
-        "homeWins": 4,
+        "homeWins": 5,
         "homeLosses": 4,
         "homeDraws": 0,
         "awayWins": 1,
@@ -868,10 +868,10 @@
         "awayDraws": 0
       },
       "KIA": {
-        "wins": 5,
+        "wins": 6,
         "losses": 8,
         "draws": 1,
-        "homeWins": 4,
+        "homeWins": 5,
         "homeLosses": 4,
         "homeDraws": 0,
         "awayWins": 1,

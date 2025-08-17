@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2025-08-17T09:24:55.964Z",
+  "lastUpdated": "2025-08-17T13:33:28.154Z",
   "updateDate": "2025. 8. 17.",
   "teamStats": {
     "LG": {
       "totalSeries": 41,
-      "winningSeries": 24,
+      "winningSeries": 25,
       "losingSeries": 12,
-      "splitSeries": 5,
+      "splitSeries": 4,
       "sweepWins": 6,
       "sweepLosses": 1,
-      "seriesWinRate": "58.5",
+      "seriesWinRate": "61.0",
       "series": [
         {
           "opponent": "롯데",
@@ -1934,34 +1934,44 @@
               "result": "L",
               "runs_scored": 7,
               "runs_allowed": 10
+            },
+            {
+              "gameNumber": 113,
+              "date": "2025-08-17",
+              "opponent": "SSG",
+              "isHome": false,
+              "score": "6:1",
+              "result": "W",
+              "runs_scored": 6,
+              "runs_allowed": 1
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
-          "wins": 1,
+          "lastDate": "2025-08-17",
+          "wins": 2,
           "losses": 1,
           "draws": 0,
           "homeGames": 0,
-          "awayGames": 2,
-          "result": "SPLIT",
+          "awayGames": 3,
+          "result": "WIN",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 41
         }
       ],
       "currentStreak": {
-        "type": "SPLIT",
-        "count": 1,
-        "startDate": "2025-08-15",
-        "endDate": "2025-08-16"
+        "type": "WIN",
+        "count": 10,
+        "startDate": "2025-07-08",
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
-        "count": 9,
+        "count": 10,
         "startDate": "2025-07-08",
-        "endDate": "2025-08-12"
+        "endDate": "2025-08-17"
       },
       "longestLosingStreak": {
         "count": 3,
@@ -2035,9 +2045,9 @@
         },
         "SSG": {
           "totalSeries": 5,
-          "wins": 4,
+          "wins": 5,
           "losses": 0,
-          "splits": 1,
+          "splits": 0,
           "sweepWins": 0,
           "sweepLosses": 0
         }
@@ -2046,8 +2056,8 @@
     "한화": {
       "totalSeries": 41,
       "winningSeries": 21,
-      "losingSeries": 14,
-      "splitSeries": 6,
+      "losingSeries": 15,
+      "splitSeries": 5,
       "sweepWins": 9,
       "sweepLosses": 2,
       "seriesWinRate": "51.2",
@@ -3965,29 +3975,39 @@
               "result": "L",
               "runs_scored": 6,
               "runs_allowed": 9
+            },
+            {
+              "gameNumber": 112,
+              "date": "2025-08-17",
+              "opponent": "NC",
+              "isHome": false,
+              "score": "4:9",
+              "result": "L",
+              "runs_scored": 4,
+              "runs_allowed": 9
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
+          "lastDate": "2025-08-17",
           "wins": 1,
-          "losses": 1,
+          "losses": 2,
           "draws": 0,
           "homeGames": 0,
-          "awayGames": 2,
-          "result": "SPLIT",
+          "awayGames": 3,
+          "result": "LOSS",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 41
         }
       ],
       "currentStreak": {
-        "type": "SPLIT",
+        "type": "LOSS",
         "count": 1,
         "startDate": "2025-08-15",
-        "endDate": "2025-08-16"
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 5,
@@ -4067,8 +4087,8 @@
         "NC": {
           "totalSeries": 5,
           "wins": 2,
-          "losses": 1,
-          "splits": 2,
+          "losses": 2,
+          "splits": 1,
           "sweepWins": 1,
           "sweepLosses": 0
         }
@@ -4080,7 +4100,7 @@
       "losingSeries": 15,
       "splitSeries": 6,
       "sweepWins": 4,
-      "sweepLosses": 3,
+      "sweepLosses": 4,
       "seriesWinRate": "48.8",
       "series": [
         {
@@ -5976,20 +5996,30 @@
               "result": "L",
               "runs_scored": 3,
               "runs_allowed": 4
+            },
+            {
+              "gameNumber": 110,
+              "date": "2025-08-17",
+              "opponent": "두산",
+              "isHome": false,
+              "score": "2:4",
+              "result": "L",
+              "runs_scored": 2,
+              "runs_allowed": 4
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
+          "lastDate": "2025-08-17",
           "wins": 0,
-          "losses": 2,
+          "losses": 3,
           "draws": 0,
           "homeGames": 0,
-          "awayGames": 2,
+          "awayGames": 3,
           "result": "LOSS",
-          "isSweep": false,
+          "isSweep": true,
           "isWinningSweep": false,
-          "isLosingSweep": false,
-          "totalGames": 2,
+          "isLosingSweep": true,
+          "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 41
         }
@@ -5998,7 +6028,7 @@
         "type": "LOSS",
         "count": 1,
         "startDate": "2025-08-15",
-        "endDate": "2025-08-16"
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 3,
@@ -6081,7 +6111,7 @@
           "losses": 1,
           "splits": 1,
           "sweepWins": 1,
-          "sweepLosses": 0
+          "sweepLosses": 1
         }
       }
     },
@@ -6090,7 +6120,7 @@
       "winningSeries": 20,
       "losingSeries": 18,
       "splitSeries": 3,
-      "sweepWins": 3,
+      "sweepWins": 4,
       "sweepLosses": 7,
       "seriesWinRate": "48.8",
       "series": [
@@ -8017,20 +8047,30 @@
               "result": "W",
               "runs_scored": 4,
               "runs_allowed": 1
+            },
+            {
+              "gameNumber": 113,
+              "date": "2025-08-17",
+              "opponent": "롯데",
+              "isHome": false,
+              "score": "8:8",
+              "result": "D",
+              "runs_scored": 8,
+              "runs_allowed": 8
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
+          "lastDate": "2025-08-17",
           "wins": 2,
           "losses": 0,
-          "draws": 0,
+          "draws": 1,
           "homeGames": 0,
-          "awayGames": 2,
+          "awayGames": 3,
           "result": "WIN",
-          "isSweep": false,
-          "isWinningSweep": false,
+          "isSweep": true,
+          "isWinningSweep": true,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 41
         }
@@ -8039,7 +8079,7 @@
         "type": "WIN",
         "count": 1,
         "startDate": "2025-08-15",
-        "endDate": "2025-08-16"
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 4,
@@ -8121,7 +8161,7 @@
           "wins": 2,
           "losses": 3,
           "splits": 0,
-          "sweepWins": 0,
+          "sweepWins": 1,
           "sweepLosses": 1
         }
       }
@@ -10190,8 +10230,8 @@
     "SSG": {
       "totalSeries": 40,
       "winningSeries": 18,
-      "losingSeries": 16,
-      "splitSeries": 6,
+      "losingSeries": 17,
+      "splitSeries": 5,
       "sweepWins": 2,
       "sweepLosses": 1,
       "seriesWinRate": "45.0",
@@ -12079,29 +12119,39 @@
               "result": "W",
               "runs_scored": 10,
               "runs_allowed": 7
+            },
+            {
+              "gameNumber": 111,
+              "date": "2025-08-17",
+              "opponent": "LG",
+              "isHome": true,
+              "score": "1:6",
+              "result": "L",
+              "runs_scored": 1,
+              "runs_allowed": 6
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
+          "lastDate": "2025-08-17",
           "wins": 1,
-          "losses": 1,
+          "losses": 2,
           "draws": 0,
-          "homeGames": 2,
+          "homeGames": 3,
           "awayGames": 0,
-          "result": "SPLIT",
+          "result": "LOSS",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 40
         }
       ],
       "currentStreak": {
-        "type": "SPLIT",
-        "count": 2,
-        "startDate": "2025-08-12",
-        "endDate": "2025-08-16"
+        "type": "LOSS",
+        "count": 1,
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 4,
@@ -12173,8 +12223,8 @@
         "LG": {
           "totalSeries": 5,
           "wins": 0,
-          "losses": 4,
-          "splits": 1,
+          "losses": 5,
+          "splits": 0,
           "sweepWins": 0,
           "sweepLosses": 0
         },
@@ -12194,7 +12244,7 @@
       "losingSeries": 18,
       "splitSeries": 5,
       "sweepWins": 5,
-      "sweepLosses": 1,
+      "sweepLosses": 2,
       "seriesWinRate": "43.9",
       "series": [
         {
@@ -14140,20 +14190,30 @@
               "result": "L",
               "runs_scored": 1,
               "runs_allowed": 4
+            },
+            {
+              "gameNumber": 115,
+              "date": "2025-08-17",
+              "opponent": "삼성",
+              "isHome": true,
+              "score": "8:8",
+              "result": "D",
+              "runs_scored": 8,
+              "runs_allowed": 8
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
+          "lastDate": "2025-08-17",
           "wins": 0,
           "losses": 2,
-          "draws": 0,
-          "homeGames": 2,
+          "draws": 1,
+          "homeGames": 3,
           "awayGames": 0,
           "result": "LOSS",
-          "isSweep": false,
+          "isSweep": true,
           "isWinningSweep": false,
-          "isLosingSweep": false,
-          "totalGames": 2,
+          "isLosingSweep": true,
+          "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 41
         }
@@ -14162,7 +14222,7 @@
         "type": "LOSS",
         "count": 4,
         "startDate": "2025-08-05",
-        "endDate": "2025-08-16"
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 4,
@@ -14245,7 +14305,7 @@
           "losses": 2,
           "splits": 0,
           "sweepWins": 1,
-          "sweepLosses": 0
+          "sweepLosses": 1
         }
       }
     },
@@ -14254,7 +14314,7 @@
       "winningSeries": 12,
       "losingSeries": 22,
       "splitSeries": 6,
-      "sweepWins": 1,
+      "sweepWins": 2,
       "sweepLosses": 4,
       "seriesWinRate": "30.0",
       "series": [
@@ -16161,20 +16221,30 @@
               "result": "W",
               "runs_scored": 4,
               "runs_allowed": 3
+            },
+            {
+              "gameNumber": 113,
+              "date": "2025-08-17",
+              "opponent": "KIA",
+              "isHome": true,
+              "score": "4:2",
+              "result": "W",
+              "runs_scored": 4,
+              "runs_allowed": 2
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
-          "wins": 2,
+          "lastDate": "2025-08-17",
+          "wins": 3,
           "losses": 0,
           "draws": 0,
-          "homeGames": 2,
+          "homeGames": 3,
           "awayGames": 0,
           "result": "WIN",
-          "isSweep": false,
-          "isWinningSweep": false,
+          "isSweep": true,
+          "isWinningSweep": true,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 40
         }
@@ -16183,7 +16253,7 @@
         "type": "WIN",
         "count": 1,
         "startDate": "2025-08-15",
-        "endDate": "2025-08-16"
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 3,
@@ -16257,7 +16327,7 @@
           "wins": 1,
           "losses": 3,
           "splits": 1,
-          "sweepWins": 0,
+          "sweepWins": 1,
           "sweepLosses": 1
         },
         "NC": {
@@ -16272,12 +16342,12 @@
     },
     "NC": {
       "totalSeries": 39,
-      "winningSeries": 15,
+      "winningSeries": 16,
       "losingSeries": 16,
-      "splitSeries": 8,
+      "splitSeries": 7,
       "sweepWins": 6,
       "sweepLosses": 5,
-      "seriesWinRate": "38.5",
+      "seriesWinRate": "41.0",
       "series": [
         {
           "opponent": "KIA",
@@ -18112,29 +18182,39 @@
               "result": "W",
               "runs_scored": 9,
               "runs_allowed": 6
+            },
+            {
+              "gameNumber": 108,
+              "date": "2025-08-17",
+              "opponent": "한화",
+              "isHome": true,
+              "score": "9:4",
+              "result": "W",
+              "runs_scored": 9,
+              "runs_allowed": 4
             }
           ],
           "startDate": "2025-08-15",
-          "lastDate": "2025-08-16",
-          "wins": 1,
+          "lastDate": "2025-08-17",
+          "wins": 2,
           "losses": 1,
           "draws": 0,
-          "homeGames": 2,
+          "homeGames": 3,
           "awayGames": 0,
-          "result": "SPLIT",
+          "result": "WIN",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 39
         }
       ],
       "currentStreak": {
-        "type": "SPLIT",
-        "count": 2,
-        "startDate": "2025-08-12",
-        "endDate": "2025-08-16"
+        "type": "WIN",
+        "count": 1,
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-17"
       },
       "longestWinningStreak": {
         "count": 3,
@@ -18197,9 +18277,9 @@
         },
         "한화": {
           "totalSeries": 5,
-          "wins": 1,
+          "wins": 2,
           "losses": 2,
-          "splits": 2,
+          "splits": 1,
           "sweepWins": 0,
           "sweepLosses": 1
         },
@@ -20321,8 +20401,8 @@
         "totalSeries": 5
       },
       "SSG": {
-        "record": "4-0-1",
-        "winRate": "80.0",
+        "record": "5-0-0",
+        "winRate": "100.0",
         "sweeps": "0-0",
         "totalSeries": 5
       },
@@ -20396,7 +20476,7 @@
         "totalSeries": 4
       },
       "NC": {
-        "record": "2-1-2",
+        "record": "2-2-1",
         "winRate": "40.0",
         "sweeps": "1-0",
         "totalSeries": 5
@@ -20449,7 +20529,7 @@
       "두산": {
         "record": "3-1-1",
         "winRate": "60.0",
-        "sweeps": "1-0",
+        "sweeps": "1-1",
         "totalSeries": 5
       },
       "NC": {
@@ -20500,7 +20580,7 @@
       "롯데": {
         "record": "2-3-0",
         "winRate": "40.0",
-        "sweeps": "0-1",
+        "sweeps": "1-1",
         "totalSeries": 5
       },
       "두산": {
@@ -20581,7 +20661,7 @@
     },
     "SSG": {
       "LG": {
-        "record": "0-4-1",
+        "record": "0-5-0",
         "winRate": "0.0",
         "sweeps": "0-0",
         "totalSeries": 5
@@ -20658,7 +20738,7 @@
       "삼성": {
         "record": "3-2-0",
         "winRate": "60.0",
-        "sweeps": "1-0",
+        "sweeps": "1-1",
         "totalSeries": 5
       },
       "KT": {
@@ -20709,7 +20789,7 @@
       "KIA": {
         "record": "1-3-1",
         "winRate": "20.0",
-        "sweeps": "0-1",
+        "sweeps": "1-1",
         "totalSeries": 5
       },
       "삼성": {
@@ -20758,8 +20838,8 @@
         "totalSeries": 4
       },
       "한화": {
-        "record": "1-2-2",
-        "winRate": "20.0",
+        "record": "2-2-1",
+        "winRate": "40.0",
         "sweeps": "0-1",
         "totalSeries": 5
       },
@@ -20868,6 +20948,58 @@
   "sweepHighlights": {
     "recentSweeps": [
       {
+        "team": "KIA",
+        "opponent": "두산",
+        "type": "LOSS",
+        "gameCount": 3,
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-17",
+        "scores": [
+          "5:6",
+          "3:4",
+          "2:4"
+        ]
+      },
+      {
+        "team": "삼성",
+        "opponent": "롯데",
+        "type": "WIN",
+        "gameCount": 3,
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-17",
+        "scores": [
+          "10:4",
+          "4:1",
+          "8:8"
+        ]
+      },
+      {
+        "team": "롯데",
+        "opponent": "삼성",
+        "type": "LOSS",
+        "gameCount": 3,
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-17",
+        "scores": [
+          "4:10",
+          "1:4",
+          "8:8"
+        ]
+      },
+      {
+        "team": "두산",
+        "opponent": "KIA",
+        "type": "WIN",
+        "gameCount": 3,
+        "startDate": "2025-08-15",
+        "endDate": "2025-08-17",
+        "scores": [
+          "6:5",
+          "4:3",
+          "4:2"
+        ]
+      },
+      {
         "team": "한화",
         "opponent": "롯데",
         "type": "WIN",
@@ -20944,58 +21076,6 @@
           "9:5",
           "13:12"
         ]
-      },
-      {
-        "team": "LG",
-        "opponent": "삼성",
-        "type": "WIN",
-        "gameCount": 3,
-        "startDate": "2025-08-01",
-        "endDate": "2025-08-03",
-        "scores": [
-          "4:2",
-          "3:2",
-          "6:3"
-        ]
-      },
-      {
-        "team": "삼성",
-        "opponent": "LG",
-        "type": "LOSS",
-        "gameCount": 3,
-        "startDate": "2025-08-01",
-        "endDate": "2025-08-03",
-        "scores": [
-          "2:4",
-          "2:3",
-          "3:6"
-        ]
-      },
-      {
-        "team": "KT",
-        "opponent": "NC",
-        "type": "LOSS",
-        "gameCount": 3,
-        "startDate": "2025-08-01",
-        "endDate": "2025-08-03",
-        "scores": [
-          "3:5",
-          "6:7",
-          "1:1"
-        ]
-      },
-      {
-        "team": "NC",
-        "opponent": "KT",
-        "type": "WIN",
-        "gameCount": 3,
-        "startDate": "2025-08-01",
-        "endDate": "2025-08-03",
-        "scores": [
-          "5:3",
-          "7:6",
-          "1:1"
-        ]
       }
     ],
     "mostSweeps": [
@@ -21014,14 +21094,8 @@
       {
         "team": "롯데",
         "sweepWins": 5,
-        "sweepLosses": 1,
-        "sweepDifference": 4
-      },
-      {
-        "team": "KIA",
-        "sweepWins": 4,
-        "sweepLosses": 3,
-        "sweepDifference": 1
+        "sweepLosses": 2,
+        "sweepDifference": 3
       },
       {
         "team": "SSG",
@@ -21036,22 +21110,28 @@
         "sweepDifference": 1
       },
       {
+        "team": "KIA",
+        "sweepWins": 4,
+        "sweepLosses": 4,
+        "sweepDifference": 0
+      },
+      {
+        "team": "두산",
+        "sweepWins": 2,
+        "sweepLosses": 4,
+        "sweepDifference": -2
+      },
+      {
+        "team": "삼성",
+        "sweepWins": 4,
+        "sweepLosses": 7,
+        "sweepDifference": -3
+      },
+      {
         "team": "KT",
         "sweepWins": 3,
         "sweepLosses": 6,
         "sweepDifference": -3
-      },
-      {
-        "team": "두산",
-        "sweepWins": 1,
-        "sweepLosses": 4,
-        "sweepDifference": -3
-      },
-      {
-        "team": "삼성",
-        "sweepWins": 3,
-        "sweepLosses": 7,
-        "sweepDifference": -4
       },
       {
         "team": "키움",
