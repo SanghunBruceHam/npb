@@ -139,13 +139,19 @@
             }
         }
         
-        // 모바일 기기에서만 안내 메시지 표시
+        // 모바일/태블릿 기기에서만 안내 메시지 표시
         document.addEventListener('DOMContentLoaded', function() {
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isSmallScreen = window.innerWidth <= 768;
             const deviceNotice = document.getElementById('deviceNotice');
             
-            if (!isMobile && deviceNotice) {
-                deviceNotice.style.display = 'none';
+            // 모바일 기기이거나 화면이 작은 경우에만 표시
+            if (deviceNotice) {
+                if (isMobile || isSmallScreen) {
+                    deviceNotice.style.display = 'block';
+                } else {
+                    deviceNotice.style.display = 'none';
+                }
             }
         });
     </script>
@@ -1374,6 +1380,14 @@
             max-width: 100%;
         }
 
+        /* 모바일 전용 스타일 */
+        .mobile-notice {
+            display: none; /* 기본적으로 숨김 */
+            margin-top: 12px;
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+        }
+
         /* 모바일 반응형 폰트 조정 */
         @media (max-width: 768px) {
             :root {
@@ -1441,6 +1455,52 @@
                 max-width: 70px;
                 padding: 8px 4px;
                 font-size: var(--font-xs);
+            }
+
+            /* 모바일에서 안내 메시지 표시 */
+            .mobile-notice {
+                display: block !important;
+            }
+
+            /* 모바일에서 업데이트 정보 스타일 개선 */
+            .update-info {
+                font-size: 0.8rem !important;
+                padding: 8px 12px !important;
+                background: rgba(255,255,255,0.15) !important;
+                border-radius: 6px !important;
+                border: 1px solid rgba(255,255,255,0.2) !important;
+                margin-bottom: 8px !important;
+            }
+
+            /* 모바일에서 팀 로고와 팀명 간격 조정 */
+            .team-name-with-logo {
+                gap: 4px !important;
+            }
+
+            .matrix-table .team-name-with-logo {
+                gap: 2px !important;
+            }
+
+            .weekly-table .team-name-with-logo, 
+            .all-teams-table .team-name-with-logo {
+                gap: 3px !important;
+            }
+
+            #monthlyTable .team-name-with-logo {
+                gap: 1px !important;
+            }
+
+            /* 홈/원정 분석 테이블 */
+            #homeAwayTable .team-name-with-logo {
+                gap: 3px !important;
+            }
+            #homeAwayTable td.team-name {
+                padding: 8px 2px !important;
+            }
+
+            /* 팀 로고 크기도 약간 조정 */
+            .team-logo, .team-logo-small {
+                margin-right: 3px !important;
             }
             
         }
@@ -2552,12 +2612,20 @@
             <div class="update-info" id="updateInfo">
                 📅 데이터 로딩 중...
             </div>
-            <div style="margin-top: 8px; font-size: 0.75rem; color: rgba(255,255,255,0.85); text-align: center;" id="deviceNotice">
-                <span style="opacity: 0.9;">
-                    ※ 본 대시보드는 PC 환경에 최적화되어 있습니다. 
-                    모바일에서는 가로 모드 사용을 권장합니다.
-                    <a href="javascript:void(0);" onclick="requestDesktopSite()" style="color: #ffd700; text-decoration: underline; margin-left: 5px;">PC 버전으로 보기</a>
-                </span>
+            <!-- 모바일 전용 안내 메시지 -->
+            <div class="mobile-notice" id="deviceNotice">
+                <div style="margin-bottom: 8px; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="font-size: 0.8rem; margin-bottom: 4px;">
+                        📱 <strong>모바일 이용 안내</strong>
+                    </div>
+                    <div style="font-size: 0.75rem; line-height: 1.4;">
+                        본 대시보드는 PC 환경에 최적화되어 있습니다.<br>
+                        모바일에서는 <strong>가로 모드</strong> 사용을 권장합니다.
+                    </div>
+                    <div style="margin-top: 6px;">
+                        <a href="javascript:void(0);" onclick="requestDesktopSite()" style="color: #ffd700; text-decoration: underline; font-size: 0.75rem; font-weight: 500;">PC 버전으로 보기</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2638,9 +2706,9 @@
                 </div>
 
                 <!-- 시즌 주요 일정 -->
-                <div style="margin-top: 30px; padding: 15px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #3b82f6;">
-                    <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">🗓️ 시즌 주요 일정</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem; color: #4b5563;">
+                <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                    <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">🗓️ 시즌 주요 일정</div>
+                    <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
                         <div><strong>정규시즌:</strong> 3월 ~ 9월</div>
                         <div><strong>총 경기:</strong> 720경기 (팀당 144경기)</div>
                         <div><strong>올스타전:</strong> 7월 11~12일 (대전)</div>
@@ -2853,7 +2921,7 @@
                     <thead>
                         <tr>
                             <th>순위</th>
-                            <th style="min-width: 80px;">팀</th>
+                            <th style="min-width: 60px;">팀</th>
                             <th>홈 경기</th>
                             <th>홈 승</th>
                             <th>홈 패</th>
@@ -2863,7 +2931,7 @@
                             <th>원정 패</th>
                             <th>원정 승률</th>
                             <th>홈 어드밴티지</th>
-                            <th>홈구장</th>
+                            <th style="min-width: 140px;">홈구장</th>
                         </tr>
                     </thead>
                     <tbody id="homeAwayBody">
