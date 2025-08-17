@@ -3045,7 +3045,8 @@
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                     <div style="margin-bottom: 6px;"><strong>피타고리안 기대승률:</strong> 득점과 실점으로 계산한 '이론적' 승률 (득점²÷(득점²+실점²))</div>
                     <div style="margin-bottom: 6px;"><strong>운 지수:</strong> 실제승률 - 기대승률 (양수: 운이 좋음, 음수: 운이 나쁨)</div>
-                    <div><strong>운 상태:</strong> +0.05 이상(매우 좋음), +0.02~0.05(좋음), -0.02~+0.02(평균적), -0.05 이하(나쁨)</div>
+                    <div style="margin-bottom: 6px;"><strong>운 상태:</strong> +0.05 이상(매우 좋음), +0.03~0.05(좋음), +0.01~0.03(약간 좋음), ±0.01(평균적), -0.01~-0.03(약간 나쁨), -0.03~-0.05(나쁨), -0.05 이하(매우 나쁨)</div>
+                    <div><strong>색상 구분:</strong> 녹색(양수), 노란색(±0.01), 빨간색(음수)</div>
                 </div>
             </div>
         </div>
@@ -3160,7 +3161,8 @@
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                     <div style="margin-bottom: 6px;"><strong>홈 경기:</strong> 자기 팀 구장에서 치르는 경기 (관중 응원, 환경 익숙함 등 유리)</div>
                     <div style="margin-bottom: 6px;"><strong>원정 경기:</strong> 상대 팀 구장에서 치르는 경기 (불리한 환경)</div>
-                    <div><strong>홈 어드밴티지:</strong> 홈승률 - 원정승률 (양수일수록 홈에서 강함, 보통 0.05~0.15)</div>
+                    <div style="margin-bottom: 6px;"><strong>홈 어드밴티지:</strong> 홈승률 - 원정승률 (양수일수록 홈에서 강함, 보통 0.05~0.15)</div>
+                    <div><strong>색상 구분:</strong> 녹색(0.5 초과), 노란색(0.5 기준), 빨간색(0.5 미만)</div>
                 </div>
             </div>
         </div>
@@ -4591,8 +4593,18 @@
                 const avgAllowed = teamData ? (teamData.runs_allowed / teamData.games_played).toFixed(2) : '-';
 
                 const row = document.createElement('tr');
-                const luckClass = parseFloat(team.luck_factor) > 0.02 ? 'positive' : 
-                                 parseFloat(team.luck_factor) < -0.02 ? 'negative' : 'neutral';
+                // 운지수 그라데이션 색상 함수 (차이값 기준)
+                function getLuckClass(luckValue) {
+                    if (luckValue >= 0.05) return 'positive-very-strong';  // 매우 운이 좋음
+                    if (luckValue >= 0.03) return 'positive-strong';       // 운이 좋음
+                    if (luckValue >= 0.01) return 'positive-light';        // 약간 운이 좋음
+                    if (luckValue >= -0.01 && luckValue <= 0.01) return 'neutral-medium';  // 평균적
+                    if (luckValue >= -0.03) return 'negative-light';       // 약간 운이 나쁨
+                    if (luckValue >= -0.05) return 'negative-strong';      // 운이 나쁨
+                    return 'negative-very-strong';                         // 매우 운이 나쁨
+                }
+                
+                const luckClass = getLuckClass(parseFloat(team.luck_factor));
                 
                 row.innerHTML = `
                     <td class="rank-${rank <= 3 ? rank : 'other'}" style="font-weight: var(--font-weight-bold); text-align: center;">${rank}</td>
@@ -4735,15 +4747,33 @@
                     const homeAdvantageClass = normalizedAdvantage > 0.05 ? 'positive' : 
                                               normalizedAdvantage < -0.05 ? 'negative' : 'neutral';
                     
+                    // 0.5 기준 색상 함수 (클러치 분석과 동일)
+                    function getWinRateClass(rate) {
+                        if (rate > 0.5) {
+                            // 0.5 초과 - 녹색 그라데이션
+                            if (rate >= 0.65) return 'positive-very-strong';
+                            if (rate >= 0.6) return 'positive-strong';
+                            if (rate >= 0.55) return 'positive-medium';
+                            return 'positive-light';
+                        } else if (rate === 0.5) {
+                            // 0.5 정확히 - 노란색
+                            return 'neutral-medium';
+                        } else {
+                            // 0.5 미만 - 빨간색 그라데이션
+                            if (rate >= 0.45) return 'negative-light';
+                            if (rate >= 0.4) return 'negative-medium';
+                            if (rate >= 0.35) return 'negative-strong';
+                            return 'negative-very-strong';
+                        }
+                    }
+                    
                     const homeWinRateValue = parseFloat(team.home.winRate);
                     const normalizedHomeRate = homeWinRateValue > 1 ? homeWinRateValue / 100 : homeWinRateValue;
                     const awayWinRateValue = parseFloat(team.away.winRate);
                     const normalizedAwayRate = awayWinRateValue > 1 ? awayWinRateValue / 100 : awayWinRateValue;
                     
-                    const homeWinRateClass = normalizedHomeRate > 0.55 ? 'positive' : 
-                                            normalizedHomeRate < 0.45 ? 'negative' : 'neutral';
-                    const awayWinRateClass = normalizedAwayRate > 0.55 ? 'positive' : 
-                                            normalizedAwayRate < 0.45 ? 'negative' : 'neutral';
+                    const homeWinRateClass = getWinRateClass(normalizedHomeRate);
+                    const awayWinRateClass = getWinRateClass(normalizedAwayRate);
                     
                     row.innerHTML = `
                         <td class="rank-${rank <= 3 ? rank : 'other'}" style="font-weight: var(--font-weight-bold); text-align: center;">${rank}</td>
