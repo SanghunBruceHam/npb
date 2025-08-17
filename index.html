@@ -4047,14 +4047,14 @@
             <div class="team-detailed-records">
                 <div class="team-selector" style="text-align: center; margin-bottom: 25px;">
                     <h3 style="margin-bottom: 15px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📋 팀 선택</h3>
-                    <div class="team-tabs" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 800px; margin: 0 auto; border: 1px solid #e9ecef;">
+                    <div class="team-tabs" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto;">
                         ${teams.map(team => 
                             `<button onclick="changeSelectedTeam('${team}')" 
                                 class="team-tab ${team === currentSelectedTeam ? 'active' : ''}" 
-                                style="padding: 8px 14px; font-size: var(--font-base); font-weight: var(--font-weight-medium); border: 1px solid ${team === currentSelectedTeam ? '#495057' : '#dee2e6'}; border-radius: 6px; background: ${team === currentSelectedTeam ? '#495057' : 'white'}; color: ${team === currentSelectedTeam ? 'white' : '#666'}; cursor: pointer; transition: all 0.2s ease; min-width: 50px;"
+                                style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid ${team === currentSelectedTeam ? '#495057' : '#dee2e6'}; border-radius: 6px; background: ${team === currentSelectedTeam ? '#495057' : 'white'}; color: ${team === currentSelectedTeam ? 'white' : '#666'}; cursor: pointer; transition: all 0.2s ease; min-width: 75px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;"
                                 onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }"
                                 onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">
-                                ${team}
+                                ${getTeamWithLogo(team, 'team-logo-small')}
                             </button>`
                         ).join('')}
                     </div>
