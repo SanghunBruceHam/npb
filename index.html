@@ -164,6 +164,23 @@
             if (forcePCVersion) {
                 document.body.classList.add('force-desktop');
             }
+            
+            // 접근성 문제 방지: body에 aria-hidden이 설정되는 것을 감지하고 제거
+            const bodyAriaObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden') {
+                        if (document.body.hasAttribute('aria-hidden')) {
+                            console.warn('body에 aria-hidden 속성이 감지되어 제거합니다.');
+                            document.body.removeAttribute('aria-hidden');
+                        }
+                    }
+                });
+            });
+            
+            bodyAriaObserver.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['aria-hidden']
+            });
         });
     </script>
     
