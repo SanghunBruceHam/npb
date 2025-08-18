@@ -3525,7 +3525,7 @@
         let dashboardData = null;
         let weeklyAnalysisData = null;
         let gameRecordsData = null;
-        let currentSelectedTeam = 'LG';
+        let currentSelectedTeam = '전체';
         
         // 승률에 따른 5단계 클래스 반환 함수
         function getWinRateClass(winRate) {
@@ -4089,7 +4089,7 @@
         function renderTeamDetailedRecords() {
             if (!gameRecordsData) return;
 
-            const teams = ['LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
+            const teams = ['전체', 'LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
             
             let html = `
             <div class="team-detailed-records">
@@ -4102,14 +4102,18 @@
                                 style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid ${team === currentSelectedTeam ? '#495057' : '#dee2e6'}; border-radius: 6px; background: ${team === currentSelectedTeam ? '#495057' : 'white'}; color: ${team === currentSelectedTeam ? 'white' : '#666'}; cursor: pointer; transition: all 0.2s ease; min-width: 75px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;"
                                 onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }"
                                 onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">
-                                ${getTeamWithLogo(team, 'team-logo-small')}
+                                ${team === '전체' ? '📊 전체' : getTeamWithLogo(team, 'team-logo-small')}
                             </button>`
                         ).join('')}
                     </div>
                 </div>`;
 
-            const teamRecord = gameRecordsData[currentSelectedTeam];
-            if (teamRecord) {
+            // 전체 탭 선택 시 날짜/구장별 경기 결과 표시
+            if (currentSelectedTeam === '전체') {
+                html += renderAllTeamsStadiumView();
+            } else {
+                const teamRecord = gameRecordsData[currentSelectedTeam];
+                if (teamRecord) {
                 // 최근 10경기 기록
                 const recentGames = teamRecord.games.slice(-10);
                 const recent10Record = recentGames.reduce((acc, game) => {
@@ -4156,7 +4160,7 @@
                                 <span style="font-size: var(--font-sm); color: #718096; font-weight: var(--font-weight-medium);">현재연속</span>
                                 <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="${teamRecord.currentStreak.type === 'W' ? 'win-color' : teamRecord.currentStreak.type === 'L' ? 'loss-color' : ''}">
                                     ${teamRecord.currentStreak.type === 'W' ? `${teamRecord.currentStreak.count}연승` : 
-                                      teamRecord.currentStreak.type === 'L' ? `${teamRecord.currentStreak.count}연패` : '없음'}
+                                      teamRecord.currentStreak.type === 'L' ? `${teamRecord.currentStreak.count}연패` : '무'}
                                 </span>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
@@ -4247,15 +4251,142 @@
                         </div>
                     </div>
                 </div>`;
+                }
             }
 
             html += `</div>`;
             document.getElementById('teamDetailedRecordsContent').innerHTML = html;
             
             // 정렬 기능 초기화
-            if (teamRecord) {
+            if (currentSelectedTeam !== '전체' && gameRecordsData[currentSelectedTeam]) {
                 initializeDetailedTableSorting();
             }
+        }
+        
+        // 전체 팀 날짜별 경기 결과 뷰 렌더링 (개별 팀과 일관된 스타일)
+        function renderAllTeamsStadiumView() {
+            if (!gameRecordsData) return '';
+            
+            // 모든 팀의 게임 데이터 수집
+            const allGames = [];
+            const teams = ['LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
+            
+            teams.forEach(team => {
+                if (gameRecordsData[team] && gameRecordsData[team].games) {
+                    gameRecordsData[team].games.forEach(game => {
+                        if (game && game.date && game.date !== 'undefined') {
+                            allGames.push({
+                                ...game,
+                                team: team
+                            });
+                        }
+                    });
+                }
+            });
+            
+            // 날짜별로 그룹화
+            const gamesByDate = {};
+            allGames.forEach(game => {
+                if (!gamesByDate[game.date]) {
+                    gamesByDate[game.date] = [];
+                }
+                gamesByDate[game.date].push(game);
+            });
+            
+            // 날짜 목록 추출 및 정렬 (첫 경기부터)
+            const dates = Object.keys(gamesByDate).filter(date => date && date !== 'undefined').sort();
+            
+            let html = `
+            <div class="all-teams-overview">
+                <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 팀 날짜별 경기 결과</h4>
+                
+                <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+                    <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
+                        <thead>
+                            <tr style="background: #34495e; color: white; position: sticky; top: 0; z-index: 10;">
+                                <th style="padding: 10px 8px; border: 1px solid #495057; text-align: center; min-width: 100px;">날짜</th>
+                                ${teams.map(team => 
+                                    `<th style="padding: 10px 6px; border: 1px solid #495057; text-align: center; min-width: 80px; font-size: var(--font-xs);">${getTeamWithLogo(team, 'team-logo-small')}</th>`
+                                ).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>`;
+            
+            // 날짜별 행 생성 (모든 경기 표시)
+            dates.forEach(date => {
+                // 날짜 형식을 개별 팀과 동일하게 처리
+                const gameDate = new Date(date);
+                const dayOfWeek = gameDate.getDay();
+                const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                
+                // 공휴일 정보 추가 (개별 팀과 동일)
+                const holidayInfo = getHolidayInfo(date);
+                const displayDate = date + holidayInfo;
+                const isHoliday = koreaHolidays2025[date];
+                
+                // 날짜 클래스 결정 (개별 팀과 동일)
+                let dateClass = 'weekday-date';
+                if (isHoliday) {
+                    dateClass = 'holiday-date';
+                } else if (isWeekend) {
+                    dateClass = 'weekend-date';
+                }
+                
+                html += `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td class="date-cell ${dateClass}" style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f8f9fa; font-weight: var(--font-weight-semibold);">
+                        ${displayDate}
+                    </td>`;
+                
+                // 각 팀별로 해당 날짜의 경기 결과 표시
+                teams.forEach(team => {
+                    const teamGames = gamesByDate[date] ? gamesByDate[date].filter(game => game.team === team) : [];
+                    
+                    if (teamGames.length === 0) {
+                        html += `<td style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f9f9f9; color: #999;">-</td>`;
+                    } else {
+                        // 해당 팀의 경기 결과 표시 (개별 팀과 동일한 스타일)
+                        const gameResults = teamGames.map(game => {
+                            // 개별 팀 테이블과 동일한 색상 적용
+                            let rowClass = '';
+                            if (game.result === 'W') rowClass = 'win-row';
+                            else if (game.result === 'L') rowClass = 'loss-row';
+                            else rowClass = 'draw-row';
+                            
+                            const venueIcon = game.isHome ? '🏠' : '✈️';
+                            const venueClass = game.isHome ? 'home-venue' : 'away-venue';
+                            
+                            return `<div class="${rowClass}" style="margin: 1px 0; padding: 3px 4px; border-radius: 3px; font-weight: var(--font-weight-semibold); font-size: var(--font-xs); line-height: 1.2;">
+                                <span class="${venueClass}">${venueIcon}</span> vs ${game.opponent}<br>
+                                <span class="result-badge ${game.result.toLowerCase()}">${game.result === 'W' ? '승' : game.result === 'L' ? '패' : '무'}</span> ${game.score}
+                            </div>`;
+                        }).join('');
+                        
+                        html += `<td style="padding: 4px 2px; border: 1px solid #e2e8f0; text-align: center;">${gameResults}</td>`;
+                    }
+                });
+                
+                html += `</tr>`;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 설명 (개별 팀과 동일한 스타일) -->
+                <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                    <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📊 전체 경기 결과 설명</div>
+                    <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
+                        <div style="margin-bottom: 6px;"><strong>날짜:</strong> <span style="color: #1f2937;">평일</span> (검은색), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">주말</span> (빨간색)</div>
+                        <div style="margin-bottom: 6px;"><strong>홈/원정:</strong> <span style="color: #2563eb; font-weight: var(--font-weight-semibold);">🏠</span> (홈경기), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">✈️</span> (원정경기)</div>
+                        <div style="margin-bottom: 6px;"><strong>결과:</strong> <span style="color: #16a34a; font-weight: var(--font-weight-semibold);">승</span> (승리), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">패</span> (패배), <span style="color: #6b7280; font-weight: var(--font-weight-semibold);">무</span> (무승부)</div>
+                        <div><strong>표시:</strong> 각 팀의 해당 날짜 경기 결과 (상대팀, 점수 포함)</div>
+                    </div>
+                </div>
+            </div>`;
+            
+            return html;
         }
 
         // 팀별 상세 테이블 정렬 기능 초기화
