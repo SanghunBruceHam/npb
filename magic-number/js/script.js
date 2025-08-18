@@ -2705,5 +2705,40 @@ const kboTeams = {
             setTimeout(() => {
                 updateActiveOnScroll();
             }, 100);
+            
+            // Sticky 네비게이션 구현
+            const navigation = document.querySelector('.navigation');
+            const header = document.querySelector('.header');
+            let navigationOffset = 0;
+            
+            function updateNavigationOffset() {
+                if (navigation) {
+                    navigationOffset = navigation.offsetTop;
+                }
+            }
+            
+            function handleScroll() {
+                if (!navigation) return;
+                
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > navigationOffset) {
+                    navigation.classList.add('sticky');
+                    // sticky 상태일 때 body에 패딩 추가하여 점프 방지
+                    document.body.style.paddingTop = navigation.offsetHeight + 'px';
+                } else {
+                    navigation.classList.remove('sticky');
+                    document.body.style.paddingTop = '0px';
+                }
+            }
+            
+            // 초기 오프셋 계산
+            updateNavigationOffset();
+            
+            // 스크롤 이벤트 리스너
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            
+            // 윈도우 리사이즈 시 오프셋 재계산
+            window.addEventListener('resize', updateNavigationOffset);
         });
 

@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, initial-scale=0.5, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     
     <!-- SEO 메타 태그 -->
     <title>KBO 매직넘버 계산기 2025 - KIA 타이거즈, 삼성 라이온즈, LG 트윈스, 두산 베어스, KT 위즈, NC 다이노스, SSG 랜더스, 롯데 자이언츠, 한화 이글스, 키움 히어로즈</title>
@@ -221,42 +221,47 @@
     <link rel="stylesheet" href="css/styles.css">
     
     <script>
-        // 모바일/태블릿 기기에서만 안내 메시지 표시
+        // 모바일 반응형 처리
         document.addEventListener('DOMContentLoaded', function() {
             const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isSmallScreen = window.innerWidth <= 768;
             const deviceNotice = document.getElementById('deviceNotice');
             
-            // 사용자가 PC 버전 선택했는지 확인
-            const forcePCVersion = localStorage.getItem('forcePCVersion') === 'true';
+            // 기존 PC 버전 강제 설정 초기화 (모바일 최적화를 위해)
+            localStorage.removeItem('forcePCVersion');
             
-            // PC 버전으로 보기 버튼 이벤트
+            // PC 버전으로 보기 버튼 이벤트 (viewport 변경)
             window.switchToPCVersion = function() {
-                localStorage.setItem('forcePCVersion', 'true');
+                const viewport = document.querySelector('meta[name="viewport"]');
+                viewport.setAttribute('content', 'width=1200, initial-scale=0.5, user-scalable=yes');
                 if (deviceNotice) deviceNotice.style.display = 'none';
-                // 모바일 스타일 무효화
                 document.body.classList.add('force-desktop');
             };
             
             // 모바일 버전으로 돌아가기 기능
             window.switchToMobileVersion = function() {
-                localStorage.removeItem('forcePCVersion');
+                const viewport = document.querySelector('meta[name="viewport"]');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
+                document.body.classList.remove('force-desktop');
                 location.reload();
             };
             
-            // 모바일 기기이거나 화면이 작은 경우에만 표시 (PC 버전 강제 선택하지 않은 경우)
-            if (deviceNotice) {
-                if (!forcePCVersion && (isMobile || isSmallScreen)) {
-                    deviceNotice.style.display = 'block';
-                } else {
-                    deviceNotice.style.display = 'none';
-                }
+            // 모바일 기기이거나 화면이 작은 경우 안내 메시지 표시
+            if (deviceNotice && (isMobile || isSmallScreen)) {
+                deviceNotice.style.display = 'block';
             }
             
-            // PC 버전 강제 선택된 상태라면 모바일 스타일 무효화
-            if (forcePCVersion) {
-                document.body.classList.add('force-desktop');
-            }
+            // 화면 크기 변경 감지
+            window.addEventListener('resize', function() {
+                const currentWidth = window.innerWidth;
+                if (deviceNotice) {
+                    if (currentWidth <= 768) {
+                        deviceNotice.style.display = 'block';
+                    } else {
+                        deviceNotice.style.display = 'none';
+                    }
+                }
+            });
         });
     </script>
 </head>
@@ -344,9 +349,6 @@
                 <div class="card championship-section" id="championship" style="position: relative; overflow: hidden;">
                     <div class="championship-bg-accent" style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #1a237e, #3949ab); opacity: 0.8;"></div>
                     <h2 style="color: #1a237e; text-shadow: 0 1px 2px rgba(26, 35, 126, 0.1); margin-top: 15px;">👑 정규시즌 매직넘버 & 우승 조건</h2>
-                    <div style="text-align: right;  color: #999; margin-bottom: 15px;">
-                        📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
-                    </div>
                     <div id="championship-condition">
                         <div class="championship-header" style="text-align: center; margin-bottom: 24px;">
                             <!-- 깔끔하고 특별한 우승 조건 디스플레이 -->
@@ -531,9 +533,6 @@
                 <!-- 1위 추격팀 가능성 -->
                 <div class="card" id="chase">
                     <h2>🎯 1위 탈환 가능성</h2>
-                    <div style="text-align: right;  color: #999; margin-bottom: 15px;">
-                        📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
-                    </div>
                     <div id="chase-analysis">
                         <div class="table-container">
                             <table id="chase-table">
@@ -621,9 +620,6 @@
                 <!-- 플레이오프 진출 조건 -->
                 <div class="card" id="playoff">
                     <h2>🏟️ 플레이오프 진출 조건</h2>
-                    <div style="text-align: right;  color: #999; margin-bottom: 15px;">
-                        📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
-                    </div>
                     <div id="playoff-condition">
                         <div class="table-container">
                             <table id="playoff-table">
@@ -695,9 +691,6 @@
                 <!-- 팀 순위 테이블 -->
                 <div class="card" id="standings">
                     <h2>📊 팀 순위표</h2>
-                    <div style="text-align: right;  color: #999; margin-bottom: 15px;">
-                        📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
-                    </div>
                     <div class="table-container">
                         <table id="standings-table">
                             <thead>
@@ -792,9 +785,6 @@
                 <!-- 팀간 승패표 -->
                 <div class="card" id="vs-records">
                     <h2>⚔️ 팀간 상대전적</h2>
-                    <div style="text-align: right;  color: #999; margin-bottom: 15px;">
-                        📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
-                    </div>
                     <div class="h2h-legend section-subtitle" style="margin-bottom: 15px;">
                         <strong>읽는 법:</strong> 세로축 팀이 가로축 팀과의 전체전적(승-패-무) / 홈 승률 / 원정 승률 | <strong>색상:</strong> <span style="color: #16A34A; font-weight: 600;">■ 초록</span> = 상대보다 우세, <span style="color: #DC2626; font-weight: 600;">■ 빨강</span> = 상대보다 열세, <span style="color: #9CA3AF; font-weight: 600;">■ 회색</span> = 동률/자기팀
                     </div>
@@ -824,9 +814,6 @@
                 <!-- 팀간 잔여 경기수 -->
                 <div class="card" id="remaining">
                     <h2>📅 팀간 잔여 경기수</h2>
-                    <div style="text-align: right;  color: #999; margin-bottom: 15px;">
-                        📊 <span class="data-load-time">2025. 8. 1. 오후 11:42 KBO 공식</span>
-                    </div>
                     <div class="h2h-legend section-subtitle" style="margin-bottom: 15px;">
                         <strong>읽는 법:</strong> 세로축 팀이 가로축 팀과 남은 경기수 | <strong>색상:</strong> <span style="color: #22C55E; font-weight: 600;">■ 초록</span> = 7경기 이상, <span style="color: #EAB308; font-weight: 600;">■ 노랑</span> = 4-6경기, <span style="color: #F97316; font-weight: 600;">■ 주황</span> = 1-3경기, <span style="color: #9CA3AF; font-weight: 600;">■ 회색</span> = 경기 종료
                     </div>

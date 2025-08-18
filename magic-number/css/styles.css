@@ -5,6 +5,14 @@
 /* 전체 문서에 Noto Sans KR 폰트 적용 */
 html {
     font-family: 'Noto Sans KR', sans-serif;
+    overflow-x: hidden; /* 전체 페이지 가로 스크롤 방지 */
+}
+
+body {
+    overflow-x: hidden; /* body 가로 스크롤 방지 */
+    max-width: 100vw;   /* 뷰포트 너비 초과 방지 */
+    margin: 0;
+    padding: 0;
 }
 
 * {
@@ -59,7 +67,7 @@ html {
     --text-base: 0.9rem;   /* 14.4px - 기본 */
     --text-lg: 1.1rem;     /* 17.6px */
     --text-xl: 1.3rem;     /* 20.8px */
-    --text-2xl: 1.6rem;    /* 25.6px */
+    --text-2xl: 1.8rem;    /* 28.8px - 키움 */
     --text-3xl: 2rem;      /* 32px */
     
     /* 폰트 굵기 시스템 */
@@ -153,7 +161,7 @@ body {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--text-inverse);
     padding: var(--space-5) 0 var(--space-4) 0;
-    margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-5)) 0 calc(-1 * var(--space-5));
+    margin: 0;
     box-shadow: var(--shadow-md);
 }
 
@@ -161,7 +169,7 @@ body {
     text-align: center;
     color: var(--text-inverse);
     margin: 0 0 var(--space-3) 0;
-    font-size: var(--text-3xl);
+    font-size: var(--text-3xl) !important;
     font-weight: var(--weight-bold);
     line-height: 1.25;
 }
@@ -174,18 +182,38 @@ body {
     margin: 0;
 }
 /* ===========================================
-   NAVIGATION COMPONENT
+   NAVIGATION COMPONENT - 스티키 헤더 통합 설정
    =========================================== */
 .navigation {
-    position: sticky;
-    top: 0;
-    background: transparent;
+    position: relative;
+    background: rgba(245, 247, 250, 0.98);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     margin-bottom: var(--space-4);
     width: 100%;
-    z-index: 100;
+    z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+.navigation.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 모바일 네비게이션 */
+@media (max-width: 768px) {
+    .navigation {
+        margin-bottom: var(--space-2);
+        padding: 6px 0;
+    }
 }
 
 .nav-menu {
@@ -193,14 +221,11 @@ body {
     gap: var(--space-5);
     list-style: none;
     margin: 0 auto;
-    padding: var(--space-2) var(--space-5);
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: var(--space-2) 0;
+    background: transparent;
+    border: none;
     flex-wrap: nowrap;
     overflow: visible;
-    box-shadow: var(--shadow-sm);
     justify-content: center;
     align-items: center;
     width: 90%;
@@ -425,13 +450,19 @@ body {
    =========================================== */
 .table-container {
     overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
     border-radius: var(--card-border-radius);
     border: 1px solid var(--border-color);
     background: var(--bg-secondary);
+    max-width: 100%;
+    position: relative;
+    margin: 0;
 }
 
 table {
     width: 100%;
+    min-width: 800px;
     border-collapse: collapse;
     font-size: var(--text-base);
     line-height: 1.5;
@@ -476,96 +507,7 @@ tr:last-child td {
 /* 테이블 내 모든 숫자 데이터 - 범용 데이터 폰트 규칙으로 대체됨 */
 
 /* 승률은 기본 폰트 스타일 사용 (삭제됨) */
-@media (max-width: 768px) {
-    .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(248, 250, 252, 0.95);
-        flex-direction: column;
-        gap: 0;
-        padding: 20px;
-        border-radius: 0 0 12px 12px;
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-20px);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
-    .nav-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-    }
-    .nav-menu li {
-        margin: 0;
-    }
-    .nav-menu a {
-        padding: 12px 16px;
-        border-radius: 8px;
-        justify-content: center;
-    }
-    .nav-menu a.active {
-        color: #ffd700;
-        font-weight: 600;
-        position: relative;
-    }
-    .nav-menu a.active::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        height: 3px;
-        background: #ffd700;
-        border-radius: 2px;
-    }
-    .nav-toggle {
-        display: block;
-        margin-top: 10px;
-        color: #374151;
-    }
-    
-    /* 대시보드 반응형 */
-    .summary-dashboard {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
-        gap: 12px !important;
-    }
-    
-    /* 모바일에서 안내 메시지 표시 */
-    .mobile-notice {
-        display: block !important;
-    }
-    
-    /* PC 버전 강제 모드에서는 모바일 스타일 무효화 */
-    body.force-desktop .mobile-notice {
-        display: none !important;
-    }
-    
-    /* PC 버전 강제 시 일부 모바일 최적화 해제 */
-    body.force-desktop {
-        min-width: 1200px;
-    }
-}
 
-@media (max-width: 600px) {
-    :root {
-    }
-    
-    .summary-dashboard {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
-        gap: var(--space-2) !important;
-    }
-    
-    .container {
-        padding: var(--space-3);
-    }
-    
-    .header h1 {
-            }
     
     .header .subtitle {
         font-size: var(--text-lg);
@@ -602,7 +544,7 @@ tr:last-child td {
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     position: relative;
-    text-align: center;
+    text-align: left;            /* 테이블 카드 내용 왼쪽 정렬 */
     overflow: visible;
     width: 100%;
     max-width: 1200px;
@@ -826,7 +768,7 @@ table th {
 .team-name {
     text-align: center !important;
     vertical-align: middle !important;
-    padding: 10px 8px !important;
+    padding: 6px 4px !important; /* 패딩 축소 */
 }
 
 /* 상대전적 테이블만 flex 유지 */
@@ -924,6 +866,27 @@ table th {
     line-height: 1.4;
     margin-bottom: 15px;
     text-align: left;
+}
+
+/* 챔피언십 섹션 폰트 크기 강제 적용 - PC 전역 */
+#first-place-team-name {
+    font-size: var(--text-xl) !important;
+    font-weight: 700 !important;
+}
+
+#remaining-games-top-display, #min-wins-top-display {
+    font-size: var(--text-lg) !important;
+    font-weight: 700 !important;
+}
+
+#championship-magic {
+    font-size: var(--text-2xl) !important;
+    font-weight: 800 !important;
+}
+
+#clinch-date {
+    font-size: var(--text-xl) !important;
+    font-weight: 700 !important;
 }
 
 .h2h-legend {
@@ -1085,25 +1048,7 @@ table th {
 }
 
 
-.table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 10px 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: white;
-}
 
-table {
-    width: 100%;
-    min-width: 1000px;
-    border-collapse: collapse;
-    border-spacing: 0;
-    font-size: 0.9rem;
-    table-layout: fixed;
-    border-radius: 12px;
-    overflow: hidden;
     background: white;
 }
 
@@ -1139,100 +1084,70 @@ tbody tr:nth-child(even) {
    테이블 헤더 및 데이터 정렬 최적화
    =========================================== */
 
-/* 팀 순위표 필드별 너비 및 정렬 최적화 */
-#standings-table th:nth-child(1), 
-#standings-table td:nth-child(1) { 
-    width: 5%; 
-    text-align: center; 
-    font-weight: 600; /* 순위는 굵게 */
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   💻 PC 테이블 통합 관리 시스템 (769px 이상)
+   ═══════════════════════════════════════════════════════════════════════ */
 
-#standings-table th:nth-child(2), 
-#standings-table td:nth-child(2) { 
-    width: 14%; 
-    text-align: center; 
-    font-weight: 500;
-}
+/* 🎨 PC용 통합 테이블 기본 스타일 */
+@media (min-width: 769px) {
+    /* 모든 테이블 기본 설정 */
+    table th, table td {
+        text-align: center;
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+    
+    /* 순위 컬럼 통합 (1번째) */
+    table th:nth-child(1), table td:nth-child(1) { 
+        width: 5%; 
+        font-weight: 600;
+    }
 
-#standings-table th:nth-child(3), 
-#standings-table td:nth-child(3) { 
-    width: 5%; 
-    text-align: center;
-}
+    /* 팀명 컬럼 통합 (2번째) */
+    #standings-table th:nth-child(2), #standings-table td:nth-child(2) { 
+        width: 12%; 
+        font-weight: 500;
+    }
 
-#standings-table th:nth-child(4), 
-#standings-table td:nth-child(4) { 
-    width: 5%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(5), 
-#standings-table td:nth-child(5) { 
-    width: 5%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(6), 
-#standings-table td:nth-child(6) { 
-    width: 4%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(7), 
-#standings-table td:nth-child(7) { 
-    width: 6%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(8), 
-#standings-table td:nth-child(8) { 
-    width: 6%; 
-    text-align: center;
-    font-weight: 600; /* 승률은 중요하므로 굵게 */
-}
-
-#standings-table th:nth-child(9), 
-#standings-table td:nth-child(9) { 
-    width: 7%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(10), 
-#standings-table td:nth-child(10) { 
-    width: 7%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(11), 
-#standings-table td:nth-child(11) { 
-    width: 6%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(12), 
-#standings-table td:nth-child(12) { 
-    width: 6%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(13), 
-#standings-table td:nth-child(13) { 
-    width: 9%; 
-    text-align: center;
-    font-size: 0.8rem; /* 최근10경기는 작은 글씨 */
-}
-
-#standings-table th:nth-child(14), 
-#standings-table td:nth-child(14) { 
-    width: 7%; 
-    text-align: center;
-}
-
-#standings-table th:nth-child(15), 
-#standings-table td:nth-child(15) { 
-    width: 9%; 
-    text-align: center;
-    font-weight: 600; /* 매직넘버는 굵게 */
+    /* 일반 데이터 컬럼들 (3-12번째) */
+    table th:nth-child(n+3):nth-child(-n+12), 
+    table td:nth-child(n+3):nth-child(-n+12) { 
+        width: 6%; 
+    }
+    
+    /* 중요 컬럼들 강조 */
+    table th:nth-child(8), table td:nth-child(8) { /* 승률 */
+        font-weight: 600;
+    }
+    
+    table th:nth-child(15), table td:nth-child(15) { /* 매직넘버 */
+        width: 9%; 
+        font-weight: 600;
+    }
+    
+    /* 특수 컬럼 처리 - 폰트 크기 통일 */
+    #standings-table th:nth-child(13), 
+    #standings-table td:nth-child(13) { /* 최근10경기 */
+        width: 12%; /* 최근10경기 컨럼 크기 증가 8% → 12% */
+        font-size: inherit;  /* 다른 셀과 동일한 폰트 크기 사용 */
+    }
+    
+    /* 플레이오프와 1위 탈환 테이블 완전 재설정 */
+    #playoff-table,
+    #chase-table {
+        table-layout: auto !important;
+    }
+    
+    #playoff-table th:nth-child(2),
+    #playoff-table td:nth-child(2),
+    #chase-table th:nth-child(2),
+    #chase-table td:nth-child(2) {
+        width: 12% !important;
+        min-width: 80px !important;
+        max-width: 120px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+    }
 }
 
 th {
@@ -1699,10 +1614,6 @@ td:first-child {
     overflow: visible; /* 툴팁이 카드 경계를 넘을 수 있도록 */
 }
 
-.table-container {
-    overflow-x: auto;
-    overflow-y: visible; /* 툴팁이 세로로 넘을 수 있도록 */
-}
 
 .card:nth-child(1) { animation-delay: 0.1s; }
 .card:nth-child(2) { animation-delay: 0.2s; }
@@ -1885,130 +1796,9 @@ tbody tr {
 
 /* 플레이오프 테이블은 기본 폰트 스타일 사용 (삭제됨) */
 
-/* 플레이오프 테이블 컬럼 너비 및 정렬 최적화 */
-#playoff-table th:nth-child(1), 
-#playoff-table td:nth-child(1) { 
-    width: 5%; 
-    text-align: center;
-    font-weight: 600; /* 순위는 굵게 */
-}
-
-#playoff-table th:nth-child(2), 
-#playoff-table td:nth-child(2) { 
-    width: 16%; 
-    text-align: center; 
-    font-weight: 500;
-}
-
-#playoff-table th:nth-child(3), 
-#playoff-table td:nth-child(3) { 
-    width: 7%; 
-    text-align: center;
-}
-
-#playoff-table th:nth-child(4), 
-#playoff-table td:nth-child(4) { 
-    width: 8%; 
-    text-align: center;
-}
-
-#playoff-table th:nth-child(5), 
-#playoff-table td:nth-child(5) { 
-    width: 9%; 
-    text-align: center;
-}
-
-#playoff-table th:nth-child(6), 
-#playoff-table td:nth-child(6) { 
-    width: 12%; 
-    text-align: center;
-    font-weight: 600; /* 플레이오프 매직은 중요 */
-}
-
-#playoff-table th:nth-child(7), 
-#playoff-table td:nth-child(7) { 
-    width: 10%; 
-    text-align: center;
-    font-weight: 600; /* 탈락 매직도 중요 */
-}
-
-#playoff-table th:nth-child(8), 
-#playoff-table td:nth-child(8) { 
-    width: 11%; 
-    text-align: center;
-}
-
-#playoff-table th:nth-child(9), 
-#playoff-table td:nth-child(9) { 
-    width: 16%; 
-    text-align: center;
-    font-weight: 600; /* 상태는 중요한 정보 */
-}
-
-/* 1위 탈환 조건 테이블 컬럼 너비 및 정렬 최적화 */
-#chase-table th:nth-child(1), 
-#chase-table td:nth-child(1) { 
-    width: 5%; 
-    text-align: center;
-    font-weight: 600; /* 순위는 굵게 */
-}
-
-#chase-table th:nth-child(2), 
-#chase-table td:nth-child(2) { 
-    width: 13%; 
-    text-align: center; 
-    font-weight: 500;
-}
-
-#chase-table th:nth-child(3), 
-#chase-table td:nth-child(3) { 
-    width: 7%; 
-    text-align: center;
-}
-
-#chase-table th:nth-child(4), 
-#chase-table td:nth-child(4) { 
-    width: 7%; 
-    text-align: center;
-}
-
-#chase-table th:nth-child(5), 
-#chase-table td:nth-child(5) { 
-    width: 8%; 
-    text-align: center;
-}
-
-#chase-table th:nth-child(6), 
-#chase-table td:nth-child(6) { 
-    width: 9%; 
-    text-align: center;
-}
-
-#chase-table th:nth-child(7), 
-#chase-table td:nth-child(7) { 
-    width: 11%; 
-    text-align: center;
-    font-weight: 600; /* 1위 필요 승수는 중요 */
-}
-
-#chase-table th:nth-child(8), 
-#chase-table td:nth-child(8) { 
-    width: 10%; 
-    text-align: center;
-    font-weight: 600; /* 추격 가능성은 중요 */
-}
-
-#chase-table th:nth-child(9), 
-#chase-table td:nth-child(9) { 
-    width: 13%; 
-    text-align: center;
-}
-
-#chase-table th:nth-child(10), 
-#chase-table td:nth-child(10) { 
-    width: 11%; 
-    text-align: center;
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   🗑️ PC 개별 테이블 스타일 제거됨 - 통합 시스템으로 대체
+   ═══════════════════════════════════════════════════════════════════════ */
 
 /* 1위 탈환 조건 테이블 1위팀 특별 스타일 */
 .first-place-row {
@@ -2033,10 +1823,29 @@ tbody tr {
 
 @media screen and (max-width: 768px) {
     .table-container {
-        margin: 0 -15px;
+        margin: 0 !important;     /* 모든 테이블 컨테이너 좌우 정렬 통일 */
         border-radius: 0;
         border-left: none;
         border-right: none;
+    }
+    
+    /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
+    .team-name span,
+    #standings-table .team-name span,
+    #playoff-table tbody tr td:nth-child(2) span,
+    #chase-table tbody tr td:nth-child(2) span {
+        display: none !important;
+    }
+    
+    /* 모바일에서 팀 로고 크기 조정 */
+    .team-logo,
+    .team-name img,
+    #standings-table .team-name img,
+    #playoff-table tbody tr td:nth-child(2) img,
+    #chase-table tbody tr td:nth-child(2) img {
+        margin-right: 0 !important;
+        width: 24px !important;
+        height: auto !important;
     }
     
     table {
@@ -2047,7 +1856,7 @@ tbody tr {
     th, td {
         padding: 8px 4px;
         min-height: 36px;
-        font-size: 0.75rem;
+        font-size: 0.85rem;    /* 데이터 셀 텍스트 크기 증가 */
     }
     
     th {
@@ -2055,38 +1864,73 @@ tbody tr {
         font-size: 0.8rem;
     }
     
-    /* 팀명 컬럼 모바일에서 더 넓게 */
-    #standings-table th:nth-child(2), 
-    #standings-table td:nth-child(2),
-    #playoff-table th:nth-child(2), 
-    #playoff-table td:nth-child(2),
-    #chase-table th:nth-child(2), 
-    #chase-table td:nth-child(2) { 
-        width: 18%;
-        text-align: center;
+    /* ═══════════════════════════════════════════════════════════════════════
+       🗑️ 개별 테이블 스타일 무효화 - 통합 시스템 우선
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    /* 모든 개별 테이블 ID 스타일 무효화 */
+    #standings-table th, #standings-table td,
+    #playoff-table th:not(:nth-child(2)), #playoff-table td:not(:nth-child(2)),
+    #chase-table th:not(:nth-child(2)), #chase-table td:not(:nth-child(2)) {
+        width: auto !important; /* 통합 시스템이 제어 */
+        font-size: inherit !important; /* 통합 폰트 시스템 사용 */
+        padding: inherit !important; /* 통합 패딩 시스템 사용 */
+        text-align: center !important; /* 모든 데이터 셀 중앙 정렬 강제 적용 */
     }
     
-    /* 최근10경기 컬럼 모바일에서 더 작게 */
+    /* 특수 컬럼 예외 처리 - 폰트 크기 통일 */
     #standings-table th:nth-child(13), 
     #standings-table td:nth-child(13) { 
-        width: 6%;
-        font-size: 0.7rem;
+        font-size: inherit !important; /* 다른 셀과 동일한 폰트 크기로 통일 */
+        min-width: 80px !important;    /* 최근10경기 컨럼 최소 크기 증가 */
+        max-width: 100px !important;   /* 최근10경기 컨럼 최대 크기 증가 */
     }
 }
 
 @media screen and (max-width: 480px) {
     th, td {
         padding: 6px 2px;
-        font-size: 0.7rem;
+        font-size: 0.85rem !important;   /* 초소형 화면 텍스트 크기 더 증가 */
     }
     
     th {
-        font-size: 0.75rem;
+        font-size: 0.9rem !important;    /* 헤더 크기도 더 증가 */
     }
     
     .table-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+    }
+    
+    /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
+    #standings-table th:nth-child(8),   /* 승률 */
+    #standings-table td:nth-child(8),
+    #standings-table th:nth-child(9),   /* 홈 */
+    #standings-table td:nth-child(9),
+    #standings-table th:nth-child(10),  /* 방문 */
+    #standings-table td:nth-child(10),
+    #standings-table th:nth-child(13),  /* 최근10경기 */
+    #standings-table td:nth-child(13) {
+        padding: 8px 6px !important;
+    }
+    
+    /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
+    .team-name span,
+    #standings-table .team-name span,
+    #playoff-table tbody tr td:nth-child(2) span,
+    #chase-table tbody tr td:nth-child(2) span {
+        display: none !important;
+    }
+    
+    /* 모바일에서 팀 로고 크기 조정 */
+    .team-logo,
+    .team-name img,
+    #standings-table .team-name img,
+    #playoff-table tbody tr td:nth-child(2) img,
+    #chase-table tbody tr td:nth-child(2) img {
+        margin-right: 0 !important;
+        width: 20px !important;
+        height: auto !important;
     }
 }
 
@@ -2148,26 +1992,672 @@ input, textarea, select, button {
     line-height: 1.3;           /* 상대전적 줄간격 */
 }
 
-/* 반응형 폰트 크기 */
+/* ===========================================
+   📱 모바일 통합 테이블 관리 시스템
+   =========================================== */
+
+/*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 모바일 테이블 통합 관리 정책
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 관리 대상 테이블:
+   ✅ #standings-table (팀 순위표) - 15개 컬럼
+   ✅ #playoff-table (플레이오프 진출 조건) - 9개 컬럼  
+   ✅ #chase-table (1위 탈환 가능성) - 10개 컬럼
+
+📐 통합 컬럼 크기 시스템:
+   📱 768px 이하: 순위 20px, 팀명 35px (총 55px)
+   📱 600px 이하: 순위 18px, 팀명 30px (총 48px)
+   📱 480px 이하: 순위 16px, 팀명 25px (총 41px)
+
+🔧 통합 스타일 요소:
+   ✅ 스티키 헤더 완전 해제 (자연스러운 스크롤)
+   ✅ 팀명 컬럼만 스티키 처리 (팀 식별 유지)
+   ✅ 통일된 폰트 크기 시스템
+   ✅ 일관된 패딩 및 여백 시스템
+   ✅ 반응형 로고 크기 조정
+   ✅ 스티키 구분선 & 그림자 효과
+
+🎨 모든 개별 테이블 스타일은 이 시스템으로 통합 관리됨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*/
+
+/* 태블릿 및 모바일 기본 (768px 이하) */
 @media (max-width: 768px) {
     :root {
-        --text-xs: 0.7rem;
-        --text-sm: 0.8rem;
-        --text-base: 0.85rem;
-        --text-lg: 1rem;
-        --text-xl: 1.2rem;
-        --text-2xl: 1.4rem;
-        --text-3xl: 1.8rem;
+        /* 모바일용 폰트 크기 시스템 */
+        --text-xs: 0.7rem;      /* 11.2px */
+        --text-sm: 0.8rem;      /* 12.8px */
+        --text-base: 0.85rem;   /* 13.6px */
+        --text-lg: 1rem;        /* 16px */
+        --text-xl: 1.2rem;      /* 19.2px */
+        --text-2xl: 1.6rem;     /* 25.6px - 키움 */
+        --text-3xl: 1.8rem;     /* 28.8px */
+        
+        /* 모바일용 간격 시스템 */
+        --space-1: 0.2rem;      /* 3.2px */
+        --space-2: 0.4rem;      /* 6.4px */
+        --space-3: 0.6rem;      /* 9.6px */
+        --space-4: 0.8rem;      /* 12.8px */
+        --space-5: 1rem;        /* 16px */
+        --space-6: 1.2rem;      /* 19.2px */
+        --space-8: 1.6rem;      /* 25.6px */
+        --space-10: 2rem;       /* 32px */
+        --space-12: 2.4rem;     /* 38.4px */
     }
     
-    /* 모바일에서 상대전적 테이블 폰트 더 작게 */
+    /* 컨테이너 및 기본 레이아웃 */
+    .container {
+        padding: var(--space-3);
+        max-width: 100%;
+    }
+    
+    /* 헤더 최적화 */
+    .header {
+        padding: 20px 15px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: var(--text-3xl) !important;
+        margin-bottom: var(--space-2);
+    }
+    
+    .subtitle {
+        font-size: var(--text-sm);
+        line-height: 1.4;
+    }
+    
+    /* 카드 레이아웃 최적화 - 패딩과 여백 축소 */
+    .card {
+        margin-bottom: var(--space-3);      /* 카드 간 여백 축소 */
+        padding: var(--space-3);            /* 카드 내부 패딩 축소 */
+        border-radius: 8px;
+    }
+    
+    .cards-grid {
+        display: block;
+    }
+    
+    /* 요약 대시보드 그리드 - 모바일 최적화 */
+    .summary-dashboard {
+        grid-template-columns: repeat(5, 1fr) !important;
+    }
+    
+    /* 네비게이션 모바일 최적화 - root index와 동일하게 */
+    .nav-menu {
+        display: flex;
+        justify-content: flex-start;
+        gap: 2px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        flex-wrap: nowrap;
+        padding: 0 10px;
+    }
+    
+    .nav-menu::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .nav-item {
+        white-space: nowrap;
+        font-size: var(--text-sm);
+        padding: 8px 12px;
+        flex-shrink: 0;
+    }
+    
+    .nav-toggle {
+        display: none;
+    }
+    
+    /* 테이블 최적화 */
+    .table-container {
+        margin: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: inset 0 0 0 1px var(--border-color);
+        background: var(--bg-secondary);
+    }
+    
+    table {
+        min-width: 700px; /* 테이블 최소 너비 축소로 모바일 최적화 */
+        font-size: var(--text-sm);
+        width: auto; /* 고정 너비 대신 내용에 맞춤 */
+    }
+    
+    th, td {
+        padding: 6px 3px;
+        font-size: var(--text-xs);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 60px; /* 셀 최대 너비 축소 */
+        overflow: hidden;
+    }
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       📱 모바일 통합 테이블 시스템 (768px 이하)
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    /* 🎨 통합 테이블 기본 스타일 - 폰트 크기 증가 */
+    table {
+        font-size: 0.8rem !important; /* 0.7rem → 0.8rem 증가 */
+        line-height: 1.3 !important;  /* 1.2 → 1.3 줄간격 증가 */
+        min-width: 700px;
+    }
+    
+    /* 🎨 통합 헤더 스타일 - 폰트 크기 증가 */
+    table th {
+        font-size: 0.75rem !important; /* 0.65rem → 0.75rem 증가 */
+        font-weight: 600 !important;
+        position: relative !important;
+        background: var(--primary-color) !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 10px 4px !important; /* 8px → 10px 패딩 증가 */
+        border-right: 1px solid rgba(255,255,255,0.1) !important;
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        z-index: auto !important;
+        height: auto !important;
+        min-height: 44px !important; /* 40px → 44px 높이 증가 */
+        vertical-align: middle !important;
+    }
+    
+    /* 🎨 통합 데이터 셀 스타일 - 폰트 크기 증가 */
+    table td {
+        font-size: 0.85rem !important; /* 0.75rem → 0.85rem 모바일 데이터 셀 크기 증가 */
+        font-weight: 500 !important;
+        text-align: center !important; /* 모든 데이터 셀 중앙 정렬 강제 */
+        padding: 8px 3px !important;   /* 6px → 8px 패딩 증가 */
+        border-bottom: 1px solid var(--border-light) !important;
+        border-right: 1px solid var(--border-color) !important;
+        white-space: nowrap !important;
+        vertical-align: middle !important;
+        min-height: 40px !important; /* 36px → 40px 높이 증가 */
+        background: white !important; /* 기본 배경색 명시 */
+    }
+    
+    /* 🏆 순위 컬럼 통합 관리 (1번째) */
+    table th:nth-child(1),
+    table td:nth-child(1) {
+        width: 35px !important;        /* 모바일에서 순위 컬럼 크기 더 증가 */
+        min-width: 35px !important;
+        max-width: 35px !important;
+        padding: 6px 2px !important; /* 순위 전용 패딩 */
+        font-weight: 600 !important; /* 순위는 굵게 */
+        color: var(--primary-color) !important; /* 순위 강조 색상 */
+    }
+    
+    /* 🏟️ 팀명 컬럼 통합 관리 (2번째) - 스티키 처리 */
+    #standings-table th:nth-child(2),
+    #standings-table td:nth-child(2) {
+        position: sticky !important;
+        left: 0 !important; /* 왼쪽 끝에 고정 */
+        z-index: 10 !important; /* 다른 셀 위에 표시 */
+        width: 55px !important;        /* 모바일에서 팀명 컬럼 크기 더 증가 */
+        min-width: 55px !important;
+        max-width: 55px !important;
+        padding: 6px 2px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        font-weight: 500 !important;
+        border-right: 2px solid var(--border-strong) !important; /* 스티키 구분선 */
+        box-shadow: 2px 0 4px rgba(0,0,0,0.1) !important; /* 스티키 그림자 효과 */
+    }
+    
+    /* 팀명 헤더는 더 높은 z-index */
+    table th:nth-child(2) {
+        z-index: 15 !important;
+        background: var(--primary-color) !important; /* 헤더 배경 유지 */
+    }
+    
+    /* 팀명 데이터 셀 배경 - 다른 셀과 통일 */
+    table td:nth-child(2) {
+        background: var(--bg-secondary) !important; /* 다른 테이블 셀과 동일한 배경 */
+        transition: all 0.2s ease !important;
+    }
+    
+    /* 팀명 셀 hover 효과 - 다른 셀과 통일 */
+    table tr:hover td:nth-child(2) {
+        background: rgba(26, 35, 126, 0.05) !important; /* 일반 hover와 동일하게 */
+        transform: translateX(1px) !important; /* 스티키만의 특별 효과 */
+        box-shadow: 3px 0 6px rgba(0,0,0,0.15) !important; /* 스티키 그림자 유지 */
+    }
+    
+    /* 🎨 팀 로고 통합 관리 */
+    table td:nth-child(2) .team-logo {
+        width: 10px !important;
+        height: auto !important;
+        margin-right: 2px !important;
+        object-fit: contain !important;
+        vertical-align: middle !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* 📊 데이터 컬럼들 (3번째 이후) 통합 스타일 */
+    table th:nth-child(n+3),
+    table td:nth-child(n+3) {
+        min-width: 45px !important; /* 데이터 컬럼 최소 너비 */
+        max-width: 80px !important; /* 데이터 컬럼 최대 너비 */
+        padding: 6px 2px !important;
+        font-size: 0.65rem !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+    }
+    
+    /* 🎨 통합 스크롤 인디케이터 */
+    .table-container {
+        position: relative;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-secondary);
+        box-shadow: var(--shadow-sm);
+        margin: 0;
+    }
+    
+    .table-container::after {
+        display: none;
+    }
+    
+    /* 상대전적 테이블 모바일 최적화 */
+    .vs-grid {
+        gap: 1px;
+        font-size: var(--text-xs);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+        margin: 0 -10px;
+        padding: 0 10px;
+    }
+    
     .vs-grid > div {
         font-size: 0.7rem !important;
         padding: 4px 2px !important;
         min-height: 45px !important;
+        line-height: 1.2;
+        min-width: 80px; /* 최소 너비 보장 */
     }
     
     .vs-header {
         font-size: 0.75rem !important;
+        font-weight: 600;
+    }
+    
+    .vs-team {
+        font-size: 0.75rem !important;
+    }
+    
+    /* 모바일 안내 메시지 표시 */
+    .mobile-notice {
+        display: block !important;
+    }
+    
+    /* PC 버전 강제 모드에서는 모바일 스타일 무효화 */
+    body.force-desktop .mobile-notice {
+        display: none !important;
+    }
+    
+    /* PC 버전 강제 시 일부 모바일 최적화 해제 */
+    body.force-desktop {
+        min-width: 1200px;
+    }
+}
+
+/* 작은 모바일 화면 (600px 이하) */
+@media (max-width: 600px) {
+    :root {
+        --text-xs: 0.65rem;     /* 10.4px */
+        --text-sm: 0.75rem;     /* 12px */
+        --text-base: 0.8rem;    /* 12.8px */
+        --text-lg: 0.9rem;      /* 14.4px */
+        --text-xl: 1.1rem;      /* 17.6px */
+        --text-2xl: 1.5rem;     /* 24px - 키움 */
+        --text-3xl: 1.6rem;     /* 25.6px */
+    }
+    
+    /* 요약 대시보드 - 한 줄에 5개 */
+    .summary-dashboard {
+        grid-template-columns: repeat(5, 1fr) !important;
+    }
+    
+    /* 모바일에서 설명 카드 텍스트 크기 축소 */
+    .legend-text {
+        font-size: 0.8rem !important;
+    }
+    
+    .legend-text h4 {
+        font-size: 0.9rem !important;
+    }
+    
+    .legend-text ul li {
+        font-size: 0.75rem !important;
+    }
+    
+    /* 챔피언십 섹션의 팀명과 추가 정보 폰트 크기 키우기 */
+    #first-place-team-name {
+        font-size: var(--text-xl) !important;
+        font-weight: 700 !important;
+    }
+    
+    #remaining-games-top-display, #min-wins-top-display {
+        font-size: var(--text-lg) !important;
+        font-weight: 700 !important;
+    }
+    
+    /* 매직넘버 텍스트 강제 적용 */
+    #championship-magic {
+        font-size: var(--text-2xl) !important;
+        font-weight: 800 !important;
+    }
+    
+    /* 예상 확정일 텍스트 크기 키우기 */
+    #clinch-date {
+        font-size: var(--text-xl) !important;
+        font-weight: 700 !important;
+    }
+    
+    /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
+    #standings-table th:nth-child(8),   /* 승률 */
+    #standings-table td:nth-child(8),
+    #standings-table th:nth-child(9),   /* 홈 */
+    #standings-table td:nth-child(9),
+    #standings-table th:nth-child(10),  /* 방문 */
+    #standings-table td:nth-child(10),
+    #standings-table th:nth-child(13),  /* 최근10경기 */
+    #standings-table td:nth-child(13) {
+        padding: 7px 5px !important;
+    }
+    
+    /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
+    .team-name span,
+    #standings-table .team-name span,
+    #playoff-table tbody tr td:nth-child(2) span,
+    #chase-table tbody tr td:nth-child(2) span {
+        display: none !important;
+    }
+    
+    /* 모바일에서 팀 로고 크기 조정 */
+    .team-logo,
+    .team-name img,
+    #standings-table .team-name img,
+    #playoff-table tbody tr td:nth-child(2) img,
+    #chase-table tbody tr td:nth-child(2) img {
+        margin-right: 0 !important;
+        width: 22px !important;
+        height: auto !important;
+    }
+    
+    /* 헤더 더 축소 */
+    .header {
+        padding: 15px 10px;
+    }
+    
+    .header h1 {
+        font-size: var(--text-2xl) !important;
+    }
+    
+    /* 카드 패딩 더 축소 */
+    .card {
+        padding: var(--space-2);             /* 카드 패딩 더 축소 */
+        margin-bottom: var(--space-2);       /* 카드 간 여백 더 축소 */
+    }
+    
+    /* 테이블 텍스트 크기 증가 */
+    th, td {
+        padding: 6px 2px;
+        font-size: 0.85rem !important;   /* var(--text-xs) → 0.85rem 증가 */
+        text-align: center !important;   /* 모든 셀 중앙 정렬 강제 */
+        max-width: 60px; /* 더 작은 셀 너비 */
+    }
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       📱 작은 화면 통합 테이블 시스템 (600px 이하)
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    /* 🎨 작은 화면 통합 폰트 시스템 - 폰트 크기 증가 */
+    table {
+        font-size: 0.75rem !important; /* 0.65rem → 0.75rem 증가 */
+        min-width: 650px;
+    }
+    
+    table th {
+        font-size: 0.7rem !important; /* 0.6rem → 0.7rem 증가 */
+        padding: 8px 3px !important; /* 6px → 8px 패딩 증가 */
+        min-height: 40px !important; /* 36px → 40px 높이 증가 */
+    }
+    
+    table td {
+        font-size: 0.7rem !important; /* 0.6rem → 0.7rem 증가 */
+        padding: 6px 2px !important; /* 4px → 6px 패딩 증가 */
+        min-height: 36px !important; /* 32px → 36px 높이 증가 */
+        background: white !important; /* 배경색 통일 */
+    }
+    
+    /* 🏆 순위 컬럼 - 작은 화면 축소 */
+    table th:nth-child(1),
+    table td:nth-child(1) {
+        width: 32px !important;        /* 600px 이하에서 순위 컬럼 크기 증가 */
+        min-width: 32px !important;
+        max-width: 32px !important;
+        padding: 4px 1px !important;
+    }
+    
+    /* 🏟️ 팀명 컬럼 - 작은 화면 축소 + 스티키 유지 */
+    table th:nth-child(2),
+    table td:nth-child(2) {
+        position: sticky !important;
+        left: 0 !important;
+        z-index: 10 !important;
+        width: 48px !important;        /* 600px 이하에서 팀명 컬럼 크기 증가 */
+        min-width: 48px !important;
+        max-width: 48px !important;
+        padding: 4px 1px !important;
+        border-right: 2px solid var(--border-strong) !important;
+        box-shadow: 2px 0 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    table th:nth-child(2) {
+        z-index: 15 !important;
+        background: var(--primary-color) !important;
+    }
+    
+    table td:nth-child(2) {
+        background: var(--bg-secondary) !important;
+    }
+    
+    /* 🎨 로고 크기 축소 */
+    table td:nth-child(2) .team-logo {
+        width: 8px !important;
+        margin-right: 1px !important;
+    }
+    
+    /* 📊 데이터 컬럼 축소 */
+    table th:nth-child(n+3),
+    table td:nth-child(n+3) {
+        min-width: 40px !important;
+        max-width: 70px !important;
+        font-size: inherit !important;   /* 다른 셀과 동일한 폰트 크기로 통일 */
+    }
+    
+    /* 상대전적 테이블 더 축소 */
+    .vs-grid > div {
+        font-size: 0.65rem !important;
+        padding: 3px 1px !important;
+        min-height: 40px !important;
+        min-width: 60px !important;
+    }
+}
+
+/* 매우 작은 화면 (480px 이하) */
+@media (max-width: 480px) {
+    :root {
+        --text-xs: 0.6rem;      /* 9.6px */
+        --text-sm: 0.7rem;      /* 11.2px */
+        --text-base: 0.75rem;   /* 12px */
+        --text-lg: 0.85rem;     /* 13.6px */
+        --text-xl: 1rem;        /* 16px */
+        --text-2xl: 1.4rem;     /* 22.4px - 키움 */
+        --text-3xl: 1.5rem;     /* 24px */
+    }
+    
+    /* 컨테이너 여백 최소화 */
+    .container {
+        padding: var(--space-2);
+    }
+    
+    /* 헤더 최소화 */
+    .header {
+        padding: 10px 8px;
+    }
+    
+    .header h1 {
+        font-size: var(--text-2xl) !important;
+        margin-bottom: var(--space-1);
+    }
+    
+    /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
+    #standings-table th:nth-child(8),   /* 승률 */
+    #standings-table td:nth-child(8),
+    #standings-table th:nth-child(9),   /* 홈 */
+    #standings-table td:nth-child(9),
+    #standings-table th:nth-child(10),  /* 방문 */
+    #standings-table td:nth-child(10),
+    #standings-table th:nth-child(13),  /* 최근10경기 */
+    #standings-table td:nth-child(13) {
+        padding: 6px 4px !important;
+    }
+    
+    /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
+    .team-name span,
+    #standings-table .team-name span,
+    #playoff-table tbody tr td:nth-child(2) span,
+    #chase-table tbody tr td:nth-child(2) span {
+        display: none !important;
+    }
+    
+    /* 모바일에서 팀 로고 크기 조정 */
+    .team-logo,
+    .team-name img,
+    #standings-table .team-name img,
+    #playoff-table tbody tr td:nth-child(2) img,
+    #chase-table tbody tr td:nth-child(2) img {
+        margin-right: 0 !important;
+        width: 20px !important;
+        height: auto !important;
+    }
+    
+    /* 요약 대시보드 1열로 */
+    .summary-dashboard {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-1) !important;
+    }
+    
+    /* 테이블 패딩 최소화 */
+    th, td {
+        padding: 4px 1px;
+        font-size: var(--text-xs);
+        max-width: 50px; /* 가장 작은 셀 너비 */
+    }
+    
+    /* ═══════════════════════════════════════════════════════════════════════
+       📱 매우 작은 화면 통합 테이블 시스템 (480px 이하)
+       ═══════════════════════════════════════════════════════════════════════ */
+    
+    /* 🎨 매우 작은 화면 통합 폰트 시스템 - 텍스트 크기 증가 */
+    table {
+        font-size: 0.85rem !important;   /* 0.6rem → 0.85rem 대폭 증가 */
+        min-width: 600px; /* 매우 작은 화면용 최소 너비 */
+        text-align: center !important;   /* 모든 테이블 셀 중앙 정렬 강제 */
+    }
+    
+    table th {
+        font-size: 0.9rem !important;    /* 0.55rem → 0.9rem 대폭 증가 */
+        padding: 4px 2px !important;
+        min-height: 32px !important;
+    }
+    
+    table td {
+        font-size: 0.55rem !important;
+        padding: 3px 1px !important;
+        min-height: 28px !important;
+    }
+    
+    /* 🏆 순위 컬럼 - 최소화 */
+    table th:nth-child(1),
+    table td:nth-child(1) {
+        width: 30px !important;        /* 480px 이하에서 순위 컨럼 크기 대폭 증가 */
+        min-width: 30px !important;
+        max-width: 30px !important;
+        padding: 3px 1px !important;
+    }
+    
+    /* 🏟️ 팀명 컬럼 - 최소화 + 스티키 유지 (로고 숨김) */
+    table th:nth-child(2),
+    table td:nth-child(2) {
+        position: sticky !important;
+        left: 0 !important;
+        z-index: 10 !important;
+        width: 45px !important;        /* 480px 이하에서 팀명 컨럼 크기 대폭 증가 */
+        min-width: 45px !important;
+        max-width: 45px !important;
+        padding: 3px 1px !important;
+        border-right: 2px solid var(--border-strong) !important;
+        box-shadow: 2px 0 3px rgba(0,0,0,0.1) !important;
+    }
+    
+    table th:nth-child(2) {
+        z-index: 15 !important;
+        background: var(--primary-color) !important;
+    }
+    
+    table td:nth-child(2) {
+        background: var(--bg-secondary) !important;
+    }
+    
+    /* 🎨 로고 완전 숨김 */
+    table td:nth-child(2) .team-logo {
+        display: none !important;
+    }
+    
+    /* 📊 데이터 컬럼 최소화 */
+    table th:nth-child(n+3),
+    table td:nth-child(n+3) {
+        min-width: 35px !important;
+        max-width: 60px !important;
+        font-size: 0.55rem !important;
+        padding: 3px 1px !important;
+    }
+    
+    /* 특수 컬럼 추가 축소 - 폰트 크기 통일 */
+    #standings-table th:nth-child(13), 
+    #standings-table td:nth-child(13) { 
+        font-size: inherit !important;  /* 다른 셀과 동일한 폰트 크기로 통일 */
+        min-width: 75px !important;    /* 480px 이하에서도 최근10경기 컨럼 크기 증가 */
+        max-width: 95px !important;    /* 480px 이하 최대 크기 증가 */
+    }
+    
+    /* 상대전적 테이블 최소화 */
+    .vs-grid > div {
+        font-size: 0.8rem !important;    /* 0.6rem → 0.8rem 증가 */
+        padding: 2px 1px !important;
+        min-height: 35px !important;
+        min-width: 50px !important;
+    }
+    
+    .vs-header, .vs-team {
+        font-size: 0.65rem !important;
+    }
+    
+    /* 네비게이션 패딩 축소 */
+    .nav-item {
+        padding: 8px 12px;
+        font-size: var(--text-sm);
     }
 }
