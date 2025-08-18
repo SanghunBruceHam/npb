@@ -1415,6 +1415,15 @@
             max-width: 100%;
         }
 
+        /* 모바일에서 매트릭스 테이블 상단 헤더 셀 너비 확대 */
+        @media (max-width: 768px) {
+            .matrix-table th:not(:first-child) {
+                min-width: 110px !important;
+                width: 110px !important;
+                max-width: 110px !important;
+            }
+        }
+
         /* 모바일에서 왼쪽 컬럼 고정 (Sticky Columns) */
         @media (max-width: 768px) {
             .table-container {
