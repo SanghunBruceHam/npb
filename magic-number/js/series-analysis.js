@@ -201,23 +201,32 @@ class SeriesAnalyzer {
 
     /**
      * 현재 연속 시리즈 기록 계산 (개선)
+     * SPLIT 시리즈는 무시하고 실제 승/패 시리즈만 카운트
      */
     calculateCurrentStreak(series) {
         if (series.length === 0) return { type: 'NONE', count: 0 };
 
         // 최신 시리즈부터 역순으로 확인
         const sortedSeries = [...series].sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
-        const lastResult = sortedSeries[0].result;
+        
+        // SPLIT을 제외한 시리즈만 필터링
+        const nonSplitSeries = sortedSeries.filter(s => s.result !== 'SPLIT');
+        
+        if (nonSplitSeries.length === 0) return { type: 'NONE', count: 0 };
+        
+        // 가장 최근의 실제 결과(WIN/LOSS)를 기준으로 연속 카운트
+        const lastResult = nonSplitSeries[0].result;
         let count = 0;
         let startDate = null;
         let endDate = null;
 
-        for (let i = 0; i < sortedSeries.length; i++) {
-            if (sortedSeries[i].result === lastResult) {
+        for (let i = 0; i < nonSplitSeries.length; i++) {
+            if (nonSplitSeries[i].result === lastResult) {
                 count++;
-                if (i === 0) endDate = sortedSeries[i].lastDate;
-                startDate = sortedSeries[i].startDate;
+                if (count === 1) endDate = nonSplitSeries[i].lastDate;
+                startDate = nonSplitSeries[i].startDate;
             } else {
+                // 다른 결과가 나오면 연속 종료
                 break;
             }
         }
@@ -232,12 +241,15 @@ class SeriesAnalyzer {
 
     /**
      * 최장 연속 시리즈 기록 계산 (개선)
+     * SPLIT 시리즈는 무시하고 실제 승/패 시리즈만 카운트
      */
     calculateLongestStreak(series, type) {
         if (series.length === 0) return { count: 0, startDate: null, endDate: null };
 
-        // 날짜순으로 정렬
-        const sortedSeries = [...series].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        // 날짜순으로 정렬 후 SPLIT 제외
+        const sortedSeries = [...series]
+            .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+            .filter(s => s.result !== 'SPLIT');
         
         let maxStreak = 0;
         let currentStreak = 0;
@@ -260,6 +272,7 @@ class SeriesAnalyzer {
                     };
                 }
             } else {
+                // 다른 결과면 연속 종료
                 currentStreak = 0;
                 currentStreakStart = null;
             }

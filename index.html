@@ -3991,7 +3991,7 @@
                         <td class="game-result-cell ${game.result === 'W' ? 'cell-win' : game.result === 'L' ? 'cell-loss' : 'cell-draw'}" 
                             title="${team} vs ${game.opponent} (${game.score}) - ${game.date}">
                             <div class="result-display">
-                                ${streakNumber ? `<span class="combined-result">${streakNumber}${resultText}</span>` : `<span class="${resultClass}">${resultText}</span>`}
+                                ${isDraw ? `<span class="${resultClass}">${resultText}</span>` : (streakNumber ? `<span class="combined-result">${streakNumber}${resultText}</span>` : `<span class="${resultClass}">${resultText}</span>`)}
                             </div>
                         </td>`;
                     } else {
@@ -4021,26 +4021,38 @@
             document.getElementById('gameRecordsContent').innerHTML = html;
         }
 
-        // 특정 게임에서의 연승/연패 카운트 계산
+        // 특정 게임에서의 연승/연패 카운트 계산 (무승부 무시)
         function calculateStreakAtGame(games, gameIndex) {
             if (gameIndex < 0 || gameIndex >= games.length) {
                 return { type: null, count: 0 };
             }
             
             const currentGame = games[gameIndex];
+            
+            // 현재 게임이 무승부면 이전 무승부가 아닌 게임까지 거슬러 올라가서 연속 기록 계산
             if (currentGame.result === 'D') {
+                // 무승부 이전의 승/패 게임 찾기
+                for (let i = gameIndex - 1; i >= 0; i--) {
+                    if (games[i].result !== 'D') {
+                        return calculateStreakAtGame(games, i);
+                    }
+                }
                 return { type: null, count: 0 };
             }
             
             let count = 1;
             let streakType = currentGame.result;
             
-            // 이전 게임들을 거슬러 올라가며 연속 기록 계산
+            // 이전 게임들을 거슬러 올라가며 연속 기록 계산 (무승부는 건너뛰기)
             for (let i = gameIndex - 1; i >= 0; i--) {
                 const prevGame = games[i];
-                if (prevGame.result === streakType) {
+                if (prevGame.result === 'D') {
+                    // 무승부는 건너뛰고 계속
+                    continue;
+                } else if (prevGame.result === streakType) {
                     count++;
                 } else {
+                    // 다른 결과 만나면 연속 종료
                     break;
                 }
             }

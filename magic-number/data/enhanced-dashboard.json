@@ -1680,14 +1680,14 @@
     {
       "team_name": "SSG",
       "current_streak": "1L",
-      "max_win_streak": 4,
+      "max_win_streak": 5,
       "max_lose_streak": 6,
       "streak_status": "연패 중"
     },
     {
       "team_name": "KIA",
       "current_streak": "3L",
-      "max_win_streak": 5,
+      "max_win_streak": 6,
       "max_lose_streak": 7,
       "streak_status": "연패 중"
     },
@@ -1695,14 +1695,14 @@
       "team_name": "KT",
       "current_streak": "1W",
       "max_win_streak": 4,
-      "max_lose_streak": 5,
+      "max_lose_streak": 6,
       "streak_status": "연승 중"
     },
     {
       "team_name": "NC",
       "current_streak": "2W",
-      "max_win_streak": 5,
-      "max_lose_streak": 4,
+      "max_win_streak": 7,
+      "max_lose_streak": 5,
       "streak_status": "연승 중"
     },
     {
@@ -1723,7 +1723,7 @@
       "team_name": "키움",
       "current_streak": "1L",
       "max_win_streak": 4,
-      "max_lose_streak": 9,
+      "max_lose_streak": 10,
       "streak_status": "연패 중"
     }
   ],

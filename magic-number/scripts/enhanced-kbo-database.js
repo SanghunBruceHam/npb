@@ -555,54 +555,45 @@ class EnhancedKBODatabase {
         let tempWinStreak = 0;
         let tempLoseStreak = 0;
         
-        // Calculate current streak (from most recent games)
+        // Calculate current streak (from most recent games) - 무승부 무시
         for (let i = 0; i < recentGames.length; i++) {
             const game = recentGames[i];
             
             if (game.winner === team) {
                 // Win
-                if (i === 0) {
-                    currentStreakType = 'W';
-                    currentStreak = 1;
-                } else if (currentStreakType === 'W') {
+                if (currentStreakType === null || currentStreakType === 'W') {
+                    if (currentStreakType === null) currentStreakType = 'W';
                     currentStreak++;
                 } else {
-                    break; // Streak broken
+                    break; // Streak broken by loss
                 }
             } else if (game.winner !== 'draw' && game.winner !== null) {
                 // Loss
-                if (i === 0) {
-                    currentStreakType = 'L';
-                    currentStreak = 1;
-                } else if (currentStreakType === 'L') {
+                if (currentStreakType === null || currentStreakType === 'L') {
+                    if (currentStreakType === null) currentStreakType = 'L';
                     currentStreak++;
                 } else {
-                    break; // Streak broken
+                    break; // Streak broken by win
                 }
             } else {
-                // Draw - breaks streak
-                if (i === 0) {
-                    currentStreakType = 'D';
-                    currentStreak = 0;
-                }
-                break;
+                // Draw - 무시하고 계속 (연속 기록에 영향 없음)
+                continue;
             }
         }
         
-        // Calculate max streaks (from all games)
+        // Calculate max streaks (from all games) - 무승부 무시
         recentGames.forEach((game) => {
             if (game.winner === team) {
                 tempWinStreak++;
-                tempLoseStreak = 0;
+                tempLoseStreak = 0; // 승리로 연패 중단
                 maxWinStreak = Math.max(maxWinStreak, tempWinStreak);
             } else if (game.winner !== 'draw' && game.winner !== null) {
                 tempLoseStreak++;
-                tempWinStreak = 0;
+                tempWinStreak = 0; // 패배로 연승 중단
                 maxLoseStreak = Math.max(maxLoseStreak, tempLoseStreak);
             } else {
-                // Draw resets both streaks
-                tempWinStreak = 0;
-                tempLoseStreak = 0;
+                // Draw - 무시 (연속 기록 유지)
+                // 무승부는 연승이나 연패를 중단시키지 않음
             }
         });
         
