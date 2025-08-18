@@ -289,7 +289,7 @@ class ErrorMonitor {
     
     getBrowserVersion() {
         const userAgent = navigator.userAgent;
-        const match = userAgent.match(/(Chrome|Firefox|Safari|Edge)\\/([0-9.]+)/);
+        const match = userAgent.match(/(Chrome|Firefox|Safari|Edge)\/([0-9.]+)/);
         return match ? match[2] : 'Unknown';
     }
     
@@ -334,4 +334,5 @@ window.logPerformanceIssue = (issueData) => {
 window.errorReport = () => errorMonitor.printReport();
 window.clearErrors = () => errorMonitor.clearErrors();
 
-export default errorMonitor;
+// Export removed for browser compatibility
+// export default errorMonitor;
