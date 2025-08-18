@@ -2319,7 +2319,7 @@
         }
 
         .draw-row {
-            color: var(--neutral-color);
+            color: #f59e0b;
             font-size: var(--font-sm);
         }
 
@@ -4056,7 +4056,7 @@
             '2025-01-30': '설날 연휴',
             '2025-03-01': '3.1절',
             '2025-05-05': '어린이날',
-            '2025-05-13': '부처님 오신 날',
+            '2025-05-13': '부처님날',
             '2025-06-06': '현충일',
             '2025-08-15': '광복절',
             '2025-09-06': '추석 연휴',
@@ -4203,9 +4203,13 @@
                     const dayOfWeek = gameDate.getDay(); // 0=일요일, 6=토요일
                     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
                     
+                    // 요일 이름 추가
+                    const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+                    const dayName = dayNames[dayOfWeek];
+                    
                     // 공휴일 정보 추가
                     const holidayInfo = getHolidayInfo(game.date);
-                    const displayDate = game.date + holidayInfo;
+                    const displayDate = game.date + holidayInfo + ` (${dayName})`;
                     const isHoliday = koreaHolidays2025[game.date];
                     
                     // 날짜 클래스 결정 (공휴일 > 주말 > 평일 순서)
@@ -4304,7 +4308,7 @@
                     <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
                         <thead>
                             <tr style="background: #34495e; color: white; position: sticky; top: 0; z-index: 10;">
-                                <th style="padding: 10px 8px; border: 1px solid #495057; text-align: center; min-width: 100px;">날짜</th>
+                                <th style="padding: 10px 8px; border: 1px solid #495057; text-align: center; min-width: 140px;">날짜</th>
                                 ${teams.map(team => 
                                     `<th style="padding: 10px 6px; border: 1px solid #495057; text-align: center; min-width: 80px; font-size: var(--font-xs);">${getTeamWithLogo(team, 'team-logo-small')}</th>`
                                 ).join('')}
@@ -4319,9 +4323,13 @@
                 const dayOfWeek = gameDate.getDay();
                 const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
                 
+                // 요일 이름 추가
+                const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+                const dayName = dayNames[dayOfWeek];
+                
                 // 공휴일 정보 추가 (개별 팀과 동일)
                 const holidayInfo = getHolidayInfo(date);
-                const displayDate = date + holidayInfo;
+                const displayDate = date + holidayInfo + ` (${dayName})`;
                 const isHoliday = koreaHolidays2025[date];
                 
                 // 날짜 클래스 결정 (개별 팀과 동일)
@@ -4380,7 +4388,8 @@
                     <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                         <div style="margin-bottom: 6px;"><strong>날짜:</strong> <span style="color: #1f2937;">평일</span> (검은색), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">주말</span> (빨간색)</div>
                         <div style="margin-bottom: 6px;"><strong>홈/원정:</strong> <span style="color: #2563eb; font-weight: var(--font-weight-semibold);">🏠</span> (홈경기), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">✈️</span> (원정경기)</div>
-                        <div style="margin-bottom: 6px;"><strong>결과:</strong> <span style="color: #16a34a; font-weight: var(--font-weight-semibold);">승</span> (승리), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">패</span> (패배), <span style="color: #6b7280; font-weight: var(--font-weight-semibold);">무</span> (무승부)</div>
+                        <div style="margin-bottom: 6px;"><strong>결과:</strong> <span style="color: #16a34a; font-weight: var(--font-weight-semibold);">승</span> (승리), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">패</span> (패배), <span style="color: #f59e0b; font-weight: var(--font-weight-semibold);">무</span> (무승부)</div>
+                        <div style="margin-bottom: 6px;"><strong>더블헤더:</strong> 하루에 2경기가 표시되는 경우</div>
                         <div><strong>표시:</strong> 각 팀의 해당 날짜 경기 결과 (상대팀, 점수 포함)</div>
                     </div>
                 </div>
