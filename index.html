@@ -4567,21 +4567,33 @@
                 const row = document.createElement('tr');
                 // row.className = index < 3 ? `rank-${index + 1}` : '';
                 
-                // 연승/연패 색상 클래스 결정
+                // 연승/연패 색상 클래스 및 표시 텍스트 결정
                 let streakClass = 'streak-neutral';
                 let streakNum = 0;
+                let streakDisplay = team.current_streak || '-';
+                
                 if (team.current_streak) {
+                    // "2W", "3L", "D" 등의 형식 처리
                     const match = team.current_streak.match(/(\d+)([WL])/);
+                    
                     if (match) {
                         streakNum = parseInt(match[1]);
                         const streakType = match[2];
+                        
+                        // 한글로 변환
                         if (streakType === 'W') {
+                            streakDisplay = `${streakNum}연승`;
                             if (streakNum >= 3) streakClass = 'streak-hot';
                             else streakClass = 'streak-warm';
                         } else if (streakType === 'L') {
+                            streakDisplay = `${streakNum}연패`;
                             if (streakNum >= 3) streakClass = 'streak-cold';
                             else streakClass = 'streak-cool';
                         }
+                    } else if (team.current_streak === '0' || team.current_streak === 'D' || team.current_streak.includes('무')) {
+                        // 무승부인 경우 - 현재는 데이터에 무승부가 없으므로 임시 처리
+                        streakDisplay = '무승부';
+                        streakClass = 'streak-neutral';
                     }
                 }
 
@@ -4609,7 +4621,7 @@
                     <td>${homeAway ? homeAway.home_win_rate : '-'}</td>
                     <td>${homeAway ? homeAway.away_win_rate : '-'}</td>
                     <td class="${homeAway && parseFloat(homeAway.home_advantage) > 0.05 ? 'positive' : homeAway && parseFloat(homeAway.home_advantage) < -0.05 ? 'negative' : 'neutral'}">${homeAway ? homeAway.home_advantage : '-'}</td>
-                    <td class="${streakClass}">${team.current_streak}</td>
+                    <td class="${streakClass}">${streakDisplay}</td>
                     <td>${streak ? streak.max_win_streak : '-'}</td>
                     <td>${streak ? streak.max_lose_streak : '-'}</td>
                 `;

@@ -41,7 +41,7 @@
       "runs_scored": 537,
       "runs_allowed": 565,
       "run_differential": -28,
-      "current_streak": "0",
+      "current_streak": "8L",
       "games_behind": 10
     },
     {
@@ -111,7 +111,7 @@
       "runs_scored": 574,
       "runs_allowed": 516,
       "run_differential": 58,
-      "current_streak": "0",
+      "current_streak": "2W",
       "games_behind": 15
     },
     {
@@ -1672,10 +1672,10 @@
     },
     {
       "team_name": "롯데",
-      "current_streak": "0",
+      "current_streak": "8L",
       "max_win_streak": 6,
       "max_lose_streak": 8,
-      "streak_status": "무승부"
+      "streak_status": "연패 중"
     },
     {
       "team_name": "SSG",
@@ -1707,10 +1707,10 @@
     },
     {
       "team_name": "삼성",
-      "current_streak": "0",
+      "current_streak": "2W",
       "max_win_streak": 7,
       "max_lose_streak": 8,
-      "streak_status": "무승부"
+      "streak_status": "연승 중"
     },
     {
       "team_name": "두산",
