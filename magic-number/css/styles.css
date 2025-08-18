@@ -1144,11 +1144,19 @@ td:first-child {
         background: rgba(0, 0, 0, 0.08) !important;
     }
     
-    /* PC에서 JavaScript inline style 덮어쓰기 */
-    #head-to-head .vs-grid > div.vs-record,
-    #remaining-games .vs-grid > div.vs-record {
+    /* PC에서 JavaScript inline style 덮어쓰기 (자기팀 셀 제외) */
+    #head-to-head .vs-grid > div.vs-record:not([style*="white"]),
+    #remaining-games .vs-grid > div.vs-record:not([style*="white"]) {
         background: rgba(76, 175, 80, 0.1) !important;
         color: #2e7d32 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* 자기팀 셀은 회색으로 표시 */
+    #head-to-head .vs-grid > div.vs-record[style*="white"],
+    #remaining-games .vs-grid > div.vs-record[style*="white"] {
+        background: #f5f5f5 !important;
+        color: #9ca3af !important;
         font-weight: 600 !important;
     }
     
@@ -2562,5 +2570,135 @@ input, textarea, select, button {
     .nav-item {
         padding: 8px 12px;
         font-size: var(--text-sm);
+    }
+}
+
+/* ========================================
+   푸터 스타일
+   ======================================== */
+   
+.footer {
+    background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+    color: #ffffff;
+    margin-top: 50px;
+    padding: 40px 20px 20px 20px;
+    width: 100%;
+    font-family: 'Noto Sans KR', sans-serif;
+    box-sizing: border-box;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.12);
+}
+
+.footer-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.footer-section h3 {
+    color: #ffd700;
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.footer-section h4 {
+    color: #ffab91;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.footer-section p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+}
+
+.team-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    justify-content: flex-start;
+}
+
+.team-link-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-link-item:hover {
+    color: #ffd700;
+}
+
+.team-logo {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+/* 푸터 반응형 */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .team-links {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

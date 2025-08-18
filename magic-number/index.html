@@ -878,61 +878,72 @@
     </div>
 
     <!-- 푸터 -->
-    <footer style="
-        width: 100%;
-        margin-top: 30px;
-        padding: 20px 0 15px;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        color: white;
-        text-align: center;
-        border-top: 1px solid var(--border-color);
-    ">
-        <div class="container">
-            <div style="margin-bottom: 20px;">
-                <h3 class="text-lg" style="margin: 0 0 12px 0; font-weight: 500; color: white;">⚾ KBO 매직넘버 계산기</h3>
-                <p style="margin: 0 0 15px 0; opacity: 0.9;">KIA 타이거즈, 삼성 라이온즈, LG 트윈스, 두산 베어스, KT 위즈<br>NC 다이노스, SSG 랜더스, 롯데 자이언츠, 한화 이글스, 키움 히어로즈<br>10개 구단 플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 한눈에 확인하세요</p>
-                
-                <div style="text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 15px;">
-                    <a href="https://www.koreabaseball.com/" target="_blank" style="
-                        color: rgba(255,255,255,0.9);
-                        text-decoration: none;
-                                                padding: 8px 16px;
-                        border: 1px solid rgba(255,255,255,0.3);
-                        border-radius: 20px;
-                        transition: all 0.3s ease;
-                        display: inline-block;
-                        white-space: nowrap;
-                    " onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.5)'" 
-                       onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.3)'">
-                        📺 KBO 공홈
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>⚾ KBO 매직넘버 계산기 2025</h3>
+                <p>한국프로야구 10개 구단의 플레이오프 진출 조건, 우승 가능성, 팀별 순위표와 상대전적을 실시간으로 분석하고 제공합니다.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>KBO 팀 정보</h4>
+                <div class="team-links">
+                    <a href="https://www.hanwhaeagles.co.kr" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/hanwha.png" alt="한화 이글스" class="team-logo">
+                        <span>한화 이글스</span>
                     </a>
-                    <a href="https://www.koreabaseball.com/Schedule/Schedule.aspx" target="_blank" style="
-                        color: rgba(255,255,255,0.9);
-                        text-decoration: none;
-                                                padding: 8px 16px;
-                        border: 1px solid rgba(255,255,255,0.3);
-                        border-radius: 20px;
-                        transition: all 0.3s ease;
-                        display: inline-block;
-                        white-space: nowrap;
-                    " onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.5)'" 
-                       onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.3)'">
-                        📅 일정
+                    <a href="https://www.lgtwins.com" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/lg.png" alt="LG 트윈스" class="team-logo">
+                        <span>LG 트윈스</span>
                     </a>
-                    <a href="https://www.koreabaseball.com/Record/TeamRank/TeamRankDaily.aspx" target="_blank" style="
-                        color: rgba(255,255,255,0.9);
-                        text-decoration: none;
-                                                padding: 8px 16px;
-                        border: 1px solid rgba(255,255,255,0.3);
-                        border-radius: 20px;
-                        transition: all 0.3s ease;
-                        display: inline-block;
-                        white-space: nowrap;
-                    " onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.5)'" 
-                       onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255,255,255,0.3)'">
-                        📊 순위표
+                    <a href="https://www.giantsclub.com" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/lotte.png" alt="롯데 자이언츠" class="team-logo">
+                        <span>롯데 자이언츠</span>
+                    </a>
+                    <a href="https://www.ssglanders.com" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/ssg.png" alt="SSG 랜더스" class="team-logo">
+                        <span>SSG 랜더스</span>
+                    </a>
+                    <a href="https://www.ktwiz.co.kr" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/kt.png" alt="KT 위즈" class="team-logo">
+                        <span>KT 위즈</span>
+                    </a>
+                    <a href="https://tigers.co.kr" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/kia.png" alt="KIA 타이거즈" class="team-logo">
+                        <span>KIA 타이거즈</span>
+                    </a>
+                    <a href="https://www.samsunglions.com" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/samsung.png" alt="삼성 라이온즈" class="team-logo">
+                        <span>삼성 라이온즈</span>
+                    </a>
+                    <a href="https://www.ncdinos.com" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/nc.png" alt="NC 다이노스" class="team-logo">
+                        <span>NC 다이노스</span>
+                    </a>
+                    <a href="https://www.doosanbears.com" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/doosan.png" alt="두산 베어스" class="team-logo">
+                        <span>두산 베어스</span>
+                    </a>
+                    <a href="https://www.heroesbaseball.co.kr" target="_blank" rel="noopener" class="team-link-item">
+                        <img src="../images/kiwoom.png" alt="키움 히어로즈" class="team-logo">
+                        <span>키움 히어로즈</span>
                     </a>
                 </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>KBO 공식 정보</h4>
+                <ul class="footer-links">
+                    <li><a href="https://www.koreabaseball.com" target="_blank" rel="noopener">KBO 공식 홈페이지</a></li>
+                    <li><a href="https://www.koreabaseball.com/Schedule/Schedule.aspx" target="_blank" rel="noopener">경기 일정</a></li>
+                    <li><a href="https://www.koreabaseball.com/Record/TeamRank/TeamRankDaily.aspx" target="_blank" rel="noopener">팀 순위</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>데이터 정보</h4>
+                <p class="data-info">매일 오후 11시 30분 자동 업데이트</p>
+                <p class="data-source">데이터 출처: KBO 공식 기록</p>
                 
                 <!-- PC 버전 보기 기능 (모바일에서만 표시) -->
                 <div id="mobile-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); display: none;">
@@ -942,26 +953,18 @@
                         border: 1px solid rgba(255,255,255,0.2);
                         padding: 8px 12px;
                         border-radius: 6px;
-                                                cursor: pointer;
+                        cursor: pointer;
                         transition: all 0.3s ease;
-                        margin-right: 10px;
+                        font-size: 0.8rem;
                     ">
                         🖥️ PC 버전으로 보기
                     </button>
-                    <span style="opacity: 0.6;">더 원활한 사용이 가능합니다</span>
                 </div>
             </div>
-            
-            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; opacity: 0.8;">
-                <p style="margin: 0 0 10px 0;">
-                    © 2025 <a href="https://kbo.mahalohana-bruce.com/magic-number/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500;">KBO 매직넘버 계산기</a>
-                </p>
-                <p style="margin: 0; opacity: 0.7;">
-                    KBO 공식 데이터 기반 | 📅 매일 오후 11시 30분 자동 업데이트<br>
-                    ⚾ 본 사이트에 사용된 구단 로고는 각 구단의 공식 자료를 사용했습니다
-                </p>
-                
-            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 KBO 매직넘버 계산기. 모든 데이터는 KBO 공식 기록을 기반으로 합니다.</p>
         </div>
     </footer>
 
