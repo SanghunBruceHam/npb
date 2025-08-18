@@ -716,6 +716,7 @@
             font-size: var(--font-base);
             margin-top: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 1100px; /* 매트릭스 테이블 최소 너비 */
         }
 
         .matrix-table th,
@@ -737,6 +738,23 @@
             font-family: var(--font-family-base);
             padding: 12px 8px;
             text-align: center;
+        }
+        
+        /* 태블릿 이상 해상도에서 매트릭스 테이블 스티키 헤더 적용 */
+        @media (min-width: 769px) {
+            .matrix-table th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            
+            /* 매트릭스 테이블 컨테이너 높이 제한 */
+            #matrixContent .table-container,
+            #remainingGamesContent .table-container {
+                max-height: 600px;
+                overflow-y: auto;
+                position: relative;
+            }
         }
         
         /* 왼쪽 팀명 열 간격 조정 */
@@ -1413,6 +1431,25 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 100%;
+            -webkit-overflow-scrolling: touch; /* iOS 스크롤 개선 */
+        }
+        
+        /* 모든 테이블에 최소 너비 설정하여 스크롤 보장 */
+        .table-container table {
+            min-width: 900px; /* 기본 최소 너비 */
+        }
+        
+        /* 중간 해상도(태블릿 가로 모드 등)에서 테이블 스크롤 강화 */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .table-container {
+                overflow-x: auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            .table-container table {
+                min-width: 1000px !important; /* 중간 해상도에서 더 넓은 최소 너비 */
+            }
         }
 
         /* 모바일에서 매트릭스 테이블 상단 헤더 셀 너비 확대 */
@@ -2810,6 +2847,27 @@
                 padding: 6px 8px;
                 min-width: 60px;
             }
+            
+            /* 모바일에서 팀 선택 탭 최적화 */
+            .team-tabs {
+                justify-content: flex-start !important;
+                padding: 10px !important;
+                gap: 4px !important;
+            }
+            
+            .team-tab {
+                font-size: var(--font-xs) !important;
+                padding: 5px 8px !important;
+                min-width: 65px !important;
+                flex-shrink: 0 !important;
+            }
+            
+            /* 전체 탭 특별 강조 */
+            .team-tab:first-child {
+                background: #e3f2fd !important;
+                border-color: #2196f3 !important;
+                font-weight: 600 !important;
+            }
         }
 
         /* 시즌 진행률 카드 스타일 */
@@ -4116,7 +4174,7 @@
             <div class="team-detailed-records">
                 <div class="team-selector" style="text-align: center; margin-bottom: 25px;">
                     <h3 style="margin-bottom: 15px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📋 팀 선택</h3>
-                    <div class="team-tabs" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto;">
+                    <div class="team-tabs" style="display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
                         ${teams.map(team => 
                             `<button onclick="changeSelectedTeam('${team}')" 
                                 class="team-tab ${team === currentSelectedTeam ? 'active' : ''}" 
