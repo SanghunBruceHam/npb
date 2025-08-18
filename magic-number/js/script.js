@@ -83,21 +83,16 @@ const kboTeams = {
         
         // 공통 유틸리티 함수들
         const Utils = {
-            // 팀명과 로고를 조합한 HTML 생성
+            // 팀명과 로고를 조합한 HTML 생성 (테이블 친화적)
             getTeamNameWithLogo(team, includeRank = false) {
                 const teamData = kboTeams[team.team || team];
                 if (!teamData) return team.team || team;
                 
                 const teamName = team.team || team;
-                const logoAndName = `
-                    <div style="display: flex; align-items: center; gap: 3px;">
-                        ${teamData.logo}
-                        <span style="color: ${teamData.color}; font-weight: 600;">${teamName}</span>
-                    </div>
-                `;
+                const logoAndName = `${teamData.logo}<span style="color: ${teamData.color};">${teamName}</span>`;
                 
                 if (includeRank && team.rank) {
-                    return `${logoAndName} <span style="color: #666; font-size: 0.9rem;">(${team.rank}위)</span>`;
+                    return `${logoAndName} <span style="color: #666;">(${team.rank}위)</span>`;
                 }
                 
                 return logoAndName;
@@ -126,15 +121,14 @@ const kboTeams = {
                 
                 return `
                     <div style="
-                        font-size: 0.9rem; 
-                        line-height: 1.4;
+                        line-height: 1.3;
                         text-align: center;
                         color: #555;
                     ">
-                        <div style="margin-bottom: 3px; font-weight: 600;">
+                        <div style="margin-bottom: 3px; ">
                             ${teamHomeAway.home} / ${teamHomeAway.away}
                         </div>
-                        <div style="font-size: 0.85rem; color: #666;">
+                        <div style="color: #666;">
                             🏠 ${homeStats.winRate.toFixed(3)} / ✈️ ${awayStats.winRate.toFixed(3)}
                         </div>
                     </div>
@@ -157,8 +151,8 @@ const kboTeams = {
                 
                 if (magicNumber === 0) {
                     return team.rank === 1 ? 
-                        '<span style="color: #FFD700; font-weight: 700;">우승확정</span>' :
-                        '<span style="color: #4CAF50; font-weight: 700;">PO확정</span>';
+                        '<span style="color: #FFD700; ">우승확정</span>' :
+                        '<span style="color: #4CAF50; ">PO확정</span>';
                 }
                 
                 // 매직넘버 색상 결정
@@ -168,7 +162,7 @@ const kboTeams = {
                 else if (magicNumber <= 20) color = '#FF5722'; // 빨강
                 else color = '#9E9E9E';                        // 회색
                 
-                return `<span style="color: ${color}; font-weight: 600;">${magicNumber}</span>`;
+                return `<span style="color: ${color}; ">${magicNumber}</span>`;
             },
             
             // 테이블 행 HTML 생성 (공통 스타일 적용)
@@ -186,32 +180,10 @@ const kboTeams = {
             }
         };
         
-        // 에러 처리 및 사용자 알림 함수들
+        // 에러 처리 및 사용자 알림 함수들 (비활성화)
         function showNotification(message, type = 'error', duration = 5000) {
-            // 기존 알림 제거
-            const existingNotification = document.querySelector('.error-notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-            
-            const notification = document.createElement('div');
-            notification.className = `error-notification ${type}`;
-            notification.innerHTML = `
-                <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
-                <strong>${type === 'error' ? '⚠️ 오류' : '✅ 알림'}</strong><br>
-                ${message}
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // 자동 제거
-            if (duration > 0) {
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, duration);
-            }
+            // 알림 표시 비활성화 - 콘솔에만 로그
+            console.log(`[${type.toUpperCase()}] ${message}`);
         }
         
         function handleError(error, context = '알 수 없는 오류') {
@@ -226,7 +198,8 @@ const kboTeams = {
                 userMessage = `${context} 발생. 백업 데이터를 사용하여 서비스를 계속 제공합니다.`;
             }
             
-            showNotification(userMessage, 'error', 8000);
+            // 팝업 대신 콘솔에만 로그
+            console.warn(`[ERROR] ${userMessage}`);
         }
         
         // 데이터 정보 업데이트 함수
@@ -318,7 +291,6 @@ const kboTeams = {
                     // 데이터 로딩 시간 업데이트
                     updateLoadingTime(data);
                     
-                    showNotification(`최신 KBO 데이터 로딩 완료 (${currentStandings.length}개 팀)`, 'success', 3000);
                     return data;
                 } else {
                     logger.error('❌ 응답 실패:', response.status, response.statusText);
@@ -443,7 +415,7 @@ const kboTeams = {
             document.getElementById('first-place-team').innerHTML = `
                 <div style="display: flex; align-items: center; gap: 4px; justify-content: center;">
                     ${firstTeamData.logo}
-                    <span style="color: ${firstTeamData.color}; font-weight: 600;">${firstPlace.team}</span>
+                    <span style="color: ${firstTeamData.color}; ">${firstPlace.team}</span>
                 </div>
             `;
             const magicNumber = calculateMagicNumber(firstPlace, secondPlace);
@@ -458,39 +430,85 @@ const kboTeams = {
                 const firstConfirmedTeam = currentStandings.find(team => team.wins >= 72);
                 if (firstConfirmedTeam) {
                     const teamData = kboTeams[firstConfirmedTeam.team];
-                    document.getElementById('playoff-confirmed-desc').innerHTML = `<span style="color: ${teamData.color}; font-weight: 600;">${firstConfirmedTeam.team}</span> 외 ${confirmedTeams - 1}팀`;
+                    document.getElementById('playoff-confirmed-desc').innerHTML = `<span style="color: ${teamData.color}; ">${firstConfirmedTeam.team}</span> 외 ${confirmedTeams - 1}팀`;
                 }
             } else {
                 document.getElementById('playoff-confirmed-desc').textContent = '72승 이상 달성';
             }
 
-            // 최고 연승팀
-            let bestStreak = { team: '', count: 0, type: '' };
+            // 최고 연승팀 (동점 시 2팀 표기)
+            let bestStreakTeams = [];
+            let maxWinStreak = 0;
             currentStandings.forEach(team => {
                 if (team.streak.includes('승')) {
                     const count = parseInt(team.streak);
-                    if (count > bestStreak.count) {
-                        bestStreak = { team: team.team, count: count, type: '승' };
+                    if (count > maxWinStreak) {
+                        maxWinStreak = count;
+                        bestStreakTeams = [team.team];
+                    } else if (count === maxWinStreak && count > 0) {
+                        bestStreakTeams.push(team.team);
                     }
                 }
             });
-            if (bestStreak.team) {
-                const bestTeamData = kboTeams[bestStreak.team];
+            if (bestStreakTeams.length > 0) {
+                const teamsToShow = bestStreakTeams.slice(0, 2); // 최대 2팀까지
+                const teamLogos = teamsToShow.map(teamName => {
+                    const teamData = kboTeams[teamName];
+                    return `<div style="display: flex; align-items: center; gap: 2px;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color};  ">${teamName}</span>
+                    </div>`;
+                }).join('');
+                
                 document.getElementById('best-streak-team').innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 4px; justify-content: center;">
-                        ${bestTeamData.logo}
-                        <span style="color: ${bestTeamData.color}; font-weight: 600;">${bestStreak.team}</span>
+                    <div style="display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        ${teamLogos}
                     </div>
                 `;
-                document.getElementById('best-streak-count').textContent = `${bestStreak.count}연승 중`;
+                document.getElementById('best-streak-count').textContent = `${maxWinStreak}연승 중`;
             } else {
                 document.getElementById('best-streak-team').textContent = '없음';
                 document.getElementById('best-streak-count').textContent = '-';
             }
 
-            // 최근 10경기 성적이 가장 좋은 팀 찾기
-            let bestRecentTeam = null;
-            let bestRecentWins = -1;
+            // 최고 연패팀 (동점 시 2팀 표기)
+            let worstStreakTeams = [];
+            let maxLossStreak = 0;
+            currentStandings.forEach(team => {
+                if (team.streak.includes('패')) {
+                    const count = parseInt(team.streak);
+                    if (count > maxLossStreak) {
+                        maxLossStreak = count;
+                        worstStreakTeams = [team.team];
+                    } else if (count === maxLossStreak && count > 0) {
+                        worstStreakTeams.push(team.team);
+                    }
+                }
+            });
+            if (worstStreakTeams.length > 0) {
+                const teamsToShow = worstStreakTeams.slice(0, 2); // 최대 2팀까지
+                const teamLogos = teamsToShow.map(teamName => {
+                    const teamData = kboTeams[teamName];
+                    return `<div style="display: flex; align-items: center; gap: 2px;">
+                        ${teamData.logo}
+                        <span style="color: ${teamData.color};  ">${teamName}</span>
+                    </div>`;
+                }).join('');
+                
+                document.getElementById('worst-streak-team').innerHTML = `
+                    <div style="display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        ${teamLogos}
+                    </div>
+                `;
+                document.getElementById('worst-streak-count').textContent = `${maxLossStreak}연패 중`;
+            } else {
+                document.getElementById('worst-streak-team').textContent = '없음';
+                document.getElementById('worst-streak-count').textContent = '-';
+            }
+
+            // 최근 10경기 성적이 가장 좋은 팀 찾기 (동점 시 2팀 표기)
+            let bestRecentTeams = [];
+            let maxRecentWins = -1;
             
             currentStandings.forEach(team => {
                 if (team.recent10) {
@@ -498,23 +516,32 @@ const kboTeams = {
                     const winsMatch = team.recent10.match(/(\d+)승/);
                     if (winsMatch) {
                         const wins = parseInt(winsMatch[1]);
-                        if (wins > bestRecentWins) {
-                            bestRecentWins = wins;
-                            bestRecentTeam = team;
+                        if (wins > maxRecentWins) {
+                            maxRecentWins = wins;
+                            bestRecentTeams = [team];
+                        } else if (wins === maxRecentWins && wins >= 0) {
+                            bestRecentTeams.push(team);
                         }
                     }
                 }
             });
             
-            if (bestRecentTeam && bestRecentWins >= 0) {
-                const teamData = kboTeams[bestRecentTeam.team];
-                document.getElementById('recent-best-team').innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 4px; justify-content: center;">
+            if (bestRecentTeams.length > 0 && maxRecentWins >= 0) {
+                const teamsToShow = bestRecentTeams.slice(0, 2); // 최대 2팀까지
+                const teamLogos = teamsToShow.map(team => {
+                    const teamData = kboTeams[team.team];
+                    return `<div style="display: flex; align-items: center; gap: 2px;">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; font-weight: 600;">${bestRecentTeam.team}</span>
+                        <span style="color: ${teamData.color};  ">${team.team}</span>
+                    </div>`;
+                }).join('');
+                
+                document.getElementById('recent-best-team').innerHTML = `
+                    <div style="display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        ${teamLogos}
                     </div>
                 `;
-                document.getElementById('recent-best-record').textContent = bestRecentTeam.recent10;
+                document.getElementById('recent-best-record').textContent = bestRecentTeams[0].recent10;
             } else {
                 document.getElementById('recent-best-team').textContent = '-';
                 document.getElementById('recent-best-record').textContent = '-';
@@ -606,22 +633,22 @@ const kboTeams = {
                         bValue = parseFloat(b.cells[7].textContent);
                         break;
                     case 'gamesBehind':
-                        aValue = a.cells[9].textContent === '-' ? 0 : parseFloat(a.cells[9].textContent);
-                        bValue = b.cells[9].textContent === '-' ? 0 : parseFloat(b.cells[9].textContent);
+                        aValue = a.cells[10].textContent === '-' ? 0 : parseFloat(a.cells[10].textContent);
+                        bValue = b.cells[10].textContent === '-' ? 0 : parseFloat(b.cells[10].textContent);
                         break;
                     case 'recent10':
-                        aValue = parseInt(a.cells[11].textContent.split('승')[0]);
-                        bValue = parseInt(b.cells[11].textContent.split('승')[0]);
+                        aValue = parseInt(a.cells[12].textContent.split('승')[0]);
+                        bValue = parseInt(b.cells[12].textContent.split('승')[0]);
                         break;
                     case 'streak':
-                        const aStreak = a.cells[12].textContent;
-                        const bStreak = b.cells[12].textContent;
+                        const aStreak = a.cells[13].textContent;
+                        const bStreak = b.cells[13].textContent;
                         aValue = aStreak.includes('승') ? parseInt(aStreak) : -parseInt(aStreak);
                         bValue = bStreak.includes('승') ? parseInt(bStreak) : -parseInt(bStreak);
                         break;
                     case 'magic':
-                        const aMagic = a.cells[12].textContent;
-                        const bMagic = b.cells[12].textContent;
+                        const aMagic = a.cells[14].textContent;
+                        const bMagic = b.cells[14].textContent;
                         aValue = getMagicNumberSortValue(aMagic);
                         bValue = getMagicNumberSortValue(bMagic);
                         break;
@@ -752,7 +779,6 @@ const kboTeams = {
                 // 데이터 검증
                 if (!teamData) {
                     logger.error('❌ 팀 데이터 없음:', team.team);
-                    showNotification(`${team.team} 팀 데이터를 찾을 수 없습니다.`, 'error', 3000);
                     return;
                 }
                 
@@ -794,25 +820,27 @@ const kboTeams = {
                 // 팀명 로고 추가
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
 
-                // 홈/방문 성적 - JSON 데이터에서 실제 값 사용
+                // 홈/방문 성적 - JSON 데이터에서 실제 값 사용 (분리)
                 const homeRecord = team.homeRecord || "0-0-0";
                 const awayRecord = team.awayRecord || "0-0-0";
-                const homeAwayDisplay = `<div style="line-height: 1.4; font-size: 0.95rem;"><span style="color: #2563eb; font-weight: 500;">🏠 ${homeRecord}</span><br><span style="color: #dc2626; font-weight: 500;">✈️ ${awayRecord}</span></div>`;
+                const homeDisplay = `<span style="color: #2563eb;">${homeRecord}</span>`;
+                const awayDisplay = `<span style="color: #dc2626;">${awayRecord}</span>`;
 
                 const winLossMargin = team.wins - team.losses;
                 const marginColor = winLossMargin > 0 ? '#27ae60' : winLossMargin < 0 ? '#e74c3c' : '#666';
                 const marginDisplay = winLossMargin > 0 ? `+${winLossMargin}` : winLossMargin.toString();
                 
                 row.innerHTML = `
-                    <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
-                    <td>${teamNameWithLogo}</td>
+                    <td style="color: ${teamData.color};">${team.rank}</td>
+                    <td class="team-name">${teamNameWithLogo}</td>
                     <td>${team.games}</td>
                     <td>${team.wins}</td>
                     <td>${team.losses}</td>
                     <td>${team.draws}</td>
-                    <td style="color: ${marginColor}; font-weight: 600;">${marginDisplay}</td>
+                    <td style="color: ${marginColor};">${marginDisplay}</td>
                     <td>${team.winPct.toFixed(3)}</td>
-                    <td>${homeAwayDisplay}</td>
+                    <td>${homeDisplay}</td>
+                    <td>${awayDisplay}</td>
                     <td>${team.gamesBehind === 0 ? '-' : team.gamesBehind}</td>
                     <td>${remainingGames}</td>
                     <td>${recent10Formatted}</td>
@@ -850,16 +878,16 @@ const kboTeams = {
         function formatStreak(streak) {
             if (streak.includes('승')) {
                 const winCount = parseInt(streak);
-                if (winCount >= 3) {
-                    return `<span style="color: var(--success-color); font-weight: 700;">${streak}</span>`;
+                if (winCount >= 5) {
+                    return `<span style="color: var(--success-color); ">${streak}</span>`;
                 }
-                return `<span style="color: var(--success-color); font-weight: 600;">${streak}</span>`;
+                return `<span style="color: var(--success-color);">${streak}</span>`;
             } else if (streak.includes('패')) {
                 const lossCount = parseInt(streak);
-                if (lossCount >= 3) {
-                    return `<span style="color: var(--danger-color); font-weight: 700;">${streak}</span>`;
+                if (lossCount >= 5) {
+                    return `<span style="color: var(--danger-color); ">${streak}</span>`;
                 }
-                return `<span style="color: var(--danger-color); font-weight: 600;">${streak}</span>`;
+                return `<span style="color: var(--danger-color);">${streak}</span>`;
             }
             return streak;
         }
@@ -868,20 +896,28 @@ const kboTeams = {
             // "6승1무3패" 형태 파싱
             const winMatch = recent10.match(/(\d+)승/);
             const lossMatch = recent10.match(/(\d+)패/);
+            const drawMatch = recent10.match(/(\d+)무/);
             
             const wins = winMatch ? parseInt(winMatch[1]) : 0;
             const losses = lossMatch ? parseInt(lossMatch[1]) : 0;
+            const draws = drawMatch ? parseInt(drawMatch[1]) : 0;
             
-            // 색상 기준: 7승 이상(녹색), 5-6승(노란색), 4승 이하(빨간색)
-            if (wins >= 7) {
-                // 7승 이상 - 뜨거운 상승세
-                return `<span style="color: var(--success-color); font-weight: 700;">${recent10}</span>`;
-            } else if (wins >= 5) {
-                // 5-6승 - 양호한 흐름
-                return `<span style="color: var(--warning-color); font-weight: 600;">${recent10}</span>`;
+            // 승 패 무 형태로 변환 (띄어쓰기 포함)
+            const formattedRecord = `${wins}승 ${losses}패 ${draws}무`;
+            
+            // 색상 기준: 승수에 따른 색상 적용
+            if (wins >= 8) {
+                // 8승 이상 - 매우 뜨거운 상승세
+                return `<span style="color: var(--success-color); font-weight: 600;">${formattedRecord}</span>`;
+            } else if (wins >= 6) {
+                // 6-7승 - 상승세
+                return `<span style="color: var(--success-color);">${formattedRecord}</span>`;
+            } else if (wins >= 4) {
+                // 4-5승 - 보통
+                return `<span style="color: var(--warning-color);">${formattedRecord}</span>`;
             } else {
-                // 4승 이하 - 부진한 흐름
-                return `<span style="color: var(--danger-color); font-weight: 600;">${recent10}</span>`;
+                // 3승 이하 - 부진
+                return `<span style="color: var(--danger-color);">${formattedRecord}</span>`;
             }
         }
 
@@ -901,6 +937,99 @@ const kboTeams = {
             return teamMagicData ? teamMagicData.championship : 0;
         }
 
+
+        // 1위팀 컬러로 우승 조건 섹션 꾸미기
+        function applyChampionshipTeamColors(teamData) {
+            const championshipSection = document.querySelector('.championship-section');
+            const bgAccent = document.querySelector('.championship-bg-accent');
+            const mainDisplay = document.querySelector('.championship-main-display');
+            const title = championshipSection?.querySelector('h2');
+            
+            if (!teamData || !championshipSection) return;
+            
+            // 팀 컬러를 CSS 변수로 설정
+            const teamColor = teamData.color || '#1a237e';
+            const teamColorRgb = hexToRgb(teamColor);
+            const secondaryColor = lightenColor(teamColor, 20);
+            
+            championshipSection.style.setProperty('--team-color', teamColor);
+            championshipSection.style.setProperty('--team-secondary-color', secondaryColor);
+            championshipSection.style.setProperty('--team-color-rgb', teamColorRgb);
+            
+            // 상단 액센트 바 색상
+            if (bgAccent) {
+                bgAccent.style.background = `linear-gradient(90deg, ${teamColor}, ${secondaryColor})`;
+            }
+            
+            // 메인 디스플레이 영역 색상
+            if (mainDisplay) {
+                mainDisplay.style.background = `linear-gradient(135deg, 
+                    ${teamColor}08 0%, 
+                    ${teamColor}15 50%, 
+                    ${teamColor}08 100%)`;
+                mainDisplay.style.borderColor = `${teamColor}40`;
+                mainDisplay.style.boxShadow = `0 4px 12px ${teamColor}20, inset 0 1px 3px rgba(255, 255, 255, 0.5)`;
+            }
+            
+            // 제목 색상
+            if (title) {
+                title.style.color = teamColor;
+                title.style.textShadow = `0 1px 2px ${teamColor}20`;
+            }
+            
+            // 통계 카드들 색상
+            const statCards = championshipSection.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.style.background = `linear-gradient(135deg, ${teamColor}04 0%, ${teamColor}10 100%)`;
+                card.style.borderColor = `${teamColor}25`;
+                card.style.borderTopColor = `${teamColor}60`;
+                
+                const statValue = card.querySelector('.stat-value');
+                if (statValue) {
+                    statValue.style.color = teamColor;
+                    statValue.style.textShadow = `0 1px 2px ${teamColor}15`;
+                }
+            });
+            
+            // 우승확정일 박스 색상
+            const clinchDateBox = championshipSection.querySelector('.clinch-date-box');
+            const clinchDateValue = document.getElementById('clinch-date');
+            if (clinchDateBox) {
+                clinchDateBox.style.background = `linear-gradient(135deg, ${teamColor}08 0%, ${teamColor}15 100%)`;
+                clinchDateBox.style.borderColor = `${teamColor}35`;
+                clinchDateBox.style.boxShadow = `0 4px 12px ${teamColor}20`;
+                
+                // 상단 액센트 라인
+                const topAccent = clinchDateBox.querySelector('div[style*="position: absolute"]');
+                if (topAccent) {
+                    topAccent.style.background = `linear-gradient(90deg, ${teamColor}, ${secondaryColor})`;
+                }
+            }
+            
+            if (clinchDateValue) {
+                clinchDateValue.style.color = teamColor;
+                clinchDateValue.style.textShadow = `0 1px 2px ${teamColor}20`;
+            }
+        }
+        
+        // 색상 유틸리티 함수들
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? 
+                `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+                '26, 35, 126';
+        }
+        
+        function lightenColor(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
 
         function renderChampionshipCondition() {
             logger.log('🏆 우승 조건 렌더링 시작');
@@ -956,6 +1085,9 @@ const kboTeams = {
             document.getElementById('first-place-team-name').textContent = `${firstPlace.team} 1위`;
             document.getElementById('first-place-team-name').style.color = teamData.color;
             
+            // 1위팀 컬러로 우승 조건 섹션 꾸미기
+            applyChampionshipTeamColors(teamData);
+            
             // 매직넘버 라인 옆 정보 업데이트
             document.getElementById('remaining-games-top-display').textContent = `${remainingGames}경기`;
             document.getElementById('min-wins-top-display').textContent = `${minWinsNeeded}승`;
@@ -974,6 +1106,89 @@ const kboTeams = {
             document.getElementById('required-winpct').textContent = neededWinsForMinWins > 0 ? `${requiredWinPct.toFixed(3)}` : '달성';
             document.getElementById('historical-required-winpct').textContent = neededWinsForHistorical > 0 ? `${historicalRequiredWinPct.toFixed(3)}` : '달성';
             document.getElementById('clinch-date').textContent = clinchDateText;
+            
+            // ===========================================
+            // 새로운 확률 정보 및 역사적 비교 계산
+            // ===========================================
+            
+            // 1. 현재 승률 유지시 우승 확률 계산
+            const currentWinRate = firstPlace.winPct || firstPlace.winRate;
+            const projectedTotalWins = Math.round(currentWinRate * totalGames);
+            const secondPlaceMaxWins = (secondPlace?.wins || 0) + (totalGames - (secondPlace?.games || 0));
+            
+            let championshipProbability = 0;
+            let probabilityDetail = '';
+            
+            if (projectedTotalWins > secondPlaceMaxWins) {
+                championshipProbability = 98; // 거의 확실
+                probabilityDetail = `예상 ${projectedTotalWins}승으로 2위 최대가능승수(${secondPlaceMaxWins}승) 초과`;
+            } else if (projectedTotalWins === secondPlaceMaxWins) {
+                championshipProbability = 75; // 높은 확률
+                probabilityDetail = `예상 ${projectedTotalWins}승으로 2위와 동일 (직접대결 등 변수)`;
+            } else {
+                const gap = secondPlaceMaxWins - projectedTotalWins;
+                if (gap <= 2) {
+                    championshipProbability = 60;
+                    probabilityDetail = `예상 ${projectedTotalWins}승 (2위보다 ${gap}승 적음, 변수 존재)`;
+                } else if (gap <= 5) {
+                    championshipProbability = 35;
+                    probabilityDetail = `예상 ${projectedTotalWins}승 (2위보다 ${gap}승 적음, 어려움)`;
+                } else {
+                    championshipProbability = 10;
+                    probabilityDetail = `예상 ${projectedTotalWins}승 (2위보다 ${gap}승 적음, 매우 어려움)`;
+                }
+            }
+            
+            // 2. 최악 시나리오 계산 (연패 가능 경기수)
+            const safeWins = secondPlaceMaxWins + 1; // 안전한 승수
+            const maxConsecutiveLosses = Math.max(0, maxPossibleWins - safeWins);
+            
+            let worstScenario = '';
+            let worstScenarioDetail = '';
+            
+            if (firstPlace.wins >= safeWins) {
+                worstScenario = '이미 안전권';
+                worstScenarioDetail = `${safeWins}승 달성으로 우승 확정`;
+            } else if (maxConsecutiveLosses >= remainingGames) {
+                worstScenario = '모든 경기 패배 가능';
+                worstScenarioDetail = `${remainingGames}경기 모두 져도 우승 가능`;
+            } else if (maxConsecutiveLosses > 0) {
+                worstScenario = `최대 ${maxConsecutiveLosses}연패 가능`;
+                worstScenarioDetail = `${maxConsecutiveLosses + 1}연패시 우승 위험`;
+            } else {
+                worstScenario = '모든 경기 승리 필요';
+                worstScenarioDetail = '한 경기라도 지면 우승 어려움';
+            }
+            
+            // 3. 역사적 비교 계산
+            const currentDate = new Date();
+            const isAugustMid = currentDate.getMonth() === 7 && currentDate.getDate() >= 15; // 8월 중순
+            
+            // 8월 중순 기준 역대 1위팀 평균 (대략적 계산)
+            const gamesPlayedByAugust = Math.min(firstPlace.games, 100); // 8월 중순까지 대략 100경기
+            const historicalAugustWins = Math.round(gamesPlayedByAugust * 0.620); // 역대 1위팀 평균 승률
+            const historicalAugustWinRate = 0.620;
+            
+            // 현재 팀과 역대 평균 비교
+            const currentVsHistorical = firstPlace.wins - historicalAugustWins;
+            let historicalComparison = '';
+            if (currentVsHistorical > 0) {
+                historicalComparison = `${currentVsHistorical}승 앞서는 중`;
+            } else if (currentVsHistorical < 0) {
+                historicalComparison = `${Math.abs(currentVsHistorical)}승 뒤처진 상황`;
+            } else {
+                historicalComparison = '역대 평균과 동일';
+            }
+            
+            // 현재 페이스로 시즌 종료시 예상 승수
+            const currentPaceWins = Math.round(currentWinRate * totalGames);
+            let championComparison = '';
+            if (currentPaceWins >= 87) {
+                championComparison = `역대 평균(86.9승)보다 ${currentPaceWins - 87}승 많음`;
+            } else {
+                championComparison = `역대 평균(86.9승)보다 ${87 - currentPaceWins}승 적음`;
+            }
+            
         }
 
         function renderChaseAnalysis() {
@@ -993,44 +1208,68 @@ const kboTeams = {
                 // 144경기 체제 역대 1위 평균 승수 (2015-2024: 86.9승)
                 const historicalFirstPlaceWins = 87; // 2015-2024년 1위팀 평균 승수
 
-                currentStandings.slice(1).forEach(team => {
+                currentStandings.forEach(team => {
                 const teamData = kboTeams[team.team];
                 const remainingGames = 144 - team.games;
                 const maxPossibleWins = team.wins + remainingGames;
                 const firstPlaceRemaining = 144 - firstPlace.games;
-                const requiredFirstPlaceWins = maxPossibleWins - 1;
-                const canCatch = maxPossibleWins > firstPlace.wins;
                 
-                // 역대 1위 평균 기준으로 필요 승률 계산
-                const neededWinsForHistoricalAverage = Math.max(0, historicalFirstPlaceWins - team.wins);
-                const requiredWinPctForAverage = remainingGames > 0 ? 
-                    Math.min(1, neededWinsForHistoricalAverage / remainingGames) : 0;
+                // 1위팀과 2위 이하 팀별로 다른 로직 적용
+                let requiredFirstPlaceWins, canCatch, winPctColor, winPctDisplay, canReachHistoricalAverage;
                 
-                // 144경기 체제 역대 1위 성적 달성 가능성 (87승 달성 가능한지)
-                const canReachHistoricalAverage = maxPossibleWins >= historicalFirstPlaceWins;
-                
-                // KBO 승률 분포 기준 색상 계산 (전체 팀 고려)
-                let winPctColor = '';
-                let winPctDisplay = '';
-                
-                if (requiredWinPctForAverage > 1) {
-                    winPctColor = '#2c3e50'; // 검은색 (수학적 불가능)
-                    winPctDisplay = '불가능';
-                } else if (requiredWinPctForAverage > 0.700) {
-                    winPctColor = '#2c3e50'; // 검은색 (역사상 최고 수준)
-                    winPctDisplay = requiredWinPctForAverage.toFixed(3);
-                } else if (requiredWinPctForAverage > 0.650) {
-                    winPctColor = '#e74c3c'; // 빨간색 (상위권 우승팀 수준)
-                    winPctDisplay = requiredWinPctForAverage.toFixed(3);
-                } else if (requiredWinPctForAverage > 0.550) {
-                    winPctColor = '#e67e22'; // 주황색 (플레이오프권 수준)
-                    winPctDisplay = requiredWinPctForAverage.toFixed(3);
-                } else if (requiredWinPctForAverage > 0.450) {
-                    winPctColor = '#f1c40f'; // 노란색 (중위권 수준)
-                    winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                if (team.rank === 1) {
+                    // 1위팀: 현재 우승 상황 표시
+                    requiredFirstPlaceWins = '-';
+                    canCatch = '현재 1위';
+                    
+                    // 역대 1위 평균 달성 가능성
+                    canReachHistoricalAverage = maxPossibleWins >= historicalFirstPlaceWins;
+                    
+                    // 87승까지 필요한 승률
+                    const neededWinsForHistoricalAverage = Math.max(0, historicalFirstPlaceWins - team.wins);
+                    const requiredWinPctForAverage = remainingGames > 0 ? 
+                        Math.min(1, neededWinsForHistoricalAverage / remainingGames) : 0;
+                    
+                    if (neededWinsForHistoricalAverage === 0) {
+                        winPctColor = '#27ae60';
+                        winPctDisplay = '달성';
+                    } else {
+                        winPctColor = '#3498db';
+                        winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    }
                 } else {
-                    winPctColor = '#27ae60'; // 녹색 (달성 가능한 수준)
-                    winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    // 2위 이하팀: 기존 로직
+                    requiredFirstPlaceWins = maxPossibleWins - 1;
+                    canCatch = maxPossibleWins > firstPlace.wins;
+                    
+                    // 역대 1위 평균 기준으로 필요 승률 계산
+                    const neededWinsForHistoricalAverage = Math.max(0, historicalFirstPlaceWins - team.wins);
+                    const requiredWinPctForAverage = remainingGames > 0 ? 
+                        Math.min(1, neededWinsForHistoricalAverage / remainingGames) : 0;
+                    
+                    // 144경기 체제 역대 1위 성적 달성 가능성 (87승 달성 가능한지)
+                    canReachHistoricalAverage = maxPossibleWins >= historicalFirstPlaceWins;
+                    
+                    // KBO 승률 분포 기준 색상 계산
+                    if (requiredWinPctForAverage > 1) {
+                        winPctColor = '#2c3e50';
+                        winPctDisplay = '불가능';
+                    } else if (requiredWinPctForAverage > 0.700) {
+                        winPctColor = '#2c3e50';
+                        winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    } else if (requiredWinPctForAverage > 0.650) {
+                        winPctColor = '#e74c3c';
+                        winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    } else if (requiredWinPctForAverage > 0.550) {
+                        winPctColor = '#e67e22';
+                        winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    } else if (requiredWinPctForAverage > 0.450) {
+                        winPctColor = '#f1c40f';
+                        winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    } else {
+                        winPctColor = '#27ae60';
+                        winPctDisplay = requiredWinPctForAverage.toFixed(3);
+                    }
                 }
                 
                 const row = document.createElement('tr');
@@ -1038,7 +1277,14 @@ const kboTeams = {
                 
                 // 순위별 클래스 적용
                 let rankClass = '';
-                if (team.rank === 2) rankClass = 'rank-2';
+                if (team.rank === 1) {
+                    rankClass = 'rank-1 first-place-row';
+                    // 1위팀에 팀 컬러 테두리와 배경 적용
+                    row.style.border = `3px solid ${teamData.color}`;
+                    row.style.boxShadow = `0 0 12px ${teamData.color}30`;
+                    row.style.background = `linear-gradient(135deg, ${teamData.color}08 0%, ${teamData.color}15 100%)`;
+                    row.style.borderRadius = '8px';
+                } else if (team.rank === 2) rankClass = 'rank-2';
                 else if (team.rank === 3) rankClass = 'rank-3';
                 else if (team.rank >= 4 && team.rank <= 5) rankClass = 'playoff';
                 row.className = rankClass;
@@ -1046,19 +1292,24 @@ const kboTeams = {
                 // 팀명에 로고 추가
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
+                // 1위팀인 경우 특별 스타일링
+                const isFirstPlace = team.rank === 1;
+                const textColor = isFirstPlace ? teamData.color : '#666';
+                const catchColor = typeof canCatch === 'string' ? (isFirstPlace ? teamData.color : '#3498db') : (canCatch ? '#27ae60' : '#e74c3c');
+                
                 row.innerHTML = `
-                    <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
-                    <td>${teamNameWithLogo}</td>
-                    <td style="font-weight: 600;">${team.wins}</td>
-                    <td>${team.gamesBehind}</td>
-                    <td>${remainingGames}</td>
-                    <td>${maxPossibleWins}</td>
-                    <td>${requiredFirstPlaceWins}승 이하</td>
-                    <td style="color: ${canCatch ? '#27ae60' : '#e74c3c'}; font-weight: 600;">
-                        ${canCatch ? '가능' : '불가능'}
+                    <td style="color: ${teamData.color}; font-weight: ${isFirstPlace ? '700' : '600'};">${team.rank}</td>
+                    <td class="team-name" style="font-weight: ${isFirstPlace ? '600' : 'normal'};">${teamNameWithLogo}</td>
+                    <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${team.wins}</td>
+                    <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${team.gamesBehind === 0 ? '-' : team.gamesBehind}</td>
+                    <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${remainingGames}</td>
+                    <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${maxPossibleWins}</td>
+                    <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${typeof requiredFirstPlaceWins === 'string' ? requiredFirstPlaceWins : requiredFirstPlaceWins + '승 이하'}</td>
+                    <td style="color: ${catchColor}; font-weight: ${isFirstPlace ? '700' : '600'}; text-shadow: ${isFirstPlace ? `0 1px 2px ${teamData.color}20` : 'none'};">
+                        ${typeof canCatch === 'string' ? canCatch : (canCatch ? '가능' : '불가능')}
                     </td>
-                    <td style="color: ${winPctColor}; font-weight: 600;">${winPctDisplay}</td>
-                    <td style="color: ${canReachHistoricalAverage ? '#27ae60' : '#e74c3c'}; font-weight: 600;">
+                    <td style="color: ${isFirstPlace ? teamData.color : winPctColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${winPctDisplay}</td>
+                    <td style="color: ${canReachHistoricalAverage ? '#27ae60' : '#e74c3c'}; font-weight: ${isFirstPlace ? '600' : 'normal'};">
                         ${canReachHistoricalAverage ? '가능' : '불가능'}
                     </td>
                 `;
@@ -1118,7 +1369,7 @@ const kboTeams = {
                     
                     row.innerHTML = `
                         <td>${team.rank}</td>
-                        <td>${Utils.getTeamNameWithLogo(team.team)}</td>
+                        <td class="team-name">${Utils.getTeamNameWithLogo(team.team)}</td>
                         <td>${team.wins}</td>
                         <td>${remainingGames}</td>
                         <td>${maxPossibleWins}</td>
@@ -1176,82 +1427,99 @@ const kboTeams = {
                 const remainingGames = team.remainingGames;
                 const maxPossibleWins = team.maxPossibleWins;
                 
-                // 매직넘버 표시
+                // 매직넘버 표시 (초록-빨강 그라데이션)
                 let magicDisplay = '';
                 let magicColor = '';
                 
                 if (playoffMagicNumber === '-' || playoffMagicNumber === 0) {
                     magicDisplay = '확정';
-                    magicColor = '#27ae60'; // 녹색
+                    magicColor = '#2ecc71'; // 밝은 녹색
+                } else if (playoffMagicNumber <= 3) {
+                    magicDisplay = playoffMagicNumber;
+                    magicColor = '#27ae60'; // 진한 녹색
+                } else if (playoffMagicNumber <= 6) {
+                    magicDisplay = playoffMagicNumber;
+                    magicColor = '#f39c12'; // 황금색
                 } else if (playoffMagicNumber <= 10) {
                     magicDisplay = playoffMagicNumber;
-                    magicColor = '#f1c40f'; // 노란색
-                } else if (playoffMagicNumber <= 20) {
-                    magicDisplay = playoffMagicNumber;
                     magicColor = '#e67e22'; // 주황색
-                } else {
+                } else if (playoffMagicNumber <= 15) {
                     magicDisplay = playoffMagicNumber;
                     magicColor = '#e74c3c'; // 빨간색
+                } else {
+                    magicDisplay = playoffMagicNumber;
+                    magicColor = '#c0392b'; // 진한 빨간색
                 }
                 
-                // 트래직넘버 표시
+                // 트래직넘버 표시 (초록-빨강 그라데이션, 값이 클수록 안전)
                 let tragicDisplay = '';
                 let tragicColor = '';
                 
                 if (eliminationMagicNumber === 0) {
                     tragicDisplay = '탈락';
-                    tragicColor = '#e74c3c'; // 빨간색 - 이미 탈락
-                } else if (eliminationMagicNumber === '-' || eliminationMagicNumber === 999) {
-                    tragicDisplay = '-';
-                    tragicColor = '#2ecc71'; // 녹색 - 72승 달성 또는 확정
+                    tragicColor = '#c0392b'; // 진한 빨간색 - 탈락 확정
+                } else if (eliminationMagicNumber === '-' || eliminationMagicNumber === 999 || eliminationMagicNumber > 72) {
+                    tragicDisplay = '안전';
+                    tragicColor = '#2ecc71'; // 밝은 녹색 - 플레이오프 확정
                 } else {
-                    // 숫자 앞에 - 부호를 붙여서 표시 (그라데이션 색상)
+                    // 72패까지 남은 패수를 마이너스 표시와 함께 표시
                     tragicDisplay = `-${eliminationMagicNumber}`;
                     
-                    // 트래직 넘버별 세밀한 그라데이션
-                    if (eliminationMagicNumber <= 5) {
+                    // 트래직 넘버별 초록-빨강 그라데이션 (값이 클수록 안전)
+                    if (eliminationMagicNumber <= 3) {
                         tragicColor = '#c0392b'; // 진한 빨간색 (매우 위험)
-                    } else if (eliminationMagicNumber <= 10) {
+                    } else if (eliminationMagicNumber <= 6) {
                         tragicColor = '#e74c3c'; // 빨간색 (위험)
-                    } else if (eliminationMagicNumber <= 15) {
+                    } else if (eliminationMagicNumber <= 10) {
                         tragicColor = '#e67e22'; // 주황색 (경고)
-                    } else if (eliminationMagicNumber <= 20) {
-                        tragicColor = '#f39c12'; // 연한 주황색 (주의)
+                    } else if (eliminationMagicNumber <= 15) {
+                        tragicColor = '#f39c12'; // 황금색 (주의)
                     } else if (eliminationMagicNumber <= 25) {
                         tragicColor = '#f1c40f'; // 노란색 (보통)
-                    } else if (eliminationMagicNumber <= 30) {
-                        tragicColor = '#f4d03f'; // 연한 노란색 (안정)
+                    } else if (eliminationMagicNumber <= 35) {
+                        tragicColor = '#27ae60'; // 진한 녹색 (여유)
                     } else {
-                        tragicColor = '#27ae60'; // 녹색 (안전)
+                        tragicColor = '#2ecc71'; // 밝은 녹색 (매우 안전)
                     }
                 }
                 
-                // 상태별 색상 (그라데이션 기반)
+                // 진출상황을 72승 기준으로 명확하게 정의
+                let displayStatus = '';
                 let statusColor = '';
-                switch(statusText) {
-                    case '확정':
-                        statusColor = '#2ecc71'; // 밝은 녹색
-                        break;
-                    case '매우 유력':
-                        statusColor = '#27ae60'; // 녹색
-                        break;
-                    case '유력':
-                        statusColor = '#f39c12'; // 주황색
-                        break;
-                    case '경합':
-                        statusColor = '#e67e22'; // 진한 주황색
-                        break;
-                    case '어려움':
-                        statusColor = '#e74c3c'; // 빨간색
-                        break;
-                    case '매우 어려움':
+                
+                // 72승 기준으로 진출/탈락 확정 여부 판단
+                if (team.wins >= 72) {
+                    // 이미 72승 달성
+                    displayStatus = '진출 확정';
+                    statusColor = '#2ecc71'; // 밝은 녹색
+                } else if (maxPossibleWins < 72) {
+                    // 전승해도 72승 불가능
+                    displayStatus = '탈락 확정';
+                    statusColor = '#95a5a6'; // 회색
+                } else {
+                    // 72승 가능하지만 미달성 - 필요 승률에 따라 구분
+                    const neededWins = 72 - team.wins;
+                    const actualRequiredRate = neededWins / remainingGames;
+                    
+                    if (actualRequiredRate > 0.9) {
+                        displayStatus = '극히 어려움';
                         statusColor = '#c0392b'; // 진한 빨간색
-                        break;
-                    case '불가능':
-                        statusColor = '#95a5a6'; // 회색
-                        break;
-                    default:
-                        statusColor = '#95a5a6'; // 회색
+                    } else if (actualRequiredRate > 0.75) {
+                        displayStatus = '매우 어려움';
+                        statusColor = '#e74c3c'; // 빨간색
+                    } else if (actualRequiredRate > 0.6) {
+                        displayStatus = '어려움';
+                        statusColor = '#e67e22'; // 진한 주황색
+                    } else if (actualRequiredRate > 0.45) {
+                        displayStatus = '경합중';
+                        statusColor = '#f39c12'; // 주황색
+                    } else if (actualRequiredRate > 0.3) {
+                        displayStatus = '유력';
+                        statusColor = '#f1c40f'; // 노란색
+                    } else {
+                        displayStatus = '매우 유력';
+                        statusColor = '#27ae60'; // 녹색
+                    }
                 }
                 
                 // 필요 승률 색상 (그라데이션 구분)
@@ -1271,34 +1539,44 @@ const kboTeams = {
                 }
 
                 const row = document.createElement('tr');
-                row.style.borderLeft = `4px solid ${teamData.color}`;
+                // 플레이오프 상태별 그라데이션 클래스만 적용 (인라인 스타일 제거)
+                let playoffClass = '';
                 
-                // TOP 5 팀만 색상 구분
-                let rankClass = '';
-                if (team.rank <= 5) {
-                    if (team.rank === 1) rankClass = 'rank-1';
-                    else if (team.rank === 2) rankClass = 'rank-2';
-                    else if (team.rank === 3) rankClass = 'rank-3';
-                    else if (team.rank >= 4 && team.rank <= 5) rankClass = 'playoff';
+                // displayStatus를 기반으로 클래스 적용
+                if (displayStatus === '진출 확정') {
+                    playoffClass = 'playoff-safe';
+                } else if (displayStatus === '탈락 확정') {
+                    playoffClass = 'playoff-eliminated';
+                } else if (displayStatus === '극히 어려움' || displayStatus === '매우 어려움' || displayStatus === '어려움') {
+                    playoffClass = 'playoff-danger';
+                } else if (displayStatus === '경합중') {
+                    playoffClass = 'playoff-borderline';
+                } else {
+                    playoffClass = 'playoff-safe';
                 }
-                row.className = rankClass;
+                
+                row.className = playoffClass;
                 
                 // 팀명에 로고 추가
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
                 row.innerHTML = `
-                    <td style="color: ${teamData.color}; font-weight: 700;">${team.rank}</td>
-                    <td>${teamNameWithLogo}</td>
+                    <td>${team.rank}</td>
+                    <td class="team-name">${teamNameWithLogo}</td>
                     <td>${team.wins}</td>
                     <td>${remainingGames}</td>
                     <td>${maxPossibleWins}</td>
-                    <td style="color: ${magicColor}; font-weight: 700; font-size: 1.05rem;">${magicDisplay}</td>
-                    <td style="color: ${tragicColor}; font-weight: 700; font-size: 1.05rem;">${tragicDisplay}</td>
-                    <td style="color: ${requiredWinPctColor}; font-weight: 600;">${requiredWinPct}</td>
-                    <td style="color: ${statusColor}; font-weight: 600;">${statusText}</td>
+                    <td class="magic-number">${magicDisplay}</td>
+                    <td class="tragic-number">${tragicDisplay}</td>
+                    <td class="required-rate">${requiredWinPct}</td>
+                    <td class="status-text">${displayStatus}</td>
                 `;
                 tbody.appendChild(row);
             });
+            
+            // 플레이오프 테이블 렌더링 후 그라데이션 적용
+            applyGradientsAfterRender();
+            
             } catch (error) {
                 logger.error('❌ 플레이오프 진출 조건 렌더링 실패:', error);
                 handleError(error, '플레이오프 진출 조건 렌더링 실패. 백업 데이터를 사용하여 서비스를 계속 제공합니다.');
@@ -1354,26 +1632,26 @@ const kboTeams = {
                         let magicDisplay = '';
                         if (wins >= playoffThreshold) {
                             // 이미 72승 달성 = 플레이오프 확정
-                            magicDisplay = '<span style="color: #4CAF50; font-weight: 600;">확정</span>';
+                            magicDisplay = '확정';
                         } else if (playoffMagic <= 5) {
                             // 5승 이하 = 매직넘버 (초록색)
-                            magicDisplay = `<span style="color: #4CAF50; font-weight: 600;">${playoffMagic}</span>`;
+                            magicDisplay = playoffMagic;
                         } else if (playoffMagic <= 15) {
                             // 6-15승 = 경합상황 (주황색)
-                            magicDisplay = `<span style="color: #FF9800; font-weight: 600;">${playoffMagic}</span>`;
+                            magicDisplay = playoffMagic;
                         } else {
                             // 16승 이상 = 어려운 상황 (빨간색)
-                            magicDisplay = `<span style="color: #f44336; font-weight: 600;">${playoffMagic}</span>`;
+                            magicDisplay = playoffMagic;
                         }
                         
                         // 트래직넘버 표시
                         let tragicDisplay = '';
                         if (tragicNumber === 0) {
-                            tragicDisplay = '<span style="color: #4CAF50;">안전</span>';
+                            tragicDisplay = '안전';
                         } else if (tragicNumber <= 5) {
-                            tragicDisplay = `<span style="color: #f44336; font-weight: 600;">-${tragicNumber}</span>`;
+                            tragicDisplay = `-${tragicNumber}`;
                         } else {
-                            tragicDisplay = `<span style="color: #FF9800;">-${tragicNumber}</span>`;
+                            tragicDisplay = `-${tragicNumber}`;
                         }
                         
                         const row = document.createElement('tr');
@@ -1382,21 +1660,24 @@ const kboTeams = {
                         }
                         
                         row.innerHTML = `
-                            <td style="text-align: center; font-weight: 700;">${team.rank}위</td>
-                            <td>${Utils.getTeamNameWithLogo(team)}</td>
-                            <td style="text-align: center; font-weight: 600;">${wins}</td>
+                            <td style="text-align: center;">${team.rank}위</td>
+                            <td class="team-name">${Utils.getTeamNameWithLogo(team)}</td>
+                            <td style="text-align: center;">${wins}</td>
                             <td style="text-align: center;">${remainingGames}</td>
-                            <td style="text-align: center; font-weight: 600;">${maxWins}</td>
-                            <td style="text-align: center;">${magicDisplay}</td>
-                            <td style="text-align: center;">${tragicDisplay}</td>
-                            <td style="text-align: center; font-weight: 600;">${requiredWinRate}</td>
-                            <td style="text-align: center; color: ${statusColor}; font-weight: 600;">${status}</td>
+                            <td style="text-align: center;">${maxWins}</td>
+                            <td class="magic-number" style="text-align: center;">${magicDisplay}</td>
+                            <td class="tragic-number" style="text-align: center;">${tragicDisplay}</td>
+                            <td class="required-rate" style="text-align: center;">${requiredWinRate}</td>
+                            <td class="status-text" style="text-align: center;">${status}</td>
                         `;
                         
                         tbody.appendChild(row);
                     });
                     
                     logger.log('✅ 백업 데이터로 플레이오프 조건 렌더링 완료');
+                    
+                    // 백업 렌더링 후에도 그라데이션 적용
+                    applyGradientsAfterRender();
                 } else if (tbody) {
                     tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중입니다...</td></tr>';
                 }
@@ -1680,10 +1961,9 @@ const kboTeams = {
                 cell.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; font-weight: 600;">${team}</span>
+                        <span style="color: ${teamData.color}; ">${team}</span>
                     </div>
                 `;
-                cell.style.fontWeight = '600';
                 grid.appendChild(cell);
             });
 
@@ -1694,17 +1974,16 @@ const kboTeams = {
                 teamCell.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 3px;">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; font-weight: 600;">${homeTeam}</span>
+                        <span style="color: ${teamData.color}; ">${homeTeam}</span>
                     </div>
                 `;
                 teamCell.style.color = teamData.color;
-                teamCell.style.fontWeight = '600';
                 grid.appendChild(teamCell);
                 
                 teamOrder.forEach(awayTeam => {
                     if (homeTeam === awayTeam) {
                         const cell = createGridCell('', 'vs-record');
-                        cell.innerHTML = '<div style="font-size: 1.2rem; color: #666;">■</div>';
+                        cell.innerHTML = '<div style="color: #666;">■</div>';
                         cell.style.background = 'white';
                         grid.appendChild(cell);
                     } else {
@@ -1744,8 +2023,8 @@ const kboTeams = {
                         let backgroundColor;
                         let textColor = '#333'; // 모든 셀 통일된 텍스트 색상
                         
-                        if (winPct === 0.5 || draws > 0) {
-                            // 정확히 50% 동률 또는 무승부가 있는 경우 - 노란색 배경
+                        if (winPct === 0.5) {
+                            // 정확히 50% 동률인 경우만 - 노란색 배경
                             backgroundColor = 'rgba(255, 193, 7, 0.3)';
                         } else if (winPct > 0.5) {
                             // 50% 이상 - 승률이 높을수록 진한 초록색
@@ -1771,10 +2050,10 @@ const kboTeams = {
 
                         const cell = createGridCell('', 'vs-record');
                         cell.innerHTML = `
-                            <div style="font-size: 0.85rem; line-height: 1.3; text-align: center;">
-                                <div style="font-weight: 600; margin-bottom: 2px;">${totalRecord} (${winPctDisplay})</div>
-                                <div style="font-size: 0.8rem; color: #555; margin-bottom: 1px;">🏠 ${homeRecord} (${homeWinRate})</div>
-                                <div style="font-size: 0.8rem; color: #555;">✈️ ${awayRecord} (${awayWinRate})</div>
+                            <div style="line-height: 1.3; text-align: center;">
+                                <div style=" margin-bottom: 2px;">${totalRecord} (${winPctDisplay})</div>
+                                <div style="color: #555; margin-bottom: 1px; font-size: 0.7rem;">🏠 ${homeRecord} (${homeWinRate})</div>
+                                <div style="color: #555; font-size: 0.7rem;">✈️ ${awayRecord} (${awayWinRate})</div>
                             </div>
                         `;
                         cell.style.background = backgroundColor;
@@ -1827,10 +2106,9 @@ const kboTeams = {
                 cell.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; font-weight: 600;">${team}</span>
+                        <span style="color: ${teamData.color}; ">${team}</span>
                     </div>
                 `;
-                cell.style.fontWeight = '600';
                 grid.appendChild(cell);
             });
 
@@ -1841,11 +2119,10 @@ const kboTeams = {
                 teamCell.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 3px;">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; font-weight: 600;">${homeTeam}</span>
+                        <span style="color: ${teamData.color}; ">${homeTeam}</span>
                     </div>
                 `;
                 teamCell.style.color = teamData.color;
-                teamCell.style.fontWeight = '600';
                 grid.appendChild(teamCell);
                 
                 teamOrder.forEach(awayTeam => {
@@ -1871,8 +2148,7 @@ const kboTeams = {
                     const cell = createGridCell(remainingGames === '-' ? '■' : remainingGames.toString(), 'vs-record');
                     cell.style.background = backgroundColor;
                     cell.style.color = textColor;
-                    cell.style.fontWeight = '600';
-                    cell.style.textAlign = 'center';
+                        cell.style.textAlign = 'center';
                     grid.appendChild(cell);
                 });
             });
@@ -2122,7 +2398,6 @@ const kboTeams = {
                 if (Math.abs(currentTime - updateTime) <= tolerance) {
                     logger.log(`📊 KBO 데이터 업데이트 시간입니다. (${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')})`);
                     // 실제 데이터 업데이트는 서버에서 JSON 파일을 업데이트하면 자동으로 반영됨
-                    showNotification('KBO 데이터가 업데이트되었습니다.', 'info', 3000);
                     return true;
                 }
             }
@@ -2248,25 +2523,6 @@ const kboTeams = {
             navMenu.classList.remove('active');
         }
         
-        function scrollToPlayoff() {
-            scrollToSection('playoff');
-        }
-        
-        function scrollToChampionship() {
-            scrollToSection('championship');
-        }
-        
-        function scrollToChase() {
-            scrollToSection('chase');
-        }
-        
-        function scrollToVsRecords() {
-            scrollToSection('vs-records');
-        }
-        
-        function scrollToRemaining() {
-            scrollToSection('remaining');
-        }
         
         function scrollToWeeklyAnalysis() {
             scrollToSection('weekly-analysis');
@@ -2279,17 +2535,6 @@ const kboTeams = {
         
 
         
-        // 활성 네비게이션 업데이트
-        function updateActiveNav(activeId) {
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const activeLink = document.querySelector(`.nav-menu a[href="#${activeId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
         
         // 모바일 메뉴 토글
         function toggleMobileMenu() {
@@ -2297,25 +2542,6 @@ const kboTeams = {
             navMenu.classList.toggle('active');
         }
         
-        // 스크롤 이벤트로 활성 섹션 감지
-        window.addEventListener('scroll', function() {
-            const sections = ['standings', 'championship', 'chase', 'playoff', 'vs-records', 'remaining'];
-            let current = 'standings';
-            const navHeight = document.querySelector('.nav-container').offsetHeight;
-            
-            for (const section of sections) {
-                const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= navHeight + 80 && rect.bottom >= navHeight + 80) {
-                        current = section;
-                        break;
-                    }
-                }
-            }
-            
-            updateActiveNav(current);
-        });
         
         // 모바일에서 메뉴 항목 클릭 시 메뉴 닫기
         document.addEventListener('click', function(e) {
@@ -2325,5 +2551,159 @@ const kboTeams = {
             if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
                 navMenu.classList.remove('active');
             }
+        });
+
+        // 단순한 데이터 그라데이션 적용
+        function applyDataGradients() {
+            // 매직넘버는 작을수록 좋음 (초록)
+            document.querySelectorAll('.magic-number').forEach(cell => {
+                const value = cell.textContent.trim();
+                if (value.includes('확정')) {
+                    cell.classList.add('data-excellent');
+                } else if (!isNaN(value) && value !== '-') {
+                    const num = parseInt(value);
+                    if (num <= 5) cell.classList.add('data-good');
+                    else if (num <= 15) cell.classList.add('data-warning');
+                    else cell.classList.add('data-bad');
+                }
+            });
+            
+            // 트래직넘버는 클수록 안전함 (초록)
+            document.querySelectorAll('.tragic-number').forEach(cell => {
+                const value = cell.textContent.trim();
+                if (value.includes('안전')) {
+                    cell.classList.add('data-excellent');
+                } else if (value.includes('탈락')) {
+                    cell.classList.add('data-bad');
+                } else if (value.startsWith('-')) {
+                    const num = parseInt(value.substring(1));
+                    if (num >= 20) cell.classList.add('data-good');
+                    else if (num >= 10) cell.classList.add('data-warning');
+                    else cell.classList.add('data-bad');
+                }
+            });
+            
+            // 승률은 높을수록 좋음
+            document.querySelectorAll('#standings-table td:nth-child(8)').forEach(cell => {
+                const value = parseFloat(cell.textContent.trim());
+                if (!isNaN(value)) {
+                    if (value >= 0.600) cell.classList.add('data-excellent');
+                    else if (value >= 0.550) cell.classList.add('data-good');
+                    else if (value >= 0.450) cell.classList.add('data-warning');
+                    else cell.classList.add('data-bad');
+                }
+            });
+            
+            // 진출상황은 상태에 따라 색상 구분
+            document.querySelectorAll('.status-text').forEach(cell => {
+                const value = cell.textContent.trim();
+                if (value.includes('확정') || value.includes('진출') || value === '가능') {
+                    cell.classList.add('data-excellent');
+                } else if (value.includes('유력') || value.includes('매우 유력')) {
+                    cell.classList.add('data-good');
+                } else if (value.includes('경합') || value.includes('어려움')) {
+                    cell.classList.add('data-warning');
+                } else if (value.includes('탈락') || value.includes('불가능') || value.includes('매우 어려움') || value.includes('극히 어려움')) {
+                    cell.classList.add('data-bad');
+                }
+            });
+            
+            // 필요 승률은 낮을수록 좋음 (달성하기 쉬움)
+            document.querySelectorAll('.required-rate').forEach(cell => {
+                const value = cell.textContent.trim();
+                if (value === '-' || value === '달성') {
+                    cell.classList.add('data-excellent');
+                } else {
+                    const rate = parseFloat(value);
+                    if (!isNaN(rate)) {
+                        if (rate <= 0.300) cell.classList.add('data-excellent');  // 30% 이하: 매우 쉬움
+                        else if (rate <= 0.500) cell.classList.add('data-good');  // 50% 이하: 쉬움
+                        else if (rate <= 0.700) cell.classList.add('data-warning'); // 70% 이하: 어려움
+                        else cell.classList.add('data-bad');  // 70% 초과: 매우 어려움
+                    }
+                }
+            });
+        }
+
+        // 데이터 렌더링 후 그라데이션 적용
+        function applyGradientsAfterRender() {
+            setTimeout(applyDataGradients, 500);
+        }
+        
+        // 페이지 로드 완료 후 그라데이션 적용
+        window.addEventListener('load', applyGradientsAfterRender);
+
+        // ===========================================
+        // 네비게이션 관련 함수들
+        // ===========================================
+
+        // 부드러운 스크롤 함수
+        function smoothScrollTo(targetId) {
+            const target = document.getElementById(targetId);
+            if (target) {
+                const targetPosition = target.offsetTop - 80; // 네비게이션 높이 고려
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // active 상태 업데이트
+                updateActiveNav(targetId);
+            }
+        }
+
+        // 네비게이션 active 상태 업데이트
+        function updateActiveNav(activeId) {
+            console.log('updateActiveNav 호출됨:', activeId);
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                const onclick = item.getAttribute('onclick');
+                
+                if (onclick && onclick.includes(`smoothScrollTo('${activeId}')`)) {
+                    console.log('액티브 설정:', activeId);
+                    item.classList.add('active');
+                }
+            });
+        }
+
+
+        // 모바일 메뉴 토글
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('show');
+        }
+
+        // 스크롤 위치에 따른 자동 active 상태 업데이트
+        function updateActiveOnScroll() {
+            const sections = ['championship', 'chase', 'playoff', 'standings', 'vs-records', 'remaining'];
+            const scrollPosition = window.scrollY + 100;
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const section = document.getElementById(sections[i]);
+                if (section && section.offsetTop <= scrollPosition) {
+                    updateActiveNav(sections[i]);
+                    break;
+                }
+            }
+        }
+
+        // 스크롤 이벤트 리스너
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveOnScroll, 50);
+        });
+
+        // 페이지 로드시 초기 액티브 상태 설정
+        document.addEventListener('DOMContentLoaded', () => {
+            // 초기 액티브 상태를 championship으로 설정
+            updateActiveNav('championship');
+            
+            // 스크롤 위치에 따른 초기 액티브 상태 업데이트
+            setTimeout(() => {
+                updateActiveOnScroll();
+            }, 100);
         });
 

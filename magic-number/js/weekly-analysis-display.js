@@ -111,7 +111,7 @@ class WeeklyAnalysisDisplay {
                         };
                         
                         if (weekStats.games === 0) {
-                            return `<td style="background-color: #f3f4f6 !important; color: #6b7280 !important; text-align: center; padding: 8px 4px; font-weight: bold;">-</td>`;
+                            return `<td style="background-color: #f3f4f6 !important; color: #6b7280 !important; text-align: center; padding: 8px 4px;">-</td>`;
                         }
                         
                         const winRate = parseFloat(weekStats.winRate);
@@ -120,14 +120,14 @@ class WeeklyAnalysisDisplay {
                         
                         // 요일별 성적 분석과 동일한 HTML 구조 및 스타일 적용
                         return `
-                            <td style="background-color: ${bgColor} !important; padding: 8px 4px !important; text-align: center !important; border: 1px solid #e5e7eb !important; font-family: 'Noto Sans KR', sans-serif !important;">
-                                <div style="color: ${textColor} !important; font-weight: bold !important; font-size: 12px !important; line-height: 1.2 !important; margin-bottom: 2px !important;">
+                            <td style="background-color: ${bgColor} !important; padding: 8px 4px !important; text-align: center !important; border: 1px solid #e5e7eb !important;">
+                                <div style="color: ${textColor} !important; line-height: 1.2 !important; margin-bottom: 2px !important;">
                                     ${weekStats.wins}-${weekStats.losses}${weekStats.draws > 0 ? `-${weekStats.draws}` : ''}
                                 </div>
-                                <div style="color: ${textColor} !important; font-size: 10px !important; font-weight: 600 !important;">
+                                <div style="color: ${textColor} !important;">
                                     ${weekStats.winRate}%
                                 </div>
-                                <div style="color: ${textColor} !important; font-size: 9px !important; margin-top: 2px !important; opacity: 0.9 !important;">
+                                <div style="color: ${textColor} !important; margin-top: 2px !important; opacity: 0.9 !important;">
                                     ${weekStats.games}경기
                                 </div>
                             </td>
@@ -301,7 +301,6 @@ class WeeklyAnalysisDisplay {
                                         padding: 8px 4px !important;
                                         text-align: center !important;
                                         border: 1px solid #ddd !important;
-                                        font-family: 'Noto Sans KR', sans-serif !important;
                                     `;
                                     
                                     // 모든 자식 요소 색상 강제 적용
@@ -404,7 +403,6 @@ const analysisStyles = `
 .team-tab {
     padding: 8px 16px;
     font-size: 14px;
-    font-weight: bold;
     border: 2px solid #ddd;
     border-radius: 20px;
     background: white;
@@ -452,7 +450,6 @@ const analysisStyles = `
 .streak-value {
     display: block;
     font-size: 16px;
-    font-weight: bold;
 }
 
 .win-streak { color: #4CAF50; }
@@ -463,14 +460,13 @@ const analysisStyles = `
 .loss-row { background-color: rgba(244, 67, 54, 0.1); }
 .draw-row { background-color: rgba(255, 235, 59, 0.1); }
 
-.score-cell { font-family: monospace; font-weight: bold; }
-.game-number { margin-right: 8px; font-weight: bold; }
+.score-cell { }
+.game-number { margin-right: 8px; }
 
 .result-badge {
     padding: 2px 6px;
     border-radius: 12px;
     font-size: 10px;
-    font-weight: bold;
     display: inline-block;
     min-width: 16px;
     text-align: center;
