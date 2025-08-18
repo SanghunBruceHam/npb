@@ -1,5 +1,5 @@
 {
-  "updateTime": "2025-08-18T01:51:09.264Z",
+  "updateTime": "2025-08-18T09:31:55.993Z",
   "updateDate": "2025년 8월 18일",
   "standings": [
     {
@@ -41,7 +41,7 @@
       "runs_scored": 537,
       "runs_allowed": 565,
       "run_differential": -28,
-      "current_streak": "0",
+      "current_streak": "8L",
       "games_behind": 10
     },
     {
@@ -111,7 +111,7 @@
       "runs_scored": 574,
       "runs_allowed": 516,
       "run_differential": 58,
-      "current_streak": "0",
+      "current_streak": "2W",
       "games_behind": 15
     },
     {
@@ -1792,22 +1792,22 @@
     },
     {
       "team_name": "롯데",
-      "current_streak": "0",
+      "current_streak": "8L",
       "max_win_streak": 6,
       "max_lose_streak": 8,
-      "streak_status": "무승부"
+      "streak_status": "연패 중"
     },
     {
       "team_name": "SSG",
       "current_streak": "1L",
-      "max_win_streak": 4,
+      "max_win_streak": 5,
       "max_lose_streak": 6,
       "streak_status": "연패 중"
     },
     {
       "team_name": "KIA",
       "current_streak": "3L",
-      "max_win_streak": 5,
+      "max_win_streak": 6,
       "max_lose_streak": 7,
       "streak_status": "연패 중"
     },
@@ -1815,22 +1815,22 @@
       "team_name": "KT",
       "current_streak": "1W",
       "max_win_streak": 4,
-      "max_lose_streak": 5,
+      "max_lose_streak": 6,
       "streak_status": "연승 중"
     },
     {
       "team_name": "NC",
       "current_streak": "2W",
-      "max_win_streak": 5,
-      "max_lose_streak": 4,
+      "max_win_streak": 7,
+      "max_lose_streak": 5,
       "streak_status": "연승 중"
     },
     {
       "team_name": "삼성",
-      "current_streak": "0",
+      "current_streak": "2W",
       "max_win_streak": 7,
       "max_lose_streak": 8,
-      "streak_status": "무승부"
+      "streak_status": "연승 중"
     },
     {
       "team_name": "두산",
@@ -1843,7 +1843,7 @@
       "team_name": "키움",
       "current_streak": "1L",
       "max_win_streak": 4,
-      "max_lose_streak": 9,
+      "max_lose_streak": 10,
       "streak_status": "연패 중"
     }
   ],
@@ -2804,7 +2804,7 @@
         "below_500": "24-15"
       },
       "streaks": {
-        "current": "0",
+        "current": "8L",
         "max_win": 6,
         "max_lose": 8
       },
@@ -2845,7 +2845,7 @@
       },
       "streaks": {
         "current": "1L",
-        "max_win": 4,
+        "max_win": 5,
         "max_lose": 6
       },
       "runs": {
@@ -2885,7 +2885,7 @@
       },
       "streaks": {
         "current": "3L",
-        "max_win": 5,
+        "max_win": 6,
         "max_lose": 7
       },
       "runs": {
@@ -2926,7 +2926,7 @@
       "streaks": {
         "current": "1W",
         "max_win": 4,
-        "max_lose": 5
+        "max_lose": 6
       },
       "runs": {
         "scored": 490,
@@ -2965,8 +2965,8 @@
       },
       "streaks": {
         "current": "2W",
-        "max_win": 5,
-        "max_lose": 4
+        "max_win": 7,
+        "max_lose": 5
       },
       "runs": {
         "scored": 547,
@@ -3004,7 +3004,7 @@
         "below_500": "13-8"
       },
       "streaks": {
-        "current": "0",
+        "current": "2W",
         "max_win": 7,
         "max_lose": 8
       },
@@ -3086,7 +3086,7 @@
       "streaks": {
         "current": "1L",
         "max_win": 4,
-        "max_lose": 9
+        "max_lose": 10
       },
       "runs": {
         "scored": 442,
