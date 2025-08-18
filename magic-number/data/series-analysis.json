@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "lastUpdated": "2025-08-17T15:22:00.854Z",
-  "updateDate": "2025. 8. 17.",
-=======
-  "lastUpdated": "2025-08-18T00:08:30.778Z",
+  "lastUpdated": "2025-08-18T00:10:53.445Z",
   "updateDate": "2025. 8. 18.",
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
   "teamStats": {
     "LG": {
       "totalSeries": 41,
@@ -4104,13 +4099,8 @@
       "winningSeries": 20,
       "losingSeries": 15,
       "splitSeries": 6,
-<<<<<<< HEAD
-      "sweepWins": 4,
-      "sweepLosses": 4,
-=======
       "sweepWins": 3,
-      "sweepLosses": 3,
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
+      "sweepLosses": 4,
       "seriesWinRate": "48.8",
       "series": [
         {
@@ -6130,7 +6120,7 @@
       "winningSeries": 20,
       "losingSeries": 18,
       "splitSeries": 3,
-      "sweepWins": 4,
+      "sweepWins": 3,
       "sweepLosses": 7,
       "seriesWinRate": "48.8",
       "series": [
@@ -8077,8 +8067,8 @@
           "homeGames": 0,
           "awayGames": 3,
           "result": "WIN",
-          "isSweep": true,
-          "isWinningSweep": true,
+          "isSweep": false,
+          "isWinningSweep": false,
           "isLosingSweep": false,
           "totalGames": 3,
           "seriesType": "AWAY",
@@ -8171,7 +8161,7 @@
           "wins": 2,
           "losses": 3,
           "splits": 0,
-          "sweepWins": 1,
+          "sweepWins": 0,
           "sweepLosses": 1
         }
       }
@@ -10240,15 +10230,9 @@
     "SSG": {
       "totalSeries": 40,
       "winningSeries": 18,
-<<<<<<< HEAD
       "losingSeries": 17,
       "splitSeries": 5,
-      "sweepWins": 2,
-=======
-      "losingSeries": 16,
-      "splitSeries": 6,
       "sweepWins": 0,
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
       "sweepLosses": 1,
       "seriesWinRate": "45.0",
       "series": [
@@ -12259,13 +12243,8 @@
       "winningSeries": 18,
       "losingSeries": 18,
       "splitSeries": 5,
-<<<<<<< HEAD
-      "sweepWins": 5,
-      "sweepLosses": 2,
-=======
       "sweepWins": 4,
       "sweepLosses": 1,
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
       "seriesWinRate": "43.9",
       "series": [
         {
@@ -14231,9 +14210,9 @@
           "homeGames": 3,
           "awayGames": 0,
           "result": "LOSS",
-          "isSweep": true,
+          "isSweep": false,
           "isWinningSweep": false,
-          "isLosingSweep": true,
+          "isLosingSweep": false,
           "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 41
@@ -14326,7 +14305,7 @@
           "losses": 2,
           "splits": 0,
           "sweepWins": 1,
-          "sweepLosses": 1
+          "sweepLosses": 0
         }
       }
     },
@@ -14335,13 +14314,8 @@
       "winningSeries": 12,
       "losingSeries": 22,
       "splitSeries": 6,
-<<<<<<< HEAD
       "sweepWins": 2,
-      "sweepLosses": 4,
-=======
-      "sweepWins": 1,
       "sweepLosses": 2,
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
       "seriesWinRate": "30.0",
       "series": [
         {
@@ -16370,17 +16344,10 @@
       "totalSeries": 39,
       "winningSeries": 16,
       "losingSeries": 16,
-<<<<<<< HEAD
       "splitSeries": 7,
-      "sweepWins": 6,
-      "sweepLosses": 5,
-      "seriesWinRate": "41.0",
-=======
-      "splitSeries": 8,
       "sweepWins": 3,
       "sweepLosses": 4,
-      "seriesWinRate": "38.5",
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
+      "seriesWinRate": "41.0",
       "series": [
         {
           "opponent": "KIA",
@@ -20613,7 +20580,7 @@
       "롯데": {
         "record": "2-3-0",
         "winRate": "40.0",
-        "sweeps": "1-1",
+        "sweeps": "0-1",
         "totalSeries": 5
       },
       "두산": {
@@ -20771,7 +20738,7 @@
       "삼성": {
         "record": "3-2-0",
         "winRate": "60.0",
-        "sweeps": "1-1",
+        "sweeps": "1-0",
         "totalSeries": 5
       },
       "KT": {
@@ -20994,32 +20961,6 @@
         ]
       },
       {
-        "team": "삼성",
-        "opponent": "롯데",
-        "type": "WIN",
-        "gameCount": 3,
-        "startDate": "2025-08-15",
-        "endDate": "2025-08-17",
-        "scores": [
-          "10:4",
-          "4:1",
-          "8:8"
-        ]
-      },
-      {
-        "team": "롯데",
-        "opponent": "삼성",
-        "type": "LOSS",
-        "gameCount": 3,
-        "startDate": "2025-08-15",
-        "endDate": "2025-08-17",
-        "scores": [
-          "4:10",
-          "1:4",
-          "8:8"
-        ]
-      },
-      {
         "team": "두산",
         "opponent": "KIA",
         "type": "WIN",
@@ -21109,8 +21050,6 @@
           "9:5",
           "13:12"
         ]
-<<<<<<< HEAD
-=======
       },
       {
         "team": "LG",
@@ -21137,33 +21076,6 @@
           "2:3",
           "3:6"
         ]
-      },
-      {
-        "team": "LG",
-        "opponent": "KT",
-        "type": "WIN",
-        "gameCount": 3,
-        "startDate": "2025-07-29",
-        "endDate": "2025-07-31",
-        "scores": [
-          "8:2",
-          "5:0",
-          "18:0"
-        ]
-      },
-      {
-        "team": "KT",
-        "opponent": "LG",
-        "type": "LOSS",
-        "gameCount": 3,
-        "startDate": "2025-07-29",
-        "endDate": "2025-07-31",
-        "scores": [
-          "2:8",
-          "0:5",
-          "0:18"
-        ]
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
       }
     ],
     "mostSweeps": [
@@ -21181,67 +21093,26 @@
       },
       {
         "team": "롯데",
-<<<<<<< HEAD
-        "sweepWins": 5,
-        "sweepLosses": 2,
-        "sweepDifference": 3
-=======
         "sweepWins": 4,
         "sweepLosses": 1,
         "sweepDifference": 3
       },
       {
+        "team": "두산",
+        "sweepWins": 2,
+        "sweepLosses": 2,
+        "sweepDifference": 0
+      },
+      {
         "team": "KIA",
         "sweepWins": 3,
-        "sweepLosses": 3,
-        "sweepDifference": 0
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
+        "sweepLosses": 4,
+        "sweepDifference": -1
       },
       {
         "team": "SSG",
         "sweepWins": 0,
         "sweepLosses": 1,
-<<<<<<< HEAD
-        "sweepDifference": 1
-      },
-      {
-        "team": "NC",
-        "sweepWins": 6,
-        "sweepLosses": 5,
-        "sweepDifference": 1
-      },
-      {
-        "team": "KIA",
-        "sweepWins": 4,
-        "sweepLosses": 4,
-        "sweepDifference": 0
-      },
-      {
-        "team": "두산",
-        "sweepWins": 2,
-        "sweepLosses": 4,
-        "sweepDifference": -2
-      },
-      {
-        "team": "삼성",
-        "sweepWins": 4,
-        "sweepLosses": 7,
-        "sweepDifference": -3
-      },
-      {
-        "team": "KT",
-        "sweepWins": 3,
-        "sweepLosses": 6,
-        "sweepDifference": -3
-      },
-      {
-=======
-        "sweepDifference": -1
-      },
-      {
-        "team": "두산",
-        "sweepWins": 1,
-        "sweepLosses": 2,
         "sweepDifference": -1
       },
       {
@@ -21263,7 +21134,6 @@
         "sweepDifference": -4
       },
       {
->>>>>>> 2682541 (⚾ 위닝/루징 시리즈 판정 로직 개선)
         "team": "키움",
         "sweepWins": 2,
         "sweepLosses": 8,
