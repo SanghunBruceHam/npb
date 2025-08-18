@@ -1774,10 +1774,10 @@
             margin-top: 10px;
         }
         
-        /* 게임기록과 팀상세는 더 많은 데이터 표시 */
+        /* 게임기록과 팀상세는 적절한 데이터 표시 */
         .table-scroll-wrapper:has(.all-teams-table),
         .table-scroll-wrapper:has(.detailed-game-table) {
-            max-height: 900px; /* 750px에서 900px로 증가 */
+            max-height: 700px; /* 개별 팀 테이블 높이 줄임 */
         }
 
         /* 화면 크기별 반응형 높이 조정 - 더 많은 주차 표시 */
@@ -1786,10 +1786,10 @@
                 max-height: 800px;  /* 대형 모니터에서 더 많은 주차 */
             }
             
-            /* 게임기록과 팀상세는 대형 모니터에서 더 높게 */
+            /* 게임기록과 팀상세는 대형 모니터에서 적절한 높이 */
             .table-scroll-wrapper:has(.all-teams-table),
             .table-scroll-wrapper:has(.detailed-game-table) {
-                max-height: 1100px; /* 900px에서 1100px로 증가 */
+                max-height: 900px; /* 대형 모니터에서도 적절한 크기 */
             }
         }
 
@@ -1800,7 +1800,7 @@
             
             .table-scroll-wrapper:has(.all-teams-table),
             .table-scroll-wrapper:has(.detailed-game-table) {
-                max-height: 800px; /* 650px에서 800px로 증가 */
+                max-height: 650px; /* 노트북에서 적절한 크기 */
             }
         }
 
@@ -4300,7 +4300,7 @@
             <div class="all-teams-overview">
                 <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 팀 날짜별 경기 결과</h4>
                 
-                <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+                <div class="table-container" style="max-height: 800px; overflow-y: auto;">
                     <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
                         <thead>
                             <tr style="background: #34495e; color: white; position: sticky; top: 0; z-index: 10;">
@@ -4356,7 +4356,7 @@
                             const venueIcon = game.isHome ? '🏠' : '✈️';
                             const venueClass = game.isHome ? 'home-venue' : 'away-venue';
                             
-                            return `<div class="${rowClass}" style="margin: 1px 0; padding: 3px 4px; border-radius: 3px; font-weight: var(--font-weight-semibold); font-size: var(--font-xs); line-height: 1.2;">
+                            return `<div class="${rowClass}" style="margin: 1px 0; padding: 4px 5px; border-radius: 3px; font-weight: var(--font-weight-semibold); font-size: var(--font-sm); line-height: 1.6;">
                                 <span class="${venueClass}">${venueIcon}</span> vs ${game.opponent}<br>
                                 <span class="result-badge ${game.result.toLowerCase()}">${game.result === 'W' ? '승' : game.result === 'L' ? '패' : '무'}</span> ${game.score}
                             </div>`;
