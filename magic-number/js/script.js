@@ -1105,7 +1105,19 @@ const kboTeams = {
             championshipMagicElement.style.textShadow = `0 2px 8px ${teamColor}40`;
             document.getElementById('required-winpct').textContent = neededWinsForMinWins > 0 ? `${requiredWinPct.toFixed(3)}` : '달성';
             document.getElementById('historical-required-winpct').textContent = neededWinsForHistorical > 0 ? `${historicalRequiredWinPct.toFixed(3)}` : '달성';
-            document.getElementById('clinch-date').textContent = clinchDateText;
+            // 모바일에서 줄바꿈을 위해 개행문자 추가 (한 줄만)
+            let formattedClinchDate = clinchDateText;
+            
+            // 각 패턴별로 줄바꿈 처리 - 한 곳에서만 줄바꿈
+            if (clinchDateText.includes('번째 경기에서 확정 가능')) {
+                formattedClinchDate = clinchDateText.replace('확정 가능 (일정', '확정 가능\n(일정');
+            } else if (clinchDateText.includes('시즌 종료 후')) {
+                formattedClinchDate = clinchDateText.replace('시즌 종료 후', '\n시즌 종료 후');
+            } else if (clinchDateText === '이미 우승 확정') {
+                formattedClinchDate = '이미\n우승 확정';
+            }
+            
+            document.getElementById('clinch-date').textContent = formattedClinchDate;
             
             // ===========================================
             // 새로운 확률 정보 및 역사적 비교 계산
@@ -1953,15 +1965,14 @@ const kboTeams = {
                 .sort((a, b) => a.rank - b.rank)
                 .map(team => team.team);
 
-            // Header row
+            // Header row - 로고만 표시
             grid.appendChild(createGridCell('vs', 'vs-header'));
             teamOrder.forEach(team => {
                 const teamData = kboTeams[team];
                 const cell = createGridCell('', 'vs-header');
                 cell.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
+                    <div style="display: flex; align-items: center; justify-content: center;" title="${team}">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; ">${team}</span>
                     </div>
                 `;
                 grid.appendChild(cell);
@@ -1972,9 +1983,8 @@ const kboTeams = {
                 const teamData = kboTeams[homeTeam];
                 const teamCell = createGridCell('', 'vs-team');
                 teamCell.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 3px;">
+                    <div style="display: flex; align-items: center; justify-content: center;" title="${homeTeam}">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; ">${homeTeam}</span>
                     </div>
                 `;
                 teamCell.style.color = teamData.color;
@@ -2117,9 +2127,8 @@ const kboTeams = {
                 const teamData = kboTeams[homeTeam];
                 const teamCell = createGridCell('', 'vs-team');
                 teamCell.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 3px;">
+                    <div style="display: flex; align-items: center; justify-content: center;" title="${homeTeam}">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color}; ">${homeTeam}</span>
                     </div>
                 `;
                 teamCell.style.color = teamData.color;

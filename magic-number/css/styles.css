@@ -29,38 +29,31 @@ body {
     --primary-hover: #303f9f;
     --secondary-color: #3949ab;
     --accent-color: #ff6b6b;
-    
     /* STATUS COLORS */
     --success-color: #16a34a;
     --warning-color: #f59e0b;
     --danger-color: #dc2626;
     --info-color: #0ea5e9;
-    
     /* BACKGROUND COLORS */
     --bg-primary: #f5f7fa;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f8f9fa;
-    
     /* TEXT COLORS */
     --text-primary: #666;
     --text-secondary: #64748b;
     --text-muted: #94a3b8;
     --text-inverse: #ffffff;
-    
     /* BORDER COLORS */
     --border-color: #e2e8f0;
     --border-light: #f1f5f9;
     --border-strong: #cbd5e1;
-    
     /* SHADOWS */
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 8px rgba(0,0,0,0.08);
     --shadow-lg: 0 8px 20px rgba(0,0,0,0.12);
     --shadow-xl: 0 12px 32px rgba(0,0,0,0.15);
-    
     /* 통일된 폰트 시스템 - Noto Sans KR */
     --font-family-unified: 'Noto Sans KR', sans-serif;
-    
     /* 폰트 크기 시스템 */
     --text-xs: 0.75rem;    /* 12px */
     --text-sm: 0.85rem;    /* 13.6px */
@@ -69,12 +62,10 @@ body {
     --text-xl: 1.3rem;     /* 20.8px */
     --text-2xl: 1.8rem;    /* 28.8px - 키움 */
     --text-3xl: 2rem;      /* 32px */
-    
     /* 폰트 굵기 시스템 */
     --weight-normal: 400;
     --weight-medium: 500; 
     --weight-bold: 700;
-    
     /* ===========================================
        SPACING SYSTEM
        =========================================== */
@@ -87,7 +78,6 @@ body {
     --space-8: 2rem;      /* 32px */
     --space-10: 2.5rem;   /* 40px */
     --space-12: 3rem;     /* 48px */
-    
     /* ===========================================
        COMPONENT SIZES
        =========================================== */
@@ -96,31 +86,25 @@ body {
     --button-border-radius: 6px;
     --input-border-radius: 6px;
     
-    
     /* 데이터 그라데이션 색상 */
     --data-gradient-green: #16a34a;
     --data-gradient-red: #dc2626;
     --data-gradient-neutral: #6b7280;
-    
     /* 분석 테이블 공통 변수 (루트 index와 동일) */
     --positive-bg-light: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(22, 163, 74, 0.08) 100%);
     --positive-bg-medium: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.15) 100%);
     --positive-bg-strong: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.25) 100%);
     --positive-color: #059669;
-    
     --negative-bg-light: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.08) 100%);
     --negative-bg-medium: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.15) 100%);
     --negative-bg-strong: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.25) 100%);
     --negative-color: #dc2626;
-    
     --neutral-bg-light: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(245, 158, 11, 0.12) 100%);
     --neutral-bg-medium: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(245, 158, 11, 0.25) 100%);
     --neutral-bg-strong: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(245, 158, 11, 0.35) 100%);
     --neutral-color: #f59e0b;
-    
     --default-bg: #f8f9fa;
     --default-color: #666;
-    
     /* KBO 특화 색상 */
     --kbo-blue: #1a237e;
     --kbo-light-blue: #3949ab;
@@ -129,11 +113,6 @@ body {
 /* ===========================================
    BASE STYLES
    =========================================== */
-/* 전체 기본 폰트 설정 - 상대전적 스타일 기준 */
-body, 
-body * {
-    font-family: 'Noto Sans KR', sans-serif;
-}
 
 body {
     background: #f5f7fa;
@@ -297,12 +276,39 @@ body {
 /* ===========================================
    DASHBOARD COMPONENTS
    =========================================== */
+/* 대시보드 그리드 시스템 */
 .summary-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: var(--space-4);
     margin-bottom: var(--space-8);
     width: 100%;
+}
+
+/* 태블릿에서 대시보드 최적화 */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .summary-dashboard {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: var(--space-3) !important;
+    }
+    
+    .summary-card {
+        min-height: 120px !important;
+        padding: var(--space-5) var(--space-4) !important;
+    }
+    
+    .summary-card h3 {
+        font-size: var(--text-xl) !important;
+    }
+    
+    .summary-card .dashboard-value {
+        font-size: var(--text-3xl) !important;
+        font-weight: var(--weight-bold) !important;
+    }
+    
+    .summary-card .dashboard-sub-value {
+        font-size: var(--text-lg) !important;
+    }
 }
 
 .summary-card {
@@ -410,21 +416,6 @@ body {
 /* ===========================================
    CARD COMPONENTS
    =========================================== */
-.card {
-    background: var(--bg-secondary);
-    border-radius: var(--card-border-radius);
-    padding: var(--space-6);
-    margin-bottom: var(--space-6);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
-    position: relative;
-}
-
-.card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-strong);
-}
 
 .card h2 {
     color: var(--text-primary);
@@ -508,20 +499,9 @@ tr:last-child td {
 
 /* 승률은 기본 폰트 스타일 사용 (삭제됨) */
 
-    
     .header .subtitle {
         font-size: var(--text-lg);
     }
-}
-
-
-.subtitle {
-    text-align: center;
-    color: rgba(255,255,255,0.9);
-    margin-top: 10px;
-    font-size: 1.1rem;
-    font-weight: 300;
-    line-height: 1.5;
 }
 
 .content-container {
@@ -536,6 +516,7 @@ tr:last-child td {
     margin-bottom: 24px;
 }
 
+/* 통합 카드 스타일 */
 .card {
     background: var(--bg-secondary);
     border-radius: 16px;
@@ -544,38 +525,14 @@ tr:last-child td {
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     position: relative;
-    text-align: left;            /* 테이블 카드 내용 왼쪽 정렬 */
+    text-align: left;
     overflow: visible;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     scroll-margin-top: 100px;
+    animation: fadeInUp 0.6s ease-out;
 }
-
-#namuwiki-chart {
-    /* 다른 카드들과 동일한 스타일 사용 */
-}
-
-.namuwiki-table-container {
-    padding: 0;
-    overflow-x: auto;
-    margin: 0 0 20px 0;
-}
-
-.namuwiki-magic-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
-    font-family: 'Noto Sans KR', sans-serif;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    border-radius: 12px;
-    overflow: hidden;
-    table-layout: fixed;
-    min-width: 500px;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
 .magic-table-wrapper {
     width: 100% !important;
     margin: 0 auto !important;
@@ -741,7 +698,6 @@ img[src*="ssg.png"], img[alt*="SSG"] {
 /* 모든 테이블 로고 통일 */
 .standings-table .team-logo,
 .vs-grid .team-logo,
-.namuwiki-magic-table img,
 #standings-table .team-logo,
 #playoff-table .team-logo,
 #chase-table .team-logo {
@@ -750,11 +706,6 @@ img[src*="ssg.png"], img[alt*="SSG"] {
     object-fit: contain !important;
     flex-shrink: 0;
 }
-
-.namuwiki-magic-table img {
-    display: inline-block !important;  
-}
-
 /* 테이블 셀 기본 중앙 정렬 */
 table td,
 table th {
@@ -795,13 +746,6 @@ table th {
 #chase-table tbody tr td:nth-child(2) img {
     margin-right: 6px !important;
 }
-
-/* 매직넘버 테이블은 기본 text-align만 사용 */
-.namuwiki-magic-table .team-cell {
-    text-align: center !important;
-    display: table-cell !important;
-}
-
 /* 팀명 컬럼은 위에서 flex로 통합 처리됨 */
 
 /* 통계 섹션 로고 */
@@ -820,8 +764,6 @@ table th {
     height: auto !important;
     object-fit: contain !important;
 }
-
-
 .card:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
@@ -856,8 +798,6 @@ table th {
     margin-bottom: 12px;
     color: var(--text-primary);
 }
-
-
 
 /* 범례 스타일 통일 */
 .legend-text {
@@ -901,157 +841,6 @@ table th {
     position: relative;
 }
 
-/* 나무위키 스타일 매직넘버 테이블 */
-.namuwiki-table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin: 10px 0;
-    border-radius: 4px;
-    border: 1px solid #e5e7eb;
-}
-
-.namuwiki-magic-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-    font-family: 'Noto Sans KR', sans-serif;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    table-layout: fixed !important;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.namuwiki-magic-table:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
-}
-
-/* 매직넘버 테이블 통합 보더 설정 */
-.namuwiki-magic-table th,
-.namuwiki-magic-table td {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.namuwiki-magic-table th {
-    background: var(--bg-primary);
-    color: white;
-    padding: 8px 6px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 0.85rem;
-    width: auto;
-    height: 40px;
-}
-
-.namuwiki-magic-table td {
-    padding: 6px 6px;
-    text-align: center;
-    font-weight: 500;
-    font-size: 0.85rem;
-    height: 36px;
-    width: auto;
-    background: white;
-    transition: all 0.3s ease;
-}
-
-.namuwiki-magic-table tr:hover td {
-    background-color: rgba(59, 130, 246, 0.08) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.namuwiki-magic-table .team-cell {
-    width: 120px;
-    min-width: 120px;
-    max-width: 120px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.namuwiki-magic-table tr:hover .team-cell {
-    background-color: rgba(59, 130, 246, 0.08) !important;
-}
-
-.namuwiki-magic-table .team-cell img {
-    height: 20px;
-    width: auto;
-    vertical-align: middle;
-    object-fit: contain;
-}
-
-/* 나무위키 실제 색상 (스크린샷 완전 재현) */
-.namu-magic {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.namu-competitive {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.namu-tragic {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.namu-clinched-blue {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.namu-clinched-dark {
-    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.namu-clinched-darker {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.namu-eliminated {
-    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-
-
-    background: white;
-}
-
 
 th, td {
     padding: 12px 10px;
@@ -1064,21 +853,12 @@ th, td {
     transition: all 0.3s ease;
 }
 
-/* 테이블 데이터 셀 hover 효과 */
-tbody tr:hover td {
-    background-color: rgba(26, 35, 126, 0.05) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
 
 /* 테이블 행 구분선 강화 */
 tbody tr {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-tbody tr:nth-child(even) {
-    background-color: rgba(248, 249, 250, 0.5);
-}
 
 /* ===========================================
    테이블 헤더 및 데이터 정렬 최적화
@@ -1096,7 +876,6 @@ tbody tr:nth-child(even) {
         font-size: 0.85rem;
         line-height: 1.3;
     }
-    
     /* 순위 컬럼 통합 (1번째) */
     table th:nth-child(1), table td:nth-child(1) { 
         width: 5%; 
@@ -1114,30 +893,25 @@ tbody tr:nth-child(even) {
     table td:nth-child(n+3):nth-child(-n+12) { 
         width: 6%; 
     }
-    
     /* 중요 컬럼들 강조 */
     table th:nth-child(8), table td:nth-child(8) { /* 승률 */
         font-weight: 600;
     }
-    
     table th:nth-child(15), table td:nth-child(15) { /* 매직넘버 */
         width: 9%; 
         font-weight: 600;
     }
-    
     /* 특수 컬럼 처리 - 폰트 크기 통일 */
     #standings-table th:nth-child(13), 
     #standings-table td:nth-child(13) { /* 최근10경기 */
         width: 12%; /* 최근10경기 컨럼 크기 증가 8% → 12% */
         font-size: inherit;  /* 다른 셀과 동일한 폰트 크기 사용 */
     }
-    
     /* 플레이오프와 1위 탈환 테이블 완전 재설정 */
     #playoff-table,
     #chase-table {
         table-layout: auto !important;
     }
-    
     #playoff-table th:nth-child(2),
     #playoff-table td:nth-child(2),
     #chase-table th:nth-child(2),
@@ -1182,15 +956,22 @@ tbody tr:last-child {
     border-bottom: none;
 }
 
+/* 테이블 행 hover 효과 - 통합 */
 tbody tr:hover {
     background-color: rgba(59, 130, 246, 0.08) !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+tbody tr:hover td {
+    background-color: inherit;
+}
+
+/* 테이블 행 짝/홀수 배경 - 통합 */
 tbody tr:nth-child(even) {
     background-color: rgba(248, 250, 252, 0.8);
 }
+
 tbody tr:nth-child(odd) {
     background-color: rgba(255, 255, 255, 0.9);
 }
@@ -1278,11 +1059,23 @@ td:first-child {
 
 /* 이 선택자는 위의 .team-logo로 통합됨 */
 
+/* 상대전적 테이블 스타일 - 로고 중심 최적화 */
+#head-to-head, #remaining-games {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding: 0 5px;
+}
+
 .vs-grid {
     display: grid;
-    grid-template-columns: 0.8fr repeat(10, 1fr);
+    grid-template-columns: 80px repeat(10, 80px);
     gap: 2px;
+    position: relative;
+    min-width: fit-content;
+    justify-content: start;
 }
+
 .vs-grid > div {
     text-align: center;
     vertical-align: middle;
@@ -1290,11 +1083,42 @@ td:first-child {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 50px;
-    padding: 6px 4px;
+    min-height: 55px;
+    padding: 8px 6px;
     border-radius: 6px;
     line-height: 1.3;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    position: relative;
+}
+
+/* 스티키 헤더 - 첫 번째 행 (팀명 헤더) */
+.vs-grid > div:nth-child(-n+11) {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f8f9fa !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 스티키 컬럼 - 첫 번째 열 (로고) */
+.vs-grid > div:nth-child(11n+1) {
+    position: sticky;
+    left: 0;
+    z-index: 15;
+    background: #f8f9fa !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+/* 좌상단 교차점 - 가장 높은 z-index */
+.vs-grid > div:nth-child(1) {
+    z-index: 20;
 }
 .vs-header {
     background: rgba(0, 0, 0, 0.05) !important;
@@ -1420,8 +1244,6 @@ td:first-child {
     visibility: visible;
     opacity: 1;
 }
-
-
 .scroll-to-top {
     position: fixed;
     bottom: 30px;
@@ -1472,7 +1294,6 @@ td:first-child {
     .coupang-ad-wrapper {
         padding: 40px 60px !important;
     }
-    
     .coupang-ad-wrapper > div:not([style*="font-size"]),
     .coupang-ad-wrapper iframe {
         transform: scale(0.95);
@@ -1484,8 +1305,6 @@ td:first-child {
 /* 태블릿에서 쿠팡 광고 크기 조정 */
 
 /* 모바일에서 쿠팡 광고 크기 조정 */
-
-
 /* PC 버전 보기 버튼은 모바일에서만 표시 */
 @media (min-width: 769px) {
     #mobile-controls {
@@ -1504,25 +1323,11 @@ td:first-child {
     }
 }
 
-.vs-header, .vs-team, .vs-record {
+.vs-record {
+    background: white;
     padding: 6px 4px;
     text-align: center;
     border: 1px solid #ddd;
-}
-
-.vs-header {
-    background: #f8f9fa;
-    color: #495057;
-    font-weight: bold;
-}
-
-.vs-team {
-    background: #f1f3f4;
-    font-weight: bold;
-}
-
-.vs-record {
-    background: white;
 }
 
 .vs-record.win { 
@@ -1530,6 +1335,7 @@ td:first-child {
     color: #2e7d32;
     font-weight: 600;
 }
+
 .vs-record.loss { 
     background-color: rgba(244, 67, 54, 0.1);
     color: #d32f2f;
@@ -1597,24 +1403,6 @@ td:first-child {
     text-align: center;
     width: 100%;
 }
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.card {
-    animation: fadeInUp 0.6s ease-out;
-    overflow: visible; /* 툴팁이 카드 경계를 넘을 수 있도록 */
-}
-
-
 .card:nth-child(1) { animation-delay: 0.1s; }
 .card:nth-child(2) { animation-delay: 0.2s; }
 .card:nth-child(3) { animation-delay: 0.3s; }
@@ -1815,8 +1603,6 @@ tbody tr {
     color: #ffd700;
     font-size: 1.1em;
 }
-
-
 /* ===========================================
    테이블 모바일 반응형 최적화
    =========================================== */
@@ -1828,7 +1614,6 @@ tbody tr {
         border-left: none;
         border-right: none;
     }
-    
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
     #standings-table .team-name span,
@@ -1836,7 +1621,6 @@ tbody tr {
     #chase-table tbody tr td:nth-child(2) span {
         display: none !important;
     }
-    
     /* 모바일에서 팀 로고 크기 조정 */
     .team-logo,
     .team-name img,
@@ -1847,27 +1631,22 @@ tbody tr {
         width: 24px !important;
         height: auto !important;
     }
-    
     table {
         min-width: 100%;
         font-size: 0.8rem;
     }
-    
     th, td {
         padding: 8px 4px;
         min-height: 36px;
         font-size: 0.85rem;    /* 데이터 셀 텍스트 크기 증가 */
     }
-    
     th {
         height: 40px;
         font-size: 0.8rem;
     }
-    
     /* ═══════════════════════════════════════════════════════════════════════
        🗑️ 개별 테이블 스타일 무효화 - 통합 시스템 우선
        ═══════════════════════════════════════════════════════════════════════ */
-    
     /* 모든 개별 테이블 ID 스타일 무효화 */
     #standings-table th, #standings-table td,
     #playoff-table th:not(:nth-child(2)), #playoff-table td:not(:nth-child(2)),
@@ -1877,7 +1656,6 @@ tbody tr {
         padding: inherit !important; /* 통합 패딩 시스템 사용 */
         text-align: center !important; /* 모든 데이터 셀 중앙 정렬 강제 적용 */
     }
-    
     /* 특수 컬럼 예외 처리 - 폰트 크기 통일 */
     #standings-table th:nth-child(13), 
     #standings-table td:nth-child(13) { 
@@ -1892,16 +1670,13 @@ tbody tr {
         padding: 6px 2px;
         font-size: 0.85rem !important;   /* 초소형 화면 텍스트 크기 더 증가 */
     }
-    
     th {
         font-size: 0.9rem !important;    /* 헤더 크기도 더 증가 */
     }
-    
     .table-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
-    
     /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
     #standings-table th:nth-child(8),   /* 승률 */
     #standings-table td:nth-child(8),
@@ -1913,7 +1688,6 @@ tbody tr {
     #standings-table td:nth-child(13) {
         padding: 8px 6px !important;
     }
-    
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
     #standings-table .team-name span,
@@ -1921,7 +1695,6 @@ tbody tr {
     #chase-table tbody tr td:nth-child(2) span {
         display: none !important;
     }
-    
     /* 모바일에서 팀 로고 크기 조정 */
     .team-logo,
     .team-name img,
@@ -1971,14 +1744,6 @@ table th {
 #chase-table tbody tr td:nth-child(1) {
     font-weight: 600;
 }
-
-/* 대시보드 값 - 상대전적 기준으로 조정 */
-.dashboard-value {
-    font-size: 1.6rem;          /* 크게 유지 */
-    font-weight: 600;           /* 상대전적 굵기 */
-    line-height: 1.3;           /* 상대전적 줄간격 */
-}
-
 /* 헤딩 요소들 통일 - 제목은 볼드 필요 */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;           /* 제목은 볼드 필요 */
@@ -2046,27 +1811,19 @@ input, textarea, select, button {
         --space-10: 2rem;       /* 32px */
         --space-12: 2.4rem;     /* 38.4px */
     }
-    
     /* 컨테이너 및 기본 레이아웃 */
     .container {
         padding: var(--space-3);
         max-width: 100%;
     }
-    
     /* 헤더 최적화 */
     .header {
         padding: 20px 15px;
         text-align: center;
     }
-    
     .header h1 {
         font-size: var(--text-3xl) !important;
         margin-bottom: var(--space-2);
-    }
-    
-    .subtitle {
-        font-size: var(--text-sm);
-        line-height: 1.4;
     }
     
     /* 카드 레이아웃 최적화 - 패딩과 여백 축소 */
@@ -2075,14 +1832,50 @@ input, textarea, select, button {
         padding: var(--space-3);            /* 카드 내부 패딩 축소 */
         border-radius: 8px;
     }
-    
     .cards-grid {
         display: block;
     }
-    
-    /* 요약 대시보드 그리드 - 모바일 최적화 */
+    /* 대시보드 모바일 최적화 - 2x3 그리드 */
     .summary-dashboard {
-        grid-template-columns: repeat(5, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: var(--space-3) !important;
+    }
+    
+    .summary-card {
+        min-height: 110px !important;
+        padding: var(--space-4) var(--space-3) !important;
+    }
+    
+    .summary-card h3 {
+        font-size: var(--text-xl) !important;
+        margin-bottom: var(--space-2) !important;
+    }
+    
+    .summary-card .dashboard-value {
+        font-size: var(--text-3xl) !important;
+        margin: var(--space-2) 0 !important;
+    }
+    
+    .summary-card .dashboard-sub-value {
+        font-size: var(--text-lg) !important;
+    }
+    
+    /* 모바일에서 예상 우승 확정일 줄바꿈 처리 */
+    .summary-card .dashboard-sub-value {
+        white-space: pre-line;
+        text-align: center;
+    }
+    
+    /* 모바일에서 대시보드 카드 span 요소 폰트 크기 재정의 */
+    .summary-card .dashboard-value span {
+        font-size: var(--text-3xl) !important;
+        font-weight: var(--weight-bold) !important;
+    }
+    
+    /* 모바일에서 예상 우승 확정일 줄바꿈 적용 */
+    #clinch-date {
+        white-space: pre-line !important;
+        text-align: center !important;
     }
     
     /* 네비게이션 모바일 최적화 - root index와 동일하게 */
@@ -2096,22 +1889,18 @@ input, textarea, select, button {
         flex-wrap: nowrap;
         padding: 0 10px;
     }
-    
     .nav-menu::-webkit-scrollbar {
         display: none;
     }
-    
     .nav-item {
         white-space: nowrap;
         font-size: var(--text-sm);
         padding: 8px 12px;
         flex-shrink: 0;
     }
-    
     .nav-toggle {
         display: none;
     }
-    
     /* 테이블 최적화 */
     .table-container {
         margin: 0;
@@ -2123,13 +1912,11 @@ input, textarea, select, button {
         box-shadow: inset 0 0 0 1px var(--border-color);
         background: var(--bg-secondary);
     }
-    
     table {
         min-width: 700px; /* 테이블 최소 너비 축소로 모바일 최적화 */
         font-size: var(--text-sm);
         width: auto; /* 고정 너비 대신 내용에 맞춤 */
     }
-    
     th, td {
         padding: 6px 3px;
         font-size: var(--text-xs);
@@ -2138,18 +1925,15 @@ input, textarea, select, button {
         max-width: 60px; /* 셀 최대 너비 축소 */
         overflow: hidden;
     }
-    
     /* ═══════════════════════════════════════════════════════════════════════
        📱 모바일 통합 테이블 시스템 (768px 이하)
        ═══════════════════════════════════════════════════════════════════════ */
-    
     /* 🎨 통합 테이블 기본 스타일 - 폰트 크기 증가 */
     table {
         font-size: 0.8rem !important; /* 0.7rem → 0.8rem 증가 */
         line-height: 1.3 !important;  /* 1.2 → 1.3 줄간격 증가 */
         min-width: 700px;
     }
-    
     /* 🎨 통합 헤더 스타일 - 폰트 크기 증가 */
     table th {
         font-size: 0.75rem !important; /* 0.65rem → 0.75rem 증가 */
@@ -2167,7 +1951,6 @@ input, textarea, select, button {
         min-height: 44px !important; /* 40px → 44px 높이 증가 */
         vertical-align: middle !important;
     }
-    
     /* 🎨 통합 데이터 셀 스타일 - 폰트 크기 증가 */
     table td {
         font-size: 0.85rem !important; /* 0.75rem → 0.85rem 모바일 데이터 셀 크기 증가 */
@@ -2181,7 +1964,6 @@ input, textarea, select, button {
         min-height: 40px !important; /* 36px → 40px 높이 증가 */
         background: white !important; /* 기본 배경색 명시 */
     }
-    
     /* 🏆 순위 컬럼 통합 관리 (1번째) */
     table th:nth-child(1),
     table td:nth-child(1) {
@@ -2192,7 +1974,6 @@ input, textarea, select, button {
         font-weight: 600 !important; /* 순위는 굵게 */
         color: var(--primary-color) !important; /* 순위 강조 색상 */
     }
-    
     /* 🏟️ 팀명 컬럼 통합 관리 (2번째) - 스티키 처리 */
     #standings-table th:nth-child(2),
     #standings-table td:nth-child(2) {
@@ -2209,26 +1990,22 @@ input, textarea, select, button {
         border-right: 2px solid var(--border-strong) !important; /* 스티키 구분선 */
         box-shadow: 2px 0 4px rgba(0,0,0,0.1) !important; /* 스티키 그림자 효과 */
     }
-    
     /* 팀명 헤더는 더 높은 z-index */
     table th:nth-child(2) {
         z-index: 15 !important;
         background: var(--primary-color) !important; /* 헤더 배경 유지 */
     }
-    
     /* 팀명 데이터 셀 배경 - 다른 셀과 통일 */
     table td:nth-child(2) {
         background: var(--bg-secondary) !important; /* 다른 테이블 셀과 동일한 배경 */
         transition: all 0.2s ease !important;
     }
-    
     /* 팀명 셀 hover 효과 - 다른 셀과 통일 */
     table tr:hover td:nth-child(2) {
         background: rgba(26, 35, 126, 0.05) !important; /* 일반 hover와 동일하게 */
         transform: translateX(1px) !important; /* 스티키만의 특별 효과 */
         box-shadow: 3px 0 6px rgba(0,0,0,0.15) !important; /* 스티키 그림자 유지 */
     }
-    
     /* 🎨 팀 로고 통합 관리 */
     table td:nth-child(2) .team-logo {
         width: 10px !important;
@@ -2238,7 +2015,6 @@ input, textarea, select, button {
         vertical-align: middle !important;
         flex-shrink: 0 !important;
     }
-    
     /* 📊 데이터 컬럼들 (3번째 이후) 통합 스타일 */
     table th:nth-child(n+3),
     table td:nth-child(n+3) {
@@ -2249,7 +2025,6 @@ input, textarea, select, button {
         text-overflow: ellipsis !important;
         overflow: hidden !important;
     }
-    
     /* 🎨 통합 스크롤 인디케이터 */
     .table-container {
         position: relative;
@@ -2261,49 +2036,58 @@ input, textarea, select, button {
         box-shadow: var(--shadow-sm);
         margin: 0;
     }
-    
     .table-container::after {
         display: none;
     }
-    
     /* 상대전적 테이블 모바일 최적화 */
     .vs-grid {
         gap: 1px;
         font-size: var(--text-xs);
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        grid-template-columns: 70px repeat(10, 70px);
         max-width: 100%;
         margin: 0 -10px;
         padding: 0 10px;
+        justify-content: start;
     }
     
     .vs-grid > div {
-        font-size: 0.7rem !important;
-        padding: 4px 2px !important;
-        min-height: 45px !important;
+        font-size: 0.75rem !important;
+        padding: 6px 4px !important;
+        min-height: 50px !important;
         line-height: 1.2;
-        min-width: 80px; /* 최소 너비 보장 */
+        min-width: 70px;
     }
     
+    /* 모바일에서도 스티키 유지 */
+    .vs-grid > div:nth-child(-n+11) {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .vs-grid > div:nth-child(11n+1) {
+        position: sticky;
+        left: 0;
+        z-index: 15;
+        width: 70px;
+        min-width: 70px;
+        max-width: 70px;
+    }
     .vs-header {
         font-size: 0.75rem !important;
         font-weight: 600;
     }
-    
     .vs-team {
         font-size: 0.75rem !important;
     }
-    
     /* 모바일 안내 메시지 표시 */
     .mobile-notice {
         display: block !important;
     }
-    
     /* PC 버전 강제 모드에서는 모바일 스타일 무효화 */
     body.force-desktop .mobile-notice {
         display: none !important;
     }
-    
     /* PC 버전 강제 시 일부 모바일 최적화 해제 */
     body.force-desktop {
         min-width: 1200px;
@@ -2321,48 +2105,76 @@ input, textarea, select, button {
         --text-2xl: 1.5rem;     /* 24px - 키움 */
         --text-3xl: 1.6rem;     /* 25.6px */
     }
-    
-    /* 요약 대시보드 - 한 줄에 5개 */
+    /* 대시보드 480px 미만 - 1열 그리드 */
     .summary-dashboard {
-        grid-template-columns: repeat(5, 1fr) !important;
+        grid-template-columns: 1fr !important;
+        gap: var(--space-2) !important;
     }
     
+    .summary-card {
+        min-height: 100px !important;
+        padding: var(--space-4) var(--space-3) !important;
+    }
+    
+    .summary-card h3 {
+        font-size: var(--text-lg) !important;
+        margin-bottom: var(--space-2) !important;
+    }
+    
+    .summary-card .dashboard-value {
+        font-size: 2rem !important;
+        margin: var(--space-2) 0 !important;
+        font-weight: var(--weight-bold) !important;
+    }
+    
+    .summary-card .dashboard-sub-value {
+        font-size: var(--text-base) !important;
+        margin-top: var(--space-1) !important;
+        white-space: pre-line;
+        text-align: center;
+    }
+    
+    /* 소형 모바일에서 대시보드 카드 span 요소 폰트 크기 재정의 */
+    .summary-card .dashboard-value span {
+        font-size: 2rem !important;
+        font-weight: var(--weight-bold) !important;
+    }
+    
+    /* 소형 모바일에서도 예상 우승 확정일 줄바꿈 적용 */
+    #clinch-date {
+        white-space: pre-line !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+    }
     /* 모바일에서 설명 카드 텍스트 크기 축소 */
     .legend-text {
         font-size: 0.8rem !important;
     }
-    
     .legend-text h4 {
         font-size: 0.9rem !important;
     }
-    
     .legend-text ul li {
         font-size: 0.75rem !important;
     }
-    
     /* 챔피언십 섹션의 팀명과 추가 정보 폰트 크기 키우기 */
     #first-place-team-name {
         font-size: var(--text-xl) !important;
         font-weight: 700 !important;
     }
-    
     #remaining-games-top-display, #min-wins-top-display {
         font-size: var(--text-lg) !important;
         font-weight: 700 !important;
     }
-    
     /* 매직넘버 텍스트 강제 적용 */
     #championship-magic {
         font-size: var(--text-2xl) !important;
         font-weight: 800 !important;
     }
-    
     /* 예상 확정일 텍스트 크기 키우기 */
     #clinch-date {
         font-size: var(--text-xl) !important;
         font-weight: 700 !important;
     }
-    
     /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
     #standings-table th:nth-child(8),   /* 승률 */
     #standings-table td:nth-child(8),
@@ -2374,7 +2186,6 @@ input, textarea, select, button {
     #standings-table td:nth-child(13) {
         padding: 7px 5px !important;
     }
-    
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
     #standings-table .team-name span,
@@ -2382,7 +2193,6 @@ input, textarea, select, button {
     #chase-table tbody tr td:nth-child(2) span {
         display: none !important;
     }
-    
     /* 모바일에서 팀 로고 크기 조정 */
     .team-logo,
     .team-name img,
@@ -2393,22 +2203,18 @@ input, textarea, select, button {
         width: 22px !important;
         height: auto !important;
     }
-    
     /* 헤더 더 축소 */
     .header {
         padding: 15px 10px;
     }
-    
     .header h1 {
         font-size: var(--text-2xl) !important;
     }
-    
     /* 카드 패딩 더 축소 */
     .card {
         padding: var(--space-2);             /* 카드 패딩 더 축소 */
         margin-bottom: var(--space-2);       /* 카드 간 여백 더 축소 */
     }
-    
     /* 테이블 텍스트 크기 증가 */
     th, td {
         padding: 6px 2px;
@@ -2416,30 +2222,25 @@ input, textarea, select, button {
         text-align: center !important;   /* 모든 셀 중앙 정렬 강제 */
         max-width: 60px; /* 더 작은 셀 너비 */
     }
-    
     /* ═══════════════════════════════════════════════════════════════════════
        📱 작은 화면 통합 테이블 시스템 (600px 이하)
        ═══════════════════════════════════════════════════════════════════════ */
-    
     /* 🎨 작은 화면 통합 폰트 시스템 - 폰트 크기 증가 */
     table {
         font-size: 0.75rem !important; /* 0.65rem → 0.75rem 증가 */
         min-width: 650px;
     }
-    
     table th {
         font-size: 0.7rem !important; /* 0.6rem → 0.7rem 증가 */
         padding: 8px 3px !important; /* 6px → 8px 패딩 증가 */
         min-height: 40px !important; /* 36px → 40px 높이 증가 */
     }
-    
     table td {
         font-size: 0.7rem !important; /* 0.6rem → 0.7rem 증가 */
         padding: 6px 2px !important; /* 4px → 6px 패딩 증가 */
         min-height: 36px !important; /* 32px → 36px 높이 증가 */
         background: white !important; /* 배경색 통일 */
     }
-    
     /* 🏆 순위 컬럼 - 작은 화면 축소 */
     table th:nth-child(1),
     table td:nth-child(1) {
@@ -2448,7 +2249,6 @@ input, textarea, select, button {
         max-width: 32px !important;
         padding: 4px 1px !important;
     }
-    
     /* 🏟️ 팀명 컬럼 - 작은 화면 축소 + 스티키 유지 */
     table th:nth-child(2),
     table td:nth-child(2) {
@@ -2462,22 +2262,18 @@ input, textarea, select, button {
         border-right: 2px solid var(--border-strong) !important;
         box-shadow: 2px 0 4px rgba(0,0,0,0.1) !important;
     }
-    
     table th:nth-child(2) {
         z-index: 15 !important;
         background: var(--primary-color) !important;
     }
-    
     table td:nth-child(2) {
         background: var(--bg-secondary) !important;
     }
-    
     /* 🎨 로고 크기 축소 */
     table td:nth-child(2) .team-logo {
         width: 8px !important;
         margin-right: 1px !important;
     }
-    
     /* 📊 데이터 컬럼 축소 */
     table th:nth-child(n+3),
     table td:nth-child(n+3) {
@@ -2485,7 +2281,6 @@ input, textarea, select, button {
         max-width: 70px !important;
         font-size: inherit !important;   /* 다른 셀과 동일한 폰트 크기로 통일 */
     }
-    
     /* 상대전적 테이블 더 축소 */
     .vs-grid > div {
         font-size: 0.65rem !important;
@@ -2506,22 +2301,18 @@ input, textarea, select, button {
         --text-2xl: 1.4rem;     /* 22.4px - 키움 */
         --text-3xl: 1.5rem;     /* 24px */
     }
-    
     /* 컨테이너 여백 최소화 */
     .container {
         padding: var(--space-2);
     }
-    
     /* 헤더 최소화 */
     .header {
         padding: 10px 8px;
     }
-    
     .header h1 {
         font-size: var(--text-2xl) !important;
         margin-bottom: var(--space-1);
     }
-    
     /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
     #standings-table th:nth-child(8),   /* 승률 */
     #standings-table td:nth-child(8),
@@ -2533,7 +2324,6 @@ input, textarea, select, button {
     #standings-table td:nth-child(13) {
         padding: 6px 4px !important;
     }
-    
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
     #standings-table .team-name span,
@@ -2541,7 +2331,6 @@ input, textarea, select, button {
     #chase-table tbody tr td:nth-child(2) span {
         display: none !important;
     }
-    
     /* 모바일에서 팀 로고 크기 조정 */
     .team-logo,
     .team-name img,
@@ -2552,43 +2341,36 @@ input, textarea, select, button {
         width: 20px !important;
         height: auto !important;
     }
-    
     /* 요약 대시보드 1열로 */
     .summary-dashboard {
         grid-template-columns: 1fr !important;
         gap: var(--space-1) !important;
     }
-    
     /* 테이블 패딩 최소화 */
     th, td {
         padding: 4px 1px;
         font-size: var(--text-xs);
         max-width: 50px; /* 가장 작은 셀 너비 */
     }
-    
     /* ═══════════════════════════════════════════════════════════════════════
        📱 매우 작은 화면 통합 테이블 시스템 (480px 이하)
        ═══════════════════════════════════════════════════════════════════════ */
-    
     /* 🎨 매우 작은 화면 통합 폰트 시스템 - 텍스트 크기 증가 */
     table {
         font-size: 0.85rem !important;   /* 0.6rem → 0.85rem 대폭 증가 */
         min-width: 600px; /* 매우 작은 화면용 최소 너비 */
         text-align: center !important;   /* 모든 테이블 셀 중앙 정렬 강제 */
     }
-    
     table th {
         font-size: 0.9rem !important;    /* 0.55rem → 0.9rem 대폭 증가 */
         padding: 4px 2px !important;
         min-height: 32px !important;
     }
-    
     table td {
         font-size: 0.55rem !important;
         padding: 3px 1px !important;
         min-height: 28px !important;
     }
-    
     /* 🏆 순위 컬럼 - 최소화 */
     table th:nth-child(1),
     table td:nth-child(1) {
@@ -2597,7 +2379,6 @@ input, textarea, select, button {
         max-width: 30px !important;
         padding: 3px 1px !important;
     }
-    
     /* 🏟️ 팀명 컬럼 - 최소화 + 스티키 유지 (로고 숨김) */
     table th:nth-child(2),
     table td:nth-child(2) {
@@ -2611,21 +2392,17 @@ input, textarea, select, button {
         border-right: 2px solid var(--border-strong) !important;
         box-shadow: 2px 0 3px rgba(0,0,0,0.1) !important;
     }
-    
     table th:nth-child(2) {
         z-index: 15 !important;
         background: var(--primary-color) !important;
     }
-    
     table td:nth-child(2) {
         background: var(--bg-secondary) !important;
     }
-    
     /* 🎨 로고 완전 숨김 */
     table td:nth-child(2) .team-logo {
         display: none !important;
     }
-    
     /* 📊 데이터 컬럼 최소화 */
     table th:nth-child(n+3),
     table td:nth-child(n+3) {
@@ -2634,7 +2411,6 @@ input, textarea, select, button {
         font-size: 0.55rem !important;
         padding: 3px 1px !important;
     }
-    
     /* 특수 컬럼 추가 축소 - 폰트 크기 통일 */
     #standings-table th:nth-child(13), 
     #standings-table td:nth-child(13) { 
@@ -2642,19 +2418,31 @@ input, textarea, select, button {
         min-width: 75px !important;    /* 480px 이하에서도 최근10경기 컨럼 크기 증가 */
         max-width: 95px !important;    /* 480px 이하 최대 크기 증가 */
     }
-    
     /* 상대전적 테이블 최소화 */
+    .vs-grid {
+        grid-template-columns: 60px repeat(10, 60px);
+    }
+    
     .vs-grid > div {
-        font-size: 0.8rem !important;    /* 0.6rem → 0.8rem 증가 */
-        padding: 2px 1px !important;
-        min-height: 35px !important;
-        min-width: 50px !important;
+        font-size: 0.7rem !important;
+        padding: 4px 2px !important;
+        min-height: 45px !important;
+        min-width: 60px !important;
+    }
+    
+    /* 소형 모바일에서도 스티키 유지 */
+    .vs-grid > div:nth-child(11n+1) {
+        position: sticky;
+        left: 0;
+        z-index: 15;
+        width: 60px !important;
+        min-width: 60px !important;
+        max-width: 60px !important;
     }
     
     .vs-header, .vs-team {
         font-size: 0.65rem !important;
     }
-    
     /* 네비게이션 패딩 축소 */
     .nav-item {
         padding: 8px 12px;
