@@ -2997,6 +2997,7 @@
                             <th>승</th>
                             <th>무</th>
                             <th>패</th>
+                            <th>승패마진</th>
                             <th>승률</th>
                             <th>게임차</th>
                             <th>득점</th>
@@ -3023,6 +3024,7 @@
             <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
                 <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📈 주요 지표 간단 설명</div>
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+                    <div><strong>승패마진:</strong> 승수-패수 (양수일수록 우수)</div>
                     <div><strong>득실차:</strong> 득점-실점 (높을수록 좋음)</div>
                     <div><strong>P승률:</strong> 피타고리안 기대승률 (득실차 기반)</div>
                     <div><strong>운지수:</strong> 실제승률-기대승률</div>
@@ -4583,6 +4585,10 @@
                     }
                 }
 
+                // 승패마진 계산 (승 - 패)
+                const winLossMargin = team.wins - team.losses;
+                const marginClass = winLossMargin > 0 ? 'positive' : winLossMargin < 0 ? 'negative' : 'neutral';
+                
                 row.innerHTML = `
                     <td class="${team.rank <= 3 ? `rank-${team.rank}` : ''}"><strong>${team.rank}</strong></td>
                     <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
@@ -4591,6 +4597,7 @@
                     <td>${team.wins}</td>
                     <td>${team.draws}</td>
                     <td>${team.losses}</td>
+                    <td class="${marginClass}" style="font-weight: 600;">${winLossMargin > 0 ? '+' : ''}${winLossMargin}</td>
                     <td><strong>${team.win_rate}</strong></td>
                     <td>${team.games_behind}</td>
                     <td>${team.runs_scored}</td>
