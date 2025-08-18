@@ -2621,7 +2621,7 @@
 
         .nav-menu {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             gap: 2px;
             overflow-x: auto;
             scrollbar-width: none;
@@ -2635,7 +2635,7 @@
 
         .nav-item {
             white-space: nowrap;
-            padding: 8px 14px;
+            padding: 8px 14px 8px 8px;
             font-size: var(--font-md);
             font-weight: var(--font-weight-medium);
             color: #4a5568;
@@ -2643,8 +2643,7 @@
             border-radius: 6px;
             transition: all 0.3s ease;
             border: 1px solid transparent;
-            flex: 1;
-            text-align: center;
+            text-align: left;
             min-width: 80px;
         }
 
