@@ -115,25 +115,38 @@ class SeriesAnalyzer {
         
         // 시리즈 결과 결정 및 추가 정보 계산
         validSeries.forEach((s, index) => {
-            // 시리즈 결과
-            if (s.wins > s.losses) {
+            // 시리즈 결과 판정 (KBO 실제 규칙)
+            const totalGames = s.games.length;
+            
+            // 위닝/루징 시리즈 판정 기준:
+            // 1) 3연전에서 2승 또는 2패 확정시
+            // 2) 시리즈 완료 후 최종 승패 차이로 판정
+            // 3) 1승 1패로 끝나는 시리즈는 SPLIT으로 처리
+            
+            if (s.wins >= 2 && s.losses <= 1) {
+                // 2승 이상 확정 (2승, 2승1패, 3승)
+                s.result = 'WIN';
+            } else if (s.losses >= 2 && s.wins <= 1) {
+                // 2패 이상 확정 (2패, 1승2패, 3패)
+                s.result = 'LOSS';
+            } else if (s.wins === 1 && s.losses === 1) {
+                // 1승 1패는 SPLIT (무승부 시리즈)
+                s.result = 'SPLIT';
+            } else if (s.wins > s.losses) {
+                // 나머지 경우 승수가 많으면 WIN
                 s.result = 'WIN';
             } else if (s.losses > s.wins) {
+                // 나머지 경우 패수가 많으면 LOSS
                 s.result = 'LOSS';
             } else {
+                // 동일하면 SPLIT
                 s.result = 'SPLIT';
             }
             
-            // 스윕 여부 확인 (KBO 실제 규칙 반영)
-            const decisiveGames = s.wins + s.losses;
-            const totalGames = s.games.length;
-            
-            // 스윕 조건: 
-            // 1) 최소 3경기 이상에서만 스윕 인정 (2경기는 위닝/루징으로 처리)
-            // 2) 상대방이 한 경기도 이기지 못함 (무승부는 허용)
-            s.isSweep = totalGames >= 3 && decisiveGames > 0 && (s.wins === 0 || s.losses === 0);
-            s.isWinningSweep = totalGames >= 3 && s.wins > 0 && s.losses === 0;
-            s.isLosingSweep = totalGames >= 3 && s.losses > 0 && s.wins === 0;
+            // 스윕 여부 확인 (3연전에서 3승 또는 3패)
+            s.isSweep = totalGames >= 3 && (s.wins === 3 || s.losses === 3);
+            s.isWinningSweep = totalGames >= 3 && s.wins === 3 && s.losses === 0;
+            s.isLosingSweep = totalGames >= 3 && s.losses === 3 && s.wins === 0;
             
             // 시리즈 길이와 타입
             s.totalGames = s.games.length;
