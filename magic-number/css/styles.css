@@ -884,14 +884,21 @@ tbody tr {
 
     /* 팀명 컬럼 통합 (2번째) */
     #standings-table th:nth-child(2), #standings-table td:nth-child(2) { 
-        width: 12%; 
+        width: 10%; /* 팀명 컬럼 너비 축소 12% → 10% */
         font-weight: 500;
     }
 
-    /* 일반 데이터 컬럼들 (3-12번째) */
-    table th:nth-child(n+3):nth-child(-n+12), 
-    table td:nth-child(n+3):nth-child(-n+12) { 
+    /* 일반 데이터 컬럼들 (3-8번째, 11-12번째) */
+    table th:nth-child(n+3):nth-child(-n+8), 
+    table td:nth-child(n+3):nth-child(-n+8),
+    table th:nth-child(n+11):nth-child(-n+12), 
+    table td:nth-child(n+11):nth-child(-n+12) { 
         width: 6%; 
+    }
+    /* 홈/방문 컬럼 너비 증가 */
+    table th:nth-child(9), table td:nth-child(9), /* 홈 */
+    table th:nth-child(10), table td:nth-child(10) { /* 방문 */
+        width: 7%; /* 홈/방문 컬럼 너비 증가 6% → 7% */
     }
     /* 중요 컬럼들 강조 */
     table th:nth-child(8), table td:nth-child(8) { /* 승률 */
@@ -904,8 +911,9 @@ tbody tr {
     /* 특수 컬럼 처리 - 폰트 크기 통일 */
     #standings-table th:nth-child(13), 
     #standings-table td:nth-child(13) { /* 최근10경기 */
-        width: 12%; /* 최근10경기 컨럼 크기 증가 8% → 12% */
+        width: 9%; /* 최근10경기 컨럼 크기 축소 12% → 9% */
         font-size: inherit;  /* 다른 셀과 동일한 폰트 크기 사용 */
+        white-space: nowrap; /* 텍스트 줄바뀜 방지 */
     }
     /* 플레이오프와 1위 탈환 테이블 완전 재설정 */
     #playoff-table,
@@ -1791,6 +1799,7 @@ tbody tr {
     #standings-table th:nth-child(13),  /* 최근10경기 */
     #standings-table td:nth-child(13) {
         padding: 8px 6px !important;
+        white-space: nowrap !important; /* 홈/방문/최근10경기 모든 컬럼 줄바뀜 방지 */
     }
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
@@ -2289,6 +2298,7 @@ input, textarea, select, button {
     #standings-table th:nth-child(13),  /* 최근10경기 */
     #standings-table td:nth-child(13) {
         padding: 7px 5px !important;
+        white-space: nowrap !important; /* 홈/방문/최근10경기 모든 컬럼 줄바뀜 방지 */
     }
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
@@ -2427,6 +2437,7 @@ input, textarea, select, button {
     #standings-table th:nth-child(13),  /* 최근10경기 */
     #standings-table td:nth-child(13) {
         padding: 6px 4px !important;
+        white-space: nowrap !important; /* 홈/방문/최근10경기 모든 컬럼 줄바뜸 방지 */
     }
     /* 모바일에서 팀명 텍스트 숨기고 로고만 표시 */
     .team-name span,
