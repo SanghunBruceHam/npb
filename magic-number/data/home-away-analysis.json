@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2025-08-17T15:22:00.629Z",
-  "updateDate": "2025. 8. 17.",
+  "lastUpdated": "2025-08-18T01:48:41.807Z",
+  "updateDate": "2025. 8. 18.",
   "homeAwayAnalysis": {
     "LG": {
       "totalGames": 113,
@@ -28,7 +28,7 @@
         "avgRunsAllowed": "4.11",
         "runDifferential": 66
       },
-      "homeAdvantage": "3.9",
+      "homeAdvantage": "0.0390",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "잠실": {
@@ -270,7 +270,7 @@
         "avgRunsAllowed": "3.98",
         "runDifferential": 13
       },
-      "homeAdvantage": "12.4",
+      "homeAdvantage": "0.1240",
       "homeAdvantageStatus": "강함",
       "stadiumRecords": {
         "수원": {
@@ -512,7 +512,7 @@
         "avgRunsAllowed": "5.24",
         "runDifferential": -23
       },
-      "homeAdvantage": "17.1",
+      "homeAdvantage": "0.1710",
       "homeAdvantageStatus": "강함",
       "stadiumRecords": {
         "광주": {
@@ -754,7 +754,7 @@
         "avgRunsAllowed": "4.35",
         "runDifferential": -9
       },
-      "homeAdvantage": "11.8",
+      "homeAdvantage": "0.1180",
       "homeAdvantageStatus": "강함",
       "stadiumRecords": {
         "대구": {
@@ -996,7 +996,7 @@
         "avgRunsAllowed": "4.21",
         "runDifferential": 7
       },
-      "homeAdvantage": "1.8",
+      "homeAdvantage": "0.0180",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "수원": {
@@ -1238,7 +1238,7 @@
         "avgRunsAllowed": "3.85",
         "runDifferential": 20
       },
-      "homeAdvantage": "-1.0",
+      "homeAdvantage": "-0.0100",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "인천": {
@@ -1480,7 +1480,7 @@
         "avgRunsAllowed": "4.56",
         "runDifferential": -16
       },
-      "homeAdvantage": "0.7",
+      "homeAdvantage": "0.0070",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "잠실": {
@@ -1722,7 +1722,7 @@
         "avgRunsAllowed": "4.61",
         "runDifferential": 19
       },
-      "homeAdvantage": "0.2",
+      "homeAdvantage": "0.0020",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "인천": {
@@ -1964,7 +1964,7 @@
         "avgRunsAllowed": "4.92",
         "runDifferential": -5
       },
-      "homeAdvantage": "2.0",
+      "homeAdvantage": "0.0200",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "광주": {
@@ -2206,7 +2206,7 @@
         "avgRunsAllowed": "6.69",
         "runDifferential": -115
       },
-      "homeAdvantage": "4.4",
+      "homeAdvantage": "0.0440",
       "homeAdvantageStatus": "중립",
       "stadiumRecords": {
         "대구": {

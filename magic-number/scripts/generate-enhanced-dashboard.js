@@ -154,6 +154,8 @@ class EnhancedDashboardGenerator {
                 month,
                 wins,
                 losses,
+                draws,
+                (wins + losses + draws) as games,
                 printf('%.3f', win_rate) as win_rate,
                 runs_scored,
                 runs_allowed
@@ -172,6 +174,8 @@ class EnhancedDashboardGenerator {
                 month: record.month,
                 wins: record.wins,
                 losses: record.losses,
+                draws: record.draws,
+                games: record.games,
                 win_rate: record.win_rate,
                 runs_scored: record.runs_scored,
                 runs_allowed: record.runs_allowed

@@ -186,18 +186,18 @@ class HomeAwayAnalyzer {
                 }
             });
             
-            // 홈 어드밴티지 계산
-            const homeWinRate = parseFloat(analysis.home.winRate);
-            const awayWinRate = parseFloat(analysis.away.winRate);
-            analysis.homeAdvantage = (homeWinRate - awayWinRate).toFixed(1);
+            // 홈 어드밴티지 계산 (소수점 형태로 변환)
+            const homeWinRate = parseFloat(analysis.home.winRate) / 100; // 퍼센트를 소수점으로 변환
+            const awayWinRate = parseFloat(analysis.away.winRate) / 100; // 퍼센트를 소수점으로 변환
+            analysis.homeAdvantage = (homeWinRate - awayWinRate).toFixed(4); // root index와 동일하게 4자리로 표시
             
-            if (parseFloat(analysis.homeAdvantage) > 10) {
+            if (parseFloat(analysis.homeAdvantage) > 0.10) {
                 analysis.homeAdvantageStatus = '강함';
-            } else if (parseFloat(analysis.homeAdvantage) > 5) {
+            } else if (parseFloat(analysis.homeAdvantage) > 0.05) {
                 analysis.homeAdvantageStatus = '보통';
-            } else if (parseFloat(analysis.homeAdvantage) < -10) {
+            } else if (parseFloat(analysis.homeAdvantage) < -0.10) {
                 analysis.homeAdvantageStatus = '약함';
-            } else if (parseFloat(analysis.homeAdvantage) < -5) {
+            } else if (parseFloat(analysis.homeAdvantage) < -0.05) {
                 analysis.homeAdvantageStatus = '불리';
             } else {
                 analysis.homeAdvantageStatus = '중립';
