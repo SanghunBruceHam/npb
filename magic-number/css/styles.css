@@ -2164,7 +2164,7 @@ input, textarea, select, button {
     .vs-grid {
         gap: 1px;
         font-size: var(--text-xs);
-        grid-template-columns: 70px repeat(10, 85px) !important;
+        grid-template-columns: 80px repeat(10, 100px) !important;
         max-width: 100%;
         margin: 0 -10px;
         padding: 0 10px;
@@ -2172,11 +2172,11 @@ input, textarea, select, button {
     }
     
     .vs-grid > div {
-        font-size: 0.75rem !important;
+        font-size: 0.8rem !important;
         padding: 6px 4px !important;
         min-height: 50px !important;
         line-height: 1.2;
-        min-width: 85px !important;
+        min-width: 100px !important;
     }
     
     /* 모바일에서도 스티키 유지 */
@@ -2190,16 +2190,16 @@ input, textarea, select, button {
         position: sticky;
         left: 0;
         z-index: 15;
-        width: 70px;
-        min-width: 70px;
-        max-width: 70px;
+        width: 80px !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
     }
     .vs-header {
-        font-size: 0.75rem !important;
+        font-size: 0.8rem !important;
         font-weight: 600;
     }
     .vs-team {
-        font-size: 0.75rem !important;
+        font-size: 0.8rem !important;
     }
     /* 모바일 안내 메시지 표시 */
     .mobile-notice {
@@ -2405,10 +2405,10 @@ input, textarea, select, button {
     }
     /* 상대전적 테이블 더 축소 */
     .vs-grid > div {
-        font-size: 0.65rem !important;
+        font-size: 0.7rem !important;
         padding: 3px 1px !important;
         min-height: 40px !important;
-        min-width: 75px !important;
+        min-width: 85px !important;
     }
 }
 
@@ -2543,14 +2543,14 @@ input, textarea, select, button {
     }
     /* 상대전적 테이블 최소화 */
     .vs-grid {
-        grid-template-columns: 60px repeat(10, 75px) !important;
+        grid-template-columns: 70px repeat(10, 85px) !important;
     }
     
     .vs-grid > div {
-        font-size: 0.7rem !important;
+        font-size: 0.75rem !important;
         padding: 4px 2px !important;
         min-height: 45px !important;
-        min-width: 75px !important;
+        min-width: 85px !important;
     }
     
     /* 소형 모바일에서도 스티키 유지 */
@@ -2558,13 +2558,13 @@ input, textarea, select, button {
         position: sticky;
         left: 0;
         z-index: 15;
-        width: 60px !important;
-        min-width: 60px !important;
-        max-width: 60px !important;
+        width: 70px !important;
+        min-width: 70px !important;
+        max-width: 70px !important;
     }
     
     .vs-header, .vs-team {
-        font-size: 0.65rem !important;
+        font-size: 0.7rem !important;
     }
     /* 네비게이션 패딩 축소 */
     .nav-item {
