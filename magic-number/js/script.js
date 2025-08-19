@@ -249,6 +249,56 @@ const kboTeams = {
             }
         }
 
+        // 승률과 상대전적 기준으로 순위 정렬
+        async function sortStandingsByWinRateAndHeadToHead(standings) {
+            try {
+                // 상대전적 데이터 로드
+                let recordsData = null;
+                try {
+                    const response = await fetch(`data/kbo-records.json?v=${Date.now()}`);
+                    recordsData = await response.json();
+                    console.log('✅ 순위 정렬용 kbo-records.json 로드 완료');
+                } catch (error) {
+                    console.warn('⚠️ 상대전적 데이터 로드 실패, 승률만으로 정렬:', error);
+                }
+
+                // 승률과 상대전적 기준으로 정렬
+                standings.sort((a, b) => {
+                    const aWinRate = parseFloat(a.winRate || a.winPct || 0);
+                    const bWinRate = parseFloat(b.winRate || b.winPct || 0);
+                    
+                    // 1차: 승률 비교 (내림차순)
+                    if (aWinRate !== bWinRate) {
+                        return bWinRate - aWinRate;
+                    }
+                    
+                    // 2차: 승률이 같을 때 상대전적 비교
+                    if (recordsData && recordsData.totalData) {
+                        const aVsB = recordsData.totalData[a.team]?.[b.team];
+                        const bVsA = recordsData.totalData[b.team]?.[a.team];
+                        
+                        if (aVsB && bVsA) {
+                            const aWins = aVsB.wins || 0;
+                            const bWins = bVsA.wins || 0;
+                            
+                            // 상대전적 승수가 다르면 많이 이긴 팀을 앞에
+                            if (aWins !== bWins) {
+                                return bWins - aWins;
+                            }
+                        }
+                    }
+                    
+                    // 3차: 팀명 알파벳 순 (일관성을 위해)
+                    return (a.team || '').localeCompare(b.team || '');
+                });
+                
+                console.log('📊 매직넘버 순위 정렬 완료:', standings.map(t => `${t.team}(${t.winRate || t.winPct})`).join(', '));
+                
+            } catch (error) {
+                console.error('❌ 매직넘버 순위 정렬 실패:', error);
+            }
+        }
+
         // 데이터 로딩 함수
         async function loadKBOData() {
             try {
@@ -272,6 +322,10 @@ const kboTeams = {
                     logger.log(`📅 데이터 날짜: ${data.dataDate || 'Unknown'}`);
                     logger.log(`🕐 최종 업데이트: ${data.lastUpdated || 'Unknown'}`);
                     console.log(`🎯 KBO 데이터 로드 완료 - 데이터 날짜: ${data.dataDate}, 업데이트: ${data.updateDate}`);
+                    
+                    // 승률과 상대전적 기준으로 정렬
+                    await sortStandingsByWinRateAndHeadToHead(data.standings || []);
+                    
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
                     // 승률이 같은 팀에게 같은 순위 부여
                     let currentRank = 1;
