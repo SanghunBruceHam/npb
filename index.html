@@ -2422,13 +2422,7 @@
             color: #4a5568;
         }
 
-        /* 팀별 상세 기록 스타일 */
-        .team-detailed-records {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid #e2e8f0;
-        }
+        /* 팀별 상세 기록 스타일 제거됨 - wrapper 레이어 제거 */
 
         .team-stats-summary {
             background: white;
@@ -2862,11 +2856,12 @@
                 flex-shrink: 0 !important;
             }
             
-            /* 전체 탭 특별 강조 */
-            .team-tab:first-child {
-                background: #e3f2fd !important;
-                border-color: #2196f3 !important;
-                font-weight: 600 !important;
+            /* 전체 탭 기본 스타일 (다른 탭과 동일) */
+            .team-tab:first-child:not(.active) {
+                background: white !important;
+                border-color: #dee2e6 !important;
+                color: #666 !important;
+                font-weight: var(--font-weight-medium) !important;
             }
         }
 
@@ -4171,7 +4166,6 @@
             const teams = ['전체', 'LG', '한화', 'KIA', '삼성', 'KT', 'SSG', '롯데', '두산', 'NC', '키움'];
             
             let html = `
-            <div class="team-detailed-records">
                 <div class="team-selector" style="text-align: center; margin-bottom: 25px;">
                     <h3 style="margin-bottom: 15px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📋 팀 선택</h3>
                     <div class="team-tabs" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
@@ -4337,7 +4331,7 @@
                 }
             }
 
-            html += `</div>`;
+            html += ``;
             document.getElementById('teamDetailedRecordsContent').innerHTML = html;
             
             // 정렬 기능 초기화
