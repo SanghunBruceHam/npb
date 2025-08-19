@@ -286,6 +286,16 @@
             --card-background: rgba(255, 255, 255, 0.95);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             --card-backdrop-filter: blur(10px);
+
+            /* Sticky layering & shadow variables */
+            --z-sticky-header: 20;
+            --z-sticky-col1-header: 30;
+            --z-sticky-col1: 25;
+            --z-sticky-col2-header: 40;
+            --z-sticky-col2: 35;
+            --z-sticky-corner: 50; /* top-left corner cell */
+            --sticky-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            --sticky-shadow-soft: 0 2px 4px rgba(0,0,0,0.12);
         }
 
         .container {
@@ -1422,12 +1432,15 @@
 
         .table-container {
             overflow-x: auto;
+            overflow-y: visible; /* allow sticky column shadows to render */
             margin-top: 8px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 100%;
             -webkit-overflow-scrolling: touch; /* iOS 스크롤 개선 */
+            position: relative; /* z-index context for sticky elements */
+            background: white;  /* avoid transparency artifacts under sticky cells */
         }
         
         /* 모든 테이블에 최소 너비 설정하여 스크롤 보장 */
@@ -1522,31 +1535,33 @@
             }
             
             /* ===== 순위+팀명이 있는 일반 테이블들 (첫 번째와 두 번째 컬럼 모두 고정) ===== */
-            
+
             /* 첫 번째 컬럼 (순위) 고정 - 순위+팀명이 있는 테이블만 */
             .detail-table:not(#monthlyTable):not(#stadiumTable) thead th:first-child,
             .full-standings-table thead th:first-child,
             #weekdayTable thead th:first-child {
                 position: sticky !important;
                 left: 0 !important;
-                z-index: 11 !important;
+                z-index: var(--z-sticky-corner) !important; /* top-left corner has highest */
                 background: #34495e !important;
                 color: white !important;
                 border-right: 2px solid #495057 !important;
                 min-width: var(--rank-col) !important;
+                box-shadow: var(--sticky-shadow) !important; /* edge glow to the right */
             }
-            
+
             .detail-table:not(#monthlyTable):not(#stadiumTable) tbody td:first-child,
             .full-standings-table tbody td:first-child,
             #weekdayTable tbody td:first-child {
                 position: sticky !important;
                 left: 0 !important;
-                z-index: 10 !important;
+                z-index: var(--z-sticky-col1) !important;
                 background: #f8f9fa !important;
                 color: #495057 !important;
                 border-right: 2px solid #dee2e6 !important;
                 font-weight: bold !important;
                 min-width: var(--rank-col) !important;
+                box-shadow: var(--sticky-shadow) !important; /* edge glow to the right */
             }
 
             /* 두 번째 컬럼 (팀명) 고정 - 순위+팀명이 있는 테이블만 */
@@ -1554,23 +1569,23 @@
             .full-standings-table thead th:nth-child(2) {
                 position: sticky !important;
                 left: var(--rank-col) !important;
-                z-index: 11 !important;
+                z-index: var(--z-sticky-col2-header) !important;
                 background: #34495e !important;
                 color: white !important;
                 border-right: 2px solid #495057 !important;
-                box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
+                box-shadow: var(--sticky-shadow) !important;
                 min-width: var(--team-col) !important;
             }
-            
+
             .detail-table:not(#monthlyTable):not(#stadiumTable) tbody td:nth-child(2),
             .full-standings-table tbody td:nth-child(2) {
                 position: sticky !important;
                 left: var(--rank-col) !important;
-                z-index: 10 !important;
+                z-index: var(--z-sticky-col2) !important;
                 background: white !important;
                 color: #495057 !important;
                 border-right: 2px solid #dee2e6 !important;
-                box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
+                box-shadow: var(--sticky-shadow) !important;
                 font-weight: 600 !important;
                 min-width: var(--team-col) !important;
             }
@@ -1579,22 +1594,22 @@
             #weekdayTable thead th:nth-child(2) {
                 position: sticky !important;
                 left: var(--rank-col) !important;
-                z-index: 11 !important;
+                z-index: var(--z-sticky-col2-header) !important;
                 background: #34495e !important;
                 color: white !important;
                 border-right: 2px solid #495057 !important;
-                box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
+                box-shadow: var(--sticky-shadow) !important;
                 min-width: 60px !important;
             }
-            
+
             #weekdayTable tbody td:nth-child(2) {
                 position: sticky !important;
                 left: var(--rank-col) !important;
-                z-index: 10 !important;
+                z-index: var(--z-sticky-col2) !important;
                 background: white !important;
                 color: #495057 !important;
                 border-right: 2px solid #dee2e6 !important;
-                box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
+                box-shadow: var(--sticky-shadow) !important;
                 font-weight: 600 !important;
                 min-width: 60px !important;
             }
@@ -1953,7 +1968,15 @@
             top: 0;
             z-index: 100;
             background: #34495e; /* thead 전체 배경 */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* 더 진한 그림자 */
+            box-shadow: var(--sticky-shadow-soft); /* 통일된 헤더 그림자 */
+        }
+
+        /* Prevent transforms/filters from breaking sticky on mobile */
+        @media (max-width: 768px) {
+            .table-container * {
+                transform: none !important;
+                filter: none !important;
+            }
         }
         
         /* 모든 헤더 셀에 통일된 스타일 적용 */
