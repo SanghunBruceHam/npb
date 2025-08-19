@@ -1859,6 +1859,50 @@
             .table-scroll-wrapper:has(.detailed-game-table) {
                 max-height: 600px; /* 500px에서 600px로 증가 */
             }
+            
+            /* 전체 팀 날짜별 테이블의 날짜 열 모바일 최적화 */
+            .all-teams-table th:first-child {
+                min-width: 70px !important;
+                max-width: 70px !important;
+                width: 70px !important;
+                white-space: normal !important;
+                word-break: keep-all !important;
+                line-height: 1.2 !important;
+                padding: 6px 4px !important;
+                font-size: var(--font-2xs) !important;
+            }
+            
+            .all-teams-table td:first-child {
+                min-width: 70px !important;
+                max-width: 70px !important;
+                width: 70px !important;
+                white-space: normal !important;
+                word-break: keep-all !important;
+                line-height: 1.2 !important;
+                padding: 4px 3px !important;
+                font-size: var(--font-2xs) !important;
+            }
+            
+            /* 날짜 색상 클래스 우선 적용 (주말/연휴 빨간색) */
+            .all-teams-table td.date-cell.weekend-date,
+            .all-teams-table td.date-cell.holiday-date {
+                color: #dc2626 !important;
+                font-weight: var(--font-weight-semibold) !important;
+            }
+            
+            .all-teams-table td.date-cell.weekday-date {
+                color: #1f2937 !important;
+                font-weight: var(--font-weight-medium) !important;
+            }
+            
+            /* 모바일 공휴일명 스타일링 */
+            .all-teams-table td.date-cell small {
+                font-size: var(--font-3xs) !important;
+                color: #dc2626 !important;
+                font-weight: var(--font-weight-medium) !important;
+                display: block;
+                margin-top: 1px;
+            }
         }
 
         /* 스티키 테이블 헤더 */
@@ -2563,6 +2607,27 @@
         .holiday-date {
             color: #dc2626;
             font-weight: var(--font-weight-semibold);
+        }
+
+        /* 전체 팀 날짜별 테이블 날짜 색상 강제 적용 */
+        .all-teams-table td.date-cell.weekend-date,
+        .all-teams-table td.date-cell.holiday-date {
+            color: #dc2626 !important;
+            font-weight: var(--font-weight-semibold) !important;
+        }
+        
+        .all-teams-table td.date-cell.weekday-date {
+            color: #1f2937 !important;
+            font-weight: var(--font-weight-medium) !important;
+        }
+
+        /* 공휴일명 스타일링 */
+        .all-teams-table td.date-cell small {
+            font-size: var(--font-3xs) !important;
+            color: #dc2626 !important;
+            font-weight: var(--font-weight-medium) !important;
+            display: block;
+            margin-top: 2px;
         }
 
         .opponent-cell {
@@ -4280,10 +4345,21 @@
                     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
                     const dayName = dayNames[dayOfWeek];
                     
-                    // 공휴일 정보 추가
-                    const holidayInfo = getHolidayInfo(game.date);
-                    const displayDate = game.date + holidayInfo + ` (${dayName})`;
+                    // 공휴일 정보 및 날짜 형식 처리 (모바일 최적화)
                     const isHoliday = koreaHolidays2025[game.date];
+                    const holidayName = isHoliday || '';
+                    
+                    // 날짜를 월/일 형식으로 변환
+                    const dateParts = game.date.split('-');
+                    const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                    
+                    // 공휴일이면 요일 아래 공휴일명, 아니면 요일만
+                    let displayDate;
+                    if (isHoliday) {
+                        displayDate = `${monthDay}<br>(${dayName})<br><small>${holidayName}</small>`;
+                    } else {
+                        displayDate = `${monthDay}<br>(${dayName})`;
+                    }
                     
                     // 날짜 클래스 결정 (공휴일 > 주말 > 평일 순서)
                     let dateClass = 'weekday-date';
@@ -4400,10 +4476,21 @@
                 const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
                 const dayName = dayNames[dayOfWeek];
                 
-                // 공휴일 정보 추가 (개별 팀과 동일)
-                const holidayInfo = getHolidayInfo(date);
-                const displayDate = date + holidayInfo + ` (${dayName})`;
+                // 공휴일 정보 및 날짜 형식 처리 (모바일 최적화)
                 const isHoliday = koreaHolidays2025[date];
+                const holidayName = isHoliday || '';
+                
+                // 날짜를 월/일 형식으로 변환
+                const dateParts = date.split('-');
+                const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                
+                // 공휴일이면 요일 아래 공휴일명, 아니면 요일만
+                let displayDate;
+                if (isHoliday) {
+                    displayDate = `${monthDay}<br>(${dayName})<br><small>${holidayName}</small>`;
+                } else {
+                    displayDate = `${monthDay}<br>(${dayName})`;
+                }
                 
                 // 날짜 클래스 결정 (개별 팀과 동일)
                 let dateClass = 'weekday-date';
@@ -4415,7 +4502,7 @@
                 
                 html += `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td class="date-cell ${dateClass}" style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f8f9fa; font-weight: var(--font-weight-semibold);">
+                    <td class="date-cell ${dateClass}" style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f8f9fa;">
                         ${displayDate}
                     </td>`;
                 
