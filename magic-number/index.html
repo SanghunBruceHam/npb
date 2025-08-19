@@ -693,6 +693,90 @@
                     </script>
                 </div>
 
+                <!-- 팀 순위 테이블 -->
+                <div class="card" id="standings">
+                    <h2>📊 팀 순위표</h2>
+                    <div class="table-container">
+                        <table id="standings-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable-header" data-sort="rank" onclick="sortTable('standings', 'rank')">
+                                        순위 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th>팀명</th>
+                                    <th class="sortable-header" data-sort="games" onclick="sortTable('standings', 'games')">
+                                        경기 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="wins" onclick="sortTable('standings', 'wins')">
+                                        승 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="losses" onclick="sortTable('standings', 'losses')">
+                                        패 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="draws" onclick="sortTable('standings', 'draws')">
+                                        무 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="winLossMargin" onclick="sortTable('standings', 'winLossMargin')">
+                                        승패마진 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="winPct" onclick="sortTable('standings', 'winPct')">
+                                        승률 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th>홈</th>
+                                    <th>방문</th>
+                                    <th class="sortable-header" data-sort="gamesBehind" onclick="sortTable('standings', 'gamesBehind')">
+                                        게임차 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th>잔여경기</th>
+                                    <th class="sortable-header" data-sort="recent10" onclick="sortTable('standings', 'recent10')">
+                                        최근10경기 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="streak" onclick="sortTable('standings', 'streak')">
+                                        연속 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="magic" onclick="sortTable('standings', 'magic')">
+                                        매직넘버 <span class="sort-arrow">↕</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 팀 순위표 설명카드 -->
+                    <div class="standings-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #1a237e; font-size: 13px;">
+                        <h4 style="margin: 0 0 10px 0; color: #1a237e; font-weight: 600; font-size: 14px;">📊 팀 순위표 가이드</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                            <div>
+                                <strong style="color: #1a237e; font-size: 13px;">📈 승패마진:</strong> <span style="font-size: 12px;">2위와 승수 차이</span><br>
+                                <strong style="color: #1a237e; font-size: 13px;">🏠 홈:</strong> <span style="font-size: 12px;">홈경기 승률</span><br>
+                                <strong style="color: #1a237e; font-size: 13px;">✈️ 방문:</strong> <span style="font-size: 12px;">원정경기 승률</span><br>
+                                <strong style="color: #1a237e; font-size: 13px;">📊 최근10:</strong> <span style="font-size: 12px;">최근 10경기 전적</span>
+                            </div>
+                            <div>
+                                <strong style="color: #1a237e; font-size: 13px;">🔥 연속:</strong> <span style="font-size: 12px;">현재 연승/연패 기록</span><br>
+                                <strong style="color: #1a237e; font-size: 13px;">✨ 매직:</strong> <span style="font-size: 12px;">우승 확정 필요 승수</span><br>
+                                <strong style="color: #16a34a; font-size: 12px;">초록:</strong> <span style="font-size: 11px;">높은 승률 (60%+)</span><br>
+                                <strong style="color: #dc2626; font-size: 12px;">빨강:</strong> <span style="font-size: 11px;">낮은 승률 (40% 미만)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 광고 (standings → rank-chart 사이) -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="7298546648"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
                 <!-- 순위 변동 그래프 -->
                 <div class="card" id="rank-chart-section" style="margin-bottom: 30px;">
                     <h2>📈 순위 변동 추이</h2>
@@ -790,90 +874,6 @@
                         </div>
                         <div style="margin-top: 8px; font-size: 11px; color: #666;">
                             📌 팀명 순서는 현재 순위 기준 고정, 마우스 오버로 날짜별 순위 확인
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 광고: 순위 변동 그래프 섹션 하단 -->
-                <div style="text-align: center; margin: 30px 0;">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-5508768187151867"
-                         data-ad-slot="7298546648"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-                
-                <!-- 팀 순위 테이블 -->
-                <div class="card" id="standings">
-                    <h2>📊 팀 순위표</h2>
-                    <div class="table-container">
-                        <table id="standings-table">
-                            <thead>
-                                <tr>
-                                    <th class="sortable-header" data-sort="rank" onclick="sortTable('standings', 'rank')">
-                                        순위 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th>팀명</th>
-                                    <th class="sortable-header" data-sort="games" onclick="sortTable('standings', 'games')">
-                                        경기 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="wins" onclick="sortTable('standings', 'wins')">
-                                        승 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="losses" onclick="sortTable('standings', 'losses')">
-                                        패 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="draws" onclick="sortTable('standings', 'draws')">
-                                        무 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="winLossMargin" onclick="sortTable('standings', 'winLossMargin')">
-                                        승패마진 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="winPct" onclick="sortTable('standings', 'winPct')">
-                                        승률 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th>홈</th>
-                                    <th>방문</th>
-                                    <th class="sortable-header" data-sort="gamesBehind" onclick="sortTable('standings', 'gamesBehind')">
-                                        게임차 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th>잔여경기</th>
-                                    <th class="sortable-header" data-sort="recent10" onclick="sortTable('standings', 'recent10')">
-                                        최근10경기 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="streak" onclick="sortTable('standings', 'streak')">
-                                        연속 <span class="sort-arrow">↕</span>
-                                    </th>
-                                    <th class="sortable-header" data-sort="magic" onclick="sortTable('standings', 'magic')">
-                                        매직넘버 <span class="sort-arrow">↕</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- 팀 순위표 설명카드 -->
-                    <div class="standings-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #1a237e; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #1a237e; font-weight: 600; font-size: 14px;">📊 팀 순위표 가이드</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
-                            <div>
-                                <strong style="color: #1a237e; font-size: 13px;">📈 승패마진:</strong> <span style="font-size: 12px;">2위와 승수 차이</span><br>
-                                <strong style="color: #1a237e; font-size: 13px;">🏠 홈:</strong> <span style="font-size: 12px;">홈경기 승률</span><br>
-                                <strong style="color: #1a237e; font-size: 13px;">✈️ 방문:</strong> <span style="font-size: 12px;">원정경기 승률</span><br>
-                                <strong style="color: #1a237e; font-size: 13px;">📊 최근10:</strong> <span style="font-size: 12px;">최근 10경기 전적</span>
-                            </div>
-                            <div>
-                                <strong style="color: #1a237e; font-size: 13px;">🔥 연속:</strong> <span style="font-size: 12px;">현재 연승/연패 기록</span><br>
-                                <strong style="color: #1a237e; font-size: 13px;">✨ 매직:</strong> <span style="font-size: 12px;">우승 확정 필요 승수</span><br>
-                                <strong style="color: #16a34a; font-size: 12px;">초록:</strong> <span style="font-size: 11px;">높은 승률 (60%+)</span><br>
-                                <strong style="color: #dc2626; font-size: 12px;">빨강:</strong> <span style="font-size: 11px;">낮은 승률 (40% 미만)</span>
-                            </div>
                         </div>
                     </div>
                 </div>
