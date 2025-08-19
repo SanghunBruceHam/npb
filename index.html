@@ -3407,11 +3407,16 @@
                 <span class="card-icon">📅</span>
                 <h2 class="card-title">팀간 잔여경기수</h2>
             </div>
+            <div class="table-container">
+                <div id="remainingGamesContent">
+                    <!-- 동적으로 생성 -->
+                </div>
+            </div>
             
-            <!-- 범례를 테이블 위로 이동 -->
-            <div class="legend" style="margin-bottom: 15px;">
+            <!-- 범례를 테이블 아래로 이동 (다른 섹션과 일관성) -->
+            <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
                 <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📊 잔여경기수 범례</div>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: var(--font-sm);">
+                <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                     <div style="display: flex; align-items: center; gap: 6px;">
                         <div style="width: 20px; height: 20px; background: rgba(156, 163, 175, 0.6); border-radius: 3px;"></div>
                         <span>0경기 (경기 종료)</span>
@@ -3431,12 +3436,6 @@
                 </div>
                 <div style="font-size: var(--font-xs); color: #6c757d; margin-top: 8px;">
                     * KBO 정규시즌: 각 팀당 총 16경기 (홈 8경기, 원정 8경기)
-                </div>
-            </div>
-            
-            <div class="table-container">
-                <div id="remainingGamesContent">
-                    <!-- 동적으로 생성 -->
                 </div>
             </div>
         </div>
