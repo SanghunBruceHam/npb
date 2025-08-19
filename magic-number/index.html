@@ -299,6 +299,7 @@
             <a href="javascript:void(0)" class="nav-item" onclick="smoothScrollTo('chase')">🎯 1위 탈환</a>
             <a href="javascript:void(0)" class="nav-item" onclick="smoothScrollTo('playoff')">🏟️ 플레이오프</a>
             <a href="javascript:void(0)" class="nav-item" onclick="smoothScrollTo('standings')">📊 팀 순위표</a>
+            <a href="javascript:void(0)" class="nav-item" onclick="smoothScrollTo('rank-chart-section')">📈 순위 변동</a>
             <a href="javascript:void(0)" class="nav-item" onclick="smoothScrollTo('vs-records')">⚔️ 상대전적</a>
             <a href="javascript:void(0)" class="nav-item" onclick="smoothScrollTo('remaining')">📅 잔여경기</a>
         </div>
@@ -695,15 +696,115 @@
                 <!-- 순위 변동 그래프 -->
                 <div class="card" id="rank-chart-section" style="margin-bottom: 30px;">
                     <h2>📈 순위 변동 추이</h2>
-                    <div style="position: relative; height: 400px; padding: 20px 10px;">
+                    
+                    <!-- 그래프 네비게이션 -->
+                    <div class="chart-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                        <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
+                            background: #4CAF50; 
+                            color: white; 
+                            border: none; 
+                            padding: 8px 16px; 
+                            border-radius: 6px; 
+                            cursor: pointer;
+                            font-size: 14px;
+                            transition: all 0.3s ease;
+                        ">← 이전 30일</button>
+                        
+                        <!-- 토글 버튼 (기간 정보 + 모드 전환) -->
+                        <button id="periodToggle" onclick="handlePeriodToggle()" style="
+                            background: linear-gradient(135deg, #28a745, #34ce57);
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            font-weight: 600;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+                            min-width: 220px;
+                        " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(40, 167, 69, 0.4)'" 
+                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(40, 167, 69, 0.3)'">
+                            📊 전체 시즌 보기
+                        </button>
+                        
+                        <button id="nextPeriod" class="nav-btn" onclick="handleNextPeriod()" style="
+                            background: #4CAF50; 
+                            color: white; 
+                            border: none; 
+                            padding: 8px 16px; 
+                            border-radius: 6px; 
+                            cursor: pointer;
+                            font-size: 14px;
+                            transition: all 0.3s ease;
+                        ">다음 30일 →</button>
+                    </div>
+                    
+                    <!-- 현재 기간 텍스트 (30일 단위 모드에서만) -->
+                    <div id="currentPeriodText" style="
+                        text-align: center;
+                        margin: 0;
+                        height: 25px;
+                        font-size: 13px;
+                        color: #666;
+                        font-weight: 500;
+                        line-height: 25px;
+                        visibility: hidden;
+                    ">
+                        현재 보는 기간: -
+                    </div>
+                    
+                    <!-- 진행 인디케이터 -->
+                    <div class="progress-indicator" style="
+                        display: flex; 
+                        justify-content: center; 
+                        margin-bottom: 15px;
+                        gap: 4px;
+                    " id="progressDots"></div>
+                    
+                    <div style="position: relative; height: 400px; padding: 20px 10px; min-height: 400px; max-height: 400px;">
                         <canvas id="rankChart"></canvas>
                     </div>
-                    <div class="legend-text" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #FF6B35;">
-                        <p style="margin: 0; font-size: 0.9em; color: #666;">
-                            📅 8월 6일부터 현재까지의 순위 변동 추이를 보여줍니다.<br>
-                            🏆 빨간 선은 5위 경계선으로 플레이오프 진출 기준입니다.
-                        </p>
+                    
+                    
+                    <div class="legend-text" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 40px; border-left: 4px solid #FF6B35;">
+                        <h4 style="margin: 0 0 15px 0; color: #FF6B35; font-weight: 600;">📈 순위 변동 그래프 이용 가이드</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            <div>
+                                <strong style="color: #2d3748;">📊 데이터 정보</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px; line-height: 1.6;">
+                                    <li><strong>기간:</strong> 2025년 3월 22일 개막부터 현재까지 실제 경기 결과 기반</li>
+                                    <li><strong>순위 계산:</strong> 각 날짜별 누적 승률과 승차로 산정된 실제 순위</li>
+                                    <li><strong>플레이오프 기준:</strong> 빨간 선(5.5위)이 플레이오프 진출 경계선</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: #2d3748;">🎮 조작 방법</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px; line-height: 1.6;">
+                                    <li><strong>← 이전 30일 / 다음 30일 →:</strong> 30일 단위로 기간 탐색</li>
+                                    <li><strong>📊 전체 시즌 보기:</strong> 전체 시즌과 30일 단위 보기 전환</li>
+                                    <li><strong>팀 로고 클릭:</strong> 특정 팀 라인 숨기기/표시하기</li>
+                                    <li><strong>차트 마우스 오버:</strong> 해당 날짜의 전체 팀 순위표 표시</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            📌 안내: 팀명 순서는 현재 순위 기준으로 고정되어 모든 기간에서 동일하게 표시됩니다. 차트 위에 마우스를 올리면 "1위: 팀명" 형태로 해당 날짜의 순위표를 확인할 수 있습니다.
+                        </div>
                     </div>
+                </div>
+
+                <!-- 광고: 순위 변동 그래프 섹션 하단 -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="7298546648"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
                 
                 <!-- 팀 순위 테이블 -->
@@ -1034,8 +1135,11 @@
     <script src="js/script.js"></script>
     
     <!-- 순위 변동 그래프 -->
-    <script src="js/rank-chart.js"></script>
-    <script>
+    <!-- <script src="js/season-rank-generator.js"></script>
+    <script src="js/scrollable-chart.js"></script>
+    <script src="js/rank-chart.js"></script> -->
+    <script src="js/simple-chart.js"></script>
+    <!-- <script>
         // 페이지 로드 후 그래프 초기화
         document.addEventListener('DOMContentLoaded', function() {
             // 데이터 로드 후 그래프 초기화
@@ -1045,7 +1149,7 @@
                 }
             }, 500);
         });
-    </script>
+    </script> -->
 
 
     <!-- 탑으로 가기 버튼 -->

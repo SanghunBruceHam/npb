@@ -2792,16 +2792,17 @@
 
         .nav-item {
             white-space: nowrap;
-            padding: 8px 14px 8px 8px;
-            font-size: var(--font-md);
+            padding: 8px 0;
+            font-size: var(--font-base);
             font-weight: var(--font-weight-medium);
             color: #4a5568;
             text-decoration: none;
             border-radius: 6px;
             transition: all 0.3s ease;
             border: 1px solid transparent;
-            text-align: left;
-            min-width: 80px;
+            text-align: center;
+            min-width: 90px;
+            display: inline-block;
         }
 
         .nav-item:hover {
@@ -3062,12 +3063,13 @@
                 <div class="nav-menu">
                     <a href="#season-progress" class="nav-item">📈 진행률</a>
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
+                    <a href="#rank-chart-section" class="nav-item">📈 순위변동</a>
                     <a href="#pythagorean" class="nav-item">📊 피타고리안</a>
                     <a href="#clutch" class="nav-item">⚾ 클러치</a>
                     <a href="#homeaway" class="nav-item">🏠 홈/원정</a>
                     <a href="#matrix" class="nav-item">📋 상대전적</a>
-                    <a href="#remaining-games" class="nav-item">🔢 잔여경기</a>
-                    <a href="#monthly" class="nav-item">📅 월별성적</a>
+                    <a href="#remaining-games" class="nav-item">🔢 팀별잔여</a>
+                    <a href="#monthly" class="nav-item">📅 월별</a>
                     <a href="#weekday" class="nav-item">📆 요일별</a>
                     <a href="#weekly" class="nav-item">📈 주차별</a>
                     <a href="#gamerecords" class="nav-item">🎮 게임기록</a>
@@ -3226,7 +3228,140 @@
         </div>
 
 
-        <!-- 2. 피타고리안 & 운 분석 -->
+        <!-- 2. 순위 변동 그래프 -->
+        <div class="card" id="rank-chart-section" style="margin-bottom: 30px;">
+            <div class="card-header">
+                <span class="card-icon">📈</span>
+                <h2 class="card-title">순위 변동 추이</h2>
+            </div>
+            
+            <!-- 그래프 네비게이션 -->
+            <div class="chart-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
+                    background: #4CAF50; 
+                    color: white; 
+                    border: none; 
+                    padding: 8px 16px; 
+                    border-radius: 6px; 
+                    cursor: pointer;
+                    font-size: 14px;
+                    transition: all 0.3s ease;
+                ">← 이전 30일</button>
+                
+                <!-- 토글 버튼 (기간 정보 + 모드 전환) -->
+                <button id="periodToggle" onclick="handlePeriodToggle()" style="
+                    background: linear-gradient(135deg, #28a745, #34ce57);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+                    min-width: 220px;
+                " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(40, 167, 69, 0.4)'" 
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(40, 167, 69, 0.3)'">
+                    📊 전체 시즌 보기
+                </button>
+                
+                <button id="nextPeriod" class="nav-btn" onclick="handleNextPeriod()" style="
+                    background: #4CAF50; 
+                    color: white; 
+                    border: none; 
+                    padding: 8px 16px; 
+                    border-radius: 6px; 
+                    cursor: pointer;
+                    font-size: 14px;
+                    transition: all 0.3s ease;
+                ">다음 30일 →</button>
+            </div>
+            
+            <!-- 현재 기간 텍스트 (30일 단위 모드에서만) -->
+            <div id="currentPeriodText" style="
+                text-align: center;
+                margin: 0;
+                height: 25px;
+                font-size: 13px;
+                color: #666;
+                font-weight: 500;
+                line-height: 25px;
+                visibility: hidden;
+            ">
+                현재 보는 기간: -
+            </div>
+            
+            <!-- 진행 인디케이터 -->
+            <div class="progress-indicator" style="
+                display: flex; 
+                justify-content: center; 
+                margin-bottom: 15px;
+                gap: 4px;
+            " id="progressDots"></div>
+            
+            <div style="position: relative; height: 400px; padding: 20px 10px; min-height: 400px; max-height: 400px;">
+                <canvas id="rankChart"></canvas>
+            </div>
+            
+            <div class="data-description" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; margin-top: 20px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                <h3 style="margin: 0 0 16px 0; color: var(--text-primary); font-size: var(--font-lg); font-weight: var(--font-weight-semibold); display: flex; align-items: center; gap: 8px;">
+                    <span style="color: #FF6B35; font-size: var(--font-xl);">📈</span>
+                    순위 변동 그래프 이용 가이드
+                </h3>
+                <div class="description-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: var(--font-base); font-weight: var(--font-weight-semibold); display: flex; align-items: center; gap: 6px;">
+                            <span style="color: #3B82F6;">📊</span> 데이터 정보
+                        </h4>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
+                            <strong style="color: var(--text-primary);">기간:</strong> 2025년 3월 22일 개막부터 현재까지 실제 경기 결과 기반
+                        </div>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
+                            <strong style="color: var(--text-primary);">순위 계산:</strong> 각 날짜별 누적 승률과 승차로 산정된 실제 순위
+                        </div>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6;">
+                            <strong style="color: var(--text-primary);">플레이오프 기준:</strong> 빨간 선(5.5위)이 플레이오프 진출 경계선
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: var(--font-base); font-weight: var(--font-weight-semibold); display: flex; align-items: center; gap: 6px;">
+                            <span style="color: #10B981;">🎮</span> 조작 방법
+                        </h4>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
+                            <strong style="color: var(--text-primary);">← 이전 30일 / 다음 30일 →:</strong> 30일 단위로 기간 탐색
+                        </div>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
+                            <strong style="color: var(--text-primary);">📊 전체 시즌 보기:</strong> 전체 시즌과 30일 단위 보기 전환
+                        </div>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
+                            <strong style="color: var(--text-primary);">팀 로고 클릭:</strong> 특정 팀 라인 숨기기/표시하기
+                        </div>
+                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6;">
+                            <strong style="color: var(--text-primary);">차트 마우스 오버:</strong> 해당 날짜의 전체 팀 순위표 표시
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: var(--font-xs); color: var(--text-muted); text-align: center;">
+                    💡 <strong>팁:</strong> 팀명 순서는 현재 순위 기준으로 고정되어 모든 기간에서 동일하게 표시됩니다. 차트 위에 마우스를 올리면 해당 날짜의 순위표를 확인할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- 광고: 순위 변동 그래프 섹션 하단 -->
+        <div style="text-align: center; margin: 30px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5508768187151867"
+                 data-ad-slot="7298546648"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- 3. 피타고리안 & 운 분석 -->
         <div class="card" id="pythagorean">
             <div class="card-header">
                 <span class="card-icon">⚡</span>
@@ -6933,7 +7068,133 @@
                 });
             });
         });
+
+        // 네비게이션 스크롤 및 활성화 관리
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.card[id]');
+            
+            // 네비게이션 아이템 클릭 처리
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        
+                        if (targetElement) {
+                            // 부드럽게 스크롤
+                            targetElement.scrollIntoView({ 
+                                behavior: 'smooth', 
+                                block: 'start' 
+                            });
+                            
+                            // 활성화된 네비 아이템 업데이트
+                            updateActiveNavItem(this);
+                        } else {
+                            // 해당 섹션이 없으면 가장 가까운 섹션으로 이동
+                            const fallbackSection = findClosestSection(targetId);
+                            if (fallbackSection) {
+                                fallbackSection.scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'start' 
+                                });
+                                // 해당하는 네비 아이템으로 업데이트
+                                const fallbackNavItem = document.querySelector(`a[href="#${fallbackSection.id}"]`);
+                                if (fallbackNavItem) {
+                                    updateActiveNavItem(fallbackNavItem);
+                                }
+                            }
+                        }
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            // 활성화된 네비게이션 아이템 업데이트 함수
+            function updateActiveNavItem(activeItem) {
+                navItems.forEach(item => item.classList.remove('active'));
+                activeItem.classList.add('active');
+                
+                // 활성화된 아이템이 네비게이션 영역에 보이도록 스크롤
+                scrollNavToActiveItem(activeItem);
+            }
+            
+            // 네비게이션을 활성화된 아이템이 보이도록 스크롤
+            function scrollNavToActiveItem(activeItem) {
+                const navContainer = document.querySelector('.nav-menu');
+                if (navContainer && activeItem) {
+                    const containerRect = navContainer.getBoundingClientRect();
+                    const itemRect = activeItem.getBoundingClientRect();
+                    
+                    // 아이템이 컨테이너 영역을 벗어났는지 확인
+                    const isItemVisible = itemRect.left >= containerRect.left && 
+                                        itemRect.right <= containerRect.right;
+                    
+                    if (!isItemVisible) {
+                        // 아이템을 중앙에 위치시키도록 스크롤
+                        const scrollLeft = activeItem.offsetLeft - 
+                                         (navContainer.clientWidth / 2) + 
+                                         (activeItem.clientWidth / 2);
+                        
+                        navContainer.scrollTo({
+                            left: scrollLeft,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+            
+            // 가장 가까운 섹션 찾기
+            function findClosestSection(targetId) {
+                const sectionMapping = {
+                    'gamerecords': 'teamdetail',
+                    'weekday': 'monthly', 
+                    'weekly': 'monthly'
+                };
+                
+                const fallbackId = sectionMapping[targetId];
+                return fallbackId ? document.getElementById(fallbackId) : sections[0];
+            }
+            
+            // 스크롤 시 활성화된 섹션 감지
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const activeNavItem = document.querySelector(`a[href="#${entry.target.id}"]`);
+                            if (activeNavItem) {
+                                updateActiveNavItem(activeNavItem);
+                            }
+                        }
+                    });
+                },
+                { rootMargin: '-50% 0px -50% 0px' }
+            );
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
     </script>
+
+    <!-- Chart.js 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 순위 변동 그래프 - 데이터 경로 오버라이드 -->
+    <script>
+        // root index용 데이터 경로 수정
+        const originalFetch = window.fetch;
+        window.fetch = function(url, ...args) {
+            if (url === 'data/game-by-game-records.json') {
+                // magic-number 폴더 경로로 변경
+                url = 'magic-number/data/game-by-game-records.json';
+                console.log('데이터 경로 변경:', url);
+            }
+            return originalFetch(url, ...args);
+        };
+    </script>
+    <script src="magic-number/js/simple-chart.js"></script>
 
 </body>
 </html>
