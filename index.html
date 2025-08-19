@@ -30,12 +30,10 @@
     <meta name="twitter:image" content="https://sanghunbruceham.github.io/kbo/images/kbo-dashboard-preview.png">
     
     <!-- 파비콘 및 앱 아이콘 -->
-    <link rel="icon" type="image/png" sizes="32x32" href="magic-number/icons/kbo-magic-number-icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="magic-number/icons/kbo-magic-number-icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="magic-number/icons/kbo-magic-number-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/kbo-main-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/kbo-main-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/kbo-main-icon.png">
     
-    <!-- PWA 매니페스트 -->
-    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     
     <!-- DNS 프리페치 -->
@@ -52,10 +50,11 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
     
     <!-- 성능 최적화 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preload" href="magic-number/data/enhanced-dashboard.json" as="fetch" crossorigin>
     
@@ -254,6 +253,8 @@
             --font-2xl: 1.5rem;    /* 중제목 */
             --font-3xl: 2rem;      /* 대제목 */
             --font-4xl: 2.5rem;    /* 메인 제목 */
+            --rank-col: 50px;       /* 순위 열 고정 너비 */
+            --team-col: 80px;       /* 팀명 열 고정 너비(기본) */
             
             /* 폰트 패밀리 시스템 */
             --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -615,9 +616,9 @@
 
         /* 순위 열 스타일 */
         .detail-table th:first-child {
-            width: 50px;
-            min-width: 50px;
-            max-width: 50px;
+            width: var(--rank-col);
+            min-width: var(--rank-col);
+            max-width: var(--rank-col);
         }
         
         /* 순위 셀 통일된 스타일 */
@@ -629,9 +630,9 @@
         }
         
         .detail-table td:first-child {
-            width: 50px;
-            min-width: 50px;
-            max-width: 50px;
+            width: var(--rank-col);
+            min-width: var(--rank-col);
+            max-width: var(--rank-col);
             font-weight: var(--font-weight-bold);
             text-align: center;
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
@@ -1348,11 +1349,6 @@
             font-weight: var(--font-weight-bold);
             margin-left: auto;
         }
-            padding: 25px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
 
         .performance-item:hover {
             transform: translateY(-2px);
@@ -1537,7 +1533,7 @@
                 background: #34495e !important;
                 color: white !important;
                 border-right: 2px solid #495057 !important;
-                min-width: 50px !important;
+                min-width: var(--rank-col) !important;
             }
             
             .detail-table:not(#monthlyTable):not(#stadiumTable) tbody td:first-child,
@@ -1550,39 +1546,39 @@
                 color: #495057 !important;
                 border-right: 2px solid #dee2e6 !important;
                 font-weight: bold !important;
-                min-width: 50px !important;
+                min-width: var(--rank-col) !important;
             }
 
             /* 두 번째 컬럼 (팀명) 고정 - 순위+팀명이 있는 테이블만 */
             .detail-table:not(#monthlyTable):not(#stadiumTable) thead th:nth-child(2),
             .full-standings-table thead th:nth-child(2) {
                 position: sticky !important;
-                left: 50px !important;
+                left: var(--rank-col) !important;
                 z-index: 11 !important;
                 background: #34495e !important;
                 color: white !important;
                 border-right: 2px solid #495057 !important;
                 box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
-                min-width: 80px !important;
+                min-width: var(--team-col) !important;
             }
             
             .detail-table:not(#monthlyTable):not(#stadiumTable) tbody td:nth-child(2),
             .full-standings-table tbody td:nth-child(2) {
                 position: sticky !important;
-                left: 50px !important;
+                left: var(--rank-col) !important;
                 z-index: 10 !important;
                 background: white !important;
                 color: #495057 !important;
                 border-right: 2px solid #dee2e6 !important;
                 box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
                 font-weight: 600 !important;
-                min-width: 80px !important;
+                min-width: var(--team-col) !important;
             }
 
             /* 요일별 테이블 팀명 셀 너비 축소 */
             #weekdayTable thead th:nth-child(2) {
                 position: sticky !important;
-                left: 50px !important;
+                left: var(--rank-col) !important;
                 z-index: 11 !important;
                 background: #34495e !important;
                 color: white !important;
@@ -1593,7 +1589,7 @@
             
             #weekdayTable tbody td:nth-child(2) {
                 position: sticky !important;
-                left: 50px !important;
+                left: var(--rank-col) !important;
                 z-index: 10 !important;
                 background: white !important;
                 color: #495057 !important;
