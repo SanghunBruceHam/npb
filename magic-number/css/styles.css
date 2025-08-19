@@ -2172,7 +2172,7 @@ input, textarea, select, button {
     }
     
     .vs-grid > div {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         padding: 6px 4px !important;
         min-height: 50px !important;
         line-height: 1.2;
@@ -2195,11 +2195,11 @@ input, textarea, select, button {
         max-width: 90px !important;
     }
     .vs-header {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         font-weight: 600;
     }
     .vs-team {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
     }
     /* 모바일 안내 메시지 표시 */
     .mobile-notice {
@@ -2405,7 +2405,7 @@ input, textarea, select, button {
     }
     /* 상대전적 테이블 더 축소 */
     .vs-grid > div {
-        font-size: 0.7rem !important;
+        font-size: 0.75rem !important;
         padding: 3px 1px !important;
         min-height: 40px !important;
         min-width: 105px !important;
@@ -2547,7 +2547,7 @@ input, textarea, select, button {
     }
     
     .vs-grid > div {
-        font-size: 0.75rem !important;
+        font-size: 0.8rem !important;
         padding: 4px 2px !important;
         min-height: 45px !important;
         min-width: 105px !important;
@@ -2564,7 +2564,7 @@ input, textarea, select, button {
     }
     
     .vs-header, .vs-team {
-        font-size: 0.7rem !important;
+        font-size: 0.75rem !important;
     }
     /* 네비게이션 패딩 축소 */
     .nav-item {
