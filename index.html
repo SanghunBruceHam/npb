@@ -384,6 +384,24 @@
             .container {
                 max-width: 1300px;
             }
+            
+            /* PC에서 날짜를 한 줄로 표시 */
+            .date-cell br {
+                display: none;
+            }
+            
+            .date-cell .date-main {
+                margin-right: 6px;
+            }
+            
+            .date-cell .date-day {
+                margin-right: 6px;
+            }
+            
+            .date-cell .date-time,
+            .date-cell .date-holiday {
+                margin-left: 6px;
+            }
         }
 
         .wide-card {
@@ -3068,7 +3086,7 @@
                     <a href="#clutch" class="nav-item">⚾ 클러치</a>
                     <a href="#homeaway" class="nav-item">🏠 홈/원정</a>
                     <a href="#matrix" class="nav-item">📋 상대전적</a>
-                    <a href="#remaining-games" class="nav-item">🔢 팀별잔여</a>
+                    <a href="#remaining-games" class="nav-item">🔢 팀간잔여</a>
                     <a href="#monthly" class="nav-item">📅 월별</a>
                     <a href="#weekday" class="nav-item">📆 요일별</a>
                     <a href="#weekly" class="nav-item">📈 주차별</a>
@@ -3315,19 +3333,6 @@
                     <div><strong>팁:</strong> 차트에 마우스를 올리면 해당 날짜의 순위표를 볼 수 있습니다</div>
                 </div>
             </div>
-        </div>
-
-        <!-- 광고: 순위 변동 그래프 섹션 하단 -->
-        <div style="text-align: center; margin: 30px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-5508768187151867"
-                 data-ad-slot="7298546648"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
 
         <!-- 3. 피타고리안 & 운 분석 -->
@@ -3828,6 +3833,7 @@
         let dashboardData = null;
         let weeklyAnalysisData = null;
         let gameRecordsData = null;
+        let futureScheduleData = null;
         let currentSelectedTeam = '전체';
         
         // 승률에 따른 0.5 기준 그라데이션 함수
@@ -4092,6 +4098,121 @@
             }
         }
 
+        // 미래 경기 일정 데이터 로드
+        async function loadFutureScheduleData() {
+            try {
+                console.log('📅 미래 경기 일정 로드 시작...');
+                const response = await fetch('2025-season-schedule-complete.txt');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const scheduleText = await response.text();
+                const allScheduleData = parseScheduleText(scheduleText);
+                
+                // 오늘 날짜 기준으로 미래 경기만 필터링
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // 시간 부분 제거
+                
+                futureScheduleData = allScheduleData.filter(game => {
+                    const gameDate = new Date(game.date);
+                    return gameDate >= today;
+                });
+                
+                console.log('📅 전체 경기 일정:', allScheduleData.length, '경기');
+                console.log('📅 미래 경기 일정 로드 완료:', futureScheduleData.length, '경기');
+                
+            } catch (error) {
+                console.error('❌ 미래 경기 일정 로드 실패:', error);
+                futureScheduleData = [];
+            }
+        }
+
+        // 스케줄 텍스트 파싱 함수
+        function parseScheduleText(text) {
+            const lines = text.split('\n');
+            const games = [];
+            let currentDate = '';
+            
+            for (const line of lines) {
+                const trimmedLine = line.trim();
+                
+                // 빈 줄이나 경기 없음이나 대시(-) 건너뛰기
+                if (!trimmedLine || trimmedLine.includes('경기 없음') || trimmedLine === '-') {
+                    continue;
+                }
+                
+                // 날짜 라인 체크 (08.19(화) 또는 09.02(화) 형식)
+                const dateMatch = trimmedLine.match(/^(\d{2}\.\d{2})\([월화수목금토일]\)/);
+                if (dateMatch) {
+                    currentDate = '2025-' + dateMatch[1].replace('.', '-');
+                    
+                    // 같은 줄에 경기 정보가 있는지 체크 (9월 탭 형식)
+                    const parts = trimmedLine.split('\t').filter(p => p.trim());
+                    if (parts.length >= 4) {
+                        // 09.02(화) 18:30 대전 KIA vs 한화 형식
+                        const time = parts[1].trim();
+                        const stadium = parts[2].trim();
+                        const teams = parts[3].trim();
+                        
+                        const teamMatch = teams.match(/^(\S+)\s+vs\s+(\S+)$/);
+                        if (teamMatch && time.match(/^\d{2}:\d{2}$/)) {
+                            const [, awayTeam, homeTeam] = teamMatch;
+                            games.push({
+                                date: currentDate,
+                                time: time,
+                                stadium: stadium,
+                                homeTeam: homeTeam,
+                                awayTeam: awayTeam
+                            });
+                        }
+                    }
+                    continue;
+                }
+                
+                // 경기만 있는 줄 체크
+                if (currentDate) {
+                    // 8월 형식 (공백 구분): 18:30 잠실   롯데 vs LG
+                    const spaceGameMatch = trimmedLine.match(/^(\d{2}:\d{2})\s+(\S+)\s+(\S+)\s+vs\s+(\S+)$/);
+                    if (spaceGameMatch) {
+                        const [, time, stadium, awayTeam, homeTeam] = spaceGameMatch;
+                        games.push({
+                            date: currentDate,
+                            time: time,
+                            stadium: stadium,
+                            homeTeam: homeTeam,
+                            awayTeam: awayTeam
+                        });
+                        continue;
+                    }
+                    
+                    // 9월 형식 (탭 구분): \t18:30\t대전\tKIA vs 한화
+                    const tabParts = trimmedLine.split('\t').filter(p => p.trim());
+                    if (tabParts.length >= 3) {
+                        const time = tabParts[0].trim();
+                        const stadium = tabParts[1].trim();
+                        const teams = tabParts[2].trim();
+                        
+                        const teamMatch = teams.match(/^(\S+)\s+vs\s+(\S+)$/);
+                        if (teamMatch && time.match(/^\d{2}:\d{2}$/)) {
+                            const [, awayTeam, homeTeam] = teamMatch;
+                            games.push({
+                                date: currentDate,
+                                time: time,
+                                stadium: stadium,
+                                homeTeam: homeTeam,
+                                awayTeam: awayTeam
+                            });
+                        }
+                    }
+                }
+            }
+            
+            console.log(`파싱된 미래 경기: ${games.length}개`);
+            return games.filter(game => new Date(game.date) > new Date()); // 미래 경기만 필터링
+        }
+
         // 주차별 분석 데이터 로드
         async function loadWeeklyAnalysisData() {
             try {
@@ -4124,6 +4245,10 @@
                 
                 console.log('🎯 renderGameByGameTable 호출');
                 renderGameByGameTable();
+                
+                // 미래 경기 일정 로드
+                console.log('📅 미래 경기 일정 로드');
+                await loadFutureScheduleData();
                 
                 console.log('🎯 renderTeamDetailedRecords 호출');
                 renderTeamDetailedRecords();
@@ -4634,6 +4759,58 @@
                         </tr>`;
                 });
 
+                // 미래 경기 일정 추가
+                if (futureScheduleData && futureScheduleData.length > 0) {
+                    const teamFutureGames = futureScheduleData.filter(game => 
+                        game.homeTeam === currentSelectedTeam || game.awayTeam === currentSelectedTeam
+                    );
+                    
+                    if (teamFutureGames.length > 0) {
+                        // 구분선 추가
+                        html += `
+                            <tr style="background: #e9ecef; border-top: 2px solid #6c757d;">
+                                <td colspan="9" style="text-align: center; padding: 8px; font-weight: 600; color: #495057;">
+                                    📅 예정 경기 (${teamFutureGames.length}경기)
+                                </td>
+                            </tr>`;
+                        
+                        teamFutureGames.forEach((game, index) => {
+                            const isHome = game.homeTeam === currentSelectedTeam;
+                            const opponent = isHome ? game.awayTeam : game.homeTeam;
+                            
+                            // 날짜에서 요일 계산
+                            const gameDate = new Date(game.date);
+                            const dayOfWeek = gameDate.getDay();
+                            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                            const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+                            const dayName = dayNames[dayOfWeek];
+                            
+                            // 날짜를 월/일 형식으로 변환
+                            const dateParts = game.date.split('-');
+                            const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                            const displayDate = `<span class="date-main">${monthDay}</span><br><span class="date-day">(${dayName})</span><br><small class="date-time">${game.time}</small>`;
+                            
+                            // 미래 경기는 별도 스타일
+                            const dateClass = isWeekend ? 'weekend-date' : 'weekday-date';
+                            
+                            html += `
+                                <tr class="future-game-row" style="background: #f8f9fa; opacity: 0.8;">
+                                    <td class="game-num-cell" style="color: #6c757d;">-</td>
+                                    <td class="date-cell ${dateClass}">${displayDate}</td>
+                                    <td class="opponent-cell">${getTeamWithLogo(opponent)}</td>
+                                    <td class="venue-cell ${isHome ? 'home-venue' : 'away-venue'}">${isHome ? '홈' : '원정'}</td>
+                                    <td class="score-cell" style="color: #6c757d;">vs</td>
+                                    <td class="result-cell">
+                                        <span class="result-badge future" style="background: #6c757d; color: white;">예정</span>
+                                    </td>
+                                    <td class="runs-cell" style="color: #6c757d;">-</td>
+                                    <td class="runs-cell" style="color: #6c757d;">-</td>
+                                    <td class="diff-cell" style="color: #6c757d;">-</td>
+                                </tr>`;
+                        });
+                    }
+                }
+
                 html += `
                                 </tbody>
                             </table>
@@ -4643,10 +4820,11 @@
                         <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
                             <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📋 게임 기록 설명</div>
                             <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
-                                <div style="margin-bottom: 6px;"><strong>상대팀:</strong> 팀 로고와 함께 표시</div>
+                                <div style="margin-bottom: 6px;"><strong>경기 기록:</strong> 시즌 전체 경기 결과 (승부, 점수, 홈/원정 정보)</div>
+                                <div style="margin-bottom: 6px;"><strong>예정 경기:</strong> 선택한 팀의 남은 경기 일정 (날짜, 시간, 상대팀)</div>
                                 <div style="margin-bottom: 6px;"><strong>홈/원정:</strong> <span style="color: #2563eb; font-weight: var(--font-weight-semibold);">홈</span> (파란색), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">원정</span> (빨간색)</div>
                                 <div style="margin-bottom: 6px;"><strong>날짜:</strong> <span style="color: #1f2937;">평일</span> (검은색), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">주말</span> (빨간색)</div>
-                                <div><strong>결과:</strong> 승리/패배/무승부에 따른 행 색상 구분</div>
+                                <div><strong>구분:</strong> 과거 경기는 승부 결과별 색상, 예정 경기는 회색 배경으로 표시</div>
                             </div>
                         </div>
                     </div>
@@ -4739,9 +4917,9 @@
                 // 공휴일이면 요일 아래 공휴일명, 아니면 요일만
                 let displayDate;
                 if (isHoliday) {
-                    displayDate = `${monthDay}<br>(${dayName})<br><small>${holidayName}</small>`;
+                    displayDate = `<span class="date-main">${monthDay}</span><br><span class="date-day">(${dayName})</span><br><small class="date-holiday">${holidayName}</small>`;
                 } else {
-                    displayDate = `${monthDay}<br>(${dayName})`;
+                    displayDate = `<span class="date-main">${monthDay}</span><br><span class="date-day">(${dayName})</span>`;
                 }
                 
                 // 날짜 클래스 결정 (개별 팀과 동일)
@@ -4789,6 +4967,83 @@
                 html += `</tr>`;
             });
             
+            // 미래 경기 일정 추가
+            if (futureScheduleData && futureScheduleData.length > 0) {
+                // 날짜별로 미래 경기 그룹화
+                const futureGamesByDate = {};
+                futureScheduleData.forEach(game => {
+                    if (!futureGamesByDate[game.date]) {
+                        futureGamesByDate[game.date] = [];
+                    }
+                    futureGamesByDate[game.date].push(game);
+                });
+                
+                const futureDates = Object.keys(futureGamesByDate).sort();
+                
+                if (futureDates.length > 0) {
+                    // 구분선 추가
+                    html += `
+                        <tr style="background: #e9ecef; border-top: 2px solid #6c757d;">
+                            <td colspan="${teams.length + 1}" style="text-align: center; padding: 8px; font-weight: 600; color: #495057;">
+                                📅 예정 경기 (${futureScheduleData.length}경기)
+                            </td>
+                        </tr>`;
+                    
+                    // 미래 경기 날짜별 행 생성
+                    futureDates.forEach(date => {
+                        const gameDate = new Date(date);
+                        const dayOfWeek = gameDate.getDay();
+                        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                        
+                        // 요일 이름 추가
+                        const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+                        const dayName = dayNames[dayOfWeek];
+                        
+                        // 날짜를 월/일 형식으로 변환
+                        const dateParts = date.split('-');
+                        const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                        const displayDate = `<span class="date-main">${monthDay}</span><br><span class="date-day">(${dayName})</span>`;
+                        
+                        // 미래 경기는 별도 스타일
+                        const dateClass = isWeekend ? 'weekend-date' : 'weekday-date';
+                        
+                        html += `
+                        <tr class="future-game-row" style="background: #f8f9fa; opacity: 0.8; border-bottom: 1px solid #e2e8f0;">
+                            <td class="date-cell ${dateClass}" style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f1f3f4;">
+                                ${displayDate}
+                            </td>`;
+                        
+                        // 각 팀별로 해당 날짜의 미래 경기 표시
+                        teams.forEach(team => {
+                            const teamFutureGames = futureGamesByDate[date] ? 
+                                futureGamesByDate[date].filter(game => 
+                                    game.homeTeam === team || game.awayTeam === team
+                                ) : [];
+                            
+                            if (teamFutureGames.length === 0) {
+                                html += `<td style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f9f9f9; color: #999;">-</td>`;
+                            } else {
+                                const gameResults = teamFutureGames.map(game => {
+                                    const isHome = game.homeTeam === team;
+                                    const opponent = isHome ? game.awayTeam : game.homeTeam;
+                                    const venueIcon = isHome ? '🏠' : '✈️';
+                                    const venueClass = isHome ? 'home-venue' : 'away-venue';
+                                    
+                                    return `<div class="future-game" style="margin: 1px 0; padding: 4px 5px; border-radius: 3px; background: #e9ecef; font-weight: var(--font-weight-semibold); font-size: var(--font-sm); line-height: 1.6; color: #6c757d;">
+                                        <span class="${venueClass}">${venueIcon}</span> vs ${opponent}<br>
+                                        <span class="result-badge future" style="background: #6c757d; color: white; padding: 1px 4px; border-radius: 3px; font-size: var(--font-xs);">예정</span> ${game.time}
+                                    </div>`;
+                                }).join('');
+                                
+                                html += `<td style="padding: 4px 2px; border: 1px solid #e2e8f0; text-align: center;">${gameResults}</td>`;
+                            }
+                        });
+                        
+                        html += `</tr>`;
+                    });
+                }
+            }
+            
             html += `
                         </tbody>
                     </table>
@@ -4796,13 +5051,14 @@
                 
                 <!-- 설명 (개별 팀과 동일한 스타일) -->
                 <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
-                    <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📊 전체 경기 결과 설명</div>
+                    <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📊 전체 경기 결과 & 일정 설명</div>
                     <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
+                        <div style="margin-bottom: 6px;"><strong>경기 기록:</strong> 전체 팀의 과거 경기 결과 (승부, 점수 포함)</div>
+                        <div style="margin-bottom: 6px;"><strong>예정 경기:</strong> 시즌 남은 모든 팀의 경기 일정 (시간 포함)</div>
                         <div style="margin-bottom: 6px;"><strong>날짜:</strong> <span style="color: #1f2937;">평일</span> (검은색), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">주말</span> (빨간색)</div>
                         <div style="margin-bottom: 6px;"><strong>홈/원정:</strong> <span style="color: #2563eb; font-weight: var(--font-weight-semibold);">🏠</span> (홈경기), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">✈️</span> (원정경기)</div>
-                        <div style="margin-bottom: 6px;"><strong>결과:</strong> <span style="color: #16a34a; font-weight: var(--font-weight-semibold);">승</span> (승리), <span style="color: #dc2626; font-weight: var(--font-weight-semibold);">패</span> (패배), <span style="color: #f59e0b; font-weight: var(--font-weight-semibold);">무</span> (무승부)</div>
-                        <div style="margin-bottom: 6px;"><strong>더블헤더:</strong> 하루에 2경기가 표시되는 경우</div>
-                        <div><strong>표시:</strong> 각 팀의 해당 날짜 경기 결과 (상대팀, 점수 포함)</div>
+                        <div style="margin-bottom: 6px;"><strong>구분:</strong> 과거 경기는 승부 결과별 색상, 예정 경기는 회색 배경으로 표시</div>
+                        <div><strong>표시:</strong> 각 팀의 해당 날짜 경기 정보 (상대팀, 점수/시간 포함)</div>
                     </div>
                 </div>
             </div>`;
