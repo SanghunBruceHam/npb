@@ -2750,6 +2750,7 @@ const kboTeams = {
         function updateActiveNav(activeId) {
             console.log('updateActiveNav 호출됨:', activeId);
             const navItems = document.querySelectorAll('.nav-item');
+            let activeNavItem = null;
             
             navItems.forEach(item => {
                 item.classList.remove('active');
@@ -2758,8 +2759,28 @@ const kboTeams = {
                 if (onclick && onclick.includes(`smoothScrollTo('${activeId}')`)) {
                     console.log('액티브 설정:', activeId);
                     item.classList.add('active');
+                    activeNavItem = item;
                 }
             });
+            
+            // 모바일에서 활성화된 네비게이션 아이템이 화면에 보이도록 스크롤
+            if (activeNavItem && window.innerWidth <= 768) {
+                const navMenu = document.querySelector('.nav-menu');
+                if (navMenu) {
+                    // 네비게이션 메뉴의 스크롤 위치 계산
+                    const navMenuRect = navMenu.getBoundingClientRect();
+                    const activeItemRect = activeNavItem.getBoundingClientRect();
+                    
+                    // 활성 아이템이 보이는 영역에 없다면 스크롤
+                    if (activeItemRect.left < navMenuRect.left || activeItemRect.right > navMenuRect.right) {
+                        activeNavItem.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'center'
+                        });
+                    }
+                }
+            }
         }
 
 
