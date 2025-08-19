@@ -1870,7 +1870,7 @@
                 max-height: 600px; /* 500px에서 600px로 증가 */
             }
             
-            /* 전체 팀 날짜별 테이블의 날짜 열 모바일 최적화 */
+            /* 전체 팀 날짜별 테이블의 날짜 열 모바일 최적화 + 상하좌우 스티키 */
             .all-teams-table th:first-child {
                 min-width: 70px !important;
                 max-width: 70px !important;
@@ -1880,6 +1880,15 @@
                 line-height: 1.2 !important;
                 padding: 6px 4px !important;
                 font-size: var(--font-2xs) !important;
+                /* 상하좌우 스티키 적용 */
+                position: sticky !important;
+                left: 0 !important;
+                top: 0 !important;
+                z-index: 100 !important;
+                background: #34495e !important;
+                color: white !important;
+                border-right: 2px solid #495057 !important;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1), 0 2px 5px rgba(0,0,0,0.1) !important;
             }
             
             .all-teams-table td:first-child {
@@ -1891,6 +1900,13 @@
                 line-height: 1.2 !important;
                 padding: 4px 3px !important;
                 font-size: var(--font-xs) !important;
+                /* 좌우 스티키 적용 (상하는 일반 스크롤) */
+                position: sticky !important;
+                left: 0 !important;
+                z-index: 10 !important;
+                background: #f8f9fa !important;
+                border-right: 2px solid #dee2e6 !important;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1) !important;
             }
             
             /* 날짜 색상 클래스 우선 적용 (주말/연휴 빨간색) */
