@@ -2164,7 +2164,7 @@ input, textarea, select, button {
     .vs-grid {
         gap: 1px;
         font-size: var(--text-xs);
-        grid-template-columns: 70px repeat(10, 70px);
+        grid-template-columns: 70px repeat(10, 85px);
         max-width: 100%;
         margin: 0 -10px;
         padding: 0 10px;
@@ -2176,7 +2176,7 @@ input, textarea, select, button {
         padding: 6px 4px !important;
         min-height: 50px !important;
         line-height: 1.2;
-        min-width: 70px;
+        min-width: 85px;
     }
     
     /* 모바일에서도 스티키 유지 */
