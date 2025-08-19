@@ -792,13 +792,26 @@
                     </div>
                     
                     <!-- 설명 섹션 -->
-                    <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
-                        <div style="font-size: var(--text-base); font-weight: 600; margin-bottom: 8px; color: #495057;">⚔️ 상대전적 설명</div>
-                        <div style="font-size: var(--text-sm); color: #6c757d; line-height: 1.5;">
-                            <div style="margin-bottom: 6px;"><strong>매트릭스 읽는 법:</strong> 세로축 팀이 가로축 팀과의 전적 (예: LG행-KIA열 = LG가 KIA와의 전적)</div>
-                            <div style="margin-bottom: 6px;"><strong>표시 형식:</strong> 전체전적(승률) / 🏠홈전적(홈승률) / ✈️원정전적(원정승률)</div>
-                            <div style="margin-bottom: 6px;"><strong>대각선 표시:</strong> 자기 자신과의 경기는 없으므로 회색으로 표시</div>
-                            <div><strong>색상 구분:</strong> <span style="color: #16a34a; font-weight: 600;">초록색(승률 0.500 초과, 우세)</span>, <span style="color: #eab308; font-weight: 600;">노란색(승률 정확히 0.500, 동등)</span>, <span style="color: #dc2626; font-weight: 600;">빨간색(승률 0.500 미만, 열세)</span>, <span style="color: #9ca3af; font-weight: 600;">회색(자기팀)</span></div>
+                    <div class="vs-legend legend-text" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #16A34A;">
+                        <h4 style="margin: 0 0 15px 0; color: #16A34A; font-weight: 600;">⚔️ 팀간 상대전적 가이드</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            <div>
+                                <strong style="color: #2d3748;">📊 매트릭스 읽는 법</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px; line-height: 1.6;">
+                                    <li><strong>기본 구조:</strong> 세로축 팀이 가로축 팀과의 전적 (예: LG행-KIA열 = LG가 KIA와의 전적)</li>
+                                    <li><strong>표시 형식:</strong> 전체전적(승률) / 🏠홈전적(홈승률) / ✈️원정전적(원정승률)</li>
+                                    <li><strong>대각선 표시:</strong> 자기 자신과의 경기는 없으므로 회색으로 표시</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: #2d3748;">🎨 색상 구분</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px; line-height: 1.6;">
+                                    <li><strong>초록색:</strong> 승률 0.500 초과 (상대보다 우세)</li>
+                                    <li><strong>노란색:</strong> 승률 정확히 0.500 (동등)</li>
+                                    <li><strong>빨간색:</strong> 승률 0.500 미만 (상대보다 열세)</li>
+                                    <li><strong>회색:</strong> 자기팀 (경기 없음)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -829,13 +842,26 @@
                     </div>
                     
                     <!-- 설명 섹션 -->
-                    <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
-                        <div style="font-size: var(--text-base); font-weight: 600; margin-bottom: 8px; color: #495057;">📅 잔여경기수 설명</div>
-                        <div style="font-size: var(--text-sm); color: #6c757d; line-height: 1.5;">
-                            <div style="margin-bottom: 6px;"><strong>매트릭스 읽는 법:</strong> 세로축 팀이 가로축 팀과 남은 경기수 (예: LG행-KIA열 = LG와 KIA의 남은 경기수)</div>
-                            <div style="margin-bottom: 6px;"><strong>대각선 표시:</strong> 자기 자신과의 경기는 없으므로 "-"로 표시</div>
-                            <div style="margin-bottom: 6px;"><strong>정규시즌 기준:</strong> 각 팀당 총 16경기 (홈 8경기, 원정 8경기)</div>
-                            <div><strong>색상 구분:</strong> <span style="color: #22c55e; font-weight: 600;">초록색(7경기 이상)</span>, <span style="color: #eab308; font-weight: 600;">노란색(4-6경기)</span>, <span style="color: #f97316; font-weight: 600;">주황색(1-3경기)</span>, <span style="color: #9ca3af; font-weight: 600;">회색(경기 종료)</span></div>
+                    <div class="remaining-legend legend-text" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #22C55E;">
+                        <h4 style="margin: 0 0 15px 0; color: #22C55E; font-weight: 600;">📅 팀간 잔여경기수 가이드</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            <div>
+                                <strong style="color: #2d3748;">📊 기본 정보</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px; line-height: 1.6;">
+                                    <li><strong>매트릭스 구조:</strong> 세로축 팀이 가로축 팀과 남은 경기수 (예: LG행-KIA열 = LG와 KIA의 남은 경기수)</li>
+                                    <li><strong>대각선 표시:</strong> 자기 자신과의 경기는 없으므로 "-"로 표시</li>
+                                    <li><strong>정규시즌 기준:</strong> 각 팀당 총 16경기 (홈 8경기, 원정 8경기)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: #2d3748;">🎨 색상 구분</strong>
+                                <ul style="margin: 8px 0 0 0; padding-left: 18px; line-height: 1.6;">
+                                    <li><strong>초록색:</strong> 7경기 이상 남음 (많은 경기)</li>
+                                    <li><strong>노란색:</strong> 4-6경기 남음 (보통)</li>
+                                    <li><strong>주황색:</strong> 1-3경기 남음 (적은 경기)</li>
+                                    <li><strong>회색:</strong> 경기 종료 (0경기)</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
