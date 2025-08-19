@@ -1870,8 +1870,15 @@
                 max-height: 600px; /* 500px에서 600px로 증가 */
             }
             
+            /* 테이블 컨테이너에 position relative 추가 */
+            .table-container {
+                position: relative !important;
+                overflow: auto !important;
+            }
+            
             /* 전체 팀 날짜별 테이블의 날짜 열 모바일 최적화 + 상하좌우 스티키 */
-            .all-teams-table th:first-child {
+            .all-teams-table th:first-child,
+            .all-teams-table .date-header-cell {
                 min-width: 70px !important;
                 max-width: 70px !important;
                 width: 70px !important;
@@ -1884,7 +1891,7 @@
                 position: sticky !important;
                 left: 0 !important;
                 top: 0 !important;
-                z-index: 100 !important;
+                z-index: 200 !important;
                 background: #34495e !important;
                 color: white !important;
                 border-right: 2px solid #495057 !important;
@@ -4557,7 +4564,7 @@
                     <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
                         <thead>
                             <tr style="background: #34495e; color: white; position: sticky; top: 0; z-index: 10;">
-                                <th style="padding: 10px 8px; border: 1px solid #495057; text-align: center; min-width: 140px;">날짜</th>
+                                <th class="date-header-cell" style="padding: 10px 8px; border: 1px solid #495057; text-align: center; min-width: 140px;">날짜</th>
                                 ${teams.map(team => 
                                     `<th style="padding: 10px 6px; border: 1px solid #495057; text-align: center; min-width: 80px; font-size: var(--font-xs);">${getTeamWithLogo(team, 'team-logo-small')}</th>`
                                 ).join('')}
