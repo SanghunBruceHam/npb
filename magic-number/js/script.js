@@ -91,8 +91,8 @@ const kboTeams = {
                 const teamName = team.team || team;
                 const logoAndName = `${teamData.logo}<span style="color: ${teamData.color};">${teamName}</span>`;
                 
-                if (includeRank && team.rank) {
-                    return `${logoAndName} <span style="color: #666;">(${team.rank}위)</span>`;
+                if (includeRank && team.displayRank) {
+                    return `${logoAndName} <span style="color: #666;">(${team.displayRank}위)</span>`;
                 }
                 
                 return logoAndName;
@@ -140,7 +140,7 @@ const kboTeams = {
                 const magicNumbers = currentKBOData?.magicNumbers || {};
                 
                 let magicNumber = 0;
-                if (team.rank === 1) {
+                if (team.displayRank === 1) {
                     // 1위팀: 우승 매직넘버
                     const firstPlaceMagic = magicNumbers[team.team];
                     magicNumber = firstPlaceMagic ? firstPlaceMagic.championship : 0;
@@ -150,7 +150,7 @@ const kboTeams = {
                 }
                 
                 if (magicNumber === 0) {
-                    return team.rank === 1 ? 
+                    return team.displayRank === 1 ? 
                         '<span style="color: #FFD700; ">우승확정</span>' :
                         '<span style="color: #4CAF50; ">PO확정</span>';
                 }
@@ -273,16 +273,33 @@ const kboTeams = {
                     logger.log(`🕐 최종 업데이트: ${data.lastUpdated || 'Unknown'}`);
                     console.log(`🎯 KBO 데이터 로드 완료 - 데이터 날짜: ${data.dataDate}, 업데이트: ${data.updateDate}`);
                     // JSON 데이터 구조를 JavaScript 코드가 기대하는 형태로 변환
-                    currentStandings = (data.standings || []).map(team => ({
-                        ...team,
-                        winPct: team.winRate || team.winPct || 0, // winRate를 winPct로 변환
-                        recent10: team.recent10 || "5승 0무 5패",
-                        streak: team.streak || "1승",
-                        homeAway: { 
-                            home: team.homeRecord || "0-0-0", 
-                            away: team.awayRecord || "0-0-0" 
-                        } // 실제 홈/원정 기록 사용
-                    }));
+                    // 승률이 같은 팀에게 같은 순위 부여
+                    let currentRank = 1;
+                    let previousWinRate = null;
+                    
+                    currentStandings = (data.standings || []).map((team, index) => {
+                        const winPct = team.winRate || team.winPct || 0;
+                        
+                        // 이전 팀과 승률이 다르면 실제 순위로 업데이트
+                        if (previousWinRate !== null && winPct !== previousWinRate) {
+                            currentRank = index + 1;
+                        }
+                        
+                        const displayRank = currentRank;
+                        previousWinRate = winPct;
+                        
+                        return {
+                            ...team,
+                            winPct: winPct, // winRate를 winPct로 변환
+                            displayRank: displayRank, // 동률 순위 처리
+                            recent10: team.recent10 || "5승 0무 5패",
+                            streak: team.streak || "1승",
+                            homeAway: { 
+                                home: team.homeRecord || "0-0-0", 
+                                away: team.awayRecord || "0-0-0" 
+                            } // 실제 홈/원정 기록 사용
+                        };
+                    });
                     
                     // currentKBOData에 전체 데이터 저장 (playoffData 포함)
                     currentKBOData = data;
@@ -308,19 +325,8 @@ const kboTeams = {
                 }
                 
                 handleError(error, 'KBO 데이터 로딩 실패');
-                // 백업 데이터 사용
-                currentStandings = [
-                    { rank: 1, team: "LG", games: 104, wins: 62, losses: 40, draws: 2, winPct: 0.608, gamesBehind: 0, recent10: "9승0무1패", streak: "7승", homeAway: { home: "33-19-0", away: "29-21-2" } },
-                    { rank: 2, team: "한화", games: 101, wins: 59, losses: 39, draws: 3, winPct: 0.602, gamesBehind: 1, recent10: "3승1무6패", streak: "2패", homeAway: { home: "31-17-2", away: "28-22-1" } },
-                    { rank: 3, team: "롯데", games: 102, wins: 55, losses: 44, draws: 3, winPct: 0.556, gamesBehind: 5, recent10: "7승0무3패", streak: "1패", homeAway: { home: "29-21-2", away: "26-23-1" } },
-                    { rank: 4, team: "SSG", games: 99, wins: 49, losses: 46, draws: 4, winPct: 0.516, gamesBehind: 9, recent10: "6승1무3패", streak: "2승", homeAway: { home: "24-21-4", away: "25-25-0" } },
-                    { rank: 5, team: "KIA", games: 99, wins: 48, losses: 47, draws: 4, winPct: 0.505, gamesBehind: 10, recent10: "2승1무7패", streak: "2승", homeAway: { home: "29-20-2", away: "19-27-2" } },
-                    { rank: 6, team: "KT", games: 102, wins: 50, losses: 49, draws: 3, winPct: 0.505, gamesBehind: 10, recent10: "5승0무5패", streak: "4패", homeAway: { home: "26-25-1", away: "24-24-2" } },
-                    { rank: 7, team: "NC", games: 96, wins: 45, losses: 46, draws: 5, winPct: 0.495, gamesBehind: 11, recent10: "5승0무5패", streak: "1승", homeAway: { home: "19-19-0", away: "26-27-5" } },
-                    { rank: 8, team: "삼성", games: 99, wins: 48, losses: 50, draws: 1, winPct: 0.49, gamesBehind: 11.5, recent10: "4승0무6패", streak: "3패", homeAway: { home: "30-21-0", away: "18-29-1" } },
-                    { rank: 9, team: "두산", games: 100, wins: 41, losses: 54, draws: 5, winPct: 0.432, gamesBehind: 17, recent10: "3승2무5패", streak: "2패", homeAway: { home: "20-28-4", away: "21-26-1" } },
-                    { rank: 10, team: "키움", games: 102, wins: 29, losses: 69, draws: 4, winPct: 0.296, gamesBehind: 30.5, recent10: "2승1무7패", streak: "1승", homeAway: { home: "18-35-2", away: "11-34-2" } }
-                ];
+                // 백업 데이터 사용 - 서버에서 데이터를 받지 못했을 때만 사용
+                currentStandings = [];
                 logger.log('📊 백업 데이터 사용:', currentStandings.length + '팀');
                 // 백업 데이터도 JSON 형식으로 반환
                 const backupData = {
@@ -770,7 +776,18 @@ const kboTeams = {
                     team.wins + (144 - team.games)
                 ));
 
-                currentStandings.forEach(team => {
+                // 승률이 같은 팀에게 같은 순위 부여
+                let currentRank = 1;
+                let previousWinRate = null;
+                
+                currentStandings.forEach((team, index) => {
+                // 이전 팀과 승률이 다르면 실제 순위로 업데이트
+                if (previousWinRate !== null && team.winPct !== previousWinRate) {
+                    currentRank = index + 1;
+                }
+                // 동률일 경우 같은 순위 유지
+                team.displayRank = currentRank;
+                previousWinRate = team.winPct;
                 const row = document.createElement('tr');
                 const totalGames = 144;
                 const remainingGames = totalGames - team.games;
@@ -783,17 +800,17 @@ const kboTeams = {
                 }
                 
                 let rankClass = '';
-                if (team.rank === 1) rankClass = 'rank-1';
-                else if (team.rank === 2) rankClass = 'rank-2';
-                else if (team.rank === 3) rankClass = 'rank-3';
-                else if (team.rank >= 4 && team.rank <= 5) rankClass = 'playoff';
+                if (team.displayRank === 1) rankClass = 'rank-1';
+                else if (team.displayRank === 2) rankClass = 'rank-2';
+                else if (team.displayRank === 3) rankClass = 'rank-3';
+                else if (team.displayRank >= 4 && team.displayRank <= 5) rankClass = 'playoff';
                 
                 row.className = rankClass;
                 row.style.borderLeft = `4px solid ${teamData.color}`;
 
                 // 매직넘버 계산
                 let magicNumberDisplay = '-';
-                if (team.rank === 1) {
+                if (team.displayRank === 1) {
                     // service-data.json의 매직넘버 사용
                     const magicNumbers = currentKBOData?.magicNumbers || {};
                     const teamMagicData = magicNumbers[team.team];
@@ -831,7 +848,7 @@ const kboTeams = {
                 const marginDisplay = winLossMargin > 0 ? `+${winLossMargin}` : winLossMargin.toString();
                 
                 row.innerHTML = `
-                    <td style="color: ${teamData.color};">${team.rank}</td>
+                    <td style="color: ${teamData.color};">${team.displayRank}</td>
                     <td class="team-name">${teamNameWithLogo}</td>
                     <td>${team.games}</td>
                     <td>${team.wins}</td>
@@ -922,9 +939,9 @@ const kboTeams = {
         }
 
         function getStatusIndicator(team) {
-            if (team.rank === 1 && team.magicNumber <= 10) {
+            if (team.displayRank === 1 && team.magicNumber <= 10) {
                 return '<span class="status-indicator clinched">우승권</span>';
-            } else if (team.rank <= 5) {
+            } else if (team.displayRank <= 5) {
                 return '<span class="status-indicator contending">PO권</span>';
             }
             return '';
@@ -1229,7 +1246,7 @@ const kboTeams = {
                 // 1위팀과 2위 이하 팀별로 다른 로직 적용
                 let requiredFirstPlaceWins, canCatch, winPctColor, winPctDisplay, canReachHistoricalAverage;
                 
-                if (team.rank === 1) {
+                if (team.displayRank === 1) {
                     // 1위팀: 현재 우승 상황 표시
                     requiredFirstPlaceWins = '-';
                     canCatch = '현재 1위';
@@ -1289,28 +1306,28 @@ const kboTeams = {
                 
                 // 순위별 클래스 적용
                 let rankClass = '';
-                if (team.rank === 1) {
+                if (team.displayRank === 1) {
                     rankClass = 'rank-1 first-place-row';
                     // 1위팀에 팀 컬러 테두리와 배경 적용
                     row.style.border = `3px solid ${teamData.color}`;
                     row.style.boxShadow = `0 0 12px ${teamData.color}30`;
                     row.style.background = `linear-gradient(135deg, ${teamData.color}08 0%, ${teamData.color}15 100%)`;
                     row.style.borderRadius = '8px';
-                } else if (team.rank === 2) rankClass = 'rank-2';
-                else if (team.rank === 3) rankClass = 'rank-3';
-                else if (team.rank >= 4 && team.rank <= 5) rankClass = 'playoff';
+                } else if (team.displayRank === 2) rankClass = 'rank-2';
+                else if (team.displayRank === 3) rankClass = 'rank-3';
+                else if (team.displayRank >= 4 && team.displayRank <= 5) rankClass = 'playoff';
                 row.className = rankClass;
                 
                 // 팀명에 로고 추가
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
                 // 1위팀인 경우 특별 스타일링
-                const isFirstPlace = team.rank === 1;
+                const isFirstPlace = team.displayRank === 1;
                 const textColor = isFirstPlace ? teamData.color : '#666';
                 const catchColor = typeof canCatch === 'string' ? (isFirstPlace ? teamData.color : '#3498db') : (canCatch ? '#27ae60' : '#e74c3c');
                 
                 row.innerHTML = `
-                    <td style="color: ${teamData.color}; font-weight: ${isFirstPlace ? '700' : '600'};">${team.rank}</td>
+                    <td style="color: ${teamData.color}; font-weight: ${isFirstPlace ? '700' : '600'};">${team.displayRank}</td>
                     <td class="team-name" style="font-weight: ${isFirstPlace ? '600' : 'normal'};">${teamNameWithLogo}</td>
                     <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${team.wins}</td>
                     <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${team.gamesBehind === 0 ? '-' : team.gamesBehind}</td>
@@ -1350,6 +1367,11 @@ const kboTeams = {
                 }
                 
                 currentStandings.forEach(team => {
+                    // displayRank가 없으면 rank 사용
+                    if (!team.displayRank) {
+                        team.displayRank = team.rank;
+                    }
+                    
                     const row = document.createElement('tr');
                     const teamData = kboTeams[team.team];
                     const remainingGames = 144 - team.games;
@@ -1380,7 +1402,7 @@ const kboTeams = {
                     const requiredWinRate = remainingGames > 0 ? playoffMagic / remainingGames : 0;
                     
                     row.innerHTML = `
-                        <td>${team.rank}</td>
+                        <td>${team.displayRank}</td>
                         <td class="team-name">${Utils.getTeamNameWithLogo(team.team)}</td>
                         <td>${team.wins}</td>
                         <td>${remainingGames}</td>
@@ -1430,6 +1452,10 @@ const kboTeams = {
 
                 currentKBOData.playoffData.forEach((team) => {
                 const teamData = kboTeams[team.team];
+                
+                // currentStandings에서 displayRank 가져오기
+                const standingsTeam = currentStandings.find(t => t.team === team.team);
+                const displayRank = standingsTeam ? standingsTeam.displayRank : team.rank;
                 
                 // JSON 데이터에서 직접 가져오기
                 const playoffMagicNumber = team.playoffMagic;
@@ -1573,7 +1599,7 @@ const kboTeams = {
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
                 row.innerHTML = `
-                    <td>${team.rank}</td>
+                    <td>${displayRank}</td>
                     <td class="team-name">${teamNameWithLogo}</td>
                     <td>${team.wins}</td>
                     <td>${remainingGames}</td>
@@ -1600,6 +1626,11 @@ const kboTeams = {
                     tbody.innerHTML = '';
                     
                     currentStandings.forEach((team, index) => {
+                        // displayRank가 없으면 rank 사용
+                        if (!team.displayRank) {
+                            team.displayRank = team.rank || (index + 1);
+                        }
+                        
                         const teamData = kboTeams[team.team];
                         logger.log(`팀 ${team.team} 데이터:`, team);
                         
@@ -1672,7 +1703,7 @@ const kboTeams = {
                         }
                         
                         row.innerHTML = `
-                            <td style="text-align: center;">${team.rank}위</td>
+                            <td style="text-align: center;">${team.displayRank}위</td>
                             <td class="team-name">${Utils.getTeamNameWithLogo(team)}</td>
                             <td style="text-align: center;">${wins}</td>
                             <td style="text-align: center;">${remainingGames}</td>
