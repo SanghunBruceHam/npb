@@ -2164,7 +2164,7 @@ input, textarea, select, button {
     .vs-grid {
         gap: 1px;
         font-size: var(--text-xs);
-        grid-template-columns: 70px repeat(10, 85px);
+        grid-template-columns: 70px repeat(10, 85px) !important;
         max-width: 100%;
         margin: 0 -10px;
         padding: 0 10px;
@@ -2176,7 +2176,7 @@ input, textarea, select, button {
         padding: 6px 4px !important;
         min-height: 50px !important;
         line-height: 1.2;
-        min-width: 85px;
+        min-width: 85px !important;
     }
     
     /* 모바일에서도 스티키 유지 */
@@ -2408,7 +2408,7 @@ input, textarea, select, button {
         font-size: 0.65rem !important;
         padding: 3px 1px !important;
         min-height: 40px !important;
-        min-width: 60px !important;
+        min-width: 75px !important;
     }
 }
 
@@ -2543,14 +2543,14 @@ input, textarea, select, button {
     }
     /* 상대전적 테이블 최소화 */
     .vs-grid {
-        grid-template-columns: 60px repeat(10, 60px);
+        grid-template-columns: 60px repeat(10, 75px) !important;
     }
     
     .vs-grid > div {
         font-size: 0.7rem !important;
         padding: 4px 2px !important;
         min-height: 45px !important;
-        min-width: 60px !important;
+        min-width: 75px !important;
     }
     
     /* 소형 모바일에서도 스티키 유지 */
