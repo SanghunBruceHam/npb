@@ -1,0 +1,242 @@
+{
+  "title": "KBO 2025시즌 8-9월 전체 경기일정",
+  "updateTime": "2025-08-19T17:00:00.000Z",
+  "source": "KBO 공식 발표",
+  "periods": {
+    "august": {
+      "period": "2025년 8월 1일 ~ 8월 31일",
+      "totalGames": 83,
+      "completedGames": 72,
+      "canceledGames": 11,
+      "restDays": 4
+    },
+    "september": {
+      "period": "2025년 9월 2일 ~ 9월 30일",
+      "totalGames": 87,
+      "completedGames": 0,
+      "scheduledGames": 87,
+      "restDays": 5
+    }
+  },
+  "totalSchedule": {
+    "totalGames": 170,
+    "completedGames": 72,
+    "remainingGames": 87,
+    "canceledGames": 11
+  },
+  "schedule": {
+    "august": [
+      {
+        "date": "2025-08-01",
+        "day": "금",
+        "games": [
+          {"time": "18:30", "away": "한화", "home": "KIA", "stadium": "광주", "result": {"away_score": 2, "home_score": 3}, "status": "종료"},
+          {"time": "18:30", "away": "LG", "home": "삼성", "stadium": "대구", "result": {"away_score": 4, "home_score": 2}, "status": "종료"},
+          {"time": "18:30", "away": "KT", "home": "NC", "stadium": "창원", "result": {"away_score": 3, "home_score": 5}, "status": "종료"},
+          {"time": "18:30", "away": "SSG", "home": "두산", "stadium": "잠실", "result": {"away_score": 7, "home_score": 2}, "status": "종료"},
+          {"time": "18:30", "away": "롯데", "home": "키움", "stadium": "고척", "result": {"away_score": 0, "home_score": 2}, "status": "종료"}
+        ]
+      },
+      {
+        "date": "2025-08-02",
+        "day": "토",
+        "games": [
+          {"time": "18:00", "away": "한화", "home": "KIA", "stadium": "광주", "result": null, "status": "취소", "reason": "우천"},
+          {"time": "18:00", "away": "LG", "home": "삼성", "stadium": "대구", "result": {"away_score": 3, "home_score": 2}, "status": "종료"},
+          {"time": "18:00", "away": "KT", "home": "NC", "stadium": "창원", "result": {"away_score": 6, "home_score": 7}, "status": "종료"},
+          {"time": "18:00", "away": "SSG", "home": "두산", "stadium": "잠실", "result": {"away_score": 4, "home_score": 5}, "status": "종료"},
+          {"time": "18:00", "away": "롯데", "home": "키움", "stadium": "고척", "result": {"away_score": 3, "home_score": 2}, "status": "종료"}
+        ]
+      },
+      {
+        "date": "2025-08-03",
+        "day": "일",
+        "games": [
+          {"time": "14:00", "away": "롯데", "home": "키움", "stadium": "고척", "result": {"away_score": 9, "home_score": 3}, "status": "종료"},
+          {"time": "18:00", "away": "한화", "home": "KIA", "stadium": "광주", "result": null, "status": "취소", "reason": "우천"},
+          {"time": "18:00", "away": "LG", "home": "삼성", "stadium": "대구", "result": {"away_score": 6, "home_score": 3}, "status": "종료"},
+          {"time": "18:00", "away": "KT", "home": "NC", "stadium": "창원", "result": {"away_score": 1, "home_score": 1}, "status": "종료"},
+          {"time": "18:00", "away": "SSG", "home": "두산", "stadium": "잠실", "result": {"away_score": 3, "home_score": 2}, "status": "종료"}
+        ]
+      },
+      {
+        "date": "2025-08-05",
+        "day": "화",
+        "games": [
+          {"time": "18:30", "away": "KIA", "home": "롯데", "stadium": "사직", "result": {"away_score": 2, "home_score": 0}, "status": "종료"},
+          {"time": "18:30", "away": "KT", "home": "한화", "stadium": "대전", "result": {"away_score": 5, "home_score": 2}, "status": "종료"},
+          {"time": "18:30", "away": "두산", "home": "LG", "stadium": "잠실", "result": {"away_score": 2, "home_score": 4}, "status": "종료"},
+          {"time": "18:30", "away": "삼성", "home": "SSG", "stadium": "문학", "result": {"away_score": 6, "home_score": 2}, "status": "종료"},
+          {"time": "18:30", "away": "키움", "home": "NC", "stadium": "창원", "result": {"away_score": 8, "home_score": 5}, "status": "종료"}
+        ]
+      },
+      {
+        "date": "2025-08-19",
+        "day": "화",
+        "games": [
+          {"time": "18:30", "away": "롯데", "home": "LG", "stadium": "잠실", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "두산", "home": "한화", "stadium": "대전", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "SSG", "home": "KT", "stadium": "수원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "키움", "home": "KIA", "stadium": "광주", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "삼성", "home": "NC", "stadium": "창원", "result": null, "status": "예정"}
+        ]
+      }
+    ],
+    "september": [
+      {
+        "date": "2025-09-02",
+        "day": "화",
+        "games": [
+          {"time": "18:30", "away": "KIA", "home": "한화", "stadium": "대전", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "롯데", "home": "LG", "stadium": "잠실", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "NC", "home": "KT", "stadium": "수원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "키움", "home": "SSG", "stadium": "문학", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-03",
+        "day": "수",
+        "games": [
+          {"time": "18:30", "away": "키움", "home": "삼성", "stadium": "대구", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "롯데", "home": "KT", "stadium": "수원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "SSG", "home": "KIA", "stadium": "광주", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "NC", "home": "한화", "stadium": "대전", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-04",
+        "day": "목",
+        "games": [
+          {"time": "18:30", "away": "키움", "home": "삼성", "stadium": "대구", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "두산", "home": "NC", "stadium": "창원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "LG", "home": "KT", "stadium": "수원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "SSG", "home": "KIA", "stadium": "광주", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-05",
+        "day": "금",
+        "games": [
+          {"time": "18:30", "away": "롯데", "home": "SSG", "stadium": "문학", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "키움", "home": "삼성", "stadium": "대구", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "두산", "home": "NC", "stadium": "창원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "KT", "home": "KIA", "stadium": "광주", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-06",
+        "day": "토",
+        "games": [
+          {"time": "17:00", "away": "LG", "home": "두산", "stadium": "잠실", "result": null, "status": "예정"},
+          {"time": "17:00", "away": "롯데", "home": "SSG", "stadium": "문학", "result": null, "status": "예정"},
+          {"time": "17:00", "away": "한화", "home": "삼성", "stadium": "대구", "result": null, "status": "예정"},
+          {"time": "17:00", "away": "KIA", "home": "NC", "stadium": "창원", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-07",
+        "day": "일",
+        "games": [
+          {"time": "17:00", "away": "SSG", "home": "LG", "stadium": "잠실", "result": null, "status": "예정"},
+          {"time": "17:00", "away": "한화", "home": "삼성", "stadium": "대구", "result": null, "status": "예정"},
+          {"time": "17:00", "away": "KIA", "home": "NC", "stadium": "창원", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-09",
+        "day": "화",
+        "games": [
+          {"time": "18:30", "away": "한화", "home": "롯데", "stadium": "사직", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "SSG", "home": "NC", "stadium": "창원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "두산", "home": "KT", "stadium": "수원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "삼성", "home": "KIA", "stadium": "광주", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "LG", "home": "키움", "stadium": "고척", "result": null, "status": "예정"}
+        ]
+      },
+      {
+        "date": "2025-09-30",
+        "day": "화",
+        "games": [
+          {"time": "18:30", "away": "두산", "home": "LG", "stadium": "잠실", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "KIA", "home": "삼성", "stadium": "대구", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "KT", "home": "NC", "stadium": "창원", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "SSG", "home": "키움", "stadium": "고척", "result": null, "status": "예정"},
+          {"time": "18:30", "away": "롯데", "home": "한화", "stadium": "대전", "result": null, "status": "예정"}
+        ]
+      }
+    ]
+  },
+  "restDays": {
+    "august": [
+      {"date": "2025-08-04", "day": "월"},
+      {"date": "2025-08-11", "day": "월"}, 
+      {"date": "2025-08-18", "day": "월"},
+      {"date": "2025-08-25", "day": "월"}
+    ],
+    "september": [
+      {"date": "2025-09-01", "day": "월"},
+      {"date": "2025-09-08", "day": "월"}, 
+      {"date": "2025-09-15", "day": "월"},
+      {"date": "2025-09-22", "day": "월"},
+      {"date": "2025-09-29", "day": "월"}
+    ]
+  },
+  "teamStats": {
+    "remainingGames": {
+      "KIA": 18,
+      "삼성": 18,
+      "LG": 18,
+      "두산": 18,
+      "KT": 18,
+      "SSG": 18,
+      "롯데": 17,
+      "NC": 18,
+      "키움": 17,
+      "한화": 18
+    },
+    "keyMatchups": [
+      {
+        "teams": ["KIA", "삼성"],
+        "games": 4,
+        "dates": ["2025-09-09", "2025-09-10", "2025-09-30"]
+      },
+      {
+        "teams": ["LG", "두산"],
+        "games": 3,
+        "dates": ["2025-09-06", "2025-09-30"]
+      },
+      {
+        "teams": ["SSG", "NC"],
+        "games": 4,
+        "dates": ["2025-09-02", "2025-09-09", "2025-09-10", "2025-09-16", "2025-09-17"]
+      }
+    ]
+  },
+  "summary": {
+    "august": {
+      "totalDays": 31,
+      "gameDays": 27,
+      "restDays": 4,
+      "completedGames": 72,
+      "scheduledGames": 83,
+      "canceledGames": 11,
+      "averageGamesPerDay": 3.07
+    },
+    "september": {
+      "totalDays": 29,
+      "gameDays": 24,
+      "restDays": 5,
+      "scheduledGames": 87,
+      "averageGamesPerDay": 3.6
+    },
+    "combined": {
+      "totalDays": 60,
+      "gameDays": 51,
+      "restDays": 9,
+      "totalGames": 170,
+      "completedGames": 72,
+      "remainingGames": 87,
+      "canceledGames": 11
+    }
+  }
+}
