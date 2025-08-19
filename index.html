@@ -3522,6 +3522,7 @@
                     <div style="margin-bottom: 6px;"><strong>매트릭스 읽는 법:</strong> 세로축 팀이 가로축 팀과의 전적 (예: LG행-KIA열 = LG가 KIA와의 전적)</div>
                     <div style="margin-bottom: 6px;"><strong>표시 형식:</strong> 승수승 패수패 (승률) - 예: "8승 8패 (0.500)"</div>
                     <div style="margin-bottom: 6px;"><strong>대각선 표시:</strong> 자기 자신과의 경기는 없으므로 "-"로 표시</div>
+                    <div style="margin-bottom: 6px;"><strong>홈/원정 배분:</strong> 격년제 원칙에 따라 조정 - 두산/KT/SSG/롯데/한화는 홈 73경기/원정 71경기</div>
                     <div><strong>색상 구분:</strong> <span style="color: #16a34a; font-weight: 600;">녹색(0.500 초과, 우위)</span>, <span style="color: #eab308; font-weight: 600;">노란색(정확히 0.500, 동등)</span>, <span style="color: #dc2626; font-weight: 600;">빨간색(0.500 미만, 열세)</span></div>
                 </div>
             </div>
@@ -3558,7 +3559,8 @@
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                     <div style="margin-bottom: 6px;"><strong>매트릭스 읽는 법:</strong> 세로축 팀이 가로축 팀과 남은 경기수 (예: LG행-KIA열 = LG와 KIA의 남은 경기수)</div>
                     <div style="margin-bottom: 6px;"><strong>대각선 표시:</strong> 자기 자신과의 경기는 없으므로 "-"로 표시</div>
-                    <div style="margin-bottom: 6px;"><strong>정규시즌 기준:</strong> 각 팀당 총 16경기 (홈 8경기, 원정 8경기)</div>
+                    <div style="margin-bottom: 6px;"><strong>정규시즌 기준:</strong> 각 팀당 총 16경기 (홈/원정 불균등 배분)</div>
+                    <div style="margin-bottom: 6px;"><strong>홈/원정 배분:</strong> 격년제 원칙에 따라 조정 - 두산/KT/SSG/롯데/한화는 홈 73경기/원정 71경기</div>
                     <div><strong>색상 구분:</strong> <span style="color: #22c55e; font-weight: 600;">녹색(7경기 이상)</span>, <span style="color: #eab308; font-weight: 600;">노란색(4-6경기)</span>, <span style="color: #f97316; font-weight: 600;">주황색(1-3경기)</span>, <span style="color: #9ca3af; font-weight: 600;">회색(경기 종료)</span></div>
                 </div>
             </div>
@@ -3738,7 +3740,7 @@
         <div class="card" id="teamdetail">
             <div class="card-header">
                 <span class="card-icon">📋</span>
-                <h2 class="card-title">팀별 상세 게임 기록</h2>
+                <h2 class="card-title">팀별 상세 게임 기록 및 경기 일정</h2>
             </div>
             <div id="teamDetailedRecordsContent">
                 <div style="text-align: center; padding: 40px; color: #666;">
@@ -4645,7 +4647,7 @@
 
                 html += `
                 <div class="selected-team-details">
-                    <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">${currentSelectedTeam} 상세 기록</h4>
+                    <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">${currentSelectedTeam} 게임 기록</h4>
                     
                     <!-- 팀 통계 요약 (한줄 레이아웃) -->
                     <div class="team-stats-summary" style="margin-bottom: 20px; background: #f8f9fa; padding: 15px 20px; border-radius: 8px; border: 1px solid #e9ecef;">
@@ -4686,7 +4688,7 @@
 
                     <!-- 상세 게임 기록 테이블 -->
                     <div class="detailed-games-section">
-                        <h4 style="text-align: center; margin: 25px 0 20px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록</h4>
+                        <h4 style="text-align: center; margin: 25px 0 20px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h4>
                         <div class="table-scroll-wrapper">
                             <table class="detailed-game-table" id="detailedGameTable">
                                 <thead>
@@ -4881,7 +4883,7 @@
             
             let html = `
             <div class="all-teams-overview">
-                <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 팀 날짜별 경기 결과</h4>
+                <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h4>
                 
                 <div class="table-container" style="max-height: 800px; overflow-y: auto;">
                     <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
