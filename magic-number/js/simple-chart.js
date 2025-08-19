@@ -289,6 +289,12 @@ function createCustomLegend() {
     console.log('커스텀 범례 생성 시작');
     
     // 기존 커스텀 범례 제거
+    const existingMainLegend = document.getElementById('main-legend-container');
+    if (existingMainLegend) {
+        existingMainLegend.remove();
+    }
+    
+    // 혹시 모를 기존 범례도 제거
     const existingLegend = document.getElementById('custom-chart-legend');
     if (existingLegend) {
         existingLegend.remove();
@@ -302,47 +308,126 @@ function createCustomLegend() {
     // 차트 컨테이너 찾기
     const chartContainer = document.querySelector('#rankChart').parentElement;
     
-    // 범례 컨테이너 생성
-    const legendContainer = document.createElement('div');
-    legendContainer.id = 'custom-chart-legend';
-    legendContainer.style.cssText = `
+    // 범례 컨테이너 생성 (버튼과 팀들을 함께 배치)
+    const mainLegendContainer = document.createElement('div');
+    mainLegendContainer.id = 'main-legend-container';
+    mainLegendContainer.style.cssText = `
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
         margin-top: 5px;
         margin-bottom: 15px;
-        padding: 0;
+        padding: 0 10px;
         background: none;
         border-radius: 0;
         box-shadow: none;
         border: none;
+        width: 100%;
+        box-sizing: border-box;
     `;
+
+    // 전체선택/해제 버튼 생성 (팀 아이템과 동일한 스타일)
+    const toggleAllButton = document.createElement('button');
+    toggleAllButton.id = 'toggle-all-teams';
+    toggleAllButton.textContent = '전체 해제';
+    toggleAllButton.style.cssText = `
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: rgba(108, 117, 125, 0.9);
+        border: 1px solid rgba(0,0,0,0.1);
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-height: 34px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    `;
+
+    // 버튼 호버 효과
+    toggleAllButton.addEventListener('mouseenter', () => {
+        toggleAllButton.style.background = 'rgba(108, 117, 125, 1)';
+        toggleAllButton.style.transform = 'translateY(-1px)';
+        toggleAllButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.12)';
+    });
     
+    toggleAllButton.addEventListener('mouseleave', () => {
+        toggleAllButton.style.background = 'rgba(108, 117, 125, 0.9)';
+        toggleAllButton.style.transform = 'translateY(0)';
+        toggleAllButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.08)';
+    });
+
+    // 버튼 클릭 이벤트
+    let allVisible = true;
+    toggleAllButton.addEventListener('click', () => {
+        allVisible = !allVisible;
+        
+        chartState.chart.data.datasets.forEach((dataset, index) => {
+            const meta = chartState.chart.getDatasetMeta(index);
+            meta.hidden = !allVisible;
+        });
+        
+        chartState.chart.update();
+        
+        // 버튼 텍스트 및 범례 아이템 시각적 상태 업데이트
+        toggleAllButton.textContent = allVisible ? '전체 해제' : '전체 선택';
+        
+        // 모든 범례 아이템의 시각적 상태 업데이트
+        const legendItems = mainLegendContainer.querySelectorAll('div[data-team]');
+        legendItems.forEach(item => {
+            const img = item.querySelector('img');
+            const colorBox = item.querySelector('div[style*="border-radius: 50%"]');
+            const text = item.querySelector('span');
+            
+            const opacity = allVisible ? '1' : '0.4';
+            const filter = allVisible ? 'none' : 'grayscale(100%)';
+            
+            item.style.opacity = opacity;
+            if (img) img.style.filter = filter;
+            if (colorBox) colorBox.style.opacity = opacity;
+            if (text) text.style.opacity = opacity;
+            
+            if (!allVisible) {
+                item.style.borderColor = 'rgba(0,0,0,0.2)';
+                item.style.background = 'rgba(128,128,128,0.1)';
+            } else {
+                item.style.borderColor = 'rgba(0,0,0,0.1)';
+                item.style.background = 'rgba(255,255,255,0.9)';
+            }
+        });
+    });
+
     // 고정된 순위대로 팀 정렬 (전체 시즌 최신 날짜 기준으로 한 번 결정하여 모든 기간에서 동일)
     const sortedTeams = getFixedRankingSortedTeams();
     
-    sortedTeams.forEach(({teamName, datasetIndex}) => {
+    sortedTeams.forEach(({teamName, datasetIndex}, index) => {
         const dataset = chartState.chart.data.datasets[datasetIndex];
         if (!dataset) return;
         
         const legendItem = document.createElement('div');
+        legendItem.setAttribute('data-team', teamName);
         legendItem.style.cssText = `
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
+            gap: 5px;
+            padding: 5px 8px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s ease;
             background: rgba(255,255,255,0.9);
             border: 1px solid rgba(0,0,0,0.1);
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             white-space: nowrap;
             flex-shrink: 0;
-            min-height: 36px;
+            min-height: 34px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.08);
         `;
         
@@ -363,8 +448,8 @@ function createCustomLegend() {
         logoImg.src = `../images/${getTeamLogo(teamName)}`;
         logoImg.alt = teamName;
         logoImg.style.cssText = `
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
             border-radius: 3px;
             flex-shrink: 0;
@@ -376,7 +461,7 @@ function createCustomLegend() {
         teamText.style.cssText = `
             color: #333;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 13px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         `;
         
@@ -427,10 +512,17 @@ function createCustomLegend() {
             }
         });
         
-        legendContainer.appendChild(legendItem);
+        // 1위 팀(첫 번째) 앞에 버튼 추가
+        if (index === 0) {
+            mainLegendContainer.appendChild(toggleAllButton);
+            mainLegendContainer.appendChild(legendItem);
+        } else {
+            mainLegendContainer.appendChild(legendItem);
+        }
     });
     
-    chartContainer.appendChild(legendContainer);
+    // 차트 컨테이너에 메인 범례 컨테이너 추가
+    chartContainer.appendChild(mainLegendContainer);
     console.log('커스텀 범례 생성 완료');
 }
 
@@ -791,9 +883,30 @@ function updateSimpleUI() {
     
     // 현재 기간 텍스트 업데이트
     const periodText = document.getElementById('currentPeriodText');
-    if (periodText && period) {
-        periodText.textContent = `현재 보는 기간: ${period.title}`;
-        periodText.style.visibility = chartState.isFullView ? 'hidden' : 'visible';
+    if (periodText) {
+        if (chartState.isFullView) {
+            // 전체 시즌 모드일 때 전체 기간 표시
+            if (chartState.periods.length > 0) {
+                // 첫 번째 기간의 시작일과 마지막 기간의 종료일 계산
+                const firstPeriod = chartState.periods[0];
+                const lastPeriod = chartState.periods[chartState.periods.length - 1];
+                
+                if (firstPeriod.rawData && lastPeriod.rawData) {
+                    const startDate = new Date(firstPeriod.rawData[0].date);
+                    const endDate = new Date(lastPeriod.rawData[lastPeriod.rawData.length - 1].date);
+                    
+                    periodText.textContent = `전체 시즌: ${startDate.getFullYear()}년 ${startDate.getMonth() + 1}월 ${startDate.getDate()}일 - ${endDate.getFullYear()}년 ${endDate.getMonth() + 1}월 ${endDate.getDate()}일`;
+                } else {
+                    periodText.textContent = `전체 시즌: 2025년 3월 22일 개막 ~ 현재`;
+                }
+            } else {
+                periodText.textContent = `전체 시즌: 2025년 3월 22일 개막 ~ 현재`;
+            }
+            periodText.style.visibility = 'visible';
+        } else if (period) {
+            periodText.textContent = `현재 보는 기간: ${period.title}`;
+            periodText.style.visibility = 'visible';
+        }
     }
     
     // 버튼 상태 업데이트
