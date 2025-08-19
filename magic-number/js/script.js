@@ -81,6 +81,71 @@ const kboTeams = {
         // 전역 이벤트 관리자 인스턴스
         const eventManager = new EventManager();
         
+        // 잔여경기 일정 데이터 (8월 19일부터 9월 30일까지)
+        const remainingSchedule = [
+            { date: '08.19', teams: ['롯데', 'LG', '삼성', 'NC', 'SSG', 'KT', '키움', 'KIA', '두산', '한화'] },
+            { date: '08.20', teams: ['롯데', 'LG', '삼성', 'NC', 'SSG', 'KT', '키움', 'KIA', '두산', '한화'] },
+            { date: '08.21', teams: ['롯데', 'LG', '삼성', 'NC', 'SSG', 'KT', '키움', 'KIA', '두산', '한화'] },
+            { date: '08.22', teams: ['KT', '두산', '키움', '삼성', '롯데', 'NC', 'LG', 'KIA', 'SSG', '한화'] },
+            { date: '08.23', teams: ['KT', '두산', '키움', '삼성', '롯데', 'NC', 'LG', 'KIA', 'SSG', '한화'] },
+            { date: '08.24', teams: ['KT', '두산', '키움', '삼성', '롯데', 'NC', 'LG', 'KIA', 'SSG', '한화'] },
+            { date: '08.26', teams: ['삼성', '두산', 'KIA', 'SSG', 'KT', '롯데', 'LG', 'NC', '한화', '키움'] },
+            { date: '08.27', teams: ['삼성', '두산', 'KIA', 'SSG', 'KT', '롯데', 'LG', 'NC', '한화', '키움'] },
+            { date: '08.28', teams: ['삼성', '두산', 'KIA', 'SSG', 'KT', '롯데', 'LG', 'NC', '한화', '키움'] },
+            { date: '08.29', teams: ['키움', 'LG', 'NC', 'SSG', '두산', '롯데', 'KIA', 'KT', '삼성', '한화'] },
+            { date: '08.30', teams: ['키움', 'LG', 'NC', 'SSG', '두산', '롯데', 'KIA', 'KT', '삼성', '한화'] },
+            { date: '08.31', teams: ['키움', 'LG', 'NC', 'SSG', '두산', '롯데', 'KIA', 'KT', '삼성', '한화'] },
+            { date: '09.02', teams: ['KIA', '한화', '롯데', 'LG', 'NC', 'KT', '키움', 'SSG'] },
+            { date: '09.03', teams: ['롯데', 'KT', 'NC', '한화', 'SSG', 'KIA', '키움', '삼성'] },
+            { date: '09.04', teams: ['LG', 'KT', '두산', 'NC', 'SSG', 'KIA', '키움', '삼성'] },
+            { date: '09.05', teams: ['KT', 'KIA', '롯데', 'SSG', '두산', 'NC', '키움', '삼성'] },
+            { date: '09.06', teams: ['한화', '삼성', 'KIA', 'NC', 'LG', '두산', '롯데', 'SSG'] },
+            { date: '09.07', teams: ['한화', '삼성', 'KIA', 'NC', 'SSG', 'LG'] },
+            { date: '09.09', teams: ['한화', '롯데', 'LG', '키움', '두산', 'KT', 'SSG', 'NC', '삼성', 'KIA'] },
+            { date: '09.10', teams: ['한화', '롯데', 'SSG', 'NC', '삼성', 'KIA'] },
+            { date: '09.11', teams: ['KT', 'LG', '롯데', 'KIA', 'NC', '키움', 'SSG', '삼성'] },
+            { date: '09.12', teams: ['NC', 'LG', '두산', 'KIA', '키움', '한화'] },
+            { date: '09.13', teams: ['KIA', 'LG', 'KT', '삼성', '두산', 'NC', 'SSG', '롯데', '키움', '한화'] },
+            { date: '09.14', teams: ['KIA', 'LG', 'KT', '삼성', '두산', 'NC', '키움', '한화'] },
+            { date: '09.16', teams: ['한화', 'KIA', 'LG', 'KT', '롯데', '삼성', 'SSG', 'NC', '키움', '두산'] },
+            { date: '09.17', teams: ['한화', 'KIA', 'LG', 'KT', '롯데', '삼성', 'SSG', 'NC', '키움', '두산'] },
+            { date: '09.18', teams: ['한화', 'KIA', 'LG', 'KT', '삼성', 'NC', '키움', '두산'] },
+            { date: '09.19', teams: ['한화', 'KT', '롯데', 'NC', '두산', 'SSG'] },
+            { date: '09.20', teams: ['한화', 'KT', 'NC', 'KIA', '두산', 'SSG', '삼성', 'LG', '키움', '롯데'] },
+            { date: '09.21', teams: ['NC', 'KIA', '두산', 'SSG', '삼성', 'KT'] },
+            { date: '09.23', teams: ['KIA', 'SSG', 'NC', '롯데', '두산', '삼성', '키움', 'KT'] },
+            { date: '09.24', teams: ['한화', 'SSG', 'KIA', '키움', 'LG', 'NC'] },
+            { date: '09.25', teams: ['한화', '두산', 'KT', 'SSG', 'LG', '롯데'] },
+            { date: '09.26', teams: ['KT', 'SSG', 'LG', '한화', 'NC', '두산', '삼성', '롯데'] },
+            { date: '09.27', teams: ['LG', '한화', 'NC', 'KIA', 'SSG', '두산'] },
+            { date: '09.28', teams: ['LG', '한화', '롯데', '두산', 'NC', 'KIA', '삼성', '키움'] },
+            { date: '09.30', teams: ['KIA', '삼성', 'KT', 'NC', '롯데', '한화', '두산', 'LG', 'SSG', '키움'] }
+        ];
+        
+        // 우승 확정일 계산 함수
+        function calculateClinchDate(teamName, magicNumber) {
+            try {
+                let gamesPlayed = 0;
+                
+                for (const gameDay of remainingSchedule) {
+                    if (gameDay.teams.includes(teamName)) {
+                        gamesPlayed++;
+                        
+                        if (gamesPlayed >= magicNumber) {
+                            // 날짜 포맷팅 (08.19 -> 8월 19일)
+                            const [month, day] = gameDay.date.split('.');
+                            return `${parseInt(month)}월 ${parseInt(day)}일`;
+                        }
+                    }
+                }
+                
+                return null; // 시즌 내 확정 불가
+            } catch (error) {
+                logger.error('우승 확정일 계산 오류:', error);
+                return null;
+            }
+        }
+        
         // 공통 유틸리티 함수들
         const Utils = {
             // 팀명과 로고를 조합한 HTML 생성 (테이블 친화적)
@@ -1143,7 +1208,13 @@ const kboTeams = {
                 const targetGameNumber = firstPlace.games + magicNumber;
                 
                 if (targetGameNumber <= totalGames) {
-                    clinchDateText = `${targetGameNumber}번째 경기에서 확정 가능 (일정 업데이트 예정)`;
+                    // 잔여경기 일정에서 날짜 계산
+                    const expectedDate = calculateClinchDate(firstPlace.team, magicNumber);
+                    if (expectedDate) {
+                        clinchDateText = `${expectedDate} (${targetGameNumber}번째 경기)`;
+                    } else {
+                        clinchDateText = `${targetGameNumber}번째 경기에서 확정 가능`;
+                    }
                 } else {
                     clinchDateText = `시즌 종료 후 (${targetGameNumber}번째 경기 필요)`;
                 }
