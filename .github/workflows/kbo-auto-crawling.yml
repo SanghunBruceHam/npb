@@ -164,7 +164,14 @@ jobs:
         npm run weekly-game-analysis
         echo "✅ game-by-game-records.json 생성 완료"
 
-    # 10-5. 추가 분석 데이터 생성 (루트 index.html용)
+    # 10-5. 순위 변동 매트릭스 생성 (순위 변동 그래프용)
+    - name: 📈 순위 변동 매트릭스 생성
+      run: |
+        echo "📈 순위 변동 매트릭스 생성 중..."
+        npm run rank-matrix
+        echo "✅ magic-matrix-data.json 생성 완료"
+
+    # 10-6. 추가 분석 데이터 생성 (루트 index.html용)
     - name: 📈 고급 분석 데이터 생성
       run: |
         echo "🔍 고급 분석 데이터 생성 중..."
@@ -172,7 +179,7 @@ jobs:
         
         # 생성된 JSON 파일들 확인
         echo "📋 생성된 분석 데이터 파일 확인:"
-        for file in enhanced-dashboard.json weekly-analysis.json clutch-analysis.json home-away-analysis.json series-analysis.json; do
+        for file in enhanced-dashboard.json weekly-analysis.json clutch-analysis.json home-away-analysis.json series-analysis.json game-by-game-records.json magic-matrix-data.json; do
           if [ -f "magic-number/data/$file" ]; then
             SIZE=$(du -h "magic-number/data/$file" | cut -f1)
             echo "  ✅ $file (${SIZE})"

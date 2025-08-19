@@ -311,8 +311,8 @@ function createCustomLegend() {
         justify-content: center;
         align-items: center;
         gap: 12px;
-        margin-top: 10px;
-        margin-bottom: 40px;
+        margin-top: 5px;
+        margin-bottom: 15px;
         padding: 0;
         background: none;
         border-radius: 0;

@@ -22,6 +22,7 @@
     "home-away-analysis": "node scripts/runner.js magic-number/js/home-away-analysis.js",
     "series-analysis": "node scripts/runner.js magic-number/js/series-analysis.js",
     "weekly-game-analysis": "node scripts/runner.js magic-number/scripts/weekly-game-analysis.js",
+    "rank-matrix": "node scripts/runner.js magic-number/js/calculate-magic-numbers.js",
     "parse-season-data": "node scripts/runner.js magic-number/scripts/parse-season-data.js",
     "database-update": "node scripts/runner.js magic-number/scripts/enhanced-kbo-database.js",
     "full-update": "npm run process && npm run database-update && npm run analysis && npm run snapshot && echo '🎉 전체 업데이트 완료!'",

@@ -3304,46 +3304,15 @@
                 <canvas id="rankChart"></canvas>
             </div>
             
-            <div class="data-description" style="background: var(--bg-secondary); border-radius: 12px; padding: 20px; margin-top: 20px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
-                <h3 style="margin: 0 0 16px 0; color: var(--text-primary); font-size: var(--font-lg); font-weight: var(--font-weight-semibold); display: flex; align-items: center; gap: 8px;">
-                    <span style="color: #FF6B35; font-size: var(--font-xl);">📈</span>
-                    순위 변동 그래프 이용 가이드
-                </h3>
-                <div class="description-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                    <div>
-                        <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: var(--font-base); font-weight: var(--font-weight-semibold); display: flex; align-items: center; gap: 6px;">
-                            <span style="color: #3B82F6;">📊</span> 데이터 정보
-                        </h4>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
-                            <strong style="color: var(--text-primary);">기간:</strong> 2025년 3월 22일 개막부터 현재까지 실제 경기 결과 기반
-                        </div>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
-                            <strong style="color: var(--text-primary);">순위 계산:</strong> 각 날짜별 누적 승률과 승차로 산정된 실제 순위
-                        </div>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6;">
-                            <strong style="color: var(--text-primary);">플레이오프 기준:</strong> 빨간 선(5.5위)이 플레이오프 진출 경계선
-                        </div>
-                    </div>
-                    <div>
-                        <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: var(--font-base); font-weight: var(--font-weight-semibold); display: flex; align-items: center; gap: 6px;">
-                            <span style="color: #10B981;">🎮</span> 조작 방법
-                        </h4>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
-                            <strong style="color: var(--text-primary);">← 이전 30일 / 다음 30일 →:</strong> 30일 단위로 기간 탐색
-                        </div>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
-                            <strong style="color: var(--text-primary);">📊 전체 시즌 보기:</strong> 전체 시즌과 30일 단위 보기 전환
-                        </div>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px;">
-                            <strong style="color: var(--text-primary);">팀 로고 클릭:</strong> 특정 팀 라인 숨기기/표시하기
-                        </div>
-                        <div style="font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.6;">
-                            <strong style="color: var(--text-primary);">차트 마우스 오버:</strong> 해당 날짜의 전체 팀 순위표 표시
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: var(--font-xs); color: var(--text-muted); text-align: center;">
-                    💡 <strong>팁:</strong> 팀명 순서는 현재 순위 기준으로 고정되어 모든 기간에서 동일하게 표시됩니다. 차트 위에 마우스를 올리면 해당 날짜의 순위표를 확인할 수 있습니다.
+            <!-- 설명 섹션 -->
+            <div style="margin-top: 35px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📈 순위 변동 그래프 이용 가이드</div>
+                <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
+                    <div style="margin-bottom: 6px;"><strong>기간:</strong> 2025년 3월 22일 개막부터 현재까지 실제 경기 결과 기반</div>
+                    <div style="margin-bottom: 6px;"><strong>순위 계산:</strong> 각 날짜별 누적 승률과 승차로 산정된 실제 순위</div>
+                    <div style="margin-bottom: 6px;"><strong>플레이오프 기준:</strong> 빨간 선(5.5위)이 플레이오프 진출 경계선</div>
+                    <div style="margin-bottom: 6px;"><strong>조작 방법:</strong> ← → 버튼으로 30일씩 이동, 📊 버튼으로 전체/구간 전환, 팀 로고 클릭으로 표시/숨김</div>
+                    <div><strong>팁:</strong> 차트에 마우스를 올리면 해당 날짜의 순위표를 볼 수 있습니다</div>
                 </div>
             </div>
         </div>
