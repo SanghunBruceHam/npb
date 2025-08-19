@@ -1439,6 +1439,7 @@
             min-width: 900px; /* 기본 최소 너비 */
         }
         
+        
         /* 중간 해상도(태블릿 가로 모드 등)에서 테이블 스크롤 강화 */
         @media (max-width: 1024px) and (min-width: 769px) {
             .table-container {
@@ -1458,6 +1459,15 @@
                 min-width: 110px !important;
                 width: 110px !important;
                 max-width: 110px !important;
+            }
+            
+            /* 게임별 기록과 연승/연패 분석 테이블의 팀명 헤더 셀 폭 확대 */
+            .weekly-table .team-header,
+            .all-teams-table .team-header-column {
+                min-width: 75px !important;
+                width: 75px !important;
+                font-size: var(--font-xs) !important;
+                padding: 8px 3px !important;
             }
         }
 
@@ -1880,7 +1890,7 @@
                 word-break: keep-all !important;
                 line-height: 1.2 !important;
                 padding: 4px 3px !important;
-                font-size: var(--font-2xs) !important;
+                font-size: var(--font-xs) !important;
             }
             
             /* 날짜 색상 클래스 우선 적용 (주말/연휴 빨간색) */
@@ -1897,7 +1907,7 @@
             
             /* 모바일 공휴일명 스타일링 */
             .all-teams-table td.date-cell small {
-                font-size: var(--font-3xs) !important;
+                font-size: var(--font-2xs) !important;
                 color: #dc2626 !important;
                 font-weight: var(--font-weight-medium) !important;
                 display: block;
@@ -5979,6 +5989,11 @@
                 .series-analysis-container {
                     margin: 0;
                 }
+                
+                .series-analysis-container .table-container {
+                    overflow-x: auto;
+                    max-width: 100%;
+                }
 
 
                 .series-stats-table {
@@ -6027,12 +6042,113 @@
 
                 @media (max-width: 768px) {
                     .series-stats-table {
-                        font-size: var(--font-2xs);
+                        font-size: var(--font-base);
                     }
                     
                     .series-stats-table th,
                     .series-stats-table td {
                         padding: 6px 4px;
+                    }
+                    
+                    /* 순위와 팀명 스티키 설정 */
+                    #seriesStatsTable thead th:first-child,
+                    #seriesStatsTable tbody td:first-child {
+                        position: sticky !important;
+                        left: 0 !important;
+                        z-index: 10 !important;
+                        background: #ffffff !important;
+                    }
+                    
+                    #seriesStatsTable thead th:nth-child(2),
+                    #seriesStatsTable tbody td:nth-child(2) {
+                        position: sticky !important;
+                        left: 28px !important;
+                        z-index: 10 !important;
+                        background: #ffffff !important;
+                    }
+                    
+                    #seriesStatsTable thead th:first-child,
+                    #seriesStatsTable thead th:nth-child(2) {
+                        background: #34495e !important;
+                        z-index: 11 !important;
+                    }
+                    
+                    #seriesStatsTable tbody td:first-child,
+                    #seriesStatsTable tbody td:nth-child(2) {
+                        border-right: 2px solid #d1d5db !important;
+                    }
+                    
+                    /* 짝수 행에서도 스티키 컬럼 배경색 유지 */
+                    #seriesStatsTable tbody tr:nth-child(even) td:first-child,
+                    #seriesStatsTable tbody tr:nth-child(even) td:nth-child(2) {
+                        background: #f9f9f9 !important;
+                    }
+                    
+                    /* 시리즈 분석 테이블만 특별 처리 - 상속받되 셀 폭만 강화 */
+                    #seriesStatsTable {
+                        table-layout: fixed !important;
+                        max-width: 400px !important;
+                    }
+                    
+                    /* 셀 폭만 강화 적용 - 다른 스타일은 상위 상속 */
+                    #seriesStatsTable th:nth-child(1), #seriesStatsTable td:nth-child(1) { 
+                        width: 28px !important; 
+                        min-width: 28px !important; 
+                        max-width: 28px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(2), #seriesStatsTable td:nth-child(2) { 
+                        width: 60px !important; 
+                        min-width: 60px !important; 
+                        max-width: 60px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(3), #seriesStatsTable td:nth-child(3) { 
+                        width: 35px !important; 
+                        min-width: 35px !important; 
+                        max-width: 35px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(4), #seriesStatsTable td:nth-child(4) { 
+                        width: 28px !important; 
+                        min-width: 28px !important; 
+                        max-width: 28px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(5), #seriesStatsTable td:nth-child(5) { 
+                        width: 28px !important; 
+                        min-width: 28px !important; 
+                        max-width: 28px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(6), #seriesStatsTable td:nth-child(6) { 
+                        width: 20px !important; 
+                        min-width: 20px !important; 
+                        max-width: 20px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(7), #seriesStatsTable td:nth-child(7) { 
+                        width: 55px !important; 
+                        min-width: 55px !important; 
+                        max-width: 55px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(8), #seriesStatsTable td:nth-child(8) { 
+                        width: 35px !important; 
+                        min-width: 35px !important; 
+                        max-width: 35px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(9), #seriesStatsTable td:nth-child(9) { 
+                        width: 35px !important; 
+                        min-width: 35px !important; 
+                        max-width: 35px !important; 
+                    }
+                    #seriesStatsTable th:nth-child(10), #seriesStatsTable td:nth-child(10) { 
+                        width: 75px !important; 
+                        min-width: 75px !important; 
+                        max-width: 75px !important; 
+                    }
+                    
+                    /* 스티키 컬럼 스타일 비활성화 */
+                    #seriesStatsTable th:first-child,
+                    #seriesStatsTable td:first-child,
+                    #seriesStatsTable th:nth-child(2),
+                    #seriesStatsTable td:nth-child(2) {
+                        position: static !important;
+                        left: auto !important;
                     }
                 }
                 </style>
@@ -6040,8 +6156,91 @@
 
             container.innerHTML = html;
             
-            // 시리즈 분석 테이블 정렬 기능 초기화
+            // 시리즈 분석 테이블 정렬 기능 초기화 및 모바일 셀 폭 적용
             setTimeout(() => {
+                const table = document.getElementById('seriesStatsTable');
+                
+                // 모바일에서 셀 폭 강제 적용
+                if (table && window.innerWidth <= 768) {
+                    console.log('모바일 시리즈 테이블 스타일 적용 시작');
+                    
+                    // 테이블 기본 스타일
+                    table.style.tableLayout = 'fixed';
+                    table.style.maxWidth = '600px';
+                    table.style.width = '600px';
+                    table.style.minWidth = '600px';
+                    
+                    // 각 컬럼별 폭 정의
+                    const widths = [28, 60, 35, 28, 28, 20, 55, 35, 35, 75];
+                    
+                    // 헤더 셀 폭 적용
+                    const headerCells = table.querySelectorAll('thead th');
+                    headerCells.forEach((cell, index) => {
+                        if (widths[index]) {
+                            cell.style.width = widths[index] + 'px';
+                            cell.style.minWidth = widths[index] + 'px';
+                            cell.style.maxWidth = widths[index] + 'px';
+                            cell.style.padding = '6px 2px';
+                            cell.style.textAlign = 'center';
+                            
+                            // 순위와 팀명 컬럼 스티키 설정
+                            if (index === 0) {  // 순위
+                                cell.style.position = 'sticky';
+                                cell.style.left = '0';
+                                cell.style.zIndex = '11';
+                                cell.style.background = '#34495e';
+                            } else if (index === 1) {  // 팀명
+                                cell.style.position = 'sticky';
+                                cell.style.left = '28px';
+                                cell.style.zIndex = '11';
+                                cell.style.background = '#34495e';
+                            }
+                            
+                            console.log(`헤더 ${index + 1}: ${widths[index]}px 적용`);
+                        }
+                    });
+                    
+                    // 데이터 셀 폭 적용
+                    const dataRows = table.querySelectorAll('tbody tr');
+                    dataRows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        cells.forEach((cell, index) => {
+                            if (widths[index]) {
+                                cell.style.width = widths[index] + 'px';
+                                cell.style.minWidth = widths[index] + 'px';
+                                cell.style.maxWidth = widths[index] + 'px';
+                                cell.style.padding = '6px 2px';
+                                cell.style.textAlign = 'center';
+                                cell.style.overflow = 'hidden';
+                                cell.style.textOverflow = 'ellipsis';
+                                
+                                // 순위와 팀명 컬럼 스티키 설정
+                                if (index === 0) {  // 순위
+                                    cell.style.position = 'sticky';
+                                    cell.style.left = '0';
+                                    cell.style.zIndex = '10';
+                                    cell.style.background = '#ffffff';
+                                    cell.style.borderRight = '2px solid #d1d5db';
+                                } else if (index === 1) {  // 팀명
+                                    cell.style.position = 'sticky';
+                                    cell.style.left = '28px';
+                                    cell.style.zIndex = '10';
+                                    cell.style.background = '#ffffff';
+                                    cell.style.borderRight = '2px solid #d1d5db';
+                                }
+                            }
+                        });
+                    });
+                    
+                    console.log('모바일 시리즈 테이블 스타일 적용 완료');
+                } else if (table) {
+                    // 데스크톱에서는 max-width 제거하고 자연스럽게
+                    console.log('데스크톱 시리즈 테이블 스타일 적용');
+                    table.style.removeProperty('max-width');
+                    table.style.width = '100%';
+                    table.style.tableLayout = 'auto';
+                }
+                
                 makeTableSortable('seriesStatsTable');
             }, 100);
         }
@@ -6060,19 +6259,19 @@
             let html = `
 
                 <div class="table-container">
-                    <table class="series-stats-table sortable-table" id="seriesStatsTable">
+                    <table class="series-stats-table sortable-table" id="seriesStatsTable" style="table-layout: fixed !important; max-width: 400px !important;">
                         <thead>
                             <tr>
-                                <th class="sortable" data-column="rank">순위</th>
-                                <th class="sortable" data-column="team">팀명</th>
-                                <th class="sortable" data-column="totalSeries">시리즈</th>
-                                <th class="sortable" data-column="seriesWins">위닝</th>
-                                <th class="sortable" data-column="seriesLosses">루징</th>
-                                <th class="sortable" data-column="seriesDraws">무</th>
-                                <th class="sortable" data-column="seriesWinRate">시리즈 승률</th>
-                                <th class="sortable" data-column="sweepWins">스윕승</th>
-                                <th class="sortable" data-column="sweepLosses">스윕패</th>
-                                <th class="sortable" data-column="currentStreak">연속기록</th>
+                                <th class="sortable" data-column="rank" style="width: 28px !important; min-width: 28px !important; max-width: 28px !important;">순위</th>
+                                <th class="sortable" data-column="team" style="width: 60px !important; min-width: 60px !important; max-width: 60px !important;">팀명</th>
+                                <th class="sortable" data-column="totalSeries" style="width: 35px !important; min-width: 35px !important; max-width: 35px !important;">시리즈</th>
+                                <th class="sortable" data-column="seriesWins" style="width: 28px !important; min-width: 28px !important; max-width: 28px !important;">위닝</th>
+                                <th class="sortable" data-column="seriesLosses" style="width: 28px !important; min-width: 28px !important; max-width: 28px !important;">루징</th>
+                                <th class="sortable" data-column="seriesDraws" style="width: 20px !important; min-width: 20px !important; max-width: 20px !important;">무</th>
+                                <th class="sortable" data-column="seriesWinRate" style="width: 55px !important; min-width: 55px !important; max-width: 55px !important;">시리즈 승률</th>
+                                <th class="sortable" data-column="sweepWins" style="width: 35px !important; min-width: 35px !important; max-width: 35px !important;">스윕승</th>
+                                <th class="sortable" data-column="sweepLosses" style="width: 35px !important; min-width: 35px !important; max-width: 35px !important;">스윕패</th>
+                                <th class="sortable" data-column="currentStreak" style="width: 75px !important; min-width: 75px !important; max-width: 75px !important;">연속기록</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -6083,7 +6282,7 @@
                 
                 // dashboardData에서 실제 순위 가져오기
                 const teamData = dashboardData ? dashboardData.standings.find(t => t.team_name === team) : null;
-                const rank = teamData ? teamData.displayRank : (index + 1);
+                const rank = teamData ? (teamData.displayRank || teamData.rank || (index + 1)) : (index + 1);
                 
                 let streakText = '없음';
                 let streakClass = 'neutral';
@@ -6111,7 +6310,7 @@
                         data-sweepwins="${stats.sweepWins}"
                         data-sweeplosses="${stats.sweepLosses}"
                         data-currentstreak="${stats.currentStreak.count}">
-                        <td style="text-align: center;"><strong>${rank}</strong></td>
+                        <td style="text-align: center;"><strong>${rank || (index + 1)}</strong></td>
                         <td>${getTeamWithLogo(team)}</td>
                         <td style="text-align: center;"><strong>${stats.totalSeries}</strong></td>
                         <td style="color: #4CAF50; font-weight: var(--font-weight-bold); text-align: center;">${stats.winningSeries}</td>
