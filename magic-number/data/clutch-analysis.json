@@ -1,21 +1,21 @@
 {
-  "lastUpdated": "2025-08-20T13:21:44.792Z",
+  "lastUpdated": "2025-08-20T13:23:52.852Z",
   "updateDate": "2025. 8. 20.",
   "clutchAnalysis": {
     "LG": {
-      "totalGames": 114,
+      "totalGames": 115,
       "oneRunGames": 33,
       "oneRunWins": 18,
       "oneRunLosses": 15,
       "oneRunWinRate": "54.5",
-      "closeGames": 47,
-      "closeWins": 27,
+      "closeGames": 48,
+      "closeWins": 28,
       "closeLosses": 20,
-      "closeWinRate": "57.4",
-      "threeRunGames": 33,
-      "threeRunWins": 18,
+      "closeWinRate": "58.3",
+      "threeRunGames": 34,
+      "threeRunWins": 19,
       "threeRunLosses": 15,
-      "threeRunWinRate": "54.5",
+      "threeRunWinRate": "55.9",
       "blowoutWins": 27,
       "blowoutScored": [
         {
@@ -217,10 +217,10 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "55.4"
+      "clutchIndex": "55.9"
     },
     "한화": {
-      "totalGames": 113,
+      "totalGames": 114,
       "oneRunGames": 36,
       "oneRunWins": 21,
       "oneRunLosses": 15,
@@ -449,7 +449,7 @@
       "clutchIndex": "57.6"
     },
     "KIA": {
-      "totalGames": 111,
+      "totalGames": 112,
       "oneRunGames": 34,
       "oneRunWins": 19,
       "oneRunLosses": 15,
@@ -654,15 +654,15 @@
       "clutchIndex": "54.1"
     },
     "삼성": {
-      "totalGames": 114,
-      "oneRunGames": 20,
-      "oneRunWins": 7,
+      "totalGames": 115,
+      "oneRunGames": 21,
+      "oneRunWins": 8,
       "oneRunLosses": 13,
-      "oneRunWinRate": "35.0",
-      "closeGames": 45,
-      "closeWins": 16,
+      "oneRunWinRate": "38.1",
+      "closeGames": 46,
+      "closeWins": 17,
       "closeLosses": 29,
-      "closeWinRate": "35.6",
+      "closeWinRate": "37.0",
       "threeRunGames": 43,
       "threeRunWins": 15,
       "threeRunLosses": 28,
@@ -892,22 +892,22 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "35.2"
+      "clutchIndex": "37.1"
     },
     "KT": {
-      "totalGames": 115,
+      "totalGames": 116,
       "oneRunGames": 34,
       "oneRunWins": 15,
       "oneRunLosses": 19,
       "oneRunWinRate": "44.1",
-      "closeGames": 53,
+      "closeGames": 54,
       "closeWins": 27,
-      "closeLosses": 26,
-      "closeWinRate": "50.9",
-      "threeRunGames": 27,
+      "closeLosses": 27,
+      "closeWinRate": "50.0",
+      "threeRunGames": 28,
       "threeRunWins": 18,
-      "threeRunLosses": 9,
-      "threeRunWinRate": "66.7",
+      "threeRunLosses": 10,
+      "threeRunWinRate": "64.3",
       "blowoutWins": 23,
       "blowoutScored": [
         {
@@ -1121,22 +1121,22 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "50.7"
+      "clutchIndex": "49.9"
     },
     "SSG": {
-      "totalGames": 112,
+      "totalGames": 113,
       "oneRunGames": 32,
       "oneRunWins": 15,
       "oneRunLosses": 17,
       "oneRunWinRate": "46.9",
-      "closeGames": 54,
-      "closeWins": 25,
+      "closeGames": 55,
+      "closeWins": 26,
       "closeLosses": 29,
-      "closeWinRate": "46.3",
-      "threeRunGames": 35,
-      "threeRunWins": 20,
+      "closeWinRate": "47.3",
+      "threeRunGames": 36,
+      "threeRunWins": 21,
       "threeRunLosses": 15,
-      "threeRunWinRate": "57.1",
+      "threeRunWinRate": "58.3",
       "blowoutWins": 18,
       "blowoutScored": [
         {
@@ -1290,22 +1290,22 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "48.8"
+      "clutchIndex": "49.3"
     },
     "롯데": {
-      "totalGames": 116,
+      "totalGames": 117,
       "oneRunGames": 22,
       "oneRunWins": 11,
       "oneRunLosses": 11,
       "oneRunWinRate": "50.0",
-      "closeGames": 46,
+      "closeGames": 47,
       "closeWins": 26,
-      "closeLosses": 20,
-      "closeWinRate": "56.5",
-      "threeRunGames": 46,
+      "closeLosses": 21,
+      "closeWinRate": "55.3",
+      "threeRunGames": 47,
       "threeRunWins": 24,
-      "threeRunLosses": 22,
-      "threeRunWinRate": "52.2",
+      "threeRunLosses": 23,
+      "threeRunWinRate": "51.1",
       "blowoutWins": 25,
       "blowoutScored": [
         {
@@ -1537,10 +1537,10 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "52.4"
+      "clutchIndex": "51.8"
     },
     "두산": {
-      "totalGames": 114,
+      "totalGames": 115,
       "oneRunGames": 36,
       "oneRunWins": 15,
       "oneRunLosses": 21,
@@ -1553,7 +1553,7 @@
       "threeRunWins": 14,
       "threeRunLosses": 15,
       "threeRunWinRate": "48.3",
-      "blowoutWins": 22,
+      "blowoutWins": 23,
       "blowoutScored": [
         {
           "date": "2025-04-04",
@@ -1686,6 +1686,12 @@
           "opponent": "키움",
           "score": "9:2",
           "runs": 9
+        },
+        {
+          "date": "2025-08-20",
+          "opponent": "한화",
+          "score": "13:9",
+          "runs": 13
         }
       ],
       "blowoutLosses": 7,
@@ -1735,8 +1741,8 @@
       ],
       "shutoutWins": 5,
       "shutoutLosses": 3,
-      "highScoringGames": 7,
-      "highScoringWins": 7,
+      "highScoringGames": 8,
+      "highScoringWins": 8,
       "scorelessGames": 3,
       "comebackPotential": {
         "trailingWins": 0,
@@ -1745,15 +1751,15 @@
       "clutchIndex": "43.9"
     },
     "NC": {
-      "totalGames": 109,
-      "oneRunGames": 23,
+      "totalGames": 110,
+      "oneRunGames": 24,
       "oneRunWins": 11,
-      "oneRunLosses": 12,
-      "oneRunWinRate": "47.8",
-      "closeGames": 40,
+      "oneRunLosses": 13,
+      "oneRunWinRate": "45.8",
+      "closeGames": 41,
       "closeWins": 21,
-      "closeLosses": 19,
-      "closeWinRate": "52.5",
+      "closeLosses": 20,
+      "closeWinRate": "51.2",
       "threeRunGames": 33,
       "threeRunWins": 20,
       "threeRunLosses": 13,
@@ -2001,10 +2007,10 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "51.8"
+      "clutchIndex": "50.4"
     },
     "키움": {
-      "totalGames": 116,
+      "totalGames": 117,
       "oneRunGames": 22,
       "oneRunWins": 14,
       "oneRunLosses": 8,
