@@ -3258,9 +3258,9 @@
             </div>
             
             <!-- 게임차 차트 -->
-            <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; margin-bottom: 20px; height: 470px; display: flex; flex-direction: column;">
-                <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📊 순위별 게임차 분포</h3>
-                <div style="position: relative; height: 250px; margin-bottom: 15px; flex-shrink: 0;">
+            <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; margin-bottom: 20px; height: 520px; display: flex; flex-direction: column;">
+                <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📊 게임차 변화</h3>
+                <div style="position: relative; height: 300px; margin-bottom: 15px; flex-shrink: 0;">
                     <canvas id="daily-stats-game-gap-chart"></canvas>
                 </div>
                 <div id="daily-stats-game-gap-info" style="padding: 12px; background: white; border-radius: 6px; font-size: 13px; line-height: 1.6; border: 1px solid #e5e7eb; flex: 1; overflow-y: auto;">
@@ -7607,6 +7607,8 @@
                 this.isAnimating = false;
                 this.animationInterval = null;
                 this.animationDate = null;
+                // 시즌 전체 최대 게임차 (미리 계산)
+                this.maxSeasonGamesBehind = 0;
                 
                 // 2025년 공휴일 목록
                 this.holidays = new Set([
@@ -7768,6 +7770,24 @@ KT 9:1 키움(H)`;
                 console.log(`${this.seasonData.length}일의 데이터 파싱 완료`);
             }
             
+            // 시즌 전체에서 최대 게임차 미리 계산
+            calculateMaxSeasonGamesBehind() {
+                let maxGamesBehind = 0;
+                
+                // 모든 날짜에 대해 게임차 계산
+                this.seasonData.forEach(dayData => {
+                    if (dayData.games.length > 0) { // 경기가 있는 날만
+                        const standings = this.calculateStandings(dayData.date);
+                        const dayMaxGamesBehind = Math.max(...standings.map(team => team.gamesBehind));
+                        maxGamesBehind = Math.max(maxGamesBehind, dayMaxGamesBehind);
+                    }
+                });
+                
+                // 실제 계산된 최대 게임차 사용
+                this.maxSeasonGamesBehind = maxGamesBehind;
+                console.log(`시즌 최대 게임차: ${this.maxSeasonGamesBehind.toFixed(1)}차 (계산값)`);
+            }
+            
             processAllData() {
                 const teams = ['LG', '삼성', 'KT', '두산', 'KIA', 'SSG', '롯데', 'NC', '한화', '키움'];
                 teams.forEach(team => {
@@ -7776,6 +7796,9 @@ KT 9:1 키움(H)`;
                         runsFor: 0, runsAgainst: 0, dailyWinRate: []
                     };
                 });
+                
+                // 시즌 전체 최대 게임차 미리 계산
+                this.calculateMaxSeasonGamesBehind();
                 
                 // 날짜별 누적 계산
                 for (const dayData of this.seasonData) {
@@ -8079,27 +8102,51 @@ KT 9:1 키움(H)`;
                 
                 const standings = this.calculateStandings(date);
                 
-                // 최대 게임차 계산 (x축 최적화용)
-                const maxGamesBehind = Math.max(...standings.map(team => team.gamesBehind));
-                // 실제 최대 게임차 그대로 사용 (여백 없음)
-                const roundedMax = maxGamesBehind;
+                // 시즌 전체 최대 게임차 사용 (X축 고정)
+                const roundedMax = this.maxSeasonGamesBehind;
                 
-                // 산점도 데이터 생성 (Y축은 약간의 오프셋으로 팀들이 겹치지 않게 - 원래 방식)
+                // 산점도 데이터 생성 (로고 겹침 방지를 위한 스마트 배치)
                 const scatterData = standings.map((team, index) => ({
                     x: team.gamesBehind,
-                    y: (index % 2 === 0 ? 0.1 : -0.1), // 짝수/홀수로 위아래 배치
+                    y: 0, // 임시값, 아래에서 재배치
                     team: team.team,
                     rank: team.rank,
                     wins: team.wins,
                     losses: team.losses
-                }));
+                })).sort((a, b) => a.x - b.x); // 게임차 순으로 정렬
                 
-                // 기존 차트가 있으면 데이터만 업데이트 (애니메이션 효과)
+                // Y축 스마트 배치 (같은 게임차의 팀들이 겹치지 않게)
+                const gamesBehindGroups = {};
+                scatterData.forEach(team => {
+                    const key = team.x.toFixed(1); // 게임차를 키로 사용
+                    if (!gamesBehindGroups[key]) gamesBehindGroups[key] = [];
+                    gamesBehindGroups[key].push(team);
+                });
+                
+                // 각 그룹 내에서 Y축 위치 분산 배치
+                Object.values(gamesBehindGroups).forEach(group => {
+                    const count = group.length;
+                    if (count === 1) {
+                        group[0].y = 0; // 혼자면 중앙
+                    } else {
+                        // 여러 팀이 같은 게임차일 때 위아래로 분산
+                        const spacing = 12; // 중간 간격으로 조정
+                        const startY = -(count - 1) * spacing / 2;
+                        group.forEach((team, idx) => {
+                            team.y = startY + idx * spacing;
+                        });
+                    }
+                });
+                
+                // 기존 차트가 있으면 데이터만 부드럽게 업데이트
                 if (this.gameGapChart) {
                     // 기존 데이터를 새 데이터로 업데이트
                     this.gameGapChart.data.datasets[0].data = scatterData;
                     
-                    // x축 범위 업데이트 (0.5 단위로 올림)
+                    // 포인트 스타일 업데이트 (팀 로고)
+                    this.gameGapChart.data.datasets[0].pointStyle = scatterData.map(point => this.teamLogoImages[point.team] || 'circle');
+                    
+                    // x축 범위 업데이트
                     this.gameGapChart.options.scales.x.max = roundedMax;
                     
                     // 부드러운 애니메이션으로 업데이트
@@ -8197,8 +8244,8 @@ KT 9:1 키움(H)`;
                             },
                             y: {
                                 display: false,
-                                min: -0.5,
-                                max: 0.5
+                                min: -20, // Y축 범위 원복
+                                max: 20
                             }
                         },
                         animation: {
@@ -9122,14 +9169,43 @@ KT 9:1 키움(H)`;
             changeDate(days) {
                 const dateParts = this.currentDate.split('-');
                 const currentDate = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
-                currentDate.setDate(currentDate.getDate() + days);
                 
-                const newDateStr = currentDate.getFullYear() + '-' + 
-                                  String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                                  String(currentDate.getDate()).padStart(2, '0');
+                // 경기가 있는 날짜만 찾기
+                let attempts = 0;
+                const maxAttempts = 30; // 최대 30일까지 찾아보기
                 
-                if (newDateStr >= this.startDate && newDateStr <= this.endDate) {
-                    this.updateDisplay(newDateStr);
+                while (attempts < maxAttempts) {
+                    currentDate.setDate(currentDate.getDate() + days);
+                    attempts++;
+                    
+                    const newDateStr = currentDate.getFullYear() + '-' + 
+                                      String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                      String(currentDate.getDate()).padStart(2, '0');
+                    
+                    // 날짜 범위 체크
+                    if (newDateStr < this.startDate || newDateStr > this.endDate) {
+                        break;
+                    }
+                    
+                    // 해당 날짜에 경기가 있는지 체크
+                    const dayData = this.seasonData.find(d => d.date === newDateStr);
+                    if (dayData && dayData.games.length > 0) {
+                        this.updateDisplay(newDateStr);
+                        return;
+                    }
+                }
+                
+                // 경기가 있는 날짜를 찾지 못한 경우, 기존 방식대로 진행
+                const finalDate = this.currentDate.split('-');
+                const fallbackDate = new Date(parseInt(finalDate[0]), parseInt(finalDate[1]) - 1, parseInt(finalDate[2]));
+                fallbackDate.setDate(fallbackDate.getDate() + days);
+                
+                const fallbackDateStr = fallbackDate.getFullYear() + '-' + 
+                                       String(fallbackDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                       String(fallbackDate.getDate()).padStart(2, '0');
+                
+                if (fallbackDateStr >= this.startDate && fallbackDateStr <= this.endDate) {
+                    this.updateDisplay(fallbackDateStr);
                 }
             }
             
@@ -9179,21 +9255,37 @@ KT 9:1 키움(H)`;
                 this.animationInterval = setInterval(() => {
                     if (!this.isAnimating) return;
                     
-                    // 현재 날짜를 YYYY-MM-DD 형식으로 변환
-                    const dateStr = this.animationDate.toISOString().split('T')[0];
+                    // 경기가 있는 날짜를 찾을 때까지 반복
+                    let attempts = 0;
+                    const maxAttempts = 30;
+                    let hasGameData = false;
                     
-                    // 애니메이션용 날짜 업데이트 (차트는 별도 처리)
-                    this.updateDisplayForAnimation(dateStr);
+                    while (attempts < maxAttempts && !hasGameData) {
+                        const dateStr = this.animationDate.toISOString().split('T')[0];
+                        
+                        // 최대 날짜 체크
+                        const maxDate = new Date('2025-08-19');
+                        if (this.animationDate > maxDate) {
+                            this.stopAnimation();
+                            return;
+                        }
+                        
+                        // 해당 날짜에 경기가 있는지 체크
+                        const dayData = this.seasonData.find(d => d.date === dateStr);
+                        if (dayData && dayData.games.length > 0) {
+                            // 경기가 있는 날만 업데이트
+                            this.updateDisplayForAnimation(dateStr);
+                            this.updateChartsForAnimation(dateStr);
+                            hasGameData = true;
+                        }
+                        
+                        // 다음 날로 이동 (경기 유무와 관계없이)
+                        this.animationDate.setDate(this.animationDate.getDate() + 1);
+                        attempts++;
+                    }
                     
-                    // 차트를 자연스럽게 업데이트
-                    this.updateChartsForAnimation(dateStr);
-                    
-                    // 다음 날로 이동
-                    this.animationDate.setDate(this.animationDate.getDate() + 1);
-                    
-                    // 최대 날짜에 도달하면 애니메이션 중지
-                    const maxDate = new Date('2025-08-19');
-                    if (this.animationDate > maxDate) {
+                    // 경기가 있는 날을 찾지 못하면 애니메이션 종료
+                    if (!hasGameData) {
                         this.stopAnimation();
                     }
                 }, 800); // 0.8초마다 날짜 변경 (더 자연스럽게)
