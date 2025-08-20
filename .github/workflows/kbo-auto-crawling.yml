@@ -360,22 +360,41 @@ jobs:
         
         echo "✅ 배포용 디렉토리 준비 완료"
 
-    # 17. GitHub Pages 아티팩트 업로드
+    # 17. 배포 전용 디렉토리 생성
+    - name: 📁 배포 전용 디렉토리 생성
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        echo "📁 배포 전용 디렉토리 생성 중..."
+        mkdir -p _site
+        
+        # 필요한 파일들만 복사
+        cp index.html _site/
+        cp -r magic-number/ _site/
+        cp *.json _site/ 2>/dev/null || true
+        cp manifest.json _site/ 2>/dev/null || true
+        
+        # 배포 디렉토리 크기 확인
+        DEPLOY_SIZE=$(du -sh _site | cut -f1)
+        echo "📊 배포 디렉토리 크기: ${DEPLOY_SIZE}"
+        
+        echo "✅ 배포 전용 디렉토리 생성 완료"
+
+    # 18. GitHub Pages 아티팩트 업로드
     - name: 📦 Pages 아티팩트 업로드
       if: steps.check_changes.outputs.changes_detected == 'true'
       uses: actions/upload-pages-artifact@v3
       with:
-        # 전체 프로젝트를 Pages로 업로드하되 불필요한 파일 제외
-        path: '.'
+        # 배포 전용 디렉토리만 업로드
+        path: '_site'
         
-    # 18. GitHub Pages 배포
+    # 19. GitHub Pages 배포
     - name: 🌐 GitHub Pages 배포
       if: steps.check_changes.outputs.changes_detected == 'true'
       id: deployment
       uses: actions/deploy-pages@v4
       timeout-minutes: 10
         
-    # 19. 배포 완료 확인
+    # 20. 배포 완료 확인
     - name: ✅ 배포 완료 확인
       if: steps.check_changes.outputs.changes_detected == 'true'
       run: |
@@ -383,7 +402,7 @@ jobs:
         echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
         echo "📊 JSON 업데이트가 즉시 반영되었습니다"
 
-    # 20. 최종 완료 알림
+    # 21. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
       if: always()
       run: |
