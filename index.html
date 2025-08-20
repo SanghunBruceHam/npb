@@ -136,6 +136,15 @@
                 jsonData.dateModified = new Date().toISOString().split('T')[0];
                 jsonLdScript.textContent = JSON.stringify(jsonData, null, 4);
             }
+            
+            // 일자별 그래프 날짜 입력 필드의 max 값을 오늘 날짜로 설정
+            const today = new Date();
+            today.setUTCHours(today.getUTCHours() + 9); // UTC+9 (한국시간)
+            const todayStr = today.toISOString().split('T')[0];
+            const dateInput = document.getElementById('daily-stats-date-input');
+            if (dateInput) {
+                dateInput.max = todayStr;
+            }
             const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isSmallScreen = window.innerWidth <= 768;
             const deviceNotice = document.getElementById('deviceNotice');
@@ -7604,9 +7613,13 @@
         class CompleteDailyStats {
             constructor() {
                 this.seasonData = [];
-                this.currentDate = '2025-08-19';
+                // 현재 날짜를 한국 시간 기준으로 자동 설정
+                const today = new Date();
+                today.setUTCHours(today.getUTCHours() + 9); // UTC+9 (한국시간)
+                const todayStr = today.toISOString().split('T')[0];
+                this.currentDate = todayStr;
                 this.startDate = '2025-03-22';
-                this.endDate = '2025-08-19';
+                this.endDate = todayStr;
                 this.teamStats = {};
                 this.animationRunning = false;
                 this.teamLogoImages = {};
