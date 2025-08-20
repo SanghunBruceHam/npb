@@ -8798,7 +8798,10 @@ KT 9:1 키움(H)`;
                     dataset.pointHoverRadius = pointRadii.map(r => r + 2);
                 });
                 
-                this.rankChart.update('active'); // 부드러운 애니메이션으로 업데이트
+                this.rankChart.update({
+                    duration: 800,
+                    easing: 'easeInOutQuart'
+                }); // 부드러운 애니메이션으로 업데이트
             }
             
             updateWinRateChartForDateChange(selectedDate) {
@@ -8839,7 +8842,10 @@ KT 9:1 키움(H)`;
                     dataset.pointHoverRadius = pointRadii.map(r => r + 2);
                 });
                 
-                this.winRateChart.update('active'); // 부드러운 애니메이션으로 업데이트
+                this.winRateChart.update({
+                    duration: 800,
+                    easing: 'easeInOutQuart'
+                }); // 부드러운 애니메이션으로 업데이트
             }
             
             // 애니메이션 전용 디스플레이 업데이트 (차트 제외)
@@ -9025,7 +9031,10 @@ KT 9:1 키움(H)`;
                 });
                 
                 // 부드러운 애니메이션으로 업데이트
-                this.winRateChart.update('show');
+                this.winRateChart.update({
+                    duration: 400,
+                    easing: 'easeInOutCubic'
+                });
             }
             
             updateRankChartForAnimation(selectedDate) {
@@ -9075,7 +9084,10 @@ KT 9:1 키움(H)`;
                 });
                 
                 // 부드러운 애니메이션으로 업데이트
-                this.rankChart.update('show');
+                this.rankChart.update({
+                    duration: 400,
+                    easing: 'easeInOutCubic'
+                });
             }
 
             showError(message) {
@@ -9166,7 +9178,7 @@ KT 9:1 키움(H)`;
                     if (this.animationDate > maxDate) {
                         this.stopAnimation();
                     }
-                }, 500); // 0.5초마다 날짜 변경
+                }, 800); // 0.8초마다 날짜 변경 (더 자연스럽게)
             }
             
             stopAnimation() {
