@@ -19,25 +19,19 @@ on:
           - 'false'
           - 'true'
 
-# 권한 설정 (Pages 배포 포함)
+# 권한 설정
 permissions:
   contents: write    # 코드 체크아웃 및 커밋
-  pages: write       # GitHub Pages 배포
-  id-token: write    # OIDC 토큰 (Pages 배포용)
 
-# 동시 실행 방지 (Pages 배포 중복 방지)
+# 동시 실행 방지
 concurrency:
-  group: pages-deploy
+  group: kbo-auto-update
   cancel-in-progress: true
 
 jobs:
   kbo-auto-update:
     runs-on: ubuntu-latest
     
-    # GitHub Pages 배포를 위한 환경 설정
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
     # 1. 저장소 체크아웃
@@ -342,106 +336,23 @@ jobs:
         
         echo "✅ 파일 확인 완료 - 루트 및 magic-number 모두 배포 준비됨"
 
-    # 16. 배포용 디렉토리 준비
-    - name: 📁 배포용 디렉토리 준비
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      run: |
-        echo "📁 배포용 디렉토리 정리 중..."
-        
-        # 불필요한 파일들 임시 제거 (배포 후 복구)
-        mkdir -p .deploy-backup
-        
-        # node_modules, .git 등 대용량 디렉토리는 업로드 제외
-        if [ -d "node_modules" ]; then
-          echo "📦 node_modules 백업 (배포에서 제외)"
-        fi
-        
-        # Python 캐시 파일 정리
-        find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
-        find . -name "*.pyc" -delete 2>/dev/null || true
-        
-        echo "✅ 배포용 디렉토리 준비 완료"
 
-    # 17. 배포 전용 디렉토리 생성
-    - name: 📁 배포 전용 디렉토리 생성
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      run: |
-        echo "📁 배포 전용 디렉토리 생성 중..."
-        mkdir -p _site
-        
-        # 필요한 파일들만 복사
-        cp index.html _site/
-        cp -r magic-number/ _site/
-        cp -r images/ _site/ 2>/dev/null || true  # 루트 이미지 폴더
-        cp *.json _site/ 2>/dev/null || true
-        cp manifest.json _site/ 2>/dev/null || true
-        cp robots.txt _site/ 2>/dev/null || true
-        cp sitemap.xml _site/ 2>/dev/null || true
-        cp ads.txt _site/ 2>/dev/null || true
-        cp CNAME _site/ 2>/dev/null || true
-        
-        # 배포 디렉토리 크기 확인
-        DEPLOY_SIZE=$(du -sh _site | cut -f1)
-        echo "📊 배포 디렉토리 크기: ${DEPLOY_SIZE}"
-        
-        echo "✅ 배포 전용 디렉토리 생성 완료"
 
-    # 18. GitHub Pages 아티팩트 업로드
-    - name: 📦 Pages 아티팩트 업로드
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      uses: actions/upload-pages-artifact@v3
-      with:
-        # 배포 전용 디렉토리만 업로드
-        path: '_site'
-        
-    # 19. GitHub Pages 배포 (재시도 로직 포함)
-    - name: 🌐 GitHub Pages 배포
-      if: steps.check_changes.outputs.changes_detected == 'true'
-      id: deployment
-      uses: actions/deploy-pages@v4
-      timeout-minutes: 10
-      continue-on-error: true
-      
-    # 19-1. 배포 실패시 재시도
-    - name: 🔄 GitHub Pages 배포 재시도
-      if: steps.check_changes.outputs.changes_detected == 'true' && steps.deployment.outcome == 'failure'
-      id: deployment_retry
-      uses: actions/deploy-pages@v4
-      timeout-minutes: 10
-        
-    # 20. 배포 완료 확인
-    - name: ✅ 배포 완료 확인
-      if: steps.check_changes.outputs.changes_detected == 'true' && (steps.deployment.outcome == 'success' || steps.deployment_retry.outcome == 'success')
-      run: |
-        echo "🚀 GitHub Pages 배포 완료!"
-        if [ "${{ steps.deployment.outcome }}" == "success" ]; then
-          echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
-          echo "✅ 첫 번째 시도에서 성공"
-        elif [ "${{ steps.deployment_retry.outcome }}" == "success" ]; then
-          echo "🌐 배포 URL: ${{ steps.deployment_retry.outputs.page_url }}"
-          echo "✅ 재시도에서 성공"
-        fi
-        echo "📊 JSON 업데이트가 즉시 반영되었습니다"
-
-    # 21. 최종 완료 알림
+    # 16. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
       if: always()
       run: |
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "🎯 KBO 자동 업데이트 & 배포 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "🎯 KBO 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         
         if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
           echo "✅ 데이터 업데이트: 완료"
           echo "✅ 자동 커밋: 완료" 
-          echo "✅ GitHub Pages 배포: 완료"
-          if [ -n "${{ steps.deployment.outputs.page_url }}" ]; then
-            echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
-          else
-            echo "🌐 배포 URL: https://kbo.mahalohana-bruce.com"
-          fi
+          echo "✅ GitHub Pages 자동 배포: Branch 방식으로 진행됨"
+          echo "🌐 배포 URL: https://kbo.mahalohana-bruce.com"
         else
-          echo "📋 변경사항이 없어서 배포를 건너뜁니다"
+          echo "📋 변경사항이 없어서 업데이트를 건너뜁니다"
         fi
         
         echo "📅 다음 실행 스케줄:"
