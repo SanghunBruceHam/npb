@@ -7604,10 +7604,9 @@
         class CompleteDailyStats {
             constructor() {
                 this.seasonData = [];
-                // 데이터 로드 후 실제 마지막 날짜로 설정될 예정
-                this.currentDate = null;
+                this.currentDate = '2025-08-19';
                 this.startDate = '2025-03-22';
-                this.endDate = null;
+                this.endDate = '2025-08-19';
                 this.teamStats = {};
                 this.animationRunning = false;
                 this.teamLogoImages = {};
@@ -7661,7 +7660,6 @@
                     await this.loadSeasonData();
                     await this.loadTeamLogoImages();
                     this.processAllData();
-                    this.updateDateInputField(); // 날짜 입력 필드 업데이트
                     this.updateDisplay(this.currentDate);
                     this.initCharts();
                 } catch (error) {
@@ -7777,14 +7775,6 @@ KT 9:1 키움(H)`;
                 }
                 
                 console.log(`${this.seasonData.length}일의 데이터 파싱 완료`);
-                
-                // 실제 데이터가 있는 마지막 날짜로 currentDate와 endDate 업데이트
-                if (this.seasonData.length > 0) {
-                    const lastDataDate = this.seasonData[this.seasonData.length - 1].date;
-                    this.endDate = lastDataDate;
-                    this.currentDate = lastDataDate;
-                    console.log(`마지막 데이터 날짜로 업데이트: ${lastDataDate}`);
-                }
             }
             
             // 시즌 전체에서 최대 게임차 미리 계산
@@ -8093,18 +8083,6 @@ KT 9:1 키움(H)`;
                 
                 prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
                 nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
-            }
-            
-            // 날짜 입력 필드 업데이트 (데이터 로드 후 호출)
-            updateDateInputField() {
-                if (this.endDate) {
-                    const dateInput = document.getElementById('daily-stats-date-input');
-                    if (dateInput) {
-                        dateInput.max = this.endDate;
-                        dateInput.value = this.currentDate || this.endDate;
-                        console.log(`날짜 입력 필드 업데이트: max=${this.endDate}, value=${this.currentDate}`);
-                    }
-                }
             }
             
             initCharts() {
