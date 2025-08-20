@@ -394,19 +394,33 @@ jobs:
         # 배포 전용 디렉토리만 업로드
         path: '_site'
         
-    # 19. GitHub Pages 배포
+    # 19. GitHub Pages 배포 (재시도 로직 포함)
     - name: 🌐 GitHub Pages 배포
       if: steps.check_changes.outputs.changes_detected == 'true'
       id: deployment
       uses: actions/deploy-pages@v4
       timeout-minutes: 10
+      continue-on-error: true
+      
+    # 19-1. 배포 실패시 재시도
+    - name: 🔄 GitHub Pages 배포 재시도
+      if: steps.check_changes.outputs.changes_detected == 'true' && steps.deployment.outcome == 'failure'
+      id: deployment_retry
+      uses: actions/deploy-pages@v4
+      timeout-minutes: 10
         
     # 20. 배포 완료 확인
     - name: ✅ 배포 완료 확인
-      if: steps.check_changes.outputs.changes_detected == 'true'
+      if: steps.check_changes.outputs.changes_detected == 'true' && (steps.deployment.outcome == 'success' || steps.deployment_retry.outcome == 'success')
       run: |
         echo "🚀 GitHub Pages 배포 완료!"
-        echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
+        if [ "${{ steps.deployment.outcome }}" == "success" ]; then
+          echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "✅ 첫 번째 시도에서 성공"
+        elif [ "${{ steps.deployment_retry.outcome }}" == "success" ]; then
+          echo "🌐 배포 URL: ${{ steps.deployment_retry.outputs.page_url }}"
+          echo "✅ 재시도에서 성공"
+        fi
         echo "📊 JSON 업데이트가 즉시 반영되었습니다"
 
     # 21. 최종 완료 알림
