@@ -9263,9 +9263,8 @@ KT 9:1 키움(H)`;
                     while (attempts < maxAttempts && !hasGameData) {
                         const dateStr = this.animationDate.toISOString().split('T')[0];
                         
-                        // 최대 날짜 체크
-                        const maxDate = new Date('2025-08-19');
-                        if (this.animationDate > maxDate) {
+                        // 최대 날짜 체크 (endDate 사용하여 8월 19일 포함)
+                        if (dateStr > this.endDate) {
                             this.stopAnimation();
                             return;
                         }
