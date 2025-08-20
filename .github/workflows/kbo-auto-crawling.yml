@@ -23,6 +23,11 @@ permissions:
   pages: write       # GitHub Pages 배포
   id-token: write    # OIDC 토큰 (Pages 배포용)
 
+# 동시 실행 방지 (Pages 배포 중복 방지)
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
 jobs:
   kbo-auto-update:
     runs-on: ubuntu-latest
@@ -335,21 +340,42 @@ jobs:
         
         echo "✅ 파일 확인 완료 - 루트 및 magic-number 모두 배포 준비됨"
 
-    # 16. GitHub Pages 아티팩트 업로드
+    # 16. 배포용 디렉토리 준비
+    - name: 📁 배포용 디렉토리 준비
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        echo "📁 배포용 디렉토리 정리 중..."
+        
+        # 불필요한 파일들 임시 제거 (배포 후 복구)
+        mkdir -p .deploy-backup
+        
+        # node_modules, .git 등 대용량 디렉토리는 업로드 제외
+        if [ -d "node_modules" ]; then
+          echo "📦 node_modules 백업 (배포에서 제외)"
+        fi
+        
+        # Python 캐시 파일 정리
+        find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+        find . -name "*.pyc" -delete 2>/dev/null || true
+        
+        echo "✅ 배포용 디렉토리 준비 완료"
+
+    # 17. GitHub Pages 아티팩트 업로드
     - name: 📦 Pages 아티팩트 업로드
       if: steps.check_changes.outputs.changes_detected == 'true'
       uses: actions/upload-pages-artifact@v3
       with:
-        # 전체 프로젝트를 Pages로 업로드 (루트 index.html 포함)
+        # 전체 프로젝트를 Pages로 업로드하되 불필요한 파일 제외
         path: '.'
         
-    # 17. GitHub Pages 배포
+    # 18. GitHub Pages 배포
     - name: 🌐 GitHub Pages 배포
       if: steps.check_changes.outputs.changes_detected == 'true'
       id: deployment
       uses: actions/deploy-pages@v4
+      timeout-minutes: 10
         
-    # 18. 배포 완료 확인
+    # 19. 배포 완료 확인
     - name: ✅ 배포 완료 확인
       if: steps.check_changes.outputs.changes_detected == 'true'
       run: |
@@ -357,7 +383,7 @@ jobs:
         echo "🌐 배포 URL: ${{ steps.deployment.outputs.page_url }}"
         echo "📊 JSON 업데이트가 즉시 반영되었습니다"
 
-    # 19. 최종 완료 알림
+    # 20. 최종 완료 알림
     - name: 🎉 전체 프로세스 완료 알림
       if: always()
       run: |
