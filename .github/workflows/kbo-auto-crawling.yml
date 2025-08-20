@@ -26,7 +26,7 @@ permissions:
 # 동시 실행 방지 (Pages 배포 중복 방지)
 concurrency:
   group: pages-deploy
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   kbo-auto-update:
