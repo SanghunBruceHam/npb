@@ -1,6 +1,8 @@
 name: KBO 자동 데이터 크롤링 및 업데이트
 
 on:
+  push:
+    branches: [ main ]
   schedule:
     # 한국시간 기준: 오후 6시, 오후 10시, 밤 12시 (UTC +9시간 차이)
     - cron: '0 9 * * *'   # UTC 09:00 = KST 18:00 (오후 6시)
