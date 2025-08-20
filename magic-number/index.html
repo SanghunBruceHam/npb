@@ -91,7 +91,7 @@
         ],
         "inLanguage": "ko-KR",
         "dateCreated": "2025-01-01",
-        "dateModified": "2025-08-09",
+        "dateModified": "DYNAMIC_DATE_PLACEHOLDER",
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -226,6 +226,14 @@
     <script>
         // 모바일 반응형 처리
         document.addEventListener('DOMContentLoaded', function() {
+            // SEO: dateModified를 현재 날짜로 동적 업데이트
+            const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
+            if (jsonLdScript) {
+                const jsonData = JSON.parse(jsonLdScript.textContent);
+                jsonData.dateModified = new Date().toISOString().split('T')[0];
+                jsonLdScript.textContent = JSON.stringify(jsonData, null, 4);
+            }
+            
             const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isSmallScreen = window.innerWidth <= 768;
             const deviceNotice = document.getElementById('deviceNotice');
@@ -493,7 +501,7 @@
 
                     </div>
                     <div class="championship-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #ffd700; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #b8860b; font-weight: 600; font-size: 14px;">👑 우승 조건 가이드</h4>
+                        <h3 style="margin: 0 0 10px 0; color: #b8860b; font-weight: 600; font-size: 14px;">👑 우승 조건 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
                                 <strong style="color: #2d3748; font-size: 13px;">📈 지표 설명</strong>
@@ -560,7 +568,7 @@
                         </div>
                     </div>
                     <div class="chase-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #ff6b35; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #ff6b35; font-weight: 600; font-size: 14px;">🎯 1위 탈환 가능성 분석 가이드</h4>
+                        <h3 style="margin: 0 0 10px 0; color: #ff6b35; font-weight: 600; font-size: 14px;">🎯 1위 탈환 가능성 분석 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
                                 <strong style="color: #2d3748; font-size: 13px;">📊 기본 지표</strong>
@@ -648,7 +656,7 @@
                         </div>
                     </div>
                     <div class="playoff-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #1a237e; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #1a237e; font-weight: 600; font-size: 14px;">📊 플레이오프 진출 조건 가이드</h4>
+                        <h3 style="margin: 0 0 10px 0; color: #1a237e; font-weight: 600; font-size: 14px;">📊 플레이오프 진출 조건 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
                                 <strong style="color: #2d3748; font-size: 13px;">📈 지표 설명</strong>
@@ -746,7 +754,7 @@
                     
                     <!-- 팀 순위표 설명카드 -->
                     <div class="standings-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #1a237e; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #1a237e; font-weight: 600; font-size: 14px;">📊 팀 순위표 가이드</h4>
+                        <h3 style="margin: 0 0 10px 0; color: #1a237e; font-weight: 600; font-size: 14px;">📊 팀 순위표 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
                                 <strong style="color: #1a237e; font-size: 13px;">📈 승패마진:</strong> <span style="font-size: 12px;">2위와 승수 차이</span><br>
@@ -852,7 +860,7 @@
                     
                     
                     <div class="legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 35px; border-left: 3px solid #FF6B35; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #FF6B35; font-weight: 600; font-size: 14px;">📈 순위 변동 그래프 이용 가이드</h4>
+                        <h3 style="margin: 0 0 10px 0; color: #FF6B35; font-weight: 600; font-size: 14px;">📈 순위 변동 그래프 이용 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
                                 <strong style="color: #2d3748; font-size: 13px;">📊 데이터 정보</strong>
@@ -911,7 +919,7 @@
                     
                     <!-- 설명 섹션 -->
                     <div class="vs-legend legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 15px; border-left: 3px solid #16A34A; font-size: 13px;">
-                        <h4 style="margin: 0 0 10px 0; color: #16A34A; font-weight: 600; font-size: 14px;">⚔️ 상대전적 가이드</h4>
+                        <h3 style="margin: 0 0 10px 0; color: #16A34A; font-weight: 600; font-size: 14px;">⚔️ 상대전적 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
                                 <strong style="color: #2d3748; font-size: 13px;">📊 매트릭스 읽는 법</strong>
