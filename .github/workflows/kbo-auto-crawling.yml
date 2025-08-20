@@ -370,8 +370,13 @@ jobs:
         # 필요한 파일들만 복사
         cp index.html _site/
         cp -r magic-number/ _site/
+        cp -r images/ _site/ 2>/dev/null || true  # 루트 이미지 폴더
         cp *.json _site/ 2>/dev/null || true
         cp manifest.json _site/ 2>/dev/null || true
+        cp robots.txt _site/ 2>/dev/null || true
+        cp sitemap.xml _site/ 2>/dev/null || true
+        cp ads.txt _site/ 2>/dev/null || true
+        cp CNAME _site/ 2>/dev/null || true
         
         # 배포 디렉토리 크기 확인
         DEPLOY_SIZE=$(du -sh _site | cut -f1)
