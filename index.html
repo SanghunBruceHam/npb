@@ -3080,6 +3080,7 @@
             <div class="nav-container">
                 <div class="nav-menu">
                     <a href="#season-progress" class="nav-item">📈 진행률</a>
+                    <a href="#daily-stats" class="nav-item">📅 일별통계</a>
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
                     <a href="#rank-chart-section" class="nav-item">📈 순위변동</a>
                     <a href="#pythagorean" class="nav-item">📊 피타고리안</a>
@@ -3161,6 +3162,139 @@
                         <div><strong>한국시리즈:</strong> 10월 말</div>
                     </div>
                 </div>
+        </div>
+
+        <style>
+        /* 일별 통계 모바일 반응형 스타일 */
+        @media (max-width: 768px) {
+            .daily-stats-content-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .daily-stats-controls {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            
+            .daily-stats-date-display {
+                font-size: 16px !important;
+                padding: 8px 16px !important;
+            }
+            
+            .daily-stats-nav-buttons {
+                justify-content: center;
+            }
+            
+            .daily-stats-btn {
+                padding: 8px 12px !important;
+                font-size: 13px !important;
+            }
+        }
+        
+        /* 버튼 호버 효과 */
+        .daily-stats-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .daily-stats-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        </style>
+
+        <!-- 일별 종합지표 분석 카드 -->
+        <div class="card" id="daily-stats">
+            <div class="card-header">
+                <span class="card-icon">📅</span>
+                <h2 class="card-title">일자별 순위·게임차·승률 그래프</h2>
+            </div>
+            
+            <!-- 날짜 네비게이션 -->
+            <div class="daily-stats-header" style="position: sticky; top: 60px; z-index: 100; margin-bottom: 15px; margin-top: 0; padding: 12px 16px; background: rgba(248, 249, 250, 0.95); backdrop-filter: blur(10px); border-radius: 8px; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <div class="daily-stats-controls" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                    <div class="daily-stats-date-display" style="font-size: 15px; font-weight: 600; color: #2563eb; padding: 8px 16px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 8px; border: 1px solid #cbd5e1; min-width: 180px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-current-date">
+                        2025년 3월 22일 (금)
+                    </div>
+                    <div class="daily-stats-nav-buttons" style="display: flex; gap: 6px;">
+                        <button class="daily-stats-btn daily-stats-btn-secondary" style="padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-prev-btn" onclick="dailyStatsChangeDate(-1)" onmouseover="this.style.background='linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)'">← 이전날</button>
+                        <button class="daily-stats-btn daily-stats-btn-primary" style="padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; box-shadow: 0 3px 6px rgba(59, 130, 246, 0.3);" id="daily-stats-today-btn" onclick="dailyStatsGoToday()" onmouseover="this.style.background='linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'">오늘</button>
+                        <button class="daily-stats-btn daily-stats-btn-secondary" style="padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-next-btn" onclick="dailyStatsChangeDate(1)" onmouseover="this.style.background='linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)'">다음날 →</button>
+                    </div>
+                    <input type="date" class="daily-stats-date-input" style="padding: 10px 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: white; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-date-input" min="2025-03-22" max="2025-08-19" value="2025-03-22" onchange="dailyStatsSelectDate(this.value)" onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.05)'">
+                    <div class="daily-stats-animation-controls" style="display: flex; gap: 6px;">
+                        <button class="daily-stats-btn daily-stats-btn-primary" style="padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; box-shadow: 0 3px 6px rgba(16, 185, 129, 0.3);" id="daily-stats-animation-btn" onclick="dailyStatsToggleAnimation()" onmouseover="this.style.background='linear-gradient(135deg, #059669 0%, #047857 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #10b981 0%, #059669 100%)'">▶️ 시즌 애니메이션</button>
+                        <button class="daily-stats-btn daily-stats-btn-secondary" style="padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; box-shadow: 0 3px 6px rgba(245, 158, 11, 0.3);" id="daily-stats-reset-btn" onclick="dailyStatsResetAnimation()" onmouseover="this.style.background='linear-gradient(135deg, #d97706 0%, #b45309 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'">⏮️ 처음부터</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 컨텐츠 그리드 -->
+            <div class="daily-stats-content-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <!-- 순위표 카드 -->
+                <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; height: 480px; display: flex; flex-direction: column;">
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📊 팀 순위표</h3>
+                    <div id="daily-stats-standings-container" class="loading" style="flex: 1; overflow: hidden;">
+                        데이터를 불러오는 중...
+                    </div>
+                </div>
+                
+                <!-- 경기 결과 카드 -->
+                <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; height: 480px; display: flex; flex-direction: column;">
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">⚾ 경기 결과</h3>
+                    <div id="daily-stats-games-container" class="loading" style="flex: 1; overflow-y: auto;">
+                        데이터를 불러오는 중...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 게임차 차트 -->
+            <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; margin-bottom: 20px; height: 470px; display: flex; flex-direction: column;">
+                <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📊 순위별 게임차 분포</h3>
+                <div style="position: relative; height: 250px; margin-bottom: 15px; flex-shrink: 0;">
+                    <canvas id="daily-stats-game-gap-chart"></canvas>
+                </div>
+                <div id="daily-stats-game-gap-info" style="padding: 12px; background: white; border-radius: 6px; font-size: 13px; line-height: 1.6; border: 1px solid #e5e7eb; flex: 1; overflow-y: auto;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">📋 순위별 게임차 정보</div>
+                    <div id="daily-stats-game-gap-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+                        <!-- 동적으로 채워짐 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 순위 변동 차트 (전체 너비) -->
+            <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; margin-bottom: 20px; height: 535px; display: flex; flex-direction: column;">
+                <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📊 순위 변동 추이</h3>
+                <div style="position: relative; flex: 1; margin-bottom: 8px;">
+                    <canvas id="daily-stats-rank-chart"></canvas>
+                </div>
+                <div id="daily-stats-rank-legend" style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e5e7eb; flex-shrink: 0; max-height: 60px; overflow-y: auto;">
+                    <!-- 동적으로 생성됨 -->
+                </div>
+            </div>
+            
+            <!-- 승률 추이 차트 (전체 너비) -->
+            <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; height: 535px; display: flex; flex-direction: column;">
+                <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📉 승률 추이</h3>
+                <div style="position: relative; flex: 1; margin-bottom: 8px;">
+                    <canvas id="daily-stats-win-rate-chart"></canvas>
+                </div>
+                <div id="daily-stats-win-rate-legend" style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e5e7eb; flex-shrink: 0; max-height: 60px; overflow-y: auto;">
+                    <!-- 동적으로 생성됨 -->
+                </div>
+            </div>
+            
+            <!-- 설명 섹션 -->
+            <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📖 일별 종합지표 이용 가이드</div>
+                <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
+                    <div style="margin-bottom: 6px;"><strong>날짜 네비게이션:</strong> ← → 버튼으로 날짜 이동, 날짜 입력으로 직접 선택, 오늘 버튼으로 최신 경기일로 이동</div>
+                    <div style="margin-bottom: 6px;"><strong>시즌 애니메이션:</strong> ▶️ 버튼으로 시즌 시작부터 자동 진행, ⏸️로 일시정지, ⏮️로 시작일(3월 22일)로 이동</div>
+                    <div style="margin-bottom: 6px;"><strong>날짜 색상:</strong> 평일은 파란색, 주말/공휴일은 빨간색으로 표시</div>
+                    <div style="margin-bottom: 6px;"><strong>차트 조작:</strong> 팀 로고 클릭으로 해당 팀 선 표시/숨김, 마우스 오버로 상세 정보 확인</div>
+                    <div><strong>데이터 범위:</strong> 2025년 3월 22일(개막일)부터 현재까지의 실제 경기 결과 기반</div>
+                </div>
+            </div>
         </div>
 
         <!-- 광고: 시즌 진행률과 종합 순위 사이 -->
@@ -4030,7 +4164,7 @@
                     const aWinRate = parseFloat(a.win_rate);
                     const bWinRate = parseFloat(b.win_rate);
                     
-                    // 1차: 승률 비교 (내림차순)
+                    // 1차: 표시된 승률 비교 (내림차순)
                     if (aWinRate !== bWinRate) {
                         return bWinRate - aWinRate;
                     }
@@ -4057,9 +4191,46 @@
                 
                 console.log('📊 순위 정렬 완료:', dashboardData.standings.map(t => `${t.team_name}(${t.win_rate})`).join(', '));
                 
+                // 정렬 후 동률 처리하여 순위 재할당
+                assignRanksWithTies();
+                
             } catch (error) {
                 console.error('❌ 순위 정렬 실패:', error);
             }
+        }
+
+        // 승률 동률 처리하여 순위 할당
+        function assignRanksWithTies() {
+            if (!dashboardData.standings || dashboardData.standings.length === 0) return;
+            
+            let currentRank = 1;
+            
+            for (let i = 0; i < dashboardData.standings.length; i++) {
+                if (i === 0) {
+                    // 첫 번째 팀은 항상 1위
+                    dashboardData.standings[i].rank = 1;
+                    dashboardData.standings[i].displayRank = 1;
+                } else {
+                    const currentTeam = dashboardData.standings[i];
+                    const previousTeam = dashboardData.standings[i - 1];
+                    
+                    const currentWinRate = parseFloat(currentTeam.win_rate);
+                    const previousWinRate = parseFloat(previousTeam.win_rate);
+                    
+                    if (currentWinRate === previousWinRate) {
+                        // 표시된 승률이 동일하면 이전 팀과 같은 순위
+                        currentTeam.rank = previousTeam.rank;
+                        currentTeam.displayRank = previousTeam.displayRank;
+                    } else {
+                        // 승률이 다르면 현재 인덱스 기반으로 순위 할당
+                        currentRank = i + 1;
+                        currentTeam.rank = currentRank;
+                        currentTeam.displayRank = currentRank;
+                    }
+                }
+            }
+            
+            console.log('📊 동률 처리 완료:', dashboardData.standings.map(t => `${t.displayRank}.${t.team_name}(${t.win_rate})`).join(', '));
         }
 
         // 데이터 로드
@@ -5281,10 +5452,8 @@
                     return 0;
                 });
                 
-                // 정렬 후 순위 재배정
-                dashboardData.standings.forEach((team, index) => {
-                    team.rank = index + 1;
-                });
+                // 정렬 후 순위 재배정 (동률 처리 포함)
+                assignRanksWithTies();
                 
                 isCustomSorted = true;
                 console.log('정렬 후 데이터:', dashboardData.standings.map(t => `${t.rank}.${t.team_name}(${t.current_streak})`));
@@ -5320,10 +5489,8 @@
                     return 0;
                 });
                 
-                // 정렬 후 순위 재배정
-                dashboardData.standings.forEach((team, index) => {
-                    team.rank = index + 1;
-                });
+                // 정렬 후 순위 재배정 (동률 처리 포함)
+                assignRanksWithTies();
                 
                 isCustomSorted = true;
                 console.log('연패 우선 정렬 완료: ' + dashboardData.standings.slice(0,3).map(t => t.team_name).join(', '));
@@ -6759,13 +6926,10 @@
                 return;
             }
 
-            const teams = dashboardData.standings;
+            const standingsData = dashboardData.standings;
             let totalGamesPlayed = 0;
             const totalPossibleGames = 720; // 10팀이 서로 경기하는 총 경기 수 (1440÷2)
             const gamesPerTeam = 144;
-            
-            console.log('teams 배열:', teams);
-            console.log('teams 길이:', teams?.length);
             
             // 팀별 색상 정의 (JSON의 team_name 기준)
             const teamColors = {
@@ -6810,7 +6974,7 @@
             };
 
             // 전체 경기 수 계산
-            teams.forEach(team => {
+            standingsData.forEach(team => {
                 totalGamesPlayed += parseInt(team.games_played);
             });
             totalGamesPlayed = Math.floor(totalGamesPlayed / 2); // 각 경기가 두 팀에 계산되므로 나누기 2
@@ -6828,7 +6992,7 @@
             const teamProgressContainer = document.getElementById('team-progress-container');
             teamProgressContainer.innerHTML = '';
 
-            teams.forEach((team, index) => {
+            standingsData.forEach((team, index) => {
                 const gamesPlayed = parseInt(team.games_played);
                 const progress = Math.min((gamesPlayed / gamesPerTeam) * 100, 100);
                 const teamColor = teamColors[team.team_name] || '#6366f1';
@@ -7407,6 +7571,1657 @@
 
     <!-- Chart.js 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 일별 종합지표 분석 스크립트 -->
+    <!-- daily-stats-module.js는 미완성이므로 제거 -->
+    <script>
+        // 완전한 일별 통계 시스템 - 실제 데이터 사용
+        class CompleteDailyStats {
+            constructor() {
+                this.seasonData = [];
+                this.currentDate = '2025-08-19';
+                this.startDate = '2025-03-22';
+                this.endDate = '2025-08-19';
+                this.teamStats = {};
+                this.animationRunning = false;
+                this.teamLogoImages = {};
+                // 애니메이션 관련 변수들
+                this.isAnimating = false;
+                this.animationInterval = null;
+                this.animationDate = null;
+                
+                // 2025년 공휴일 목록
+                this.holidays = new Set([
+                    '2025-01-01', // 신정
+                    '2025-01-28', // 설날 연휴
+                    '2025-01-29', // 설날
+                    '2025-01-30', // 설날 연휴
+                    '2025-03-01', // 삼일절
+                    '2025-05-05', // 어린이날
+                    '2025-05-06', // 대체공휴일 (어린이날)
+                    '2025-05-13', // 부처님오신날
+                    '2025-06-06', // 현충일
+                    '2025-08-15', // 광복절
+                    '2025-09-06', // 추석 연휴
+                    '2025-09-07', // 추석 연휴
+                    '2025-09-08', // 추석
+                    '2025-09-09', // 추석 연휴
+                    '2025-10-03', // 개천절
+                    '2025-10-09', // 한글날
+                    '2025-12-25'  // 크리스마스
+                ]);
+                
+                this.teamColors = {
+                    'LG': '#C30452', '삼성': '#074CA1', 'KT': '#000000', '두산': '#131230',
+                    'KIA': '#EA0029', 'SSG': '#CE0E2D', '롯데': '#002955', 'NC': '#315288',
+                    '한화': '#FF6600', '키움': '#820024'
+                };
+                
+                this.teamLogos = {
+                    'LG': 'images/lg.png', '삼성': 'images/samsung.png', 'KT': 'images/kt.png',
+                    '두산': 'images/doosan.png', 'KIA': 'images/kia.png', 'SSG': 'images/ssg.png',
+                    '롯데': 'images/lotte.png', 'NC': 'images/nc.png', '한화': 'images/hanwha.png',
+                    '키움': 'images/kiwoom.png'
+                };
+                
+                this.init();
+            }
+            
+            async init() {
+                try {
+                    console.log('완전한 일별 통계 초기화 시작');
+                    await this.loadSeasonData();
+                    await this.loadTeamLogoImages();
+                    this.processAllData();
+                    this.updateDisplay(this.currentDate);
+                    this.initCharts();
+                } catch (error) {
+                    console.error('일별 통계 초기화 실패:', error);
+                    this.showError('데이터 로드 실패');
+                }
+            }
+            
+            async loadTeamLogoImages() {
+                const teams = ['LG', '삼성', 'KT', '두산', 'KIA', 'SSG', '롯데', 'NC', '한화', '키움'];
+                const promises = teams.map(team => {
+                    return new Promise((resolve) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            // 적당한 크기의 캔버스로 이미지 리사이즈
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            canvas.width = 30;
+                            canvas.height = 30;
+                            ctx.drawImage(img, 0, 0, 30, 30);
+                            this.teamLogoImages[team] = canvas;
+                            resolve();
+                        };
+                        img.onerror = () => {
+                            console.warn(`팀 로고 로드 실패: ${team}`);
+                            resolve();
+                        };
+                        img.src = this.teamLogos[team];
+                    });
+                });
+                
+                await Promise.all(promises);
+                console.log('팀 로고 이미지 로드 완료');
+            }
+            
+            async loadSeasonData() {
+                try {
+                    console.log('실제 시즌 데이터 로드 시도...');
+                    const response = await fetch('magic-number/data/2025-season-data-clean.txt');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const text = await response.text();
+                    console.log('시즌 데이터 로드 성공:', text.length, '바이트');
+                    this.parseSeasonData(text);
+                    
+                } catch (error) {
+                    console.warn('실제 데이터 로드 실패, 샘플 데이터 사용:', error);
+                    this.loadSampleData();
+                }
+            }
+            
+            loadSampleData() {
+                const sampleData = `2025-03-22
+한화 4:3 KT(H)
+롯데 2:12 LG(H)
+NC 2:9 KIA(H)
+두산 5:6 SSG(H)
+키움 5:13 삼성(H)
+
+2025-03-23
+한화 4:5 KT(H)
+롯데 2:10 LG(H)
+NC 5:4 KIA(H)
+두산 2:5 SSG(H)
+키움 7:11 삼성(H)
+
+2025-08-19
+LG 7:3 한화(H)
+삼성 8:2 NC(H)
+KIA 6:4 롯데(H)
+SSG 5:3 두산(H)
+KT 9:1 키움(H)`;
+                
+                console.log('샘플 데이터 파싱');
+                this.parseSeasonData(sampleData);
+            }
+            
+            parseSeasonData(text) {
+                const lines = text.split('\n');
+                let currentDate = null;
+                let currentGames = [];
+                
+                for (const line of lines) {
+                    const trimmedLine = line.trim();
+                    
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedLine)) {
+                        if (currentDate && currentGames.length > 0) {
+                            this.seasonData.push({ date: currentDate, games: currentGames });
+                        }
+                        currentDate = trimmedLine;
+                        currentGames = [];
+                    } else if (trimmedLine && currentDate) {
+                        const gameMatch = trimmedLine.match(/^(.+?)\s+(\d+):(\d+)\s+(.+?)(?:\(H\))?$/);
+                        if (gameMatch) {
+                            const [, team1, score1, score2, team2] = gameMatch;
+                            currentGames.push({
+                                date: currentDate,
+                                team1: team1.trim(),
+                                score1: parseInt(score1),
+                                team2: team2.replace('(H)', '').trim(),
+                                score2: parseInt(score2),
+                                isHome: trimmedLine.includes('(H)')
+                            });
+                        }
+                    }
+                }
+                
+                if (currentDate && currentGames.length > 0) {
+                    this.seasonData.push({ date: currentDate, games: currentGames });
+                }
+                
+                console.log(`${this.seasonData.length}일의 데이터 파싱 완료`);
+            }
+            
+            processAllData() {
+                const teams = ['LG', '삼성', 'KT', '두산', 'KIA', 'SSG', '롯데', 'NC', '한화', '키움'];
+                teams.forEach(team => {
+                    this.teamStats[team] = {
+                        games: 0, wins: 0, losses: 0, draws: 0,
+                        runsFor: 0, runsAgainst: 0, dailyWinRate: []
+                    };
+                });
+                
+                // 날짜별 누적 계산
+                for (const dayData of this.seasonData) {
+                    dayData.games.forEach(game => {
+                        const { team1, team2, score1, score2 } = game;
+                        
+                        if (this.teamStats[team1]) {
+                            this.teamStats[team1].games++;
+                            this.teamStats[team1].runsFor += score1;
+                            this.teamStats[team1].runsAgainst += score2;
+                            if (score1 > score2) this.teamStats[team1].wins++;
+                            else if (score1 < score2) this.teamStats[team1].losses++;
+                            else this.teamStats[team1].draws++;
+                        }
+                        
+                        if (this.teamStats[team2]) {
+                            this.teamStats[team2].games++;
+                            this.teamStats[team2].runsFor += score2;
+                            this.teamStats[team2].runsAgainst += score1;
+                            if (score2 > score1) this.teamStats[team2].wins++;
+                            else if (score2 < score1) this.teamStats[team2].losses++;
+                            else this.teamStats[team2].draws++;
+                        }
+                    });
+                }
+            }
+            
+            calculateStandings(targetDate) {
+                const teams = ['LG', '삼성', 'KT', '두산', 'KIA', 'SSG', '롯데', 'NC', '한화', '키움'];
+                const tempStats = {};
+                
+                teams.forEach(team => {
+                    tempStats[team] = {
+                        team, games: 0, wins: 0, losses: 0, draws: 0, winRate: 0, gamesBehind: 0
+                    };
+                });
+                
+                for (const dayData of this.seasonData) {
+                    if (dayData.date > targetDate) break;
+                    
+                    dayData.games.forEach(game => {
+                        const { team1, team2, score1, score2 } = game;
+                        
+                        if (tempStats[team1]) {
+                            tempStats[team1].games++;
+                            if (score1 > score2) tempStats[team1].wins++;
+                            else if (score1 < score2) tempStats[team1].losses++;
+                            else tempStats[team1].draws++;
+                        }
+                        
+                        if (tempStats[team2]) {
+                            tempStats[team2].games++;
+                            if (score2 > score1) tempStats[team2].wins++;
+                            else if (score2 < score1) tempStats[team2].losses++;
+                            else tempStats[team2].draws++;
+                        }
+                    });
+                }
+                
+                const standings = Object.values(tempStats);
+                standings.forEach(team => {
+                    const decidedGames = team.wins + team.losses;
+                    team.winRate = decidedGames > 0 ? team.wins / decidedGames : 0;
+                });
+                
+                standings.sort((a, b) => {
+                    if (b.winRate !== a.winRate) return b.winRate - a.winRate;
+                    if (b.wins !== a.wins) return b.wins - a.wins;
+                    return a.losses - b.losses;
+                });
+                
+                // 게임차 계산
+                if (standings.length > 0) {
+                    const leader = standings[0];
+                    standings.forEach(team => {
+                        const winDiff = leader.wins - team.wins;
+                        const lossDiff = team.losses - leader.losses;
+                        team.gamesBehind = (winDiff + lossDiff) / 2;
+                    });
+                }
+                
+                // 공동 순위 계산 - 종합순위와 동일한 로직 적용
+                let currentRank = 1;
+                let previousWinRate = null;
+                
+                standings.forEach((team, index) => {
+                    // 표시되는 승률 기준으로 동률 처리 (소수점 3자리)
+                    const displayedWinRate = parseFloat(team.winRate.toFixed(3));
+                    
+                    // 이전 팀과 표시 승률이 다르면 실제 순위로 업데이트
+                    if (previousWinRate !== null && displayedWinRate !== previousWinRate) {
+                        currentRank = index + 1;
+                    }
+                    // 동률일 경우 같은 순위 유지
+                    team.rank = currentRank;
+                    previousWinRate = displayedWinRate;
+                    
+                });
+                
+                return standings;
+            }
+            
+            updateDisplay(date) {
+                this.currentDate = date;
+                
+                // 날짜 표시 업데이트
+                const dateObj = new Date(date + 'T00:00:00');
+                const dateStr = dateObj.toLocaleDateString('ko-KR', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                const dayStr = dateObj.toLocaleDateString('ko-KR', {
+                    weekday: 'short'
+                });
+                
+                const currentDateElement = document.getElementById('daily-stats-current-date');
+                const dateInputElement = document.getElementById('daily-stats-date-input');
+                
+                if (currentDateElement) {
+                    currentDateElement.textContent = `${dateStr} (${dayStr})`;
+                    
+                    // 요일별 색상 설정 (0=일요일, 6=토요일)
+                    const dayOfWeek = dateObj.getDay();
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // 일요일 또는 토요일
+                    const isHoliday = this.holidays.has(date); // 공휴일 확인
+                    
+                    if (isWeekend || isHoliday) {
+                        // 주말/공휴일: 빨간색
+                        currentDateElement.style.color = '#dc2626';
+                        currentDateElement.style.background = 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)';
+                        currentDateElement.style.borderColor = '#f87171';
+                    } else {
+                        // 평일: 파란색
+                        currentDateElement.style.color = '#2563eb';
+                        currentDateElement.style.background = 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)';
+                        currentDateElement.style.borderColor = '#cbd5e1';
+                    }
+                }
+                if (dateInputElement) dateInputElement.value = date;
+                
+                // 해당 날짜 데이터 찾기
+                const dayData = this.seasonData.find(d => d.date === date);
+                
+                // 순위표 업데이트
+                this.updateStandings(date);
+                
+                // 경기 결과 업데이트
+                this.updateGames(dayData);
+                
+                // 게임차 차트 업데이트
+                if (this.gameGapChart || document.getElementById('daily-stats-game-gap-chart')) {
+                    this.updateGameGapChart(date);
+                }
+                
+                // 승률 추이 차트 업데이트 (최적화된 메서드 사용)
+                if (this.winRateChart) {
+                    this.updateWinRateChartForDateChange(date);
+                }
+                
+                // 순위 변동 차트 업데이트 (최적화된 메서드 사용)
+                if (this.rankChart) {
+                    this.updateRankChartForDateChange(date);
+                }
+                
+                // 버튼 상태 업데이트
+                this.updateButtonStates();
+            }
+            
+            updateStandings(date) {
+                const standings = this.calculateStandings(date);
+                const container = document.getElementById('daily-stats-standings-container');
+                
+                if (!container) return;
+                
+                
+                if (standings.every(team => team.games === 0)) {
+                    container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 20px;">아직 경기가 시작되지 않았습니다.</div>';
+                    return;
+                }
+                
+                let html = `<table style="width: 100%; border-collapse: collapse;">
+                    <thead><tr style="background: #f3f4f6;">
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">순위</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">팀</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">경기</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">승</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">무</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">패</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">승률</th>
+                        <th style="padding: 6px 4px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 11px;">게임차</th>
+                    </tr></thead><tbody>`;
+                
+                standings.forEach((team, index) => {
+                    const rank = team.rank; // 계산된 공동 순위 사용
+                    const rowStyle = rank === 1 ? 'background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%); font-weight: bold;' : '';
+                    const winRateStr = team.winRate.toFixed(3);
+                    const gbStr = team.gamesBehind === 0 ? '-' : team.gamesBehind.toFixed(1);
+                    
+                    html += `<tr style="${rowStyle}">
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">${rank}</td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px; color: ${this.teamColors[team.team]}; font-weight: 600;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <img src="${this.teamLogos[team.team]}" alt="${team.team}" style="width: 20px; height: 20px; object-fit: contain;" onerror="this.style.display='none'">
+                                <span>${team.team}</span>
+                            </div>
+                        </td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">${team.games}</td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">${team.wins}</td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">${team.draws || 0}</td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">${team.losses}</td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px; font-weight: 600;">${winRateStr}</td>
+                        <td style="padding: 6px 4px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">${gbStr}</td>
+                    </tr>`;
+                });
+                
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+            
+            updateGames(dayData) {
+                const container = document.getElementById('daily-stats-games-container');
+                if (!container) return;
+                
+                if (!dayData || dayData.games.length === 0) {
+                    const date = new Date(this.currentDate + 'T00:00:00');
+                    const dayOfWeek = date.getDay();
+                    const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+                    const reason = dayOfWeek === 1 ? '정규 휴식일입니다' : '경기가 없습니다';
+                    
+                    container.innerHTML = `<div style="text-align: center; color: #6b7280; padding: 20px;">
+                        <div style="font-size: 16px; margin-bottom: 8px;">📅 ${dayNames[dayOfWeek]}요일</div>
+                        <div>${reason}</div>
+                    </div>`;
+                    return;
+                }
+                
+                let html = '';
+                dayData.games.forEach(game => {
+                    const winner = game.score1 > game.score2 ? game.team1 : 
+                                  game.score2 > game.score1 ? game.team2 : null;
+                    
+                    const team1Style = winner === game.team1 ? 'color: #10b981;' : winner === game.team2 ? 'color: #ef4444;' : '';
+                    const team2Style = winner === game.team2 ? 'color: #10b981;' : winner === game.team1 ? 'color: #ef4444;' : '';
+                    
+                    html += `<div style="padding: 8px 10px; margin-bottom: 8px; background: white; border-radius: 6px; border-left: 3px solid #667eea; border: 1px solid #e5e7eb;">
+                        <div style="font-size: 14px; font-weight: bold; color: #333; display: flex; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 6px; flex: 1; justify-content: flex-start;">
+                                <img src="${this.teamLogos[game.team1]}" alt="${game.team1}" style="width: 18px; height: 18px; object-fit: contain;" onerror="this.style.display='none'">
+                                <span style="${team1Style} color: ${this.teamColors[game.team1]};">${game.team1}</span>
+                            </div>
+                            <div style="font-size: 16px; font-weight: bold; text-align: center; min-width: 60px;">${game.score1} : ${game.score2}</div>
+                            <div style="display: flex; align-items: center; gap: 6px; flex: 1; justify-content: flex-end;">
+                                <span style="${team2Style} color: ${this.teamColors[game.team2]};">${game.team2}</span>
+                                <img src="${this.teamLogos[game.team2]}" alt="${game.team2}" style="width: 18px; height: 18px; object-fit: contain;" onerror="this.style.display='none'">
+                                ${game.isHome ? '<span style="font-size: 12px; color: #666; margin-left: 4px;">(홈)</span>' : ''}
+                            </div>
+                        </div>
+                    </div>`;
+                });
+                
+                container.innerHTML = html;
+            }
+            
+            updateButtonStates() {
+                const prevBtn = document.getElementById('daily-stats-prev-btn');
+                const nextBtn = document.getElementById('daily-stats-next-btn');
+                
+                if (!prevBtn || !nextBtn) return;
+                
+                const currentDateObj = new Date(this.currentDate + 'T00:00:00');
+                const startDateObj = new Date(this.startDate + 'T00:00:00');
+                const endDateObj = new Date(this.endDate + 'T00:00:00');
+                
+                prevBtn.disabled = currentDateObj <= startDateObj;
+                nextBtn.disabled = currentDateObj >= endDateObj;
+                
+                prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+                nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
+            }
+            
+            initCharts() {
+                setTimeout(() => {
+                    if (typeof Chart !== 'undefined') {
+                        this.initGameGapChart();
+                        this.initWinRateChart();
+                        this.initRankChart();
+                    }
+                }, 500);
+            }
+            
+            initGameGapChart() {
+                const ctx = document.getElementById('daily-stats-game-gap-chart');
+                if (!ctx) return;
+                
+                // 현재 날짜의 순위표를 기반으로 게임차 차트 생성
+                this.updateGameGapChart(this.currentDate);
+            }
+            
+            updateGameGapChart(date) {
+                const ctx = document.getElementById('daily-stats-game-gap-chart');
+                if (!ctx) return;
+                
+                const standings = this.calculateStandings(date);
+                
+                // 최대 게임차 계산 (x축 최적화용)
+                const maxGamesBehind = Math.max(...standings.map(team => team.gamesBehind));
+                // 0.5 단위로 올림 (예: 1.0 -> 1.0, 1.1 -> 1.5, 1.6 -> 2.0)
+                const roundedMax = Math.ceil(maxGamesBehind * 2) / 2;
+                
+                // 산점도 데이터 생성 (Y축은 약간의 오프셋으로 팀들이 겹치지 않게 - 원래 방식)
+                const scatterData = standings.map((team, index) => ({
+                    x: team.gamesBehind,
+                    y: (index % 2 === 0 ? 0.1 : -0.1), // 짝수/홀수로 위아래 배치
+                    team: team.team,
+                    rank: team.rank,
+                    wins: team.wins,
+                    losses: team.losses
+                }));
+                
+                // 기존 차트가 있으면 데이터만 업데이트 (애니메이션 효과)
+                if (this.gameGapChart) {
+                    // 기존 데이터를 새 데이터로 업데이트
+                    this.gameGapChart.data.datasets[0].data = scatterData;
+                    
+                    // x축 범위 업데이트 (0.5 단위로 올림)
+                    this.gameGapChart.options.scales.x.max = roundedMax;
+                    
+                    // 부드러운 애니메이션으로 업데이트
+                    this.gameGapChart.update('active');
+                    
+                    // 게임차 정보 테이블 업데이트
+                    this.updateGameGapInfo(standings);
+                    return;
+                }
+                
+                // 새 차트 생성
+                this.gameGapChart = new Chart(ctx.getContext('2d'), {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: '팀별 게임차',
+                            data: scatterData,
+                            backgroundColor: scatterData.map(point => 'transparent'),
+                            borderColor: scatterData.map(point => 'transparent'),
+                            pointStyle: scatterData.map(point => this.teamLogoImages[point.team] || 'circle'),
+                            pointRadius: 20,
+                            pointHoverRadius: 23
+                        }]
+                    },
+                    plugins: [{
+                        id: 'rankLabels',
+                        afterDatasetsDraw: (chart) => {
+                            const ctx = chart.ctx;
+                            const meta = chart.getDatasetMeta(0);
+                            
+                            chart.data.datasets[0].data.forEach((point, index) => {
+                                const element = meta.data[index];
+                                if (element && element.x !== undefined && element.y !== undefined) {
+                                    ctx.save();
+                                    
+                                    // 순위 텍스트 그리기
+                                    ctx.font = 'bold 14px Arial';
+                                    ctx.fillStyle = '#1e40af';  // 파란색
+                                    ctx.strokeStyle = 'white';
+                                    ctx.lineWidth = 3;
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    
+                                    const text = `${point.rank}위`;
+                                    const xPos = element.x;  // 로고 중앙 정렬
+                                    const yPos = element.y + 30;  // 로고 아래로 이동
+                                    
+                                    // 흰색 외곽선
+                                    ctx.strokeText(text, xPos, yPos);
+                                    // 파란색 텍스트
+                                    ctx.fillText(text, xPos, yPos);
+                                    
+                                    ctx.restore();
+                                }
+                            });
+                        }
+                    }],
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        clip: false,  // 차트 영역 밖의 요소도 표시
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 60,  // 오른쪽 패딩을 더 늘려서 10위 팀 로고도 완전히 보이게
+                                top: 10,
+                                bottom: 10
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => {
+                                        const point = context.raw;
+                                        const gapText = point.x === 0 ? '선두' : `${point.x.toFixed(1)}차`;
+                                        return `${point.rank}위 ${point.team}: ${gapText} (${point.wins}승${point.losses}패)`;
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 800,
+                            easing: 'easeInOutQuart'
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: '게임차' },
+                                beginAtZero: true,
+                                max: roundedMax,
+                                ticks: {
+                                    stepSize: 0.5, // 0.5게임 단위로 표기
+                                    callback: (value) => value === 0 ? '선두' : `${value.toFixed(1)}차`
+                                }
+                            },
+                            y: {
+                                display: false,
+                                min: -0.5,
+                                max: 0.5
+                            }
+                        },
+                        animation: {
+                            duration: 800,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+                
+                // 게임차 정보 테이블 업데이트
+                this.updateGameGapInfo(standings);
+            }
+            
+            updateGameGapInfo(standings) {
+                const container = document.getElementById('daily-stats-game-gap-list');
+                if (!container) return;
+                
+                let html = '';
+                standings.forEach((team, index) => {
+                    const rank = team.rank; // 계산된 공동 순위 사용
+                    const gap = team.gamesBehind;
+                    const gapText = gap === 0 ? '선두' : `${gap.toFixed(1)}차`;
+                    
+                    // 순위별 색상
+                    let rankColor = '#6b7280'; // 기본 회색
+                    if (rank === 1) rankColor = '#fbbf24'; // 금색
+                    else if (rank === 2) rankColor = '#9ca3af'; // 은색
+                    else if (rank === 3) rankColor = '#d97706'; // 동색
+                    else if (rank <= 5) rankColor = '#10b981'; // 플레이오프 (초록)
+                    
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: white; border-radius: 4px; border-left: 3px solid ${rankColor};">
+                            <span style="font-weight: 600; color: ${rankColor};">${rank}위</span>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <img src="${this.teamLogos[team.team]}" alt="${team.team}" style="width: 16px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
+                                <span style="color: ${this.teamColors[team.team]}; font-weight: 600;">${team.team}</span>
+                            </div>
+                            <span style="color: #6b7280; font-size: 12px;">${gapText}</span>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            }
+            
+            initWinRateChart() {
+                const ctx = document.getElementById('daily-stats-win-rate-chart');
+                if (!ctx) return;
+                
+                // 팀 표시 상태 초기화 (모든 팀 표시)
+                this.winRateChartVisibleTeams = new Set(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
+                
+                this.winRateChart = new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: { labels: [], datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                itemSort: (a, b) => b.parsed.y - a.parsed.y, // 승률 높은 순으로 정렬
+                                callbacks: {
+                                    title: (context) => {
+                                        return context[0].label;
+                                    },
+                                    label: (context) => {
+                                        const winRate = context.parsed.y;
+                                        const teamName = context.dataset.label;
+                                        
+                                        // 날짜별 실제 데이터 가져오기
+                                        const dateIndex = context.dataIndex;
+                                        if (this.seasonData && this.seasonData[dateIndex]) {
+                                            const standings = this.calculateStandings(this.seasonData[dateIndex].date);
+                                            const teamData = standings.find(s => s.team === teamName);
+                                            if (teamData) {
+                                                // 0.XXX 형식으로 표시
+                                                return `${teamName}: ${winRate.toFixed(3)} (${teamData.wins}승 ${teamData.losses}패)`;
+                                            }
+                                        }
+                                        return `${teamName}: ${winRate.toFixed(3)}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: { 
+                            y: { 
+                                min: 0, // 0%부터 시작
+                                max: 1,  // 100%까지
+                                title: {
+                                    display: true,
+                                    text: '승률'
+                                },
+                                ticks: { 
+                                    stepSize: 0.1, // 10% 단위
+                                    autoSkip: false,
+                                    callback: function(value) {
+                                        // 0%, 10%, 20%, ... 90%, 100% 표시
+                                        const percentage = value * 100;
+                                        if (percentage % 10 === 0) {
+                                            return percentage.toFixed(0) + '%';
+                                        }
+                                        return '';
+                                    }
+                                },
+                                grid: {
+                                    color: '#e5e7eb'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: '#e5e7eb'
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
+                        animation: {
+                            duration: 600,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+                
+                this.updateWinRateChart(this.currentDate);
+            }
+            
+            initRankChart() {
+                const ctx = document.getElementById('daily-stats-rank-chart');
+                if (!ctx) return;
+                
+                // 팀 표시 상태 초기화 (모든 팀 표시)
+                this.rankChartVisibleTeams = new Set(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
+                
+                this.rankChart = new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: { labels: [], datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                itemSort: (a, b) => a.parsed.y - b.parsed.y, // 순위별로 정렬 (1위부터)
+                                callbacks: {
+                                    title: (context) => {
+                                        return context[0].label;
+                                    },
+                                    label: (context) => {
+                                        const rank = context.parsed.y;
+                                        const teamName = context.dataset.label;
+                                        
+                                        // 날짜별 실제 데이터 가져오기
+                                        const dateIndex = context.dataIndex;
+                                        if (this.seasonData && this.seasonData[dateIndex]) {
+                                            const standings = this.calculateStandings(this.seasonData[dateIndex].date);
+                                            const teamData = standings.find(s => s.team === teamName);
+                                            if (teamData) {
+                                                return `${rank}위: ${teamName} - ${teamData.wins}승 ${teamData.losses}패 (${teamData.winRate.toFixed(3)})`;
+                                            }
+                                        }
+                                        return `${rank}위: ${teamName}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: { 
+                            y: { 
+                                type: 'linear',
+                                reverse: true, 
+                                min: 0.5, // 1위 위에 여백 추가
+                                max: 10.5, // 10위 아래 여백 추가
+                                title: {
+                                    display: true,
+                                    text: '순위',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                },
+                                afterBuildTicks: function(axis) {
+                                    axis.ticks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({value}));
+                                },
+                                ticks: { 
+                                    stepSize: 1,
+                                    autoSkip: false,
+                                    callback: function(value) {
+                                        // 1~10 정수값만 표시
+                                        if (Number.isInteger(value) && value >= 1 && value <= 10) {
+                                            return value + '위';
+                                        }
+                                        return null;
+                                    },
+                                    font: {
+                                        size: 12
+                                    },
+                                    padding: 5
+                                },
+                                grid: {
+                                    color: '#e5e7eb'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: '#e5e7eb'
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
+                        animation: {
+                            duration: 600,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+                
+                this.updateRankChart(this.currentDate);
+            }
+            
+            updateWinRateChart(selectedDate) {
+                if (!this.winRateChart) return;
+                
+                // 선택된 날짜의 인덱스 찾기
+                const selectedIndex = this.seasonData.findIndex(d => d.date === selectedDate);
+                if (selectedIndex === -1) return;
+                
+                // 시즌 시작(3월 22일)부터 선택된 날짜까지의 모든 데이터 사용
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                
+                const dates = chartData.map(d => {
+                    const [, month, day] = d.date.split('-');
+                    return `${month}/${day}`;
+                });
+                
+                // 모든 팀 목록 가져오기
+                const allTeams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+                
+                const datasets = allTeams.filter(team => this.winRateChartVisibleTeams.has(team)).map(team => {
+                    const data = chartData.map(dayData => {
+                        const standings = this.calculateStandings(dayData.date);
+                        const teamData = standings.find(s => s.team === team);
+                        return teamData ? teamData.winRate : 0;
+                    });
+                    
+                    const logoImage = this.teamLogoImages[team];
+                    
+                    // 포인트 스타일 배열 - 마지막 포인트만 로고, 나머지는 원형
+                    const pointStyles = data.map((_, index) => 
+                        index === data.length - 1 ? (logoImage || 'circle') : 'circle'
+                    );
+                    
+                    // 포인트 크기 배열 - 마지막 포인트만 크게, 중간은 매우 작게
+                    const pointRadii = data.map((_, index) => 
+                        index === data.length - 1 && logoImage ? 10 : 2
+                    );
+                    
+                    return {
+                        label: team,
+                        data: data,
+                        borderColor: this.teamColors[team] || '#666',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        pointStyle: pointStyles,
+                        pointRadius: pointRadii,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: this.teamColors[team] || '#666',
+                        pointBorderColor: this.teamColors[team] || '#666'
+                    };
+                });
+                
+                this.winRateChart.data.labels = dates;
+                this.winRateChart.data.datasets = datasets;
+                this.winRateChart.update();
+                
+                // 레전드 업데이트
+                this.updateWinRateLegend(allTeams);
+            }
+            
+            updateRankChart(selectedDate) {
+                if (!this.rankChart) return;
+                
+                // 선택된 날짜의 인덱스 찾기
+                const selectedIndex = this.seasonData.findIndex(d => d.date === selectedDate);
+                if (selectedIndex === -1) return;
+                
+                // 시즌 시작(3월 22일)부터 선택된 날짜까지의 모든 데이터 사용
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                
+                const dates = chartData.map(d => {
+                    const [, month, day] = d.date.split('-');
+                    return `${month}/${day}`;
+                });
+                
+                // 모든 팀 목록 가져오기
+                const allTeams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+                
+                const datasets = allTeams.filter(team => this.rankChartVisibleTeams.has(team)).map(team => {
+                    const data = chartData.map(dayData => {
+                        const standings = this.calculateStandings(dayData.date);
+                        const teamData = standings.find(s => s.team === team);
+                        return teamData ? teamData.rank : 10;
+                    });
+                    
+                    const logoImage = this.teamLogoImages[team];
+                    
+                    // 포인트 스타일 배열 - 마지막 포인트만 로고, 나머지는 원형
+                    const pointStyles = data.map((_, index) => 
+                        index === data.length - 1 ? (logoImage || 'circle') : 'circle'
+                    );
+                    
+                    // 포인트 크기 배열 - 마지막 포인트만 크게, 중간은 매우 작게
+                    const pointRadii = data.map((_, index) => 
+                        index === data.length - 1 && logoImage ? 10 : 2
+                    );
+                    
+                    return {
+                        label: team,
+                        data: data,
+                        borderColor: this.teamColors[team] || '#666',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        pointStyle: pointStyles,
+                        pointRadius: pointRadii,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: this.teamColors[team] || '#666',
+                        pointBorderColor: this.teamColors[team] || '#666'
+                    };
+                });
+                
+                this.rankChart.data.labels = dates;
+                this.rankChart.data.datasets = datasets;
+                
+                // y축 범위 재설정 (1~10위 강제 표시)
+                this.rankChart.options.scales.y.min = 0.5;
+                this.rankChart.options.scales.y.max = 10.5;
+                
+                this.rankChart.update();
+                
+                // 레전드 업데이트
+                this.updateRankLegend(allTeams);
+            }
+            
+            updateWinRateLegend(teams) {
+                const legendContainer = document.getElementById('daily-stats-win-rate-legend');
+                if (!legendContainer) return;
+                
+                // 전체 선택/해제 버튼 추가
+                const allSelectedCount = teams.filter(team => this.winRateChartVisibleTeams.has(team)).length;
+                const allSelected = allSelectedCount === teams.length;
+                
+                let legendHtml = `<div style="display: flex; flex-wrap: wrap; gap: 6px;">`;
+                
+                // 전체 선택/해제 버튼을 팀명 탭과 동일한 스타일로
+                legendHtml += `
+                    <div onclick="window.dailyStatsManager.toggleAllWinRateTeams()" 
+                         style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: white; border-radius: 4px; border: 1px solid ${allSelected ? '#ef4444' : '#3b82f6'}; cursor: pointer; transition: all 0.2s;">
+                        <div style="width: 12px; height: 3px; background: ${allSelected ? '#ef4444' : '#3b82f6'}; border-radius: 2px;"></div>
+                        <span style="font-size: 12px; font-weight: 500; color: ${allSelected ? '#ef4444' : '#3b82f6'};">${allSelected ? '전체 해제' : '전체 선택'}</span>
+                    </div>
+                `;
+                
+                legendHtml += teams.map(team => {
+                    const color = this.teamColors[team] || '#666';
+                    const logo = this.teamLogos[team] || '';
+                    const isVisible = this.winRateChartVisibleTeams.has(team);
+                    const opacity = isVisible ? '1' : '0.3';
+                    
+                    return `
+                        <div onclick="window.dailyStatsManager.toggleWinRateTeam('${team}')" 
+                             style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: white; border-radius: 4px; border: 1px solid #e5e7eb; cursor: pointer; opacity: ${opacity}; transition: opacity 0.2s;">
+                            <div style="width: 12px; height: 3px; background: ${color}; border-radius: 2px;"></div>
+                            <img src="${logo}" alt="${team}" style="width: 16px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
+                            <span style="font-size: 12px; font-weight: 500; color: #374151;">${team}</span>
+                        </div>
+                    `;
+                }).join('');
+                
+                legendHtml += '</div>';
+                legendContainer.innerHTML = legendHtml;
+            }
+            
+            toggleWinRateTeam(team) {
+                if (this.winRateChartVisibleTeams.has(team)) {
+                    this.winRateChartVisibleTeams.delete(team);
+                    this.removeTeamFromWinRateChart(team);
+                } else {
+                    this.winRateChartVisibleTeams.add(team);
+                    this.addTeamToWinRateChart(team);
+                }
+                this.updateWinRateLegend(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
+            }
+            
+            toggleAllWinRateTeams() {
+                const allTeams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+                const allVisible = allTeams.every(team => this.winRateChartVisibleTeams.has(team));
+                
+                if (allVisible) {
+                    // 전체 해제: 빈 Set으로 만들기 (아무 팀도 표시하지 않음)
+                    this.winRateChartVisibleTeams.clear();
+                } else {
+                    // 전체 선택: 모든 팀 선택
+                    this.winRateChartVisibleTeams = new Set(allTeams);
+                }
+                this.updateWinRateChart(this.currentDate);
+            }
+            
+            updateRankLegend(teams) {
+                const legendContainer = document.getElementById('daily-stats-rank-legend');
+                if (!legendContainer) return;
+                
+                // 전체 선택/해제 버튼 추가
+                const allSelectedCount = teams.filter(team => this.rankChartVisibleTeams.has(team)).length;
+                const allSelected = allSelectedCount === teams.length;
+                
+                let legendHtml = `<div style="display: flex; flex-wrap: wrap; gap: 6px;">`;
+                
+                // 전체 선택/해제 버튼을 팀명 탭과 동일한 스타일로
+                legendHtml += `
+                    <div onclick="window.dailyStatsManager.toggleAllRankTeams()" 
+                         style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: white; border-radius: 4px; border: 1px solid ${allSelected ? '#ef4444' : '#3b82f6'}; cursor: pointer; transition: all 0.2s;">
+                        <div style="width: 12px; height: 3px; background: ${allSelected ? '#ef4444' : '#3b82f6'}; border-radius: 2px;"></div>
+                        <span style="font-size: 12px; font-weight: 500; color: ${allSelected ? '#ef4444' : '#3b82f6'};">${allSelected ? '전체 해제' : '전체 선택'}</span>
+                    </div>
+                `;
+                
+                legendHtml += teams.map(team => {
+                    const color = this.teamColors[team] || '#666';
+                    const logo = this.teamLogos[team] || '';
+                    const isVisible = this.rankChartVisibleTeams.has(team);
+                    const opacity = isVisible ? '1' : '0.3';
+                    
+                    return `
+                        <div onclick="window.dailyStatsManager.toggleRankTeam('${team}')" 
+                             style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: white; border-radius: 4px; border: 1px solid #e5e7eb; cursor: pointer; opacity: ${opacity}; transition: opacity 0.2s;">
+                            <div style="width: 12px; height: 3px; background: ${color}; border-radius: 2px;"></div>
+                            <img src="${logo}" alt="${team}" style="width: 16px; height: 16px; object-fit: contain;" onerror="this.style.display='none'">
+                            <span style="font-size: 12px; font-weight: 500; color: #374151;">${team}</span>
+                        </div>
+                    `;
+                }).join('');
+                
+                legendHtml += '</div>';
+                legendContainer.innerHTML = legendHtml;
+            }
+            
+            toggleRankTeam(team) {
+                if (this.rankChartVisibleTeams.has(team)) {
+                    this.rankChartVisibleTeams.delete(team);
+                    this.removeTeamFromRankChart(team);
+                } else {
+                    this.rankChartVisibleTeams.add(team);
+                    this.addTeamToRankChart(team);
+                }
+                this.updateRankLegend(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
+            }
+            
+            toggleAllRankTeams() {
+                const allTeams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+                const allVisible = allTeams.every(team => this.rankChartVisibleTeams.has(team));
+                
+                if (allVisible) {
+                    // 전체 해제: 빈 Set으로 만들기 (아무 팀도 표시하지 않음)
+                    this.rankChartVisibleTeams.clear();
+                } else {
+                    // 전체 선택: 모든 팀 선택
+                    this.rankChartVisibleTeams = new Set(allTeams);
+                }
+                this.updateRankChart(this.currentDate);
+            }
+            
+            // 개별 팀 차트 추가/제거 메서드들 (차트 최적화)
+            addTeamToRankChart(team) {
+                if (!this.rankChart) return;
+                
+                // 현재 날짜까지의 데이터 가져오기
+                const selectedIndex = this.seasonData.findIndex(d => d.date === this.currentDate);
+                if (selectedIndex === -1) return;
+                
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                const data = chartData.map(dayData => {
+                    const standings = this.calculateStandings(dayData.date);
+                    const teamData = standings.find(s => s.team === team);
+                    return teamData ? teamData.rank : 10;
+                });
+                
+                const logoImage = this.teamLogoImages[team];
+                const pointStyles = data.map((_, index) => 
+                    index === data.length - 1 ? (logoImage || 'circle') : 'circle'
+                );
+                const pointRadii = data.map((_, index) => 
+                    index === data.length - 1 && logoImage ? 10 : 2
+                );
+                
+                const newDataset = {
+                    label: team,
+                    data: data,
+                    borderColor: this.teamColors[team] || '#666',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.1,
+                    pointStyle: pointStyles,
+                    pointRadius: pointRadii,
+                    pointHoverRadius: pointRadii.map(r => r + 2)
+                };
+                
+                this.rankChart.data.datasets.push(newDataset);
+                this.rankChart.update('none'); // 애니메이션 없이 업데이트
+            }
+            
+            removeTeamFromRankChart(team) {
+                if (!this.rankChart) return;
+                
+                const datasetIndex = this.rankChart.data.datasets.findIndex(dataset => dataset.label === team);
+                if (datasetIndex !== -1) {
+                    this.rankChart.data.datasets.splice(datasetIndex, 1);
+                    this.rankChart.update('none'); // 애니메이션 없이 업데이트
+                }
+            }
+            
+            addTeamToWinRateChart(team) {
+                if (!this.winRateChart) return;
+                
+                // 현재 날짜까지의 데이터 가져오기
+                const selectedIndex = this.seasonData.findIndex(d => d.date === this.currentDate);
+                if (selectedIndex === -1) return;
+                
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                const data = chartData.map(dayData => {
+                    const standings = this.calculateStandings(dayData.date);
+                    const teamData = standings.find(s => s.team === team);
+                    return teamData ? teamData.winRate : 0;
+                });
+                
+                const logoImage = this.teamLogoImages[team];
+                const pointStyles = data.map((_, index) => 
+                    index === data.length - 1 ? (logoImage || 'circle') : 'circle'
+                );
+                const pointRadii = data.map((_, index) => 
+                    index === data.length - 1 && logoImage ? 10 : 2
+                );
+                
+                const newDataset = {
+                    label: team,
+                    data: data,
+                    borderColor: this.teamColors[team] || '#666',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.1,
+                    pointStyle: pointStyles,
+                    pointRadius: pointRadii,
+                    pointHoverRadius: pointRadii.map(r => r + 2)
+                };
+                
+                this.winRateChart.data.datasets.push(newDataset);
+                this.winRateChart.update('none'); // 애니메이션 없이 업데이트
+            }
+            
+            removeTeamFromWinRateChart(team) {
+                if (!this.winRateChart) return;
+                
+                const datasetIndex = this.winRateChart.data.datasets.findIndex(dataset => dataset.label === team);
+                if (datasetIndex !== -1) {
+                    this.winRateChart.data.datasets.splice(datasetIndex, 1);
+                    this.winRateChart.update('none'); // 애니메이션 없이 업데이트
+                }
+            }
+            
+            // 날짜 변경 시 차트 최적화 업데이트 (전체 재생성 대신 데이터만 업데이트)
+            updateRankChartForDateChange(selectedDate) {
+                if (!this.rankChart) return;
+                
+                const selectedIndex = this.seasonData.findIndex(d => d.date === selectedDate);
+                if (selectedIndex === -1) return;
+                
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                const dates = chartData.map(d => {
+                    const [, month, day] = d.date.split('-');
+                    return `${month}/${day}`;
+                });
+                
+                // 라벨 업데이트
+                this.rankChart.data.labels = dates;
+                
+                // 각 데이터셋의 데이터만 업데이트
+                this.rankChart.data.datasets.forEach(dataset => {
+                    const team = dataset.label;
+                    const data = chartData.map(dayData => {
+                        const standings = this.calculateStandings(dayData.date);
+                        const teamData = standings.find(s => s.team === team);
+                        return teamData ? teamData.rank : 10;
+                    });
+                    
+                    const logoImage = this.teamLogoImages[team];
+                    const pointStyles = data.map((_, index) => 
+                        index === data.length - 1 ? (logoImage || 'circle') : 'circle'
+                    );
+                    const pointRadii = data.map((_, index) => 
+                        index === data.length - 1 && logoImage ? 10 : 2
+                    );
+                    
+                    dataset.data = data;
+                    dataset.pointStyle = pointStyles;
+                    dataset.pointRadius = pointRadii;
+                    dataset.pointHoverRadius = pointRadii.map(r => r + 2);
+                });
+                
+                this.rankChart.update('active'); // 부드러운 애니메이션으로 업데이트
+            }
+            
+            updateWinRateChartForDateChange(selectedDate) {
+                if (!this.winRateChart) return;
+                
+                const selectedIndex = this.seasonData.findIndex(d => d.date === selectedDate);
+                if (selectedIndex === -1) return;
+                
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                const dates = chartData.map(d => {
+                    const [, month, day] = d.date.split('-');
+                    return `${month}/${day}`;
+                });
+                
+                // 라벨 업데이트
+                this.winRateChart.data.labels = dates;
+                
+                // 각 데이터셋의 데이터만 업데이트
+                this.winRateChart.data.datasets.forEach(dataset => {
+                    const team = dataset.label;
+                    const data = chartData.map(dayData => {
+                        const standings = this.calculateStandings(dayData.date);
+                        const teamData = standings.find(s => s.team === team);
+                        return teamData ? teamData.winRate : 0;
+                    });
+                    
+                    const logoImage = this.teamLogoImages[team];
+                    const pointStyles = data.map((_, index) => 
+                        index === data.length - 1 ? (logoImage || 'circle') : 'circle'
+                    );
+                    const pointRadii = data.map((_, index) => 
+                        index === data.length - 1 && logoImage ? 10 : 2
+                    );
+                    
+                    dataset.data = data;
+                    dataset.pointStyle = pointStyles;
+                    dataset.pointRadius = pointRadii;
+                    dataset.pointHoverRadius = pointRadii.map(r => r + 2);
+                });
+                
+                this.winRateChart.update('active'); // 부드러운 애니메이션으로 업데이트
+            }
+            
+            // 애니메이션 전용 디스플레이 업데이트 (차트 제외)
+            updateDisplayForAnimation(date) {
+                this.currentDate = date;
+                
+                // 날짜 표시 업데이트
+                const dateObj = new Date(date + 'T00:00:00');
+                const dateStr = dateObj.toLocaleDateString('ko-KR', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                const dayStr = dateObj.toLocaleDateString('ko-KR', {
+                    weekday: 'short'
+                });
+                
+                const currentDateElement = document.getElementById('daily-stats-current-date');
+                const dateInputElement = document.getElementById('daily-stats-date-input');
+                
+                if (currentDateElement) {
+                    currentDateElement.textContent = `${dateStr} (${dayStr})`;
+                    
+                    // 요일별 색상 설정 (0=일요일, 6=토요일)
+                    const dayOfWeek = dateObj.getDay();
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // 일요일 또는 토요일
+                    const isHoliday = this.holidays.has(date); // 공휴일 확인
+                    
+                    if (isWeekend || isHoliday) {
+                        // 주말/공휴일: 빨간색
+                        currentDateElement.style.color = '#dc2626';
+                        currentDateElement.style.background = 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)';
+                        currentDateElement.style.borderColor = '#f87171';
+                    } else {
+                        // 평일: 파란색
+                        currentDateElement.style.color = '#2563eb';
+                        currentDateElement.style.background = 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)';
+                        currentDateElement.style.borderColor = '#cbd5e1';
+                    }
+                }
+                if (dateInputElement) dateInputElement.value = date;
+                
+                // 해당 날짜 데이터 찾기
+                const dayData = this.seasonData.find(d => d.date === date);
+                
+                // 순위표 업데이트
+                this.updateStandings(date);
+                
+                // 경기 결과 업데이트
+                this.updateGames(dayData);
+                
+                // 게임차 차트 업데이트
+                if (this.gameGapChart || document.getElementById('daily-stats-game-gap-chart')) {
+                    this.updateGameGapChart(date);
+                }
+                
+                // 버튼 상태 업데이트
+                this.updateButtonStates();
+            }
+            
+            // 애니메이션 시작 시 차트 초기화
+            initializeChartsForAnimation() {
+                const currentDateStr = this.animationDate.toISOString().split('T')[0];
+                const currentIndex = this.seasonData.findIndex(d => d.date === currentDateStr);
+                if (currentIndex === -1) return;
+                
+                // 현재 날짜까지의 데이터로 차트 초기화
+                const initialData = this.seasonData.slice(0, currentIndex + 1);
+                
+                if (this.winRateChart) {
+                    this.winRateChart.data.labels = initialData.map(d => {
+                        const [, month, day] = d.date.split('-');
+                        return `${month}/${day}`;
+                    });
+                    this.winRateChart.data.datasets.forEach(dataset => {
+                        const team = dataset.label;
+                        if (!this.winRateChartVisibleTeams.has(team)) return;
+                        
+                        dataset.data = initialData.map(dayData => {
+                            const standings = this.calculateStandings(dayData.date);
+                            const teamStanding = standings.find(s => s.team === team);
+                            return teamStanding ? teamStanding.winRate : null;
+                        });
+                        
+                        // 포인트 스타일 초기화 (마지막 포인트만 로고)
+                        const pointStyles = dataset.data.map((_, index) => 
+                            index === dataset.data.length - 1 ? this.teamLogoImages[team] : false
+                        );
+                        const pointRadii = dataset.data.map((_, index) => 
+                            index === dataset.data.length - 1 ? 12 : 0
+                        );
+                        
+                        dataset.pointStyle = pointStyles;
+                        dataset.pointRadius = pointRadii;
+                        dataset.pointHoverRadius = pointRadii.map(r => r + 2);
+                    });
+                    this.winRateChart.update('none');
+                }
+                
+                if (this.rankChart) {
+                    this.rankChart.data.labels = initialData.map(d => {
+                        const [, month, day] = d.date.split('-');
+                        return `${month}/${day}`;
+                    });
+                    this.rankChart.data.datasets.forEach(dataset => {
+                        const team = dataset.label;
+                        if (!this.rankChartVisibleTeams.has(team)) return;
+                        
+                        dataset.data = initialData.map(dayData => {
+                            const standings = this.calculateStandings(dayData.date);
+                            const teamStanding = standings.find(s => s.team === team);
+                            return teamStanding ? teamStanding.rank : null;
+                        });
+                        
+                        // 포인트 스타일 초기화 (마지막 포인트만 로고)
+                        const pointStyles = dataset.data.map((_, index) => 
+                            index === dataset.data.length - 1 ? this.teamLogoImages[team] : false
+                        );
+                        const pointRadii = dataset.data.map((_, index) => 
+                            index === dataset.data.length - 1 ? 12 : 0
+                        );
+                        
+                        dataset.pointStyle = pointStyles;
+                        dataset.pointRadius = pointRadii;
+                        dataset.pointHoverRadius = pointRadii.map(r => r + 2);
+                    });
+                    this.rankChart.update('none');
+                }
+            }
+            
+            // 애니메이션 전용 차트 업데이트 메서드들 (새 데이터 포인트 추가)
+            updateChartsForAnimation(selectedDate) {
+                if (this.winRateChart) {
+                    this.updateWinRateChartForAnimation(selectedDate);
+                }
+                if (this.rankChart) {
+                    this.updateRankChartForAnimation(selectedDate);
+                }
+            }
+            
+            updateWinRateChartForAnimation(selectedDate) {
+                if (!this.winRateChart) return;
+                
+                const selectedIndex = this.seasonData.findIndex(d => d.date === selectedDate);
+                if (selectedIndex === -1) return;
+                
+                // 현재까지의 데이터만 사용
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                const labels = chartData.map(d => {
+                    const [, month, day] = d.date.split('-');
+                    return `${month}/${day}`;
+                });
+                
+                // 차트 라벨 업데이트
+                this.winRateChart.data.labels = labels;
+                
+                // 각 팀별 데이터 업데이트
+                this.winRateChart.data.datasets.forEach(dataset => {
+                    const team = dataset.label;
+                    if (!this.winRateChartVisibleTeams.has(team)) return;
+                    
+                    const data = chartData.map(dayData => {
+                        const standings = this.calculateStandings(dayData.date);
+                        const teamStanding = standings.find(s => s.team === team);
+                        return teamStanding ? teamStanding.winRate : null;
+                    });
+                    
+                    // 새로운 데이터 포인트만 추가 (기존 데이터는 유지)
+                    if (dataset.data.length < data.length) {
+                        const newPoints = data.slice(dataset.data.length);
+                        dataset.data.push(...newPoints);
+                    }
+                    
+                    // 포인트 스타일 업데이트 (마지막 포인트만 로고, 나머지는 숨김)
+                    const pointStyles = dataset.data.map((_, index) => 
+                        index === dataset.data.length - 1 ? this.teamLogoImages[team] : false
+                    );
+                    const pointRadii = dataset.data.map((_, index) => 
+                        index === dataset.data.length - 1 ? 12 : 0
+                    );
+                    
+                    dataset.pointStyle = pointStyles;
+                    dataset.pointRadius = pointRadii;
+                    dataset.pointHoverRadius = pointRadii.map(r => r + 2);
+                });
+                
+                // 부드러운 애니메이션으로 업데이트
+                this.winRateChart.update('show');
+            }
+            
+            updateRankChartForAnimation(selectedDate) {
+                if (!this.rankChart) return;
+                
+                const selectedIndex = this.seasonData.findIndex(d => d.date === selectedDate);
+                if (selectedIndex === -1) return;
+                
+                // 현재까지의 데이터만 사용
+                const chartData = this.seasonData.slice(0, selectedIndex + 1);
+                const labels = chartData.map(d => {
+                    const [, month, day] = d.date.split('-');
+                    return `${month}/${day}`;
+                });
+                
+                // 차트 라벨 업데이트
+                this.rankChart.data.labels = labels;
+                
+                // 각 팀별 데이터 업데이트
+                this.rankChart.data.datasets.forEach(dataset => {
+                    const team = dataset.label;
+                    if (!this.rankChartVisibleTeams.has(team)) return;
+                    
+                    const data = chartData.map(dayData => {
+                        const standings = this.calculateStandings(dayData.date);
+                        const teamStanding = standings.find(s => s.team === team);
+                        return teamStanding ? teamStanding.rank : null;
+                    });
+                    
+                    // 새로운 데이터 포인트만 추가 (기존 데이터는 유지)
+                    if (dataset.data.length < data.length) {
+                        const newPoints = data.slice(dataset.data.length);
+                        dataset.data.push(...newPoints);
+                    }
+                    
+                    // 포인트 스타일 업데이트 (마지막 포인트만 로고, 나머지는 숨김)
+                    const pointStyles = dataset.data.map((_, index) => 
+                        index === dataset.data.length - 1 ? this.teamLogoImages[team] : false
+                    );
+                    const pointRadii = dataset.data.map((_, index) => 
+                        index === dataset.data.length - 1 ? 12 : 0
+                    );
+                    
+                    dataset.pointStyle = pointStyles;
+                    dataset.pointRadius = pointRadii;
+                    dataset.pointHoverRadius = pointRadii.map(r => r + 2);
+                });
+                
+                // 부드러운 애니메이션으로 업데이트
+                this.rankChart.update('show');
+            }
+
+            showError(message) {
+                const standingsContainer = document.getElementById('daily-stats-standings-container');
+                const gamesContainer = document.getElementById('daily-stats-games-container');
+                
+                const errorHtml = `<div style="text-align: center; color: #ef4444; padding: 20px;">❌ ${message}</div>`;
+                
+                if (standingsContainer) standingsContainer.innerHTML = errorHtml;
+                if (gamesContainer) gamesContainer.innerHTML = errorHtml;
+            }
+            
+            // 네비게이션 메서드들
+            changeDate(days) {
+                const dateParts = this.currentDate.split('-');
+                const currentDate = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+                currentDate.setDate(currentDate.getDate() + days);
+                
+                const newDateStr = currentDate.getFullYear() + '-' + 
+                                  String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                  String(currentDate.getDate()).padStart(2, '0');
+                
+                if (newDateStr >= this.startDate && newDateStr <= this.endDate) {
+                    this.updateDisplay(newDateStr);
+                }
+            }
+            
+            selectDate(dateStr) {
+                if (dateStr >= this.startDate && dateStr <= this.endDate) {
+                    this.updateDisplay(dateStr);
+                }
+            }
+            
+            goToday() {
+                // 실제 경기 데이터가 있는 최신 날짜 찾기
+                let lastGameDate = this.endDate;
+                for (let i = this.seasonData.length - 1; i >= 0; i--) {
+                    if (this.seasonData[i].games.length > 0) {
+                        lastGameDate = this.seasonData[i].date;
+                        break;
+                    }
+                }
+                this.updateDisplay(lastGameDate);
+            }
+            
+            toggleAnimation() {
+                if (this.isAnimating) {
+                    this.stopAnimation();
+                } else {
+                    this.startAnimation();
+                }
+            }
+            
+            startAnimation() {
+                if (this.isAnimating) return;
+                
+                this.isAnimating = true;
+                const animationBtn = document.getElementById('daily-stats-animation-btn');
+                
+                animationBtn.innerHTML = '⏸️ 일시정지';
+                animationBtn.style.background = '#dc3545';
+                
+                // 애니메이션 날짜가 없으면 현재 날짜부터 시작, 있으면 그 날짜부터 계속
+                if (!this.animationDate) {
+                    this.animationDate = new Date(this.currentDate + 'T00:00:00');
+                }
+                
+                // 애니메이션 시작 시 차트 데이터 초기화 (시작 날짜까지만)
+                this.initializeChartsForAnimation();
+                
+                this.animationInterval = setInterval(() => {
+                    if (!this.isAnimating) return;
+                    
+                    // 현재 날짜를 YYYY-MM-DD 형식으로 변환
+                    const dateStr = this.animationDate.toISOString().split('T')[0];
+                    
+                    // 애니메이션용 날짜 업데이트 (차트는 별도 처리)
+                    this.updateDisplayForAnimation(dateStr);
+                    
+                    // 차트를 자연스럽게 업데이트
+                    this.updateChartsForAnimation(dateStr);
+                    
+                    // 다음 날로 이동
+                    this.animationDate.setDate(this.animationDate.getDate() + 1);
+                    
+                    // 최대 날짜에 도달하면 애니메이션 중지
+                    const maxDate = new Date('2025-08-19');
+                    if (this.animationDate > maxDate) {
+                        this.stopAnimation();
+                    }
+                }, 500); // 0.5초마다 날짜 변경
+            }
+            
+            stopAnimation() {
+                this.isAnimating = false;
+                if (this.animationInterval) {
+                    clearInterval(this.animationInterval);
+                    this.animationInterval = null;
+                }
+                
+                const animationBtn = document.getElementById('daily-stats-animation-btn');
+                animationBtn.innerHTML = '▶️ 시즌 애니메이션';
+                animationBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            }
+            
+            resetAnimation() {
+                this.stopAnimation();
+                
+                // 시작 날짜로 이동하고 애니메이션 날짜도 리셋
+                this.animationDate = new Date('2025-03-22T00:00:00');
+                this.selectDate('2025-03-22');
+            }
+        }
+
+        // 전역 인스턴스
+        let completeDailyStats = null;
+
+        // DOM 로드 완료 후 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            const dailyStatsCard = document.getElementById('daily-stats');
+            if (dailyStatsCard) {
+                setTimeout(() => {
+                    completeDailyStats = new CompleteDailyStats();
+                    window.dailyStatsModule = completeDailyStats; // 전역 접근
+                    window.dailyStatsManager = completeDailyStats; // 레전드 버튼용 전역 접근
+                }, 1000);
+            }
+        });
+
+        // 전역 함수 (HTML onclick 용)
+        function dailyStatsChangeDate(days) { 
+            if (completeDailyStats) completeDailyStats.changeDate(days);
+        }
+        function dailyStatsSelectDate(date) { 
+            if (completeDailyStats) completeDailyStats.selectDate(date);
+        }
+        function dailyStatsGoToday() { 
+            if (completeDailyStats) completeDailyStats.goToday();
+        }
+        function dailyStatsToggleAnimation() { 
+            if (completeDailyStats) completeDailyStats.toggleAnimation();
+        }
+        function dailyStatsResetAnimation() { 
+            if (completeDailyStats) completeDailyStats.resetAnimation();
+        }
+    </script>
     
     <!-- 순위 변동 그래프 - 데이터 경로 오버라이드 -->
     <script>
