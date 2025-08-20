@@ -87,7 +87,7 @@
         },
         "inLanguage": "ko-KR",
         "dateCreated": "2025-01-01",
-        "dateModified": "2025-08-16",
+        "dateModified": "DYNAMIC_DATE_PLACEHOLDER",
         "keywords": ["KBO", "한국프로야구", "2025시즌", "시즌진행률", "순위표", "상대전적", "매직넘버", "야구통계", "실시간분석"],
         "about": {
             "@type": "SportsOrganization",
@@ -129,6 +129,13 @@
         
         // 모바일/태블릿 기기에서만 안내 메시지 표시
         document.addEventListener('DOMContentLoaded', function() {
+            // SEO: dateModified를 현재 날짜로 동적 업데이트
+            const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
+            if (jsonLdScript) {
+                const jsonData = JSON.parse(jsonLdScript.textContent);
+                jsonData.dateModified = new Date().toISOString().split('T')[0];
+                jsonLdScript.textContent = JSON.stringify(jsonData, null, 4);
+            }
             const isMobile = /iPhone|iPad|iPod|Android|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isSmallScreen = window.innerWidth <= 768;
             const deviceNotice = document.getElementById('deviceNotice');
@@ -4836,7 +4843,7 @@
 
                 html += `
                 <div class="selected-team-details">
-                    <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">${currentSelectedTeam} 게임 기록</h4>
+                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">${currentSelectedTeam} 게임 기록</h3>
                     
                     <!-- 팀 통계 요약 (한줄 레이아웃) -->
                     <div class="team-stats-summary" style="margin-bottom: 20px; background: #f8f9fa; padding: 15px 20px; border-radius: 8px; border: 1px solid #e9ecef;">
@@ -4877,7 +4884,7 @@
 
                     <!-- 상세 게임 기록 테이블 -->
                     <div class="detailed-games-section">
-                        <h4 style="text-align: center; margin: 25px 0 20px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h4>
+                        <h3 style="text-align: center; margin: 25px 0 20px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h3>
                         <div class="table-scroll-wrapper">
                             <table class="detailed-game-table" id="detailedGameTable">
                                 <thead>
@@ -5072,7 +5079,7 @@
             
             let html = `
             <div class="all-teams-overview">
-                <h4 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h4>
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h3>
                 
                 <div class="table-container" style="max-height: 800px; overflow-y: auto;">
                     <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
@@ -7219,12 +7226,12 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>🤖 KBO 2025 종합 분석 대시보드</h3>
+                <h2>🤖 KBO 2025 종합 분석 대시보드</h2>
                 <p>한국프로야구의 모든 데이터를 한눈에 분석하고 비교할 수 있는 종합 대시보드입니다.</p>
             </div>
             
             <div class="footer-section">
-                <h4>KBO 팀 정보</h4>
+                <h3>KBO 팀 정보</h3>
                 <div class="team-links">
                     <a href="https://www.hanwhaeagles.co.kr" target="_blank" rel="noopener" class="team-link-item">
                         <img src="images/hanwha.png" alt="한화 이글스" class="team-logo">
@@ -7270,7 +7277,7 @@
             </div>
             
             <div class="footer-section">
-                <h4>KBO 공식 정보</h4>
+                <h3>KBO 공식 정보</h3>
                 <ul class="footer-links">
                     <li><a href="https://www.koreabaseball.com" target="_blank" rel="noopener">KBO 공식 홈페이지</a></li>
                     <li><a href="https://www.koreabaseball.com/Schedule/Schedule.aspx" target="_blank" rel="noopener">경기 일정</a></li>
@@ -7279,7 +7286,7 @@
             </div>
             
             <div class="footer-section">
-                <h4>데이터 정보</h4>
+                <h3>데이터 정보</h3>
                 <p class="data-info">최종 업데이트: 2025년 8월 15일</p>
                 <p class="data-source">데이터 출처: KBO 공식 기록</p>
             </div>
