@@ -1,17 +1,17 @@
 {
-  "updateTime": "2025-08-21T13:36:00.362Z",
+  "updateTime": "2025-08-21T14:28:42.123Z",
   "updateDate": "2025년 8월 21일",
   "standings": [
     {
       "rank": 1,
       "team_name": "LG",
-      "games_played": 115,
+      "games_played": 116,
       "wins": 70,
       "losses": 43,
-      "draws": 2,
+      "draws": 3,
       "win_rate": "0.619",
-      "runs_scored": 613,
-      "runs_allowed": 442,
+      "runs_scored": 619,
+      "runs_allowed": 448,
       "run_differential": 171,
       "current_streak": "3W",
       "games_behind": "-"
@@ -47,13 +47,13 @@
     {
       "rank": 4,
       "team_name": "롯데",
-      "games_played": 117,
+      "games_played": 118,
       "wins": 58,
       "losses": 55,
-      "draws": 4,
+      "draws": 5,
       "win_rate": "0.513",
-      "runs_scored": 542,
-      "runs_allowed": 575,
+      "runs_scored": 548,
+      "runs_allowed": 581,
       "run_differential": -33,
       "current_streak": "10L",
       "games_behind": 12
@@ -147,8 +147,8 @@
     {
       "team_name": "LG",
       "actual_win_rate": "0.619",
-      "expected_win_rate": "0.658",
-      "luck_factor": "-0.038",
+      "expected_win_rate": "0.656",
+      "luck_factor": "-0.037",
       "luck_status": "평균적"
     },
     {
@@ -168,8 +168,8 @@
     {
       "team_name": "롯데",
       "actual_win_rate": "0.513",
-      "expected_win_rate": "0.470",
-      "luck_factor": "+0.043",
+      "expected_win_rate": "0.471",
+      "luck_factor": "+0.042",
       "luck_status": "평균적"
     },
     {
@@ -569,11 +569,11 @@
         "month": 8,
         "wins": 12,
         "losses": 3,
-        "draws": 0,
-        "games": 15,
+        "draws": 1,
+        "games": 16,
         "win_rate": "0.800",
-        "runs_scored": 82,
-        "runs_allowed": 50
+        "runs_scored": 88,
+        "runs_allowed": 56
       }
     ],
     "NC": [
@@ -817,11 +817,11 @@
         "month": 8,
         "wins": 3,
         "losses": 12,
-        "draws": 1,
-        "games": 16,
+        "draws": 2,
+        "games": 17,
         "win_rate": "0.200",
-        "runs_scored": 47,
-        "runs_allowed": 72
+        "runs_scored": 53,
+        "runs_allowed": 78
       }
     ],
     "삼성": [
@@ -1850,12 +1850,12 @@
   "runAnalysis": [
     {
       "team_name": "LG",
-      "runs_scored": 613,
-      "runs_allowed": 442,
+      "runs_scored": 619,
+      "runs_allowed": 448,
       "run_differential": 171,
-      "avg_runs_scored": "5.33",
-      "avg_runs_allowed": "3.84",
-      "avg_run_diff": "1.49"
+      "avg_runs_scored": "5.34",
+      "avg_runs_allowed": "3.86",
+      "avg_run_diff": "1.47"
     },
     {
       "team_name": "한화",
@@ -1922,11 +1922,11 @@
     },
     {
       "team_name": "롯데",
-      "runs_scored": 542,
-      "runs_allowed": 575,
+      "runs_scored": 548,
+      "runs_allowed": 581,
       "run_differential": -33,
-      "avg_runs_scored": "4.63",
-      "avg_runs_allowed": "4.91",
+      "avg_runs_scored": "4.64",
+      "avg_runs_allowed": "4.92",
       "avg_run_diff": "-0.28"
     },
     {
@@ -2699,14 +2699,14 @@
     {
       "team_name": "LG",
       "overall": {
-        "record": "70승 2무 43패",
+        "record": "70승 3무 43패",
         "win_rate": "0.619",
         "games_behind": 0
       },
       "pythagorean": {
-        "expected": "0.658",
+        "expected": "0.656",
         "actual": "0.619",
-        "luck_factor": "-0.038"
+        "luck_factor": "-0.037"
       },
       "situational": {
         "one_run": "18-15",
@@ -2729,11 +2729,11 @@
         "max_lose": 5
       },
       "runs": {
-        "scored": 613,
-        "allowed": 442,
+        "scored": 619,
+        "allowed": 448,
         "differential": 171,
-        "avg_scored": "5.33",
-        "avg_allowed": "3.84"
+        "avg_scored": "5.34",
+        "avg_allowed": "3.86"
       }
     },
     {
@@ -2819,14 +2819,14 @@
     {
       "team_name": "롯데",
       "overall": {
-        "record": "58승 4무 55패",
+        "record": "58승 5무 55패",
         "win_rate": "0.513",
         "games_behind": 0
       },
       "pythagorean": {
-        "expected": "0.470",
+        "expected": "0.471",
         "actual": "0.513",
-        "luck_factor": "0.043"
+        "luck_factor": "0.042"
       },
       "situational": {
         "one_run": "11-11",
@@ -2849,11 +2849,11 @@
         "max_lose": 10
       },
       "runs": {
-        "scored": 542,
-        "allowed": 575,
+        "scored": 548,
+        "allowed": 581,
         "differential": -33,
-        "avg_scored": "4.63",
-        "avg_allowed": "4.91"
+        "avg_scored": "4.64",
+        "avg_allowed": "4.92"
       }
     },
     {

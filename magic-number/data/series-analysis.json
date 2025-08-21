@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-21T13:36:01.297Z",
+  "lastUpdated": "2025-08-21T14:28:43.080Z",
   "updateDate": "2025. 8. 21.",
   "teamStats": {
     "LG": {
@@ -1984,20 +1984,30 @@
               "result": "W",
               "runs_scored": 5,
               "runs_allowed": 3
+            },
+            {
+              "gameNumber": 116,
+              "date": "2025-08-21",
+              "opponent": "롯데",
+              "isHome": true,
+              "score": "6:6",
+              "result": "D",
+              "runs_scored": 6,
+              "runs_allowed": 6
             }
           ],
           "startDate": "2025-08-19",
-          "lastDate": "2025-08-20",
+          "lastDate": "2025-08-21",
           "wins": 2,
           "losses": 0,
-          "draws": 0,
-          "homeGames": 2,
+          "draws": 1,
+          "homeGames": 3,
           "awayGames": 0,
           "result": "WIN",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 42
         }
@@ -2006,12 +2016,12 @@
         "type": "WIN",
         "count": 11,
         "startDate": "2025-07-08",
-        "endDate": "2025-08-20"
+        "endDate": "2025-08-21"
       },
       "longestWinningStreak": {
         "count": 11,
         "startDate": "2025-07-08",
-        "endDate": "2025-08-20"
+        "endDate": "2025-08-21"
       },
       "longestLosingStreak": {
         "count": 5,
@@ -14530,20 +14540,30 @@
               "result": "L",
               "runs_scored": 3,
               "runs_allowed": 5
+            },
+            {
+              "gameNumber": 118,
+              "date": "2025-08-21",
+              "opponent": "LG",
+              "isHome": false,
+              "score": "6:6",
+              "result": "D",
+              "runs_scored": 6,
+              "runs_allowed": 6
             }
           ],
           "startDate": "2025-08-19",
-          "lastDate": "2025-08-20",
+          "lastDate": "2025-08-21",
           "wins": 0,
           "losses": 2,
-          "draws": 0,
+          "draws": 1,
           "homeGames": 0,
-          "awayGames": 2,
+          "awayGames": 3,
           "result": "LOSS",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 2,
+          "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 42
         }
@@ -14552,7 +14572,7 @@
         "type": "LOSS",
         "count": 5,
         "startDate": "2025-08-05",
-        "endDate": "2025-08-20"
+        "endDate": "2025-08-21"
       },
       "longestWinningStreak": {
         "count": 5,
@@ -14562,7 +14582,7 @@
       "longestLosingStreak": {
         "count": 5,
         "startDate": "2025-08-05",
-        "endDate": "2025-08-20"
+        "endDate": "2025-08-21"
       },
       "vsTeams": {
         "LG": {

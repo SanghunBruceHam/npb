@@ -4606,5 +4606,13 @@
     "away_score": 5,
     "home_score": 7,
     "winner": "NC"
+  },
+  {
+    "date": "2025-08-21",
+    "away_team": "롯데",
+    "home_team": "LG",
+    "away_score": 6,
+    "home_score": 6,
+    "winner": "draw"
   }
 ]

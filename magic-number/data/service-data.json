@@ -1,29 +1,29 @@
 {
-  "lastUpdated": "2025-08-21T13:35:57.887Z",
+  "lastUpdated": "2025-08-21T14:28:39.488Z",
   "updateDate": "2025. 8. 21.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-21",
-  "totalGames": 576,
+  "totalGames": 577,
   "standings": [
     {
       "team": "LG",
-      "games": 115,
+      "games": 116,
       "wins": 70,
       "losses": 43,
-      "draws": 2,
+      "draws": 3,
       "winRate": 0.6194690265486725,
-      "homeRecord": "38-21-0",
+      "homeRecord": "38-21-1",
       "awayRecord": "32-22-2",
       "homeWins": 38,
       "homeLosses": 21,
-      "homeDraws": 0,
+      "homeDraws": 1,
       "awayWins": 32,
       "awayLosses": 22,
       "awayDraws": 2,
-      "recent10": "8승0무2패",
+      "recent10": "7승1무2패",
       "streak": "3승",
-      "remainingGames": 29,
+      "remainingGames": 28,
       "rank": 1,
       "gamesBehind": 0
     },
@@ -71,22 +71,22 @@
     },
     {
       "team": "롯데",
-      "games": 117,
+      "games": 118,
       "wins": 58,
       "losses": 55,
-      "draws": 4,
+      "draws": 5,
       "winRate": 0.5132743362831859,
       "homeRecord": "30-27-3",
-      "awayRecord": "28-28-1",
+      "awayRecord": "28-28-2",
       "homeWins": 30,
       "homeLosses": 27,
       "homeDraws": 3,
       "awayWins": 28,
       "awayLosses": 28,
-      "awayDraws": 1,
-      "recent10": "0승1무9패",
-      "streak": "9패",
-      "remainingGames": 27,
+      "awayDraws": 2,
+      "recent10": "0승2무8패",
+      "streak": "8패",
+      "remainingGames": 26,
       "rank": 4,
       "gamesBehind": 12
     },
@@ -221,10 +221,10 @@
     "LG": {
       "playoff": 2,
       "championship": 25,
-      "elimination": 27,
+      "elimination": 26,
       "homeAdvantage": 18,
-      "remainingGames": 29,
-      "maxPossibleWins": 99,
+      "remainingGames": 28,
+      "maxPossibleWins": 98,
       "currentRank": 1
     },
     "한화": {
@@ -247,11 +247,11 @@
     },
     "롯데": {
       "playoff": 14,
-      "championship": 27,
-      "elimination": 13,
+      "championship": 26,
+      "elimination": 12,
       "homeAdvantage": 8,
-      "remainingGames": 27,
-      "maxPossibleWins": 85,
+      "remainingGames": 26,
+      "maxPossibleWins": 84,
       "currentRank": 4
     },
     "KT": {
@@ -426,10 +426,10 @@
       "롯데": {
         "wins": 8,
         "losses": 4,
-        "draws": 1,
+        "draws": 2,
         "homeWins": 6,
         "homeLosses": 1,
-        "homeDraws": 0,
+        "homeDraws": 1,
         "awayWins": 2,
         "awayLosses": 3,
         "awayDraws": 1
@@ -527,13 +527,13 @@
       "LG": {
         "wins": 4,
         "losses": 8,
-        "draws": 1,
+        "draws": 2,
         "homeWins": 3,
         "homeLosses": 2,
         "homeDraws": 1,
         "awayWins": 1,
         "awayLosses": 6,
-        "awayDraws": 0
+        "awayDraws": 1
       },
       "SSG": {
         "wins": 5,
@@ -1336,7 +1336,7 @@
     },
     "LG": {
       "한화": 3,
-      "롯데": 3,
+      "롯데": 2,
       "SSG": 1,
       "KT": 5,
       "KIA": 5,
@@ -1344,11 +1344,11 @@
       "NC": 5,
       "두산": 2,
       "키움": 4,
-      "total": 29
+      "total": 28
     },
     "롯데": {
       "한화": 3,
-      "LG": 3,
+      "LG": 2,
       "SSG": 3,
       "KT": 4,
       "KIA": 1,
@@ -1356,7 +1356,7 @@
       "NC": 5,
       "두산": 4,
       "키움": 1,
-      "total": 27
+      "total": 26
     },
     "SSG": {
       "한화": 4,
@@ -1473,9 +1473,9 @@
       "rank": 4,
       "wins": 58,
       "gamesBehind": 12,
-      "remainingGames": 27,
-      "maxPossibleWins": 85,
-      "firstTeamNeedToLose": 15,
+      "remainingGames": 26,
+      "maxPossibleWins": 84,
+      "firstTeamNeedToLose": 14,
       "canChase": true,
       "requiredWinRate": 1,
       "canReachChampionshipWins": false
@@ -1558,11 +1558,11 @@
       "team": "LG",
       "rank": 1,
       "wins": 70,
-      "remainingGames": 29,
-      "maxPossibleWins": 99,
+      "remainingGames": 28,
+      "maxPossibleWins": 98,
       "playoffMagic": 2,
-      "eliminationMagic": 27,
-      "requiredWinRate": 0.06896551724137931,
+      "eliminationMagic": 26,
+      "requiredWinRate": 0.07142857142857142,
       "status": "매우 유력"
     },
     {
@@ -1591,11 +1591,11 @@
       "team": "롯데",
       "rank": 4,
       "wins": 58,
-      "remainingGames": 27,
-      "maxPossibleWins": 85,
+      "remainingGames": 26,
+      "maxPossibleWins": 84,
       "playoffMagic": 14,
-      "eliminationMagic": 13,
-      "requiredWinRate": 0.5185185185185185,
+      "eliminationMagic": 12,
+      "requiredWinRate": 0.5384615384615384,
       "status": "경합"
     },
     {

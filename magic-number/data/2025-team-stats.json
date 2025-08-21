@@ -10,12 +10,12 @@
     "run_diff": 3
   },
   "LG": {
-    "games": 115,
+    "games": 116,
     "wins": 70,
     "losses": 43,
-    "draws": 2,
-    "runs_scored": 613,
-    "runs_allowed": 442,
+    "draws": 3,
+    "runs_scored": 619,
+    "runs_allowed": 448,
     "win_rate": "0.619",
     "run_diff": 171
   },
@@ -60,12 +60,12 @@
     "run_diff": 22
   },
   "롯데": {
-    "games": 117,
+    "games": 118,
     "wins": 58,
     "losses": 55,
-    "draws": 4,
-    "runs_scored": 542,
-    "runs_allowed": 575,
+    "draws": 5,
+    "runs_scored": 548,
+    "runs_allowed": 581,
     "win_rate": "0.513",
     "run_diff": -33
   },

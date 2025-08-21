@@ -876,7 +876,7 @@
     },
     "2025-08-21": {
       "dataDate": "2025-08-21",
-      "totalGames": 576,
+      "totalGames": 577,
       "rankChanges": 0,
       "standings": [
         {
@@ -947,5 +947,5 @@
     "rankingChanges": {},
     "playoffRace": {}
   },
-  "lastUpdated": "2025-08-21T13:36:01.798Z"
+  "lastUpdated": "2025-08-21T14:28:43.615Z"
 }

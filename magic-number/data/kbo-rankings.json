@@ -1,20 +1,20 @@
 {
-  "lastUpdated": "2025-08-21T13:35:57.887Z",
+  "lastUpdated": "2025-08-21T14:28:39.488Z",
   "updateDate": "2025. 8. 21.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
     {
       "rank": 1,
       "team": "LG",
-      "games": 115,
+      "games": 116,
       "wins": 70,
       "losses": 43,
-      "draws": 2,
+      "draws": 3,
       "winRate": 0.619,
       "gamesBehind": 0,
-      "recent10": "8승0무2패",
+      "recent10": "7승1무2패",
       "streak": "3승",
-      "homeRecord": "38-21-0",
+      "homeRecord": "38-21-1",
       "awayRecord": "32-22-2"
     },
     {
@@ -48,16 +48,16 @@
     {
       "rank": 4,
       "team": "롯데",
-      "games": 117,
+      "games": 118,
       "wins": 58,
       "losses": 55,
-      "draws": 4,
+      "draws": 5,
       "winRate": 0.513,
       "gamesBehind": 12,
-      "recent10": "0승1무9패",
-      "streak": "9패",
+      "recent10": "0승2무8패",
+      "streak": "8패",
       "homeRecord": "30-27-3",
-      "awayRecord": "28-28-1"
+      "awayRecord": "28-28-2"
     },
     {
       "rank": 5,
@@ -148,10 +148,10 @@
     "LG": {
       "playoff": 2,
       "championship": 25,
-      "elimination": 27,
+      "elimination": 26,
       "homeAdvantage": 18,
-      "remainingGames": 29,
-      "maxPossibleWins": 99,
+      "remainingGames": 28,
+      "maxPossibleWins": 98,
       "currentRank": 1
     },
     "한화": {
@@ -174,11 +174,11 @@
     },
     "롯데": {
       "playoff": 14,
-      "championship": 27,
-      "elimination": 13,
+      "championship": 26,
+      "elimination": 12,
       "homeAdvantage": 8,
-      "remainingGames": 27,
-      "maxPossibleWins": 85,
+      "remainingGames": 26,
+      "maxPossibleWins": 84,
       "currentRank": 4
     },
     "KT": {
@@ -236,7 +236,7 @@
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-21T13:35:57.887Z",
+  "lastMagicUpdate": "2025-08-21T14:28:39.488Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-21"

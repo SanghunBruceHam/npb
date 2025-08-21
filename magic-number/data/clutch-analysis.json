@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2025-08-21T13:36:00.845Z",
+  "lastUpdated": "2025-08-21T14:28:42.621Z",
   "updateDate": "2025. 8. 21.",
   "clutchAnalysis": {
     "LG": {
-      "totalGames": 115,
+      "totalGames": 116,
       "oneRunGames": 33,
       "oneRunWins": 18,
       "oneRunLosses": 15,
@@ -1299,7 +1299,7 @@
       "clutchIndex": "49.3"
     },
     "롯데": {
-      "totalGames": 117,
+      "totalGames": 118,
       "oneRunGames": 22,
       "oneRunWins": 11,
       "oneRunLosses": 11,
