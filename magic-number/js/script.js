@@ -2861,7 +2861,7 @@ const kboTeams = {
 
         // 스크롤 위치에 따른 자동 active 상태 업데이트
         function updateActiveOnScroll() {
-            const sections = ['championship', 'chase', 'playoff', 'standings', 'vs-records', 'remaining'];
+            const sections = ['championship', 'scenarios', 'chase', 'playoff', 'standings', 'rank-chart-section', 'vs-records', 'remaining'];
             const scrollPosition = window.scrollY + 100;
 
             for (let i = sections.length - 1; i >= 0; i--) {
@@ -2924,5 +2924,551 @@ const kboTeams = {
             
             // 윈도우 리사이즈 시 오프셋 재계산
             window.addEventListener('resize', updateNavigationOffset);
+        });
+
+        // 시나리오 분석 관련 함수들
+        function initializeScenarioAnalysis() {
+            // 시나리오 분석 데이터 업데이트
+            updateScenarioStats();
+            
+            // 버튼 이벤트 리스너 추가
+            const matrixBtn = document.getElementById('showScenarioMatrix');
+            const detailedBtn = document.getElementById('showDetailedScenarios');
+            const hideBtn = document.getElementById('hideScenarioResults');
+            
+            if (matrixBtn) {
+                matrixBtn.addEventListener('click', function() {
+                    showScenarioMatrix();
+                });
+            }
+            
+            if (detailedBtn) {
+                detailedBtn.addEventListener('click', function() {
+                    showDetailedScenarios();
+                });
+            }
+            
+            if (hideBtn) {
+                hideBtn.addEventListener('click', function() {
+                    hideScenarioResults();
+                });
+            }
+        }
+
+        function updateScenarioStats() {
+            try {
+                if (!currentStandings || currentStandings.length === 0) {
+                    return;
+                }
+                
+                // 상위 9팀 분석 (10위는 제외)
+                const topTeams = currentStandings.slice(0, 9);
+                
+                // 최대 시나리오 수 계산 (최대 잔여경기수 + 1)
+                const maxRemainingGames = Math.max(...topTeams.map(team => team.remainingGames || 0));
+                const maxScenarios = maxRemainingGames + 1;
+                
+                // 플레이오프 경쟁팀 계산 (현실적으로 5위 안에 들 가능성이 있는 팀)
+                let playoffContenders = 0;
+                const fifthPlaceWinRate = topTeams[4]?.winRate || 0.5;
+                
+                topTeams.forEach(team => {
+                    // 전승 시 승률이 현재 5위 승률보다 높으면 경쟁 가능
+                    const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                    const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
+                    const maxWinRate = maxPossibleWins / maxPossibleGames;
+                    
+                    if (maxWinRate >= fifthPlaceWinRate * 0.95) { // 95% 기준으로 여유
+                        playoffContenders++;
+                    }
+                });
+                
+                // 우승 가능팀 계산
+                let championshipContenders = 0;
+                const firstPlaceWinRate = topTeams[0]?.winRate || 0.6;
+                
+                topTeams.forEach(team => {
+                    const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                    const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
+                    const maxWinRate = maxPossibleWins / maxPossibleGames;
+                    
+                    if (maxWinRate >= firstPlaceWinRate * 0.92) { // 92% 기준으로 여유
+                        championshipContenders++;
+                    }
+                });
+                
+                // UI 업데이트
+                updateElementText('max-scenarios', maxScenarios + '개');
+                updateElementText('playoff-contenders', playoffContenders + '팀');
+                updateElementText('championship-contenders', championshipContenders + '팀');
+                
+                // 시나리오 미리보기 업데이트
+                updateScenarioPreview(topTeams);
+                
+            } catch (error) {
+                logger.error('시나리오 통계 업데이트 중 오류:', error);
+            }
+        }
+
+        function updateScenarioPreview(topTeams) {
+            try {
+                // 1위 경쟁 분석
+                const firstPlaceRace = analyzeFirstPlaceRace(topTeams);
+                updateElementText('first-place-race', firstPlaceRace);
+                
+                // 플레이오프 경쟁 분석
+                const playoffRace = analyzePlayoffRace(topTeams);
+                updateElementText('playoff-race', playoffRace);
+                
+                // 최대 승률 변동 분석
+                const maxWinRateChange = analyzeMaxWinRateChange(topTeams);
+                updateElementText('max-winrate-change', maxWinRateChange);
+                
+                // 최대 순위 변동 분석
+                const maxRankChange = analyzeMaxRankChange(topTeams);
+                updateElementText('max-rank-change', maxRankChange);
+                
+            } catch (error) {
+                logger.error('시나리오 미리보기 업데이트 중 오류:', error);
+            }
+        }
+
+        function analyzeFirstPlaceRace(topTeams) {
+            if (topTeams.length === 0) return '데이터 없음';
+            
+            const firstPlace = topTeams[0];
+            let contenders = [];
+            
+            topTeams.forEach(team => {
+                const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
+                const maxWinRate = maxPossibleWins / maxPossibleGames;
+                
+                // 1위팀의 최저 가능 승률
+                const firstPlaceMinWins = firstPlace.wins;
+                const firstPlaceMinGames = firstPlaceMinWins + firstPlace.losses + (firstPlace.draws || 0) + (firstPlace.remainingGames || 0);
+                const firstPlaceMinWinRate = firstPlaceMinWins / firstPlaceMinGames;
+                
+                if (team.team !== firstPlace.team && maxWinRate > firstPlaceMinWinRate) {
+                    contenders.push(team.team);
+                }
+            });
+            
+            if (contenders.length === 0) {
+                return `${firstPlace.team} 독주 체제`;
+            } else {
+                return `${contenders.slice(0, 3).join(', ')} 등 ${contenders.length}팀 경쟁`;
+            }
+        }
+
+        function analyzePlayoffRace(topTeams) {
+            if (topTeams.length < 5) return '데이터 부족';
+            
+            const fifthPlace = topTeams[4];
+            let contenders = [];
+            
+            topTeams.forEach((team, index) => {
+                if (index >= 4) { // 5위 이하 팀들
+                    const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                    const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
+                    const maxWinRate = maxPossibleWins / maxPossibleGames;
+                    
+                    // 5위팀의 최저 가능 승률
+                    const fifthPlaceMinWins = fifthPlace.wins;
+                    const fifthPlaceMinGames = fifthPlaceMinWins + fifthPlace.losses + (fifthPlace.draws || 0) + (fifthPlace.remainingGames || 0);
+                    const fifthPlaceMinWinRate = fifthPlaceMinWins / fifthPlaceMinGames;
+                    
+                    if (maxWinRate > fifthPlaceMinWinRate) {
+                        contenders.push(team.team);
+                    }
+                }
+            });
+            
+            return contenders.length > 0 ? 
+                   `${contenders.slice(0, 3).join(', ')} 등 ${contenders.length}팀 추격` : 
+                   '상위 5팀 고정';
+        }
+
+        function analyzeMaxWinRateChange(topTeams) {
+            let maxIncrease = 0;
+            let maxDecrease = 0;
+            
+            topTeams.forEach(team => {
+                const currentWinRate = team.winRate;
+                
+                // 최대 가능 승률 (전승)
+                const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
+                const maxWinRate = maxPossibleWins / maxPossibleGames;
+                
+                // 최저 가능 승률 (전패)
+                const minPossibleWins = team.wins;
+                const minPossibleGames = minPossibleWins + team.losses + (team.draws || 0) + (team.remainingGames || 0);
+                const minWinRate = minPossibleWins / minPossibleGames;
+                
+                const increase = (maxWinRate - currentWinRate) * 100;
+                const decrease = (currentWinRate - minWinRate) * 100;
+                
+                maxIncrease = Math.max(maxIncrease, increase);
+                maxDecrease = Math.max(maxDecrease, decrease);
+            });
+            
+            return `+${maxIncrease.toFixed(1)}%p ~ -${maxDecrease.toFixed(1)}%p`;
+        }
+
+        function analyzeMaxRankChange(topTeams) {
+            // 간단한 순위 변동 범위 계산
+            const totalTeams = topTeams.length;
+            
+            // 현실적인 최대 순위 변동 (잔여경기 기준)
+            const avgRemainingGames = topTeams.reduce((sum, team) => sum + (team.remainingGames || 0), 0) / totalTeams;
+            
+            if (avgRemainingGames >= 20) {
+                return '최대 ±4위 변동';
+            } else if (avgRemainingGames >= 10) {
+                return '최대 ±3위 변동';
+            } else if (avgRemainingGames >= 5) {
+                return '최대 ±2위 변동';
+            } else {
+                return '최대 ±1위 변동';
+            }
+        }
+
+        function updateElementText(elementId, text) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = text;
+            }
+        }
+
+        // 시나리오 매트릭스 표시
+        function showScenarioMatrix() {
+            try {
+                if (!currentStandings || currentStandings.length === 0) {
+                    alert('순위 데이터를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+                    return;
+                }
+                
+                const topTeams = currentStandings.slice(0, 9);
+                const matrixHTML = generateScenarioMatrix(topTeams);
+                
+                const scenarioContent = document.getElementById('scenario-content');
+                
+                if (scenarioContent) {
+                    scenarioContent.innerHTML = matrixHTML;
+                    scenarioContent.style.display = 'block';
+                    
+                    // 스크롤하여 결과 영역으로 이동
+                    scenarioContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    console.error('scenario-content 요소를 찾을 수 없습니다.');
+                }
+                
+            } catch (error) {
+                logger.error('매트릭스 시나리오 표시 중 오류:', error);
+                alert('시나리오 분석 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 상세 시나리오 표시
+        function showDetailedScenarios() {
+            try {
+                if (!currentStandings || currentStandings.length === 0) {
+                    alert('순위 데이터를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+                    return;
+                }
+                
+                const topTeams = currentStandings.slice(0, 5); // 상위 5팀만
+                const detailedHTML = generateDetailedScenarios(topTeams);
+                
+                const scenarioContent = document.getElementById('scenario-content');
+                const scenarioResults = document.getElementById('scenario-results');
+                
+                if (scenarioContent && scenarioResults) {
+                    scenarioContent.innerHTML = detailedHTML;
+                    scenarioResults.style.display = 'block';
+                    
+                    // 스크롤하여 결과 영역으로 이동
+                    scenarioResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                
+            } catch (error) {
+                logger.error('상세 시나리오 표시 중 오류:', error);
+                alert('시나리오 분석 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 시나리오 결과 숨기기
+        function hideScenarioResults() {
+            const scenarioResults = document.getElementById('scenario-results');
+            if (scenarioResults) {
+                scenarioResults.style.display = 'none';
+            }
+        }
+
+        // 매트릭스 시나리오 HTML 생성
+        function generateScenarioMatrix(topTeams) {
+            // 5위 진출 가능성이 있는 팀만 필터링
+            const fifthPlaceWinRate = topTeams[4]?.winRate || 0.5;
+            const playoffContenders = topTeams.filter(team => {
+                // 전승시 최대 승률 계산
+                const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
+                const maxWinRate = maxPossibleWins / maxPossibleGames;
+                
+                // 전승해도 현재 5위 승률에 못 미치는 팀 제외
+                return maxWinRate >= fifthPlaceWinRate - 0.001; // 0.001 여유분
+            });
+            
+            const eligibleTeams = playoffContenders.slice(0, 9); // 최대 9팀까지
+            let html = `
+                
+                <div style="overflow-x: auto; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; background: white; min-width: 1000px;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+                                <th rowspan="4" style="min-width: 60px; vertical-align: middle; padding: 8px 4px; text-align: center; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.3); position: sticky; left: 0; background: inherit; z-index: 10; font-size: 0.8rem;">승률</th>
+            `;
+            
+            // 첫 번째 헤더 행 (순위)
+            eligibleTeams.forEach((team, index) => {
+                const isLast = index === eligibleTeams.length - 1;
+                const teamData = kboTeams[team.team];
+                const teamColor = teamData?.color || '#333';
+                html += `<th colspan="2" style="min-width: 180px; padding: 6px; text-align: center; font-weight: 700; background: #e9ecef; color: ${teamColor}; ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} font-size: 1.1rem;">
+                    ${team.rank}위
+                </th>`;
+            });
+            
+            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">`;
+            
+            // 두 번째 헤더 행 (팀명) - colspan="2"로 변경
+            eligibleTeams.forEach((team, index) => {
+                const isLast = index === eligibleTeams.length - 1;
+                const teamData = kboTeams[team.team];
+                const teamColor = teamData?.color || '#333';
+                const bgColor = 'rgba(227, 242, 253, 0.8)';
+                html += `<th colspan="2" style="min-width: 180px; padding: 8px; text-align: center; font-weight: 700; background: ${bgColor}; color: ${teamColor}; ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} font-size: 1rem;">
+                    <div>${teamData?.logo || ''} ${teamData?.fullName || team.team}</div>
+                </th>`;
+            });
+            
+            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">`;
+            
+            // 두 번째 헤더 행 (현재 성적) - colspan="2"
+            eligibleTeams.forEach((team, index) => {
+                const isLast = index === eligibleTeams.length - 1;
+                html += `<th colspan="2" style="min-width: 180px; font-size: 0.85rem; padding: 6px; background: rgba(255,255,255,0.1); ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.3);' : ''}">
+                    ${team.wins}승 ${team.draws || 0}무 ${team.losses}패 ${team.winRate.toFixed(3)}<br>잔여: ${team.remainingGames}경기
+                </th>`;
+            });
+            
+            html += `</tr><tr style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(102, 187, 106, 0.12) 100%); color: #2E7D32;">`;
+            
+            // 세 번째 헤더 행 (컬럼 구분)
+            eligibleTeams.forEach((team, index) => {
+                const isLast = index === eligibleTeams.length - 1;
+                html += `
+                    <th style="min-width: 70px; padding: 4px 2px; text-align: center; font-size: 0.85rem; font-weight: 600; background: rgba(76, 175, 80, 0.05); color: #2E7D32; border: 1px solid #dee2e6;">잔여경기</th>
+                    <th style="min-width: 110px; padding: 4px 2px; text-align: center; font-size: 0.85rem; font-weight: 600; background: rgba(76, 175, 80, 0.05); color: #2E7D32; border: 1px solid #dee2e6; ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}">최종성적</th>
+                `;
+            });
+            
+            html += `</tr></thead><tbody>`;
+            
+            // 모든 팀의 시나리오 수집 및 승률순 정렬
+            const allScenarios = [];
+            eligibleTeams.forEach(team => {
+                for (let wins = team.remainingGames; wins >= 0; wins--) {
+                    const losses = team.remainingGames - wins;
+                    const finalWins = team.wins + wins;
+                    const finalLosses = team.losses + losses;
+                    const finalGames = finalWins + finalLosses + (team.draws || 0);
+                    const finalWinRate = finalWins / finalGames;
+                    
+                    allScenarios.push({
+                        team: team.team,
+                        wins,
+                        losses,
+                        finalWinRate,
+                        remainingWinRate: wins / (wins + losses) || 0
+                    });
+                }
+            });
+            
+            // 승률별 그룹화
+            const winRateGroups = {};
+            allScenarios.forEach(scenario => {
+                const rateKey = scenario.finalWinRate.toFixed(3);
+                if (!winRateGroups[rateKey]) {
+                    winRateGroups[rateKey] = [];
+                }
+                winRateGroups[rateKey].push(scenario);
+            });
+            
+            // 승률 높은순으로 정렬하여 표시
+            const sortedRates = Object.keys(winRateGroups).sort((a, b) => parseFloat(b) - parseFloat(a));
+            
+            Object.keys(winRateGroups)
+                .sort((a, b) => parseFloat(b) - parseFloat(a))
+                .slice(0, 50) // 상위 50개 표시
+                .forEach(rateKey => {
+                    const scenarios = winRateGroups[rateKey];
+                    const winRate = parseFloat(rateKey);
+                    
+                    html += `<tr class="scenario-row">
+                        <td style="font-size: 0.85rem; padding: 4px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1);">
+                            ${winRate.toFixed(3)}
+                        </td>`;
+                    
+                    eligibleTeams.forEach((team, teamIndex) => {
+                        const isLast = teamIndex === eligibleTeams.length - 1;
+                        const teamScenario = scenarios.find(s => s.team === team.team);
+                        
+                        if (teamScenario) {
+                            const remainingWinRate = teamScenario.losses === 0 && teamScenario.wins > 0 ? 1.00 :
+                                                   teamScenario.wins === 0 && teamScenario.losses > 0 ? 0.00 :
+                                                   teamScenario.wins / (teamScenario.wins + teamScenario.losses);
+                            
+                            const teamData = eligibleTeams.find(t => t.team === teamScenario.team);
+                            const finalWins = teamData.wins + teamScenario.wins;
+                            const finalLosses = teamData.losses + teamScenario.losses;
+                            const finalDraws = teamData.draws || 0;
+                            
+                            const rateClass = getWinRateClass(teamScenario.finalWinRate);
+                            
+                            // 잔여경기 컬럼
+                            html += `<td class="${rateClass} win-rate-cell" style="padding: 4px 1px; text-align: center; border: 1px solid #dee2e6; width: 70px;">
+                                <div style="font-size: 0.85rem; font-weight: 600;">${teamScenario.wins}승 ${teamScenario.losses}패</div>
+                                <div style="font-size: 0.75rem;">${remainingWinRate.toFixed(3)}</div>
+                            </td>`;
+                            
+                            // 최종성적 컬럼  
+                            html += `<td class="${rateClass} win-rate-cell" style="padding: 4px 2px; text-align: center; border: 1px solid #dee2e6; ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}">
+                                <div style="font-size: 0.85rem; font-weight: 600;">${finalWins}승 ${finalDraws}무 ${finalLosses}패</div>
+                                <div style="font-size: 0.75rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
+                            </td>`;
+                        } else {
+                            html += `<td style="background: #f8f9fa; border: 1px solid #dee2e6;"></td><td style="background: #f8f9fa; border: 1px solid #dee2e6; ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}"></td>`;
+                        }
+                    });
+                    
+                    html += `</tr>`;
+                });
+            
+            html += `</tbody></table></div>`;
+            
+            return html;
+        }
+
+        // 상세 시나리오 HTML 생성
+        function generateDetailedScenarios(topTeams) {
+            let html = `
+                <div style="margin-bottom: 15px;">
+                    <h5 style="color: #2E7D32; margin-bottom: 10px;">🏆 상위 5팀 상세 시나리오</h5>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
+                        상위 5팀의 모든 잔여경기 승패 조합과 최종 승률을 표시합니다.
+                    </p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+            `;
+            
+            topTeams.forEach((team, index) => {
+                const colors = ['#e3f2fd', '#e8f5e8', '#fff3e0', '#f3e5f5', '#fce4ec'];
+                const bgColor = colors[index] || '#f8f9fa';
+                
+                html += `
+                    <div style="background: ${bgColor}; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px;">
+                        <h6 style="margin: 0 0 10px 0; color: #333; text-align: center;">
+                            ${team.rank}위 ${kboTeams[team.team]?.fullName || team.team}
+                        </h6>
+                        <div style="text-align: center; margin-bottom: 10px; font-size: 0.9rem; color: #666;">
+                            현재: ${team.wins}승 ${team.losses}패 ${team.draws || 0}무 ${team.winRate.toFixed(3)}<br>
+                            잔여: ${team.remainingGames}경기
+                        </div>
+                        
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                            <thead>
+                                <tr style="background: rgba(0,0,0,0.05);">
+                                    <th style="padding: 4px; border: 1px solid #ccc;">승</th>
+                                    <th style="padding: 4px; border: 1px solid #ccc;">패</th>
+                                    <th style="padding: 4px; border: 1px solid #ccc;">최종승률</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                for (let wins = team.remainingGames; wins >= 0; wins--) {
+                    const losses = team.remainingGames - wins;
+                    const finalWins = team.wins + wins;
+                    const finalLosses = team.losses + losses;
+                    const finalGames = finalWins + finalLosses + (team.draws || 0);
+                    const finalWinRate = finalWins / finalGames;
+                    
+                    const rowBgColor = getWinRateColor(finalWinRate);
+                    
+                    html += `
+                        <tr style="background: ${rowBgColor};">
+                            <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">${wins}</td>
+                            <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">${losses}</td>
+                            <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: 600;">
+                                ${(finalWinRate * 100).toFixed(1)}%
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            return html;
+        }
+
+        // 승률에 따른 배경색 반환
+        function getWinRateColor(winRate) {
+            if (winRate >= 0.700) return '#c8e6c9';      // 진한 녹색
+            if (winRate >= 0.650) return '#dcedc8';      // 연한 녹색
+            if (winRate >= 0.600) return '#f0f4c3';      // 연한 황녹색
+            if (winRate >= 0.550) return '#fff9c4';      // 연한 노란색
+            if (winRate >= 0.500) return '#fff3e0';      // 연한 주황색
+            if (winRate >= 0.450) return '#ffccbc';      // 연한 주황색
+            if (winRate >= 0.400) return '#ffcdd2';      // 연한 빨간색
+            return '#ffebee';                             // 매우 연한 빨간색
+        }
+
+        // 승률에 따른 CSS 클래스 반환
+        function getWinRateClass(winRate) {
+            if (winRate >= 0.700) return 'rate-excellent';
+            if (winRate >= 0.650) return 'rate-very-good';  
+            if (winRate >= 0.600) return 'rate-good';
+            if (winRate >= 0.550) return 'rate-decent';
+            if (winRate >= 0.500) return 'rate-average';
+            if (winRate >= 0.450) return 'rate-below';
+            if (winRate >= 0.400) return 'rate-poor';
+            return 'rate-very-poor';
+        }
+
+        // 기존 초기화 함수에 시나리오 분석 초기화 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            // 데이터 로딩 후 시나리오 분석 초기화
+            setTimeout(() => {
+                initializeScenarioAnalysis();
+                // 페이지 로드 시 바로 매트릭스 표시
+                setTimeout(() => {
+                    if (currentStandings && currentStandings.length > 0) {
+                        console.log('자동으로 매트릭스 테이블 표시 중...');
+                        showScenarioMatrix();
+                    } else {
+                        console.log('순위 데이터 없음:', currentStandings);
+                    }
+                }, 500); // 추가 딜레이
+            }, 3000); // 기존 데이터 로딩 후 실행 (3초로 늘림)
         });
 
