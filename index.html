@@ -3237,7 +3237,7 @@
                         <button class="daily-stats-btn daily-stats-btn-primary" style="padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; box-shadow: 0 3px 6px rgba(59, 130, 246, 0.3);" id="daily-stats-today-btn" onclick="dailyStatsGoToday()" onmouseover="this.style.background='linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'">오늘</button>
                         <button class="daily-stats-btn daily-stats-btn-secondary" style="padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-next-btn" onclick="dailyStatsChangeDate(1)" onmouseover="this.style.background='linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)'">다음날 →</button>
                     </div>
-                    <input type="date" class="daily-stats-date-input" style="padding: 10px 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: white; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-date-input" min="2025-03-22" max="2025-08-19" value="2025-03-22" onchange="dailyStatsSelectDate(this.value)" onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.05)'">
+                    <input type="date" class="daily-stats-date-input" style="padding: 10px 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: white; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="daily-stats-date-input" min="2025-03-22" max="" value="" onchange="dailyStatsSelectDate(this.value)" onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.05)'">
                     <div class="daily-stats-animation-controls" style="display: flex; gap: 6px;">
                         <button class="daily-stats-btn daily-stats-btn-primary" style="padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; box-shadow: 0 3px 6px rgba(16, 185, 129, 0.3);" id="daily-stats-animation-btn" onclick="dailyStatsToggleAnimation()" onmouseover="this.style.background='linear-gradient(135deg, #059669 0%, #047857 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #10b981 0%, #059669 100%)'">▶️ 애니메이션</button>
                         <button class="daily-stats-btn daily-stats-btn-secondary" style="padding: 10px 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; box-shadow: 0 3px 6px rgba(245, 158, 11, 0.3);" id="daily-stats-reset-btn" onclick="dailyStatsResetAnimation()" onmouseover="this.style.background='linear-gradient(135deg, #d97706 0%, #b45309 100%)'" onmouseout="this.style.background='linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'">⏮️ 처음부터</button>
@@ -7604,9 +7604,10 @@
         class CompleteDailyStats {
             constructor() {
                 this.seasonData = [];
-                this.currentDate = '2025-08-19';
+                // 동적으로 날짜 설정 - 초기화 후 loadSeasonData에서 실제 설정됨
+                this.currentDate = null;
                 this.startDate = '2025-03-22';
-                this.endDate = '2025-08-19';
+                this.endDate = null;
                 this.teamStats = {};
                 this.animationRunning = false;
                 this.teamLogoImages = {};
@@ -7774,7 +7775,46 @@ KT 9:1 키움(H)`;
                     this.seasonData.push({ date: currentDate, games: currentGames });
                 }
                 
+                // 동적으로 최신 경기 날짜 설정
+                this.setLatestGameDate();
+                
                 console.log(`${this.seasonData.length}일의 데이터 파싱 완료`);
+            }
+            
+            // 경기 결과가 있는 가장 최신 날짜를 동적으로 설정
+            setLatestGameDate() {
+                if (this.seasonData.length === 0) {
+                    this.currentDate = this.startDate;
+                    this.endDate = this.startDate;
+                    return;
+                }
+                
+                // 경기가 있는 날짜들만 필터링하여 가장 최신 날짜 찾기
+                const datesWithGames = this.seasonData
+                    .filter(dayData => dayData.games && dayData.games.length > 0)
+                    .map(dayData => dayData.date)
+                    .sort();
+                
+                if (datesWithGames.length > 0) {
+                    this.endDate = datesWithGames[datesWithGames.length - 1];
+                    this.currentDate = this.endDate;
+                    console.log(`최신 경기 날짜로 설정: ${this.endDate}`);
+                    
+                    // HTML input 요소도 동적으로 업데이트
+                    this.updateDateInputs();
+                } else {
+                    this.currentDate = this.startDate;
+                    this.endDate = this.startDate;
+                }
+            }
+            
+            // HTML 날짜 입력 요소들을 동적으로 업데이트
+            updateDateInputs() {
+                const dateInput = document.getElementById('daily-stats-date-input');
+                if (dateInput && this.endDate) {
+                    dateInput.max = this.endDate;
+                    dateInput.value = this.endDate;
+                }
             }
             
             // 시즌 전체에서 최대 게임차 미리 계산
