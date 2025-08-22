@@ -146,13 +146,15 @@ const kboTeams = {
                 return allScheduleData;
             }
             
-            logger.log(`최신 수집 데이터 날짜: ${latestDataDate}`);
+            console.log(`🔍 최신 수집 데이터 날짜: ${latestDataDate}`);
             
             // YYYY-MM-DD 형식을 MM.DD 형식으로 변환
             const [year, month, day] = latestDataDate.split('-');
             const latestDateFormatted = `${month}.${day}`;
             
-            return allScheduleData.filter(game => {
+            console.log(`📅 변환된 날짜: ${latestDateFormatted} (년:${year}, 월:${month}, 일:${day})`);
+            
+            const filteredGames = allScheduleData.filter(game => {
                 // 수집된 최신 날짜 이후의 경기만 포함
                 const gameMonth = parseInt(game.date.split('.')[0]);
                 const gameDay = parseInt(game.date.split('.')[1]);
@@ -162,12 +164,19 @@ const kboTeams = {
                 const isFuture = (gameMonth > latestMonth) || 
                                (gameMonth === latestMonth && gameDay > latestDay);
                 
+                console.log(`🎮 경기 ${game.date}: 월=${gameMonth}, 일=${gameDay} vs 최신=${latestMonth}.${latestDay} → ${isFuture ? '포함' : '제외'}`);
+                
                 if (!isFuture) {
-                    logger.log(`수집 완료 경기 제외: ${game.date} (최신 데이터: ${latestDateFormatted})`);
+                    console.log(`❌ 수집 완료 경기 제외: ${game.date} (최신 데이터: ${latestDateFormatted})`);
+                } else {
+                    console.log(`✅ 미래 경기 포함: ${game.date}`);
                 }
                 
                 return isFuture;
             });
+            
+            console.log(`🔄 필터링 결과: ${filteredGames.length}개 미래 경기`);
+            return filteredGames;
         }
         
         // 초기 잔여경기 일정 (데이터 로드 전 임시)
@@ -476,8 +485,10 @@ const kboTeams = {
                     logger.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
                     
                     // 수집된 데이터를 기반으로 잔여경기 일정 업데이트
+                    console.log(`🔄 잔여경기 일정 업데이트 시작... (기존: ${remainingSchedule.length}일)`);
                     remainingSchedule = getFilteredRemainingSchedule(data);
-                    logger.log(`🔄 잔여경기 일정 업데이트 완료: ${remainingSchedule.length}일`);
+                    console.log(`✅ 잔여경기 일정 업데이트 완료: ${remainingSchedule.length}일`);
+                    console.log('📋 업데이트된 잔여경기 목록:', remainingSchedule.map(g => g.date));
                     
                     // 데이터 로딩 시간 업데이트
                     updateLoadingTime(data);
