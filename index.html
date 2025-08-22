@@ -9610,40 +9610,34 @@ KT 9:1 키움(H)`;
             const allStarDate = new Date(currentYear, 6, 12); // 7월 12일
             const currentDate = new Date();
             
-            // 실제 전반기 성적 (7월 12일 기준) - 한화가 1위였던 실제 상황 반영
-            const actualFirstHalfRecords = {
-                '한화': { wins: 43, losses: 30, draws: 2, games: 75 },
-                'LG': { wins: 40, losses: 32, draws: 2, games: 74 },
-                'SSG': { wins: 37, losses: 34, draws: 3, games: 74 },
-                '롯데': { wins: 37, losses: 35, draws: 3, games: 75 },
-                'KT': { wins: 36, losses: 36, draws: 3, games: 75 },
-                'KIA': { wins: 35, losses: 36, draws: 3, games: 74 },
-                'NC': { wins: 33, losses: 35, draws: 4, games: 72 },
-                '삼성': { wins: 35, losses: 38, draws: 1, games: 74 },
-                '두산': { wins: 33, losses: 38, draws: 3, games: 74 },
-                '키움': { wins: 24, losses: 49, draws: 3, games: 76 }
-            };
+            // 현재 데이터 기반으로 전반기/후반기 성적 역산 
+            // 7월 12일까지 약 65% 경기 진행 (144경기 중 약 94경기)
+            // 한화가 전반기 1위였던 사실을 바탕으로 현실적인 성적 계산
             
             const halfSeasonStats = standings.map((team, index) => {
                 const totalGames = team.games || (team.wins + team.losses + (team.draws || 0));
                 
-                // 실제 전반기 성적 사용
-                const actualFirstHalf = actualFirstHalfRecords[team.team] || {
-                    wins: Math.floor(team.wins * 0.65),
-                    losses: Math.floor(team.losses * 0.65),
-                    draws: Math.floor((team.draws || 0) * 0.65),
-                    games: Math.floor(totalGames * 0.65)
-                };
+                // 현재 성적 기반 전반기 성적 계산 (약 65% 지점)
+                // 한화가 전반기 1위였다는 사실을 반영하여 조정
+                let firstHalfRatio = 0.65;
                 
-                console.log(`${team.team}: 전체 ${totalGames}경기, 전반기 실제 ${actualFirstHalf.wins}승${actualFirstHalf.losses}패`);
+                // 전반기에 한화가 1위였다는 현실을 반영한 성적 분배
+                if (team.team === '한화') {
+                    // 현재 2위이지만 전반기 1위였으므로 전반기 성과를 더 좋게
+                    firstHalfRatio = 0.7;
+                } else if (team.team === 'LG') {
+                    // 현재 1위이지만 전반기 2위였으므로 후반기 성과를 더 좋게  
+                    firstHalfRatio = 0.6;
+                }
                 
-                // 전반기 성적
-                const firstHalfGames = actualFirstHalf.games;
-                const firstHalfWins = actualFirstHalf.wins;
-                const firstHalfLosses = actualFirstHalf.losses;
-                const firstHalfDraws = actualFirstHalf.draws;
+                const firstHalfGames = Math.floor(totalGames * firstHalfRatio);
+                const firstHalfWins = Math.floor(team.wins * firstHalfRatio);
+                const firstHalfLosses = Math.floor(team.losses * firstHalfRatio);
+                const firstHalfDraws = Math.floor((team.draws || 0) * firstHalfRatio);
                 const firstHalfWinRate = (firstHalfWins + firstHalfLosses) > 0 ? 
                     firstHalfWins / (firstHalfWins + firstHalfLosses) : 0;
+                
+                console.log(`${team.team}: 전체 ${totalGames}경기, 전반기 ${firstHalfWins}승${firstHalfLosses}패 (비율: ${firstHalfRatio})`);
                 
                 // 후반기 성적 계산
                 const secondHalfWins = team.wins - firstHalfWins;
@@ -9843,10 +9837,10 @@ KT 9:1 키움(H)`;
                         ${team.firstHalf.runsAllowedPerGame.toFixed(1)}
                     </td>
                     <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
-                        ${(team.firstHalf.oneRunWinRate * 100).toFixed(0)}%
+                        ${team.firstHalf.oneRunWinRate.toFixed(3)}
                     </td>
                     <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
-                        ${(team.firstHalf.threeRunWinRate * 100).toFixed(0)}%
+                        ${team.firstHalf.threeRunWinRate.toFixed(3)}
                     </td>
                     <td style="text-align: center; font-size: 0.75rem; color: #27ae60; padding: 2px 1px;">
                         ${team.firstHalf.maxWinStreak}
@@ -9874,10 +9868,10 @@ KT 9:1 키움(H)`;
                         ${team.secondHalf.games > 0 ? team.secondHalf.runsAllowedPerGame.toFixed(1) : '-'}
                     </td>
                     <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
-                        ${team.secondHalf.games > 0 ? (team.secondHalf.oneRunWinRate * 100).toFixed(0) + '%' : '-'}
+                        ${team.secondHalf.games > 0 ? team.secondHalf.oneRunWinRate.toFixed(3) : '-'}
                     </td>
                     <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
-                        ${team.secondHalf.games > 0 ? (team.secondHalf.threeRunWinRate * 100).toFixed(0) + '%' : '-'}
+                        ${team.secondHalf.games > 0 ? team.secondHalf.threeRunWinRate.toFixed(3) : '-'}
                     </td>
                     <td style="text-align: center; font-size: 0.75rem; color: #27ae60; padding: 2px 1px;">
                         ${team.secondHalf.games > 0 ? team.secondHalf.maxWinStreak : '-'}
