@@ -1120,13 +1120,14 @@
             line-height: 1.3;
         }
 
-        /* 요일별 테이블 스타일 개선 - 월별과 동일하게 */
+        /* ===== 요일별 성적 분석 테이블 스타일 (행/열 반전 구조) ===== */
         #weekdayTable {
             border-collapse: collapse;
             font-size: var(--font-sm);
             width: 100%;
         }
 
+        /* 기본 셀 스타일 (월별 테이블과 동일) */
         #weekdayTable th,
         #weekdayTable td {
             border: 1px solid #d1d5db;
@@ -1136,28 +1137,35 @@
             width: 60px;
         }
 
+        /* 첫 번째 컬럼(요일 라벨) 폭 확장 */
         #weekdayTable th:first-child,
         #weekdayTable td:first-child {
             max-width: 80px;
             width: 80px;
         }
 
+        /* 통계 행 상단 구분선 */
         #weekdayTable .stats-row {
             border-top: 2px solid #d1d5db;
         }
 
+        /* 좌측 요일 라벨 (모든 요일 동일한 회색) */
         #weekdayTable .day-label {
-            background: #f8f9fa;
-            color: #2d3748;
+            background: #34495e;
+            color: white;
             font-size: var(--font-md);
             padding: 6px 1px;
         }
 
+        /* 평일성적/주말성적 좌측 라벨 */
         #weekdayTable .stats-label {
+            background: #34495e;
+            color: white;
             font-size: var(--font-base);
             padding: 6px 1px;
         }
 
+        /* 데이터 셀 내용 (승-패-무 (승률) + 경기수) */
         #weekdayTable .day-data {
             font-size: var(--font-base);
             line-height: 1.3;
@@ -1176,18 +1184,11 @@
             font-size: var(--font-base);
         }
 
-        #weekdayTable .day-record-cell {
+        /* 레거시 셀 클래스 (현재 미사용) */
+        #weekdayTable .day-record-cell,
+        #weekdayTable .day-rate-cell {
             font-size: var(--font-base);
             font-weight: var(--font-weight-semibold);
-            text-align: center;
-            padding: 6px 1px;
-            line-height: 1.3;
-        }
-
-        #weekdayTable .day-rate-cell {
-            font-family: var(--winrate-font-family);
-            font-size: var(--font-md);
-            font-weight: var(--font-weight-bold);
             text-align: center;
             padding: 6px 1px;
             line-height: 1.3;
@@ -1218,6 +1219,13 @@
             position: relative;
         }
 
+
+        /* 상단 헤더: 토요일/일요일만 주말 색상 적용 */
+        #weekdayTable thead th:contains("토요일"),
+        #weekdayTable thead th:contains("일요일") {
+            background: #dc2626 !important;
+            color: white !important;
+        }
 
         /* 주말승률과 평일승률 헤더 배경 강조 */
         #weekdayTable th:nth-child(10),
@@ -4212,14 +4220,15 @@
                 </table>
             </div>
             
-            <!-- 요일별 성적 분석 설명 -->
+            <!-- 요일별 성적 분석 설명 - 행/열 반전 구조 -->
             <div style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
                 <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📅 요일별 성적 설명</div>
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
-                    <div style="margin-bottom: 6px;"><strong>요일별 승률:</strong> 월요일부터 일요일까지 각 요일별 성적 분석</div>
-                    <div style="margin-bottom: 6px;"><strong>주말 승률:</strong> 토요일, 일요일 경기 합산 승률</div>
-                    <div style="margin-bottom: 6px;"><strong>평일 승률:</strong> 월요일~금요일 경기 합산 승률</div>
-                    <div><strong>색상 구분:</strong> <span style="background: var(--positive-bg-medium); padding: 2px 6px; border-radius: 3px;">0.500 초과 (좋음)</span> <span style="background: var(--neutral-bg-light); padding: 2px 6px; border-radius: 3px;">0.500 (보통)</span> <span style="background: var(--negative-bg-medium); padding: 2px 6px; border-radius: 3px;">0.500 미만 (나쁨)</span></div>
+                    <div style="margin-bottom: 6px;"><strong>테이블 구조:</strong> 요일(월~일)이 좌측 행, 팀명이 상단 열로 배치</div>
+                    <div style="margin-bottom: 6px;"><strong>데이터 형식:</strong> 각 셀에 "승-패-무 (승률)" + "경기수" 형태로 표시</div>
+                    <div style="margin-bottom: 6px;"><strong>평일/주말 성적:</strong> 각 요일별 성적 하단에 평일성적(월~금), 주말성적(토~일) 요약</div>
+                    <div style="margin-bottom: 6px;"><strong>헤더 색상:</strong> <span style="background: #34495e; color: white; padding: 2px 6px; border-radius: 3px;">평일</span> <span style="background: #dc2626; color: white; padding: 2px 6px; border-radius: 3px;">주말(토, 일)</span></div>
+                    <div><strong>승률 색상:</strong> <span style="background: var(--positive-bg-medium); padding: 2px 6px; border-radius: 3px;">0.500 초과</span> <span style="background: var(--neutral-bg-light); padding: 2px 6px; border-radius: 3px;">0.500</span> <span style="background: var(--negative-bg-medium); padding: 2px 6px; border-radius: 3px;">0.500 미만</span></div>
                 </div>
             </div>
         </div>
@@ -6608,7 +6617,18 @@
 
         }
 
-        // 요일별 성적 전체 분석 (행/열 반전)
+        /**
+         * 요일별 성적 분석 테이블 렌더링 (행/열 반전 구조)
+         * 
+         * 테이블 구조:
+         * - 상단 헤더: 팀명들 (순위순)
+         * - 좌측 헤더: 요일들 (월~일) + 평일성적 + 주말성적
+         * - 데이터 셀: "승-패-무 (승률)" + "경기수" 형태
+         * 
+         * 색상 구분:
+         * - 헤더: 평일(#34495e), 주말(#dc2626)
+         * - 데이터: 승률에 따른 동적 색상
+         */
         function renderWeekdayFullAnalysis() {
             const thead = document.getElementById('weekdayTableHead');
             const tbody = document.getElementById('weekdayBody');
