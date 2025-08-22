@@ -3418,8 +3418,8 @@ const kboTeams = {
             // 두 번째 헤더 행 - 컬럼 구분 (잔여경기 vs 최종성적)
             eligibleTeams.forEach((team, index) => {
                 const isLast = index === eligibleTeams.length - 1;
-                const cellWidth = index < 6 ? '75px' : '60px';
-                const finalCellWidth = index < 6 ? '95px' : '80px';
+                const cellWidth = '75px';
+                const finalCellWidth = '95px';
                 html += `
                     <th style="
                         width: ${cellWidth}; 
@@ -3430,7 +3430,7 @@ const kboTeams = {
                         border-right: 1px solid rgba(255,255,255,0.3);
                         text-align: center;
                         font-weight: 600;
-                    ">잔여 성적</th>
+                    ">잔여 성적<br><span style="font-size: 0.6rem;">(승-패/승률)</span></th>
                     <th style="
                         width: ${finalCellWidth}; 
                         min-width: ${finalCellWidth}; 
@@ -3440,7 +3440,7 @@ const kboTeams = {
                         ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''}
                         text-align: center;
                         font-weight: 600;
-                    ">최종 성적</th>`;
+                    ">최종 성적<br><span style="font-size: 0.6rem;">(승-패-무/승률)</span></th>`;
             });
             
             html += `</tr></thead><tbody>`;
@@ -3507,9 +3507,9 @@ const kboTeams = {
                             const rateClass = getWinRateClass(teamScenario.finalWinRate);
                             
                             // 잔여경기 컬럼
-                            const cellWidth = teamIndex < 6 ? '75px' : '60px';
+                            const cellWidth = '75px';
                             html += `<td class="${rateClass} win-rate-cell" style="
-                                padding: 1px 1px; 
+                                padding: 4px 1px; 
                                 text-align: center; 
                                 border: 1px solid #dee2e6; 
                                 width: ${cellWidth};
@@ -3521,9 +3521,9 @@ const kboTeams = {
                             </td>`;
                             
                             // 최종성적 컬럼 (더 넓게)
-                            const finalCellWidth = teamIndex < 6 ? '95px' : '80px';
+                            const finalCellWidth = '95px';
                             html += `<td class="${rateClass} win-rate-cell" style="
-                                padding: 1px 2px; 
+                                padding: 4px 2px; 
                                 text-align: center; 
                                 border: 1px solid #dee2e6; 
                                 width: ${finalCellWidth};
@@ -3532,7 +3532,7 @@ const kboTeams = {
                                 white-space: nowrap;
                                 ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}
                             ">
-                                <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}승 ${finalDraws}무 ${finalLosses}패</div>
+                                <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}승 ${finalLosses}패 ${finalDraws}무</div>
                                 <div style="font-size: 0.7rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
                             </td>`;
                         } else {
