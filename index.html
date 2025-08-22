@@ -4745,24 +4745,45 @@
                 const scheduleText = await response.text();
                 const allScheduleData = parseScheduleText(scheduleText);
                 
-                // 오늘 날짜 기준으로 미래 경기만 필터링 (오늘 포함)
-                // 한국 시간대 기준으로 정확한 오늘 날짜 계산
-                const now = new Date();
-                const kstOffset = 9 * 60; // KST는 UTC+9
-                const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-                const kstTime = new Date(utcTime + (kstOffset * 60000));
+                // 수집된 경기 데이터 기준으로 미래 경기만 필터링
+                // service-data.json에서 최신 수집 날짜 확인
+                let filterDateString;
+                let latestDataDate;
                 
-                // 오늘 날짜 문자열 (한국 시간 기준)
-                const todayYear = kstTime.getFullYear();
-                const todayMonth = String(kstTime.getMonth() + 1).padStart(2, '0');
-                const todayDay = String(kstTime.getDate()).padStart(2, '0');
-                const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
-                
-                // 필터링 기준일을 오늘로 설정 (오늘부터 미래 경기만 표시)
-                const filterDateString = todayString;
-                
-                console.log('📅 오늘 날짜 (KST):', todayString);
-                console.log('📅 필터링 기준 날짜 (오늘부터):', filterDateString);
+                try {
+                    const serviceResponse = await fetch('data/service-data.json');
+                    if (serviceResponse.ok) {
+                        const serviceData = await serviceResponse.json();
+                        latestDataDate = serviceData.dataDate;
+                        if (latestDataDate) {
+                            // 수집된 날짜의 다음날부터 미래 경기로 설정
+                            const dataDate = new Date(latestDataDate + 'T00:00:00');
+                            dataDate.setDate(dataDate.getDate() + 1);
+                            const nextYear = dataDate.getFullYear();
+                            const nextMonth = String(dataDate.getMonth() + 1).padStart(2, '0');
+                            const nextDay = String(dataDate.getDate()).padStart(2, '0');
+                            filterDateString = `${nextYear}-${nextMonth}-${nextDay}`;
+                            console.log('🔍 최신 수집 데이터 날짜:', latestDataDate);
+                            console.log('📅 미래 경기 필터링 기준 (수집 날짜 다음날부터):', filterDateString);
+                        } else {
+                            throw new Error('dataDate가 없음');
+                        }
+                    } else {
+                        throw new Error('service-data.json 로드 실패');
+                    }
+                } catch (error) {
+                    console.warn('⚠️ service-data.json 로드 실패, 현재 날짜 기준으로 fallback:', error.message);
+                    // Fallback: 현재 날짜 기준
+                    const now = new Date();
+                    const kstOffset = 9 * 60;
+                    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+                    const kstTime = new Date(utcTime + (kstOffset * 60000));
+                    
+                    const todayYear = kstTime.getFullYear();
+                    const todayMonth = String(kstTime.getMonth() + 1).padStart(2, '0');
+                    const todayDay = String(kstTime.getDate()).padStart(2, '0');
+                    filterDateString = `${todayYear}-${todayMonth}-${todayDay}`;
+                }
                 
                 // 디버깅을 위한 첫 5개 경기 날짜 출력
                 console.log('📅 파싱된 첫 5개 경기:', allScheduleData.slice(0, 5).map(g => g.date));
@@ -4778,10 +4799,14 @@
                     // 날짜가 없는 경기 제외
                     if (!game.date) return false;
                     
-                    // 오늘부터 미래 경기만 포함 (오늘 포함)
+                    // 수집된 데이터 날짜 이후의 미래 경기만 포함 (수집 완료된 날짜는 제외)
                     const includeGame = game.date >= filterDateString;
-                    if (game.date === todayString) {
-                        console.log(`📅 오늘 경기 발견: ${game.date} ${game.time} ${game.awayTeam} vs ${game.homeTeam}`);
+                    if (game.date === latestDataDate) {
+                        console.log(`📅 수집 완료된 경기 제외: ${game.date} ${game.time} ${game.awayTeam} vs ${game.homeTeam}`);
+                        return false; // 수집 완료된 날짜는 명시적으로 제외
+                    }
+                    if (includeGame) {
+                        console.log(`📅 미래 경기 포함: ${game.date} ${game.time} ${game.awayTeam} vs ${game.homeTeam}`);
                     }
                     return includeGame;
                 });
