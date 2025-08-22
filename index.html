@@ -1120,9 +1120,77 @@
             line-height: 1.3;
         }
 
-        /* 요일별 테이블 스타일 개선 */
+        /* 요일별 테이블 스타일 개선 - 월별과 동일하게 */
+        #weekdayTable {
+            border-collapse: collapse;
+            font-size: var(--font-sm);
+            width: 100%;
+        }
+
+        #weekdayTable th,
         #weekdayTable td {
-            color: #2d3748 !important;
+            border: 1px solid #d1d5db;
+            padding: 6px 2px;
+            text-align: center;
+            max-width: 60px;
+            width: 60px;
+        }
+
+        #weekdayTable th:first-child,
+        #weekdayTable td:first-child {
+            max-width: 80px;
+            width: 80px;
+        }
+
+        #weekdayTable .stats-row {
+            border-top: 2px solid #d1d5db;
+        }
+
+        #weekdayTable .day-label {
+            background: #f8f9fa;
+            color: #2d3748;
+            font-size: var(--font-md);
+            padding: 6px 1px;
+        }
+
+        #weekdayTable .stats-label {
+            font-size: var(--font-base);
+            padding: 6px 1px;
+        }
+
+        #weekdayTable .day-data {
+            font-size: var(--font-base);
+            line-height: 1.3;
+            padding: 6px 1px;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        #weekdayTable .day-data .record {
+            margin-bottom: 2px;
+        }
+
+        #weekdayTable .day-data .rate {
+            font-family: var(--winrate-font-family);
+            font-weight: var(--winrate-font-weight);
+            font-size: var(--font-base);
+        }
+
+        #weekdayTable .day-record-cell {
+            font-size: var(--font-base);
+            font-weight: var(--font-weight-semibold);
+            text-align: center;
+            padding: 6px 1px;
+            line-height: 1.3;
+        }
+
+        #weekdayTable .day-rate-cell {
+            font-family: var(--winrate-font-family);
+            font-size: var(--font-md);
+            font-weight: var(--font-weight-bold);
+            text-align: center;
+            padding: 6px 1px;
+            line-height: 1.3;
         }
         
         /* 월별/요일별 테이블에 주차별과 동일한 색상 클래스 적용 */
@@ -1142,12 +1210,6 @@
             background: var(--neutral-bg-light) !important;
             color: var(--neutral-color) !important;
             font-weight: var(--font-weight-medium);
-        }
-        #weekdayTable th,
-        #weekdayTable td {
-            padding: 8px 6px;
-            text-align: center;
-            vertical-align: middle;
         }
 
         /* 주말승률과 평일승률 열 구분선 제거 */
@@ -4141,20 +4203,8 @@
             </div>
             <div class="table-container">
                 <table class="detail-table" id="weekdayTable">
-                    <thead>
-                        <tr>
-                            <th>순위</th>
-                            <th>팀</th>
-                            <th>월요일</th>
-                            <th>화요일</th>
-                            <th>수요일</th>
-                            <th>목요일</th>
-                            <th>금요일</th>
-                            <th>토요일</th>
-                            <th>일요일</th>
-                            <th>주말승률</th>
-                            <th>평일승률</th>
-                        </tr>
+                    <thead id="weekdayTableHead">
+                        <!-- 동적으로 생성 -->
                     </thead>
                     <tbody id="weekdayBody">
                         <!-- 동적으로 생성 -->
@@ -6558,64 +6608,78 @@
 
         }
 
-        // 요일별 성적 전체 분석
+        // 요일별 성적 전체 분석 (행/열 반전)
         function renderWeekdayFullAnalysis() {
-            console.log('🔍 renderWeekdayFullAnalysis 호출됨');
+            const thead = document.getElementById('weekdayTableHead');
             const tbody = document.getElementById('weekdayBody');
-            console.log('weekdayBody 요소:', tbody);
-            
-            if (!tbody) {
-                console.error('❌ weekdayBody 요소를 찾을 수 없습니다');
-                return;
-            }
-            
-            if (!dashboardData || !dashboardData.standings) {
-                console.error('❌ dashboardData.standings가 없습니다');
-                return;
-            }
-            
-            const days = ['월', '화', '수', '목', '금', '토', '일'];
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
             
             // 순위 순서대로 팀 정렬
             const rankedTeams = dashboardData.standings.map(team => team.team_name);
-            console.log('rankedTeams:', rankedTeams);
             
-            let html = '';
-            
+            // 테이블 헤더 생성 (팀명들 - 모든 팀 동일한 색상)
+            let headerHtml = '<tr><th class="day-label">요일</th>';
             rankedTeams.forEach(team => {
-                const weekdayData = dashboardData.weekdayPerformance[team];
-                const rank = dashboardData.standings.find(t => t.team_name === team).displayRank;
+                headerHtml += `<th style="background: #34495e; color: white;">${getTeamWithLogo(team, 'team-logo-small')}</th>`;
+            });
+            headerHtml += '</tr>';
+            thead.innerHTML = headerHtml;
+            
+            const days = [
+                { key: '월', name: '월요일' },
+                { key: '화', name: '화요일' },
+                { key: '수', name: '수요일' },
+                { key: '목', name: '목요일' },
+                { key: '금', name: '금요일' },
+                { key: '토', name: '토요일' },
+                { key: '일', name: '일요일' }
+            ];
+            
+            let bodyHtml = '';
+            
+            // 각 요일별로 행 생성 (성적과 승률을 한 셀에 표기)
+            days.forEach(day => {
+                let dayRow = `<tr><td class="day-label">${day.name}</td>`;
                 
-                html += `<tr>
-                    <td><strong>${rank}</strong></td>
-                    <td class="team-name"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></td>
-                `;
-                
-                // 각 요일별 데이터
-                days.forEach(day => {
-                    if (weekdayData && weekdayData[day]) {
-                        const winRateValue = parseFloat(weekdayData[day].win_rate);
+                rankedTeams.forEach(team => {
+                    const weekdayData = dashboardData.weekdayPerformance[team];
+                    if (weekdayData && weekdayData[day.key]) {
+                        const wins = weekdayData[day.key].wins;
+                        const losses = weekdayData[day.key].losses;
+                        const draws = weekdayData[day.key].draws || 0;
+                        const winRateValue = parseFloat(weekdayData[day.key].win_rate);
                         const normalizedWinRate = winRateValue > 1 ? winRateValue / 100 : winRateValue;
                         const winRate = normalizedWinRate.toFixed(3);
                         
-                        // 통합 색상 관리 함수 사용
-                        const dayCellStyle = getUnifiedCellStyle(normalizedWinRate);
-                        const backgroundColor = dayCellStyle.backgroundColor;
-                        const textColor = dayCellStyle.textColor;
+                        const cellStyle = getUnifiedCellStyle(normalizedWinRate);
                         
-                        // 통합 색상 관리로 CSS 클래스 불필요
+                        const totalGames = wins + losses + draws;
+                        const cellStyleString = `background: ${cellStyle.backgroundColor}; color: ${cellStyle.textColor}; padding: 8px;`;
                         
-                        const totalGames = weekdayData[day].wins + weekdayData[day].losses + (weekdayData[day].draws || 0);
-                        html += `<td style="background: ${backgroundColor} !important; color: ${textColor} !important; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
-                            <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekdayData[day].wins}-${weekdayData[day].losses}-${weekdayData[day].draws || 0} (${winRate})</div>
-                            <div style="font-size: var(--font-xs); margin-top: 2px;">${totalGames}경기</div>
-                        </td>`;
+                        dayRow += `
+                            <td style="${cellStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.3;">
+                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${wins}-${losses}${draws > 0 ? `-${draws}` : ''} (${winRate})</div>
+                                <div style="font-size: var(--font-xs); margin-top: 2px;">${totalGames}경기</div>
+                            </td>
+                        `;
                     } else {
-                        html += `<td style="background: #f8f9fa; color: #999; font-size: var(--font-base); padding: 8px;">0-0-0 (0.000)</td>`;
+                        dayRow += '<td style="background: #f8f9fa; color: #999; padding: 6px 2px; white-space: nowrap; font-size: var(--font-xs); text-align: center;">-</td>';
                     }
                 });
+                dayRow += '</tr>';
                 
-                // 주말승률 (토요일, 일요일)
+                bodyHtml += dayRow;
+            });
+            
+            // 평일승률/주말승률 행 추가 (성적과 승률을 한 셀에 표기) - 순서 변경, 연한 파란색 헤더, 상단 구분선
+            let weekdayRow = '<tr class="stats-row"><td class="stats-label" style="background: #3b82f6; color: white; border-top: 2px solid #34495e;">평일 성적</td>';
+            let weekendRow = '<tr class="stats-row"><td class="stats-label" style="background: #3b82f6; color: white;">주말 성적</td>';
+            
+            rankedTeams.forEach(team => {
+                const weekdayData = dashboardData.weekdayPerformance[team];
+                
+                // 주말 데이터 (토, 일)
                 let weekendWins = 0, weekendLosses = 0;
                 ['토', '일'].forEach(day => {
                     if (weekdayData && weekdayData[day]) {
@@ -6624,14 +6688,20 @@
                     }
                 });
                 const weekendWinRate = (weekendWins + weekendLosses > 0) ? (weekendWins / (weekendWins + weekendLosses)) : 0;
-                const weekendRate = weekendWinRate.toFixed(3);
-                
-                // 주말승률 색상 - 통합 함수 사용
                 const weekendCellStyle = getUnifiedCellStyle(weekendWinRate);
-                const weekendBgColor = weekendCellStyle.backgroundColor;
-                const weekendTextColor = weekendCellStyle.textColor;
                 
-                // 평일승률 (월~금)
+                const weekendTotalGames = weekendWins + weekendLosses;
+                
+                const weekendStyleString = `background: ${weekendCellStyle.backgroundColor}; color: ${weekendCellStyle.textColor}; padding: 8px;`;
+                
+                weekendRow += `
+                    <td style="${weekendStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.3;">
+                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekendWins}-${weekendLosses} (${weekendWinRate.toFixed(3)})</div>
+                        <div style="font-size: var(--font-xs); margin-top: 2px;">${weekendTotalGames}경기</div>
+                    </td>
+                `;
+                
+                // 평일 데이터 (월~금)
                 let weekdayWins = 0, weekdayLosses = 0;
                 ['월', '화', '수', '목', '금'].forEach(day => {
                     if (weekdayData && weekdayData[day]) {
@@ -6640,31 +6710,29 @@
                     }
                 });
                 const weekdayWinRate = (weekdayWins + weekdayLosses > 0) ? (weekdayWins / (weekdayWins + weekdayLosses)) : 0;
-                const weekdayRate = weekdayWinRate.toFixed(3);
-                
-                // 평일승률 색상 - 통합 함수 사용
                 const weekdayCellStyle = getUnifiedCellStyle(weekdayWinRate);
-                const weekdayBgColor = weekdayCellStyle.backgroundColor;
-                const weekdayTextColor = weekdayCellStyle.textColor;
                 
-                // 통합 색상 관리로 CSS 클래스 불필요
+                const weekdayTotalGames = weekdayWins + weekdayLosses;
                 
-                html += `
-                    <td style="background: ${weekendBgColor} !important; color: ${weekendTextColor} !important; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
-                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekendWins}-${weekendLosses} (${weekendRate})</div>
-                        <div style="font-size: var(--font-xs); margin-top: 2px;">${weekendWins + weekendLosses}경기</div>
+                const weekdayStyleString = `background: ${weekdayCellStyle.backgroundColor}; color: ${weekdayCellStyle.textColor}; padding: 8px; border-top: 2px solid #34495e;`;
+                
+                weekdayRow += `
+                    <td style="${weekdayStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.3;">
+                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekdayWins}-${weekdayLosses} (${weekdayWinRate.toFixed(3)})</div>
+                        <div style="font-size: var(--font-xs); margin-top: 2px;">${weekdayTotalGames}경기</div>
                     </td>
-                    <td style="background: ${weekdayBgColor} !important; color: ${weekdayTextColor} !important; font-size: var(--font-sm); padding: 8px; line-height: 1.3;">
-                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekdayWins}-${weekdayLosses} (${weekdayRate})</div>
-                        <div style="font-size: var(--font-xs); margin-top: 2px;">${weekdayWins + weekdayLosses}경기</div>
-                    </td>
-                </tr>`;
+                `;
             });
             
-            console.log('생성된 HTML 길이:', html.length);
-            console.log('HTML 미리보기:', html.substring(0, 200) + '...');
-            tbody.innerHTML = html;
-            console.log('✅ renderWeekdayFullAnalysis 완료');
+            weekdayRow += '</tr>';
+            weekendRow += '</tr>';
+            
+            bodyHtml += weekdayRow + weekendRow;
+            
+            tbody.innerHTML = bodyHtml;
+            
+            // 요일별 테이블 정렬 기능 초기화
+            makeTableSortable('weekdayTable');
         }
 
         // 경기장별 성적 표 분석
