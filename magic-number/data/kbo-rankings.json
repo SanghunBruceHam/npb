@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-22T13:34:13.489Z",
+  "lastUpdated": "2025-08-22T13:37:15.486Z",
   "updateDate": "2025. 8. 22.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
@@ -236,7 +236,7 @@
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-22T13:34:13.489Z",
+  "lastMagicUpdate": "2025-08-22T13:37:15.486Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
   "dataDate": "2025-08-22"
