@@ -1065,8 +1065,8 @@
         }
 
         #monthlyTable .month-label {
-            background: #34495e;
-            color: white;
+            background: #34495e !important;
+            color: white !important;
             font-size: var(--font-md);
             padding: 6px 1px;
         }
@@ -1625,8 +1625,7 @@
             }
             
             /* 월별/경기장별 테이블 첫 번째 컬럼만 sticky */
-            #monthlyTable th:first-child,
-            #monthlyTable td:first-child {
+            #monthlyTable th:first-child {
                 position: sticky !important;
                 left: 0 !important;
                 z-index: 10 !important;
@@ -1634,7 +1633,20 @@
                 color: white !important;
                 border-right: 2px solid #495057 !important;
                 min-width: 70px !important;
-                font-weight: bold !important;
+            }
+            
+            #monthlyTable td:first-child {
+                position: sticky !important;
+                left: 0 !important;
+                z-index: 10 !important;
+                border-right: 2px solid #495057 !important;
+                min-width: 70px !important;
+            }
+            
+            /* 월 라벨은 별도 색상 적용 */
+            #monthlyTable td:first-child.month-label {
+                background: #34495e !important;
+                color: white !important;
             }
             
             #stadiumTable th:first-child,
