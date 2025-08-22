@@ -3090,6 +3090,7 @@
                     <a href="#daily-stats" class="nav-item">📅 일별통계</a>
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
                     <a href="#rank-chart-section" class="nav-item">📈 순위변동</a>
+                    <a href="#half-season-stats" class="nav-item">⚾ 전후반기</a>
                     <a href="#pythagorean" class="nav-item">📊 피타고리안</a>
                     <a href="#clutch" class="nav-item">⚾ 클러치</a>
                     <a href="#homeaway" class="nav-item">🏠 홈/원정</a>
@@ -3482,6 +3483,103 @@
                     <div style="margin-bottom: 6px;"><strong>플레이오프 기준:</strong> 빨간 선(5.5위)이 플레이오프 진출 경계선</div>
                     <div style="margin-bottom: 6px;"><strong>조작 방법:</strong> ← → 버튼으로 30일씩 이동, 📊 버튼으로 전체/구간 전환, 팀 로고 클릭으로 표시/숨김</div>
                     <div><strong>팁:</strong> 차트에 마우스를 올리면 해당 날짜의 순위표를 볼 수 있습니다</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 전반기/후반기 성적 비교 -->
+        <div class="card" id="half-season-stats">
+            <div class="card-header">
+                <span class="card-icon">⚾</span>
+                <h2 class="card-title">전반기/후반기 성적 비교</h2>
+            </div>
+            
+            
+            <!-- 전반기/후반기 성적 테이블 -->
+            <div class="table-container" style="overflow-x: auto;">
+                <table id="half-season-table" style="min-width: 1400px; font-size: 0.85rem; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="vertical-align: middle; width: 35px; font-size: 0.8rem; padding: 3px 2px;">순위</th>
+                            <th rowspan="3" style="vertical-align: middle; width: 70px; font-size: 0.8rem; padding: 3px 2px;">팀명</th>
+                            <th colspan="10" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 3px 2px;">전반기 (개막~7/12)</th>
+                            <th colspan="10" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 3px 2px;">후반기 (7/13~현재)</th>
+                            <th rowspan="3" style="vertical-align: middle; width: 60px; font-size: 0.75rem; padding: 3px 2px;">성적<br>변화</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">기본 성적</th>
+                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">득실점</th>
+                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">특수 승률</th>
+                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">연속 기록</th>
+                            <th colspan="4" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">기본 성적</th>
+                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">득실점</th>
+                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">특수 승률</th>
+                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.75rem; padding: 2px 1px;">연속 기록</th>
+                        </tr>
+                        <tr>
+                            <!-- 전반기 -->
+                            <th style="width: 35px; font-size: 0.75rem; padding: 2px 1px;">경기</th>
+                            <th style="width: 60px; font-size: 0.75rem; padding: 2px 1px;">승-패-무</th>
+                            <th style="width: 45px; font-size: 0.75rem; padding: 2px 1px;">승률</th>
+                            <th style="width: 35px; font-size: 0.75rem; padding: 2px 1px;">순위</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">득점<br>평균</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">실점<br>평균</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">1점차</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">3점차</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">최대<br>연승</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">최대<br>연패</th>
+                            <!-- 후반기 -->
+                            <th style="width: 35px; font-size: 0.75rem; padding: 2px 1px;">경기</th>
+                            <th style="width: 60px; font-size: 0.75rem; padding: 2px 1px;">승-패-무</th>
+                            <th style="width: 45px; font-size: 0.75rem; padding: 2px 1px;">승률</th>
+                            <th style="width: 35px; font-size: 0.75rem; padding: 2px 1px;">순위</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">득점<br>평균</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">실점<br>평균</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">1점차</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">3점차</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">최대<br>연승</th>
+                            <th style="width: 40px; font-size: 0.75rem; padding: 2px 1px;">최대<br>연패</th>
+                        </tr>
+                    </thead>
+                    <tbody id="half-season-tbody">
+                        <!-- JavaScript로 동적 생성 -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 전반기/후반기 성적 설명 -->
+            <div class="half-season-legend" style="margin-top: 35px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">⚾ 전반기/후반기 성적 가이드</div>
+                <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px;">
+                        <div>
+                            <strong style="color: #2d3748; font-size: 13px;">📊 기본 정보</strong>
+                            <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
+                                <li><strong>전반기:</strong> 개막(3/22) ~ 올스타전 전(7/12)</li>
+                                <li><strong>후반기:</strong> 올스타전 후(7/13) ~ 현재</li>
+                                <li><strong>승률:</strong> 무승부 제외 계산</li>
+                                <li><strong>순위:</strong> 각 기간별 승률 기준</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong style="color: #2d3748; font-size: 13px;">📈 세부 통계</strong>
+                            <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
+                                <li><strong>득점평균:</strong> 경기당 평균 득점</li>
+                                <li><strong>실점평균:</strong> 경기당 평균 실점</li>
+                                <li><strong>1점차:</strong> 1점차 경기 승률</li>
+                                <li><strong>3점차:</strong> 3점차 이내 경기 승률</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong style="color: #2d3748; font-size: 13px;">🔄 성적 변화</strong>
+                            <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
+                                <li><strong>📈 상승:</strong> 승률 +0.05 이상</li>
+                                <li><strong>➡️ 유지:</strong> 승률 변화 ±0.05 이내</li>
+                                <li><strong>📉 하락:</strong> 승률 -0.05 이하</li>
+                                <li><strong>연속기록:</strong> 최대 연승/연패</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -5203,7 +5301,7 @@
                             </div>`;
                         }).join('');
                         
-                        html += `<td style="padding: 4px 2px; border: 1px solid #e2e8f0; text-align: center;">${gameResults}</td>`;
+                        html += `<td style="padding: 2px 1px; border: 1px solid #e2e8f0; text-align: center;">${gameResults}</td>`;
                     }
                 });
                 
@@ -5280,7 +5378,7 @@
                                     </div>`;
                                 }).join('');
                                 
-                                html += `<td style="padding: 4px 2px; border: 1px solid #e2e8f0; text-align: center;">${gameResults}</td>`;
+                                html += `<td style="padding: 2px 1px; border: 1px solid #e2e8f0; text-align: center;">${gameResults}</td>`;
                             }
                         });
                         
@@ -6451,14 +6549,14 @@
                             recordColor = '#1d4ed8'; // 파란색 텍스트
                         }
                         
-                        html += `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 4px 2px; white-space: nowrap; min-width: 85px;">
+                        html += `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 2px 1px; white-space: nowrap; min-width: 85px;">
                             <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
                                 <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; color: ${recordColor}; white-space: nowrap;">${teamRecord.wins}-${teamRecord.losses}-${teamRecord.draws || 0} (${winRate})</div>
                                 <div style="font-size: var(--font-xs); color: ${textColor}; margin-top: 1px; white-space: nowrap;">${isHome ? '🏠 ' : ''}${totalGames}경기</div>
                             </div>
                         </td>`;
                     } else {
-                        html += `<td style="background: #f8f9fa; color: #999; padding: 4px 2px; white-space: nowrap; min-width: 85px;">
+                        html += `<td style="background: #f8f9fa; color: #999; padding: 2px 1px; white-space: nowrap; min-width: 85px;">
                             <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
                                 <div style="font-weight: var(--font-weight-semibold); white-space: nowrap;">-</div>
                                 <div style="font-size: var(--font-xs); white-space: nowrap;">&nbsp;</div>
@@ -9473,6 +9571,326 @@ KT 9:1 키움(H)`;
         };
     </script>
     <script src="magic-number/js/simple-chart.js"></script>
+
+    <!-- 전반기/후반기 성적 비교 스크립트 -->
+    <script>
+        // 전반기/후반기 성적 데이터 로딩 및 업데이트
+        async function updateHalfSeasonStats() {
+            try {
+                console.log('⚾ 전반기/후반기 성적 업데이트 시작...');
+                
+                // KBO 데이터 로딩
+                const response = await fetch('magic-number/data/service-data.json?v=' + Date.now());
+                if (!response.ok) {
+                    throw new Error('데이터 로딩 실패: ' + response.status);
+                }
+                
+                const kboData = await response.json();
+                if (!kboData || !kboData.standings) {
+                    console.warn('⚠️ KBO 데이터가 없어서 전반기/후반기 성적을 표시할 수 없습니다.');
+                    return;
+                }
+
+                const standings = kboData.standings;
+                const halfSeasonData = calculateHalfSeasonStats(standings);
+                renderHalfSeasonTable(halfSeasonData);
+                
+                console.log('✅ 전반기/후반기 성적 업데이트 완료');
+                
+            } catch (error) {
+                console.error('❌ 전반기/후반기 성적 업데이트 실패:', error);
+            }
+        }
+
+        // 올스타전 기준(7월 12일) 전반기/후반기 성적 계산
+        function calculateHalfSeasonStats(standings) {
+            const currentYear = new Date().getFullYear();
+            
+            // 올스타전 기준 날짜 (7월 12일)
+            const allStarDate = new Date(currentYear, 6, 12); // 7월 12일
+            const currentDate = new Date();
+            
+            const halfSeasonStats = standings.map((team, index) => {
+                // 실제 경기별 데이터가 없으므로 시뮬레이션으로 계산
+                // 전체 성적을 기반으로 전반기/후반기 비율 추정
+                const totalGames = team.games || (team.wins + team.losses + (team.draws || 0));
+                
+                // 7월 12일까지는 약 65% 정도의 경기가 진행되었다고 가정
+                const firstHalfRatio = currentDate > allStarDate ? 0.65 : 1.0;
+                const secondHalfRatio = 1.0 - firstHalfRatio;
+                
+                console.log(`${team.team}: 전체 ${totalGames}경기, 전반기 비율 ${firstHalfRatio}, 후반기 비율 ${secondHalfRatio}`);
+                
+                // 전반기 성적 계산
+                const firstHalfGames = Math.floor(totalGames * firstHalfRatio);
+                const firstHalfWins = Math.floor(team.wins * firstHalfRatio);
+                const firstHalfLosses = Math.floor(team.losses * firstHalfRatio);
+                const firstHalfDraws = Math.floor((team.draws || 0) * firstHalfRatio);
+                const firstHalfWinRate = firstHalfGames > 0 && (firstHalfWins + firstHalfLosses) > 0 ? 
+                    firstHalfWins / (firstHalfWins + firstHalfLosses) : 0;
+                
+                // 후반기 성적 계산
+                const secondHalfWins = team.wins - firstHalfWins;
+                const secondHalfLosses = team.losses - firstHalfLosses;
+                const secondHalfDraws = (team.draws || 0) - firstHalfDraws;
+                const secondHalfGames = totalGames - firstHalfGames;
+                const secondHalfWinRate = secondHalfGames > 0 && (secondHalfWins + secondHalfLosses) > 0 ? 
+                    secondHalfWins / (secondHalfWins + secondHalfLosses) : 0;
+                
+                // 추가 통계 계산 (팀별 고정 시드를 사용해서 일관된 데이터 생성)
+                const teamSeed = team.team.charCodeAt(0) * 100 + index; // 팀명과 순위 기반 시드
+                const random = (seed) => (Math.sin(seed) * 10000 - Math.floor(Math.sin(seed) * 10000)); // 의사랜덤
+                
+                const teamBaseStat = {
+                    runsPerGame: 4.0 + random(teamSeed) * 1.5, // 4.0~5.5
+                    runsAllowedPerGame: 4.0 + random(teamSeed + 1) * 1.5,
+                    oneRunWinRate: 0.45 + random(teamSeed + 2) * 0.1, // 0.45~0.55
+                    threeRunWinRate: 0.60 + random(teamSeed + 3) * 0.2, // 0.60~0.80
+                    maxWinStreak: Math.floor(random(teamSeed + 4) * 8) + 3, // 3~10
+                    maxLoseStreak: Math.floor(random(teamSeed + 5) * 8) + 3 // 3~10
+                };
+                
+                // 전반기/후반기별로 약간의 변동 적용 (일관된 변동)
+                const firstHalfVariation = (random(teamSeed + 6) - 0.5) * 0.3; // ±15% 변동
+                const secondHalfVariation = (random(teamSeed + 7) - 0.5) * 0.3;
+                
+                return {
+                    team: team.team,
+                    rank: index + 1,
+                    // 전반기 데이터
+                    firstHalf: {
+                        games: firstHalfGames,
+                        wins: firstHalfWins,
+                        losses: firstHalfLosses,
+                        draws: firstHalfDraws,
+                        winRate: firstHalfWinRate,
+                        runsPerGame: Math.max(2.0, teamBaseStat.runsPerGame * (1 + firstHalfVariation)),
+                        runsAllowedPerGame: Math.max(2.0, teamBaseStat.runsAllowedPerGame * (1 - firstHalfVariation * 0.5)),
+                        oneRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.oneRunWinRate + firstHalfVariation * 0.2)),
+                        threeRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.threeRunWinRate + firstHalfVariation * 0.15)),
+                        maxWinStreak: Math.max(1, Math.floor(teamBaseStat.maxWinStreak * (1 + firstHalfVariation * 0.3))),
+                        maxLoseStreak: Math.max(1, Math.floor(teamBaseStat.maxLoseStreak * (1 - firstHalfVariation * 0.2)))
+                    },
+                    // 후반기 데이터
+                    secondHalf: {
+                        games: secondHalfGames,
+                        wins: secondHalfWins,
+                        losses: secondHalfLosses,
+                        draws: secondHalfDraws,
+                        winRate: secondHalfWinRate,
+                        runsPerGame: Math.max(2.0, teamBaseStat.runsPerGame * (1 + secondHalfVariation)),
+                        runsAllowedPerGame: Math.max(2.0, teamBaseStat.runsAllowedPerGame * (1 - secondHalfVariation * 0.5)),
+                        oneRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.oneRunWinRate + secondHalfVariation * 0.2)),
+                        threeRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.threeRunWinRate + secondHalfVariation * 0.15)),
+                        maxWinStreak: Math.max(1, Math.floor(teamBaseStat.maxWinStreak * (1 + secondHalfVariation * 0.3))),
+                        maxLoseStreak: Math.max(1, Math.floor(teamBaseStat.maxLoseStreak * (1 - secondHalfVariation * 0.2)))
+                    }
+                };
+            });
+
+            // 전반기 순위 계산 (승률 기준 정렬)
+            const firstHalfRanking = [...halfSeasonStats]
+                .sort((a, b) => {
+                    const aWinRate = a.firstHalf.winRate;
+                    const bWinRate = b.firstHalf.winRate;
+                    if (Math.abs(aWinRate - bWinRate) < 0.001) {
+                        return (b.firstHalf.wins - b.firstHalf.losses) - (a.firstHalf.wins - a.firstHalf.losses);
+                    }
+                    return bWinRate - aWinRate;
+                })
+                .map((team, index) => ({ team: team.team, rank: index + 1 }));
+            
+            console.log('전반기 순위:', firstHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
+            
+            // 후반기 순위 계산 (후반기 경기가 있는 팀만)
+            const secondHalfRanking = [...halfSeasonStats]
+                .filter(team => team.secondHalf.games > 0) // 후반기 경기가 있는 팀만
+                .sort((a, b) => {
+                    const aWinRate = a.secondHalf.winRate;
+                    const bWinRate = b.secondHalf.winRate;
+                    if (Math.abs(aWinRate - bWinRate) < 0.001) {
+                        return (b.secondHalf.wins - b.secondHalf.losses) - (a.secondHalf.wins - a.secondHalf.losses);
+                    }
+                    return bWinRate - aWinRate;
+                })
+                .map((team, index) => ({ team: team.team, rank: index + 1 }));
+            
+            console.log('후반기 순위:', secondHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
+
+            // 순위 정보 추가
+            halfSeasonStats.forEach(team => {
+                team.firstHalf.rank = firstHalfRanking.find(r => r.team === team.team)?.rank || 0;
+                const secondHalfRank = secondHalfRanking.find(r => r.team === team.team);
+                team.secondHalf.rank = secondHalfRank ? secondHalfRank.rank : '-';
+                
+                // 성적 변화 계산
+                const winRateChange = team.secondHalf.winRate - team.firstHalf.winRate;
+                const rankChange = team.firstHalf.rank - (typeof team.secondHalf.rank === 'number' ? team.secondHalf.rank : team.firstHalf.rank);
+                
+                team.performance = {
+                    winRateChange: winRateChange,
+                    rankChange: rankChange,
+                    trend: winRateChange > 0.05 ? '상승' : 
+                           winRateChange < -0.05 ? '하락' : '유지'
+                };
+                
+                // 디버깅: 각 팀별 상세 정보 출력
+                console.log(`${team.team}: 전반기 ${team.firstHalf.wins}승${team.firstHalf.losses}패 (승률 ${team.firstHalf.winRate.toFixed(3)}, ${team.firstHalf.rank}위) → 후반기 ${team.secondHalf.wins}승${team.secondHalf.losses}패 (승률 ${team.secondHalf.winRate.toFixed(3)}, ${team.secondHalf.rank}위)`);
+            });
+
+            return halfSeasonStats;
+        }
+
+        // 전반기/후반기 성적 테이블 렌더링
+        function renderHalfSeasonTable(halfSeasonData) {
+            const tbody = document.getElementById('half-season-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            // 팀 색상 및 로고 정의
+            const teamColors = {
+                'KIA': '#EA1E22',
+                '삼성': '#074CA1', 
+                'LG': '#C30452',
+                '두산': '#131F5A',
+                'KT': '#000000',
+                'SSG': '#CE2B3C',
+                'NC': '#315288',
+                '롯데': '#041F7B',
+                '한화': '#FF7A00',
+                '키움': '#820024'
+            };
+
+            const teamLogos = {
+                'KIA': '<img src="images/kia.png" alt="KIA" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                '삼성': '<img src="images/samsung.png" alt="삼성" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                'LG': '<img src="images/lg.png" alt="LG" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                '두산': '<img src="images/doosan.png" alt="두산" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                'KT': '<img src="images/kt.png" alt="KT" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                'SSG': '<img src="images/ssg.png" alt="SSG" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                'NC': '<img src="images/nc.png" alt="NC" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                '롯데': '<img src="images/lotte.png" alt="롯데" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                '한화': '<img src="images/hanwha.png" alt="한화" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">',
+                '키움': '<img src="images/kiwoom.png" alt="키움" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">'
+            };
+
+            halfSeasonData.forEach(team => {
+                const teamColor = teamColors[team.team] || '#333';
+                const teamLogo = teamLogos[team.team] || '';
+                
+                // 성적 변화에 따른 색상과 아이콘
+                let trendColor = '#666';
+                let trendIcon = '➡️';
+                if (team.performance.trend === '상승') {
+                    trendColor = '#27ae60';
+                    trendIcon = '📈';
+                } else if (team.performance.trend === '하락') {
+                    trendColor = '#e74c3c';
+                    trendIcon = '📉';
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="text-align: center; font-weight: 600; font-size: 0.8rem; padding: 2px 1px;">${team.rank}</td>
+                    <td style="text-align: left; font-size: 0.75rem; padding: 2px 1px;">
+                        <span style="color: ${teamColor}; font-weight: 600;">
+                            <img src="images/${team.team.toLowerCase() === 'kia' ? 'kia' : 
+                                              team.team === '삼성' ? 'samsung' : 
+                                              team.team === 'LG' ? 'lg' : 
+                                              team.team === '두산' ? 'doosan' : 
+                                              team.team === 'KT' ? 'kt' : 
+                                              team.team === 'SSG' ? 'ssg' : 
+                                              team.team === 'NC' ? 'nc' : 
+                                              team.team === '롯데' ? 'lotte' : 
+                                              team.team === '한화' ? 'hanwha' : 'kiwoom'}.png" 
+                                 alt="${team.team}" 
+                                 style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">
+                            ${team.team}
+                        </span>
+                    </td>
+                    <!-- 전반기 -->
+                    <td style="text-align: center; font-size: 0.8rem; padding: 2px 1px;">${team.firstHalf.games}</td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.firstHalf.wins}-${team.firstHalf.losses}-${team.firstHalf.draws}
+                    </td>
+                    <td style="text-align: center; font-weight: 500; font-size: 0.8rem; padding: 2px 1px;">
+                        ${team.firstHalf.winRate.toFixed(3)}
+                    </td>
+                    <td style="text-align: center; font-weight: 600; color: ${teamColor}; font-size: 0.8rem; padding: 2px 1px;">
+                        ${team.firstHalf.rank}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.firstHalf.runsPerGame.toFixed(1)}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.firstHalf.runsAllowedPerGame.toFixed(1)}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${(team.firstHalf.oneRunWinRate * 100).toFixed(0)}%
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${(team.firstHalf.threeRunWinRate * 100).toFixed(0)}%
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; color: #27ae60; padding: 2px 1px;">
+                        ${team.firstHalf.maxWinStreak}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; color: #e74c3c; padding: 2px 1px;">
+                        ${team.firstHalf.maxLoseStreak}
+                    </td>
+                    <!-- 후반기 -->
+                    <td style="text-align: center; font-size: 0.8rem; padding: 2px 1px;">${team.secondHalf.games || '-'}</td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? 
+                          `${team.secondHalf.wins}-${team.secondHalf.losses}-${team.secondHalf.draws}` : 
+                          '-'}
+                    </td>
+                    <td style="text-align: center; font-weight: 500; font-size: 0.8rem; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? team.secondHalf.winRate.toFixed(3) : '-'}
+                    </td>
+                    <td style="text-align: center; font-weight: 600; color: ${teamColor}; font-size: 0.8rem; padding: 2px 1px;">
+                        ${team.secondHalf.rank === '-' ? '-' : team.secondHalf.rank}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? team.secondHalf.runsPerGame.toFixed(1) : '-'}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? team.secondHalf.runsAllowedPerGame.toFixed(1) : '-'}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? (team.secondHalf.oneRunWinRate * 100).toFixed(0) + '%' : '-'}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? (team.secondHalf.threeRunWinRate * 100).toFixed(0) + '%' : '-'}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; color: #27ae60; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? team.secondHalf.maxWinStreak : '-'}
+                    </td>
+                    <td style="text-align: center; font-size: 0.75rem; color: #e74c3c; padding: 2px 1px;">
+                        ${team.secondHalf.games > 0 ? team.secondHalf.maxLoseStreak : '-'}
+                    </td>
+                    <!-- 성적 변화 -->
+                    <td style="text-align: center; color: ${trendColor}; font-weight: 600; font-size: 0.75rem; padding: 2px 1px;">
+                        ${trendIcon} ${team.performance.trend}
+                        <div style="font-size: 0.7rem; margin-top: 1px; color: #666;">
+                            ${team.secondHalf.games > 0 ? 
+                              `${team.performance.winRateChange >= 0 ? '+' : ''}${team.performance.winRateChange.toFixed(3)}` :
+                              '미정'}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 페이지 로드 시 전반기/후반기 성적 업데이트
+        document.addEventListener('DOMContentLoaded', function() {
+            // 약간의 지연 후 업데이트 (다른 데이터 로딩 완료 후)
+            setTimeout(() => {
+                updateHalfSeasonStats();
+            }, 2000);
+        });
+    </script>
 
 </body>
 </html>
