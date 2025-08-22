@@ -104,10 +104,25 @@ async function loadRealKBOData() {
                         return b.winPct - a.winPct;
                     });
                     
-                    // 순위 부여
-                    standings.forEach((team, index) => {
-                        team.rank = index + 1;
-                    });
+                    // 동순위 처리 포함 순위 부여
+                    let currentRank = 1;
+                    for (let i = 0; i < standings.length; i++) {
+                        if (i > 0) {
+                            const currentTeam = standings[i];
+                            const previousTeam = standings[i - 1];
+                            
+                            // 승률과 승차가 모두 같으면 동순위
+                            if (Math.abs(currentTeam.winPct - previousTeam.winPct) < 0.001 && 
+                                (currentTeam.wins - currentTeam.losses) === (previousTeam.wins - previousTeam.losses)) {
+                                currentTeam.rank = previousTeam.rank; // 같은 순위
+                            } else {
+                                currentRank = i + 1; // 새로운 순위
+                                currentTeam.rank = currentRank;
+                            }
+                        } else {
+                            standings[0].rank = 1;
+                        }
+                    }
                     
                     seasonData.push({
                         date: date,
@@ -179,7 +194,7 @@ function formatPeriodDataForChart(periodData) {
         return `${date.getMonth() + 1}/${date.getDate()}`;
     });
     
-    // 각 팀별 순위 데이터 생성
+    // 각 팀별 순위 데이터 생성 (동순위 정확히 표시)
     teams.forEach(teamName => {
         const rankHistory = [];
         
@@ -710,8 +725,23 @@ function createSimpleChart(data) {
                                 // 순위별로 정렬
                                 allTeamsAtThisPoint.sort((a, b) => a.rank - b.rank);
                                 
-                                // 툴팁에 표시할 텍스트 생성 (순위: 팀명 형식)
-                                return allTeamsAtThisPoint.map(team => `${team.rank}위: ${team.teamName}`);
+                                // 동순위 그룹핑 후 툴팁에 표시할 텍스트 생성
+                                const rankGroups = {};
+                                allTeamsAtThisPoint.forEach(team => {
+                                    if (!rankGroups[team.rank]) {
+                                        rankGroups[team.rank] = [];
+                                    }
+                                    rankGroups[team.rank].push(team.teamName);
+                                });
+                                
+                                return Object.keys(rankGroups).map(rank => {
+                                    const teams = rankGroups[rank];
+                                    if (teams.length > 1) {
+                                        return `${rank}위 공동: ${teams.join(', ')}`;
+                                    } else {
+                                        return `${rank}위: ${teams[0]}`;
+                                    }
+                                });
                             },
                             label: function(context) {
                                 // beforeBody에서 이미 정보를 표시했으므로 빈 문자열 반환
@@ -852,7 +882,7 @@ function generateFullSeasonChart() {
         return '';
     });
     
-    // 각 팀별 순위 데이터 생성
+    // 각 팀별 순위 데이터 생성 (동순위 정확히 표시)
     teams.forEach(teamName => {
         const rankHistory = [];
         
