@@ -3369,12 +3369,12 @@ const kboTeams = {
                         min-width: ${Math.max(1100, 6 * (75 + 95) + 70 + 140)}px;
                     ">
                         <thead style="position: sticky; top: 0; z-index: 100;">
+                            <!-- 1행: 순위 -->
                             <tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
-                                <th rowspan="2" style="
+                                <th style="
                                     min-width: 70px; 
                                     width: 70px;
-                                    vertical-align: middle; 
-                                    padding: 8px 6px; 
+                                    padding: 4px 6px; 
                                     text-align: center; 
                                     font-weight: 600; 
                                     border-right: 2px solid rgba(255,255,255,0.4); 
@@ -3382,8 +3382,8 @@ const kboTeams = {
                                     left: 0; 
                                     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); 
                                     z-index: 101; 
-                                    font-size: 0.8rem;
-                                ">승률</th>
+                                    font-size: 0.7rem;
+                                ">순위</th>
             `;
             
             // 첫 번째 헤더 행 - 팀 정보 통합 (순위 + 팀명 + 현재성적)
@@ -3407,15 +3407,91 @@ const kboTeams = {
                     white-space: nowrap;
                     line-height: 1.2;
                 ">
-                    <div style="font-size: 0.85rem; font-weight: 800;">${team.rank}위 ${teamData?.logo || ''} ${teamData?.shortName || team.team}</div>
-                    <div style="font-size: 0.7rem; margin-top: 2px;">${team.wins}승 ${team.draws || 0}무 ${team.losses}패 (${team.winRate?.toFixed(3) || 'N/A'})</div>
-                    <div style="font-size: 0.75rem; margin-top: 3px; color: #666; font-weight: 600;">잔여: ${team.remainingGames}경기</div>
+                    <div style="font-size: 0.85rem; font-weight: 800; color: ${teamColor};">${team.rank}위 ${teamData?.logo || ''} ${teamData?.shortName || team.team}</div>
                 </th>`;
             });
             
-            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">`;
+            // 2행: 성적
+            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+                <th style="
+                    min-width: 70px; 
+                    width: 70px;
+                    padding: 4px 6px; 
+                    text-align: center; 
+                    font-weight: 600; 
+                    border-right: 2px solid rgba(255,255,255,0.4); 
+                    position: sticky; 
+                    left: 0; 
+                    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); 
+                    z-index: 101; 
+                    font-size: 0.7rem;
+                ">성적</th>`;
+                
+            eligibleTeams.forEach((team, index) => {
+                const isLast = index === eligibleTeams.length - 1;
+                const totalColumnWidth = '170px';
+                html += `<th colspan="2" style="
+                    min-width: ${totalColumnWidth}; 
+                    width: ${totalColumnWidth};
+                    padding: 4px; 
+                    text-align: center; 
+                    font-weight: 600; 
+                    background: rgba(255,255,255,0.9); 
+                    color: #333;
+                    ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} 
+                    font-size: 0.7rem;
+                ">${team.wins}승 ${team.losses}패 ${team.draws || 0}무 (${team.winRate?.toFixed(3) || 'N/A'})</th>`;
+            });
+                
+            // 3행: 잔여경기
+            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+                <th style="
+                    min-width: 70px; 
+                    width: 70px;
+                    padding: 4px 6px; 
+                    text-align: center; 
+                    font-weight: 600; 
+                    border-right: 2px solid rgba(255,255,255,0.4); 
+                    position: sticky; 
+                    left: 0; 
+                    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); 
+                    z-index: 101; 
+                    font-size: 0.7rem;
+                ">잔여경기</th>`;
+                
+            eligibleTeams.forEach((team, index) => {
+                const isLast = index === eligibleTeams.length - 1;
+                const totalColumnWidth = '170px';
+                html += `<th colspan="2" style="
+                    min-width: ${totalColumnWidth}; 
+                    width: ${totalColumnWidth};
+                    padding: 4px; 
+                    text-align: center; 
+                    font-weight: 600; 
+                    background: rgba(255,255,255,0.9); 
+                    color: #333;
+                    ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} 
+                    font-size: 0.7rem;
+                ">잔여: ${team.remainingGames}경기</th>`;
+            });
+                
+            // 4행: 승률 + 컬럼 구분
+            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+                <th style="
+                    min-width: 70px; 
+                    width: 70px;
+                    padding: 4px 6px; 
+                    text-align: center; 
+                    font-weight: 600; 
+                    border-right: 2px solid rgba(255,255,255,0.4); 
+                    position: sticky; 
+                    left: 0; 
+                    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); 
+                    z-index: 101; 
+                    font-size: 0.7rem;
+                ">승률</th>`;
             
-            // 두 번째 헤더 행 - 컬럼 구분 (잔여경기 vs 최종성적)
+            // 네 번째 헤더 행 - 컬럼 구분 (잔여경기 vs 최종성적)
             eligibleTeams.forEach((team, index) => {
                 const isLast = index === eligibleTeams.length - 1;
                 const cellWidth = '75px';
