@@ -3142,7 +3142,7 @@ const kboTeams = {
         }
 
         // 시나리오 매트릭스 표시
-        function showScenarioMatrix() {
+        function showScenarioMatrix(autoScroll = true) {
             try {
                 if (!currentStandings || currentStandings.length === 0) {
                     alert('순위 데이터를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
@@ -3158,8 +3158,10 @@ const kboTeams = {
                     scenarioContent.innerHTML = matrixHTML;
                     scenarioContent.style.display = 'block';
                     
-                    // 스크롤하여 결과 영역으로 이동
-                    scenarioContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // 사용자가 버튼을 클릭했을 때만 스크롤
+                    if (autoScroll) {
+                        scenarioContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 } else {
                     console.error('scenario-content 요소를 찾을 수 없습니다.');
                 }
@@ -3756,7 +3758,7 @@ const kboTeams = {
                 setTimeout(() => {
                     if (currentStandings && currentStandings.length > 0) {
                         console.log('자동으로 매트릭스 테이블 표시 중...');
-                        showScenarioMatrix();
+                        showScenarioMatrix(false); // 페이지 로드 시에는 스크롤하지 않음
                     } else {
                         console.log('순위 데이터 없음:', currentStandings);
                     }

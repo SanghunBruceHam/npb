@@ -202,9 +202,9 @@ class KBODataProcessor {
             // 승률 계산
             stats.winRate = stats.wins / (stats.wins + stats.losses) || 0;
             
-            // 최근 10경기 정리 (최신 10개만)
-            stats.recent10 = stats.recent10.slice(-10);
-            const recent10Summary = this.formatRecent10(stats.recent10);
+            // 최근 20경기 정리 (연속 기록 계산을 위해 더 많은 경기 추적)
+            stats.recent10 = stats.recent10.slice(-20);
+            const recent10Summary = this.formatRecent10(stats.recent10.slice(-10));
             stats.recent10Display = recent10Summary;
             
             // 현재 연속 기록 계산
