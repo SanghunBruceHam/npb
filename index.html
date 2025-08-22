@@ -2847,7 +2847,224 @@
 
         .nav-item.active:hover {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            transform: translateY(-1px);
+        }
+
+        /* 전반기/후반기 테이블 CSS 클래스 */
+        .half-season-table {
+            min-width: 1200px;
+            font-size: 0.9rem;
+            border-collapse: collapse;
+        }
+
+        .half-season-header {
+            font-size: 0.8rem;
+            padding: 3px 2px;
+            border-right: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .half-season-header.rank-cell {
+            width: 30px;
+            cursor: pointer;
+        }
+
+        .half-season-header.team-cell {
+            width: 80px;
+        }
+
+        .half-season-header.current-header {
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background: #f8f9fa;
+        }
+
+        .half-season-header.first-half-main {
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .half-season-header.second-half-main {
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .half-season-header.change-cell {
+            width: 70px;
+            border-left: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .half-season-header.sub-group-first {
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            padding: 1px;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .half-season-header.sub-group-first.last {
+            border-right: 1px solid #ddd;
+        }
+
+        .half-season-header.sub-group-second {
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            padding: 1px;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .half-season-header.current-record {
+            width: 70px;
+            padding: 4px 2px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        .half-season-header.current-winrate {
+            width: 50px;
+            padding: 4px 2px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-first {
+            padding: 1px;
+            background: rgba(59, 130, 246, 0.05);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .half-season-header.detail-first.games {
+            width: 30px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-first.record {
+            width: 70px;
+        }
+
+        .half-season-header.detail-first.winrate {
+            width: 50px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-first.rank {
+            width: 30px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-first.runs {
+            width: 50px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-first.last {
+            border-right: 1px solid #ddd;
+        }
+
+        .half-season-header.detail-second {
+            padding: 1px;
+            background: rgba(16, 185, 129, 0.05);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .half-season-header.detail-second.games {
+            width: 30px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-second.record {
+            width: 70px;
+        }
+
+        .half-season-header.detail-second.winrate {
+            width: 50px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-second.rank {
+            width: 30px;
+            cursor: pointer;
+        }
+
+        .half-season-header.detail-second.runs {
+            width: 50px;
+            cursor: pointer;
+        }
+
+        /* 전반기/후반기 테이블 데이터 셀 CSS 클래스 */
+        .half-season-data {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 4px 2px;
+        }
+
+        .half-season-data.rank {
+            font-weight: 600;
+            border-right: 1px solid #ddd;
+        }
+
+        .half-season-data.team {
+            border-right: 1px solid #ddd;
+        }
+
+        .half-season-data.current {
+            background: #f8f9fa;
+        }
+
+        .half-season-data.current.winrate {
+            font-weight: 500;
+            border-right: 1px solid #ddd;
+        }
+
+        .half-season-data.first-half {
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .half-season-data.first-half.winrate {
+            font-weight: 500;
+        }
+
+        .half-season-data.first-half.rank {
+            font-weight: 600;
+        }
+
+        .half-season-data.first-half.last {
+            border-right: 1px solid #ddd;
+        }
+
+        .half-season-data.second-half {
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .half-season-data.second-half.winrate {
+            font-weight: 500;
+        }
+
+        .half-season-data.second-half.rank {
+            font-weight: 600;
+        }
+
+        .half-season-data.performance {
+            border-left: 1px solid #ddd;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .half-season-data.win-streak {
+            font-size: 0.8rem;
+            color: #27ae60;
+        }
+
+        .half-season-data.lose-streak {
+            font-size: 0.8rem;
+            color: #e74c3c;
         }
 
         /* 매직넘버 카드 스타일 */
@@ -3497,52 +3714,52 @@
             
             <!-- 전반기/후반기 성적 테이블 -->
             <div class="table-container" style="overflow-x: auto;">
-                <table id="half-season-table" style="min-width: 1200px; font-size: 0.9rem; border-collapse: collapse;">
+                <table id="half-season-table" class="half-season-table">
                     <thead>
                         <tr>
-                            <th rowspan="3" style="vertical-align: middle; width: 30px; font-size: 0.8rem; padding: 3px 2px; cursor: pointer; border-right: 1px solid #ddd;" onclick="sortHalfSeasonTable('rank')">순위</th>
-                            <th rowspan="3" style="vertical-align: middle; width: 80px; font-size: 0.8rem; padding: 3px 2px; border-right: 1px solid #ddd;">팀명</th>
-                            <th colspan="2" rowspan="2" style="vertical-align: middle; text-align: center; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 0.8rem; padding: 3px 2px; background: #f8f9fa;">현재</th>
-                            <th colspan="10" style="text-align: center; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 0.8rem; padding: 3px 2px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;">전반기 (개막~7/12)</th>
-                            <th colspan="10" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 3px 2px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">후반기 (7/13~현재)</th>
-                            <th rowspan="3" style="vertical-align: middle; width: 70px; font-size: 0.8rem; padding: 3px 2px; border-left: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('performance.winRateChange')">성적<br>변화</th>
+                            <th rowspan="3" class="half-season-header rank-cell" onclick="sortHalfSeasonTable('rank')">순위</th>
+                            <th rowspan="3" class="half-season-header team-cell">팀명</th>
+                            <th colspan="2" rowspan="2" class="half-season-header current-header">현재</th>
+                            <th colspan="10" class="half-season-header first-half-main">전반기 (개막~7/12)</th>
+                            <th colspan="10" class="half-season-header second-half-main">후반기 (7/13~현재)</th>
+                            <th rowspan="3" class="half-season-header change-cell" onclick="sortHalfSeasonTable('performance.winRateChange')">성적<br>변화</th>
                         </tr>
                         <tr>
-                            <th colspan="4" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.1);">기본 성적</th>
-                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.1);">득실점</th>
-                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.1);">특수 승률</th>
-                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.1);">연속 기록</th>
-                            <th colspan="4" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.1);">기본 성적</th>
-                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.1);">득실점</th>
-                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.1);">특수 승률</th>
-                            <th colspan="2" style="text-align: center; border-bottom: 1px solid #ddd; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.1);">연속 기록</th>
+                            <th colspan="4" class="half-season-header sub-group-first">기본 성적</th>
+                            <th colspan="2" class="half-season-header sub-group-first">득실점</th>
+                            <th colspan="2" class="half-season-header sub-group-first">특수 승률</th>
+                            <th colspan="2" class="half-season-header sub-group-first last">연속 기록</th>
+                            <th colspan="4" class="half-season-header sub-group-second">기본 성적</th>
+                            <th colspan="2" class="half-season-header sub-group-second">득실점</th>
+                            <th colspan="2" class="half-season-header sub-group-second">특수 승률</th>
+                            <th colspan="2" class="half-season-header sub-group-second">연속 기록</th>
                         </tr>
                         <tr>
                             <!-- 현재 시즌 -->
-                            <th style="width: 70px; font-size: 0.8rem; padding: 4px 2px; background: #f8f9fa; border-bottom: 1px solid #ddd; white-space: nowrap;">승-패-무</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 4px 2px; background: #f8f9fa; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('currentSeason.winRate')">승률</th>
+                            <th class="half-season-header current-record">승-패-무</th>
+                            <th class="half-season-header current-winrate" onclick="sortHalfSeasonTable('currentSeason.winRate')">승률</th>
                             <!-- 전반기 -->
-                            <th style="width: 30px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.games')">경기</th>
-                            <th style="width: 70px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd;">승-패-무</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.winRate')">승률</th>
-                            <th style="width: 30px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.rank')">순위</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.runsPerGame')">듍점<br>평균</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.runsAllowedPerGame')">실점<br>평균</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.oneRunWinRate')">1점차</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.threeRunWinRate')">3점차</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.maxWinStreak')">최대<br>연승</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(59, 130, 246, 0.05); border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('firstHalf.maxLoseStreak')">최대<br>연패</th>
+                            <th class="half-season-header detail-first games" onclick="sortHalfSeasonTable('firstHalf.games')">경기</th>
+                            <th class="half-season-header detail-first record">승-패-무</th>
+                            <th class="half-season-header detail-first winrate" onclick="sortHalfSeasonTable('firstHalf.winRate')">승률</th>
+                            <th class="half-season-header detail-first rank" onclick="sortHalfSeasonTable('firstHalf.rank')">순위</th>
+                            <th class="half-season-header detail-first runs" onclick="sortHalfSeasonTable('firstHalf.runsPerGame')">듍점<br>평균</th>
+                            <th class="half-season-header detail-first runs" onclick="sortHalfSeasonTable('firstHalf.runsAllowedPerGame')">실점<br>평균</th>
+                            <th class="half-season-header detail-first runs" onclick="sortHalfSeasonTable('firstHalf.oneRunWinRate')">1점차</th>
+                            <th class="half-season-header detail-first runs" onclick="sortHalfSeasonTable('firstHalf.threeRunWinRate')">3점차</th>
+                            <th class="half-season-header detail-first runs" onclick="sortHalfSeasonTable('firstHalf.maxWinStreak')">최대<br>연승</th>
+                            <th class="half-season-header detail-first runs last" onclick="sortHalfSeasonTable('firstHalf.maxLoseStreak')">최대<br>연패</th>
                             <!-- 후반기 -->
-                            <th style="width: 30px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.games')">경기</th>
-                            <th style="width: 70px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd;">승-패-무</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.winRate')">승률</th>
-                            <th style="width: 30px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.rank')">순위</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.runsPerGame')">득점<br>평균</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.runsAllowedPerGame')">실점<br>평균</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.oneRunWinRate')">1점차</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.threeRunWinRate')">3점차</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.maxWinStreak')">최대<br>연승</th>
-                            <th style="width: 50px; font-size: 0.8rem; padding: 1px; background: rgba(16, 185, 129, 0.05); border-bottom: 1px solid #ddd; cursor: pointer;" onclick="sortHalfSeasonTable('secondHalf.maxLoseStreak')">최대<br>연패</th>
+                            <th class="half-season-header detail-second games" onclick="sortHalfSeasonTable('secondHalf.games')">경기</th>
+                            <th class="half-season-header detail-second record">승-패-무</th>
+                            <th class="half-season-header detail-second winrate" onclick="sortHalfSeasonTable('secondHalf.winRate')">승률</th>
+                            <th class="half-season-header detail-second rank" onclick="sortHalfSeasonTable('secondHalf.rank')">순위</th>
+                            <th class="half-season-header detail-second runs" onclick="sortHalfSeasonTable('secondHalf.runsPerGame')">득점<br>평균</th>
+                            <th class="half-season-header detail-second runs" onclick="sortHalfSeasonTable('secondHalf.runsAllowedPerGame')">실점<br>평균</th>
+                            <th class="half-season-header detail-second runs" onclick="sortHalfSeasonTable('secondHalf.oneRunWinRate')">1점차</th>
+                            <th class="half-season-header detail-second runs" onclick="sortHalfSeasonTable('secondHalf.threeRunWinRate')">3점차</th>
+                            <th class="half-season-header detail-second runs" onclick="sortHalfSeasonTable('secondHalf.maxWinStreak')">최대<br>연승</th>
+                            <th class="half-season-header detail-second runs last" onclick="sortHalfSeasonTable('secondHalf.maxLoseStreak')">최대<br>연패</th>
                         </tr>
                     </thead>
                     <tbody id="half-season-tbody" style="border-top: 1px solid #ddd;">
@@ -9968,8 +10185,8 @@ KT 9:1 키움(H)`;
                 const row = document.createElement('tr');
                 row.setAttribute('data-team', team.team);
                 row.innerHTML = `
-                    <td style="text-align: center; font-weight: 600; font-size: 0.9rem; padding: 4px 2px; border-right: 1px solid #ddd;">${team.rank}</td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; border-right: 1px solid #ddd;">
+                    <td class="half-season-data rank">${team.rank}</td>
+                    <td class="half-season-data team">
                         <span style="color: ${teamColor}; font-weight: 600;">
                             <img src="images/${team.team.toLowerCase() === 'kia' ? 'kia' : 
                                               team.team === '삼성' ? 'samsung' : 
@@ -9986,74 +10203,74 @@ KT 9:1 키움(H)`;
                         </span>
                     </td>
                     <!-- 현재 시즌 -->
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: #f8f9fa;">
+                    <td class="half-season-data current">
                         ${team.currentSeason.wins}-${team.currentSeason.losses}-${team.currentSeason.draws}
                     </td>
-                    <td style="text-align: center; font-weight: 500; font-size: 0.9rem; padding: 4px 2px; background: #f8f9fa; border-right: 1px solid #ddd;">
+                    <td class="half-season-data current winrate">
                         ${team.currentSeason.winRate.toFixed(3)}
                     </td>
                     <!-- 전반기 -->
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">${team.firstHalf.games}</td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half">${team.firstHalf.games}</td>
+                    <td class="half-season-data first-half">
                         ${team.firstHalf.wins}-${team.firstHalf.losses}-${team.firstHalf.draws}
                     </td>
-                    <td style="text-align: center; font-weight: 500; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half winrate">
                         ${team.firstHalf.winRate.toFixed(3)}
                     </td>
-                    <td style="text-align: center; font-weight: 600; color: ${teamColor}; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half rank" style="color: ${teamColor};">
                         ${team.firstHalf.rank}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half">
                         ${team.firstHalf.runsPerGame.toFixed(1)}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half">
                         ${team.firstHalf.runsAllowedPerGame.toFixed(1)}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half">
                         ${team.firstHalf.oneRunWinRate.toFixed(3)}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half">
                         ${team.firstHalf.threeRunWinRate.toFixed(3)}
                     </td>
-                    <td style="text-align: center; font-size: 0.8rem; color: #27ae60; padding: 4px 2px; background: rgba(59, 130, 246, 0.02);">
+                    <td class="half-season-data first-half win-streak">
                         ${team.firstHalf.maxWinStreak}
                     </td>
-                    <td style="text-align: center; font-size: 0.8rem; color: #e74c3c; padding: 4px 2px; background: rgba(59, 130, 246, 0.02); border-right: 1px solid #ddd;">
+                    <td class="half-season-data first-half lose-streak last">
                         ${team.firstHalf.maxLoseStreak}
                     </td>
                     <!-- 후반기 -->
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">${team.secondHalf.games || '-'}</td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half">${team.secondHalf.games || '-'}</td>
+                    <td class="half-season-data second-half">
                         ${team.secondHalf.games > 0 ? 
                           `${team.secondHalf.wins}-${team.secondHalf.losses}-${team.secondHalf.draws}` : 
                           '-'}
                     </td>
-                    <td style="text-align: center; font-weight: 500; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half winrate">
                         ${team.secondHalf.games > 0 ? team.secondHalf.winRate.toFixed(3) : '-'}
                     </td>
-                    <td style="text-align: center; font-weight: 600; color: ${teamColor}; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half rank" style="color: ${teamColor};">
                         ${team.secondHalf.rank === '-' ? '-' : team.secondHalf.rank}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half">
                         ${team.secondHalf.games > 0 ? team.secondHalf.runsPerGame.toFixed(1) : '-'}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half">
                         ${team.secondHalf.games > 0 ? team.secondHalf.runsAllowedPerGame.toFixed(1) : '-'}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half">
                         ${team.secondHalf.games > 0 ? team.secondHalf.oneRunWinRate.toFixed(3) : '-'}
                     </td>
-                    <td style="text-align: center; font-size: 0.9rem; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half">
                         ${team.secondHalf.games > 0 ? team.secondHalf.threeRunWinRate.toFixed(3) : '-'}
                     </td>
-                    <td style="text-align: center; font-size: 0.8rem; color: #27ae60; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half win-streak">
                         ${team.secondHalf.games > 0 ? team.secondHalf.maxWinStreak : '-'}
                     </td>
-                    <td style="text-align: center; font-size: 0.8rem; color: #e74c3c; padding: 4px 2px; background: rgba(16, 185, 129, 0.02);">
+                    <td class="half-season-data second-half lose-streak">
                         ${team.secondHalf.games > 0 ? team.secondHalf.maxLoseStreak : '-'}
                     </td>
                     <!-- 성적 변화 -->
-                    <td style="text-align: center; color: ${trendColor}; font-weight: 600; font-size: 0.8rem; padding: 4px 2px; border-left: 1px solid #ddd; white-space: nowrap;">
+                    <td class="half-season-data performance" style="color: ${trendColor};">
                         <span style="display: inline-block; line-height: 1;">${trendIcon}</span>
                         <span style="display: inline-block; margin: 0 1px; line-height: 1;">${team.performance.trend}</span>
                         <span style="display: inline-block; font-size: 0.8rem; line-height: 1;">${team.secondHalf.games > 0 ? 
