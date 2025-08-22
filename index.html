@@ -7743,36 +7743,54 @@ KT 9:1 키움(H)`;
             
             parseSeasonData(text) {
                 const lines = text.split('\n');
+                const dateGamesMap = new Map(); // 날짜별 경기를 모아둘 Map
                 let currentDate = null;
-                let currentGames = [];
                 
                 for (const line of lines) {
                     const trimmedLine = line.trim();
                     
                     if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedLine)) {
-                        if (currentDate && currentGames.length > 0) {
-                            this.seasonData.push({ date: currentDate, games: currentGames });
-                        }
                         currentDate = trimmedLine;
-                        currentGames = [];
+                        // Map에 날짜가 없으면 빈 배열로 초기화
+                        if (!dateGamesMap.has(currentDate)) {
+                            dateGamesMap.set(currentDate, []);
+                        }
                     } else if (trimmedLine && currentDate) {
                         const gameMatch = trimmedLine.match(/^(.+?)\s+(\d+):(\d+)\s+(.+?)(?:\(H\))?$/);
                         if (gameMatch) {
                             const [, team1, score1, score2, team2] = gameMatch;
-                            currentGames.push({
+                            const gameData = {
                                 date: currentDate,
                                 team1: team1.trim(),
                                 score1: parseInt(score1),
                                 team2: team2.replace('(H)', '').trim(),
                                 score2: parseInt(score2),
                                 isHome: trimmedLine.includes('(H)')
-                            });
+                            };
+                            
+                            // 중복 경기 체크 (같은 팀끼리 같은 점수의 경기)
+                            const existingGames = dateGamesMap.get(currentDate);
+                            const isDuplicate = existingGames.some(game => 
+                                (game.team1 === gameData.team1 && game.team2 === gameData.team2 && 
+                                 game.score1 === gameData.score1 && game.score2 === gameData.score2) ||
+                                (game.team1 === gameData.team2 && game.team2 === gameData.team1 && 
+                                 game.score1 === gameData.score2 && game.score2 === gameData.score1)
+                            );
+                            
+                            if (!isDuplicate) {
+                                dateGamesMap.get(currentDate).push(gameData);
+                            }
                         }
                     }
                 }
                 
-                if (currentDate && currentGames.length > 0) {
-                    this.seasonData.push({ date: currentDate, games: currentGames });
+                // Map을 seasonData 배열로 변환 (날짜 순으로 정렬)
+                const sortedDates = Array.from(dateGamesMap.keys()).sort();
+                for (const date of sortedDates) {
+                    const games = dateGamesMap.get(date);
+                    if (games.length > 0) {
+                        this.seasonData.push({ date: date, games: games });
+                    }
                 }
                 
                 // 동적으로 최신 경기 날짜 설정
