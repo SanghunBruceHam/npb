@@ -1149,12 +1149,21 @@
             border-top: 2px solid #d1d5db;
         }
 
-        /* 좌측 요일 라벨 (모든 요일 동일한 회색) */
+        /* 좌측 요일 라벨 (기본 스타일) */
         #weekdayTable .day-label {
-            background: #34495e;
             color: white;
             font-size: var(--font-md);
             padding: 6px 1px;
+        }
+
+        /* 평일 요일 라벨 (월~금) - 회색 */
+        #weekdayTable .day-label.weekday {
+            background: #6c757d;
+        }
+
+        /* 주말 요일 라벨 (토~일) - 붉은색 */
+        #weekdayTable .day-label.weekend {
+            background: #dc2626;
         }
 
         /* 평일성적/주말성적 좌측 라벨 */
@@ -6663,7 +6672,9 @@
             
             // 각 요일별로 행 생성 (성적과 승률을 한 셀에 표기)
             days.forEach(day => {
-                let dayRow = `<tr><td class="day-label">${day.name}</td>`;
+                // 평일(월~금)과 주말(토~일) 구분
+                const dayClass = ['토', '일'].includes(day.key) ? 'day-label weekend' : 'day-label weekday';
+                let dayRow = `<tr><td class="${dayClass}">${day.name}</td>`;
                 
                 rankedTeams.forEach(team => {
                     const weekdayData = dashboardData.weekdayPerformance[team];
