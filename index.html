@@ -1498,8 +1498,8 @@
             /* 게임별 기록과 연승/연패 분석 테이블의 팀명 헤더 셀 폭 확대 */
             .weekly-table .team-header,
             .all-teams-table .team-header-column {
-                min-width: 75px !important;
-                width: 75px !important;
+                min-width: 105px !important;
+                width: 105px !important;
                 font-size: var(--font-xs) !important;
                 padding: 8px 3px !important;
             }
@@ -2059,9 +2059,9 @@
         .weekly-table th[rowspan="2"] {
             font-size: var(--font-base);
             font-weight: var(--font-weight-bold);
-            min-width: 80px;
+            min-width: 55px;
             vertical-align: middle;
-            padding: 16px 8px; /* 2행에 걸쳐 있으므로 더 큰 패딩 */
+            padding: 8px 2px; /* 2행에 걸쳐 있으므로 더 큰 패딩 */
         }
         
         /* colspan 헤더 (팀별 성적) */
@@ -2076,7 +2076,7 @@
             font-size: var(--font-sm);
             font-weight: var(--font-weight-semibold);
             padding: 8px 4px;
-            min-width: 70px;
+            min-width: 100px;
         }
 
         .team-header, .team-header-column {
@@ -2088,7 +2088,7 @@
         .week-cell, .game-number-cell, .game-num-cell {
             font-weight: var(--font-weight-bold);
             color: #2c3e50;
-            font-size: var(--font-base);
+            font-size: var(--font-sm);
         }
 
         .date-cell {
@@ -4266,7 +4266,7 @@
         async function loadDashboardData() {
             try {
                 console.log('🔄 데이터 로드 시작...');
-                const response = await fetch('magic-number/data/enhanced-dashboard.json');
+                const response = await fetch('magic-number/data/enhanced-dashboard.json?v=' + Date.now());
                 console.log('📡 Fetch 응답:', response.status, response.ok);
                 
                 if (!response.ok) {
@@ -4589,7 +4589,7 @@
                 <table class="weekly-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="min-width: 60px;">주차</th>
+                            <th rowspan="2" style="min-width: 45px; font-size: var(--font-sm);">주차</th>
                             <th rowspan="2" style="min-width: 120px;">기간</th>
                             <th colspan="${teams.length}">팀별 성적 (승-패-무 / 승률)</th>
                         </tr>
@@ -4624,8 +4624,8 @@
                 
                 html += `
                     <tr>
-                        <td class="week-cell">${weekCellContent}</td>
-                        <td class="date-cell">${startStr} ~ ${endStr}</td>
+                        <td class="week-cell" style="max-width: 45px; width: 45px; padding: 6px 2px; text-align: center;">${weekCellContent}</td>
+                        <td class="date-cell" style="max-width: 120px; width: 120px; font-size: var(--font-xs); padding: 6px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${startStr} ~ ${endStr}</td>
                         ${teams.map(team => {
                             const teamAnalysis = weeklyAnalysisData.weeklyAnalysis[team];
                             const weekStats = teamAnalysis?.weeklyStats?.[week] || { 
@@ -6351,9 +6351,9 @@
             console.log('rankedTeams:', rankedTeams);
             
             // 헤더 생성 (순위 순으로 팀명과 로고)
-            let headerHtml = '<tr><th style="min-width: 140px; padding: 6px 8px; white-space: nowrap;">경기장</th>';
+            let headerHtml = '<tr><th style="min-width: 135px; padding: 6px 2px; white-space: nowrap;">경기장</th>';
             rankedTeams.forEach(team => {
-                headerHtml += `<th style="min-width: 80px; padding: 6px 4px; font-size: var(--font-sm); white-space: nowrap;"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></th>`;
+                headerHtml += `<th style="min-width: 85px; padding: 6px 2px; font-size: var(--font-sm); white-space: nowrap;"><strong>${getTeamWithLogo(team, 'team-logo-small')}</strong></th>`;
             });
             headerHtml += '</tr>';
             thead.innerHTML = headerHtml;
@@ -6393,9 +6393,9 @@
                     stadium.includes('고척') ? '키움' : '';
                 
                 html += `<tr>
-                    <td style="padding: 8px 12px; min-width: 180px;">
-                        <div style="font-weight: var(--font-weight-semibold); font-size: var(--font-base); margin-bottom: 1px; white-space: nowrap;">${stadiumName}</div>
-                        <div style="font-size: var(--font-sm); color: #666;">🏠 ${homeTeam}</div>
+                    <td style="padding: 6px 2px; min-width: 135px; max-width: 135px; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="font-weight: var(--font-weight-semibold); font-size: var(--font-xs); margin: 0; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${stadiumName}</div>
+                        <div style="font-size: var(--font-2xs); color: #666; margin: 0; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">🏠 ${homeTeam}</div>
                     </td>
                 `;
                 
@@ -6428,8 +6428,8 @@
                         let recordColor = colorScheme.default.color;
                         
                         // 성적에 따른 배경색 먼저 결정
-                        if (normalizedWinRate === 0.5 || (teamRecord.draws && teamRecord.draws > 0)) {
-                            // 정확히 50% 동률 또는 무승부가 있는 경우 - 노란색 배경
+                        if (normalizedWinRate === 0.5) {
+                            // 정확히 50% 승률인 경우만 - 노란색 배경
                             backgroundColor = colorScheme.neutral.bgMedium;
                             recordColor = colorScheme.neutral.color;
                         } else if (normalizedWinRate > 0.6) {
@@ -6451,15 +6451,14 @@
                             recordColor = '#1d4ed8'; // 파란색 텍스트
                         }
                         
-                        html += `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 6px 4px; white-space: nowrap; min-width: 80px;">
+                        html += `<td style="background: ${backgroundColor}; color: ${textColor}; padding: 4px 2px; white-space: nowrap; min-width: 85px;">
                             <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
-                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; color: ${recordColor}; white-space: nowrap;">${teamRecord.wins}-${teamRecord.losses}-${teamRecord.draws || 0}</div>
-                                <div style="font-size: var(--font-xs); color: ${recordColor}; white-space: nowrap;">(${winRate})</div>
+                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; color: ${recordColor}; white-space: nowrap;">${teamRecord.wins}-${teamRecord.losses}-${teamRecord.draws || 0} (${winRate})</div>
                                 <div style="font-size: var(--font-xs); color: ${textColor}; margin-top: 1px; white-space: nowrap;">${isHome ? '🏠 ' : ''}${totalGames}경기</div>
                             </div>
                         </td>`;
                     } else {
-                        html += `<td style="background: #f8f9fa; color: #999; padding: 6px 4px; white-space: nowrap; min-width: 80px;">
+                        html += `<td style="background: #f8f9fa; color: #999; padding: 4px 2px; white-space: nowrap; min-width: 85px;">
                             <div style="font-size: var(--font-sm); line-height: 1.2; text-align: center;">
                                 <div style="font-weight: var(--font-weight-semibold); white-space: nowrap;">-</div>
                                 <div style="font-size: var(--font-xs); white-space: nowrap;">&nbsp;</div>

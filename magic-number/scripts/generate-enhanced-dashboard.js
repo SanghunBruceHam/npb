@@ -338,6 +338,7 @@ class EnhancedDashboardGenerator {
                 stadium,
                 wins,
                 losses,
+                draws,
                 printf('%.3f', win_rate) as win_rate
             FROM stadium_records
             ORDER BY team_name, stadium
@@ -353,6 +354,7 @@ class EnhancedDashboardGenerator {
                 stadium: record.stadium,
                 wins: record.wins,
                 losses: record.losses,
+                draws: record.draws,
                 win_rate: record.win_rate
             });
         });
