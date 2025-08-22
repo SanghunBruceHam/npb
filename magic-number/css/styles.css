@@ -888,32 +888,42 @@ tbody tr {
         font-weight: 500;
     }
 
-    /* 일반 데이터 컬럼들 (3-8번째, 11-12번째) */
-    table th:nth-child(n+3):nth-child(-n+8), 
-    table td:nth-child(n+3):nth-child(-n+8),
-    table th:nth-child(n+11):nth-child(-n+12), 
-    table td:nth-child(n+11):nth-child(-n+12) { 
+    /* 일반 데이터 컬럼들 (3-8번째) */
+    #standings-table th:nth-child(n+3):nth-child(-n+8), 
+    #standings-table td:nth-child(n+3):nth-child(-n+8) { 
         width: 6%; 
     }
-    /* 홈/방문 컬럼 너비 증가 */
-    table th:nth-child(9), table td:nth-child(9), /* 홈 */
-    table th:nth-child(10), table td:nth-child(10) { /* 방문 */
-        width: 7%; /* 홈/방문 컬럼 너비 증가 6% → 7% */
+    /* 게임차와 잔여경기 컬럼 */
+    #standings-table th:nth-child(9), #standings-table td:nth-child(9), /* 게임차 */
+    #standings-table th:nth-child(10), #standings-table td:nth-child(10) { /* 잔여경기 */
+        width: 5%;
+    }
+    /* 홈/방문 컬럼 너비 설정 (새 위치: 13-14번째) */
+    #standings-table th:nth-child(13), #standings-table td:nth-child(13), /* 홈 */
+    #standings-table th:nth-child(14), #standings-table td:nth-child(14) { /* 방문 */
+        width: 5% !important; /* 홈/방문 컬럼 너비 */
+        white-space: nowrap;
     }
     /* 중요 컬럼들 강조 */
     table th:nth-child(8), table td:nth-child(8) { /* 승률 */
         font-weight: 600;
     }
-    table th:nth-child(15), table td:nth-child(15) { /* 매직넘버 */
-        width: 9%; 
+    #standings-table th:nth-child(15), #standings-table td:nth-child(15) { /* 매직넘버 */
+        width: 7% !important; 
         font-weight: 600;
     }
     /* 특수 컬럼 처리 - 폰트 크기 통일 */
-    #standings-table th:nth-child(13), 
-    #standings-table td:nth-child(13) { /* 최근10경기 */
-        width: 9%; /* 최근10경기 컨럼 크기 축소 12% → 9% */
+    #standings-table th:nth-child(11), 
+    #standings-table td:nth-child(11) { /* 최근10경기 */
+        width: 7% !important; /* 최근10경기 컨럼 크기 조정 */
         font-size: inherit;  /* 다른 셀과 동일한 폰트 크기 사용 */
         white-space: nowrap; /* 텍스트 줄바뀜 방지 */
+    }
+    /* 연속 컬럼 넓이 조정 */
+    #standings-table th:nth-child(12), 
+    #standings-table td:nth-child(12) { /* 연속 */
+        width: 5% !important;
+        white-space: nowrap;
     }
     /* 플레이오프와 1위 탈환 테이블 완전 재설정 */
     #playoff-table,
@@ -1767,8 +1777,9 @@ tbody tr {
     /* ═══════════════════════════════════════════════════════════════════════
        🗑️ 개별 테이블 스타일 무효화 - 통합 시스템 우선
        ═══════════════════════════════════════════════════════════════════════ */
-    /* 모든 개별 테이블 ID 스타일 무효화 */
-    #standings-table th, #standings-table td,
+    /* 모든 개별 테이블 ID 스타일 - 홈/방문 컬럼 제외하고 무효화 */
+    #standings-table th:not(:nth-child(13)):not(:nth-child(14)):not(:nth-child(15)), 
+    #standings-table td:not(:nth-child(13)):not(:nth-child(14)):not(:nth-child(15)),
     #playoff-table th:not(:nth-child(2)), #playoff-table td:not(:nth-child(2)),
     #chase-table th:not(:nth-child(2)), #chase-table td:not(:nth-child(2)) {
         width: auto !important; /* 통합 시스템이 제어 */
@@ -1777,11 +1788,30 @@ tbody tr {
         text-align: center !important; /* 모든 데이터 셀 중앙 정렬 강제 적용 */
     }
     /* 특수 컬럼 예외 처리 - 폰트 크기 통일 */
-    #standings-table th:nth-child(13), 
-    #standings-table td:nth-child(13) { 
+    #standings-table th:nth-child(11), 
+    #standings-table td:nth-child(11) { 
         font-size: inherit !important; /* 다른 셀과 동일한 폰트 크기로 통일 */
         min-width: 80px !important;    /* 최근10경기 컨럼 최소 크기 증가 */
         max-width: 100px !important;   /* 최근10경기 컨럼 최대 크기 증가 */
+    }
+    /* 홈/방문/매직넘버 컬럼 강제 설정 */
+    #standings-table th:nth-child(13), #standings-table td:nth-child(13) { /* 홈 */
+        width: 5% !important;
+        max-width: 60px !important;
+        min-width: 40px !important;
+        white-space: nowrap !important;
+    }
+    #standings-table th:nth-child(14), #standings-table td:nth-child(14) { /* 방문 */
+        width: 5% !important;
+        max-width: 60px !important;
+        min-width: 40px !important;
+        white-space: nowrap !important;
+    }
+    #standings-table th:nth-child(15), #standings-table td:nth-child(15) { /* 매직넘버 */
+        width: 7% !important;
+        max-width: 80px !important;
+        min-width: 50px !important;
+        white-space: nowrap !important;
     }
 }
 
@@ -1800,12 +1830,12 @@ tbody tr {
     /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
     #standings-table th:nth-child(8),   /* 승률 */
     #standings-table td:nth-child(8),
-    #standings-table th:nth-child(9),   /* 홈 */
-    #standings-table td:nth-child(9),
-    #standings-table th:nth-child(10),  /* 방문 */
-    #standings-table td:nth-child(10),
-    #standings-table th:nth-child(13),  /* 최근10경기 */
-    #standings-table td:nth-child(13) {
+    #standings-table th:nth-child(11),  /* 최근10경기 */
+    #standings-table td:nth-child(11),
+    #standings-table th:nth-child(13),  /* 홈 */
+    #standings-table td:nth-child(13),
+    #standings-table th:nth-child(14),  /* 방문 */
+    #standings-table td:nth-child(14) {
         padding: 8px 6px !important;
         white-space: nowrap !important; /* 홈/방문/최근10경기 모든 컬럼 줄바뀜 방지 */
     }
@@ -2299,12 +2329,12 @@ input, textarea, select, button {
     /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
     #standings-table th:nth-child(8),   /* 승률 */
     #standings-table td:nth-child(8),
-    #standings-table th:nth-child(9),   /* 홈 */
-    #standings-table td:nth-child(9),
-    #standings-table th:nth-child(10),  /* 방문 */
-    #standings-table td:nth-child(10),
-    #standings-table th:nth-child(13),  /* 최근10경기 */
-    #standings-table td:nth-child(13) {
+    #standings-table th:nth-child(11),  /* 최근10경기 */
+    #standings-table td:nth-child(11),
+    #standings-table th:nth-child(13),  /* 홈 */
+    #standings-table td:nth-child(13),
+    #standings-table th:nth-child(14),  /* 방문 */
+    #standings-table td:nth-child(14) {
         padding: 7px 5px !important;
         white-space: nowrap !important; /* 홈/방문/최근10경기 모든 컬럼 줄바뀜 방지 */
     }
@@ -2438,12 +2468,12 @@ input, textarea, select, button {
     /* 모바일에서 팀 순위표 특정 컬럼 여백 추가 */
     #standings-table th:nth-child(8),   /* 승률 */
     #standings-table td:nth-child(8),
-    #standings-table th:nth-child(9),   /* 홈 */
-    #standings-table td:nth-child(9),
-    #standings-table th:nth-child(10),  /* 방문 */
-    #standings-table td:nth-child(10),
-    #standings-table th:nth-child(13),  /* 최근10경기 */
-    #standings-table td:nth-child(13) {
+    #standings-table th:nth-child(11),  /* 최근10경기 */
+    #standings-table td:nth-child(11),
+    #standings-table th:nth-child(13),  /* 홈 */
+    #standings-table td:nth-child(13),
+    #standings-table th:nth-child(14),  /* 방문 */
+    #standings-table td:nth-child(14) {
         padding: 6px 4px !important;
         white-space: nowrap !important; /* 홈/방문/최근10경기 모든 컬럼 줄바뜸 방지 */
     }
@@ -2535,8 +2565,8 @@ input, textarea, select, button {
         padding: 3px 1px !important;
     }
     /* 특수 컬럼 추가 축소 - 폰트 크기 통일 */
-    #standings-table th:nth-child(13), 
-    #standings-table td:nth-child(13) { 
+    #standings-table th:nth-child(11), 
+    #standings-table td:nth-child(11) { 
         font-size: inherit !important;  /* 다른 셀과 동일한 폰트 크기로 통일 */
         min-width: 75px !important;    /* 480px 이하에서도 최근10경기 컨럼 크기 증가 */
         max-width: 95px !important;    /* 480px 이하 최대 크기 증가 */

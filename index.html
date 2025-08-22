@@ -2187,11 +2187,11 @@
         }
         
         /* 승률 표시 컬럼들에 모노스페이스 폰트 적용 */
-        #fullStandingsTable td:nth-child(9),  /* 승률 컬럼 */
+        #fullStandingsTable td:nth-child(8),  /* 승률 컬럼 */
         #fullStandingsTable td:nth-child(14), /* P승률 컬럼 */
         #fullStandingsTable td:nth-child(16), /* 1점차승률 컬럼 */
         #fullStandingsTable td:nth-child(17), /* 홈승률 컬럼 */
-        #fullStandingsTable td:nth-child(18), /* 원정승률 컬럼 */
+        #fullStandingsTable td:nth-child(19), /* 원정승률 컬럼 */
         #pythagoreanTable td:nth-child(3),    /* 실제승률 컬럼 */
         #pythagoreanTable td:nth-child(4),    /* 기대승률 컬럼 */
         #clutchTable td:nth-child(5),         /* 1점차승률 컬럼 */
@@ -2231,16 +2231,16 @@
         }
         
         /* 승률 관련 헤더 특별 처리 - 절대 우선순위 */
-        table th:nth-child(9),   /* 승률 헤더 */
+        table th:nth-child(8),   /* 승률 헤더 */
         table th:nth-child(14),  /* P승률 헤더 */
         table th:nth-child(16),  /* 1점차승률 헤더 */
         table th:nth-child(17),  /* 홈승률 헤더 */
-        table th:nth-child(18),  /* 원정승률 헤더 */
-        #fullStandingsTable th:nth-child(9),
+        table th:nth-child(19),  /* 원정승률 헤더 */
+        #fullStandingsTable th:nth-child(8),
         #fullStandingsTable th:nth-child(14),
         #fullStandingsTable th:nth-child(16),
         #fullStandingsTable th:nth-child(17),
-        #fullStandingsTable th:nth-child(18) {
+        #fullStandingsTable th:nth-child(19) {
             font-family: var(--font-family-base) !important;
             font-size: var(--font-base) !important;
             font-weight: var(--font-weight-semibold) !important;
@@ -3339,19 +3339,20 @@
                             <th>순위</th>
                             <th>팀</th>
                             <th>경기</th>
-                            <th>잔여경기</th>
                             <th>승</th>
                             <th>무</th>
                             <th>패</th>
                             <th>승패마진</th>
                             <th>승률</th>
                             <th>게임차</th>
+                            <th>잔여경기</th>
                             <th>득점</th>
                             <th>실점</th>
                             <th>득실차</th>
                             <th>P승률</th>
                             <th>운지수</th>
                             <th>1점차승률</th>
+                            <th>3점차승률</th>
                             <th>홈승률</th>
                             <th>원정승률</th>
                             <th>홈우위</th>
@@ -3624,10 +3625,12 @@
                             <th>홈 경기</th>
                             <th>홈 승</th>
                             <th>홈 패</th>
+                            <th>홈 무</th>
                             <th>홈 승률</th>
                             <th>원정 경기</th>
                             <th>원정 승</th>
                             <th>원정 패</th>
+                            <th>원정 무</th>
                             <th>원정 승률</th>
                             <th>홈 어드밴티지</th>
                             <th style="min-width: 140px;">홈구장</th>
@@ -3992,6 +3995,7 @@
 
     <script>
         let dashboardData = null;
+        let clutchData = null;
         let weeklyAnalysisData = null;
         let gameRecordsData = null;
         let futureScheduleData = null;
@@ -4482,7 +4486,13 @@
             try { renderPythagoreanFullAnalysis(); } catch(e) { console.error('renderPythagoreanFullAnalysis 오류:', e); }
             
             console.log('3️⃣ renderClutchFullAnalysis 호출');
-            try { await renderClutchFullAnalysis(); } catch(e) { console.error('renderClutchFullAnalysis 오류:', e); }
+            try { 
+                await renderClutchFullAnalysis(); 
+                // 클러치 데이터 로드 후 전체 순위표 다시 렌더링
+                renderFullStandings();
+            } catch(e) { 
+                console.error('renderClutchFullAnalysis 오류:', e); 
+            }
             
             console.log('4️⃣ renderHomeAwayFullAnalysis 호출');
             try { await renderHomeAwayFullAnalysis(); } catch(e) { console.error('renderHomeAwayFullAnalysis 오류:', e); }
@@ -5567,6 +5577,7 @@
                 const teamSummary = dashboardData.teamSummaries?.find(t => t.team_name === team.team_name);
                 const pythagorean = dashboardData.pythagoreanAnalysis?.find(t => t.team_name === team.team_name);
                 const oneRun = dashboardData.oneRunGames?.find(t => t.team_name === team.team_name);
+                const clutchTeamData = clutchData ? clutchData.clutchAnalysis[team.team_name] : null;
                 const homeAway = dashboardData.homeAwayStats?.find(t => t.team_name === team.team_name);
                 const streak = dashboardData.streakAnalysis?.find(t => t.team_name === team.team_name);
 
@@ -5611,19 +5622,20 @@
                     <td class="${team.displayRank <= 3 ? `rank-${team.displayRank}` : ''}"><strong>${team.displayRank}</strong></td>
                     <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
                     <td>${team.games_played}</td>
-                    <td>${144 - team.games_played}</td>
                     <td>${team.wins}</td>
                     <td>${team.draws}</td>
                     <td>${team.losses}</td>
                     <td class="${marginClass}" style="font-weight: 600;">${winLossMargin > 0 ? '+' : ''}${winLossMargin}</td>
                     <td><strong>${team.win_rate}</strong></td>
                     <td>${team.games_behind}</td>
+                    <td>${144 - team.games_played}</td>
                     <td>${team.runs_scored}</td>
                     <td>${team.runs_allowed}</td>
                     <td class="${getRunDiffClass(team.run_differential)}">${team.run_differential}</td>
                     <td>${pythagorean ? pythagorean.expected_win_rate : '-'}</td>
                     <td class="${pythagorean && parseFloat(pythagorean.luck_factor) > 0.02 ? 'positive' : pythagorean && parseFloat(pythagorean.luck_factor) < -0.02 ? 'negative' : 'neutral'}">${pythagorean ? pythagorean.luck_factor : '-'}</td>
                     <td class="${oneRun ? getWinRateClass(parseFloat(oneRun.win_rate)) : ''}">${oneRun ? oneRun.win_rate : '-'}</td>
+                    <td class="${clutchTeamData ? getWinRateClass(parseFloat(clutchTeamData.threeRunWinRate)/100) : ''}">${clutchTeamData ? (parseFloat(clutchTeamData.threeRunWinRate)/100).toFixed(3) : '-'}</td>
                     <td>${homeAway ? homeAway.home_win_rate : '-'}</td>
                     <td>${homeAway ? homeAway.away_win_rate : '-'}</td>
                     <td class="${homeAway && parseFloat(homeAway.home_advantage) > 0.05 ? 'positive' : homeAway && parseFloat(homeAway.home_advantage) < -0.05 ? 'negative' : 'neutral'}">${homeAway ? homeAway.home_advantage : '-'}</td>
@@ -5689,7 +5701,7 @@
         async function renderClutchFullAnalysis() {
             try {
                 const response = await fetch('magic-number/data/clutch-analysis.json');
-                const clutchData = await response.json();
+                clutchData = await response.json();
                 
                 const tbody = document.getElementById('clutchBody');
                 tbody.innerHTML = '';
@@ -5818,10 +5830,12 @@
                         <td>${team.home.games}</td>
                         <td>${team.home.wins}</td>
                         <td>${team.home.losses}</td>
+                        <td>${team.home.draws || 0}</td>
                         <td class="${homeWinRateClass} baseball-winrate-cell"><strong>${normalizedHomeRate.toFixed(3)}</strong></td>
                         <td>${team.away.games}</td>
                         <td>${team.away.wins}</td>
                         <td>${team.away.losses}</td>
+                        <td>${team.away.draws || 0}</td>
                         <td class="${awayWinRateClass} baseball-winrate-cell"><strong>${normalizedAwayRate.toFixed(3)}</strong></td>
                         <td class="${homeAdvantageClass} baseball-winrate-cell"><strong>${normalizedAdvantage.toFixed(4)}</strong></td>
                         <td style="font-size: var(--font-sm);">${stadiumMap[teamName] || '-'}</td>
@@ -5830,7 +5844,7 @@
                 });
             } catch (error) {
                 console.error('홈/원정 분석 데이터 로드 실패:', error);
-                document.getElementById('homeAwayBody').innerHTML = '<tr><td colspan="12" style="text-align: center; padding: 20px; color: #e74c3c;">홈/원정 분석 데이터를 로드할 수 없습니다.</td></tr>';
+                document.getElementById('homeAwayBody').innerHTML = '<tr><td colspan="14" style="text-align: center; padding: 20px; color: #e74c3c;">홈/원정 분석 데이터를 로드할 수 없습니다.</td></tr>';
             }
         }
 
@@ -7009,7 +7023,7 @@
             // 전체 진행률 업데이트
             setTimeout(() => {
                 document.getElementById('overall-progress-bar').style.width = `${overallProgress}%`;
-                document.getElementById('overall-progress-text').textContent = `${overallProgress.toFixed(1)}%`;
+                document.getElementById('overall-progress-text').textContent = `${overallProgress.toFixed(2)}%`;
                 document.getElementById('games-info').textContent = `${totalGamesPlayed}/${totalPossibleGames} 경기 완료`;
             }, 500);
 
@@ -7035,7 +7049,7 @@
                                  onerror="this.style.display='none';">
                             <span style="font-weight: 600; font-size: 0.95rem;">${fullTeamName}</span>
                         </div>
-                        <span style="font-weight: 700; color: ${teamColor};">${progress.toFixed(1)}%</span>
+                        <span style="font-weight: 700; color: ${teamColor};">${progress.toFixed(2)}%</span>
                     </div>
                     <div class="team-progress-bar">
                         <div class="team-progress-fill" 

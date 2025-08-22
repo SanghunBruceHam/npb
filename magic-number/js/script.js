@@ -973,12 +973,12 @@ const kboTeams = {
                     <td>${team.draws}</td>
                     <td style="color: ${marginColor};">${marginDisplay}</td>
                     <td>${team.winPct.toFixed(3)}</td>
-                    <td>${homeDisplay}</td>
-                    <td>${awayDisplay}</td>
                     <td>${team.gamesBehind === 0 ? '-' : team.gamesBehind}</td>
                     <td>${remainingGames}</td>
                     <td>${recent10Formatted}</td>
                     <td>${streakFormatted}</td>
+                    <td>${homeDisplay}</td>
+                    <td>${awayDisplay}</td>
                     <td>${magicNumberDisplay}</td>
                 `;
 
