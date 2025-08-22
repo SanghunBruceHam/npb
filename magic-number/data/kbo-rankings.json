@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-22T12:10:46.770Z",
+  "lastUpdated": "2025-08-22T12:23:35.391Z",
   "updateDate": "2025. 8. 22.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
@@ -104,15 +104,15 @@
     {
       "rank": 8,
       "team": "삼성",
-      "games": 116,
-      "wins": 55,
+      "games": 117,
+      "wins": 56,
       "losses": 59,
       "draws": 2,
-      "winRate": 0.482,
-      "gamesBehind": 15.5,
-      "recent10": "4승1무5패",
-      "streak": "1패",
-      "homeRecord": "30-26-0",
+      "winRate": 0.487,
+      "gamesBehind": 15,
+      "recent10": "5승1무4패",
+      "streak": "1승",
+      "homeRecord": "31-26-0",
       "awayRecord": "25-33-2"
     },
     {
@@ -132,16 +132,16 @@
     {
       "rank": 10,
       "team": "키움",
-      "games": 118,
+      "games": 119,
       "wins": 38,
-      "losses": 76,
+      "losses": 77,
       "draws": 4,
-      "winRate": 0.333,
-      "gamesBehind": 32.5,
+      "winRate": 0.33,
+      "gamesBehind": 33,
       "recent10": "6승0무4패",
-      "streak": "2승",
+      "streak": "1패",
       "homeRecord": "21-40-2",
-      "awayRecord": "17-36-2"
+      "awayRecord": "17-37-2"
     }
   ],
   "magicNumbers": {
@@ -209,11 +209,11 @@
       "currentRank": 7
     },
     "삼성": {
-      "playoff": 17,
-      "championship": 28,
+      "playoff": 16,
+      "championship": 27,
       "elimination": 11,
-      "homeAdvantage": 11,
-      "remainingGames": 28,
+      "homeAdvantage": 10,
+      "remainingGames": 27,
       "maxPossibleWins": 83,
       "currentRank": 8
     },
@@ -228,16 +228,16 @@
     },
     "키움": {
       "playoff": 999,
-      "championship": 26,
+      "championship": 25,
       "elimination": 0,
       "homeAdvantage": 999,
-      "remainingGames": 26,
-      "maxPossibleWins": 64,
+      "remainingGames": 25,
+      "maxPossibleWins": 63,
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-22T12:10:46.770Z",
+  "lastMagicUpdate": "2025-08-22T12:23:35.391Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
-  "dataDate": "2025-08-21"
+  "dataDate": "2025-08-22"
 }

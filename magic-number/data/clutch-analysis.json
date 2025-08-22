@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-22T12:10:52.131Z",
+  "lastUpdated": "2025-08-22T12:23:38.515Z",
   "updateDate": "2025. 8. 22.",
   "clutchAnalysis": {
     "LG": {
@@ -654,7 +654,7 @@
       "clutchIndex": "53.0"
     },
     "삼성": {
-      "totalGames": 116,
+      "totalGames": 117,
       "oneRunGames": 21,
       "oneRunWins": 8,
       "oneRunLosses": 13,
@@ -667,7 +667,7 @@
       "threeRunWins": 15,
       "threeRunLosses": 29,
       "threeRunWinRate": "34.1",
-      "blowoutWins": 28,
+      "blowoutWins": 29,
       "blowoutScored": [
         {
           "date": "2025-03-22",
@@ -836,6 +836,12 @@
           "opponent": "롯데",
           "score": "10:4",
           "runs": 10
+        },
+        {
+          "date": "2025-08-22",
+          "opponent": "키움",
+          "score": "8:2",
+          "runs": 8
         }
       ],
       "blowoutLosses": 7,
@@ -2022,7 +2028,7 @@
       "clutchIndex": "51.0"
     },
     "키움": {
-      "totalGames": 118,
+      "totalGames": 119,
       "oneRunGames": 23,
       "oneRunWins": 15,
       "oneRunLosses": 8,

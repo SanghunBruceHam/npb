@@ -1,5 +1,5 @@
 {
-  "updateTime": "2025-08-22T12:10:51.638Z",
+  "updateTime": "2025-08-22T12:23:38.000Z",
   "updateDate": "2025년 8월 22일",
   "standings": [
     {
@@ -103,16 +103,16 @@
     {
       "rank": 8,
       "team_name": "삼성",
-      "games_played": 116,
-      "wins": 55,
+      "games_played": 117,
+      "wins": 56,
       "losses": 59,
       "draws": 2,
-      "win_rate": "0.482",
-      "runs_scored": 589,
-      "runs_allowed": 528,
-      "run_differential": 61,
-      "current_streak": "1L",
-      "games_behind": 15.5
+      "win_rate": "0.487",
+      "runs_scored": 597,
+      "runs_allowed": 530,
+      "run_differential": 67,
+      "current_streak": "1W",
+      "games_behind": 15
     },
     {
       "rank": 9,
@@ -131,16 +131,16 @@
     {
       "rank": 10,
       "team_name": "키움",
-      "games_played": 118,
+      "games_played": 119,
       "wins": 38,
-      "losses": 76,
+      "losses": 77,
       "draws": 4,
-      "win_rate": "0.333",
-      "runs_scored": 468,
-      "runs_allowed": 718,
-      "run_differential": -250,
-      "current_streak": "2W",
-      "games_behind": 32.5
+      "win_rate": "0.330",
+      "runs_scored": 470,
+      "runs_allowed": 726,
+      "run_differential": -256,
+      "current_streak": "1L",
+      "games_behind": 33
     }
   ],
   "pythagoreanAnalysis": [
@@ -195,8 +195,8 @@
     },
     {
       "team_name": "삼성",
-      "actual_win_rate": "0.482",
-      "expected_win_rate": "0.554",
+      "actual_win_rate": "0.487",
+      "expected_win_rate": "0.559",
       "luck_factor": "-0.072",
       "luck_status": "운이 나쁨"
     },
@@ -209,8 +209,8 @@
     },
     {
       "team_name": "키움",
-      "actual_win_rate": "0.333",
-      "expected_win_rate": "0.298",
+      "actual_win_rate": "0.330",
+      "expected_win_rate": "0.295",
       "luck_factor": "+0.035",
       "luck_status": "평균적"
     }
@@ -360,13 +360,13 @@
     },
     {
       "team_name": "삼성",
-      "home_wins": 30,
+      "home_wins": 31,
       "home_losses": 26,
-      "home_win_rate": "0.536",
+      "home_win_rate": "0.544",
       "away_wins": 25,
       "away_losses": 33,
       "away_win_rate": "0.431",
-      "home_advantage": "+0.105"
+      "home_advantage": "+0.113"
     },
     {
       "team_name": "두산",
@@ -384,9 +384,9 @@
       "home_losses": 40,
       "home_win_rate": "0.344",
       "away_wins": 17,
-      "away_losses": 36,
-      "away_win_rate": "0.321",
-      "home_advantage": "+0.024"
+      "away_losses": 37,
+      "away_win_rate": "0.315",
+      "home_advantage": "+0.029"
     }
   ],
   "monthlyPerformance": {
@@ -877,13 +877,13 @@
       },
       {
         "month": 8,
-        "wins": 7,
+        "wins": 8,
         "losses": 10,
         "draws": 1,
-        "games": 18,
-        "win_rate": "0.412",
-        "runs_scored": 77,
-        "runs_allowed": 86
+        "games": 19,
+        "win_rate": "0.444",
+        "runs_scored": 85,
+        "runs_allowed": 88
       }
     ],
     "키움": [
@@ -940,12 +940,12 @@
       {
         "month": 8,
         "wins": 10,
-        "losses": 7,
+        "losses": 8,
         "draws": 0,
-        "games": 17,
-        "win_rate": "0.588",
-        "runs_scored": 90,
-        "runs_allowed": 89
+        "games": 18,
+        "win_rate": "0.556",
+        "runs_scored": 92,
+        "runs_allowed": 97
       }
     ],
     "한화": [
@@ -1293,9 +1293,9 @@
         "win_rate": "0.500"
       },
       "금": {
-        "wins": 8,
+        "wins": 9,
         "losses": 8,
-        "win_rate": "0.500"
+        "win_rate": "0.529"
       },
       "토": {
         "wins": 9,
@@ -1331,8 +1331,8 @@
       },
       "금": {
         "wins": 8,
-        "losses": 8,
-        "win_rate": "0.500"
+        "losses": 9,
+        "win_rate": "0.471"
       },
       "토": {
         "wins": 8,
@@ -1497,8 +1497,8 @@
         "win_rate": "0.533"
       },
       "키움": {
-        "record": "6-3",
-        "win_rate": "0.667"
+        "record": "7-3",
+        "win_rate": "0.700"
       }
     },
     "두산": {
@@ -1745,8 +1745,8 @@
         "win_rate": "0.333"
       },
       "삼성": {
-        "record": "3-6",
-        "win_rate": "0.333"
+        "record": "3-7",
+        "win_rate": "0.300"
       },
       "두산": {
         "record": "4-9",
@@ -1827,10 +1827,10 @@
     },
     {
       "team_name": "삼성",
-      "current_streak": "1L",
+      "current_streak": "1W",
       "max_win_streak": 7,
       "max_lose_streak": 8,
-      "streak_status": "연패 중"
+      "streak_status": "연승 중"
     },
     {
       "team_name": "두산",
@@ -1841,10 +1841,10 @@
     },
     {
       "team_name": "키움",
-      "current_streak": "2W",
+      "current_streak": "1L",
       "max_win_streak": 4,
       "max_lose_streak": 10,
-      "streak_status": "연승 중"
+      "streak_status": "연패 중"
     }
   ],
   "runAnalysis": [
@@ -1868,12 +1868,12 @@
     },
     {
       "team_name": "삼성",
-      "runs_scored": 589,
-      "runs_allowed": 528,
-      "run_differential": 61,
-      "avg_runs_scored": "5.08",
-      "avg_runs_allowed": "4.55",
-      "avg_run_diff": "0.53"
+      "runs_scored": 597,
+      "runs_allowed": 530,
+      "run_differential": 67,
+      "avg_runs_scored": "5.10",
+      "avg_runs_allowed": "4.53",
+      "avg_run_diff": "0.57"
     },
     {
       "team_name": "SSG",
@@ -1931,12 +1931,12 @@
     },
     {
       "team_name": "키움",
-      "runs_scored": 468,
-      "runs_allowed": 718,
-      "run_differential": -250,
-      "avg_runs_scored": "3.97",
-      "avg_runs_allowed": "6.08",
-      "avg_run_diff": "-2.12"
+      "runs_scored": 470,
+      "runs_allowed": 726,
+      "run_differential": -256,
+      "avg_runs_scored": "3.95",
+      "avg_runs_allowed": "6.10",
+      "avg_run_diff": "-2.15"
     }
   ],
   "vsLevelAnalysis": [
@@ -2008,9 +2008,9 @@
       "vs_above_wins": 23,
       "vs_above_losses": 29,
       "vs_above_win_rate": "0.442",
-      "vs_below_wins": 32,
+      "vs_below_wins": 33,
       "vs_below_losses": 30,
-      "vs_below_win_rate": "0.516"
+      "vs_below_win_rate": "0.524"
     },
     {
       "team_name": "두산",
@@ -2027,8 +2027,8 @@
       "vs_above_losses": 35,
       "vs_above_win_rate": "0.300",
       "vs_below_wins": 23,
-      "vs_below_losses": 41,
-      "vs_below_win_rate": "0.359"
+      "vs_below_losses": 42,
+      "vs_below_win_rate": "0.354"
     }
   ],
   "specialSituations": [
@@ -2104,12 +2104,12 @@
     },
     {
       "team_name": "삼성",
-      "blowout_wins": 21,
+      "blowout_wins": 22,
       "blowout_losses": 14,
       "shutout_wins": 8,
       "shutout_losses": 6,
       "close_games": 21,
-      "blowout_games": 35,
+      "blowout_games": 36,
       "shutout_games": 14
     },
     {
@@ -2125,11 +2125,11 @@
     {
       "team_name": "키움",
       "blowout_wins": 5,
-      "blowout_losses": 38,
+      "blowout_losses": 39,
       "shutout_wins": 6,
       "shutout_losses": 10,
       "close_games": 23,
-      "blowout_games": 43,
+      "blowout_games": 44,
       "shutout_games": 16
     }
   ],
@@ -2599,10 +2599,10 @@
       },
       {
         "stadium": "대구 삼성라이온즈파크",
-        "wins": 30,
+        "wins": 31,
         "losses": 26,
         "draws": 0,
-        "win_rate": "0.536"
+        "win_rate": "0.544"
       },
       {
         "stadium": "대전 한화생명이글스파크",
@@ -2665,7 +2665,7 @@
       {
         "stadium": "대구 삼성라이온즈파크",
         "wins": 0,
-        "losses": 3,
+        "losses": 4,
         "draws": 0,
         "win_rate": "0.000"
       },
@@ -3069,41 +3069,41 @@
     {
       "team_name": "삼성",
       "overall": {
-        "record": "55승 2무 59패",
-        "win_rate": "0.482",
+        "record": "56승 2무 59패",
+        "win_rate": "0.487",
         "games_behind": 0
       },
       "pythagorean": {
-        "expected": "0.554",
-        "actual": "0.482",
+        "expected": "0.559",
+        "actual": "0.487",
         "luck_factor": "-0.072"
       },
       "situational": {
         "one_run": "8-13",
         "one_run_rate": "0.381",
-        "blowout": "21-14",
+        "blowout": "22-14",
         "shutout": "8-6"
       },
       "home_away": {
-        "home": "30-26 (0.536)",
+        "home": "31-26 (0.544)",
         "away": "25-33 (0.431)",
-        "advantage": "0.105"
+        "advantage": "0.113"
       },
       "vs_level": {
         "above_500": "23-29",
-        "below_500": "32-30"
+        "below_500": "33-30"
       },
       "streaks": {
-        "current": "1L",
+        "current": "1W",
         "max_win": 7,
         "max_lose": 8
       },
       "runs": {
-        "scored": 589,
-        "allowed": 528,
-        "differential": 61,
-        "avg_scored": "5.08",
-        "avg_allowed": "4.55"
+        "scored": 597,
+        "allowed": 530,
+        "differential": 67,
+        "avg_scored": "5.10",
+        "avg_allowed": "4.53"
       }
     },
     {
@@ -3149,41 +3149,41 @@
     {
       "team_name": "키움",
       "overall": {
-        "record": "38승 4무 76패",
-        "win_rate": "0.333",
+        "record": "38승 4무 77패",
+        "win_rate": "0.330",
         "games_behind": 0
       },
       "pythagorean": {
-        "expected": "0.298",
-        "actual": "0.333",
+        "expected": "0.295",
+        "actual": "0.330",
         "luck_factor": "0.035"
       },
       "situational": {
         "one_run": "15-8",
         "one_run_rate": "0.652",
-        "blowout": "5-38",
+        "blowout": "5-39",
         "shutout": "6-10"
       },
       "home_away": {
         "home": "21-40 (0.344)",
-        "away": "17-36 (0.321)",
-        "advantage": "0.024"
+        "away": "17-37 (0.315)",
+        "advantage": "0.029"
       },
       "vs_level": {
         "above_500": "15-35",
-        "below_500": "23-41"
+        "below_500": "23-42"
       },
       "streaks": {
-        "current": "2W",
+        "current": "1L",
         "max_win": 4,
         "max_lose": 10
       },
       "runs": {
-        "scored": 468,
-        "allowed": 718,
-        "differential": -250,
-        "avg_scored": "3.97",
-        "avg_allowed": "6.08"
+        "scored": 470,
+        "allowed": 726,
+        "differential": -256,
+        "avg_scored": "3.95",
+        "avg_allowed": "6.10"
       }
     }
   ]

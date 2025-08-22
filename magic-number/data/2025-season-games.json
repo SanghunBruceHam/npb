@@ -4614,5 +4614,13 @@
     "away_score": 6,
     "home_score": 6,
     "winner": "draw"
+  },
+  {
+    "date": "2025-08-22",
+    "away_team": "키움",
+    "home_team": "삼성",
+    "away_score": 2,
+    "home_score": 8,
+    "winner": "삼성"
   }
 ]
