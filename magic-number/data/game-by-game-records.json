@@ -1130,11 +1130,21 @@
         "result": "L",
         "runs_scored": 10,
         "runs_allowed": 11
+      },
+      {
+        "gameNumber": 114,
+        "date": "2025-08-22",
+        "opponent": "LG",
+        "isHome": true,
+        "score": "2:14",
+        "result": "L",
+        "runs_scored": 2,
+        "runs_allowed": 14
       }
     ],
     "currentStreak": {
       "type": "L",
-      "count": 2
+      "count": 3
     },
     "longestWinStreak": 5,
     "longestLoseStreak": 7,
@@ -2526,11 +2536,21 @@
         "result": "D",
         "runs_scored": 6,
         "runs_allowed": 6
+      },
+      {
+        "gameNumber": 117,
+        "date": "2025-08-22",
+        "opponent": "KIA",
+        "isHome": false,
+        "score": "14:2",
+        "result": "W",
+        "runs_scored": 14,
+        "runs_allowed": 2
       }
     ],
     "currentStreak": {
-      "type": null,
-      "count": 0
+      "type": "W",
+      "count": 1
     },
     "longestWinStreak": 7,
     "longestLoseStreak": 5,
@@ -5320,11 +5340,21 @@
         "result": "W",
         "runs_scored": 6,
         "runs_allowed": 3
+      },
+      {
+        "gameNumber": 117,
+        "date": "2025-08-22",
+        "opponent": "KT",
+        "isHome": true,
+        "score": "8:13",
+        "result": "L",
+        "runs_scored": 8,
+        "runs_allowed": 13
       }
     ],
     "currentStreak": {
-      "type": "W",
-      "count": 7
+      "type": "L",
+      "count": 1
     },
     "longestWinStreak": 7,
     "longestLoseStreak": 5,
@@ -5552,6 +5582,10 @@
       {
         "type": "L",
         "count": 2
+      },
+      {
+        "type": "W",
+        "count": 7
       }
     ]
   },
@@ -6696,11 +6730,21 @@
         "result": "W",
         "runs_scored": 7,
         "runs_allowed": 1
+      },
+      {
+        "gameNumber": 115,
+        "date": "2025-08-22",
+        "opponent": "한화",
+        "isHome": false,
+        "score": "1:0",
+        "result": "W",
+        "runs_scored": 1,
+        "runs_allowed": 0
       }
     ],
     "currentStreak": {
       "type": "W",
-      "count": 2
+      "count": 3
     },
     "longestWinStreak": 4,
     "longestLoseStreak": 6,
@@ -8124,11 +8168,21 @@
         "result": "D",
         "runs_scored": 6,
         "runs_allowed": 6
+      },
+      {
+        "gameNumber": 119,
+        "date": "2025-08-22",
+        "opponent": "NC",
+        "isHome": false,
+        "score": "6:7",
+        "result": "L",
+        "runs_scored": 6,
+        "runs_allowed": 7
       }
     ],
     "currentStreak": {
-      "type": null,
-      "count": 0
+      "type": "L",
+      "count": 1
     },
     "longestWinStreak": 6,
     "longestLoseStreak": 8,
@@ -9542,11 +9596,21 @@
         "result": "L",
         "runs_scored": 1,
         "runs_allowed": 7
+      },
+      {
+        "gameNumber": 118,
+        "date": "2025-08-22",
+        "opponent": "두산",
+        "isHome": false,
+        "score": "13:8",
+        "result": "W",
+        "runs_scored": 13,
+        "runs_allowed": 8
       }
     ],
     "currentStreak": {
-      "type": "L",
-      "count": 2
+      "type": "W",
+      "count": 1
     },
     "longestWinStreak": 4,
     "longestLoseStreak": 5,
@@ -9785,6 +9849,10 @@
       },
       {
         "type": "W",
+        "count": 2
+      },
+      {
+        "type": "L",
         "count": 2
       }
     ]
@@ -10940,14 +11008,24 @@
         "result": "L",
         "runs_scored": 3,
         "runs_allowed": 6
+      },
+      {
+        "gameNumber": 116,
+        "date": "2025-08-22",
+        "opponent": "SSG",
+        "isHome": true,
+        "score": "0:1",
+        "result": "L",
+        "runs_scored": 0,
+        "runs_allowed": 1
       }
     ],
     "currentStreak": {
       "type": "L",
-      "count": 5
+      "count": 6
     },
     "longestWinStreak": 12,
-    "longestLoseStreak": 5,
+    "longestLoseStreak": 6,
     "streaks": [
       {
         "type": "W",
@@ -13644,11 +13722,21 @@
         "result": "W",
         "runs_scored": 7,
         "runs_allowed": 5
+      },
+      {
+        "gameNumber": 112,
+        "date": "2025-08-22",
+        "opponent": "롯데",
+        "isHome": true,
+        "score": "7:6",
+        "result": "W",
+        "runs_scored": 7,
+        "runs_allowed": 6
       }
     ],
     "currentStreak": {
       "type": "W",
-      "count": 1
+      "count": 2
     },
     "longestWinStreak": 5,
     "longestLoseStreak": 4,
