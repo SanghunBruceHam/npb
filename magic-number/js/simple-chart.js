@@ -998,31 +998,70 @@ function handlePeriodToggle() {
     updateSimpleChart();
 }
 
+// Chart.js 로딩을 기다리는 함수
+function waitForChart(maxAttempts = 10, interval = 500) {
+    return new Promise((resolve, reject) => {
+        let attempts = 0;
+        
+        const checkChart = () => {
+            attempts++;
+            console.log(`Chart.js 확인 시도 ${attempts}/${maxAttempts}`);
+            
+            if (typeof Chart !== 'undefined') {
+                console.log('Chart.js 로드 완료');
+                resolve();
+                return;
+            }
+            
+            if (attempts >= maxAttempts) {
+                reject(new Error('Chart.js 라이브러리가 로드되지 않았습니다.'));
+                return;
+            }
+            
+            setTimeout(checkChart, interval);
+        };
+        
+        checkChart();
+    });
+}
+
 // DOM 로드 후 초기화
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM 로드 완료, 차트 초기화 예약');
-    
-    // Chart.js 로드 상태 확인
-    console.log('Chart.js 로드 상태:', typeof Chart);
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('DOM 로드 완료, Chart.js 로딩 대기 중...');
     
     // 캔버스 요소 확인
     const canvas = document.getElementById('rankChart');
-    console.log('rankChart 캔버스 요소:', canvas ? '존재' : '없음');
+    if (!canvas) {
+        console.error('rankChart 캔버스 요소를 찾을 수 없습니다');
+        return;
+    }
     
-    setTimeout(() => {
-        console.log('초기화 시작 - Chart.js 상태:', typeof Chart);
+    try {
+        // Chart.js 로딩 대기
+        await waitForChart();
         
-        if (typeof Chart !== 'undefined') {
-            try {
-                initSimpleChart();
-                console.log('차트 초기화 성공');
-            } catch (error) {
-                console.error('차트 초기화 오류:', error);
-                alert('차트 초기화 실패: ' + error.message);
-            }
-        } else {
-            console.error('Chart.js가 로드되지 않았습니다');
-            alert('Chart.js 라이브러리가 로드되지 않았습니다.');
+        // 차트 초기화 실행
+        console.log('차트 초기화 시작');
+        await initSimpleChart();
+        console.log('차트 초기화 성공');
+        
+    } catch (error) {
+        console.error('초기화 실패:', error);
+        
+        // 사용자에게 친화적인 오류 메시지 표시
+        const errorDiv = document.createElement('div');
+        errorDiv.innerHTML = `
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; margin: 10px; border-radius: 5px; text-align: center;">
+                <strong>차트 로딩 실패</strong><br>
+                네트워크 연결을 확인하고 페이지를 새로고침해 주세요.
+                <br><small>오류: ${error.message}</small>
+            </div>
+        `;
+        
+        // 차트 컨테이너에 오류 메시지 표시
+        const chartContainer = canvas.parentElement;
+        if (chartContainer) {
+            chartContainer.appendChild(errorDiv);
         }
-    }, 1000);
+    }
 });
