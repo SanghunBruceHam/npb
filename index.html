@@ -1131,10 +1131,10 @@
         #weekdayTable th,
         #weekdayTable td {
             border: 1px solid #d1d5db;
-            padding: 6px 2px;
+            padding: 5px 1px;
             text-align: center;
-            max-width: 60px;
-            width: 60px;
+            max-width: 50px !important;
+            width: 50px !important;
         }
 
         /* 첫 번째 컬럼(요일 라벨) 폭 확장 */
@@ -6717,12 +6717,12 @@
                         const cellStyle = getUnifiedCellStyle(normalizedWinRate);
                         
                         const totalGames = wins + losses + draws;
-                        const cellStyleString = `background: ${cellStyle.backgroundColor}; color: ${cellStyle.textColor}; padding: 8px;`;
+                        const cellStyleString = `background: ${cellStyle.backgroundColor}; color: ${cellStyle.textColor}; padding: 5px 1px;`;
                         
                         dayRow += `
-                            <td style="${cellStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.3;">
-                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${wins}-${losses}${draws > 0 ? `-${draws}` : ''} (${winRate})</div>
-                                <div style="font-size: var(--font-xs); margin-top: 2px;">${totalGames}경기</div>
+                            <td style="${cellStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.2;">
+                                <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; font-size: var(--font-sm);">${wins}-${losses}-${draws} (${winRate})</div>
+                                <div style="font-size: var(--font-xs); margin-top: 1px;">${totalGames}경기</div>
                             </td>
                         `;
                     } else {
@@ -6742,46 +6742,48 @@
                 const weekdayData = dashboardData.weekdayPerformance[team];
                 
                 // 주말 데이터 (토, 일)
-                let weekendWins = 0, weekendLosses = 0;
+                let weekendWins = 0, weekendLosses = 0, weekendDraws = 0;
                 ['토', '일'].forEach(day => {
                     if (weekdayData && weekdayData[day]) {
                         weekendWins += weekdayData[day].wins;
                         weekendLosses += weekdayData[day].losses;
+                        weekendDraws += weekdayData[day].draws || 0;
                     }
                 });
                 const weekendWinRate = (weekendWins + weekendLosses > 0) ? (weekendWins / (weekendWins + weekendLosses)) : 0;
                 const weekendCellStyle = getUnifiedCellStyle(weekendWinRate);
                 
-                const weekendTotalGames = weekendWins + weekendLosses;
+                const weekendTotalGames = weekendWins + weekendLosses + weekendDraws;
                 
-                const weekendStyleString = `background: ${weekendCellStyle.backgroundColor}; color: ${weekendCellStyle.textColor}; padding: 8px;`;
+                const weekendStyleString = `background: ${weekendCellStyle.backgroundColor}; color: ${weekendCellStyle.textColor}; padding: 5px 1px;`;
                 
                 weekendRow += `
-                    <td style="${weekendStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.3;">
-                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekendWins}-${weekendLosses} (${weekendWinRate.toFixed(3)})</div>
-                        <div style="font-size: var(--font-xs); margin-top: 2px;">${weekendTotalGames}경기</div>
+                    <td style="${weekendStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.2;">
+                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; font-size: var(--font-sm);">${weekendWins}-${weekendLosses}-${weekendDraws} (${weekendWinRate.toFixed(3)})</div>
+                        <div style="font-size: var(--font-xs); margin-top: 1px;">${weekendTotalGames}경기</div>
                     </td>
                 `;
                 
                 // 평일 데이터 (월~금)
-                let weekdayWins = 0, weekdayLosses = 0;
+                let weekdayWins = 0, weekdayLosses = 0, weekdayDraws = 0;
                 ['월', '화', '수', '목', '금'].forEach(day => {
                     if (weekdayData && weekdayData[day]) {
                         weekdayWins += weekdayData[day].wins;
                         weekdayLosses += weekdayData[day].losses;
+                        weekdayDraws += weekdayData[day].draws || 0;
                     }
                 });
                 const weekdayWinRate = (weekdayWins + weekdayLosses > 0) ? (weekdayWins / (weekdayWins + weekdayLosses)) : 0;
                 const weekdayCellStyle = getUnifiedCellStyle(weekdayWinRate);
                 
-                const weekdayTotalGames = weekdayWins + weekdayLosses;
+                const weekdayTotalGames = weekdayWins + weekdayLosses + weekdayDraws;
                 
-                const weekdayStyleString = `background: ${weekdayCellStyle.backgroundColor}; color: ${weekdayCellStyle.textColor}; padding: 8px; border-top: 2px solid #34495e;`;
+                const weekdayStyleString = `background: ${weekdayCellStyle.backgroundColor}; color: ${weekdayCellStyle.textColor}; padding: 5px 1px; border-top: 2px solid #34495e;`;
                 
                 weekdayRow += `
-                    <td style="${weekdayStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.3;">
-                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px;">${weekdayWins}-${weekdayLosses} (${weekdayWinRate.toFixed(3)})</div>
-                        <div style="font-size: var(--font-xs); margin-top: 2px;">${weekdayTotalGames}경기</div>
+                    <td style="${weekdayStyleString} white-space: nowrap; font-size: var(--font-sm); text-align: center; line-height: 1.2;">
+                        <div style="font-weight: var(--font-weight-semibold); margin-bottom: 1px; font-size: var(--font-sm);">${weekdayWins}-${weekdayLosses}-${weekdayDraws} (${weekdayWinRate.toFixed(3)})</div>
+                        <div style="font-size: var(--font-xs); margin-top: 1px;">${weekdayTotalGames}경기</div>
                     </td>
                 `;
             });

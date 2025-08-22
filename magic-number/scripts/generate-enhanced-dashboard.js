@@ -192,6 +192,7 @@ class EnhancedDashboardGenerator {
                 day_of_week,
                 wins,
                 losses,
+                draws,
                 printf('%.3f', win_rate) as win_rate
             FROM weekday_records
             ORDER BY team_name, 
@@ -215,6 +216,7 @@ class EnhancedDashboardGenerator {
             grouped[record.team_name][record.day_of_week] = {
                 wins: record.wins,
                 losses: record.losses,
+                draws: record.draws,
                 win_rate: record.win_rate
             };
         });
