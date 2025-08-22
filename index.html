@@ -4313,17 +4313,50 @@
                 const scheduleText = await response.text();
                 const allScheduleData = parseScheduleText(scheduleText);
                 
-                // 오늘 날짜 기준으로 미래 경기만 필터링
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // 시간 부분 제거
+                // 오늘 날짜 기준으로 미래 경기만 필터링 (오늘 포함)
+                // 한국 시간대 기준으로 정확한 오늘 날짜 계산
+                const now = new Date();
+                const kstOffset = 9 * 60; // KST는 UTC+9
+                const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+                const kstTime = new Date(utcTime + (kstOffset * 60000));
+                
+                // 오늘 날짜 문자열 (한국 시간 기준)
+                const todayYear = kstTime.getFullYear();
+                const todayMonth = String(kstTime.getMonth() + 1).padStart(2, '0');
+                const todayDay = String(kstTime.getDate()).padStart(2, '0');
+                const todayString = `${todayYear}-${todayMonth}-${todayDay}`;
+                
+                // 필터링 기준일을 오늘로 설정 (오늘부터 미래 경기만 표시)
+                const filterDateString = todayString;
+                
+                console.log('📅 오늘 날짜 (KST):', todayString);
+                console.log('📅 필터링 기준 날짜 (오늘부터):', filterDateString);
+                
+                // 디버깅을 위한 첫 5개 경기 날짜 출력
+                console.log('📅 파싱된 첫 5개 경기:', allScheduleData.slice(0, 5).map(g => g.date));
+                
+                // 8월 22일 경기 확인
+                const aug22Games = allScheduleData.filter(game => game.date === '2025-08-22');
+                console.log('📅 8월 22일 경기 수:', aug22Games.length);
+                if (aug22Games.length > 0) {
+                    console.log('📅 8월 22일 첫 경기:', aug22Games[0]);
+                }
                 
                 futureScheduleData = allScheduleData.filter(game => {
-                    const gameDate = new Date(game.date);
-                    return gameDate >= today;
+                    // 날짜가 없는 경기 제외
+                    if (!game.date) return false;
+                    
+                    // 오늘부터 미래 경기만 포함 (오늘 포함)
+                    const includeGame = game.date >= filterDateString;
+                    if (game.date === todayString) {
+                        console.log(`📅 오늘 경기 발견: ${game.date} ${game.time} ${game.awayTeam} vs ${game.homeTeam}`);
+                    }
+                    return includeGame;
                 });
                 
                 console.log('📅 전체 경기 일정:', allScheduleData.length, '경기');
                 console.log('📅 미래 경기 일정 로드 완료:', futureScheduleData.length, '경기');
+                console.log('📅 필터링 후 8월 22일 경기:', futureScheduleData.filter(g => g.date === '2025-08-22').length);
                 
             } catch (error) {
                 console.error('❌ 미래 경기 일정 로드 실패:', error);
@@ -4375,16 +4408,17 @@
                 
                 // 경기만 있는 줄 체크
                 if (currentDate) {
-                    // 8월 형식 (공백 구분): 18:30 잠실   롯데 vs LG
-                    const spaceGameMatch = trimmedLine.match(/^(\d{2}:\d{2})\s+(\S+)\s+(\S+)\s+vs\s+(\S+)$/);
+                    // 8월 형식 (공백 구분): 18:30 잠실   롯데 vs LG 또는 18:30 잠실   KT vs 두산
+                    // 더 유연한 패턴: 여러 개의 공백을 허용
+                    const spaceGameMatch = trimmedLine.match(/^(\d{2}:\d{2})\s+(\S+)\s+(.+?)\s+vs\s+(.+?)$/);
                     if (spaceGameMatch) {
                         const [, time, stadium, awayTeam, homeTeam] = spaceGameMatch;
                         games.push({
                             date: currentDate,
-                            time: time,
-                            stadium: stadium,
-                            homeTeam: homeTeam,
-                            awayTeam: awayTeam
+                            time: time.trim(),
+                            stadium: stadium.trim(),
+                            homeTeam: homeTeam.trim(),
+                            awayTeam: awayTeam.trim()
                         });
                         continue;
                     }
@@ -4411,8 +4445,8 @@
                 }
             }
             
-            console.log(`파싱된 미래 경기: ${games.length}개`);
-            return games.filter(game => new Date(game.date) > new Date()); // 미래 경기만 필터링
+            console.log(`파싱된 전체 경기: ${games.length}개`);
+            return games; // 필터링은 호출하는 곳에서 처리
         }
 
         // 주차별 분석 데이터 로드
@@ -4986,8 +5020,9 @@
                             const isHome = game.homeTeam === currentSelectedTeam;
                             const opponent = isHome ? game.awayTeam : game.homeTeam;
                             
-                            // 날짜에서 요일 계산
-                            const gameDate = new Date(game.date);
+                            // 날짜에서 요일 계산 - UTC 문제 해결
+                            const [yearNum, monthNum, dayNum] = game.date.split('-').map(Number);
+                            const gameDate = new Date(yearNum, monthNum - 1, dayNum);
                             const dayOfWeek = gameDate.getDay();
                             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
                             const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
@@ -5199,7 +5234,9 @@
                     
                     // 미래 경기 날짜별 행 생성
                     futureDates.forEach(date => {
-                        const gameDate = new Date(date);
+                        // Date 파싱 시 UTC 문제 해결
+                        const [year, month, day] = date.split('-').map(Number);
+                        const gameDate = new Date(year, month - 1, day);
                         const dayOfWeek = gameDate.getDay();
                         const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
                         
