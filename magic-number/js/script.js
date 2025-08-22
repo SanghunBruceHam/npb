@@ -3580,17 +3580,22 @@ const kboTeams = {
                             const finalLosses = teamData.losses + teamScenario.losses;
                             const finalDraws = teamData.draws || 0;
                             
-                            const rateClass = getWinRateClass(teamScenario.finalWinRate);
+                            const finalWinRateBg = getWinRateBackgroundColor(teamScenario.finalWinRate);
+                            const finalWinRateTextColor = getWinRateTextColor(teamScenario.finalWinRate);
+                            const remainingWinRateBg = getWinRateBackgroundColor(remainingWinRate);
+                            const remainingWinRateTextColor = getWinRateTextColor(remainingWinRate);
                             
                             // 잔여경기 컬럼
                             const cellWidth = '75px';
-                            html += `<td class="${rateClass} win-rate-cell" style="
+                            html += `<td style="
                                 padding: 4px 1px; 
                                 text-align: center; 
                                 border: 1px solid #dee2e6; 
                                 width: ${cellWidth};
                                 min-width: ${cellWidth};
                                 line-height: 1.1;
+                                background: ${remainingWinRateBg};
+                                color: ${remainingWinRateTextColor};
                             ">
                                 <div style="font-size: 0.8rem; font-weight: 600;">${teamScenario.wins}승 ${teamScenario.losses}패</div>
                                 <div style="font-size: 0.7rem;">${remainingWinRate.toFixed(3)}</div>
@@ -3598,7 +3603,7 @@ const kboTeams = {
                             
                             // 최종성적 컬럼 (더 넓게)
                             const finalCellWidth = '95px';
-                            html += `<td class="${rateClass} win-rate-cell" style="
+                            html += `<td style="
                                 padding: 4px 2px; 
                                 text-align: center; 
                                 border: 1px solid #dee2e6; 
@@ -3606,6 +3611,8 @@ const kboTeams = {
                                 min-width: ${finalCellWidth};
                                 line-height: 1.1;
                                 white-space: nowrap;
+                                background: ${finalWinRateBg};
+                                color: ${finalWinRateTextColor};
                                 ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}
                             ">
                                 <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}승 ${finalLosses}패 ${finalDraws}무</div>
@@ -3704,6 +3711,28 @@ const kboTeams = {
             if (winRate >= 0.450) return '#ffccbc';      // 연한 주황색
             if (winRate >= 0.400) return '#ffcdd2';      // 연한 빨간색
             return '#ffebee';                             // 매우 연한 빨간색
+        }
+
+        // 0.5 기준 승률 색상 반환 함수
+        function getWinRateBackgroundColor(winRate) {
+            if (winRate > 0.5) {
+                // 0.5 초과: 녹색 계열 (진하게)
+                const intensity = Math.min((winRate - 0.5) * 2, 1); // 0.5-1.0을 0-1로 변환
+                const greenValue = Math.floor(200 - intensity * 80); // 200에서 120으로
+                return `linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)`;
+            } else if (winRate < 0.5) {
+                // 0.5 미만: 빨간색 계열
+                const intensity = Math.min((0.5 - winRate) * 2, 1); // 0.5-0을 0-1로 변환
+                return `linear-gradient(135deg, #f44336 0%, #e57373 100%)`;
+            } else {
+                // 정확히 0.5: 노란색 계열
+                return `linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)`;
+            }
+        }
+
+        // 0.5 기준 승률 텍스트 색상 반환 함수
+        function getWinRateTextColor(winRate) {
+            return 'white'; // 모든 배경이 진한 색이므로 흰색 텍스트
         }
 
         // 승률에 따른 CSS 클래스 반환
