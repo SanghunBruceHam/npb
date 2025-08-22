@@ -174,7 +174,7 @@ const kboTeams = {
                 // 홈/방문 승률 계산
                 const parseRecord = (record) => {
                     const [wins, losses, draws] = record.split('-').map(Number);
-                    const totalGames = wins + losses;
+                    const totalGames = wins + losses; // 무승부 제외한 승률 계산
                     const winRate = totalGames > 0 ? (wins / totalGames) : 0;
                     return { wins, losses, draws, winRate };
                 };
@@ -3222,7 +3222,7 @@ const kboTeams = {
                         const finalWins = team.wins + wins;
                         const finalLosses = team.losses + (remaining - wins);
                         const finalGames = finalWins + finalLosses + (team.draws || 0);
-                        const finalWinRate = finalWins / finalGames;
+                        const finalWinRate = finalWins / (finalWins + finalLosses); // 무승부 제외한 승률
                         
                         scenarios.push({
                             team: team.team,
@@ -3359,7 +3359,7 @@ const kboTeams = {
                     border-radius: 12px; 
                     border: 1px solid #e0e0e0; 
                     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                    max-height: 85vh;
+                    max-height: 70vh;
                     width: 100%;
                     position: relative;
                 ">
@@ -3531,7 +3531,7 @@ const kboTeams = {
                     const finalWins = team.wins + wins;
                     const finalLosses = team.losses + losses;
                     const finalGames = finalWins + finalLosses + (team.draws || 0);
-                    const finalWinRate = finalWins / finalGames;
+                    const finalWinRate = finalWins / (finalWins + finalLosses); // 무승부 제외한 승률
                     
                     allScenarios.push({
                         team: team.team,
@@ -3558,7 +3558,6 @@ const kboTeams = {
             
             Object.keys(winRateGroups)
                 .sort((a, b) => parseFloat(b) - parseFloat(a))
-                .slice(0, 50) // 상위 50개 표시
                 .forEach(rateKey => {
                     const scenarios = winRateGroups[rateKey];
                     const winRate = parseFloat(rateKey);

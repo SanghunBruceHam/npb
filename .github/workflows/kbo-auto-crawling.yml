@@ -4,9 +4,10 @@ on:
   push:
     branches: [ main ]
   schedule:
-    # 한국시간 기준: 오후 6시, 오후 10시, 밤 12시 (UTC +9시간 차이)
+    # 한국시간 기준: 오후 6시, 오후 10시, 오후 11시, 밤 12시 (UTC +9시간 차이)
     - cron: '0 9 * * *'   # UTC 09:00 = KST 18:00 (오후 6시)
     - cron: '0 13 * * *'  # UTC 13:00 = KST 22:00 (오후 10시)
+    - cron: '0 14 * * *'  # UTC 14:00 = KST 23:00 (오후 11시)
     - cron: '0 15 * * *'  # UTC 15:00 = KST 00:00 (밤 12시)
   workflow_dispatch: # 수동 실행 허용
     inputs:
@@ -234,12 +235,18 @@ jobs:
         if [ "$CURRENT_HOUR" -ge 18 ] && [ "$CURRENT_HOUR" -lt 22 ]; then
           TIME_EMOJI="🌅"
           TIME_MSG="오후 6시 경기 결과 업데이트"
-        elif [ "$CURRENT_HOUR" -ge 22 ] || [ "$CURRENT_HOUR" -lt 2 ]; then
+        elif [ "$CURRENT_HOUR" -eq 22 ]; then
           TIME_EMOJI="🌆"
           TIME_MSG="오후 10시 경기 결과 업데이트"
-        else
+        elif [ "$CURRENT_HOUR" -eq 23 ]; then
+          TIME_EMOJI="🌃"
+          TIME_MSG="오후 11시 경기 결과 업데이트"
+        elif [ "$CURRENT_HOUR" -eq 0 ] || [ "$CURRENT_HOUR" -lt 2 ]; then
           TIME_EMOJI="🌙"
-          TIME_MSG="최종 경기 결과 업데이트"
+          TIME_MSG="최종 경기 결과 업데이트 (밤 12시)"
+        else
+          TIME_EMOJI="🔄"
+          TIME_MSG="정기 데이터 업데이트"
         fi
         
         # 커밋 메시지 생성
@@ -357,6 +364,7 @@ jobs:
         
         echo "📅 다음 실행 스케줄:"
         echo "   - 🌅 오후 6시 (한국시간 18:00)"
-        echo "   - 🌆 오후 10시 (한국시간 22:00)"  
+        echo "   - 🌆 오후 10시 (한국시간 22:00)"
+        echo "   - 🌃 오후 11시 (한국시간 23:00)"
         echo "   - 🌙 밤 12시 (한국시간 00:00)"
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
