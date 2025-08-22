@@ -1,6 +1,6 @@
 {
   "date": "2025-08-21",
-  "createdAt": "2025-08-22T04:48:01.934Z",
+  "createdAt": "2025-08-22T05:37:08.074Z",
   "snapshot": {
     "standings": [
       {
@@ -82,7 +82,7 @@
         "awayLosses": 28,
         "awayDraws": 2,
         "recent10": "0승2무8패",
-        "streak": "8패",
+        "streak": "10패",
         "remainingGames": 26,
         "rank": 4,
         "gamesBehind": 12
@@ -409,7 +409,7 @@
     },
     "metadata": {
       "source": "CLEAN_TXT_AUTOMATION",
-      "lastUpdated": "2025-08-22T04:47:57.187Z",
+      "lastUpdated": "2025-08-22T05:37:04.262Z",
       "totalTeams": 10
     }
   }

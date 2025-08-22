@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "lastUpdated": "2025-08-22T04:47:57.187Z",
-=======
-  "lastUpdated": "2025-08-22T05:00:28.631Z",
->>>>>>> 70890d7 (연속 패배 계산 로직 수정 - 무승부 제외하여 정확한 연속 기록 계산)
+  "lastUpdated": "2025-08-22T05:37:04.262Z",
   "updateDate": "2025. 8. 22.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "source": "CLEAN_TXT_AUTOMATION",
