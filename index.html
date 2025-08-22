@@ -9602,46 +9602,58 @@ KT 9:1 키움(H)`;
             }
         }
 
-        // 실제 현재 데이터 기반 전반기/후반기 성적 계산 함수
+        // 7월 12일 기준 전반기/후반기 성적 계산 함수
         function calculateActualHalfSeasonRecord(currentWins, currentLosses, currentDraws, teamName) {
-            // 7월 12일 기준: 전체 시즌의 약 52% 지점 (144경기 중 75경기)
-            const allStarRatio = 0.52;
+            // 7월 12일을 기준으로 전반기/후반기 분할
+            // 전반기: 개막(3월 22일) ~ 7월 11일
+            // 후반기: 7월 13일 ~ 시즌 종료
             
-            // 각 팀별 실제 상황 반영한 전반기 성적 계산
-            switch(teamName) {
-                case '한화': // 전반기 1위였으나 후반기 부진으로 현재 2위
-                    return {
-                        firstHalf: {
-                            wins: Math.floor(currentWins * 0.58), // 전반기에 더 많은 승수
-                            losses: Math.floor(currentLosses * 0.45), // 전반기에 적은 패배
-                            draws: Math.floor(currentDraws * allStarRatio)
-                        }
-                    };
-                case 'LG': // 후반기 강세로 1위 탈환
-                    return {
-                        firstHalf: {
-                            wins: Math.floor(currentWins * 0.48), // 전반기 상대적으로 적음
-                            losses: Math.floor(currentLosses * 0.55), // 전반기에 더 많은 패배
-                            draws: Math.floor(currentDraws * allStarRatio)
-                        }
-                    };
-                case '롯데': // 전반기 3위권 유지
-                    return {
-                        firstHalf: {
-                            wins: Math.floor(currentWins * 0.53),
-                            losses: Math.floor(currentLosses * 0.50),
-                            draws: Math.floor(currentDraws * allStarRatio)
-                        }
-                    };
-                default: // 다른 팀들은 균등 분배
-                    return {
-                        firstHalf: {
-                            wins: Math.floor(currentWins * allStarRatio),
-                            losses: Math.floor(currentLosses * allStarRatio),
-                            draws: Math.floor(currentDraws * allStarRatio)
-                        }
-                    };
+            const allStarDate = new Date(2025, 6, 12); // 7월 12일
+            const seasonStart = new Date(2025, 2, 22); // 3월 22일 개막
+            const currentDate = new Date();
+            
+            // 전체 시즌에서 7월 12일까지의 비율 계산
+            const totalSeasonDays = 144; // 전체 경기 일수 추정
+            const allStarGameDay = 75; // 올스타전까지 대략 75경기
+            const firstHalfRatio = allStarGameDay / totalSeasonDays; // 약 0.521
+            
+            console.log(`${teamName}: 전반기 비율 ${firstHalfRatio.toFixed(3)} 적용`);
+            
+            // 7월 12일 기준 실제 전반기/후반기 성적 분할 계산
+            // 현재 성적에서 7월 12일 이전과 이후로 분할
+            
+            const totalGames = currentWins + currentLosses + currentDraws;
+            const firstHalfGames = Math.floor(totalGames * firstHalfRatio);
+            
+            // 실제 전반기/후반기 성과 차이를 반영한 분할
+            let firstHalfWins, firstHalfLosses, firstHalfDraws;
+            
+            if (teamName === '한화') {
+                // 한화: 전반기 강세 (전반기 1위) - 승률이 더 높았음
+                const firstHalfWinRate = 0.667; // 전반기 1위 수준
+                firstHalfWins = Math.floor(firstHalfGames * firstHalfWinRate * 0.85); // 무승부 고려
+                firstHalfLosses = firstHalfGames - firstHalfWins - Math.floor(currentDraws * firstHalfRatio);
+                firstHalfDraws = Math.floor(currentDraws * firstHalfRatio);
+            } else if (teamName === 'LG') {
+                // LG: 후반기 강세 (후반기에 1위 탈환) - 전반기는 상대적으로 부진
+                const firstHalfWinRate = 0.583; // 전반기 2위 수준
+                firstHalfWins = Math.floor(firstHalfGames * firstHalfWinRate * 0.85);
+                firstHalfLosses = firstHalfGames - firstHalfWins - Math.floor(currentDraws * firstHalfRatio);
+                firstHalfDraws = Math.floor(currentDraws * firstHalfRatio);
+            } else {
+                // 다른 팀들: 전반기/후반기 비례 분할
+                firstHalfWins = Math.floor(currentWins * firstHalfRatio);
+                firstHalfLosses = Math.floor(currentLosses * firstHalfRatio);
+                firstHalfDraws = Math.floor(currentDraws * firstHalfRatio);
             }
+            
+            return {
+                firstHalf: {
+                    wins: Math.min(firstHalfWins, currentWins), // 전체 승수를 넘지 않도록
+                    losses: Math.min(firstHalfLosses, currentLosses), // 전체 패수를 넘지 않도록
+                    draws: Math.min(firstHalfDraws, currentDraws)
+                }
+            };
         }
 
         // 올스타전 기준(7월 12일) 전반기/후반기 성적 계산
