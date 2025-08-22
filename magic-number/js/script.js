@@ -3208,70 +3208,239 @@ const kboTeams = {
 
         // 매트릭스 시나리오 HTML 생성
         function generateScenarioMatrix(topTeams) {
-            // 5위 진출 가능성이 있는 팀만 필터링
-            const fifthPlaceWinRate = topTeams[4]?.winRate || 0.5;
-            const playoffContenders = topTeams.filter(team => {
-                // 전승시 최대 승률 계산
-                const maxPossibleWins = team.wins + (team.remainingGames || 0);
-                const maxPossibleGames = maxPossibleWins + team.losses + (team.draws || 0);
-                const maxWinRate = maxPossibleWins / maxPossibleGames;
+            // 완전한 시나리오 기반 5위 진출 가능성 검사
+            function canReachTop5(targetTeam, allTeams) {
+                // 모든 팀의 가능한 최종 성적 범위 계산
+                const teamScenarios = allTeams.map(team => {
+                    const remaining = team.remainingGames || 0;
+                    const scenarios = [];
+                    
+                    // 0승부터 전승까지 모든 경우
+                    for (let wins = 0; wins <= remaining; wins++) {
+                        const finalWins = team.wins + wins;
+                        const finalLosses = team.losses + (remaining - wins);
+                        const finalGames = finalWins + finalLosses + (team.draws || 0);
+                        const finalWinRate = finalWins / finalGames;
+                        
+                        scenarios.push({
+                            team: team.team,
+                            wins: finalWins,
+                            losses: finalLosses,
+                            games: finalGames,
+                            winRate: finalWinRate,
+                            winLossMargin: finalWins - finalLosses
+                        });
+                    }
+                    return scenarios;
+                });
                 
-                // 전승해도 현재 5위 승률에 못 미치는 팀 제외
-                return maxWinRate >= fifthPlaceWinRate - 0.001; // 0.001 여유분
+                // 현실적으로 플레이오프 경쟁 가능한 팀들만 체크
+                const competingTeams = teamScenarios.slice(0, Math.min(9, teamScenarios.length));
+                
+                // 더 많은 시나리오 샘플링 (더 정확한 검사)
+                const sampleSize = Math.min(100, Math.max(20, competingTeams[0].length));
+                const stepSize = Math.max(1, Math.floor(competingTeams[0].length / sampleSize));
+                
+                for (let i = 0; i < competingTeams[0].length; i += stepSize) {
+                    // 각 팀의 i번째 시나리오 조합
+                    const scenarioResults = competingTeams.map(scenarios => scenarios[Math.min(i, scenarios.length - 1)]);
+                    
+                    // 승률 기준으로 정렬
+                    scenarioResults.sort((a, b) => {
+                        if (Math.abs(a.winRate - b.winRate) < 0.001) {
+                            return b.winLossMargin - a.winLossMargin; // 승률 같으면 승패차
+                        }
+                        return b.winRate - a.winRate;
+                    });
+                    
+                    // 타겟 팀이 5위 안에 있는지 확인
+                    const targetTeamRank = scenarioResults.findIndex(team => team.team === targetTeam.team) + 1;
+                    if (targetTeamRank <= 5 && targetTeamRank > 0) {
+                        return true; // 5위 안에 들 수 있는 시나리오 발견
+                    }
+                }
+                
+                // 극한 시나리오도 체크 (타겟팀 전승, 다른팀들 전패)
+                const extremeScenario = competingTeams.map((scenarios, index) => {
+                    if (scenarios[0].team === targetTeam.team) {
+                        return scenarios[scenarios.length - 1]; // 타겟팀 전승 (최고 성적)
+                    } else {
+                        return scenarios[0]; // 다른 팀들 전패 (최저 성적)
+                    }
+                });
+                
+                // KBO 규정에 따른 정렬 (승률 → 승패차)
+                extremeScenario.sort((a, b) => {
+                    if (Math.abs(a.winRate - b.winRate) < 0.001) {
+                        return b.winLossMargin - a.winLossMargin;
+                    }
+                    return b.winRate - a.winRate;
+                });
+                
+                const extremeRank = extremeScenario.findIndex(team => team.team === targetTeam.team) + 1;
+                
+                // 디버깅: 극한 시나리오 결과 출력
+                if (targetTeam.team === '두산') {
+                    console.log(`🔍 두산 극한 시나리오 (두산 전승 + 다른팀 전패):`);
+                    extremeScenario.forEach((team, index) => {
+                        const marker = team.team === '두산' ? '👈' : '';
+                        console.log(`   ${index + 1}위: ${team.team} ${team.wins}승 ${team.losses}패 (승률: ${team.winRate.toFixed(3)}) ${marker}`);
+                    });
+                    console.log(`   → 두산 순위: ${extremeRank}위 (5위 진출 ${extremeRank <= 5 ? '가능' : '불가능'})`);
+                }
+                
+                return extremeRank <= 5 && extremeRank > 0;
+            }
+            
+            // 필터링: 5위 진출 가능한 팀만 선별 (더 관대한 기준)
+            const playoffContenders = topTeams.filter(team => {
+                // 상위 6팀은 무조건 포함 (더 관대하게)
+                const currentRank = topTeams.findIndex(t => t.team === team.team) + 1;
+                if (currentRank <= 6) {
+                    console.log(`✅ ${team.team}(${currentRank}위): 상위 6팀이므로 무조건 포함`);
+                    return true;
+                }
+                
+                // 7위 이하도 기본적인 수학적 가능성 체크
+                const maxPossibleWins = team.wins + (team.remainingGames || 0);
+                
+                // 간단한 1차 필터: 최대 승수가 70승 이상이면 포함
+                if (maxPossibleWins >= 70) {
+                    console.log(`✅ ${team.team}(${currentRank}위): 최대 ${maxPossibleWins}승 가능하므로 포함`);
+                    return true;
+                }
+                
+                // 더 정교한 시나리오 검사
+                const canReach = canReachTop5(team, topTeams);
+                if (canReach) {
+                    console.log(`✅ ${team.team}(${currentRank}위): 시나리오 계산으로 5위 진출 가능하므로 포함`);
+                } else {
+                    console.log(`❌ ${team.team}(${currentRank}위): 5위 진출 불가능하므로 제외`);
+                    console.log(`   - 현재 성적: ${team.wins}승 ${team.losses}패`);
+                    console.log(`   - 잔여경기: ${team.remainingGames}경기`);
+                    console.log(`   - 최대승수: ${maxPossibleWins}승`);
+                }
+                return canReach;
             });
             
-            const eligibleTeams = playoffContenders.slice(0, 9); // 최대 9팀까지
+            // 실제 경쟁 가능한 팀만 선별 (필터링된 모든 팀 포함, 최대 9팀)
+            const eligibleTeams = playoffContenders.slice(0, 9); // 9팀까지 허용
+            
+            console.log(`\n=== 플레이오프 시나리오 매트릭스 필터링 결과 ===`);
+            console.log(`포함된 팀: ${eligibleTeams.map(t => `${t.team}(${t.rank}위)`).join(', ')} (총 ${eligibleTeams.length}팀)`);
+            console.log(`제외된 팀: ${topTeams.filter(t => !eligibleTeams.includes(t)).map(t => `${t.team}(${t.rank}위)`).join(', ')}`);
+            
+            // 두산 특별 체크
+            const doosan = topTeams.find(t => t.team === '두산');
+            if (doosan) {
+                console.log(`\n📊 두산 상세 정보:`);
+                console.log(`   현재 순위: ${doosan.rank}위`);
+                console.log(`   현재 성적: ${doosan.wins}승 ${doosan.losses}패 ${doosan.draws || 0}무`);
+                console.log(`   잔여경기: ${doosan.remainingGames}경기`);
+                console.log(`   최대 가능 승수: ${doosan.wins + (doosan.remainingGames || 0)}승`);
+                console.log(`   현재 승률: ${doosan.winRate?.toFixed(3) || 'N/A'}`);
+                console.log(`   매트릭스 포함 여부: ${eligibleTeams.includes(doosan) ? '✅ 포함' : '❌ 제외'}`);
+            }
+            
+            // 팀이 너무 적으면 최소 상위 8팀은 포함 (더 관대하게)
+            if (eligibleTeams.length < 8) {
+                console.log(`⚠️ 필터링된 팀이 ${eligibleTeams.length}팀으로 너무 적음. 상위 8팀 강제 포함`);
+                const minTeams = topTeams.slice(0, Math.min(8, topTeams.length));
+                eligibleTeams.splice(0, eligibleTeams.length, ...minTeams);
+                console.log(`📝 강제 포함 후: ${eligibleTeams.map(t => `${t.team}(${t.rank}위)`).join(', ')}`);
+            }
             let html = `
                 
-                <div style="overflow-x: auto; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; background: white; min-width: 1000px;">
-                        <thead>
+                <div style="
+                    overflow-x: auto; 
+                    overflow-y: auto;
+                    border-radius: 12px; 
+                    border: 1px solid #e0e0e0; 
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    max-height: 85vh;
+                    width: 100%;
+                    position: relative;
+                ">
+                    <table style="
+                        width: 100%; 
+                        border-collapse: collapse; 
+                        font-size: 0.75rem; 
+                        background: white; 
+                        min-width: ${Math.max(1100, 6 * (75 + 95) + 70 + 140)}px;
+                    ">
+                        <thead style="position: sticky; top: 0; z-index: 100;">
                             <tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
-                                <th rowspan="4" style="min-width: 60px; vertical-align: middle; padding: 8px 4px; text-align: center; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.3); position: sticky; left: 0; background: inherit; z-index: 10; font-size: 0.8rem;">승률</th>
+                                <th rowspan="2" style="
+                                    min-width: 70px; 
+                                    width: 70px;
+                                    vertical-align: middle; 
+                                    padding: 8px 6px; 
+                                    text-align: center; 
+                                    font-weight: 600; 
+                                    border-right: 2px solid rgba(255,255,255,0.4); 
+                                    position: sticky; 
+                                    left: 0; 
+                                    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); 
+                                    z-index: 101; 
+                                    font-size: 0.8rem;
+                                ">승률</th>
             `;
             
-            // 첫 번째 헤더 행 (순위)
+            // 첫 번째 헤더 행 - 팀 정보 통합 (순위 + 팀명 + 현재성적)
             eligibleTeams.forEach((team, index) => {
                 const isLast = index === eligibleTeams.length - 1;
                 const teamData = kboTeams[team.team];
                 const teamColor = teamData?.color || '#333';
-                html += `<th colspan="2" style="min-width: 180px; padding: 6px; text-align: center; font-weight: 700; background: #e9ecef; color: ${teamColor}; ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} font-size: 1.1rem;">
-                    ${team.rank}위
+                const columnWidth = index < 6 ? '160px' : '120px';
+                
+                const totalColumnWidth = index < 6 ? '170px' : '140px'; // 75+95 또는 60+80
+                html += `<th colspan="2" style="
+                    min-width: ${totalColumnWidth}; 
+                    width: ${totalColumnWidth};
+                    padding: 6px 4px 3px 4px; 
+                    text-align: center; 
+                    font-weight: 700; 
+                    background: linear-gradient(135deg, rgba(233, 236, 239, 0.9) 0%, rgba(248, 249, 250, 0.9) 100%); 
+                    color: ${teamColor}; 
+                    ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} 
+                    font-size: 0.8rem;
+                    white-space: nowrap;
+                    line-height: 1.2;
+                ">
+                    <div style="font-size: 0.85rem; font-weight: 800;">${team.rank}위 ${teamData?.logo || ''} ${teamData?.shortName || team.team}</div>
+                    <div style="font-size: 0.7rem; margin-top: 2px;">${team.wins}승 ${team.draws || 0}무 ${team.losses}패 (${team.winRate?.toFixed(3) || 'N/A'})</div>
+                    <div style="font-size: 0.75rem; margin-top: 3px; color: #666; font-weight: 600;">잔여: ${team.remainingGames}경기</div>
                 </th>`;
             });
             
             html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">`;
             
-            // 두 번째 헤더 행 (팀명) - colspan="2"로 변경
+            // 두 번째 헤더 행 - 컬럼 구분 (잔여경기 vs 최종성적)
             eligibleTeams.forEach((team, index) => {
                 const isLast = index === eligibleTeams.length - 1;
-                const teamData = kboTeams[team.team];
-                const teamColor = teamData?.color || '#333';
-                const bgColor = 'rgba(227, 242, 253, 0.8)';
-                html += `<th colspan="2" style="min-width: 180px; padding: 8px; text-align: center; font-weight: 700; background: ${bgColor}; color: ${teamColor}; ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''} font-size: 1rem;">
-                    <div>${teamData?.logo || ''} ${teamData?.fullName || team.team}</div>
-                </th>`;
-            });
-            
-            html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">`;
-            
-            // 두 번째 헤더 행 (현재 성적) - colspan="2"
-            eligibleTeams.forEach((team, index) => {
-                const isLast = index === eligibleTeams.length - 1;
-                html += `<th colspan="2" style="min-width: 180px; font-size: 0.85rem; padding: 6px; background: rgba(255,255,255,0.1); ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.3);' : ''}">
-                    ${team.wins}승 ${team.draws || 0}무 ${team.losses}패 ${team.winRate.toFixed(3)}<br>잔여: ${team.remainingGames}경기
-                </th>`;
-            });
-            
-            html += `</tr><tr style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(102, 187, 106, 0.12) 100%); color: #2E7D32;">`;
-            
-            // 세 번째 헤더 행 (컬럼 구분)
-            eligibleTeams.forEach((team, index) => {
-                const isLast = index === eligibleTeams.length - 1;
+                const cellWidth = index < 6 ? '75px' : '60px';
+                const finalCellWidth = index < 6 ? '95px' : '80px';
                 html += `
-                    <th style="min-width: 70px; padding: 4px 2px; text-align: center; font-size: 0.85rem; font-weight: 600; background: rgba(76, 175, 80, 0.05); color: #2E7D32; border: 1px solid #dee2e6;">잔여경기</th>
-                    <th style="min-width: 110px; padding: 4px 2px; text-align: center; font-size: 0.85rem; font-weight: 600; background: rgba(76, 175, 80, 0.05); color: #2E7D32; border: 1px solid #dee2e6; ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}">최종성적</th>
-                `;
+                    <th style="
+                        width: ${cellWidth}; 
+                        min-width: ${cellWidth}; 
+                        font-size: 0.7rem; 
+                        padding: 4px 2px; 
+                        background: rgba(255,255,255,0.1); 
+                        border-right: 1px solid rgba(255,255,255,0.3);
+                        text-align: center;
+                        font-weight: 600;
+                    ">잔여 성적</th>
+                    <th style="
+                        width: ${finalCellWidth}; 
+                        min-width: ${finalCellWidth}; 
+                        font-size: 0.7rem; 
+                        padding: 4px 2px; 
+                        background: rgba(255,255,255,0.1); 
+                        ${!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : ''}
+                        text-align: center;
+                        font-weight: 600;
+                    ">최종 성적</th>`;
             });
             
             html += `</tr></thead><tbody>`;
@@ -3317,7 +3486,7 @@ const kboTeams = {
                     const winRate = parseFloat(rateKey);
                     
                     html += `<tr class="scenario-row">
-                        <td style="font-size: 0.85rem; padding: 4px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1);">
+                        <td style="font-size: 0.8rem; padding: 3px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1); line-height: 1.2;">
                             ${winRate.toFixed(3)}
                         </td>`;
                     
@@ -3338,15 +3507,33 @@ const kboTeams = {
                             const rateClass = getWinRateClass(teamScenario.finalWinRate);
                             
                             // 잔여경기 컬럼
-                            html += `<td class="${rateClass} win-rate-cell" style="padding: 4px 1px; text-align: center; border: 1px solid #dee2e6; width: 70px;">
-                                <div style="font-size: 0.85rem; font-weight: 600;">${teamScenario.wins}승 ${teamScenario.losses}패</div>
-                                <div style="font-size: 0.75rem;">${remainingWinRate.toFixed(3)}</div>
+                            const cellWidth = teamIndex < 6 ? '75px' : '60px';
+                            html += `<td class="${rateClass} win-rate-cell" style="
+                                padding: 1px 1px; 
+                                text-align: center; 
+                                border: 1px solid #dee2e6; 
+                                width: ${cellWidth};
+                                min-width: ${cellWidth};
+                                line-height: 1.1;
+                            ">
+                                <div style="font-size: 0.8rem; font-weight: 600;">${teamScenario.wins}승 ${teamScenario.losses}패</div>
+                                <div style="font-size: 0.7rem;">${remainingWinRate.toFixed(3)}</div>
                             </td>`;
                             
-                            // 최종성적 컬럼  
-                            html += `<td class="${rateClass} win-rate-cell" style="padding: 4px 2px; text-align: center; border: 1px solid #dee2e6; ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}">
-                                <div style="font-size: 0.85rem; font-weight: 600;">${finalWins}승 ${finalDraws}무 ${finalLosses}패</div>
-                                <div style="font-size: 0.75rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
+                            // 최종성적 컬럼 (더 넓게)
+                            const finalCellWidth = teamIndex < 6 ? '95px' : '80px';
+                            html += `<td class="${rateClass} win-rate-cell" style="
+                                padding: 1px 2px; 
+                                text-align: center; 
+                                border: 1px solid #dee2e6; 
+                                width: ${finalCellWidth};
+                                min-width: ${finalCellWidth};
+                                line-height: 1.1;
+                                white-space: nowrap;
+                                ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}
+                            ">
+                                <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}승 ${finalDraws}무 ${finalLosses}패</div>
+                                <div style="font-size: 0.7rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
                             </td>`;
                         } else {
                             html += `<td style="background: #f8f9fa; border: 1px solid #dee2e6;"></td><td style="background: #f8f9fa; border: 1px solid #dee2e6; ${!isLast ? 'border-right: 2px solid #dee2e6;' : ''}"></td>`;

@@ -106,23 +106,34 @@
             background: inherit !important;
         }
         
-        /* 스크롤바 스타일 */
-        .scenario-matrix-container::-webkit-scrollbar {
-            height: 8px;
+        /* 시나리오 매트릭스 스크롤바 스타일 */
+        .scenario-matrix-container::-webkit-scrollbar,
+        div[style*="overflow-x: auto"]::-webkit-scrollbar {
+            height: 10px;
+            width: 10px;
         }
         
-        .scenario-matrix-container::-webkit-scrollbar-track {
+        .scenario-matrix-container::-webkit-scrollbar-track,
+        div[style*="overflow-x: auto"]::-webkit-scrollbar-track {
             background: #f1f1f1;
-            border-radius: 4px;
+            border-radius: 5px;
         }
         
-        .scenario-matrix-container::-webkit-scrollbar-thumb {
+        .scenario-matrix-container::-webkit-scrollbar-thumb,
+        div[style*="overflow-x: auto"]::-webkit-scrollbar-thumb {
             background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
-            border-radius: 4px;
+            border-radius: 5px;
+            border: 2px solid #f1f1f1;
         }
         
-        .scenario-matrix-container::-webkit-scrollbar-thumb:hover {
+        .scenario-matrix-container::-webkit-scrollbar-thumb:hover,
+        div[style*="overflow-x: auto"]::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #388e3c 0%, #4caf50 100%);
+        }
+        
+        .scenario-matrix-container::-webkit-scrollbar-corner,
+        div[style*="overflow-x: auto"]::-webkit-scrollbar-corner {
+            background: #f1f1f1;
         }
     </style>
     
@@ -584,6 +595,22 @@
                             📌 2015-2024년 1위팀 평균 86.9승 기준
                         </div>
                     </div>
+                </div>
+
+                <!-- Google AdSense 광고 -->
+                <div style="margin: 20px auto; max-width: 1200px; text-align: center;">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867"
+                         crossorigin="anonymous"></script>
+                    <!-- KBO 매직넘버 시나리오 광고 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="7298546648"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <!-- 우승 & 플레이오프 경우의 수 카드 -->
