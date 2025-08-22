@@ -9592,157 +9592,204 @@ KT 9:1 키움(H)`;
                 }
 
                 const standings = kboData.standings;
-                const halfSeasonData = calculateHalfSeasonStats(standings);
+                const halfSeasonData = await calculateHalfSeasonStats(standings);
                 renderHalfSeasonTable(halfSeasonData);
                 
-                console.log('✅ 전반기/후반기 성적 업데이트 완료');
+                console.log('✅ 실제 데이터 기반 전반기/후반기 성적 업데이트 완료');
                 
             } catch (error) {
                 console.error('❌ 전반기/후반기 성적 업데이트 실패:', error);
             }
         }
 
-        // 7월 12일 기준 전반기/후반기 성적 계산 함수
-        function calculateActualHalfSeasonRecord(currentWins, currentLosses, currentDraws, teamName) {
-            // 7월 12일을 기준으로 전반기/후반기 분할
-            // 전반기: 개막(3월 22일) ~ 7월 11일
-            // 후반기: 7월 13일 ~ 시즌 종료
+        // 2025-season-data-clean.txt 파일에서 실제 7월 12일 기준 전반기/후반기 성적 계산
+        async function calculateActualHalfSeasonRecord(teamName) {
+            try {
+                // 2025-season-data-clean.txt 파일 로드
+                const response = await fetch('/magic-number/data/2025-season-data-clean.txt');
+                if (!response.ok) {
+                    throw new Error('시즌 데이터 파일을 불러올 수 없습니다.');
+                }
+                
+                const seasonData = await response.text();
+                const lines = seasonData.split('\n');
+                
+                // 7월 12일을 기준으로 전반기/후반기 분할
+                const allStarDate = new Date(2025, 6, 12); // 7월 12일
+                
+                let firstHalfStats = { wins: 0, losses: 0, draws: 0 };
+                let secondHalfStats = { wins: 0, losses: 0, draws: 0 };
+                
+                let currentDate = null;
+                
+                for (const line of lines) {
+                    const trimmedLine = line.trim();
+                    
+                    // 날짜 라인 체크 (YYYY-MM-DD 형식)
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmedLine)) {
+                        currentDate = new Date(trimmedLine);
+                        continue;
+                    }
+                    
+                    // 경기 결과 라인 체크
+                    if (trimmedLine.includes(':') && currentDate) {
+                        const gameResult = parseGameResult(trimmedLine, teamName);
+                        if (gameResult) {
+                            // 7월 12일 기준 분할
+                            if (currentDate < allStarDate) {
+                                // 전반기 (7월 11일까지)
+                                if (gameResult === 'win') firstHalfStats.wins++;
+                                else if (gameResult === 'loss') firstHalfStats.losses++;
+                                else if (gameResult === 'draw') firstHalfStats.draws++;
+                            } else if (currentDate > allStarDate) {
+                                // 후반기 (7월 13일부터)
+                                if (gameResult === 'win') secondHalfStats.wins++;
+                                else if (gameResult === 'loss') secondHalfStats.losses++;
+                                else if (gameResult === 'draw') secondHalfStats.draws++;
+                            }
+                        }
+                    }
+                }
+                
+                console.log(`${teamName} 실제 계산:`, {
+                    전반기: `${firstHalfStats.wins}승 ${firstHalfStats.losses}패 ${firstHalfStats.draws}무`,
+                    후반기: `${secondHalfStats.wins}승 ${secondHalfStats.losses}패 ${secondHalfStats.draws}무`
+                });
+                
+                return {
+                    firstHalf: firstHalfStats,
+                    secondHalf: secondHalfStats
+                };
+                
+            } catch (error) {
+                console.error(`${teamName} 성적 계산 오류:`, error);
+                return null;
+            }
+        }
+        
+        // 경기 결과 파싱 함수
+        function parseGameResult(gameResultLine, teamName) {
+            // 예: "한화 4:3 KT(H)" 또는 "KT 2:0 롯데(H)"
+            const parts = gameResultLine.split(' ');
+            if (parts.length < 2) return null;
             
-            const allStarDate = new Date(2025, 6, 12); // 7월 12일
-            const seasonStart = new Date(2025, 2, 22); // 3월 22일 개막
-            const currentDate = new Date();
+            const homeTeam = parts[0];
+            const scoreAndAwayTeam = parts.slice(1).join(' ');
+            const scoreMatch = scoreAndAwayTeam.match(/(\d+):(\d+)/);
             
-            // 전체 시즌에서 7월 12일까지의 비율 계산
-            const totalSeasonDays = 144; // 전체 경기 일수 추정
-            const allStarGameDay = 75; // 올스타전까지 대략 75경기
-            const firstHalfRatio = allStarGameDay / totalSeasonDays; // 약 0.521
+            if (!scoreMatch) return null;
             
-            console.log(`${teamName}: 전반기 비율 ${firstHalfRatio.toFixed(3)} 적용`);
+            const homeScore = parseInt(scoreMatch[1]);
+            const awayScore = parseInt(scoreMatch[2]);
             
-            // 7월 12일 기준 실제 전반기/후반기 성적 분할 계산
-            // 현재 성적에서 7월 12일 이전과 이후로 분할
+            // 상대팀 이름 추출
+            const awayTeamWithLocation = scoreAndAwayTeam.replace(/\d+:\d+\s*/, '');
+            const awayTeam = awayTeamWithLocation.replace(/\(H\)|\(A\)/, '').trim();
             
-            const totalGames = currentWins + currentLosses + currentDraws;
-            const firstHalfGames = Math.floor(totalGames * firstHalfRatio);
-            
-            // 실제 전반기/후반기 성과 차이를 반영한 분할
-            let firstHalfWins, firstHalfLosses, firstHalfDraws;
-            
-            if (teamName === '한화') {
-                // 한화: 전반기 강세 (전반기 1위) - 승률이 더 높았음
-                const firstHalfWinRate = 0.667; // 전반기 1위 수준
-                firstHalfWins = Math.floor(firstHalfGames * firstHalfWinRate * 0.85); // 무승부 고려
-                firstHalfLosses = firstHalfGames - firstHalfWins - Math.floor(currentDraws * firstHalfRatio);
-                firstHalfDraws = Math.floor(currentDraws * firstHalfRatio);
-            } else if (teamName === 'LG') {
-                // LG: 후반기 강세 (후반기에 1위 탈환) - 전반기는 상대적으로 부진
-                const firstHalfWinRate = 0.583; // 전반기 2위 수준
-                firstHalfWins = Math.floor(firstHalfGames * firstHalfWinRate * 0.85);
-                firstHalfLosses = firstHalfGames - firstHalfWins - Math.floor(currentDraws * firstHalfRatio);
-                firstHalfDraws = Math.floor(currentDraws * firstHalfRatio);
-            } else {
-                // 다른 팀들: 전반기/후반기 비례 분할
-                firstHalfWins = Math.floor(currentWins * firstHalfRatio);
-                firstHalfLosses = Math.floor(currentLosses * firstHalfRatio);
-                firstHalfDraws = Math.floor(currentDraws * firstHalfRatio);
+            // 해당 팀의 결과 판정
+            if (homeTeam === teamName) {
+                // 홈팀인 경우
+                if (homeScore > awayScore) return 'win';
+                else if (homeScore < awayScore) return 'loss';
+                else return 'draw';
+            } else if (awayTeam === teamName) {
+                // 원정팀인 경우
+                if (awayScore > homeScore) return 'win';
+                else if (awayScore < homeScore) return 'loss';
+                else return 'draw';
             }
             
-            return {
-                firstHalf: {
-                    wins: Math.min(firstHalfWins, currentWins), // 전체 승수를 넘지 않도록
-                    losses: Math.min(firstHalfLosses, currentLosses), // 전체 패수를 넘지 않도록
-                    draws: Math.min(firstHalfDraws, currentDraws)
-                }
-            };
+            return null;
         }
 
         // 올스타전 기준(7월 12일) 전반기/후반기 성적 계산
-        function calculateHalfSeasonStats(standings) {
-            const currentYear = new Date().getFullYear();
+        async function calculateHalfSeasonStats(standings) {
+            const halfSeasonStats = [];
             
-            // 올스타전 기준 날짜 (7월 12일)
-            const allStarDate = new Date(currentYear, 6, 12); // 7월 12일
-            const currentDate = new Date();
-            
-            const halfSeasonStats = standings.map((team, index) => {
-                const totalGames = team.games || (team.wins + team.losses + (team.draws || 0));
-                
-                // 새 함수를 사용한 정확한 전반기 성적 계산
-                const actualRecord = calculateActualHalfSeasonRecord(
-                    team.wins, 
-                    team.losses, 
-                    team.draws || 0, 
-                    team.team
-                );
-                
-                const firstHalfWins = actualRecord.firstHalf.wins;
-                const firstHalfLosses = actualRecord.firstHalf.losses;
-                const firstHalfDraws = actualRecord.firstHalf.draws;
-                const firstHalfGames = firstHalfWins + firstHalfLosses + firstHalfDraws;
-                const firstHalfWinRate = (firstHalfWins + firstHalfLosses) > 0 ? 
-                    firstHalfWins / (firstHalfWins + firstHalfLosses) : 0;
-                
-                console.log(`${team.team}: 현재 ${team.wins}승${team.losses}패 → 전반기 ${firstHalfWins}승${firstHalfLosses}패 (승률: ${firstHalfWinRate.toFixed(3)})`);
-                
-                // 후반기 성적 계산
-                const secondHalfWins = team.wins - firstHalfWins;
-                const secondHalfLosses = team.losses - firstHalfLosses;
-                const secondHalfDraws = (team.draws || 0) - firstHalfDraws;
-                const secondHalfGames = totalGames - firstHalfGames;
-                const secondHalfWinRate = secondHalfGames > 0 && (secondHalfWins + secondHalfLosses) > 0 ? 
-                    secondHalfWins / (secondHalfWins + secondHalfLosses) : 0;
-                
-                // 추가 통계 계산 (팀별 고정 시드를 사용해서 일관된 데이터 생성)
-                const teamSeed = team.team.charCodeAt(0) * 100 + index; // 팀명과 순위 기반 시드
-                const random = (seed) => (Math.sin(seed) * 10000 - Math.floor(Math.sin(seed) * 10000)); // 의사랜덤
-                
-                const teamBaseStat = {
-                    runsPerGame: 4.0 + random(teamSeed) * 1.5, // 4.0~5.5
-                    runsAllowedPerGame: 4.0 + random(teamSeed + 1) * 1.5,
-                    oneRunWinRate: 0.45 + random(teamSeed + 2) * 0.1, // 0.45~0.55
-                    threeRunWinRate: 0.60 + random(teamSeed + 3) * 0.2, // 0.60~0.80
-                    maxWinStreak: Math.floor(random(teamSeed + 4) * 8) + 3, // 3~10
-                    maxLoseStreak: Math.floor(random(teamSeed + 5) * 8) + 3 // 3~10
-                };
-                
-                // 전반기/후반기별로 약간의 변동 적용 (일관된 변동)
-                const firstHalfVariation = (random(teamSeed + 6) - 0.5) * 0.3; // ±15% 변동
-                const secondHalfVariation = (random(teamSeed + 7) - 0.5) * 0.3;
-                
-                return {
-                    team: team.team,
-                    rank: index + 1,
-                    // 전반기 데이터
-                    firstHalf: {
-                        games: firstHalfGames,
-                        wins: firstHalfWins,
-                        losses: firstHalfLosses,
-                        draws: firstHalfDraws,
-                        winRate: firstHalfWinRate,
-                        runsPerGame: Math.max(2.0, teamBaseStat.runsPerGame * (1 + firstHalfVariation)),
-                        runsAllowedPerGame: Math.max(2.0, teamBaseStat.runsAllowedPerGame * (1 - firstHalfVariation * 0.5)),
-                        oneRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.oneRunWinRate + firstHalfVariation * 0.2)),
-                        threeRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.threeRunWinRate + firstHalfVariation * 0.15)),
-                        maxWinStreak: Math.max(1, Math.floor(teamBaseStat.maxWinStreak * (1 + firstHalfVariation * 0.3))),
-                        maxLoseStreak: Math.max(1, Math.floor(teamBaseStat.maxLoseStreak * (1 - firstHalfVariation * 0.2)))
-                    },
-                    // 후반기 데이터
-                    secondHalf: {
-                        games: secondHalfGames,
-                        wins: secondHalfWins,
-                        losses: secondHalfLosses,
-                        draws: secondHalfDraws,
-                        winRate: secondHalfWinRate,
-                        runsPerGame: Math.max(2.0, teamBaseStat.runsPerGame * (1 + secondHalfVariation)),
-                        runsAllowedPerGame: Math.max(2.0, teamBaseStat.runsAllowedPerGame * (1 - secondHalfVariation * 0.5)),
-                        oneRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.oneRunWinRate + secondHalfVariation * 0.2)),
-                        threeRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.threeRunWinRate + secondHalfVariation * 0.15)),
-                        maxWinStreak: Math.max(1, Math.floor(teamBaseStat.maxWinStreak * (1 + secondHalfVariation * 0.3))),
-                        maxLoseStreak: Math.max(1, Math.floor(teamBaseStat.maxLoseStreak * (1 - secondHalfVariation * 0.2)))
+            // 각 팀별로 순차적으로 실제 데이터 계산
+            for (const [index, team] of standings.entries()) {
+                try {
+                    // 실제 시즌 데이터에서 전반기/후반기 성적 계산
+                    const actualRecord = await calculateActualHalfSeasonRecord(team.team);
+                    
+                    if (!actualRecord) {
+                        console.error(`${team.team}: 실제 데이터 계산 실패`);
+                        continue;
                     }
-                };
-            });
-
+                    
+                    const firstHalfWins = actualRecord.firstHalf.wins;
+                    const firstHalfLosses = actualRecord.firstHalf.losses;
+                    const firstHalfDraws = actualRecord.firstHalf.draws;
+                    const firstHalfGames = firstHalfWins + firstHalfLosses + firstHalfDraws;
+                    const firstHalfWinRate = (firstHalfWins + firstHalfLosses) > 0 ? 
+                        firstHalfWins / (firstHalfWins + firstHalfLosses) : 0;
+                    
+                    const secondHalfWins = actualRecord.secondHalf.wins;
+                    const secondHalfLosses = actualRecord.secondHalf.losses;
+                    const secondHalfDraws = actualRecord.secondHalf.draws;
+                    const secondHalfGames = secondHalfWins + secondHalfLosses + secondHalfDraws;
+                    const secondHalfWinRate = (secondHalfWins + secondHalfLosses) > 0 ? 
+                        secondHalfWins / (secondHalfWins + secondHalfLosses) : 0;
+                    
+                    console.log(`${team.team}: 전반기 ${firstHalfWins}승${firstHalfLosses}패${firstHalfDraws}무 (승률: ${firstHalfWinRate.toFixed(3)}) | 후반기 ${secondHalfWins}승${secondHalfLosses}패${secondHalfDraws}무 (승률: ${secondHalfWinRate.toFixed(3)})`);
+                
+                    // 추가 통계 계산 (팀별 고정 시드를 사용해서 일관된 데이터 생성)
+                    const teamSeed = team.team.charCodeAt(0) * 100 + index; // 팀명과 순위 기반 시드
+                    const random = (seed) => (Math.sin(seed) * 10000 - Math.floor(Math.sin(seed) * 10000)); // 의사랜덤
+                    
+                    const teamBaseStat = {
+                        runsPerGame: 4.0 + random(teamSeed) * 1.5, // 4.0~5.5
+                        runsAllowedPerGame: 4.0 + random(teamSeed + 1) * 1.5,
+                        oneRunWinRate: 0.45 + random(teamSeed + 2) * 0.1, // 0.45~0.55
+                        threeRunWinRate: 0.60 + random(teamSeed + 3) * 0.2, // 0.60~0.80
+                        maxWinStreak: Math.floor(random(teamSeed + 4) * 8) + 3, // 3~10
+                        maxLoseStreak: Math.floor(random(teamSeed + 5) * 8) + 3 // 3~10
+                    };
+                    
+                    // 전반기/후반기별로 약간의 변동 적용 (일관된 변동)
+                    const firstHalfVariation = (random(teamSeed + 6) - 0.5) * 0.3; // ±15% 변동
+                    const secondHalfVariation = (random(teamSeed + 7) - 0.5) * 0.3;
+                    
+                    const teamStats = {
+                        team: team.team,
+                        rank: index + 1,
+                        // 전반기 데이터
+                        firstHalf: {
+                            games: firstHalfGames,
+                            wins: firstHalfWins,
+                            losses: firstHalfLosses,
+                            draws: firstHalfDraws,
+                            winRate: firstHalfWinRate,
+                            runsPerGame: Math.max(2.0, teamBaseStat.runsPerGame * (1 + firstHalfVariation)),
+                            runsAllowedPerGame: Math.max(2.0, teamBaseStat.runsAllowedPerGame * (1 - firstHalfVariation * 0.5)),
+                            oneRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.oneRunWinRate + firstHalfVariation * 0.2)),
+                            threeRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.threeRunWinRate + firstHalfVariation * 0.15)),
+                            maxWinStreak: Math.max(1, Math.floor(teamBaseStat.maxWinStreak * (1 + firstHalfVariation * 0.3))),
+                            maxLoseStreak: Math.max(1, Math.floor(teamBaseStat.maxLoseStreak * (1 - firstHalfVariation * 0.2)))
+                        },
+                        // 후반기 데이터
+                        secondHalf: {
+                            games: secondHalfGames,
+                            wins: secondHalfWins,
+                            losses: secondHalfLosses,
+                            draws: secondHalfDraws,
+                            winRate: secondHalfWinRate,
+                            runsPerGame: Math.max(2.0, teamBaseStat.runsPerGame * (1 + secondHalfVariation)),
+                            runsAllowedPerGame: Math.max(2.0, teamBaseStat.runsAllowedPerGame * (1 - secondHalfVariation * 0.5)),
+                            oneRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.oneRunWinRate + secondHalfVariation * 0.2)),
+                            threeRunWinRate: Math.min(1.0, Math.max(0.0, teamBaseStat.threeRunWinRate + secondHalfVariation * 0.15)),
+                            maxWinStreak: Math.max(1, Math.floor(teamBaseStat.maxWinStreak * (1 + secondHalfVariation * 0.3))),
+                            maxLoseStreak: Math.max(1, Math.floor(teamBaseStat.maxLoseStreak * (1 - secondHalfVariation * 0.2)))
+                        }
+                    };
+                    
+                    halfSeasonStats.push(teamStats);
+                    
+                } catch (error) {
+                    console.error(`${team.team} 계산 오류:`, error);
+                }
+            }
+            
             // 전반기 순위 계산 (승률 기준 정렬)
             const firstHalfRanking = [...halfSeasonStats]
                 .sort((a, b) => {
@@ -9755,11 +9802,11 @@ KT 9:1 키움(H)`;
                 })
                 .map((team, index) => ({ team: team.team, rank: index + 1 }));
             
-            console.log('전반기 순위:', firstHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
+            console.log('실제 전반기 순위:', firstHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
             
             // 후반기 순위 계산 (후반기 경기가 있는 팀만)
             const secondHalfRanking = [...halfSeasonStats]
-                .filter(team => team.secondHalf.games > 0) // 후반기 경기가 있는 팀만
+                .filter(team => team.secondHalf.games > 0)
                 .sort((a, b) => {
                     const aWinRate = a.secondHalf.winRate;
                     const bWinRate = b.secondHalf.winRate;
@@ -9770,9 +9817,9 @@ KT 9:1 키움(H)`;
                 })
                 .map((team, index) => ({ team: team.team, rank: index + 1 }));
             
-            console.log('후반기 순위:', secondHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
+            console.log('실제 후반기 순위:', secondHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
 
-            // 순위 정보 추가
+            // 순위 정보 추가 및 성적 변화 계산
             halfSeasonStats.forEach(team => {
                 team.firstHalf.rank = firstHalfRanking.find(r => r.team === team.team)?.rank || 0;
                 const secondHalfRank = secondHalfRanking.find(r => r.team === team.team);
@@ -9788,9 +9835,6 @@ KT 9:1 키움(H)`;
                     trend: winRateChange > 0.05 ? '상승' : 
                            winRateChange < -0.05 ? '하락' : '유지'
                 };
-                
-                // 디버깅: 각 팀별 상세 정보 출력
-                console.log(`${team.team}: 전반기 ${team.firstHalf.wins}승${team.firstHalf.losses}패 (승률 ${team.firstHalf.winRate.toFixed(3)}, ${team.firstHalf.rank}위) → 후반기 ${team.secondHalf.wins}승${team.secondHalf.losses}패 (승률 ${team.secondHalf.winRate.toFixed(3)}, ${team.secondHalf.rank}위)`);
             });
 
             return halfSeasonStats;
