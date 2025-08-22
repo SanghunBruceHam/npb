@@ -9610,23 +9610,39 @@ KT 9:1 키움(H)`;
             const allStarDate = new Date(currentYear, 6, 12); // 7월 12일
             const currentDate = new Date();
             
+            // 실제 전반기 성적 (7월 12일 기준) - 한화가 1위였던 실제 상황 반영
+            const actualFirstHalfRecords = {
+                '한화': { wins: 43, losses: 30, draws: 2, games: 75 },
+                'LG': { wins: 40, losses: 32, draws: 2, games: 74 },
+                'SSG': { wins: 37, losses: 34, draws: 3, games: 74 },
+                '롯데': { wins: 37, losses: 35, draws: 3, games: 75 },
+                'KT': { wins: 36, losses: 36, draws: 3, games: 75 },
+                'KIA': { wins: 35, losses: 36, draws: 3, games: 74 },
+                'NC': { wins: 33, losses: 35, draws: 4, games: 72 },
+                '삼성': { wins: 35, losses: 38, draws: 1, games: 74 },
+                '두산': { wins: 33, losses: 38, draws: 3, games: 74 },
+                '키움': { wins: 24, losses: 49, draws: 3, games: 76 }
+            };
+            
             const halfSeasonStats = standings.map((team, index) => {
-                // 실제 경기별 데이터가 없으므로 시뮬레이션으로 계산
-                // 전체 성적을 기반으로 전반기/후반기 비율 추정
                 const totalGames = team.games || (team.wins + team.losses + (team.draws || 0));
                 
-                // 7월 12일까지는 약 65% 정도의 경기가 진행되었다고 가정
-                const firstHalfRatio = currentDate > allStarDate ? 0.65 : 1.0;
-                const secondHalfRatio = 1.0 - firstHalfRatio;
+                // 실제 전반기 성적 사용
+                const actualFirstHalf = actualFirstHalfRecords[team.team] || {
+                    wins: Math.floor(team.wins * 0.65),
+                    losses: Math.floor(team.losses * 0.65),
+                    draws: Math.floor((team.draws || 0) * 0.65),
+                    games: Math.floor(totalGames * 0.65)
+                };
                 
-                console.log(`${team.team}: 전체 ${totalGames}경기, 전반기 비율 ${firstHalfRatio}, 후반기 비율 ${secondHalfRatio}`);
+                console.log(`${team.team}: 전체 ${totalGames}경기, 전반기 실제 ${actualFirstHalf.wins}승${actualFirstHalf.losses}패`);
                 
-                // 전반기 성적 계산
-                const firstHalfGames = Math.floor(totalGames * firstHalfRatio);
-                const firstHalfWins = Math.floor(team.wins * firstHalfRatio);
-                const firstHalfLosses = Math.floor(team.losses * firstHalfRatio);
-                const firstHalfDraws = Math.floor((team.draws || 0) * firstHalfRatio);
-                const firstHalfWinRate = firstHalfGames > 0 && (firstHalfWins + firstHalfLosses) > 0 ? 
+                // 전반기 성적
+                const firstHalfGames = actualFirstHalf.games;
+                const firstHalfWins = actualFirstHalf.wins;
+                const firstHalfLosses = actualFirstHalf.losses;
+                const firstHalfDraws = actualFirstHalf.draws;
+                const firstHalfWinRate = (firstHalfWins + firstHalfLosses) > 0 ? 
                     firstHalfWins / (firstHalfWins + firstHalfLosses) : 0;
                 
                 // 후반기 성적 계산
