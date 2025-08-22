@@ -1220,20 +1220,23 @@
         }
 
 
-        /* 상단 헤더: 토요일/일요일만 주말 색상 적용 */
-        #weekdayTable thead th:contains("토요일"),
-        #weekdayTable thead th:contains("일요일") {
-            background: #dc2626 !important;
+        /* 상단 팀 헤더: 기본 회색 (모든 팀) */
+        #weekdayTable thead th {
+            background: #6c757d !important;
+            color: white !important;
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* 평일성적 헤더 (회색) */
+        #weekdayTable .stats-label.weekday-stats {
+            background: #6c757d !important;
             color: white !important;
         }
 
-        /* 주말승률과 평일승률 헤더 배경 강조 */
-        #weekdayTable th:nth-child(10),
-        #weekdayTable th:nth-child(11) {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            font-weight: var(--font-weight-bold);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        /* 주말성적 헤더 (살짝 붉은색) */
+        #weekdayTable .stats-label.weekend-stats {
+            background: #dc3545 !important;
+            color: white !important;
         }
 
         /* 요일별 분석 색상 정의 */
@@ -4227,7 +4230,7 @@
                     <div style="margin-bottom: 6px;"><strong>테이블 구조:</strong> 요일(월~일)이 좌측 행, 팀명이 상단 열로 배치</div>
                     <div style="margin-bottom: 6px;"><strong>데이터 형식:</strong> 각 셀에 "승-패-무 (승률)" + "경기수" 형태로 표시</div>
                     <div style="margin-bottom: 6px;"><strong>평일/주말 성적:</strong> 각 요일별 성적 하단에 평일성적(월~금), 주말성적(토~일) 요약</div>
-                    <div style="margin-bottom: 6px;"><strong>헤더 색상:</strong> <span style="background: #34495e; color: white; padding: 2px 6px; border-radius: 3px;">평일</span> <span style="background: #dc2626; color: white; padding: 2px 6px; border-radius: 3px;">주말(토, 일)</span></div>
+                    <div style="margin-bottom: 6px;"><strong>헤더 색상:</strong> <span style="background: #6c757d; color: white; padding: 2px 6px; border-radius: 3px;">모든 팀 (회색)</span> <span style="background: #6c757d; color: white; padding: 2px 6px; border-radius: 3px;">평일성적</span> <span style="background: #dc3545; color: white; padding: 2px 6px; border-radius: 3px;">주말성적</span></div>
                     <div><strong>승률 색상:</strong> <span style="background: var(--positive-bg-medium); padding: 2px 6px; border-radius: 3px;">0.500 초과</span> <span style="background: var(--neutral-bg-light); padding: 2px 6px; border-radius: 3px;">0.500</span> <span style="background: var(--negative-bg-medium); padding: 2px 6px; border-radius: 3px;">0.500 미만</span></div>
                 </div>
             </div>
@@ -6638,10 +6641,10 @@
             // 순위 순서대로 팀 정렬
             const rankedTeams = dashboardData.standings.map(team => team.team_name);
             
-            // 테이블 헤더 생성 (팀명들 - 모든 팀 동일한 색상)
+            // 테이블 헤더 생성 (팀명들)
             let headerHtml = '<tr><th class="day-label">요일</th>';
             rankedTeams.forEach(team => {
-                headerHtml += `<th style="background: #34495e; color: white;">${getTeamWithLogo(team, 'team-logo-small')}</th>`;
+                headerHtml += `<th>${getTeamWithLogo(team, 'team-logo-small')}</th>`;
             });
             headerHtml += '</tr>';
             thead.innerHTML = headerHtml;
@@ -6693,8 +6696,8 @@
             });
             
             // 평일승률/주말승률 행 추가 (성적과 승률을 한 셀에 표기) - 순서 변경, 연한 파란색 헤더, 상단 구분선
-            let weekdayRow = '<tr class="stats-row"><td class="stats-label" style="background: #3b82f6; color: white; border-top: 2px solid #34495e;">평일 성적</td>';
-            let weekendRow = '<tr class="stats-row"><td class="stats-label" style="background: #3b82f6; color: white;">주말 성적</td>';
+            let weekdayRow = '<tr class="stats-row"><td class="stats-label weekday-stats" style="border-top: 2px solid #34495e;">평일 성적</td>';
+            let weekendRow = '<tr class="stats-row"><td class="stats-label weekend-stats">주말 성적</td>';
             
             rankedTeams.forEach(team => {
                 const weekdayData = dashboardData.weekdayPerformance[team];
