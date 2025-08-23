@@ -3686,8 +3686,8 @@
                             <th>원정승률</th>
                             <th>홈우위</th>
                             <th onclick="event.stopPropagation(); sortByStreakNew();" class="no-sort" style="cursor: pointer;">연승패</th>
-                            <th>최대연승</th>
-                            <th>최대연패</th>
+                            <th onclick="event.stopPropagation(); sortByMaxWinStreak();" class="no-sort" style="cursor: pointer;">최대연승</th>
+                            <th onclick="event.stopPropagation(); sortByMaxLoseStreak();" class="no-sort" style="cursor: pointer;">최대연패</th>
                         </tr>
                     </thead>
                     <tbody id="fullStandingsBody">
@@ -5901,7 +5901,7 @@
         }
 
         // 연승/연패로 정렬 - 데이터 레벨에서 정렬
-        var streakSortMode = 0; // 0: 순위순, 1: 연승순, 2: 연패순
+        var streakSortMode = 0; // 0: 연승순, 1: 연패순
         var isCustomSorted = false; // 사용자 정렬 상태 추적
         
         window.sortByStreakNew = function() {
@@ -5922,15 +5922,10 @@
             // 현재 데이터 상태 디버그
             console.log('정렬 전 데이터:', dashboardData.standings.map(t => `${t.team_name}(${t.current_streak})`));
             
-            streakSortMode = (streakSortMode + 1) % 3;
+            streakSortMode = (streakSortMode + 1) % 2;
             console.log('🔢 현재 streakSortMode:', streakSortMode);
             
             if (streakSortMode === 0) {
-                // 원래 순위 순서로 복원
-                dashboardData.standings = [...dashboardData.originalStandings];
-                isCustomSorted = false;
-                console.log('순위 순서로 복원');
-            } else if (streakSortMode === 1) {
                 // 연승 우선 정렬 (승팀 → 패팀 순서)
                 console.log('🏆 연승 우선 정렬 실행');
                 dashboardData.standings.sort((a, b) => {
@@ -5961,11 +5956,10 @@
                     return 0;
                 });
                 
-                // 정렬 후 순위 재배정 (동률 처리 포함)
-                assignRanksWithTies();
+                // 연승패 정렬 후에는 assignRanksWithTies 호출하지 않음 (승률 기준 재정렬을 방지)
                 
                 isCustomSorted = true;
-                console.log('정렬 후 데이터:', dashboardData.standings.map(t => `${t.rank}.${t.team_name}(${t.current_streak})`));
+                console.log('정렬 후 데이터:', dashboardData.standings.map(t => `${t.team_name}(${t.current_streak})`));
                 console.log('연승 우선 정렬 완료: ' + dashboardData.standings.slice(0,3).map(t => t.team_name).join(', '));
             } else {
                 // 연패 우선 정렬 (패팀 → 승팀 순서)
@@ -5998,8 +5992,7 @@
                     return 0;
                 });
                 
-                // 정렬 후 순위 재배정 (동률 처리 포함)
-                assignRanksWithTies();
+                // 연승패 정렬 후에는 assignRanksWithTies 호출하지 않음 (승률 기준 재정렬을 방지)
                 
                 isCustomSorted = true;
                 console.log('연패 우선 정렬 완료: ' + dashboardData.standings.slice(0,3).map(t => t.team_name).join(', '));
@@ -6030,15 +6023,102 @@
             }, 30000);
         }
 
+        // 최대연승 정렬 모드 (0: 원래순위, 1: 내림차순, 2: 오름차순)
+        var maxWinStreakSortMode = 0;
+        
+        window.sortByMaxWinStreak = function() {
+            if (!dashboardData || !dashboardData.standings) {
+                alert('데이터가 로드되지 않았습니다');
+                return;
+            }
+            
+            // 원본 데이터 백업
+            if (!dashboardData.originalStandings) {
+                dashboardData.originalStandings = [...dashboardData.standings];
+            }
+            
+            maxWinStreakSortMode = (maxWinStreakSortMode + 1) % 3;
+            
+            if (maxWinStreakSortMode === 0) {
+                // 원래 순위 순서로 복원
+                dashboardData.standings = [...dashboardData.originalStandings];
+                console.log('최대연승 정렬: 원래 순위로 복원');
+            } else if (maxWinStreakSortMode === 1) {
+                // 최대연승 내림차순 정렬
+                dashboardData.standings.sort((a, b) => {
+                    const aStreak = dashboardData.streakAnalysis?.find(t => t.team_name === a.team_name)?.max_win_streak || 0;
+                    const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_win_streak || 0;
+                    return bStreak - aStreak;
+                });
+                console.log('최대연승 정렬: 내림차순');
+            } else {
+                // 최대연승 오름차순 정렬
+                dashboardData.standings.sort((a, b) => {
+                    const aStreak = dashboardData.streakAnalysis?.find(t => t.team_name === a.team_name)?.max_win_streak || 0;
+                    const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_win_streak || 0;
+                    return aStreak - bStreak;
+                });
+                console.log('최대연승 정렬: 오름차순');
+            }
+            
+            renderFullStandings();
+        }
+
+        // 최대연패 정렬 모드 (0: 원래순위, 1: 내림차순, 2: 오름차순)
+        var maxLoseStreakSortMode = 0;
+        
+        window.sortByMaxLoseStreak = function() {
+            if (!dashboardData || !dashboardData.standings) {
+                alert('데이터가 로드되지 않았습니다');
+                return;
+            }
+            
+            // 원본 데이터 백업
+            if (!dashboardData.originalStandings) {
+                dashboardData.originalStandings = [...dashboardData.standings];
+            }
+            
+            maxLoseStreakSortMode = (maxLoseStreakSortMode + 1) % 3;
+            
+            if (maxLoseStreakSortMode === 0) {
+                // 원래 순위 순서로 복원
+                dashboardData.standings = [...dashboardData.originalStandings];
+                console.log('최대연패 정렬: 원래 순위로 복원');
+            } else if (maxLoseStreakSortMode === 1) {
+                // 최대연패 내림차순 정렬
+                dashboardData.standings.sort((a, b) => {
+                    const aStreak = dashboardData.streakAnalysis?.find(t => t.team_name === a.team_name)?.max_lose_streak || 0;
+                    const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_lose_streak || 0;
+                    return bStreak - aStreak;
+                });
+                console.log('최대연패 정렬: 내림차순');
+            } else {
+                // 최대연패 오름차순 정렬
+                dashboardData.standings.sort((a, b) => {
+                    const aStreak = dashboardData.streakAnalysis?.find(t => t.team_name === a.team_name)?.max_lose_streak || 0;
+                    const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_lose_streak || 0;
+                    return aStreak - bStreak;
+                });
+                console.log('최대연패 정렬: 오름차순');
+            }
+            
+            renderFullStandings();
+        }
+
         // 전체 순위표 (모든 지표 포함)
         function renderFullStandings() {
             const tbody = document.getElementById('fullStandingsBody');
             tbody.innerHTML = '';
 
-            // 정렬된 순서대로 순위 부여 (연승패 정렬 등에서 순위가 올바르게 표시되도록)
+            // 각 팀의 실제 순위 유지 (정렬과 관계없이 원래 순위 사용)
             dashboardData.standings.forEach((team, index) => {
-                // 간단히 정렬된 순서대로 순위 부여
-                team.displayRank = index + 1;
+                // 팀의 실제 현재 순위 유지 (originalStandings에서 찾기)
+                if (dashboardData.originalStandings) {
+                    const originalTeam = dashboardData.originalStandings.find(t => t.team_name === team.team_name);
+                    team.displayRank = originalTeam ? (originalTeam.rank || originalTeam.displayRank || (dashboardData.originalStandings.indexOf(originalTeam) + 1)) : (index + 1);
+                } else {
+                    team.displayRank = team.rank || (index + 1);
+                }
                 // 해당 팀의 상세 데이터 찾기
                 const teamSummary = dashboardData.teamSummaries?.find(t => t.team_name === team.team_name);
                 const pythagorean = dashboardData.pythagoreanAnalysis?.find(t => t.team_name === team.team_name);
@@ -7023,12 +7103,9 @@
             header.classList.add(nextSort === 'asc' ? 'sort-asc' : 'sort-desc');
         }
         
-        // 순위 컬럼 색상 및 번호 업데이트 함수 (동률 처리 포함)
+        // 순위 컬럼 색상 및 번호 업데이트 함수 (팀의 실제 순위 유지)
         function updateRankColors(tbody, sortedColumnIndex) {
             const dataRows = Array.from(tbody.querySelectorAll('tr')).filter(row => !row.classList.contains('stats-row'));
-            
-            let currentRank = 1;
-            let previousValue = null;
             
             dataRows.forEach((row, index) => {
                 const rankCell = row.cells[0]; // 첫 번째 셀이 순위 컬럼
@@ -7036,26 +7113,35 @@
                     // 기존 순위 클래스 제거
                     rankCell.classList.remove('rank-1', 'rank-2', 'rank-3');
                     
-                    // 정렬된 컬럼의 값 추출
-                    let currentValue = null;
-                    if (sortedColumnIndex !== undefined && row.cells[sortedColumnIndex]) {
-                        currentValue = (row.cells[sortedColumnIndex].textContent || row.cells[sortedColumnIndex].innerText).trim();
+                    // 팀명으로 실제 순위 찾기
+                    const teamNameCell = row.cells[1];
+                    if (teamNameCell && dashboardData && dashboardData.standings) {
+                        const teamNameText = teamNameCell.textContent || teamNameCell.innerText;
+                        // 팀명에서 로고 제거하고 순수 팀명만 추출
+                        const teamName = teamNameText.replace(/^\s*\d+\s*/, '').trim();
+                        
+                        // dashboardData에서 해당 팀의 실제 순위 찾기
+                        const teamData = dashboardData.standings.find(t => 
+                            teamName.includes(t.team_name) || t.team_name.includes(teamName)
+                        );
+                        
+                        if (teamData) {
+                            const actualRank = teamData.displayRank || teamData.rank || (index + 1);
+                            rankCell.innerHTML = `<strong>${actualRank}</strong>`;
+                            
+                            // 실제 순위에 따른 클래스 적용
+                            if (actualRank <= 3) {
+                                rankCell.classList.add(`rank-${actualRank}`);
+                            }
+                        } else {
+                            // 팀을 찾지 못한 경우 순서대로 
+                            const fallbackRank = index + 1;
+                            rankCell.innerHTML = `<strong>${fallbackRank}</strong>`;
+                            if (fallbackRank <= 3) {
+                                rankCell.classList.add(`rank-${fallbackRank}`);
+                            }
+                        }
                     }
-                    
-                    // 이전 값과 다르면 순위 업데이트
-                    if (previousValue !== null && currentValue !== previousValue) {
-                        currentRank = index + 1;
-                    }
-                    
-                    // 순위 설정
-                    rankCell.innerHTML = `<strong>${currentRank}</strong>`;
-                    
-                    // 새로운 순위 클래스 적용
-                    if (currentRank <= 3) {
-                        rankCell.classList.add(`rank-${currentRank}`);
-                    }
-                    
-                    previousValue = currentValue;
                 }
             });
         }
@@ -10284,13 +10370,25 @@ KT 9:1 키움(H)`;
                     valueA.toString().localeCompare(valueB.toString());
             });
             
-            // 정렬된 행들을 다시 tbody에 추가하면서 순위 업데이트
+            // 정렬된 행들을 다시 tbody에 추가하면서 실제 순위 유지
             rows.forEach((row, index) => {
                 tbody.appendChild(row);
-                // 첫 번째 셀(순위 컬럼) 업데이트
+                // 첫 번째 셀(순위 컬럼)은 실제 팀 순위를 유지
                 const rankCell = row.cells[0];
-                if (rankCell) {
-                    rankCell.innerHTML = `<strong>${index + 1}</strong>`;
+                const teamNameCell = row.cells[1];
+                
+                if (rankCell && teamNameCell && dashboardData && dashboardData.standings) {
+                    const teamName = row.getAttribute('data-team');
+                    // dashboardData에서 해당 팀의 실제 순위 찾기
+                    const teamData = dashboardData.standings.find(t => t.team_name === teamName);
+                    
+                    if (teamData) {
+                        const actualRank = teamData.displayRank || teamData.rank || (index + 1);
+                        rankCell.innerHTML = `<strong>${actualRank}</strong>`;
+                    } else {
+                        // 팀을 찾지 못한 경우 기존 순위 유지 또는 순서대로
+                        rankCell.innerHTML = `<strong>${index + 1}</strong>`;
+                    }
                 }
             });
         }
