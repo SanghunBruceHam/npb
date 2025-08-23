@@ -697,48 +697,58 @@ const kboTeams = {
                 document.getElementById('worst-streak-count').textContent = '-';
             }
 
-            // 최근 10경기 성적이 가장 좋은 팀 찾기 (동점 시 현재 순위 우선)
+            // 최근 10경기 성적이 가장 좋은 팀 찾기 (10경기 승률 기준)
             let bestRecentTeams = [];
-            let maxRecentWins = -1;
+            let maxRecentWinRate = -1;
             
             currentStandings.forEach(team => {
                 if (team.recent10) {
-                    // "8승 0무 2패" 형태에서 승수 추출
+                    // "7승1무2패" 형태에서 승, 무, 패 추출
                     const winsMatch = team.recent10.match(/(\d+)승/);
+                    const drawsMatch = team.recent10.match(/(\d+)무/);
+                    const lossesMatch = team.recent10.match(/(\d+)패/);
+                    
                     if (winsMatch) {
                         const wins = parseInt(winsMatch[1]);
-                        if (wins > maxRecentWins) {
-                            maxRecentWins = wins;
+                        const draws = drawsMatch ? parseInt(drawsMatch[1]) : 0;
+                        const losses = lossesMatch ? parseInt(lossesMatch[1]) : 0;
+                        
+                        // 최근 10경기 승률 계산 (무승부 제외)
+                        const recentWinRate = (wins + losses) > 0 ? wins / (wins + losses) : 0;
+                        
+                        // 팀 정보에 10경기 승률 추가
+                        team.recent10WinRate = recentWinRate;
+                        
+                        if (recentWinRate > maxRecentWinRate) {
+                            maxRecentWinRate = recentWinRate;
                             bestRecentTeams = [team];
-                        } else if (wins === maxRecentWins && wins >= 0) {
+                        } else if (recentWinRate === maxRecentWinRate && recentWinRate > 0) {
                             bestRecentTeams.push(team);
                         }
                     }
                 }
             });
             
-            // 최근 10경기 승수가 같으면 현재 순위(승률)가 높은 팀만 선택
-            if (bestRecentTeams.length > 1) {
-                bestRecentTeams.sort((a, b) => a.rank - b.rank); // 순위 오름차순 정렬
-                bestRecentTeams = [bestRecentTeams[0]]; // 가장 순위가 높은 팀만 선택
-            }
-            
-            if (bestRecentTeams.length > 0 && maxRecentWins >= 0) {
-                const teamsToShow = bestRecentTeams; // 1위팀만 표시
+            if (bestRecentTeams.length > 0 && maxRecentWinRate >= 0) {
+                const teamsToShow = bestRecentTeams.slice(0, 3); // 최대 3팀까지
                 const teamLogos = teamsToShow.map(team => {
                     const teamData = kboTeams[team.team];
+                    const winRate = (team.recent10WinRate * 100).toFixed(1);
                     return `<div style="display: flex; align-items: center; gap: 2px;">
                         ${teamData.logo}
-                        <span style="color: ${teamData.color};  ">${team.team}</span>
+                        <span style="color: ${teamData.color};">${team.team}</span>
                     </div>`;
-                }).join('');
+                }).join(' ');
                 
                 document.getElementById('recent-best-team').innerHTML = `
                     <div style="display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;">
                         ${teamLogos}
                     </div>
                 `;
-                document.getElementById('recent-best-record').textContent = bestRecentTeams[0].recent10;
+                
+                // 성적 표시 (10경기 승률 포함)
+                const winRateText = (bestRecentTeams[0].recent10WinRate * 100).toFixed(1);
+                document.getElementById('recent-best-record').textContent = `${bestRecentTeams[0].recent10} (승률 ${winRateText}%)`;
             } else {
                 document.getElementById('recent-best-team').textContent = '-';
                 document.getElementById('recent-best-record').textContent = '-';
