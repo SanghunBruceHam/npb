@@ -6035,18 +6035,10 @@
             const tbody = document.getElementById('fullStandingsBody');
             tbody.innerHTML = '';
 
-            // 승률이 같은 팀에게 같은 순위 부여
-            let currentRank = 1;
-            let previousWinRate = null;
-            
+            // 정렬된 순서대로 순위 부여 (연승패 정렬 등에서 순위가 올바르게 표시되도록)
             dashboardData.standings.forEach((team, index) => {
-                // 이전 팀과 승률이 다르면 실제 순위로 업데이트
-                if (previousWinRate !== null && team.win_rate !== previousWinRate) {
-                    currentRank = index + 1;
-                }
-                // 동률일 경우 같은 순위 유지
-                team.displayRank = currentRank;
-                previousWinRate = team.win_rate;
+                // 간단히 정렬된 순서대로 순위 부여
+                team.displayRank = index + 1;
                 // 해당 팀의 상세 데이터 찾기
                 const teamSummary = dashboardData.teamSummaries?.find(t => t.team_name === team.team_name);
                 const pythagorean = dashboardData.pythagoreanAnalysis?.find(t => t.team_name === team.team_name);
@@ -7024,16 +7016,19 @@
             
             // 종합순위 테이블인 경우 순위 컬럼 색상 업데이트
             if (table.id === 'fullStandingsTable') {
-                updateRankColors(tbody);
+                updateRankColors(tbody, columnIndex);
             }
             
             // 헤더에 정렬 상태 표시
             header.classList.add(nextSort === 'asc' ? 'sort-asc' : 'sort-desc');
         }
         
-        // 순위 컬럼 색상 및 번호 업데이트 함수
-        function updateRankColors(tbody) {
+        // 순위 컬럼 색상 및 번호 업데이트 함수 (동률 처리 포함)
+        function updateRankColors(tbody, sortedColumnIndex) {
             const dataRows = Array.from(tbody.querySelectorAll('tr')).filter(row => !row.classList.contains('stats-row'));
+            
+            let currentRank = 1;
+            let previousValue = null;
             
             dataRows.forEach((row, index) => {
                 const rankCell = row.cells[0]; // 첫 번째 셀이 순위 컬럼
@@ -7041,14 +7036,26 @@
                     // 기존 순위 클래스 제거
                     rankCell.classList.remove('rank-1', 'rank-2', 'rank-3');
                     
-                    // 새로운 순위 번호 설정 (정렬된 순서 기준)
-                    const newRank = index + 1;
-                    rankCell.innerHTML = `<strong>${newRank}</strong>`;
+                    // 정렬된 컬럼의 값 추출
+                    let currentValue = null;
+                    if (sortedColumnIndex !== undefined && row.cells[sortedColumnIndex]) {
+                        currentValue = (row.cells[sortedColumnIndex].textContent || row.cells[sortedColumnIndex].innerText).trim();
+                    }
+                    
+                    // 이전 값과 다르면 순위 업데이트
+                    if (previousValue !== null && currentValue !== previousValue) {
+                        currentRank = index + 1;
+                    }
+                    
+                    // 순위 설정
+                    rankCell.innerHTML = `<strong>${currentRank}</strong>`;
                     
                     // 새로운 순위 클래스 적용
-                    if (newRank <= 3) {
-                        rankCell.classList.add(`rank-${newRank}`);
+                    if (currentRank <= 3) {
+                        rankCell.classList.add(`rank-${currentRank}`);
                     }
+                    
+                    previousValue = currentValue;
                 }
             });
         }
@@ -10277,8 +10284,15 @@ KT 9:1 키움(H)`;
                     valueA.toString().localeCompare(valueB.toString());
             });
             
-            // 정렬된 행들을 다시 tbody에 추가
-            rows.forEach(row => tbody.appendChild(row));
+            // 정렬된 행들을 다시 tbody에 추가하면서 순위 업데이트
+            rows.forEach((row, index) => {
+                tbody.appendChild(row);
+                // 첫 번째 셀(순위 컬럼) 업데이트
+                const rankCell = row.cells[0];
+                if (rankCell) {
+                    rankCell.innerHTML = `<strong>${index + 1}</strong>`;
+                }
+            });
         }
 
         // 전반기/후반기 성적 테이블 렌더링
