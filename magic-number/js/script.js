@@ -697,7 +697,7 @@ const kboTeams = {
                 document.getElementById('worst-streak-count').textContent = '-';
             }
 
-            // 최근 10경기 성적이 가장 좋은 팀 찾기 (동점 시 2팀 표기)
+            // 최근 10경기 성적이 가장 좋은 팀 찾기 (동점 시 현재 순위 우선)
             let bestRecentTeams = [];
             let maxRecentWins = -1;
             
@@ -717,8 +717,14 @@ const kboTeams = {
                 }
             });
             
+            // 최근 10경기 승수가 같으면 현재 순위(승률)가 높은 팀만 선택
+            if (bestRecentTeams.length > 1) {
+                bestRecentTeams.sort((a, b) => a.rank - b.rank); // 순위 오름차순 정렬
+                bestRecentTeams = [bestRecentTeams[0]]; // 가장 순위가 높은 팀만 선택
+            }
+            
             if (bestRecentTeams.length > 0 && maxRecentWins >= 0) {
-                const teamsToShow = bestRecentTeams.slice(0, 2); // 최대 2팀까지
+                const teamsToShow = bestRecentTeams; // 1위팀만 표시
                 const teamLogos = teamsToShow.map(team => {
                     const teamData = kboTeams[team.team];
                     return `<div style="display: flex; align-items: center; gap: 2px;">
