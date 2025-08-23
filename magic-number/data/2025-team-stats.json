@@ -1,23 +1,23 @@
 {
   "KIA": {
-    "games": 114,
+    "games": 115,
     "wins": 54,
-    "losses": 56,
+    "losses": 57,
     "draws": 4,
-    "runs_scored": 554,
-    "runs_allowed": 563,
-    "win_rate": "0.491",
-    "run_diff": -9
+    "runs_scored": 556,
+    "runs_allowed": 569,
+    "win_rate": "0.486",
+    "run_diff": -13
   },
   "LG": {
-    "games": 117,
-    "wins": 71,
+    "games": 118,
+    "wins": 72,
     "losses": 43,
     "draws": 3,
-    "runs_scored": 633,
-    "runs_allowed": 450,
-    "win_rate": "0.623",
-    "run_diff": 183
+    "runs_scored": 639,
+    "runs_allowed": 452,
+    "win_rate": "0.626",
+    "run_diff": 187
   },
   "삼성": {
     "games": 117,
@@ -30,24 +30,24 @@
     "run_diff": 67
   },
   "두산": {
-    "games": 117,
+    "games": 118,
     "wins": 52,
-    "losses": 60,
+    "losses": 61,
     "draws": 5,
-    "runs_scored": 536,
-    "runs_allowed": 546,
-    "win_rate": "0.464",
-    "run_diff": -10
+    "runs_scored": 538,
+    "runs_allowed": 552,
+    "win_rate": "0.460",
+    "run_diff": -14
   },
   "KT": {
-    "games": 118,
-    "wins": 57,
+    "games": 119,
+    "wins": 58,
     "losses": 57,
     "draws": 4,
-    "runs_scored": 512,
-    "runs_allowed": 526,
-    "win_rate": "0.500",
-    "run_diff": -14
+    "runs_scored": 518,
+    "runs_allowed": 528,
+    "win_rate": "0.504",
+    "run_diff": -10
   },
   "SSG": {
     "games": 116,

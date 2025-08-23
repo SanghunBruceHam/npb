@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2025-08-23T11:35:03.606Z",
+  "lastUpdated": "2025-08-23T12:19:58.269Z",
   "updateDate": "2025. 8. 23.",
   "clutchAnalysis": {
     "LG": {
-      "totalGames": 117,
+      "totalGames": 118,
       "oneRunGames": 33,
       "oneRunWins": 18,
       "oneRunLosses": 15,
@@ -455,7 +455,7 @@
       "clutchIndex": "56.2"
     },
     "KIA": {
-      "totalGames": 114,
+      "totalGames": 115,
       "oneRunGames": 35,
       "oneRunWins": 19,
       "oneRunLosses": 16,
@@ -913,7 +913,7 @@
       "clutchIndex": "36.7"
     },
     "KT": {
-      "totalGames": 118,
+      "totalGames": 119,
       "oneRunGames": 34,
       "oneRunWins": 15,
       "oneRunLosses": 19,
@@ -1570,7 +1570,7 @@
       "clutchIndex": "50.4"
     },
     "두산": {
-      "totalGames": 117,
+      "totalGames": 118,
       "oneRunGames": 36,
       "oneRunWins": 15,
       "oneRunLosses": 21,
