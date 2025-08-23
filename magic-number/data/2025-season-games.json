@@ -4654,5 +4654,13 @@
     "away_score": 1,
     "home_score": 0,
     "winner": "SSG"
+  },
+  {
+    "date": "2025-08-23",
+    "away_team": "SSG",
+    "home_team": "한화",
+    "away_score": 0,
+    "home_score": 5,
+    "winner": "한화"
   }
 ]

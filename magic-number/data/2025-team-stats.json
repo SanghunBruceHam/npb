@@ -50,14 +50,14 @@
     "run_diff": -14
   },
   "SSG": {
-    "games": 115,
+    "games": 116,
     "wins": 58,
-    "losses": 53,
+    "losses": 54,
     "draws": 4,
     "runs_scored": 460,
-    "runs_allowed": 437,
-    "win_rate": "0.523",
-    "run_diff": 23
+    "runs_allowed": 442,
+    "win_rate": "0.518",
+    "run_diff": 18
   },
   "롯데": {
     "games": 119,
@@ -70,14 +70,14 @@
     "run_diff": -34
   },
   "한화": {
-    "games": 116,
-    "wins": 65,
+    "games": 117,
+    "wins": 66,
     "losses": 48,
     "draws": 3,
-    "runs_scored": 524,
+    "runs_scored": 529,
     "runs_allowed": 450,
-    "win_rate": "0.575",
-    "run_diff": 74
+    "win_rate": "0.579",
+    "run_diff": 79
   },
   "NC": {
     "games": 112,

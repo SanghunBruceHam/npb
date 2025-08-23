@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-23T11:13:37.147Z",
+  "lastUpdated": "2025-08-23T11:35:03.606Z",
   "updateDate": "2025. 8. 23.",
   "clutchAnalysis": {
     "LG": {
@@ -226,7 +226,7 @@
       "clutchIndex": "55.9"
     },
     "한화": {
-      "totalGames": 116,
+      "totalGames": 117,
       "oneRunGames": 37,
       "oneRunWins": 21,
       "oneRunLosses": 16,
@@ -443,7 +443,7 @@
           "diff": 7
         }
       ],
-      "shutoutWins": 10,
+      "shutoutWins": 11,
       "shutoutLosses": 8,
       "highScoringGames": 10,
       "highScoringWins": 10,
@@ -1148,7 +1148,7 @@
       "clutchIndex": "49.9"
     },
     "SSG": {
-      "totalGames": 115,
+      "totalGames": 116,
       "oneRunGames": 33,
       "oneRunWins": 16,
       "oneRunLosses": 17,
@@ -1312,10 +1312,10 @@
         }
       ],
       "shutoutWins": 7,
-      "shutoutLosses": 8,
+      "shutoutLosses": 9,
       "highScoringGames": 5,
       "highScoringWins": 5,
-      "scorelessGames": 8,
+      "scorelessGames": 9,
       "comebackPotential": {
         "trailingWins": 0,
         "leadBlownLosses": 0

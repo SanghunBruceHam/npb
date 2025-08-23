@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-23T11:13:37.586Z",
+  "lastUpdated": "2025-08-23T11:35:04.057Z",
   "updateDate": "2025. 8. 23.",
   "teamStats": {
     "LG": {
@@ -2136,8 +2136,8 @@
     "한화": {
       "totalSeries": 43,
       "winningSeries": 21,
-      "losingSeries": 17,
-      "splitSeries": 5,
+      "losingSeries": 16,
+      "splitSeries": 6,
       "sweepWins": 9,
       "sweepLosses": 3,
       "seriesWinRate": "48.8",
@@ -4145,29 +4145,39 @@
               "result": "L",
               "runs_scored": 0,
               "runs_allowed": 1
+            },
+            {
+              "gameNumber": 117,
+              "date": "2025-08-23",
+              "opponent": "SSG",
+              "isHome": true,
+              "score": "5:0",
+              "result": "W",
+              "runs_scored": 5,
+              "runs_allowed": 0
             }
           ],
           "startDate": "2025-08-22",
-          "lastDate": "2025-08-22",
-          "wins": 0,
+          "lastDate": "2025-08-23",
+          "wins": 1,
           "losses": 1,
           "draws": 0,
-          "homeGames": 1,
+          "homeGames": 2,
           "awayGames": 0,
-          "result": "LOSS",
+          "result": "SPLIT",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 1,
+          "totalGames": 2,
           "seriesType": "HOME",
           "seriesNumber": 43
         }
       ],
       "currentStreak": {
         "type": "LOSS",
-        "count": 3,
+        "count": 2,
         "startDate": "2025-08-15",
-        "endDate": "2025-08-22"
+        "endDate": "2025-08-21"
       },
       "longestWinningStreak": {
         "count": 9,
@@ -4239,8 +4249,8 @@
         "SSG": {
           "totalSeries": 5,
           "wins": 1,
-          "losses": 4,
-          "splits": 0,
+          "losses": 3,
+          "splits": 1,
           "sweepWins": 1,
           "sweepLosses": 0
         },
@@ -10629,12 +10639,12 @@
     },
     "SSG": {
       "totalSeries": 42,
-      "winningSeries": 20,
+      "winningSeries": 19,
       "losingSeries": 17,
-      "splitSeries": 5,
+      "splitSeries": 6,
       "sweepWins": 0,
       "sweepLosses": 1,
-      "seriesWinRate": "47.6",
+      "seriesWinRate": "45.2",
       "series": [
         {
           "opponent": "두산",
@@ -12609,29 +12619,39 @@
               "result": "W",
               "runs_scored": 1,
               "runs_allowed": 0
+            },
+            {
+              "gameNumber": 116,
+              "date": "2025-08-23",
+              "opponent": "한화",
+              "isHome": false,
+              "score": "0:5",
+              "result": "L",
+              "runs_scored": 0,
+              "runs_allowed": 5
             }
           ],
           "startDate": "2025-08-22",
-          "lastDate": "2025-08-22",
+          "lastDate": "2025-08-23",
           "wins": 1,
-          "losses": 0,
+          "losses": 1,
           "draws": 0,
           "homeGames": 0,
-          "awayGames": 1,
-          "result": "WIN",
+          "awayGames": 2,
+          "result": "SPLIT",
           "isSweep": false,
           "isWinningSweep": false,
           "isLosingSweep": false,
-          "totalGames": 1,
+          "totalGames": 2,
           "seriesType": "AWAY",
           "seriesNumber": 42
         }
       ],
       "currentStreak": {
         "type": "WIN",
-        "count": 2,
+        "count": 1,
         "startDate": "2025-08-19",
-        "endDate": "2025-08-22"
+        "endDate": "2025-08-21"
       },
       "longestWinningStreak": {
         "count": 4,
@@ -12694,9 +12714,9 @@
         },
         "한화": {
           "totalSeries": 5,
-          "wins": 4,
+          "wins": 3,
           "losses": 1,
-          "splits": 0,
+          "splits": 1,
           "sweepWins": 0,
           "sweepLosses": 1
         },
@@ -21258,7 +21278,7 @@
         "totalSeries": 5
       },
       "SSG": {
-        "record": "1-4-0",
+        "record": "1-3-1",
         "winRate": "20.0",
         "sweeps": "1-0",
         "totalSeries": 5
@@ -21467,8 +21487,8 @@
         "totalSeries": 5
       },
       "한화": {
-        "record": "4-1-0",
-        "winRate": "80.0",
+        "record": "3-1-1",
+        "winRate": "60.0",
         "sweeps": "0-1",
         "totalSeries": 5
       },
