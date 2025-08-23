@@ -840,18 +840,55 @@ const kboTeams = {
                         bValue = parseFloat(b.cells[7].textContent);
                         break;
                     case 'gamesBehind':
-                        aValue = a.cells[10].textContent === '-' ? 0 : parseFloat(a.cells[10].textContent);
-                        bValue = b.cells[10].textContent === '-' ? 0 : parseFloat(b.cells[10].textContent);
+                        aValue = a.cells[8].textContent === '-' ? 0 : parseFloat(a.cells[8].textContent);
+                        bValue = b.cells[8].textContent === '-' ? 0 : parseFloat(b.cells[8].textContent);
+                        break;
+                    case 'remainingGames':
+                        aValue = parseInt(a.cells[9].textContent);
+                        bValue = parseInt(b.cells[9].textContent);
                         break;
                     case 'recent10':
-                        aValue = parseInt(a.cells[12].textContent.split('승')[0]);
-                        bValue = parseInt(b.cells[12].textContent.split('승')[0]);
+                        // "7승1무2패" 형태에서 승률 계산
+                        const aRecord = a.cells[10].textContent;
+                        const bRecord = b.cells[10].textContent;
+                        
+                        const aWins = parseInt(aRecord.match(/(\d+)승/)?.[1] || 0);
+                        const aLosses = parseInt(aRecord.match(/(\d+)패/)?.[1] || 0);
+                        const bWins = parseInt(bRecord.match(/(\d+)승/)?.[1] || 0);
+                        const bLosses = parseInt(bRecord.match(/(\d+)패/)?.[1] || 0);
+                        
+                        // 승률 계산 (무승부 제외)
+                        aValue = (aWins + aLosses) > 0 ? aWins / (aWins + aLosses) : 0;
+                        bValue = (bWins + bLosses) > 0 ? bWins / (bWins + bLosses) : 0;
                         break;
                     case 'streak':
-                        const aStreak = a.cells[13].textContent;
-                        const bStreak = b.cells[13].textContent;
-                        aValue = aStreak.includes('승') ? parseInt(aStreak) : -parseInt(aStreak);
-                        bValue = bStreak.includes('승') ? parseInt(bStreak) : -parseInt(bStreak);
+                        const aStreak = a.cells[11].textContent;
+                        const bStreak = b.cells[11].textContent;
+                        // 연속 승리는 양수, 연속 패배는 음수로 처리
+                        aValue = aStreak.includes('승') ? parseInt(aStreak.match(/\d+/)?.[0] || 0) : -parseInt(aStreak.match(/\d+/)?.[0] || 0);
+                        bValue = bStreak.includes('승') ? parseInt(bStreak.match(/\d+/)?.[0] || 0) : -parseInt(bStreak.match(/\d+/)?.[0] || 0);
+                        break;
+                    case 'home':
+                        // 홈 성적에서 승률 계산
+                        const aHome = a.cells[12].textContent;
+                        const bHome = b.cells[12].textContent;
+                        const aHomeWins = parseInt(aHome.match(/(\d+)-/)?.[1] || 0);
+                        const aHomeLosses = parseInt(aHome.match(/-(\d+)/)?.[1] || 0);
+                        const bHomeWins = parseInt(bHome.match(/(\d+)-/)?.[1] || 0);
+                        const bHomeLosses = parseInt(bHome.match(/-(\d+)/)?.[1] || 0);
+                        aValue = (aHomeWins + aHomeLosses) > 0 ? aHomeWins / (aHomeWins + aHomeLosses) : 0;
+                        bValue = (bHomeWins + bHomeLosses) > 0 ? bHomeWins / (bHomeWins + bHomeLosses) : 0;
+                        break;
+                    case 'away':
+                        // 방문 성적에서 승률 계산
+                        const aAway = a.cells[13].textContent;
+                        const bAway = b.cells[13].textContent;
+                        const aAwayWins = parseInt(aAway.match(/(\d+)-/)?.[1] || 0);
+                        const aAwayLosses = parseInt(aAway.match(/-(\d+)/)?.[1] || 0);
+                        const bAwayWins = parseInt(bAway.match(/(\d+)-/)?.[1] || 0);
+                        const bAwayLosses = parseInt(bAway.match(/-(\d+)/)?.[1] || 0);
+                        aValue = (aAwayWins + aAwayLosses) > 0 ? aAwayWins / (aAwayWins + aAwayLosses) : 0;
+                        bValue = (bAwayWins + bAwayLosses) > 0 ? bAwayWins / (bAwayWins + bAwayLosses) : 0;
                         break;
                     case 'magic':
                         const aMagic = a.cells[14].textContent;
