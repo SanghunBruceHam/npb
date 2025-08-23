@@ -747,8 +747,8 @@ const kboTeams = {
                 `;
                 
                 // 성적 표시 (10경기 승률 포함)
-                const winRateText = (bestRecentTeams[0].recent10WinRate * 100).toFixed(1);
-                document.getElementById('recent-best-record').textContent = `${bestRecentTeams[0].recent10} (승률 ${winRateText}%)`;
+                const winRateText = bestRecentTeams[0].recent10WinRate.toFixed(3);
+                document.getElementById('recent-best-record').textContent = `${bestRecentTeams[0].recent10} (승률 ${winRateText})`;
             } else {
                 document.getElementById('recent-best-team').textContent = '-';
                 document.getElementById('recent-best-record').textContent = '-';
