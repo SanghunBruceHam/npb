@@ -7031,23 +7031,23 @@
             header.classList.add(nextSort === 'asc' ? 'sort-asc' : 'sort-desc');
         }
         
-        // 순위 컬럼 색상 업데이트 함수
+        // 순위 컬럼 색상 및 번호 업데이트 함수
         function updateRankColors(tbody) {
             const dataRows = Array.from(tbody.querySelectorAll('tr')).filter(row => !row.classList.contains('stats-row'));
             
-            dataRows.forEach(row => {
+            dataRows.forEach((row, index) => {
                 const rankCell = row.cells[0]; // 첫 번째 셀이 순위 컬럼
                 if (rankCell) {
                     // 기존 순위 클래스 제거
                     rankCell.classList.remove('rank-1', 'rank-2', 'rank-3');
                     
-                    // 순위 값 추출
-                    const rankText = rankCell.textContent || rankCell.innerText;
-                    const rank = parseInt(rankText.trim());
+                    // 새로운 순위 번호 설정 (정렬된 순서 기준)
+                    const newRank = index + 1;
+                    rankCell.innerHTML = `<strong>${newRank}</strong>`;
                     
                     // 새로운 순위 클래스 적용
-                    if (rank <= 3) {
-                        rankCell.classList.add(`rank-${rank}`);
+                    if (newRank <= 3) {
+                        rankCell.classList.add(`rank-${newRank}`);
                     }
                 }
             });
