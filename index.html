@@ -3,31 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KBO 2025 시즌 진행률 및 순위표 | 한국프로야구 실시간 분석 대시보드</title>
+    <title>KBO 2025 순위표 실시간 | 한국프로야구 시즌 진행률 매직넘버 분석</title>
     
-    <!-- SEO 메타데이터 -->
-    <meta name="description" content="KBO 2025시즌 종합 분석 대시보드. 시즌 진행률, 팀 순위표, 상대전적, 매직넘버, 홈/원정 성적, 클러치 상황 분석 등 한국프로야구의 모든 데이터를 실시간으로 제공합니다.">
-    <meta name="keywords" content="KBO, 한국프로야구, 2025시즌, 시즌진행률, 순위표, 상대전적, 매직넘버, 야구통계, 프로야구분석, 홈원정성적, 클러치분석, 팀별소화율">
-    <meta name="author" content="KBO 분석 대시보드">
+    <!-- 검색엔진 최적화 메타데이터 -->
+    <meta name="description" content="2025 KBO 리그 실시간 순위표와 시즌 진행률을 한눈에 확인하세요. LG 한화 SSG 등 10개 팀의 승률, 게임차, 매직넘버, 상대전적, 홈원정 성적까지 모든 야구 데이터를 실시간 업데이트로 제공합니다.">
+    <meta name="keywords" content="KBO, 한국프로야구, 2025시즌, KBO순위표, 야구순위, 시즌진행률, 매직넘버, LG트윈스, 한화이글스, SSG랜더스, NC다이노스, KT위즈, 롯데자이언츠, 두산베어스, 삼성라이온즈, KIA타이거즈, 키움히어로즈, 상대전적, 홈원정성적, 피타고리안승률, 클러치분석, 프로야구통계, 야구분석, KBO리그, 한국야구위원회">
+    <meta name="author" content="KBO Analytics Dashboard">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://sanghunbruceham.github.io/kbo/">
+    
+    <!-- 한국 검색엔진 최적화 -->
+    <meta name="naver-site-verification" content="">
+    <meta name="daumoa:subject" content="KBO 2025 순위표 시즌 분석">
+    <meta name="daumoa:category" content="스포츠>야구">
+    <meta http-equiv="Content-Language" content="ko">
+    <meta name="geo.region" content="KR">
+    <meta name="geo.country" content="Korea">
+    
+    <!-- 추가 SEO 메타태그 -->
+    <meta name="theme-color" content="#1f2937">
+    <meta name="msapplication-TileColor" content="#1f2937">
+    <meta name="application-name" content="KBO Analytics">
+    <meta name="apple-mobile-web-app-title" content="KBO Analytics">
+    <meta name="format-detection" content="telephone=no">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Open Graph 메타데이터 -->
-    <meta property="og:title" content="KBO 2025 종합 분석 대시보드">
-    <meta property="og:description" content="한국프로야구 2025시즌의 모든 데이터를 한눈에 분석하고 비교할 수 있는 종합 대시보드. 시즌 진행률, 실시간 순위, 상대전적, 매직넘버 등 제공">
+    <!-- 구조화 데이터 (JSON-LD) - 스포츠 리그 정보 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "KBO 리그",
+      "alternateName": ["한국프로야구", "Korea Baseball Organization"],
+      "description": "대한민국 프로야구 리그 KBO의 2025시즌 실시간 순위표 및 통계 분석",
+      "url": "https://sanghunbruceham.github.io/kbo/",
+      "sameAs": [
+        "https://www.koreabaseball.com/",
+        "https://www.naver.com/search?q=KBO",
+        "https://sports.daum.net/proleague/kbo"
+      ],
+      "sport": "야구",
+      "location": {
+        "@type": "Country",
+        "name": "대한민국",
+        "alternateName": "Korea"
+      },
+      "memberOf": {
+        "@type": "SportsLeague",
+        "name": "KBO 리그",
+        "numberOfTeams": 10,
+        "sport": "Baseball"
+      }
+    }
+    </script>
+    
+    <!-- 구조화 데이터 (JSON-LD) - 웹사이트 정보 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "KBO Analytics Dashboard",
+      "alternateName": "KBO 2025 순위표 실시간",
+      "description": "2025 KBO 리그 실시간 순위표와 시즌 진행률, 매직넘버, 상대전적 분석을 제공하는 종합 야구 통계 대시보드",
+      "url": "https://sanghunbruceham.github.io/kbo/",
+      "inLanguage": "ko-KR",
+      "about": {
+        "@type": "SportsOrganization",
+        "name": "KBO 리그"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://sanghunbruceham.github.io/kbo/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "keywords": "KBO, 한국프로야구, 야구순위, 시즌진행률, 매직넘버, 상대전적, 홈원정성적, 야구통계"
+    }
+    </script>
+    
+    <!-- 구조화 데이터 (JSON-LD) - 스포츠 이벤트/시즌 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      "name": "KBO 2025 정규시즌",
+      "description": "2025년 KBO 리그 정규시즌 순위표 및 경기 결과",
+      "startDate": "2025-03-23",
+      "endDate": "2025-10-01",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Country",
+        "name": "대한민국"
+      },
+      "organizer": {
+        "@type": "SportsOrganization",
+        "name": "한국야구위원회",
+        "alternateName": "KBO"
+      },
+      "competitor": [
+        {
+          "@type": "SportsTeam",
+          "name": "LG 트윈스",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam", 
+          "name": "한화 이글스",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "SSG 랜더스", 
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "롯데 자이언츠",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "KT 위즈",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "NC 다이노스",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "KIA 타이거즈",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "두산 베어스",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "삼성 라이온즈",
+          "sport": "야구"
+        },
+        {
+          "@type": "SportsTeam",
+          "name": "키움 히어로즈",
+          "sport": "야구"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- 구조화 데이터 (JSON-LD) - 데이터셋 정보 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "KBO 2025 시즌 순위 및 통계 데이터",
+      "description": "2025년 KBO 리그의 실시간 팀 순위, 승률, 게임차, 득실차, 매직넘버, 상대전적, 홈원정 성적 등 종합적인 야구 통계 데이터셋",
+      "url": "https://sanghunbruceham.github.io/kbo/",
+      "keywords": ["KBO", "한국프로야구", "야구통계", "팀순위", "승률", "매직넘버", "상대전적"],
+      "creator": {
+        "@type": "Organization",
+        "name": "KBO Analytics Dashboard"
+      },
+      "publisher": {
+        "@type": "Organization", 
+        "name": "KBO Analytics Dashboard"
+      },
+      "dateModified": "2025-08-23",
+      "datePublished": "2025-03-23",
+      "inLanguage": "ko-KR",
+      "spatialCoverage": "대한민국",
+      "temporalCoverage": "2025",
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://sanghunbruceham.github.io/kbo/service-data.json"
+      }
+    }
+    </script>
+    
+    <!-- Open Graph 소셜미디어 최적화 -->
+    <meta property="og:title" content="KBO 2025 순위표 실시간 | 한국프로야구 시즌 진행률 매직넘버 분석">
+    <meta property="og:description" content="2025 KBO 리그 실시간 순위표와 시즌 진행률을 한눈에 확인하세요. LG 한화 SSG 등 10개 팀의 승률, 게임차, 매직넘버, 상대전적, 홈원정 성적까지 모든 야구 데이터를 실시간 업데이트로 제공합니다.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sanghunbruceham.github.io/kbo/">
     <meta property="og:image" content="https://sanghunbruceham.github.io/kbo/images/kbo-dashboard-preview.png">
-    <meta property="og:site_name" content="KBO 분석 대시보드">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="KBO 2025 순위표 및 시즌 분석 대시보드">
+    <meta property="og:site_name" content="KBO Analytics Dashboard">
     <meta property="og:locale" content="ko_KR">
+    <meta property="article:author" content="KBO Analytics Dashboard">
+    <meta property="article:section" content="Sports">
+    <meta property="article:tag" content="KBO,한국프로야구,야구순위,매직넘버">
     
-    <!-- Twitter Card 메타데이터 -->
+    <!-- Twitter Card 최적화 -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="KBO 2025 종합 분석 대시보드">
-    <meta name="twitter:description" content="한국프로야구 2025시즌 종합 분석 - 시즌 진행률, 순위표, 상대전적, 매직넘버, 홈원정성적 등">
+    <meta name="twitter:title" content="KBO 2025 순위표 실시간 | 한국프로야구 시즌 진행률">
+    <meta name="twitter:description" content="2025 KBO 리그 실시간 순위표, 매직넘버, 상대전적까지 모든 야구 데이터 실시간 업데이트">
     <meta name="twitter:image" content="https://sanghunbruceham.github.io/kbo/images/kbo-dashboard-preview.png">
+    <meta name="twitter:image:alt" content="KBO 2025 순위표 및 시즌 분석 대시보드">
+    <meta name="twitter:creator" content="@kbo_analytics">
+    <meta name="twitter:site" content="@kbo_analytics">
     
     <!-- 파비콘 및 앱 아이콘 -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/kbo-main-icon.png">
