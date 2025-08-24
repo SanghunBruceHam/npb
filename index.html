@@ -551,8 +551,8 @@
             /* 카드 공통 스타일 변수 */
             --card-width: 100%;
             --card-max-width: 100%;
-            --card-padding: 15px;
-            --card-margin: 0 auto 15px auto;
+            --card-padding: 8px;
+            --card-margin: 0 auto 8px auto;
             --card-border-radius: 15px;
             --card-background: rgba(255, 255, 255, 0.95);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -760,8 +760,8 @@
         .card-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #ecf0f1;
         }
 
@@ -2108,7 +2108,7 @@
                 --font-2xl: 1.2rem;
                 --font-3xl: 1.5rem;
                 --font-4xl: 2rem;
-                --card-padding: 15px;
+                --card-padding: 8px;
                 --card-max-width: 100%;
             }
             
@@ -2958,8 +2958,8 @@
         .team-stats-summary {
             background: white;
             border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
             border: 1px solid #e2e8f0;
         }
 
@@ -5754,11 +5754,11 @@
 
                 html += `
                 <div class="selected-team-details">
-                    <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">${currentSelectedTeam} 게임 기록</h3>
+                    <h3 style="text-align: center; margin-bottom: 12px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">${currentSelectedTeam} 게임 기록</h3>
                     
                     <!-- 팀 통계 요약 (한줄 레이아웃) -->
-                    <div class="team-stats-summary" style="margin-bottom: 20px; background: #f8f9fa; padding: 15px 20px; border-radius: 8px; border: 1px solid #e9ecef;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                    <div class="team-stats-summary" style="margin-bottom: 12px; background: #f8f9fa; padding: 8px 12px; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                                 <span style="font-size: var(--font-sm); color: #718096; font-weight: var(--font-weight-medium);">총경기</span>
                                 <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold); color: #2d3748;">${teamRecord.games.length}</span>
@@ -5793,11 +5793,11 @@
                     </div>
 
                     <!-- 상세 게임 기록 테이블 -->
-                    <div class="detailed-games-section">
-                        <h3 style="text-align: center; margin: 25px 0 20px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h3>
+                    <div class="detailed-games-section" style="margin-top: 5px;">
+                        <h3 style="text-align: center; margin: 5px 0 5px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h3>
                         
                         <!-- 팀별 월별 탭 (동적으로 생성됨) -->
-                        <div class="team-month-tabs" id="team-month-tabs-container" style="text-align: center; margin-bottom: 15px; display: none;"></div>
+                        <div class="team-month-tabs" id="team-month-tabs-container" style="text-align: center; margin-bottom: 8px; display: none;"></div>
                         
                         <div class="table-scroll-wrapper" id="team-detailed-table-wrapper">
                             <table class="detailed-game-table" id="detailedGameTable">
@@ -6055,7 +6055,7 @@
             
             let html = `
             <div class="all-teams-overview">
-                <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h3>
+                <h3 style="text-align: center; margin: 5px 0 10px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h3>
                 
                 <!-- 전체 게임 월별 탭 -->
                 <div class="all-games-month-tabs" style="text-align: center; margin-bottom: 15px;">
