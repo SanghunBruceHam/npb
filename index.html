@@ -3756,7 +3756,20 @@
 
         <!-- 네비게이션 -->
         <nav class="navigation">
-            <div class="nav-container">
+            <div class="nav-container" style="position: relative;">
+                <!-- 왼쪽 스크롤 표시 화살표 -->
+                <div id="nav-arrow-left" class="nav-scroll-arrow nav-arrow-left" style="
+                    position: absolute;
+                    left: 5px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: rgba(255, 255, 255, 0.7);
+                    font-size: 18px;
+                    z-index: 10;
+                    pointer-events: none;
+                    display: none;
+                ">←</div>
+                
                 <div class="nav-menu" id="nav-menu">
                     <a href="#season-progress" class="nav-item">📈 진행률</a>
                     <a href="#daily-stats" class="nav-item">📅 일별통계</a>
@@ -3777,6 +3790,19 @@
                     <a href="#series" class="nav-item">⚔️ 시리즈</a>
                     <a href="#stadium" class="nav-item">🏟️ 경기장별</a>
                 </div>
+                
+                <!-- 오른쪽 스크롤 표시 화살표 -->
+                <div id="nav-arrow-right" class="nav-scroll-arrow nav-arrow-right" style="
+                    position: absolute;
+                    right: 5px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: rgba(255, 255, 255, 0.7);
+                    font-size: 18px;
+                    z-index: 10;
+                    pointer-events: none;
+                    display: none;
+                ">→</div>
             </div>
         </nav>
 
@@ -3784,10 +3810,26 @@
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navMenu = document.getElementById('nav-menu');
+            const leftArrow = document.getElementById('nav-arrow-left');
+            const rightArrow = document.getElementById('nav-arrow-right');
             let isDown = false;
             let startX;
             let scrollLeft;
             let hasMoved = false;
+
+            // 스크롤 가능 여부 확인 및 화살표 표시/숨김
+            function updateScrollArrows() {
+                const canScrollLeft = navMenu.scrollLeft > 0;
+                const canScrollRight = navMenu.scrollLeft < (navMenu.scrollWidth - navMenu.clientWidth);
+                
+                leftArrow.style.display = canScrollLeft ? 'block' : 'none';
+                rightArrow.style.display = canScrollRight ? 'block' : 'none';
+            }
+
+            // 페이지 로드 시 및 스크롤 시 화살표 업데이트
+            updateScrollArrows();
+            navMenu.addEventListener('scroll', updateScrollArrows);
+            window.addEventListener('resize', updateScrollArrows);
 
             navMenu.addEventListener('mousedown', (e) => {
                 isDown = true;
@@ -3888,6 +3930,16 @@
         /* 네비게이션 아이템 간격을 원래대로 복원 */
         .nav-item {
             margin: 0 !important;
+        }
+
+        /* 네비게이션 화살표 블링크 애니메이션 */
+        .nav-scroll-arrow {
+            animation: navArrowBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes navArrowBlink {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.3; }
         }
         </style>
 
