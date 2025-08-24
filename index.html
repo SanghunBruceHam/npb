@@ -2402,7 +2402,7 @@
         .all-teams-table th, .all-teams-table td,
         .detailed-game-table th, .detailed-game-table td {
             border: 1px solid #d1d5db;
-            padding: 5px 4px;  /* 패딩 추가 축소 (6px 4px → 5px 4px) */
+            padding: 4px 4px;  /* 패딩 추가 축소 (5px 4px → 4px 4px) */
             text-align: center;
         }
 
@@ -3009,7 +3009,7 @@
         .detailed-game-table th,
         .detailed-game-table td {
             border: 1px solid #d1d5db;
-            padding: 7px 6px;
+            padding: 5px 6px;
             text-align: center;
             vertical-align: middle;
             white-space: nowrap;
@@ -5600,6 +5600,50 @@
                 </div>`;
 
             document.getElementById('gameRecordsContent').innerHTML = html;
+            
+            // 전체 게임 월별 탭 이벤트 리스너 추가
+            setTimeout(() => {
+                const allGamesMonthTabs = document.querySelectorAll('.all-games-month-tab');
+                const allGamesTableContainer = document.querySelector('#gameRecordsContent .table-container');
+                
+                allGamesMonthTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // 모든 탭에서 active 클래스 제거하고 기본 스타일 적용
+                        allGamesMonthTabs.forEach(t => {
+                            t.classList.remove('active');
+                            t.style.background = 'white';
+                            t.style.borderColor = '#dee2e6';
+                            t.style.color = '#666';
+                        });
+                        
+                        // 클릭된 탭에 active 스타일 적용
+                        tab.classList.add('active');
+                        tab.style.background = '#495057';
+                        tab.style.borderColor = '#495057';
+                        tab.style.color = 'white';
+                        
+                        // 해당 월의 첫 날짜로 스크롤
+                        const monthNum = tab.getAttribute('data-month');
+                        const targetElement = document.getElementById(`all-games-month-${monthNum}-start`);
+                        
+                        if (targetElement && allGamesTableContainer) {
+                            // 실제 스티키 헤더의 높이를 동적으로 계산
+                            const stickyHeader = allGamesTableContainer.querySelector('thead tr');
+                            const stickyHeaderHeight = stickyHeader ? stickyHeader.offsetHeight : 50;
+                            
+                            const containerRect = allGamesTableContainer.getBoundingClientRect();
+                            const targetRect = targetElement.getBoundingClientRect();
+                            const scrollOffset = targetRect.top - containerRect.top + allGamesTableContainer.scrollTop;
+                            
+                            // 실제 측정된 스티키 헤더 높이를 고려한 부드러운 스크롤
+                            allGamesTableContainer.scrollTo({
+                                top: scrollOffset - stickyHeaderHeight - 5,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+            }, 100);
         }
 
         // 특정 게임에서의 연승/연패 카운트 계산 (무승부 무시)
@@ -5774,7 +5818,11 @@
                     <!-- 상세 게임 기록 테이블 -->
                     <div class="detailed-games-section">
                         <h3 style="text-align: center; margin: 25px 0 20px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h3>
-                        <div class="table-scroll-wrapper">
+                        
+                        <!-- 팀별 월별 탭 (동적으로 생성됨) -->
+                        <div class="team-month-tabs" id="team-month-tabs-container" style="text-align: center; margin-bottom: 15px; display: none;"></div>
+                        
+                        <div class="table-scroll-wrapper" id="team-detailed-table-wrapper">
                             <table class="detailed-game-table" id="detailedGameTable">
                                 <thead>
                                     <tr>
@@ -5791,6 +5839,9 @@
                                 </thead>
                                 <tbody id="detailedGameTableBody">`;
 
+                // 월별 첫 경기 추적을 위한 Set
+                const teamMonthFirstGameAdded = new Set();
+                
                 teamRecord.games.forEach((game, index) => {
                     const scoreDiff = game.runs_scored - game.runs_allowed;
                     const scoreDiffText = scoreDiff > 0 ? `+${scoreDiff}` : scoreDiff.toString();
@@ -5811,6 +5862,14 @@
                     // 날짜를 월/일 형식으로 변환
                     const dateParts = game.date.split('-');
                     const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                    const monthNum = parseInt(dateParts[1]);
+                    
+                    // 월별 첫 경기에 ID 추가
+                    let monthId = '';
+                    if (!teamMonthFirstGameAdded.has(monthNum)) {
+                        monthId = ` id="team-month-${monthNum}-start"`;
+                        teamMonthFirstGameAdded.add(monthNum);
+                    }
                     
                     // 공휴일이면 요일 아래 공휴일명, 아니면 요일만
                     let displayDate;
@@ -5829,7 +5888,7 @@
                     }
                     
                     html += `
-                        <tr class="${game.result === 'W' ? 'win-row' : game.result === 'L' ? 'loss-row' : 'draw-row'}">
+                        <tr class="${game.result === 'W' ? 'win-row' : game.result === 'L' ? 'loss-row' : 'draw-row'}"${monthId}>
                             <td class="game-num-cell">${game.gameNumber}</td>
                             <td class="date-cell ${dateClass}">${displayDate}</td>
                             <td class="opponent-cell">${getTeamWithLogo(game.opponent)}</td>
@@ -5876,13 +5935,21 @@
                             // 날짜를 월/일 형식으로 변환
                             const dateParts = game.date.split('-');
                             const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                            const futureMonthNum = parseInt(dateParts[1]);
                             const displayDate = `<span class="date-main">${monthDay}</span><br><span class="date-day">(${dayName})</span><br><small class="date-time">${game.time}</small>`;
+                            
+                            // 월별 첫 경기에 ID 추가 (미래 경기도 포함)
+                            let futureMonthId = '';
+                            if (!teamMonthFirstGameAdded.has(futureMonthNum)) {
+                                futureMonthId = ` id="team-month-${futureMonthNum}-start"`;
+                                teamMonthFirstGameAdded.add(futureMonthNum);
+                            }
                             
                             // 미래 경기는 별도 스타일
                             const dateClass = isWeekend ? 'weekend-date' : 'weekday-date';
                             
                             html += `
-                                <tr class="future-game-row" style="background: #f8f9fa; opacity: 0.8;">
+                                <tr class="future-game-row" style="background: #f8f9fa; opacity: 0.8;"${futureMonthId}>
                                     <td class="game-num-cell" style="color: #6c757d;">-</td>
                                     <td class="date-cell ${dateClass}">${displayDate}</td>
                                     <td class="opponent-cell">${getTeamWithLogo(opponent)}</td>
@@ -5922,6 +5989,74 @@
 
             html += ``;
             document.getElementById('teamDetailedRecordsContent').innerHTML = html;
+            
+            // 팀별 월별 탭 생성 및 이벤트 리스너 추가 (전체 탭이 아닌 경우에만)
+            const teamMonthTabsContainer = document.getElementById('team-month-tabs-container');
+            if (currentSelectedTeam !== '전체' && teamMonthTabsContainer) {
+                // 월별 탭 HTML 생성
+                const monthTabsHtml = `
+                    <div class="team-month-tabs-container" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
+                        <button class="team-month-tab active" data-month="3" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #495057; border-radius: 6px; background: #495057; color: white; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">3월</button>
+                        <button class="team-month-tab" data-month="4" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">4월</button>
+                        <button class="team-month-tab" data-month="5" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">5월</button>
+                        <button class="team-month-tab" data-month="6" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">6월</button>
+                        <button class="team-month-tab" data-month="7" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">7월</button>
+                        <button class="team-month-tab" data-month="8" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">8월</button>
+                        <button class="team-month-tab" data-month="9" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">9월</button>
+                        <button class="team-month-tab" data-month="10" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">10월</button>
+                    </div>
+                `;
+                teamMonthTabsContainer.innerHTML = monthTabsHtml;
+                teamMonthTabsContainer.style.display = 'block';
+            } else if (teamMonthTabsContainer) {
+                // 전체 팀이 선택된 경우 탭 숨김
+                teamMonthTabsContainer.style.display = 'none';
+            }
+            
+            if (currentSelectedTeam !== '전체') {
+                setTimeout(() => {
+                    const teamMonthTabs = document.querySelectorAll('.team-month-tab');
+                    const teamTableWrapper = document.getElementById('team-detailed-table-wrapper');
+                    
+                    teamMonthTabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            // 모든 탭에서 active 클래스 제거하고 기본 스타일 적용
+                            teamMonthTabs.forEach(t => {
+                                t.classList.remove('active');
+                                t.style.background = 'white';
+                                t.style.borderColor = '#dee2e6';
+                                t.style.color = '#666';
+                            });
+                            
+                            // 클릭된 탭에 active 스타일 적용
+                            tab.classList.add('active');
+                            tab.style.background = '#495057';
+                            tab.style.borderColor = '#495057';
+                            tab.style.color = 'white';
+                            
+                            // 해당 월의 첫 경기로 스크롤
+                            const monthNum = tab.getAttribute('data-month');
+                            const targetElement = document.getElementById(`team-month-${monthNum}-start`);
+                            
+                            if (targetElement && teamTableWrapper) {
+                                // 실제 스티키 헤더의 높이를 동적으로 계산
+                                const stickyHeader = teamTableWrapper.querySelector('thead tr');
+                                const stickyHeaderHeight = stickyHeader ? stickyHeader.offsetHeight : 60; // 팀별 상세 기록은 더 큼
+                                
+                                const containerRect = teamTableWrapper.getBoundingClientRect();
+                                const targetRect = targetElement.getBoundingClientRect();
+                                const scrollOffset = targetRect.top - containerRect.top + teamTableWrapper.scrollTop;
+                                
+                                // 실제 측정된 스티키 헤더 높이를 고려한 부드러운 스크롤
+                                teamTableWrapper.scrollTo({
+                                    top: scrollOffset - stickyHeaderHeight - 5, // 실제 헤더 높이 + 작은 여백
+                                    behavior: 'smooth'
+                                });
+                            }
+                        });
+                    });
+                }, 100);
+            }
             
             // 정렬 기능 초기화
             if (currentSelectedTeam !== '전체' && gameRecordsData[currentSelectedTeam]) {
@@ -6114,19 +6249,34 @@
             <div class="all-teams-overview">
                 <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h3>
                 
+                <!-- 전체 게임 월별 탭 -->
+                <div class="all-games-month-tabs" style="text-align: center; margin-bottom: 15px;">
+                    <div class="all-games-month-tabs-container" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
+                        <button class="all-games-month-tab active" data-month="3" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #495057; border-radius: 6px; background: #495057; color: white; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">3월</button>
+                        <button class="all-games-month-tab" data-month="4" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">4월</button>
+                        <button class="all-games-month-tab" data-month="5" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">5월</button>
+                        <button class="all-games-month-tab" data-month="6" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">6월</button>
+                        <button class="all-games-month-tab" data-month="7" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">7월</button>
+                        <button class="all-games-month-tab" data-month="8" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">8월</button>
+                        <button class="all-games-month-tab" data-month="9" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">9월</button>
+                        <button class="all-games-month-tab" data-month="10" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">10월</button>
+                    </div>
+                </div>
+                
                 <div class="table-container" style="max-height: 800px; overflow-y: auto;">
                     <table class="all-teams-table detailed-game-table" style="width: 100%; border-collapse: collapse; font-size: var(--font-sm);">
                         <thead>
                             <tr style="background: #34495e; color: white; position: sticky; top: 0; z-index: 10;">
-                                <th class="date-header-cell" style="padding: 10px 8px; border: 1px solid #495057; text-align: center; min-width: 140px;">날짜</th>
+                                <th class="date-header-cell" style="padding: 6px 8px; border: 1px solid #495057; text-align: center; min-width: 140px;">날짜</th>
                                 ${teams.map(team => 
-                                    `<th style="padding: 10px 6px; border: 1px solid #495057; text-align: center; min-width: 80px; font-size: var(--font-xs);">${getTeamWithLogo(team, 'team-logo-small')}</th>`
+                                    `<th style="padding: 6px 6px; border: 1px solid #495057; text-align: center; min-width: 80px; font-size: var(--font-xs);">${getTeamWithLogo(team, 'team-logo-small')}</th>`
                                 ).join('')}
                             </tr>
                         </thead>
                         <tbody>`;
             
             // 날짜별 행 생성 (모든 경기 표시)
+            const allGamesMonthFirstAdded = new Set();
             dates.forEach(date => {
                 // 날짜 형식을 개별 팀과 동일하게 처리
                 const gameDate = new Date(date);
@@ -6144,6 +6294,14 @@
                 // 날짜를 월/일 형식으로 변환
                 const dateParts = date.split('-');
                 const monthDay = `${parseInt(dateParts[1])}월 ${parseInt(dateParts[2])}일`;
+                const allGamesMonthNum = parseInt(dateParts[1]);
+                
+                // 월별 첫 날짜에 ID 추가
+                let allGamesMonthId = '';
+                if (!allGamesMonthFirstAdded.has(allGamesMonthNum)) {
+                    allGamesMonthId = ` id="all-games-month-${allGamesMonthNum}-start"`;
+                    allGamesMonthFirstAdded.add(allGamesMonthNum);
+                }
                 
                 // 공휴일이면 요일 아래 공휴일명, 아니면 요일만
                 let displayDate;
@@ -6162,7 +6320,7 @@
                 }
                 
                 html += `
-                <tr style="border-bottom: 1px solid #e2e8f0;">
+                <tr style="border-bottom: 1px solid #e2e8f0;"${allGamesMonthId}>
                     <td class="date-cell ${dateClass}" style="padding: 8px; border: 1px solid #e2e8f0; text-align: center; background: #f8f9fa;">
                         ${displayDate}
                     </td>`;
@@ -9231,6 +9389,22 @@ KT 9:1 키움(H)`;
             }
             
             calculateStandings(targetDate) {
+                // 최신 날짜의 데이터인 경우 종합 순위 데이터 우선 사용
+                if (window.dashboardData && window.dashboardData.standings && targetDate === this.getCurrentMaxDate()) {
+                    // 종합 순위 데이터를 사용하여 순위 변동 차트용 데이터 생성
+                    return window.dashboardData.standings.map((team, index) => ({
+                        team: team.team,
+                        rank: team.rank,
+                        wins: team.wins,
+                        losses: team.losses,
+                        draws: team.draws,
+                        games: team.games,
+                        winRate: team.winRate,
+                        gamesBehind: team.gamesBehind
+                    }));
+                }
+                
+                // 종합 순위 데이터가 없거나 과거 날짜인 경우 기존 계산 로직 사용
                 const teams = ['LG', '삼성', 'KT', '두산', 'KIA', 'SSG', '롯데', 'NC', '한화', '키움'];
                 const tempStats = {};
                 
@@ -9303,6 +9477,12 @@ KT 9:1 키움(H)`;
                 });
                 
                 return standings;
+            }
+            
+            // 현재 시즌 데이터에서 최신 날짜 반환
+            getCurrentMaxDate() {
+                if (!this.seasonData || this.seasonData.length === 0) return null;
+                return this.seasonData[this.seasonData.length - 1].date;
             }
             
             updateDisplay(date) {

@@ -39,6 +39,20 @@ async function loadRealKBOData() {
             
             // 특정 날짜까지의 팀별 누적 전적 계산
             calculateCumulativeRecord(targetDate) {
+                // 최신 날짜인 경우 종합순위 데이터 우선 사용
+                if (window.dashboardData && window.dashboardData.standings && targetDate === this.getLatestDate()) {
+                    const records = {};
+                    window.dashboardData.standings.forEach(team => {
+                        records[team.team] = {
+                            wins: team.wins,
+                            losses: team.losses,
+                            draws: team.draws,
+                            games: team.games
+                        };
+                    });
+                    return records;
+                }
+                
                 const records = {};
                 
                 // 모든 팀 초기화
@@ -68,6 +82,12 @@ async function loadRealKBOData() {
                 return records;
             },
             
+            // 최신 경기 날짜 반환
+            getLatestDate() {
+                const allDates = this.getAllGameDates();
+                return allDates.length > 0 ? allDates[allDates.length - 1] : null;
+            },
+            
             // 전체 시즌 순위 생성
             generateSeasonRankings() {
                 const allDates = this.getAllGameDates();
@@ -75,6 +95,26 @@ async function loadRealKBOData() {
                 const seasonData = [];
                 
                 for (const date of allDates) {
+                    // 최신 날짜인 경우 종합순위 데이터 직접 사용
+                    if (window.dashboardData && window.dashboardData.standings && date === this.getLatestDate()) {
+                        const standings = window.dashboardData.standings.map(team => ({
+                            team: team.team,
+                            wins: team.wins,
+                            losses: team.losses,
+                            draws: team.draws,
+                            winPct: team.winRate,
+                            games: team.games,
+                            rank: team.rank
+                        }));
+                        
+                        seasonData.push({
+                            date: date,
+                            standings: standings
+                        });
+                        continue;
+                    }
+                    
+                    // 과거 날짜는 기존 로직 사용
                     const records = this.calculateCumulativeRecord(date);
                     
                     // 승률 계산 및 순위 결정
@@ -93,32 +133,29 @@ async function loadRealKBOData() {
                         });
                     }
                     
-                    // 승률순 정렬 (승률 동일시 승차 기준)
+                    // 승률순 정렬 (종합순위와 동일한 기준)
                     standings.sort((a, b) => {
-                        if (Math.abs(a.winPct - b.winPct) < 0.001) {
-                            return (b.wins - b.losses) - (a.wins - a.losses);
-                        }
-                        return b.winPct - a.winPct;
+                        if (b.winPct !== a.winPct) return b.winPct - a.winPct;
+                        if (b.wins !== a.wins) return b.wins - a.wins;
+                        return a.losses - b.losses;
                     });
                     
-                    // 동순위 처리 포함 순위 부여
+                    // 동순위 처리 포함 순위 부여 - 종합순위와 동일한 로직
                     let currentRank = 1;
+                    let previousWinRate = null;
+                    
                     for (let i = 0; i < standings.length; i++) {
-                        if (i > 0) {
-                            const currentTeam = standings[i];
-                            const previousTeam = standings[i - 1];
-                            
-                            // 승률과 승차가 모두 같으면 동순위
-                            if (Math.abs(currentTeam.winPct - previousTeam.winPct) < 0.001 && 
-                                (currentTeam.wins - currentTeam.losses) === (previousTeam.wins - previousTeam.losses)) {
-                                currentTeam.rank = previousTeam.rank; // 같은 순위
-                            } else {
-                                currentRank = i + 1; // 새로운 순위
-                                currentTeam.rank = currentRank;
-                            }
-                        } else {
-                            standings[0].rank = 1;
+                        const currentTeam = standings[i];
+                        // 표시되는 승률 기준으로 동률 처리 (소수점 3자리)
+                        const displayedWinRate = parseFloat(currentTeam.winPct.toFixed(3));
+                        
+                        // 이전 팀과 표시 승률이 다르면 실제 순위로 업데이트
+                        if (previousWinRate !== null && displayedWinRate !== previousWinRate) {
+                            currentRank = i + 1;
                         }
+                        // 동률일 경우 같은 순위 유지
+                        currentTeam.rank = currentRank;
+                        previousWinRate = displayedWinRate;
                     }
                     
                     seasonData.push({

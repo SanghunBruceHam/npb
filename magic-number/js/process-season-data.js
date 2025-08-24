@@ -334,10 +334,19 @@ class KBODataProcessor {
             return a.losses - b.losses;
         });
         
-        // 순위 및 게임차 계산
+        // 공동 순위 계산 - 종합 순위와 동일한 로직 적용
+        let currentRank = 1;
+        let previousWinRate = null;
+        
         this.standings.forEach((team, index) => {
-            team.rank = index + 1;
+            const displayedWinRate = parseFloat(team.winRate.toFixed(3));
+            if (previousWinRate !== null && displayedWinRate !== previousWinRate) {
+                currentRank = index + 1;
+            }
+            team.rank = currentRank;
+            previousWinRate = displayedWinRate;
             
+            // 게임차 계산
             if (index === 0) {
                 team.gamesBehind = 0;
             } else {
