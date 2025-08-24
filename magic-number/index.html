@@ -917,7 +917,7 @@
                     <h2>📈 순위 변동 추이</h2>
                     
                     <!-- 그래프 네비게이션 -->
-                    <div class="chart-nav" id="rank-chart-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                    <div class="chart-nav" id="rank-chart-nav" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; padding: 10px;">
                         <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
                             background: #4CAF50; 
                             color: white; 
@@ -927,6 +927,7 @@
                             cursor: pointer;
                             font-size: 14px;
                             transition: all 0.3s ease;
+                            order: 1;
                         ">← 이전 30일</button>
                         
                         <!-- 토글 버튼 (기간 정보 + 모드 전환) -->
@@ -942,6 +943,7 @@
                             transition: all 0.3s ease;
                             box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
                             min-width: 220px;
+                            order: 2;
                         " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(40, 167, 69, 0.4)'" 
                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(40, 167, 69, 0.3)'">
                             📊 전체 시즌 보기
@@ -956,8 +958,47 @@
                             cursor: pointer;
                             font-size: 14px;
                             transition: all 0.3s ease;
+                            order: 3;
                         ">다음 30일 →</button>
                     </div>
+                    
+                    <!-- 반응형 모바일 스타일 추가 -->
+                    <style>
+                        @media (max-width: 768px) {
+                            .chart-nav {
+                                flex-direction: column !important;
+                                gap: 8px !important;
+                            }
+                            .chart-nav button {
+                                width: 100% !important;
+                                max-width: 280px !important;
+                                order: unset !important;
+                            }
+                            #periodToggle {
+                                min-width: unset !important;
+                                order: 1 !important;
+                            }
+                            #prevPeriod {
+                                order: 2 !important;
+                            }
+                            #nextPeriod {
+                                order: 3 !important;
+                            }
+                        }
+                        
+                        @media (max-width: 480px) {
+                            .chart-nav {
+                                padding: 8px 5px !important;
+                            }
+                            .chart-nav button {
+                                padding: 10px 16px !important;
+                                font-size: 13px !important;
+                            }
+                            #periodToggle {
+                                padding: 12px 20px !important;
+                            }
+                        }
+                    </style>
                     
                     <!-- 현재 기간 텍스트 (30일 단위 모드에서만) -->
                     <div id="currentPeriodText" style="
