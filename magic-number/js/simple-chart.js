@@ -3,8 +3,30 @@ let chartState = {
     isFullView: false,
     currentPeriod: 0,
     periods: [],
-    chart: null
+    chart: null,
+    teamLogoImages: {}
 };
+
+// 팀 로고 이미지 미리 로드
+async function loadTeamLogos() {
+    const teams = ["한화", "LG", "두산", "삼성", "KIA", "SSG", "롯데", "NC", "키움", "KT"];
+    const logoPromises = teams.map(team => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                chartState.teamLogoImages[team] = img;
+                resolve();
+            };
+            img.onerror = () => {
+                console.warn(`로고 로드 실패: ${team}`);
+                resolve();
+            };
+            img.src = `../images/${getTeamLogo(team)}`;
+        });
+    });
+    
+    await Promise.all(logoPromises);
+}
 
 // 실제 KBO 데이터 로드 및 처리
 async function loadRealKBOData() {
@@ -242,6 +264,7 @@ function formatPeriodDataForChart(periodData) {
             rankHistory.push(teamData ? teamData.rank : null);
         });
         
+
         chartData.datasets.push({
             label: teamName,
             data: rankHistory,
@@ -672,43 +695,7 @@ function createSimpleChart(data) {
         chartState.chart = new Chart(ctx, {
             type: 'line',
             data: data,
-            plugins: [{
-                id: 'rankLabels',
-                afterDraw: function(chart) {
-                    const ctx = chart.ctx;
-                    const chartArea = chart.chartArea;
-                    
-                    // 각 팀의 마지막 데이터 포인트에서 순위 표시
-                    chart.data.datasets.forEach((dataset, datasetIndex) => {
-                        const meta = chart.getDatasetMeta(datasetIndex);
-                        if (meta.hidden) return; // 숨겨진 데이터셋은 스킵
-                        
-                        const data = dataset.data;
-                        const lastDataPoint = data[data.length - 1];
-                        
-                        if (lastDataPoint && lastDataPoint !== null) {
-                            const yPosition = chart.scales.y.getPixelForValue(lastDataPoint);
-                            
-                            // 텍스트만 표시
-                            ctx.save();
-                            
-                            const labelText = `${lastDataPoint}위`;
-                            // 캔버스의 절대 좌표를 기준으로 고정 위치 설정
-                            const canvasRect = chart.canvas.getBoundingClientRect();
-                            const xPosition = 15; // 캔버스 왼쪽에서 15px 고정 위치
-                            
-                            // 텍스트 그리기 (검정색 텍스트)
-                            ctx.fillStyle = '#333333';
-                            ctx.font = 'bold 14px Arial';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(labelText, xPosition, yPosition);
-                            
-                            ctx.restore();
-                        }
-                    });
-                }
-            }],
+            plugins: [],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -798,30 +785,34 @@ function createSimpleChart(data) {
                         max: 10.5,
                         beginAtZero: false,
                         bounds: 'data',
-                        ticks: {
+                        title: {
+                            display: true,
+                            text: '순위',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        afterBuildTicks: function(axis) {
+                            axis.ticks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({value}));
+                        },
+                        ticks: { 
                             stepSize: 1,
-                            min: 0.5,
-                            max: 10.5,
+                            autoSkip: false,
                             callback: function(value) {
+                                // 1~10 정수값만 표시
                                 if (Number.isInteger(value) && value >= 1 && value <= 10) {
                                     return value + '위';
                                 }
-                                return '';
-                            }
+                                return null;
+                            },
+                            font: {
+                                size: 12
+                            },
+                            padding: 5
                         },
                         grid: {
-                            color: function(context) {
-                                if (context.tick.value === 5.5) {
-                                    return 'rgba(255, 0, 0, 0.3)'; // 5위 경계선
-                                }
-                                return 'rgba(0, 0, 0, 0.1)';
-                            },
-                            lineWidth: function(context) {
-                                if (context.tick.value === 5.5) {
-                                    return 2;
-                                }
-                                return 1;
-                            }
+                            color: '#e5e7eb'
                         }
                     },
                     x: {
@@ -873,18 +864,19 @@ function updateSimpleChart() {
         chartData = period.data;
     }
     
+    // 항상 기존 차트를 완전히 파괴하고 새로 생성 (강제 업데이트)
     if (chartState.chart) {
-        // 기존 차트 파괴하고 새로 생성 (설정 통일을 위해)
         chartState.chart.destroy();
         chartState.chart = null;
-        createSimpleChart(chartData);
-    } else {
-        createSimpleChart(chartData);
     }
     
-    // UI 업데이트
-    updateSimpleUI();
-    updateProgressIndicator();
+    // 잠시 대기 후 새 차트 생성 (DOM 정리 시간 확보)
+    setTimeout(() => {
+        createSimpleChart(chartData);
+        // UI 업데이트
+        updateSimpleUI();
+        updateProgressIndicator();
+    }, 50);
 }
 
 // 전체 시즌 차트 데이터 생성
@@ -927,14 +919,15 @@ function generateFullSeasonChart() {
             rankHistory.push(teamData ? teamData.rank : null);
         });
         
+
         chartData.datasets.push({
             label: teamName,
             data: rankHistory,
             borderColor: getTeamColor(teamName),
             backgroundColor: getTeamColor(teamName) + '20',
             borderWidth: 2,
-            pointRadius: 1,
-            pointHoverRadius: 3,
+            pointRadius: 1.5,
+            pointHoverRadius: 4,
             tension: 0.1,
             fill: false
         });
@@ -1023,6 +1016,9 @@ function updateSimpleUI() {
 async function initSimpleChart() {
     
     try {
+        // 팀 로고 이미지 먼저 로드
+        await loadTeamLogos();
+        
         // 실제 KBO 데이터 로드
         chartState.periods = await loadRealKBOData();
         chartState.currentPeriod = chartState.periods.length - 1; // 최근 기간

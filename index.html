@@ -10917,6 +10917,34 @@ KT 9:1 키움(H)`;
             periods: []
         };
         let winRateChartVisibleTeams = new Set(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
+        let winRateChartTeamLogos = {};
+        
+        // 승률 차트용 팀 로고 로드
+        async function loadWinRateChartTeamLogos() {
+            const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+            const logoMap = {
+                'LG': 'lg.png', 'KIA': 'kia.png', '삼성': 'samsung.png', '두산': 'doosan.png',
+                'SSG': 'ssg.png', 'NC': 'nc.png', '롯데': 'lotte.png', '한화': 'hanwha.png',
+                'KT': 'kt.png', '키움': 'kiwoom.png'
+            };
+            
+            const logoPromises = teams.map(team => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        winRateChartTeamLogos[team] = img;
+                        resolve();
+                    };
+                    img.onerror = () => {
+                        console.warn(`승률 차트 로고 로드 실패: ${team}`);
+                        resolve();
+                    };
+                    img.src = `images/${logoMap[team]}`;
+                });
+            });
+            
+            await Promise.all(logoPromises);
+        }
 
         // 승률 차트 처리 함수들
         function handlePrevPeriodWinRate() {
@@ -10949,6 +10977,9 @@ KT 9:1 키움(H)`;
                     setTimeout(createWinRateChart, 1000);
                     return;
                 }
+
+                // 팀 로고 먼저 로드
+                await loadWinRateChartTeamLogos();
 
                 // 기존 일자별 통계 데이터 활용
                 const processedData = await processSeasonDataForWinRateFromDaily();
@@ -11128,35 +11159,76 @@ KT 9:1 키움(H)`;
             const yMax = Math.min(1, maxWinRate + padding);
 
             // 데이터셋 구성 (표시 상태인 팀들만)
-            const datasets = teams.filter(team => winRateChartVisibleTeams.has(team)).map(team => ({
-                label: team,
-                data: chartData.map(item => item.standings[team]),
-                borderColor: teamColors[team],
-                backgroundColor: teamColors[team] + '20',
-                borderWidth: 2,
-                fill: false,
-                tension: 0.1,
-                pointRadius: 3,
-                pointHoverRadius: 6
-            }));
+            const datasets = teams.filter(team => winRateChartVisibleTeams.has(team)).map(team => {
+                const data = chartData.map(item => item.standings[team]);
+                const logoImage = winRateChartTeamLogos[team];
+                
+                
+                return {
+                    label: team,
+                    data: data,
+                    borderColor: teamColors[team],
+                    backgroundColor: teamColors[team] + '20',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 3,
+                    pointHoverRadius: 6
+                };
+            });
 
-            winRateChartInstance.data.labels = labels;
-            winRateChartInstance.data.datasets = datasets;
-            
-            // Y축 범위 업데이트
-            winRateChartInstance.options.scales.y.min = yMin;
-            winRateChartInstance.options.scales.y.max = yMax;
-            
-            // X축 설정 업데이트 (월단위 모드에서는 모든 날짜 표시)
-            if (winRateChartState.isFullView) {
-                // 전체 시즌 모드: 제한된 눈금 표시
-                winRateChartInstance.options.scales.x.ticks.maxTicksLimit = 15;
-            } else {
-                // 월단위 모드: 모든 날짜 표시
-                winRateChartInstance.options.scales.x.ticks.maxTicksLimit = labels.length;
+            // 기존 차트 완전히 파괴하고 새로 생성 (강제 업데이트)
+            if (winRateChartInstance) {
+                winRateChartInstance.destroy();
+                winRateChartInstance = null;
             }
             
-            winRateChartInstance.update();
+            // 새 차트 생성
+            const ctx = document.getElementById('winRateChart');
+            if (!ctx) return;
+            
+            winRateChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: (context) => {
+                                    const winRate = (context.parsed.y * 100).toFixed(1);
+                                    return `${context.dataset.label}: ${winRate}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: yMin,
+                            max: yMax,
+                            ticks: {
+                                callback: (value) => (value * 100).toFixed(1) + '%'
+                            },
+                            title: {
+                                display: true,
+                                text: '승률'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxTicksLimit: winRateChartState.isFullView ? 15 : labels.length
+                            }
+                        }
+                    }
+                }
+            });
 
             // 커스텀 레전드 업데이트
             updateWinRateChartLegend();
