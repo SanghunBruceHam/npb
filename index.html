@@ -3757,7 +3757,7 @@
         <!-- 네비게이션 -->
         <nav class="navigation">
             <div class="nav-container">
-                <div class="nav-menu">
+                <div class="nav-menu" id="nav-menu">
                     <a href="#season-progress" class="nav-item">📈 진행률</a>
                     <a href="#daily-stats" class="nav-item">📅 일별통계</a>
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
@@ -3779,6 +3779,89 @@
                 </div>
             </div>
         </nav>
+
+        <!-- 네비게이션 드래그 스크롤 스크립트 -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navMenu = document.getElementById('nav-menu');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            navMenu.addEventListener('mousedown', (e) => {
+                // 링크 클릭이 아닌 경우에만 드래그 활성화
+                if (e.target.classList.contains('nav-item')) {
+                    return;
+                }
+                
+                isDown = true;
+                navMenu.classList.add('dragging');
+                startX = e.pageX - navMenu.offsetLeft;
+                scrollLeft = navMenu.scrollLeft;
+                navMenu.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+
+            navMenu.addEventListener('mouseleave', () => {
+                isDown = false;
+                navMenu.classList.remove('dragging');
+                navMenu.style.cursor = 'grab';
+            });
+
+            navMenu.addEventListener('mouseup', () => {
+                isDown = false;
+                navMenu.classList.remove('dragging');
+                navMenu.style.cursor = 'grab';
+            });
+
+            navMenu.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - navMenu.offsetLeft;
+                const walk = (x - startX) * 2; // 스크롤 속도 조절
+                navMenu.scrollLeft = scrollLeft - walk;
+            });
+
+            // 드래그 시작할 때 링크 클릭 방지
+            navMenu.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+            });
+
+            // 네비게이션 아이템 클릭 시 드래그 상태 해제
+            navMenu.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('mousedown', (e) => {
+                    isDown = false;
+                    navMenu.classList.remove('dragging');
+                    navMenu.style.cursor = 'grab';
+                });
+            });
+
+            // 초기 커서 설정
+            navMenu.style.cursor = 'grab';
+        });
+        </script>
+
+        <!-- 드래그 스크롤을 위한 CSS -->
+        <style>
+        .nav-menu {
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+            scroll-behavior: smooth;
+        }
+
+        .nav-menu::-webkit-scrollbar { 
+            display: none; /* WebKit browsers */
+        }
+
+        .nav-menu.dragging {
+            scroll-behavior: auto;
+        }
+
+        .nav-menu.dragging .nav-item {
+            pointer-events: none; /* 드래그 중 링크 클릭 방지 */
+        }
+        </style>
 
         <!-- 매직넘버 계산기 링크 카드 -->
         <div class="card magic-number-card" style="margin-bottom: 30px;">
