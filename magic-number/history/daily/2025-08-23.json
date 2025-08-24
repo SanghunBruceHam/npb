@@ -1,6 +1,6 @@
 {
   "date": "2025-08-23",
-  "createdAt": "2025-08-24T03:07:13.413Z",
+  "createdAt": "2025-08-24T04:05:01.229Z",
   "snapshot": {
     "standings": [
       {
@@ -126,7 +126,7 @@
         "recent10": "5승0무5패",
         "streak": "2승",
         "remainingGames": 25,
-        "rank": 6,
+        "rank": 5,
         "gamesBehind": 14
       },
       {
@@ -267,7 +267,7 @@
         "homeAdvantage": 9,
         "remainingGames": 25,
         "maxPossibleWins": 83,
-        "currentRank": 6
+        "currentRank": 5
       },
       "삼성": {
         "playoff": 15,
@@ -324,13 +324,6 @@
           "team": "롯데",
           "from": 4,
           "to": 5,
-          "change": "-1",
-          "direction": "down"
-        },
-        {
-          "team": "KT",
-          "from": 5,
-          "to": 6,
           "change": "-1",
           "direction": "down"
         },
@@ -459,7 +452,7 @@
     },
     "metadata": {
       "source": "CLEAN_TXT_AUTOMATION",
-      "lastUpdated": "2025-08-24T03:07:09.137Z",
+      "lastUpdated": "2025-08-24T04:04:56.693Z",
       "totalTeams": 10
     }
   }

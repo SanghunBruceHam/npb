@@ -1011,7 +1011,7 @@
     "2025-08-23": {
       "dataDate": "2025-08-23",
       "totalGames": 587,
-      "rankChanges": 5,
+      "rankChanges": 4,
       "standings": [
         {
           "team": "LG",
@@ -1045,7 +1045,7 @@
         },
         {
           "team": "KT",
-          "rank": 6,
+          "rank": 5,
           "wins": 58,
           "losses": 57
         },
@@ -1081,5 +1081,5 @@
     "rankingChanges": {},
     "playoffRace": {}
   },
-  "lastUpdated": "2025-08-24T03:07:13.414Z"
+  "lastUpdated": "2025-08-24T04:05:01.230Z"
 }
