@@ -5869,10 +5869,10 @@
                     }
                     
                     if (recentGameIndex >= 0) {
-                        // 최근 경기에서 15경기 정도 앞으로 이동
-                        const targetIndex = Math.max(0, recentGameIndex - 15);
+                        // 최근 경기를 상단에 표시
+                        const targetIndex = Math.max(0, recentGameIndex - 3);
                         targetRow = rows[targetIndex];
-                        console.log(`최근 15경기 표시를 위해 인덱스 ${targetIndex} 선택 (최근 경기: ${recentGameIndex})`);
+                        console.log(`최근 경기를 상단에 표시하기 위해 인덱스 ${targetIndex} 선택 (최근 경기: ${recentGameIndex})`);
                     } else {
                         // 과거 경기가 없으면 첫 번째 미래 경기 찾기
                         console.log('과거 경기 없음, 미래 경기 찾는 중...');
