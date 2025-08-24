@@ -2462,6 +2462,22 @@
             font-weight: var(--font-weight-bold);
         }
 
+        /* 주차별 성적 팀명 헤더 정렬 기능 스타일 */
+        .sortable-team {
+            transition: background-color 0.2s ease;
+        }
+
+        .sortable-team:hover {
+            background: #2c3e50 !important;
+            cursor: pointer;
+        }
+
+        .sortable-team::after {
+            content: ' ⇅';
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
         .week-cell, .game-number-cell, .game-num-cell {
             font-weight: var(--font-weight-bold);
             color: #2c3e50;
@@ -5344,7 +5360,7 @@
                             <th colspan="${teams.length}">팀별 성적 (승-패-무 / 승률)</th>
                         </tr>
                         <tr>
-                            ${teams.map(team => `<th class="team-header">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                            ${teams.map(team => `<th class="team-header sortable-team" style="cursor: pointer;" onclick="sortWeeklyTableByTeam('${team}')">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
                         </tr>
                     </thead>
                     <tbody>`;
@@ -5418,6 +5434,70 @@
             
             document.getElementById('weeklyStatsContent').innerHTML = html;
         }
+
+        // 주차별 성적 팀별 정렬 함수
+        let weeklyTeamSortState = {}; // 팀별 정렬 상태 (0: 기본, 1: 오름차순, 2: 내림차순)
+        
+        window.sortWeeklyTableByTeam = function(teamName) {
+            if (!weeklyAnalysisData || !weeklyAnalysisData.weeklyAnalysis) return;
+            
+            // 현재 팀의 정렬 상태 확인
+            const currentState = weeklyTeamSortState[teamName] || 0;
+            
+            // 모든 정렬 상태 초기화
+            weeklyTeamSortState = {};
+            
+            // 다음 정렬 상태로 변경
+            const nextState = (currentState + 1) % 3;
+            weeklyTeamSortState[teamName] = nextState;
+            
+            const tbody = document.querySelector('#weeklyStatsContent tbody');
+            if (!tbody) return;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            if (nextState === 0) {
+                // 기본 순서 (주차 순)
+                rows.sort((a, b) => {
+                    const weekA = parseInt(a.cells[0].textContent);
+                    const weekB = parseInt(b.cells[0].textContent);
+                    return weekA - weekB;
+                });
+            } else {
+                // 해당 팀 컬럼 찾기
+                const teamHeaders = document.querySelectorAll('#weeklyStatsContent .team-header');
+                let teamIndex = -1;
+                
+                teamHeaders.forEach((header, index) => {
+                    if (header.onclick && header.onclick.toString().includes(teamName)) {
+                        teamIndex = index + 2; // 주차(0), 기간(1) 다음부터 팀 데이터
+                    }
+                });
+                
+                if (teamIndex !== -1) {
+                    rows.sort((a, b) => {
+                        const cellA = a.cells[teamIndex];
+                        const cellB = b.cells[teamIndex];
+                        
+                        if (!cellA || !cellB) return 0;
+                        
+                        // 승률 추출 (예: "2-1-0 / 0.667" -> 0.667)
+                        const winRateA = parseFloat(cellA.textContent.split('/')[1]?.trim() || '0');
+                        const winRateB = parseFloat(cellB.textContent.split('/')[1]?.trim() || '0');
+                        
+                        if (nextState === 1) {
+                            return winRateA - winRateB; // 오름차순
+                        } else {
+                            return winRateB - winRateA; // 내림차순
+                        }
+                    });
+                }
+            }
+            
+            // 정렬된 행들을 다시 tbody에 추가
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        };
 
         // 게임별 기록 테이블 렌더링 (모든 팀 동시 표시)
         function renderGameByGameTable() {
