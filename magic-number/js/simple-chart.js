@@ -148,7 +148,6 @@ function processRealData(seasonRankings) {
         return generateMockData();
     }
     
-    console.log(`실제 데이터 처리: ${seasonRankings.length}일간 데이터`);
     
     const periods = [];
     const daysPerPeriod = 30;
@@ -171,7 +170,6 @@ function processRealData(seasonRankings) {
         }
     }
     
-    console.log(`${periods.length}개 기간으로 분할 완료`);
     return periods;
 }
 
@@ -217,7 +215,6 @@ function formatPeriodDataForChart(periodData) {
 
 // 백업용 가짜 데이터 생성 함수 (기존 함수명 변경)
 function generateMockData() {
-    console.log('가짜 데이터 생성 중...');
     const teams = ["한화", "LG", "두산", "삼성", "KIA", "SSG", "롯데", "NC", "키움", "KT"];
     const periods = [];
     
@@ -297,7 +294,6 @@ function getTeamLogo(team) {
 
 // 커스텀 범례 생성
 function createCustomLegend() {
-    console.log('커스텀 범례 생성 시작');
     
     // 기존 커스텀 범례 제거
     const existingMainLegend = document.getElementById('main-legend-container');
@@ -534,7 +530,6 @@ function createCustomLegend() {
     
     // 차트 컨테이너에 메인 범례 컨테이너 추가
     chartContainer.appendChild(mainLegendContainer);
-    console.log('커스텀 범례 생성 완료');
 }
 
 // 전체 시즌 기준 고정 순위로 팀 정렬 (전역 변수로 한 번만 계산)
@@ -543,7 +538,6 @@ let globalFixedTeamOrder = null;
 function getFixedRankingSortedTeams() {
     // 이미 계산된 고정 순서가 있으면 재사용
     if (globalFixedTeamOrder && globalFixedTeamOrder.length > 0) {
-        console.log('고정된 팀 순서 재사용:', globalFixedTeamOrder.map(t => t.teamName));
         return globalFixedTeamOrder;
     }
     
@@ -567,7 +561,6 @@ function getFixedRankingSortedTeams() {
             latestRankings = latestData.standings;
             latestDate = latestData.date;
             
-            console.log(`고정 팀 순서 기준 날짜: ${latestDate}`);
         }
         
         if (latestRankings.length > 0) {
@@ -586,7 +579,6 @@ function getFixedRankingSortedTeams() {
             // 전역 변수에 저장하여 모든 기간에서 동일한 순서 사용
             globalFixedTeamOrder = sortedTeams;
             
-            console.log('고정 팀 순서 설정:', sortedTeams.map(t => `${t.teamName}(${sortedStandings.find(s => s.team === t.teamName)?.rank}위)`));
             return sortedTeams;
         }
     } catch (error) {
@@ -606,11 +598,8 @@ function getFixedRankingSortedTeams() {
 
 // 차트 생성
 function createSimpleChart(data) {
-    console.log('차트 생성 시작');
-    console.log('차트 데이터:', data);
     
     const ctx = document.getElementById('rankChart');
-    console.log('캔버스 요소:', ctx);
     
     if (!ctx) {
         console.error('rankChart 캔버스를 찾을 수 없습니다');
@@ -619,12 +608,10 @@ function createSimpleChart(data) {
     }
     
     if (chartState.chart) {
-        console.log('기존 차트 파괴');
         chartState.chart.destroy();
     }
     
     try {
-        console.log('새 Chart 인스턴스 생성 중...');
         chartState.chart = new Chart(ctx, {
             type: 'line',
             data: data,
@@ -794,7 +781,6 @@ function createSimpleChart(data) {
             }
         });
         
-        console.log('차트 생성 완료:', chartState.chart);
         
         // 커스텀 범례 생성
         setTimeout(() => createCustomLegend(), 100);
@@ -809,8 +795,6 @@ function createSimpleChart(data) {
 
 // 차트 업데이트
 function updateSimpleChart() {
-    console.log('차트 업데이트:', chartState.currentPeriod, '/', chartState.periods.length);
-    console.log('전체 뷰 모드:', chartState.isFullView);
     
     if (chartState.periods.length === 0) {
         console.error('기간 데이터가 없습니다');
@@ -821,7 +805,6 @@ function updateSimpleChart() {
     
     if (chartState.isFullView) {
         // 전체 시즌 데이터 생성
-        console.log('전체 시즌 데이터 생성 중...');
         chartData = generateFullSeasonChart();
     } else {
         // 특정 기간 데이터 사용
@@ -861,7 +844,6 @@ function generateFullSeasonChart() {
     // 날짜순으로 정렬
     allData.sort((a, b) => new Date(a.date) - new Date(b.date));
     
-    console.log(`전체 시즌 데이터: ${allData.length}일`);
     
     const chartData = {
         labels: [],
@@ -959,7 +941,6 @@ function updateSimpleUI() {
 
 // 초기화
 async function initSimpleChart() {
-    console.log('간단한 차트 시스템 초기화 시작');
     
     try {
         // 실제 KBO 데이터 로드
@@ -967,10 +948,8 @@ async function initSimpleChart() {
         chartState.currentPeriod = chartState.periods.length - 1; // 최근 기간
         chartState.isFullView = true;
         
-        console.log(`데이터 로드 완료: ${chartState.periods.length}개 기간`);
         updateSimpleChart();
         
-        console.log('간단한 차트 시스템 초기화 완료');
     } catch (error) {
         console.error('차트 초기화 중 오류:', error);
         alert('차트 초기화 실패: ' + error.message);
@@ -1031,10 +1010,8 @@ function waitForChart(maxAttempts = 10, interval = 500) {
         
         const checkChart = () => {
             attempts++;
-            console.log(`Chart.js 확인 시도 ${attempts}/${maxAttempts}`);
             
             if (typeof Chart !== 'undefined') {
-                console.log('Chart.js 로드 완료');
                 resolve();
                 return;
             }
@@ -1053,7 +1030,6 @@ function waitForChart(maxAttempts = 10, interval = 500) {
 
 // DOM 로드 후 초기화
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('DOM 로드 완료, Chart.js 로딩 대기 중...');
     
     // 캔버스 요소 확인
     const canvas = document.getElementById('rankChart');
@@ -1067,9 +1043,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         await waitForChart();
         
         // 차트 초기화 실행
-        console.log('차트 초기화 시작');
         await initSimpleChart();
-        console.log('차트 초기화 성공');
         
     } catch (error) {
         console.error('초기화 실패:', error);
