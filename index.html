@@ -5794,7 +5794,7 @@
 
                     <!-- 상세 게임 기록 테이블 -->
                     <div class="detailed-games-section" style="margin-top: 5px;">
-                        <h3 style="text-align: center; margin: 5px 0 5px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">전체 게임 기록 및 일정</h3>
+                        <h3 style="text-align: center; margin: 5px 0 5px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📋 팀별 게임 기록 및 일정</h3>
                         
                         <!-- 팀별 월별 탭 (동적으로 생성됨) -->
                         <div class="team-month-tabs" id="team-month-tabs-container" style="text-align: center; margin-bottom: 8px; display: none;"></div>
@@ -5892,7 +5892,7 @@
                         // 구분선 추가
                         html += `
                             <tr style="background: #e9ecef; border-top: 2px solid #6c757d;">
-                                <td colspan="9" style="text-align: center; padding: 8px; font-weight: 600; color: #495057;">
+                                <td colspan="9" style="text-align: center; padding: 10px 8px; font-weight: 600; color: #495057;">
                                     📅 예정 경기 (${teamFutureGames.length}경기)
                                 </td>
                             </tr>`;
@@ -6055,10 +6055,10 @@
             
             let html = `
             <div class="all-teams-overview">
-                <h3 style="text-align: center; margin: 5px 0 10px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h3>
+                <h3 style="text-align: center; margin: 15px 0 12px 0; color: #2d3748; font-size: var(--font-xl); font-weight: var(--font-weight-semibold);">📊 전체 게임 기록 및 일정</h3>
                 
                 <!-- 전체 게임 월별 탭 -->
-                <div class="all-games-month-tabs" style="text-align: center; margin-bottom: 15px;">
+                <div class="all-games-month-tabs" style="text-align: center; margin-bottom: 12px;">
                     <div class="all-games-month-tabs-container" style="display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; padding: 15px; background: #f8f9fa; border-radius: 8px; max-width: 100%; margin: 0 auto; border: 1px solid #e9ecef; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
                         <button class="all-games-month-tab active" data-month="current" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #495057; border-radius: 6px; background: #495057; color: white; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">📍 현재</button>
                         <button class="all-games-month-tab" data-month="3" style="padding: 6px 10px; font-size: var(--font-sm); font-weight: var(--font-weight-medium); border: 1px solid #dee2e6; border-radius: 6px; background: white; color: #666; cursor: pointer; transition: all 0.2s ease; min-width: 55px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex-shrink: 0;" onmouseover="if(!this.classList.contains('active')) { this.style.background='#e9ecef'; this.style.borderColor='#495057'; this.style.color='#495057'; }" onmouseout="if(!this.classList.contains('active')) { this.style.background='white'; this.style.borderColor='#dee2e6'; this.style.color='#666'; }">3월</button>
@@ -6182,7 +6182,7 @@
                     // 구분선 추가
                     html += `
                         <tr style="background: #e9ecef; border-top: 2px solid #6c757d;">
-                            <td colspan="${teams.length + 1}" style="text-align: center; padding: 8px; font-weight: 600; color: #495057;">
+                            <td colspan="${teams.length + 1}" style="text-align: center; padding: 15px 8px; font-weight: 600; color: #495057;">
                                 📅 예정 경기 (${futureScheduleData.length}경기)
                             </td>
                         </tr>`;
