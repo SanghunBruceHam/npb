@@ -3630,6 +3630,20 @@
             transition: all 0.3s ease;
         }
 
+        .team-progress-bar {
+            background: #e5e7eb;
+            border-radius: 4px;
+            height: 8px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .team-progress-fill {
+            height: 100%;
+            transition: width 1.2s ease-out;
+            border-radius: 4px;
+        }
+
         .team-progress-item:hover {
             border-color: #3b82f6;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
@@ -8389,9 +8403,10 @@
                 document.getElementById('games-info').textContent = `${totalGamesPlayed}/${totalPossibleGames} 경기 완료`;
             }, 800);
 
-            // 팀별 진행률 생성
+            // 팀별 진행률 생성 (최적화된 DOM 조작)
             const teamProgressContainer = document.getElementById('team-progress-container');
-            teamProgressContainer.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+            const progressFills = [];
 
             standingsData.forEach((team, index) => {
                 const gamesPlayed = parseInt(team.games_played);
@@ -8407,7 +8422,7 @@
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <img src="images/${logoFile}.png" 
                                  alt="${fullTeamName}" 
-                                 style="width: 20px; height: 20px; object-fit: contain;"
+                                 style="width: 20px; height: 20px; object-fit: contain; loading: lazy;"
                                  onerror="this.style.display='none';">
                             <span style="font-weight: 600; font-size: 0.95rem;">${fullTeamName}</span>
                         </div>
@@ -8424,13 +8439,29 @@
                     </div>
                 `;
 
-                teamProgressContainer.appendChild(teamProgressItem);
-
-                // 애니메이션 효과로 진행률 바 채우기 (모든 팀 동시에)
-                setTimeout(() => {
-                    teamProgressItem.querySelector('.team-progress-fill').style.width = `${progress}%`;
-                }, 800);
+                fragment.appendChild(teamProgressItem);
+                
+                // 애니메이션용 정보 저장
+                progressFills.push({
+                    element: teamProgressItem.querySelector('.team-progress-fill'),
+                    progress: progress
+                });
             });
+
+            // 모든 요소를 한번에 DOM에 추가
+            teamProgressContainer.innerHTML = '';
+            teamProgressContainer.appendChild(fragment);
+
+            // 애니메이션 효과로 진행률 바 채우기 (최적화된 방식)
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    progressFills.forEach(({ element, progress }) => {
+                        if (element) {
+                            element.style.width = `${progress}%`;
+                        }
+                    });
+                });
+            }, 100);
         }
 
 
@@ -8445,13 +8476,8 @@
                 // 대시보드 로드 완료 후 정렬 기능 초기화
                 setTimeout(() => {
                     initializeTableSorting();
-                    updateSeasonProgress(); // 시즌 진행률 업데이트
-                }, 100);
-                
-                // 추가로 조금 더 늦게 한번 더 호출
-                setTimeout(() => {
-                    updateSeasonProgress();
-                }, 1000);
+                    updateSeasonProgress(); // 시즌 진행률 업데이트 (한 번만)
+                }, 500);
             }).catch(error => {
                 console.error('대시보드 데이터 로드 실패:', error);
             });

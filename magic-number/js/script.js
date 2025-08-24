@@ -146,13 +146,11 @@ const kboTeams = {
                 return allScheduleData;
             }
             
-            logger.log(`🔍 최신 수집 데이터 날짜: ${latestDataDate}`);
             
             // YYYY-MM-DD 형식을 MM.DD 형식으로 변환
             const [year, month, day] = latestDataDate.split('-');
             const latestDateFormatted = `${month}.${day}`;
             
-            logger.log(`📅 변환된 날짜: ${latestDateFormatted} (년:${year}, 월:${month}, 일:${day})`);
             
             const filteredGames = allScheduleData.filter(game => {
                 // 수집된 최신 날짜 이후의 경기만 포함
@@ -164,18 +162,11 @@ const kboTeams = {
                 const isFuture = (gameMonth > latestMonth) || 
                                (gameMonth === latestMonth && gameDay > latestDay);
                 
-                logger.log(`🎮 경기 ${game.date}: 월=${gameMonth}, 일=${gameDay} vs 최신=${latestMonth}.${latestDay} → ${isFuture ? '포함' : '제외'}`);
                 
-                if (!isFuture) {
-                    logger.log(`❌ 수집 완료 경기 제외: ${game.date} (최신 데이터: ${latestDateFormatted})`);
-                } else {
-                    logger.log(`✅ 미래 경기 포함: ${game.date}`);
-                }
                 
                 return isFuture;
             });
             
-            logger.log(`🔄 필터링 결과: ${filteredGames.length}개 미래 경기`);
             return filteredGames;
         }
         
@@ -368,7 +359,6 @@ const kboTeams = {
                     }
                 });
                 
-                logger.log('📊 데이터 로딩 시간 업데이트:', displayText);
             } catch (error) {
                 logger.error('❌ 데이터 로딩 시간 업데이트 실패:', error);
             }
@@ -382,7 +372,6 @@ const kboTeams = {
                 try {
                     const response = await fetch(`data/kbo-records.json?v=${Date.now()}`);
                     recordsData = await response.json();
-                    logger.log('✅ 순위 정렬용 kbo-records.json 로드 완료');
                 } catch (error) {
                     console.warn('⚠️ 상대전적 데이터 로드 실패, 승률만으로 정렬:', error);
                 }
@@ -417,7 +406,6 @@ const kboTeams = {
                     return (a.team || '').localeCompare(b.team || '');
                 });
                 
-                logger.log('📊 매직넘버 순위 정렬 완료:', standings.map(t => `${t.team}(${t.winRate || t.winPct})`).join(', '));
                 
             } catch (error) {
                 console.error('❌ 매직넘버 순위 정렬 실패:', error);
@@ -427,9 +415,7 @@ const kboTeams = {
         // 데이터 로딩 함수
         async function loadKBOData() {
             try {
-                logger.log('🔍 KBO 데이터 로딩 시작...');
                 const dataUrl = `data/service-data.json?v=${Date.now()}`;
-                logger.log('📡 데이터 URL:', dataUrl);
                 // service-data.json 하나만 사용 (중복 제거)
                 const response = await fetch(dataUrl, {
                     cache: 'no-cache',
@@ -439,14 +425,9 @@ const kboTeams = {
                         'Expires': '0'
                     }
                 });
-                logger.log('📡 응답 상태:', response.status, response.statusText);
                 
                 if (response.ok) {
                     const data = await response.json();
-                    logger.log('📊 로드된 데이터:', data);
-                    logger.log(`📅 데이터 날짜: ${data.dataDate || 'Unknown'}`);
-                    logger.log(`🕐 최종 업데이트: ${data.lastUpdated || 'Unknown'}`);
-                    logger.log(`🎯 KBO 데이터 로드 완료 - 데이터 날짜: ${data.dataDate}, 업데이트: ${data.updateDate}`);
                     
                     // 승률과 상대전적 기준으로 정렬
                     await sortStandingsByWinRateAndHeadToHead(data.standings || []);
@@ -482,13 +463,9 @@ const kboTeams = {
                     
                     // currentKBOData에 전체 데이터 저장 (playoffData 포함)
                     currentKBOData = data;
-                    logger.log('✅ KBO 데이터 로딩 완료:', currentStandings.length + '팀');
                     
                     // 수집된 데이터를 기반으로 잔여경기 일정 업데이트
-                    logger.log(`🔄 잔여경기 일정 업데이트 시작... (기존: ${remainingSchedule.length}일)`);
                     remainingSchedule = getFilteredRemainingSchedule(data);
-                    logger.log(`✅ 잔여경기 일정 업데이트 완료: ${remainingSchedule.length}일`);
-                    logger.log('📋 업데이트된 잔여경기 목록:', remainingSchedule.map(g => g.date));
                     
                     // 데이터 로딩 시간 업데이트
                     updateLoadingTime(data);
@@ -512,7 +489,6 @@ const kboTeams = {
                 handleError(error, 'KBO 데이터 로딩 실패');
                 // 백업 데이터 사용 - 서버에서 데이터를 받지 못했을 때만 사용
                 currentStandings = [];
-                logger.log('📊 백업 데이터 사용:', currentStandings.length + '팀');
                 // 백업 데이터도 JSON 형식으로 반환
                 const backupData = {
                     rankings: currentStandings,
@@ -534,12 +510,10 @@ const kboTeams = {
         // 상대전적 데이터 로딩 함수
         async function loadHeadToHeadData() {
             try {
-                logger.log('🔍 상대전적 데이터 로딩 시작...');
                 const response = await fetch(`data/kbo-records.json?v=${Date.now()}`);
                 
                 if (response.ok) {
                     const data = await response.json();
-                    logger.log('📡 상대전적 응답 상태:', response.status);
                     
                     if (data && data.totalData) {
                         // kbo-records.json 형식을 headToHeadData 형식으로 변환
@@ -558,7 +532,6 @@ const kboTeams = {
                             }
                         }
                         
-                        logger.log('✅ 상대전적 데이터 로딩 완료:', Object.keys(headToHeadData).length + '개 팀');
                         return headToHeadData;
                     } else {
                         throw new Error('상대전적 데이터 형식 오류');
@@ -577,7 +550,6 @@ const kboTeams = {
                 }
                 
                 // 백업 데이터 사용
-                logger.log('📊 상대전적 백업 데이터 사용');
                 headToHeadData = {
                     "LG": { "한화": "5-4-1", "롯데": "6-4-1", "KT": "4-6-0", "KIA": "6-7-0", "삼성": "7-3-0", "SSG": "7-4-0", "NC": "6-5-0", "두산": "7-5-0", "키움": "9-3-1" },
                     "한화": { "LG": "4-5-1", "롯데": "6-6-0", "KT": "8-4-0", "KIA": "8-4-0", "삼성": "6-5-0", "SSG": "6-6-0", "NC": "7-4-1", "두산": "5-7-0", "키움": "8-4-0" },
@@ -994,11 +966,8 @@ const kboTeams = {
                 // 성능 모니터링 시작
                 const startTime = performance.now();
                 
-                logger.log('📊 renderStandingsTable 시작');
-                logger.log('currentStandings:', currentStandings);
                 
                 const tbody = document.querySelector('#standings-table tbody');
-                logger.log('tbody 요소:', tbody);
                 
                 if (!tbody) {
                     throw new Error('순위표 테이블을 찾을 수 없습니다');
@@ -1287,8 +1256,6 @@ const kboTeams = {
         }
 
         function renderChampionshipCondition() {
-            logger.log('🏆 우승 조건 렌더링 시작');
-            logger.log('현재 순위 데이터:', currentStandings);
             
             if (!currentStandings || currentStandings.length === 0) {
                 logger.error('❌ currentStandings 데이터가 없습니다');
@@ -1299,7 +1266,6 @@ const kboTeams = {
             const secondPlace = currentStandings[1];
             const teamData = kboTeams[firstPlace.team];
             
-            logger.log('1위 팀 데이터:', firstPlace);
             
             const totalGames = 144;
             const remainingGames = totalGames - firstPlace.games;
@@ -1660,7 +1626,6 @@ const kboTeams = {
                     tbody.appendChild(row);
                 });
                 
-                logger.log('✅ currentStandings로 플레이오프 조건 렌더링 완료');
             } catch (error) {
                 logger.error('백업 렌더링 실패:', error);
             }
@@ -1692,7 +1657,6 @@ const kboTeams = {
                     throw new Error('플레이오프 데이터가 비어있습니다');
                 }
                 
-                logger.log('✅ 플레이오프 데이터 확인:', currentKBOData.playoffData.length + '팀');
 
                 currentKBOData.playoffData.forEach((team) => {
                 const teamData = kboTeams[team.team];
@@ -1866,7 +1830,6 @@ const kboTeams = {
                 // 백업 데이터로 기본 플레이오프 조건 렌더링
                 const tbody = document.querySelector('#playoff-table tbody');
                 if (tbody && currentStandings.length > 0) {
-                    logger.log('🔄 백업 데이터로 플레이오프 조건 렌더링 시작, 팀 수:', currentStandings.length);
                     tbody.innerHTML = '';
                     
                     currentStandings.forEach((team, index) => {
@@ -1876,7 +1839,6 @@ const kboTeams = {
                         }
                         
                         const teamData = kboTeams[team.team];
-                        logger.log(`팀 ${team.team} 데이터:`, team);
                         
                         // 데이터 안전성 검사
                         const wins = parseInt(team.wins) || 0;
@@ -1961,7 +1923,6 @@ const kboTeams = {
                         tbody.appendChild(row);
                     });
                     
-                    logger.log('✅ 백업 데이터로 플레이오프 조건 렌더링 완료');
                     
                     // 백업 렌더링 후에도 그라데이션 적용
                     applyGradientsAfterRender();
@@ -2474,25 +2435,18 @@ const kboTeams = {
 
         async function initializeApp() {
             try {
-                logger.log('🚀 initializeApp 시작');
-                logger.log('🔄 KBO 매직넘버 계산기 초기화 중...');
                 
                 // 현재 날짜 표시
                 const today = new Date().toLocaleDateString('ko-KR');
-                logger.log(`📅 오늘 날짜: ${today}`);
                 
                 // 1. 모든 데이터를 병렬로 로딩 (성능 최적화)
-                logger.log('🚀 모든 데이터 병렬 로딩 시작...');
                 const [kboData, headToHeadData] = await Promise.all([
                     loadKBOData(),
                     loadHeadToHeadData()
                 ]);
-                logger.log('✅ 모든 데이터 로딩 완료');
                 
                 // 로드된 데이터 날짜 확인
                 if (kboData?.dataDate) {
-                    logger.log(`✅ 로드된 데이터 날짜: ${kboData.dataDate}`);
-                    logger.log(`📊 데이터 업데이트 시간: ${kboData.updateDate}`);
                 }
                 
                 // 2. UI 업데이트
@@ -2509,42 +2463,33 @@ const kboTeams = {
                 }
                 
                 try {
-                    logger.log('🏆 우승 조건 렌더링 시작...');
                     renderChampionshipCondition();
-                    logger.log('✅ 우승 조건 렌더링 완료');
                 } catch (error) {
                     console.error('❌ 우승 조건 렌더링 오류:', error);
                 }
                 
                 try {
-                    logger.log('🎯 1위 탈환 가능성 렌더링 시작...');
                     renderChaseAnalysis();
-                    logger.log('✅ 1위 탈환 가능성 렌더링 완료');
                 } catch (error) {
                     console.error('❌ 1위 탈환 가능성 렌더링 오류:', error);
                 }
                 
                 
                 try {
-                    logger.log('🏟️ 플레이오프 조건 렌더링 시작...');
                     renderPlayoffCondition();
-                    logger.log('✅ 플레이오프 조건 렌더링 완료');
                 } catch (error) {
                     console.error('❌ 플레이오프 조건 렌더링 오류:', error);
                 }
                 
                 
                 try {
-                    logger.log('⚔️ 팀간 상대전적 렌더링 시작...');
                     renderHeadToHead();
-                    logger.log('✅ 팀간 상대전적 렌더링 완료');
                 } catch (error) {
                     console.error('❌ 팀간 상대전적 렌더링 오류:', error);
                 }
                 
                 try {
                     renderRemainingGames();
-                    logger.log('✅ 팀간 잔여 경기수 현재 순위대로 재배치 완료');
                 } catch (error) {
                     logger.error('❌ 잔여 경기수 렌더링 오류:', error);
                 }
@@ -2566,7 +2511,6 @@ const kboTeams = {
                 try {
                     if (typeof weeklyAnalysisDisplay !== 'undefined') {
                         weeklyAnalysisDisplay.init();
-                        logger.log('✅ 주차별 분석 초기화 완료');
                     }
                 } catch (error) {
                     logger.error('❌ 주차별 분석 초기화 오류:', error);
@@ -2605,7 +2549,6 @@ const kboTeams = {
                     });
                 }
                 
-                logger.log('✅ 앱 초기화 완료');
                 
             } catch (error) {
                 handleError(error, '앱 초기화 실패');
@@ -2618,11 +2561,9 @@ const kboTeams = {
         
         async function runInitialization() {
             if (isInitialized) {
-                logger.log('⚠️ 이미 초기화됨');
                 return;
             }
             isInitialized = true;
-            logger.log('🚀 앱 초기화 시작...');
             await initializeApp();
         }
         
@@ -2636,9 +2577,7 @@ const kboTeams = {
 
         // 탑으로 가기 버튼 별도 초기화 (더 안전한 방법)
         setTimeout(() => {
-            logger.log('탑으로 가기 버튼 별도 초기화');
             const btn = document.getElementById('scrollToTop');
-            logger.log('버튼 요소:', btn);
             
             if (btn) {
                 // 스크롤 이벤트
@@ -2658,12 +2597,10 @@ const kboTeams = {
                 
                 // 클릭 이벤트
                 const btnClickHandler = function() {
-                    logger.log('버튼 클릭!');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 };
                 eventManager.add(btn, 'click', btnClickHandler);
                 
-                logger.log('탑으로 가기 버튼 이벤트 등록 완료');
             } else {
                 logger.error('버튼을 찾을 수 없습니다!');
             }
@@ -2680,7 +2617,6 @@ const kboTeams = {
             
             for (let updateTime of updateTimes) {
                 if (Math.abs(currentTime - updateTime) <= tolerance) {
-                    logger.log(`📊 KBO 데이터 업데이트 시간입니다. (${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')})`);
                     // 실제 데이터 업데이트는 서버에서 JSON 파일을 업데이트하면 자동으로 반영됨
                     return true;
                 }
@@ -2729,7 +2665,6 @@ const kboTeams = {
                 
                 // 요소가 없으면 함수 종료
                 if (!toggleBtn && !mobileControls) {
-                    logger.log('📱 모바일 컨트롤 요소들이 없습니다. 건너뜁니다.');
                     return;
                 }
                 
@@ -2938,7 +2873,6 @@ const kboTeams = {
 
         // 네비게이션 active 상태 업데이트
         function updateActiveNav(activeId) {
-            logger.log('updateActiveNav 호출됨:', activeId);
             const navItems = document.querySelectorAll('.nav-item');
             let activeNavItem = null;
             
@@ -2947,7 +2881,6 @@ const kboTeams = {
                 const onclick = item.getAttribute('onclick');
                 
                 if (onclick && onclick.includes(`smoothScrollTo('${activeId}')`)) {
-                    logger.log('액티브 설정:', activeId);
                     item.classList.add('active');
                     activeNavItem = item;
                 }
@@ -3404,12 +3337,9 @@ const kboTeams = {
                 
                 // 디버깅: 극한 시나리오 결과 출력
                 if (targetTeam.team === '두산') {
-                    logger.log(`🔍 두산 극한 시나리오 (두산 전승 + 다른팀 전패):`);
                     extremeScenario.forEach((team, index) => {
                         const marker = team.team === '두산' ? '👈' : '';
-                        logger.log(`   ${index + 1}위: ${team.team} ${team.wins}승 ${team.losses}패 (승률: ${team.winRate.toFixed(3)}) ${marker}`);
                     });
-                    logger.log(`   → 두산 순위: ${extremeRank}위 (5위 진출 ${extremeRank <= 5 ? '가능' : '불가능'})`);
                 }
                 
                 return extremeRank <= 5 && extremeRank > 0;
@@ -3420,7 +3350,6 @@ const kboTeams = {
                 // 상위 6팀은 무조건 포함 (더 관대하게)
                 const currentRank = topTeams.findIndex(t => t.team === team.team) + 1;
                 if (currentRank <= 6) {
-                    logger.log(`✅ ${team.team}(${currentRank}위): 상위 6팀이므로 무조건 포함`);
                     return true;
                 }
                 
@@ -3429,19 +3358,13 @@ const kboTeams = {
                 
                 // 간단한 1차 필터: 최대 승수가 70승 이상이면 포함
                 if (maxPossibleWins >= 70) {
-                    logger.log(`✅ ${team.team}(${currentRank}위): 최대 ${maxPossibleWins}승 가능하므로 포함`);
                     return true;
                 }
                 
                 // 더 정교한 시나리오 검사
                 const canReach = canReachTop5(team, topTeams);
                 if (canReach) {
-                    logger.log(`✅ ${team.team}(${currentRank}위): 시나리오 계산으로 5위 진출 가능하므로 포함`);
                 } else {
-                    logger.log(`❌ ${team.team}(${currentRank}위): 5위 진출 불가능하므로 제외`);
-                    logger.log(`   - 현재 성적: ${team.wins}승 ${team.losses}패`);
-                    logger.log(`   - 잔여경기: ${team.remainingGames}경기`);
-                    logger.log(`   - 최대승수: ${maxPossibleWins}승`);
                 }
                 return canReach;
             });
@@ -3449,28 +3372,15 @@ const kboTeams = {
             // 실제 경쟁 가능한 팀만 선별 (필터링된 모든 팀 포함, 최대 9팀)
             const eligibleTeams = playoffContenders.slice(0, 9); // 9팀까지 허용
             
-            logger.log(`\n=== 플레이오프 시나리오 매트릭스 필터링 결과 ===`);
-            logger.log(`포함된 팀: ${eligibleTeams.map(t => `${t.team}(${t.rank}위)`).join(', ')} (총 ${eligibleTeams.length}팀)`);
-            logger.log(`제외된 팀: ${topTeams.filter(t => !eligibleTeams.includes(t)).map(t => `${t.team}(${t.rank}위)`).join(', ')}`);
-            
             // 두산 특별 체크
             const doosan = topTeams.find(t => t.team === '두산');
             if (doosan) {
-                logger.log(`\n📊 두산 상세 정보:`);
-                logger.log(`   현재 순위: ${doosan.rank}위`);
-                logger.log(`   현재 성적: ${doosan.wins}승 ${doosan.losses}패 ${doosan.draws || 0}무`);
-                logger.log(`   잔여경기: ${doosan.remainingGames}경기`);
-                logger.log(`   최대 가능 승수: ${doosan.wins + (doosan.remainingGames || 0)}승`);
-                logger.log(`   현재 승률: ${doosan.winRate?.toFixed(3) || 'N/A'}`);
-                logger.log(`   매트릭스 포함 여부: ${eligibleTeams.includes(doosan) ? '✅ 포함' : '❌ 제외'}`);
             }
             
             // 팀이 너무 적으면 최소 상위 8팀은 포함 (더 관대하게)
             if (eligibleTeams.length < 8) {
-                logger.log(`⚠️ 필터링된 팀이 ${eligibleTeams.length}팀으로 너무 적음. 상위 8팀 강제 포함`);
                 const minTeams = topTeams.slice(0, Math.min(8, topTeams.length));
                 eligibleTeams.splice(0, eligibleTeams.length, ...minTeams);
-                logger.log(`📝 강제 포함 후: ${eligibleTeams.map(t => `${t.team}(${t.rank}위)`).join(', ')}`);
             }
             let html = `
                 
@@ -3877,10 +3787,8 @@ const kboTeams = {
                 // 페이지 로드 시 바로 매트릭스 표시
                 setTimeout(() => {
                     if (currentStandings && currentStandings.length > 0) {
-                        logger.log('자동으로 매트릭스 테이블 표시 중...');
                         showScenarioMatrix(false); // 페이지 로드 시에는 스크롤하지 않음
                     } else {
-                        logger.log('순위 데이터 없음:', currentStandings);
                     }
                 }, 500); // 추가 딜레이
             }, 3000); // 기존 데이터 로딩 후 실행 (3초로 늘림)

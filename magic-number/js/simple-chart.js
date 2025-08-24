@@ -936,7 +936,6 @@ function updateSimpleUI() {
         toggleBtn.textContent = chartState.isFullView ? '📅 30일 단위로 보기' : '📊 전체 시즌 보기';
     }
     
-    // console.log('UI 업데이트 완료');
 }
 
 // 초기화
@@ -958,48 +957,33 @@ async function initSimpleChart() {
 
 // 전역 함수들
 function handlePrevPeriod() {
-    // console.log('이전 기간으로 이동');
     // console.log('현재 상태:', {
-        isFullView: chartState.isFullView,
-        currentPeriod: chartState.currentPeriod,
-        periodsLength: chartState.periods.length
-    });
+    //     isFullView: chartState.isFullView,
+    //     currentPeriod: chartState.currentPeriod,
+    //     periodsLength: chartState.periods.length
+    // });
     
     if (!chartState.isFullView && chartState.currentPeriod > 0) {
         chartState.currentPeriod--;
-        // console.log('새로운 기간:', chartState.currentPeriod);
         updateSimpleChart();
-    } else {
-        // console.log('이동 불가:', chartState.isFullView ? '전체 뷰 모드' : '첫번째 기간');
     }
 }
 
 function handleNextPeriod() {
-    // console.log('다음 기간으로 이동');
     // console.log('현재 상태:', {
-        isFullView: chartState.isFullView,
-        currentPeriod: chartState.currentPeriod,
-        periodsLength: chartState.periods.length
-    });
+    //     isFullView: chartState.isFullView,
+    //     currentPeriod: chartState.currentPeriod,
+    //     periodsLength: chartState.periods.length
+    // });
     
     if (!chartState.isFullView && chartState.currentPeriod < chartState.periods.length - 1) {
         chartState.currentPeriod++;
-        // console.log('새로운 기간:', chartState.currentPeriod);
         updateSimpleChart();
-    } else {
-        // console.log('이동 불가:', chartState.isFullView ? '전체 뷰 모드' : '마지막 기간');
     }
 }
 
 function handlePeriodToggle() {
-    // console.log('기간 토글');
-    // console.log('토글 전 상태:', chartState.isFullView);
     chartState.isFullView = !chartState.isFullView;
-    // console.log('토글 후 상태:', chartState.isFullView);
-    // console.log('차트 상태:', {
-        chart: chartState.chart ? 'exists' : 'null',
-        periods: chartState.periods.length
-    });
     updateSimpleChart();
 }
 
