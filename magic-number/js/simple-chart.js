@@ -9,7 +9,6 @@ let chartState = {
 // 실제 KBO 데이터 로드 및 처리
 async function loadRealKBOData() {
     try {
-        console.log('실제 KBO 데이터 로드 시작');
         const response = await fetch('data/game-by-game-records.json');
         
         if (!response.ok) {
@@ -17,7 +16,6 @@ async function loadRealKBOData() {
         }
         
         const gameData = await response.json();
-        console.log('게임 데이터 로드 완료:', Object.keys(gameData));
         
         // SeasonRankGenerator 사용
         const generator = {
@@ -73,7 +71,6 @@ async function loadRealKBOData() {
             // 전체 시즌 순위 생성
             generateSeasonRankings() {
                 const allDates = this.getAllGameDates();
-                console.log(`총 ${allDates.length}일간의 데이터 처리 중...`);
                 
                 const seasonData = [];
                 

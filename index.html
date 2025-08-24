@@ -5072,7 +5072,6 @@
                 const gameRecords = await gameRecordsResponse.json();
                 const allScheduleData = parseScheduleText(scheduleText);
                 
-                console.log('📅 파싱된 전체 경기:', allScheduleData.length, '경기');
                 
                 // 수집된 경기 데이터에서 실제 결과가 있는 날짜들을 추출
                 const completedGameDates = new Set();
@@ -5086,13 +5085,9 @@
                     }
                 });
                 
-                console.log('🔍 결과가 수집된 날짜 수:', completedGameDates.size);
-                console.log('🔍 최근 수집된 날짜들:', Array.from(completedGameDates).sort().slice(-5));
                 
                 // 8월 22일 경기 확인
                 const aug22Games = allScheduleData.filter(game => game.date === '2025-08-22');
-                console.log('📅 8월 22일 전체 경기 수:', aug22Games.length);
-                console.log('📅 8월 22일 결과 수집 완료 여부:', completedGameDates.has('2025-08-22'));
                 
                 // 미래 경기 필터링: 결과가 수집되지 않은 경기만 포함
                 futureScheduleData = allScheduleData.filter(game => {
@@ -5102,7 +5097,6 @@
                     // 결과가 수집된 날짜는 제외 (실제 경기 수집 결과 기반)
                     const isCompleted = completedGameDates.has(game.date);
                     if (isCompleted) {
-                        console.log(`📅 결과 수집 완료로 제외: ${game.date} ${game.time} ${game.awayTeam} vs ${game.homeTeam}`);
                         return false;
                     }
                     
@@ -5197,22 +5191,18 @@
                 }
             }
             
-            console.log(`파싱된 전체 경기: ${games.length}개`);
             return games; // 필터링은 호출하는 곳에서 처리
         }
 
         // 주차별 분석 데이터 로드
         async function loadWeeklyAnalysisData() {
             try {
-                console.log('🔄 주차별/게임별/팀별 데이터 로드 시작...');
                 
                 const [weeklyResponse, recordsResponse] = await Promise.all([
                     fetch('magic-number/data/weekly-analysis.json?v=' + Date.now()),
                     fetch('magic-number/data/game-by-game-records.json?v=' + Date.now())
                 ]);
                 
-                console.log('📡 주차별 데이터 응답:', weeklyResponse.status, weeklyResponse.ok);
-                console.log('📡 게임별 데이터 응답:', recordsResponse.status, recordsResponse.ok);
                 
                 if (!weeklyResponse.ok) {
                     throw new Error(`주차별 데이터 HTTP ${weeklyResponse.status}: ${weeklyResponse.statusText}`);
@@ -5224,24 +5214,17 @@
                 weeklyAnalysisData = await weeklyResponse.json();
                 gameRecordsData = await recordsResponse.json();
                 
-                console.log('📊 주차별 데이터 키:', Object.keys(weeklyAnalysisData));
-                console.log('📊 게임별 데이터 키:', Object.keys(gameRecordsData));
                 
                 // 각각 개별 렌더링
-                console.log('🎯 renderWeeklyTable 호출');
                 renderWeeklyTable();
                 
-                console.log('🎯 renderGameByGameTable 호출');
                 renderGameByGameTable();
                 
                 // 미래 경기 일정 로드
-                console.log('📅 미래 경기 일정 로드');
                 await loadFutureScheduleData();
                 
-                console.log('🎯 renderTeamDetailedRecords 호출');
                 renderTeamDetailedRecords();
                 
-                console.log('✅ 모든 주차별/게임별/팀별 데이터 렌더링 완료');
                 
             } catch (error) {
                 console.error('❌ 주차별 분석 데이터 로드 실패:', error);
@@ -5932,7 +5915,6 @@
             
             // 테이블 렌더링 후 최근 경기 위치로 자동 스크롤
             setTimeout(() => {
-                console.log('currentSelectedTeam:', currentSelectedTeam);
                 
                 // 더 구체적인 셀렉터 사용
                 const teamContent = document.getElementById('teamDetailedRecordsContent');
@@ -6001,7 +5983,6 @@
                         console.log('타겟 행을 찾지 못함');
                     }
                 } else {
-                    console.log('개별 팀 스크롤 요소를 찾지 못함');
                 }
                 
                 // 전체 탭의 경우에도 최근 날짜로 스크롤
@@ -7075,9 +7056,6 @@
             
             // 디버깅용 로그 (첫 번째 호출 시만)
             if (team1 === 'LG' && team2 === '한화') {
-                console.log('잔여경기수 계산 - recordsData:', recordsData);
-                console.log('잔여경기수 계산 - data:', data);
-                console.log('잔여경기수 계산 - team1 data:', data?.[team1]);
             }
             
             if (data && data[team1] && data[team1][team2]) {
@@ -7651,10 +7629,8 @@
 
         // 경기장별 성적 표 분석
         function renderStadiumFullAnalysis() {
-            console.log('🔍 renderStadiumFullAnalysis 호출됨');
             const thead = document.getElementById('stadiumTableHead');
             const tbody = document.getElementById('stadiumTableBody');
-            console.log('stadiumTableHead:', thead, 'stadiumTableBody:', tbody);
             
             if (!thead || !tbody) {
                 console.error('❌ stadiumTableHead 또는 stadiumTableBody 요소를 찾을 수 없습니다');
@@ -7668,7 +7644,6 @@
             
             // 순위 순으로 팀 정렬
             const rankedTeams = dashboardData.standings.map(team => team.team_name);
-            console.log('rankedTeams:', rankedTeams);
             
             // 헤더 생성 (순위 순으로 팀명과 로고)
             let headerHtml = '<tr><th style="min-width: 135px; padding: 6px 2px; white-space: nowrap;">경기장</th>';
@@ -7790,11 +7765,7 @@
                 html += '</tr>';
             });
             
-            console.log('경기장별 헤더 HTML:', headerHtml.substring(0, 100));
-            console.log('경기장별 바디 HTML 길이:', html.length);
-            console.log('경기장별 HTML 미리보기:', html.substring(0, 200) + '...');
             tbody.innerHTML = html;
-            console.log('✅ renderStadiumFullAnalysis 완료');
         }
 
         // 테이블 정렬 기능
@@ -8188,7 +8159,6 @@
                                 cell.style.background = '#34495e';
                             }
                             
-                            console.log(`헤더 ${index + 1}: ${widths[index]}px 적용`);
                         }
                     });
                     
