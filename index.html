@@ -5783,6 +5783,110 @@
             if (currentSelectedTeam !== '전체' && gameRecordsData[currentSelectedTeam]) {
                 initializeDetailedTableSorting();
             }
+            
+            // 테이블 렌더링 후 최근 경기 위치로 자동 스크롤
+            setTimeout(() => {
+                const tableWrapper = document.querySelector('.table-scroll-wrapper');
+                const table = document.getElementById('detailedGameTable');
+                
+                if (tableWrapper && table) {
+                    // 현재 날짜 기준으로 최근 경기 찾기
+                    const today = new Date().toISOString().split('T')[0];
+                    const rows = table.querySelectorAll('tbody tr');
+                    let targetRow = null;
+                    
+                    // 오늘 날짜와 가장 가까운 과거 경기 찾기
+                    for (let i = rows.length - 1; i >= 0; i--) {
+                        const row = rows[i];
+                        if (!row.classList.contains('future-game-row')) {
+                            // 이미 치른 경기 중 가장 최근 경기
+                            targetRow = row;
+                            break;
+                        }
+                    }
+                    
+                    // 만약 과거 경기가 없으면 첫 번째 미래 경기 찾기
+                    if (!targetRow) {
+                        for (let i = 0; i < rows.length; i++) {
+                            const row = rows[i];
+                            if (row.classList.contains('future-game-row')) {
+                                targetRow = row;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // 타겟 경기로 스크롤 (부드러운 애니메이션)
+                    if (targetRow) {
+                        // 스크롤 위치 계산 - 테이블 상단에서 약간 여유를 두고 표시
+                        const wrapperRect = tableWrapper.getBoundingClientRect();
+                        const rowRect = targetRow.getBoundingClientRect();
+                        const scrollPosition = tableWrapper.scrollTop + (rowRect.top - wrapperRect.top) - 100;
+                        
+                        tableWrapper.scrollTo({
+                            top: scrollPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 타겟 행 하이라이트 효과 (잠시 깜빡임)
+                        targetRow.style.transition = 'background-color 0.3s ease';
+                        targetRow.style.backgroundColor = '#fef3c7';
+                        setTimeout(() => {
+                            targetRow.style.backgroundColor = '';
+                        }, 2000);
+                    }
+                }
+                
+                // 전체 탭의 경우에도 최근 날짜로 스크롤
+                if (currentSelectedTeam === '전체') {
+                    const allGamesWrapper = document.querySelector('#teamDetailedRecordsContent .table-scroll-wrapper');
+                    if (allGamesWrapper) {
+                        const rows = allGamesWrapper.querySelectorAll('tbody tr');
+                        let targetRow = null;
+                        
+                        // 최근 경기 날짜 찾기
+                        for (let i = rows.length - 1; i >= 0; i--) {
+                            const row = rows[i];
+                            const dateCell = row.querySelector('.date-cell');
+                            if (dateCell && !dateCell.classList.contains('future-date')) {
+                                targetRow = row;
+                                break;
+                            }
+                        }
+                        
+                        if (!targetRow) {
+                            // 미래 경기 중 첫 번째
+                            for (let i = 0; i < rows.length; i++) {
+                                const row = rows[i];
+                                const dateCell = row.querySelector('.date-cell');
+                                if (dateCell && dateCell.classList.contains('future-date')) {
+                                    targetRow = row;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (targetRow) {
+                            // 스크롤 위치 계산
+                            const wrapperRect = allGamesWrapper.getBoundingClientRect();
+                            const rowRect = targetRow.getBoundingClientRect();
+                            const scrollPosition = allGamesWrapper.scrollTop + (rowRect.top - wrapperRect.top) - 100;
+                            
+                            allGamesWrapper.scrollTo({
+                                top: scrollPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            // 하이라이트 효과
+                            targetRow.style.transition = 'background-color 0.3s ease';
+                            targetRow.style.backgroundColor = '#fef3c7';
+                            setTimeout(() => {
+                                targetRow.style.backgroundColor = '';
+                            }, 2000);
+                        }
+                    }
+                }
+            }, 100);
         }
         
         // 전체 팀 날짜별 경기 결과 뷰 렌더링 (개별 팀과 일관된 스타일)
