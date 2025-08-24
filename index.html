@@ -3787,19 +3787,14 @@
             let isDown = false;
             let startX;
             let scrollLeft;
+            let hasMoved = false;
 
             navMenu.addEventListener('mousedown', (e) => {
-                // 링크 클릭이 아닌 경우에만 드래그 활성화
-                if (e.target.classList.contains('nav-item')) {
-                    return;
-                }
-                
                 isDown = true;
-                navMenu.classList.add('dragging');
+                hasMoved = false;
                 startX = e.pageX - navMenu.offsetLeft;
                 scrollLeft = navMenu.scrollLeft;
                 navMenu.style.cursor = 'grabbing';
-                e.preventDefault();
             });
 
             navMenu.addEventListener('mouseleave', () => {
@@ -3808,18 +3803,36 @@
                 navMenu.style.cursor = 'grab';
             });
 
-            navMenu.addEventListener('mouseup', () => {
+            navMenu.addEventListener('mouseup', (e) => {
+                // 드래그하지 않고 클릭만 했다면 링크 동작 허용
+                if (!hasMoved && e.target.classList.contains('nav-item')) {
+                    // 링크 클릭 허용 (기본 동작)
+                } else if (hasMoved) {
+                    // 드래그했다면 링크 클릭 방지
+                    e.preventDefault();
+                }
+                
                 isDown = false;
+                hasMoved = false;
                 navMenu.classList.remove('dragging');
                 navMenu.style.cursor = 'grab';
             });
 
             navMenu.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
-                e.preventDefault();
+                
                 const x = e.pageX - navMenu.offsetLeft;
-                const walk = (x - startX) * 2; // 스크롤 속도 조절
-                navMenu.scrollLeft = scrollLeft - walk;
+                const distance = Math.abs(x - startX);
+                
+                // 5px 이상 움직였을 때만 드래그로 인식
+                if (distance > 5) {
+                    hasMoved = true;
+                    navMenu.classList.add('dragging');
+                    e.preventDefault();
+                    
+                    const walk = (x - startX) * 1.5; // 스크롤 속도 조절
+                    navMenu.scrollLeft = scrollLeft - walk;
+                }
             });
 
             // 드래그 시작할 때 링크 클릭 방지
@@ -3827,13 +3840,12 @@
                 e.preventDefault();
             });
 
-            // 네비게이션 아이템 클릭 시 드래그 상태 해제
-            navMenu.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('mousedown', (e) => {
-                    isDown = false;
-                    navMenu.classList.remove('dragging');
-                    navMenu.style.cursor = 'grab';
-                });
+            // 드래그 중 링크 클릭 방지
+            navMenu.addEventListener('click', (e) => {
+                if (hasMoved || navMenu.classList.contains('dragging')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
             });
 
             // 초기 커서 설정
@@ -3848,6 +3860,17 @@
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* Internet Explorer 10+ */
             scroll-behavior: smooth;
+            padding: 0 40px; /* 양쪽에 드래그 공간 추가 */
+            position: relative;
+        }
+
+        .nav-menu::before,
+        .nav-menu::after {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 1px;
+            flex-shrink: 0;
         }
 
         .nav-menu::-webkit-scrollbar { 
@@ -3860,6 +3883,11 @@
 
         .nav-menu.dragging .nav-item {
             pointer-events: none; /* 드래그 중 링크 클릭 방지 */
+        }
+
+        /* 네비게이션 아이템 간격 조정 */
+        .nav-item {
+            margin: 0 3px !important; /* 아이템 간 간격 추가 */
         }
         </style>
 
