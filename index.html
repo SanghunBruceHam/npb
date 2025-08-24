@@ -11202,6 +11202,10 @@ KT 9:1 키움(H)`;
                         tooltip: {
                             mode: 'index',
                             intersect: false,
+                            itemSort: function(a, b) {
+                                // 승률이 높은 팀부터 정렬 (내림차순)
+                                return b.parsed.y - a.parsed.y;
+                            },
                             callbacks: {
                                 label: (context) => {
                                     const winRate = context.parsed.y.toFixed(3);
