@@ -3642,6 +3642,7 @@
             height: 100%;
             transition: width 1.2s ease-out;
             border-radius: 4px;
+            will-change: width;
         }
 
         .team-progress-item:hover {
@@ -3765,7 +3766,7 @@
                         <span id="overall-progress-text" style="font-weight: 700; font-size: 1.2rem; color: #059669;">0%</span>
                     </div>
                     <div style="background: #e5e7eb; border-radius: 10px; height: 20px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                        <div id="overall-progress-bar" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: 0%; transition: width 1s ease-out; border-radius: 10px; position: relative;">
+                        <div id="overall-progress-bar" style="height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: 0%; transition: width 1.2s ease-out; border-radius: 10px; position: relative; will-change: width;">
                             <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);"></div>
                         </div>
                     </div>
@@ -8325,143 +8326,87 @@
             return html;
         }
 
-        // 시즌 진행률 애니메이션 실행 플래그
-        let seasonProgressAnimated = false;
-
-        // 시즌 진행률 업데이트 함수
+        let seasonProgressInitialized = false;
+        
         function updateSeasonProgress() {
-            
-            if (!dashboardData || !dashboardData.standings) {
-                return;
-            }
+            if (!dashboardData?.standings || seasonProgressInitialized) return;
+            seasonProgressInitialized = true;
 
-            // 이미 애니메이션이 실행되었으면 중복 실행 방지
-            if (seasonProgressAnimated) {
-                return;
-            }
-            seasonProgressAnimated = true;
+            const teams = dashboardData.standings;
+            const totalGames = teams.reduce((sum, team) => sum + parseInt(team.games_played), 0) / 2;
+            const overallProgress = Math.min((totalGames / 720) * 100, 100);
 
-            const standingsData = dashboardData.standings;
-            let totalGamesPlayed = 0;
-            const totalPossibleGames = 720; // 10팀이 서로 경기하는 총 경기 수 (1440÷2)
-            const gamesPerTeam = 144;
-            
-            // 팀별 색상 정의 (JSON의 team_name 기준)
-            const teamColors = {
-                'LG': '#C30452',
-                'KIA': '#EA0029', 
-                'SSG': '#CE0E2D',
-                '삼성': '#1E22AA',
-                '두산': '#131230',
-                'KT': '#000000',
-                'NC': '#315288',
-                '롯데': '#041E42',
-                '한화': '#FF6600',
-                '키움': '#570D28'
-            };
-            
-            // 팀명 매핑 (JSON 이름 → 전체 이름)
-            const teamFullNames = {
-                'LG': 'LG 트윈스',
-                'KIA': 'KIA 타이거즈', 
-                'SSG': 'SSG 랜더스',
-                '삼성': '삼성 라이온즈',
-                '두산': '두산 베어스',
-                'KT': 'KT 위즈',
-                'NC': 'NC 다이노스',
-                '롯데': '롯데 자이언츠',
-                '한화': '한화 이글스',
-                '키움': '키움 히어로즈'
-            };
-            
-            // 팀 로고 파일명 매핑 (JSON 이름 → 파일명)
-            const teamLogoFiles = {
-                'LG': 'lg',
-                'KIA': 'kia', 
-                'SSG': 'ssg',
-                '삼성': 'samsung',
-                '두산': 'doosan',
-                'KT': 'kt',
-                'NC': 'nc',
-                '롯데': 'lotte',
-                '한화': 'hanwha',
-                '키움': 'kiwoom'
+            // 팀 설정
+            const teamData = {
+                'LG': { name: 'LG 트윈스', color: '#C30452', logo: 'lg' },
+                'KIA': { name: 'KIA 타이거즈', color: '#EA0029', logo: 'kia' },
+                'SSG': { name: 'SSG 랜더스', color: '#CE0E2D', logo: 'ssg' },
+                '삼성': { name: '삼성 라이온즈', color: '#1E22AA', logo: 'samsung' },
+                '두산': { name: '두산 베어스', color: '#131230', logo: 'doosan' },
+                'KT': { name: 'KT 위즈', color: '#000000', logo: 'kt' },
+                'NC': { name: 'NC 다이노스', color: '#315288', logo: 'nc' },
+                '롯데': { name: '롯데 자이언츠', color: '#041E42', logo: 'lotte' },
+                '한화': { name: '한화 이글스', color: '#FF6600', logo: 'hanwha' },
+                '키움': { name: '키움 히어로즈', color: '#570D28', logo: 'kiwoom' }
             };
 
-            // 전체 경기 수 계산
-            standingsData.forEach(team => {
-                totalGamesPlayed += parseInt(team.games_played);
-            });
-            totalGamesPlayed = Math.floor(totalGamesPlayed / 2); // 각 경기가 두 팀에 계산되므로 나누기 2
-
-            const overallProgress = Math.min((totalGamesPlayed / totalPossibleGames) * 100, 100);
-
-            // 전체 진행률 업데이트 (팀별 진행률과 함께 시작)
-            setTimeout(() => {
-                document.getElementById('overall-progress-bar').style.width = `${overallProgress}%`;
-                document.getElementById('overall-progress-text').textContent = `${overallProgress.toFixed(2)}%`;
-                document.getElementById('games-info').textContent = `${totalGamesPlayed}/${totalPossibleGames} 경기 완료`;
-            }, 800);
-
-            // 팀별 진행률 생성 (최적화된 DOM 조작)
-            const teamProgressContainer = document.getElementById('team-progress-container');
-            const fragment = document.createDocumentFragment();
-            const progressFills = [];
-
-            standingsData.forEach((team, index) => {
-                const gamesPlayed = parseInt(team.games_played);
-                const progress = Math.min((gamesPlayed / gamesPerTeam) * 100, 100);
-                const teamColor = teamColors[team.team_name] || '#6366f1';
-                const fullTeamName = teamFullNames[team.team_name] || team.team_name;
-                const logoFile = teamLogoFiles[team.team_name] || team.team_name.toLowerCase();
-
-                const teamProgressItem = document.createElement('div');
-                teamProgressItem.className = 'team-progress-item';
-                teamProgressItem.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <img src="images/${logoFile}.png" 
-                                 alt="${fullTeamName}" 
-                                 style="width: 20px; height: 20px; object-fit: contain; loading: lazy;"
-                                 onerror="this.style.display='none';">
-                            <span style="font-weight: 600; font-size: 0.95rem;">${fullTeamName}</span>
+            // 팀별 진행률 HTML 생성
+            const teamProgressHTML = teams.map(team => {
+                const played = parseInt(team.games_played);
+                const progress = Math.min((played / 144) * 100, 100);
+                const data = teamData[team.team_name] || { name: team.team_name, color: '#6366f1', logo: team.team_name.toLowerCase() };
+                
+                return `
+                    <div class="team-progress-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <img src="images/${data.logo}.png" alt="${data.name}" 
+                                     style="width: 20px; height: 20px; object-fit: contain;" 
+                                     onerror="this.style.display='none';">
+                                <span style="font-weight: 600; font-size: 0.95rem;">${data.name}</span>
+                            </div>
+                            <span style="font-weight: 700; color: ${data.color};">${progress.toFixed(2)}%</span>
                         </div>
-                        <span style="font-weight: 700; color: ${teamColor};">${progress.toFixed(2)}%</span>
-                    </div>
-                    <div class="team-progress-bar">
-                        <div class="team-progress-fill" 
-                             style="background: linear-gradient(90deg, ${teamColor}, ${teamColor}aa); width: 0%;">
+                        <div class="team-progress-bar">
+                            <div class="team-progress-fill" 
+                                 style="background: linear-gradient(90deg, ${data.color}, ${data.color}aa); width: 0%;">
+                            </div>
                         </div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #6b7280;">
-                        <span>${gamesPlayed}경기 완료</span>
-                        <span>${gamesPerTeam - gamesPlayed}경기 남음</span>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #6b7280;">
+                            <span>${played}경기 완료</span>
+                            <span>${144 - played}경기 남음</span>
+                        </div>
                     </div>
                 `;
+            }).join('');
 
-                fragment.appendChild(teamProgressItem);
-                
-                // 애니메이션용 정보 저장
-                progressFills.push({
-                    element: teamProgressItem.querySelector('.team-progress-fill'),
-                    progress: progress
-                });
-            });
+            // DOM 업데이트
+            const container = document.getElementById('team-progress-container');
+            container.innerHTML = teamProgressHTML;
 
-            // 모든 요소를 한번에 DOM에 추가
-            teamProgressContainer.innerHTML = '';
-            teamProgressContainer.appendChild(fragment);
-
-            // 애니메이션 효과로 진행률 바 채우기 (최적화된 방식)
-            setTimeout(() => {
+            // 브라우저가 DOM 업데이트를 완료할 때까지 대기
+            requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
-                    progressFills.forEach(({ element, progress }) => {
-                        if (element) {
-                            element.style.width = `${progress}%`;
+                    // DOM 요소들을 미리 캐시
+                    const overallBar = document.getElementById('overall-progress-bar');
+                    const overallText = document.getElementById('overall-progress-text');
+                    const gamesInfo = document.getElementById('games-info');
+                    const fillElements = container.querySelectorAll('.team-progress-fill');
+
+                    // 모든 스타일 변경을 한 번에 적용
+                    overallBar.style.width = `${overallProgress}%`;
+                    overallText.textContent = `${overallProgress.toFixed(2)}%`;
+                    gamesInfo.textContent = `${totalGames}/${720} 경기 완료`;
+
+                    // 팀별 진행률도 한 번에 적용
+                    teams.forEach((team, i) => {
+                        const progress = Math.min((parseInt(team.games_played) / 144) * 100, 100);
+                        if (fillElements[i]) {
+                            fillElements[i].style.width = `${progress}%`;
                         }
                     });
                 });
-            }, 100);
+            });
         }
 
 
