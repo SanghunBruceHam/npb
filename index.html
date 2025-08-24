@@ -4923,14 +4923,12 @@
                     const updateInfoElement = document.getElementById('updateInfo');
                     if (updateInfoElement) {
                         updateInfoElement.textContent = `📅 ${updateTimeText} 데이터 사용중`;
-                        console.log('📊 헤더 데이터 정보 업데이트:', updateTimeText);
                     }
                     
                     // Footer 업데이트
                     const dataInfoElement = document.querySelector('.data-info');
                     if (dataInfoElement) {
                         dataInfoElement.textContent = `${updateTimeText} 데이터 사용중`;
-                        console.log('📊 Footer 데이터 정보 업데이트:', updateTimeText);
                     }
                 } else {
                     console.warn('⚠️ 데이터 정보 업데이트 실패: updateTime/lastUpdated 데이터 없음', data);
@@ -4948,7 +4946,6 @@
                 try {
                     const response = await fetch('magic-number/data/kbo-records.json?v=' + Date.now());
                     recordsData = await response.json();
-                    console.log('✅ 순위 정렬용 kbo-records.json 로드 완료');
                 } catch (error) {
                     console.warn('⚠️ 상대전적 데이터 로드 실패, 승률만으로 정렬:', error);
                 }
@@ -4983,7 +4980,6 @@
                     return a.team_name.localeCompare(b.team_name);
                 });
                 
-                console.log('📊 순위 정렬 완료:', dashboardData.standings.map(t => `${t.team_name}(${t.win_rate})`).join(', '));
                 
                 // 정렬 후 동률 처리하여 순위 재할당
                 assignRanksWithTies();
@@ -5024,36 +5020,26 @@
                 }
             }
             
-            console.log('📊 동률 처리 완료:', dashboardData.standings.map(t => `${t.displayRank}.${t.team_name}(${t.win_rate})`).join(', '));
         }
 
         // 데이터 로드
         async function loadDashboardData() {
             try {
-                console.log('🔄 데이터 로드 시작...');
                 const response = await fetch('magic-number/data/enhanced-dashboard.json?v=' + Date.now());
-                console.log('📡 Fetch 응답:', response.status, response.ok);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 dashboardData = await response.json();
-                console.log('📊 대시보드 데이터 로드 완료:', {
-                    standings: dashboardData.standings?.length || 0,
-                    weekdayPerformance: Object.keys(dashboardData.weekdayPerformance || {}).length,
-                    stadiumRecords: Object.keys(dashboardData.stadiumRecords || {}).length
-                });
                 
                 // 승률과 상대전적 기준으로 순위 정렬
                 await sortStandingsByWinRateAndHeadToHead();
                 
-                console.log('🎯 renderDashboard 호출 시작');
                 await renderDashboard();
                 
                 // 데이터 정보 업데이트 (renderDashboard 호출 후)
                 updateDataInfo(dashboardData);
-                console.log('✅ 모든 데이터 로드 및 렌더링 완료');
                 return Promise.resolve();
             } catch (error) {
                 console.error('❌ 데이터 로드 실패:', error);
@@ -5068,7 +5054,6 @@
         // 미래 경기 일정 데이터 로드
         async function loadFutureScheduleData() {
             try {
-                console.log('📅 미래 경기 일정 로드 시작...');
                 
                 // 경기 일정과 실제 수집된 경기 데이터를 모두 로드
                 const [scheduleResponse, gameRecordsResponse] = await Promise.all([
@@ -5121,12 +5106,9 @@
                         return false;
                     }
                     
-                    console.log(`📅 미래 경기 포함: ${game.date} ${game.time} ${game.awayTeam} vs ${game.homeTeam}`);
                     return true;
                 });
                 
-                console.log('📅 미래 경기 일정 로드 완료:', futureScheduleData.length, '경기');
-                console.log('📅 필터링 후 8월 22일 경기:', futureScheduleData.filter(g => g.date === '2025-08-22').length);
                 
             } catch (error) {
                 console.error('❌ 미래 경기 일정 로드 실패:', error);
@@ -5279,17 +5261,13 @@
                 return;
             }
 
-            console.log('📊 대시보드 렌더링 시작');
             
             // 업데이트 정보는 updateDataInfo 함수에서 처리됨
 
-            console.log('1️⃣ renderFullStandings 호출');
             try { renderFullStandings(); } catch(e) { console.error('renderFullStandings 오류:', e); }
             
-            console.log('2️⃣ renderPythagoreanFullAnalysis 호출');
             try { renderPythagoreanFullAnalysis(); } catch(e) { console.error('renderPythagoreanFullAnalysis 오류:', e); }
             
-            console.log('3️⃣ renderClutchFullAnalysis 호출');
             try { 
                 await renderClutchFullAnalysis(); 
                 // 클러치 데이터 로드 후 전체 순위표 다시 렌더링
@@ -5298,10 +5276,8 @@
                 console.error('renderClutchFullAnalysis 오류:', e); 
             }
             
-            console.log('4️⃣ renderHomeAwayFullAnalysis 호출');
             try { await renderHomeAwayFullAnalysis(); } catch(e) { console.error('renderHomeAwayFullAnalysis 오류:', e); }
             
-            console.log('5️⃣ renderHeadToHeadMatrix 호출');
             try { 
                 if (typeof renderHeadToHeadMatrix === 'function') {
                     renderHeadToHeadMatrix(); 
@@ -5311,7 +5287,6 @@
                 // 에러가 발생해도 계속 진행
             }
 
-            console.log('5-2️⃣ renderRemainingGamesMatrix 호출');
             try { 
                 if (typeof renderRemainingGamesMatrix === 'function') {
                     renderRemainingGamesMatrix(); 
@@ -5321,16 +5296,12 @@
                 // 에러가 발생해도 계속 진행
             }
             
-            console.log('6️⃣ renderMonthlyFullAnalysis 호출');
             try { renderMonthlyFullAnalysis(); } catch(e) { console.error('renderMonthlyFullAnalysis 오류:', e); }
             
-            console.log('7️⃣ renderWeekdayFullAnalysis 호출');
             try { renderWeekdayFullAnalysis(); } catch(e) { console.error('renderWeekdayFullAnalysis 오류:', e); }
             
-            console.log('8️⃣ renderStadiumFullAnalysis 호출');
             try { renderStadiumFullAnalysis(); } catch(e) { console.error('renderStadiumFullAnalysis 오류:', e); }
             
-            console.log('✅ 대시보드 렌더링 완료');
         }
 
         // 팀 변경
@@ -5452,7 +5423,6 @@
         let weeklyTeamSortState = {}; // 팀별 정렬 상태 (0: 기본, 1: 오름차순, 2: 내림차순)
         
         window.sortWeeklyTableByTeam = function(teamName) {
-            console.log(`🔥 주차별 팀 정렬 함수 호출됨: ${teamName}`);
             
             // 현재 팀의 정렬 상태 확인
             const currentState = weeklyTeamSortState[teamName] || 0;
@@ -5516,14 +5486,11 @@
             }
             
             // 정렬된 행들을 다시 tbody에 추가
-            console.log(`정렬 전 행 수: ${rows.length}, 정렬 후 재배열 시작`);
             tbody.innerHTML = '';
             rows.forEach((row, index) => {
                 const weekText = row.cells[0]?.textContent;
-                console.log(`행 ${index}: ${weekText}주차`);
                 tbody.appendChild(row);
             });
-            console.log('정렬 완료 및 테이블 업데이트됨');
         };
 
         // 주차별 성적 주차 정렬 함수
@@ -5966,7 +5933,6 @@
             
             // 테이블 렌더링 후 최근 경기 위치로 자동 스크롤
             setTimeout(() => {
-                console.log('=== 자동 스크롤 디버깅 시작 ===');
                 console.log('currentSelectedTeam:', currentSelectedTeam);
                 
                 // 더 구체적인 셀렉터 사용
@@ -6527,14 +6493,12 @@
             }
             
             // 현재 데이터 상태 디버그
-            console.log('정렬 전 데이터:', dashboardData.standings.map(t => `${t.team_name}(${t.current_streak})`));
             
             streakSortMode = (streakSortMode + 1) % 2;
             console.log('🔢 현재 streakSortMode:', streakSortMode);
             
             if (streakSortMode === 0) {
                 // 연승 우선 정렬 (승팀 → 패팀 순서)
-                console.log('🏆 연승 우선 정렬 실행');
                 dashboardData.standings.sort((a, b) => {
                     const aMatch = a.current_streak.match(/(\d+)([WL])/);
                     const bMatch = b.current_streak.match(/(\d+)([WL])/);
@@ -6566,11 +6530,8 @@
                 // 연승패 정렬 후에는 assignRanksWithTies 호출하지 않음 (승률 기준 재정렬을 방지)
                 
                 isCustomSorted = true;
-                console.log('정렬 후 데이터:', dashboardData.standings.map(t => `${t.team_name}(${t.current_streak})`));
-                console.log('연승 우선 정렬 완료: ' + dashboardData.standings.slice(0,3).map(t => t.team_name).join(', '));
             } else {
                 // 연패 우선 정렬 (패팀 → 승팀 순서)
-                console.log('💀 연패 우선 정렬 실행');
                 dashboardData.standings.sort((a, b) => {
                     const aMatch = a.current_streak.match(/(\d+)([WL])/);
                     const bMatch = b.current_streak.match(/(\d+)([WL])/);
@@ -6602,7 +6563,6 @@
                 // 연승패 정렬 후에는 assignRanksWithTies 호출하지 않음 (승률 기준 재정렬을 방지)
                 
                 isCustomSorted = true;
-                console.log('연패 우선 정렬 완료: ' + dashboardData.standings.slice(0,3).map(t => t.team_name).join(', '));
             }
             
             // 다른 함수들이 실행되지 않도록 무력화
@@ -6612,7 +6572,6 @@
             // 테이블만 다시 렌더링
             try {
                 renderFullStandings();
-                console.log('✅ 정렬된 테이블 렌더링 완료');
             } catch (error) {
                 console.error('renderFullStandings 에러:', error);
             }
@@ -6625,7 +6584,6 @@
                     window.loadDashboardData = originalLoadDashboardData;
                     console.log('원래 함수들 복원');
                 } else {
-                    console.log('커스텀 정렬 상태 유지 중...');
                 }
             }, 30000);
         }
@@ -6649,7 +6607,6 @@
             if (maxWinStreakSortMode === 0) {
                 // 원래 순위 순서로 복원
                 dashboardData.standings = [...dashboardData.originalStandings];
-                console.log('최대연승 정렬: 원래 순위로 복원');
             } else if (maxWinStreakSortMode === 1) {
                 // 최대연승 내림차순 정렬
                 dashboardData.standings.sort((a, b) => {
@@ -6657,7 +6614,6 @@
                     const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_win_streak || 0;
                     return bStreak - aStreak;
                 });
-                console.log('최대연승 정렬: 내림차순');
             } else {
                 // 최대연승 오름차순 정렬
                 dashboardData.standings.sort((a, b) => {
@@ -6665,7 +6621,6 @@
                     const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_win_streak || 0;
                     return aStreak - bStreak;
                 });
-                console.log('최대연승 정렬: 오름차순');
             }
             
             renderFullStandings();
@@ -6690,7 +6645,6 @@
             if (maxLoseStreakSortMode === 0) {
                 // 원래 순위 순서로 복원
                 dashboardData.standings = [...dashboardData.originalStandings];
-                console.log('최대연패 정렬: 원래 순위로 복원');
             } else if (maxLoseStreakSortMode === 1) {
                 // 최대연패 내림차순 정렬
                 dashboardData.standings.sort((a, b) => {
@@ -6698,7 +6652,6 @@
                     const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_lose_streak || 0;
                     return bStreak - aStreak;
                 });
-                console.log('최대연패 정렬: 내림차순');
             } else {
                 // 최대연패 오름차순 정렬
                 dashboardData.standings.sort((a, b) => {
@@ -6706,7 +6659,6 @@
                     const bStreak = dashboardData.streakAnalysis?.find(t => t.team_name === b.team_name)?.max_lose_streak || 0;
                     return aStreak - bStreak;
                 });
-                console.log('최대연패 정렬: 오름차순');
             }
             
             renderFullStandings();
@@ -7010,7 +6962,6 @@
             try {
                 const response = await fetch('magic-number/data/kbo-records.json?v=' + Date.now());
                 recordsData = await response.json();
-                console.log('✅ kbo-records.json 로드 완료');
             } catch (error) {
                 console.error('❌ kbo-records.json 로드 실패:', error);
             }
@@ -7051,7 +7002,6 @@
             try {
                 const response = await fetch('magic-number/data/kbo-records.json?v=' + Date.now());
                 recordsData = await response.json();
-                console.log('✅ 잔여경기수용 kbo-records.json 로드 완료');
             } catch (error) {
                 console.error('❌ 잔여경기수용 kbo-records.json 로드 실패:', error);
             }
@@ -8417,7 +8367,6 @@
 
         // 시즌 진행률 업데이트 함수
         function updateSeasonProgress() {
-            console.log('updateSeasonProgress 함수 호출됨');
             console.log('dashboardData:', dashboardData);
             
             if (!dashboardData || !dashboardData.standings) {
@@ -8427,7 +8376,6 @@
 
             // 이미 애니메이션이 실행되었으면 중복 실행 방지
             if (seasonProgressAnimated) {
-                console.log('시즌 진행률 애니메이션 이미 실행됨, 중복 방지');
                 return;
             }
             seasonProgressAnimated = true;
@@ -9138,7 +9086,6 @@
             
             async init() {
                 try {
-                    console.log('완전한 일별 통계 초기화 시작');
                     await this.loadSeasonData();
                     await this.loadTeamLogoImages();
                     this.processAllData();
@@ -9174,7 +9121,6 @@
                 });
                 
                 await Promise.all(promises);
-                console.log('팀 로고 이미지 로드 완료');
             }
             
             async loadSeasonData() {
@@ -9218,7 +9164,6 @@ KIA 6:4 롯데(H)
 SSG 5:3 두산(H)
 KT 9:1 키움(H)`;
                 
-                console.log('샘플 데이터 파싱');
                 this.parseSeasonData(sampleData);
             }
             
@@ -9277,7 +9222,6 @@ KT 9:1 키움(H)`;
                 // 동적으로 최신 경기 날짜 설정
                 this.setLatestGameDate();
                 
-                console.log(`${this.seasonData.length}일의 데이터 파싱 완료`);
             }
             
             // 경기 결과가 있는 가장 최신 날짜를 동적으로 설정
@@ -10910,7 +10854,6 @@ KT 9:1 키움(H)`;
         // 전반기/후반기 성적 데이터 로딩 및 업데이트
         async function updateHalfSeasonStats() {
             try {
-                console.log('⚾ 전반기/후반기 성적 업데이트 시작...');
                 
                 // KBO 데이터 로딩
                 const response = await fetch('magic-number/data/service-data.json?v=' + Date.now());
@@ -10928,7 +10871,6 @@ KT 9:1 키움(H)`;
                 const halfSeasonData = await calculateHalfSeasonStats(standings);
                 renderHalfSeasonTable(halfSeasonData);
                 
-                console.log('✅ 실제 데이터 기반 전반기/후반기 성적 업데이트 완료');
                 
             } catch (error) {
                 console.error('❌ 전반기/후반기 성적 업데이트 실패:', error);
@@ -11142,7 +11084,6 @@ KT 9:1 키움(H)`;
                 })
                 .map((team, index) => ({ team: team.team, rank: index + 1 }));
             
-            console.log('실제 전반기 순위:', firstHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
             
             // 후반기 순위 계산 (후반기 경기가 있는 팀만)
             const secondHalfRanking = [...halfSeasonStats]
@@ -11157,7 +11098,6 @@ KT 9:1 키움(H)`;
                 })
                 .map((team, index) => ({ team: team.team, rank: index + 1 }));
             
-            console.log('실제 후반기 순위:', secondHalfRanking.map(r => `${r.rank}위 ${r.team}`).join(', '));
 
             // 순위 정보 추가 및 성적 변화 계산
             halfSeasonStats.forEach(team => {
