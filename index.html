@@ -3246,7 +3246,7 @@
         .nav-menu {
             display: flex;
             justify-content: flex-start;
-            gap: 2px;
+            gap: 0px;
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -3763,11 +3763,20 @@
                     left: 5px;
                     top: 50%;
                     transform: translateY(-50%);
-                    color: rgba(255, 255, 255, 0.7);
-                    font-size: 18px;
-                    z-index: 10;
                     pointer-events: none;
                     display: none;
+                    color: #ffffff;
+                    font-size: 24px;
+                    font-weight: bold;
+                    z-index: 100;
+                    pointer-events: none;
+                    background: rgba(0, 0, 0, 0.5);
+                    border-radius: 50%;
+                    border: none;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    line-height: 30px;
                 ">←</div>
                 
                 <div class="nav-menu" id="nav-menu">
@@ -3797,11 +3806,20 @@
                     right: 5px;
                     top: 50%;
                     transform: translateY(-50%);
-                    color: rgba(255, 255, 255, 0.7);
-                    font-size: 18px;
-                    z-index: 10;
                     pointer-events: none;
                     display: none;
+                    color: #ffffff;
+                    font-size: 24px;
+                    font-weight: bold;
+                    z-index: 100;
+                    pointer-events: none;
+                    background: rgba(0, 0, 0, 0.5);
+                    border-radius: 50%;
+                    border: none;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    line-height: 30px;
                 ">→</div>
             </div>
         </nav>
@@ -3823,20 +3841,32 @@
                 const maxScroll = navMenu.scrollWidth - navMenu.clientWidth;
                 const scrollThreshold = 10; // 스크롤 임계값
                 
+                // 디버깅용 로그
+                console.log('scrollWidth:', navMenu.scrollWidth, 'clientWidth:', navMenu.clientWidth, 'maxScroll:', maxScroll, 'scrollLeft:', scrollLeft);
+                
+                // 요소 존재 확인
+                console.log('leftArrow:', leftArrow, 'rightArrow:', rightArrow);
+                
                 // 맨 왼쪽(시작): 오른쪽 화살표만
                 if (scrollLeft <= scrollThreshold) {
                     leftArrow.style.display = 'none';
                     rightArrow.style.display = maxScroll > 0 ? 'block' : 'none';
+                    console.log('위치: 맨 왼쪽, 오른쪽 화살표:', maxScroll > 0 ? '표시' : '숨김');
+                    console.log('rightArrow display:', rightArrow.style.display);
                 }
                 // 맨 오른쪽(끝): 왼쪽 화살표만  
                 else if (scrollLeft >= maxScroll - scrollThreshold) {
                     leftArrow.style.display = 'block';
                     rightArrow.style.display = 'none';
+                    console.log('위치: 맨 오른쪽, 왼쪽 화살표 표시');
+                    console.log('leftArrow display:', leftArrow.style.display);
                 }
                 // 중간: 양쪽 화살표 모두
                 else {
                     leftArrow.style.display = 'block';
                     rightArrow.style.display = 'block';
+                    console.log('위치: 중간, 양쪽 화살표 표시');
+                    console.log('leftArrow display:', leftArrow.style.display, 'rightArrow display:', rightArrow.style.display);
                 }
             }
 
@@ -3916,7 +3946,7 @@
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* Internet Explorer 10+ */
             scroll-behavior: smooth;
-            padding: 0 40px; /* 양쪽에 드래그 공간 추가 */
+            padding: 0; /* 양쪽 여백 제거 */
             position: relative;
         }
 
@@ -3952,8 +3982,8 @@
         }
 
         @keyframes navArrowBlink {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 0.3; }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
         }
         </style>
 
