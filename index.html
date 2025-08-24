@@ -3817,13 +3817,27 @@
             let scrollLeft;
             let hasMoved = false;
 
-            // 스크롤 가능 여부 확인 및 화살표 표시/숨김
+            // 스크롤 위치에 따라 화살표 표시/숨김
             function updateScrollArrows() {
-                const canScrollLeft = navMenu.scrollLeft > 0;
-                const canScrollRight = navMenu.scrollLeft < (navMenu.scrollWidth - navMenu.clientWidth);
+                const scrollLeft = navMenu.scrollLeft;
+                const maxScroll = navMenu.scrollWidth - navMenu.clientWidth;
+                const scrollThreshold = 10; // 스크롤 임계값
                 
-                leftArrow.style.display = canScrollLeft ? 'block' : 'none';
-                rightArrow.style.display = canScrollRight ? 'block' : 'none';
+                // 맨 왼쪽(시작): 오른쪽 화살표만
+                if (scrollLeft <= scrollThreshold) {
+                    leftArrow.style.display = 'none';
+                    rightArrow.style.display = maxScroll > 0 ? 'block' : 'none';
+                }
+                // 맨 오른쪽(끝): 왼쪽 화살표만  
+                else if (scrollLeft >= maxScroll - scrollThreshold) {
+                    leftArrow.style.display = 'block';
+                    rightArrow.style.display = 'none';
+                }
+                // 중간: 양쪽 화살표 모두
+                else {
+                    leftArrow.style.display = 'block';
+                    rightArrow.style.display = 'block';
+                }
             }
 
             // 페이지 로드 시 및 스크롤 시 화살표 업데이트
