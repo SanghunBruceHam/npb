@@ -127,7 +127,6 @@ async function loadRealKBOData() {
                     });
                 }
                 
-                console.log(`시즌 랭킹 데이터 생성 완료: ${seasonData.length}일`);
                 return seasonData;
             }
         };

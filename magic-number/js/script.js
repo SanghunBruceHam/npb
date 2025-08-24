@@ -2475,11 +2475,11 @@ const kboTeams = {
         async function initializeApp() {
             try {
                 logger.log('🚀 initializeApp 시작');
-                console.log('🔄 KBO 매직넘버 계산기 초기화 중...');
+                logger.log('🔄 KBO 매직넘버 계산기 초기화 중...');
                 
                 // 현재 날짜 표시
                 const today = new Date().toLocaleDateString('ko-KR');
-                console.log(`📅 오늘 날짜: ${today}`);
+                logger.log(`📅 오늘 날짜: ${today}`);
                 
                 // 1. 모든 데이터를 병렬로 로딩 (성능 최적화)
                 logger.log('🚀 모든 데이터 병렬 로딩 시작...');
@@ -3420,7 +3420,7 @@ const kboTeams = {
                 // 상위 6팀은 무조건 포함 (더 관대하게)
                 const currentRank = topTeams.findIndex(t => t.team === team.team) + 1;
                 if (currentRank <= 6) {
-                    console.log(`✅ ${team.team}(${currentRank}위): 상위 6팀이므로 무조건 포함`);
+                    logger.log(`✅ ${team.team}(${currentRank}위): 상위 6팀이므로 무조건 포함`);
                     return true;
                 }
                 
@@ -3429,7 +3429,7 @@ const kboTeams = {
                 
                 // 간단한 1차 필터: 최대 승수가 70승 이상이면 포함
                 if (maxPossibleWins >= 70) {
-                    console.log(`✅ ${team.team}(${currentRank}위): 최대 ${maxPossibleWins}승 가능하므로 포함`);
+                    logger.log(`✅ ${team.team}(${currentRank}위): 최대 ${maxPossibleWins}승 가능하므로 포함`);
                     return true;
                 }
                 
@@ -3449,20 +3449,20 @@ const kboTeams = {
             // 실제 경쟁 가능한 팀만 선별 (필터링된 모든 팀 포함, 최대 9팀)
             const eligibleTeams = playoffContenders.slice(0, 9); // 9팀까지 허용
             
-            console.log(`\n=== 플레이오프 시나리오 매트릭스 필터링 결과 ===`);
-            console.log(`포함된 팀: ${eligibleTeams.map(t => `${t.team}(${t.rank}위)`).join(', ')} (총 ${eligibleTeams.length}팀)`);
-            console.log(`제외된 팀: ${topTeams.filter(t => !eligibleTeams.includes(t)).map(t => `${t.team}(${t.rank}위)`).join(', ')}`);
+            logger.log(`\n=== 플레이오프 시나리오 매트릭스 필터링 결과 ===`);
+            logger.log(`포함된 팀: ${eligibleTeams.map(t => `${t.team}(${t.rank}위)`).join(', ')} (총 ${eligibleTeams.length}팀)`);
+            logger.log(`제외된 팀: ${topTeams.filter(t => !eligibleTeams.includes(t)).map(t => `${t.team}(${t.rank}위)`).join(', ')}`);
             
             // 두산 특별 체크
             const doosan = topTeams.find(t => t.team === '두산');
             if (doosan) {
-                console.log(`\n📊 두산 상세 정보:`);
-                console.log(`   현재 순위: ${doosan.rank}위`);
-                console.log(`   현재 성적: ${doosan.wins}승 ${doosan.losses}패 ${doosan.draws || 0}무`);
-                console.log(`   잔여경기: ${doosan.remainingGames}경기`);
-                console.log(`   최대 가능 승수: ${doosan.wins + (doosan.remainingGames || 0)}승`);
-                console.log(`   현재 승률: ${doosan.winRate?.toFixed(3) || 'N/A'}`);
-                console.log(`   매트릭스 포함 여부: ${eligibleTeams.includes(doosan) ? '✅ 포함' : '❌ 제외'}`);
+                logger.log(`\n📊 두산 상세 정보:`);
+                logger.log(`   현재 순위: ${doosan.rank}위`);
+                logger.log(`   현재 성적: ${doosan.wins}승 ${doosan.losses}패 ${doosan.draws || 0}무`);
+                logger.log(`   잔여경기: ${doosan.remainingGames}경기`);
+                logger.log(`   최대 가능 승수: ${doosan.wins + (doosan.remainingGames || 0)}승`);
+                logger.log(`   현재 승률: ${doosan.winRate?.toFixed(3) || 'N/A'}`);
+                logger.log(`   매트릭스 포함 여부: ${eligibleTeams.includes(doosan) ? '✅ 포함' : '❌ 제외'}`);
             }
             
             // 팀이 너무 적으면 최소 상위 8팀은 포함 (더 관대하게)
@@ -3877,7 +3877,7 @@ const kboTeams = {
                 // 페이지 로드 시 바로 매트릭스 표시
                 setTimeout(() => {
                     if (currentStandings && currentStandings.length > 0) {
-                        console.log('자동으로 매트릭스 테이블 표시 중...');
+                        logger.log('자동으로 매트릭스 테이블 표시 중...');
                         showScenarioMatrix(false); // 페이지 로드 시에는 스크롤하지 않음
                     } else {
                         console.log('순위 데이터 없음:', currentStandings);
