@@ -5866,6 +5866,8 @@
                     } else {
                         console.log('타겟 행을 찾지 못함');
                     }
+                } else {
+                    console.log('개별 팀 스크롤 요소를 찾지 못함');
                 }
                 
                 // 전체 탭의 경우에도 최근 날짜로 스크롤
@@ -5875,6 +5877,7 @@
                     console.log('전체 탭 table-container:', allGamesWrapper);
                     
                     if (allGamesWrapper) {
+                        console.log('전체 탭 table-container 찾음, 스크롤 처리 시작');
                         const rows = allGamesWrapper.querySelectorAll('tbody tr');
                         console.log('전체 탭 rows 개수:', rows.length);
                         let targetRow = null;
@@ -5953,9 +5956,13 @@
                         } else {
                             console.log('전체 탭 타겟 행을 찾지 못함');
                         }
+                    } else {
+                        console.log('전체 탭 table-container를 찾지 못함');
                     }
+                } else {
+                    console.log('전체 탭이 아님, 스크롤 처리하지 않음');
                 }
-            }, 300);
+            }, 500);
         }
         
         // 전체 팀 날짜별 경기 결과 뷰 렌더링 (개별 팀과 일관된 스타일)
