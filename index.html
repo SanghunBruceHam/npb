@@ -5601,8 +5601,13 @@
 
             document.getElementById('gameRecordsContent').innerHTML = html;
             
-            // 최적화된 전체 게임 월별 탭 이벤트 리스너 (이벤트 위임 사용)
-            initAllGamesMonthTabs();
+            // DOM 업데이트 후 이벤트 리스너 추가
+            setTimeout(() => {
+                // DOM 캐시 클리어 (새로운 HTML 요소들이 생성되었으므로)
+                clearDOMCache();
+                // 최적화된 전체 게임 월별 탭 이벤트 리스너 (이벤트 위임 사용)
+                initAllGamesMonthTabs();
+            }, 100);
         }
 
         // 특정 게임에서의 연승/연패 카운트 계산 (무승부 무시)
@@ -5973,8 +5978,16 @@
             }
             
             if (currentSelectedTeam !== '전체') {
-                // 최적화된 팀별 월별 탭 이벤트 리스너 (이벤트 위임 사용)
-                initTeamMonthTabs();
+                // DOM 업데이트 후 팀별 월별 탭 이벤트 리스너 추가
+                setTimeout(() => {
+                    initTeamMonthTabs();
+                }, 100);
+            } else {
+                // 전체 탭 선택시 전체 게임 월별 탭 이벤트 리스너 추가
+                setTimeout(() => {
+                    clearDOMCache();
+                    initAllGamesMonthTabs();
+                }, 100);
             }
             
             // 정렬 기능 초기화
@@ -11261,38 +11274,83 @@ KT 9:1 키움(H)`;
 
         // 최적화된 전체 게임 월별 탭 초기화
         function initAllGamesMonthTabs() {
-            const container = getCachedElement('#gameRecordsContent .all-games-month-tabs-container');
-            if (!container) return;
+            const container = document.querySelector('#teamDetailedRecordsContent .all-games-month-tabs-container');
+            
+            if (!container) {
+                console.warn('전체 게임 월별 탭 컨테이너를 찾을 수 없습니다.');
+                console.warn('사용 가능한 컨테이너:', document.querySelectorAll('.all-games-month-tabs-container'));
+                return;
+            }
+
+            // 기존 이벤트 리스너 제거 (중복 방지)
+            const existingListener = container.getAttribute('data-listener-added');
+            if (existingListener) return;
 
             // 이벤트 위임 사용 - 하나의 리스너로 모든 탭 처리
-            container.addEventListener('click', debounce((e) => {
+            container.addEventListener('click', (e) => {
+                console.log('전체 게임 월별 탭 컨테이너 클릭됨:', e.target);
                 const tab = e.target.closest('.all-games-month-tab');
-                if (!tab) return;
+                console.log('찾은 탭:', tab);
+                if (!tab) {
+                    console.log('월별 탭이 아닌 요소 클릭됨');
+                    return;
+                }
 
-                handleMonthTabClick(tab, '.all-games-month-tab', 'all-games-month', '#gameRecordsContent .table-container');
-            }, 50));
+                handleMonthTabClick(tab, '.all-games-month-tab', 'all-games-month', '#teamDetailedRecordsContent .table-container');
+            });
+
+            // 리스너 추가 표시
+            container.setAttribute('data-listener-added', 'true');
+            console.log('전체 게임 월별 탭 이벤트 리스너가 성공적으로 추가되었습니다.');
         }
 
         // 최적화된 팀별 월별 탭 초기화
         function initTeamMonthTabs() {
-            const container = getCachedElement('.team-month-tabs-container');
-            if (!container) return;
+            const container = document.querySelector('.team-month-tabs-container');
+            
+            if (!container) {
+                console.warn('팀별 월별 탭 컨테이너를 찾을 수 없습니다.');
+                return;
+            }
 
-            // 이벤트 위임 사용
-            container.addEventListener('click', debounce((e) => {
+            // 기존 이벤트 리스너 제거 (중복 방지)
+            const existingListener = container.getAttribute('data-listener-added');
+            if (existingListener) return;
+
+            // 이벤트 위임 사용 - 하나의 리스너로 모든 탭 처리
+            container.addEventListener('click', (e) => {
                 const tab = e.target.closest('.team-month-tab');
                 if (!tab) return;
 
                 handleMonthTabClick(tab, '.team-month-tab', 'team-month', '#team-detailed-table-wrapper');
-            }, 50));
+            });
+
+            // 리스너 추가 표시
+            container.setAttribute('data-listener-added', 'true');
+            console.log('팀별 월별 탭 이벤트 리스너가 성공적으로 추가되었습니다.');
         }
 
         // 통합된 월별 탭 클릭 핸들러
         function handleMonthTabClick(clickedTab, tabSelector, idPrefix, containerSelector) {
-            const allTabs = document.querySelectorAll(tabSelector);
-            const container = getCachedElement(containerSelector);
+            console.log('월별 탭 클릭됨:', clickedTab.textContent, 'data-month:', clickedTab.dataset.month);
+            console.log('탭 셀렉터:', tabSelector, 'ID 접두사:', idPrefix, '컨테이너 셀렉터:', containerSelector);
             
-            if (!container) return;
+            const allTabs = document.querySelectorAll(tabSelector);
+            const container = document.querySelector(containerSelector);
+            
+            console.log('찾은 탭 개수:', allTabs.length, '컨테이너 찾음:', !!container);
+            console.log('컨테이너 셀렉터 시도:', containerSelector);
+            
+            if (!container) {
+                console.error('컨테이너를 찾을 수 없습니다:', containerSelector);
+                // 대안으로 모든 테이블 컨테이너 시도
+                const altContainer = document.querySelector('.table-container');
+                console.log('대안 컨테이너 찾음:', !!altContainer);
+                if (altContainer) {
+                    performOptimizedScroll(clickedTab, idPrefix, altContainer);
+                }
+                return;
+            }
 
             // 배치로 스타일 업데이트 (리플로우 최소화)
             requestAnimationFrame(() => {
@@ -11313,6 +11371,9 @@ KT 9:1 키움(H)`;
                     borderColor: '#495057',
                     color: 'white'
                 });
+                
+                // 탭 변경 성공 알림 (임시)
+                console.log(`✅ ${clickedTab.textContent} 탭으로 성공적으로 전환되었습니다!`);
 
                 // 디바운스된 스크롤 실행
                 performOptimizedScroll(clickedTab, idPrefix, container);
