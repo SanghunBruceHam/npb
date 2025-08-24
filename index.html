@@ -5601,49 +5601,8 @@
 
             document.getElementById('gameRecordsContent').innerHTML = html;
             
-            // 전체 게임 월별 탭 이벤트 리스너 추가
-            setTimeout(() => {
-                const allGamesMonthTabs = document.querySelectorAll('.all-games-month-tab');
-                const allGamesTableContainer = document.querySelector('#gameRecordsContent .table-container');
-                
-                allGamesMonthTabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        // 모든 탭에서 active 클래스 제거하고 기본 스타일 적용
-                        allGamesMonthTabs.forEach(t => {
-                            t.classList.remove('active');
-                            t.style.background = 'white';
-                            t.style.borderColor = '#dee2e6';
-                            t.style.color = '#666';
-                        });
-                        
-                        // 클릭된 탭에 active 스타일 적용
-                        tab.classList.add('active');
-                        tab.style.background = '#495057';
-                        tab.style.borderColor = '#495057';
-                        tab.style.color = 'white';
-                        
-                        // 해당 월의 첫 날짜로 스크롤
-                        const monthNum = tab.getAttribute('data-month');
-                        const targetElement = document.getElementById(`all-games-month-${monthNum}-start`);
-                        
-                        if (targetElement && allGamesTableContainer) {
-                            // 실제 스티키 헤더의 높이를 동적으로 계산
-                            const stickyHeader = allGamesTableContainer.querySelector('thead tr');
-                            const stickyHeaderHeight = stickyHeader ? stickyHeader.offsetHeight : 50;
-                            
-                            const containerRect = allGamesTableContainer.getBoundingClientRect();
-                            const targetRect = targetElement.getBoundingClientRect();
-                            const scrollOffset = targetRect.top - containerRect.top + allGamesTableContainer.scrollTop;
-                            
-                            // 실제 측정된 스티키 헤더 높이를 고려한 부드러운 스크롤
-                            allGamesTableContainer.scrollTo({
-                                top: scrollOffset - stickyHeaderHeight - 5,
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
-                });
-            }, 100);
+            // 최적화된 전체 게임 월별 탭 이벤트 리스너 (이벤트 위임 사용)
+            initAllGamesMonthTabs();
         }
 
         // 특정 게임에서의 연승/연패 카운트 계산 (무승부 무시)
@@ -6014,48 +5973,8 @@
             }
             
             if (currentSelectedTeam !== '전체') {
-                setTimeout(() => {
-                    const teamMonthTabs = document.querySelectorAll('.team-month-tab');
-                    const teamTableWrapper = document.getElementById('team-detailed-table-wrapper');
-                    
-                    teamMonthTabs.forEach(tab => {
-                        tab.addEventListener('click', () => {
-                            // 모든 탭에서 active 클래스 제거하고 기본 스타일 적용
-                            teamMonthTabs.forEach(t => {
-                                t.classList.remove('active');
-                                t.style.background = 'white';
-                                t.style.borderColor = '#dee2e6';
-                                t.style.color = '#666';
-                            });
-                            
-                            // 클릭된 탭에 active 스타일 적용
-                            tab.classList.add('active');
-                            tab.style.background = '#495057';
-                            tab.style.borderColor = '#495057';
-                            tab.style.color = 'white';
-                            
-                            // 해당 월의 첫 경기로 스크롤
-                            const monthNum = tab.getAttribute('data-month');
-                            const targetElement = document.getElementById(`team-month-${monthNum}-start`);
-                            
-                            if (targetElement && teamTableWrapper) {
-                                // 실제 스티키 헤더의 높이를 동적으로 계산
-                                const stickyHeader = teamTableWrapper.querySelector('thead tr');
-                                const stickyHeaderHeight = stickyHeader ? stickyHeader.offsetHeight : 60; // 팀별 상세 기록은 더 큼
-                                
-                                const containerRect = teamTableWrapper.getBoundingClientRect();
-                                const targetRect = targetElement.getBoundingClientRect();
-                                const scrollOffset = targetRect.top - containerRect.top + teamTableWrapper.scrollTop;
-                                
-                                // 실제 측정된 스티키 헤더 높이를 고려한 부드러운 스크롤
-                                teamTableWrapper.scrollTo({
-                                    top: scrollOffset - stickyHeaderHeight - 5, // 실제 헤더 높이 + 작은 여백
-                                    behavior: 'smooth'
-                                });
-                            }
-                        });
-                    });
-                }, 100);
+                // 최적화된 팀별 월별 탭 이벤트 리스너 (이벤트 위임 사용)
+                initTeamMonthTabs();
             }
             
             // 정렬 기능 초기화
@@ -6063,148 +5982,10 @@
                 initializeDetailedTableSorting();
             }
             
-            // 테이블 렌더링 후 최근 경기 위치로 자동 스크롤
-            setTimeout(() => {
-                
-                // 더 구체적인 셀렉터 사용
-                const teamContent = document.getElementById('teamDetailedRecordsContent');
-                const tableWrapper = teamContent ? teamContent.querySelector('.table-scroll-wrapper') : null;
-                const table = document.getElementById('detailedGameTable');
-                
-                
-                if (tableWrapper && table) {
-                    // 현재 날짜 기준으로 최근 경기 찾기
-                    const today = new Date().toISOString().split('T')[0];
-                    const rows = table.querySelectorAll('tbody tr');
-                    let targetRow = null;
-                    
-                    // 최근 15경기 정도가 보이도록 스크롤 위치 계산
-                    let recentGameIndex = -1;
-                    let pastGameCount = 0;
-                    
-                    // 가장 최근 경기 찾기
-                    for (let i = rows.length - 1; i >= 0; i--) {
-                        const row = rows[i];
-                        console.log(`행 ${i}: future-game-row 클래스 있음?`, row.classList.contains('future-game-row'));
-                        if (!row.classList.contains('future-game-row')) {
-                            recentGameIndex = i;
-                            break;
-                        }
-                    }
-                    
-                    if (recentGameIndex >= 0) {
-                        // 최근 10경기가 보이도록 조정
-                        const targetIndex = Math.max(0, recentGameIndex - 8);
-                        targetRow = rows[targetIndex];
-                    } else {
-                        // 과거 경기가 없으면 첫 번째 미래 경기 찾기
-                        console.log('과거 경기 없음, 미래 경기 찾는 중...');
-                        for (let i = 0; i < rows.length; i++) {
-                            const row = rows[i];
-                            if (row.classList.contains('future-game-row')) {
-                                targetRow = row;
-                                console.log('미래 경기 선택:', i);
-                                break;
-                            }
-                        }
-                    }
-                    
-                    // 타겟 경기로 스크롤 (부드러운 애니메이션)
-                    if (targetRow) {
-                        console.log('타겟 행 찾음:', targetRow);
-                        console.log('테이블 래퍼 스크롤 높이:', tableWrapper.scrollHeight);
-                        console.log('테이블 래퍼 클라이언트 높이:', tableWrapper.clientHeight);
-                        
-                        // 스크롤 위치 계산 - 테이블 상단에서 약간 여유를 두고 표시
-                        const wrapperRect = tableWrapper.getBoundingClientRect();
-                        const rowRect = targetRow.getBoundingClientRect();
-                        const scrollPosition = tableWrapper.scrollTop + (rowRect.top - wrapperRect.top) - 100;
-                        
-                        console.log('계산된 스크롤 위치:', scrollPosition);
-                        console.log('현재 스크롤 위치:', tableWrapper.scrollTop);
-                        
-                        tableWrapper.scrollTo({
-                            top: scrollPosition,
-                            behavior: 'smooth'
-                        });
-                        
-                        // 하이라이트 효과 제거 - 스크롤만 실행
-                    } else {
-                        console.log('타겟 행을 찾지 못함');
-                    }
-                } else {
-                }
-                
-                // 전체 탭의 경우에도 최근 날짜로 스크롤
-                if (currentSelectedTeam === '전체') {
-                    const allGamesWrapper = teamContent.querySelector('.table-container');
-                    
-                    if (allGamesWrapper) {
-                        const rows = allGamesWrapper.querySelectorAll('tbody tr');
-                        let targetRow = null;
-                        
-                        // 실제 최근 날짜 찾기
-                        const today = new Date();
-                        let recentDateIndex = -1;
-                        
-                        // 뒤에서부터 검색해서 오늘 이전의 가장 최근 날짜 찾기
-                        for (let i = rows.length - 1; i >= 0; i--) {
-                            const row = rows[i];
-                            const firstCell = row.querySelector('td:first-child');
-                            
-                            if (firstCell) {
-                                const cellText = firstCell.textContent.trim();
-                                // "8월 23일" 형태를 찾기
-                                const dateMatch = cellText.match(/(\d{1,2})월 (\d{1,2})일/);
-                                
-                                if (dateMatch) {
-                                    const [, month, day] = dateMatch;
-                                    const gameDate = new Date(2025, parseInt(month) - 1, parseInt(day));
-                                    
-                                    // 오늘 이전 날짜면 선택
-                                    if (gameDate <= today) {
-                                        recentDateIndex = i;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // 최근 경기가 상단에 보이도록 조정
-                        if (recentDateIndex >= 0) {
-                            // 최근 경기를 상단 5번째 정도에 위치
-                            const targetIndex = Math.max(0, recentDateIndex - 5);
-                            targetRow = rows[targetIndex];
-                        } else {
-                            // 최근 날짜를 못 찾으면 80% 지점으로
-                            const fallbackIndex = Math.floor(rows.length * 0.8);
-                            targetRow = rows[fallbackIndex];
-                            console.log(`최근 날짜 못 찾음, ${fallbackIndex}번째 행으로 대체`);
-                        }
-                        
-                        if (targetRow) {
-                            
-                            // 스크롤 위치 계산 - 더 간단한 방법 사용
-                            const rowOffsetTop = targetRow.offsetTop;
-                            const scrollPosition = Math.max(0, rowOffsetTop - 200);
-                            
-                            
-                            allGamesWrapper.scrollTo({
-                                top: scrollPosition,
-                                behavior: 'smooth'
-                            });
-                            
-                            // 하이라이트 효과 제거 - 스크롤만 실행
-                        } else {
-                            console.log('전체 탭 타겟 행을 찾지 못함');
-                        }
-                    } else {
-                        console.log('전체 탭 table-container를 찾지 못함');
-                    }
-                } else {
-                    console.log('전체 탭이 아님, 스크롤 처리하지 않음');
-                }
-            }, 500);
+            // 최적화된 테이블 렌더링 후 자동 스크롤
+            requestAnimationFrame(() => {
+                autoScrollToRecentGames(currentSelectedTeam);
+            });
         }
         
         // 전체 팀 날짜별 경기 결과 뷰 렌더링 (개별 팀과 일관된 스타일)
@@ -8576,11 +8357,11 @@
         window.addEventListener('DOMContentLoaded', () => {
             // 대시보드 데이터 로드
             loadDashboardData().then(() => {
-                // 대시보드 로드 완료 후 정렬 기능 초기화
-                setTimeout(() => {
+                // 대시보드 로드 완료 후 정렬 기능 즉시 초기화 (최적화)
+                requestAnimationFrame(() => {
                     initializeTableSorting();
                     updateSeasonProgress(); // 시즌 진행률 업데이트 (한 번만)
-                }, 500);
+                });
             }).catch(error => {
                 console.error('대시보드 데이터 로드 실패:', error);
             });
@@ -11448,6 +11229,248 @@ KT 9:1 키움(H)`;
                 updateHalfSeasonStats();
             }, 2000);
         });
+
+        // ========== 성능 최적화된 월별 탭 시스템 ==========
+        
+        // 디바운스 함수 - 스크롤 이벤트 최적화
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // DOM 요소 캐시
+        const domCache = new Map();
+        
+        function getCachedElement(selector) {
+            if (!domCache.has(selector)) {
+                domCache.set(selector, document.querySelector(selector));
+            }
+            return domCache.get(selector);
+        }
+
+        function clearDOMCache() {
+            domCache.clear();
+        }
+
+        // 최적화된 전체 게임 월별 탭 초기화
+        function initAllGamesMonthTabs() {
+            const container = getCachedElement('#gameRecordsContent .all-games-month-tabs-container');
+            if (!container) return;
+
+            // 이벤트 위임 사용 - 하나의 리스너로 모든 탭 처리
+            container.addEventListener('click', debounce((e) => {
+                const tab = e.target.closest('.all-games-month-tab');
+                if (!tab) return;
+
+                handleMonthTabClick(tab, '.all-games-month-tab', 'all-games-month', '#gameRecordsContent .table-container');
+            }, 50));
+        }
+
+        // 최적화된 팀별 월별 탭 초기화
+        function initTeamMonthTabs() {
+            const container = getCachedElement('.team-month-tabs-container');
+            if (!container) return;
+
+            // 이벤트 위임 사용
+            container.addEventListener('click', debounce((e) => {
+                const tab = e.target.closest('.team-month-tab');
+                if (!tab) return;
+
+                handleMonthTabClick(tab, '.team-month-tab', 'team-month', '#team-detailed-table-wrapper');
+            }, 50));
+        }
+
+        // 통합된 월별 탭 클릭 핸들러
+        function handleMonthTabClick(clickedTab, tabSelector, idPrefix, containerSelector) {
+            const allTabs = document.querySelectorAll(tabSelector);
+            const container = getCachedElement(containerSelector);
+            
+            if (!container) return;
+
+            // 배치로 스타일 업데이트 (리플로우 최소화)
+            requestAnimationFrame(() => {
+                // 모든 탭 비활성화
+                allTabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    Object.assign(tab.style, {
+                        background: 'white',
+                        borderColor: '#dee2e6',
+                        color: '#666'
+                    });
+                });
+
+                // 클릭된 탭 활성화
+                clickedTab.classList.add('active');
+                Object.assign(clickedTab.style, {
+                    background: '#495057',
+                    borderColor: '#495057',
+                    color: 'white'
+                });
+
+                // 디바운스된 스크롤 실행
+                performOptimizedScroll(clickedTab, idPrefix, container);
+            });
+        }
+
+        // 최적화된 스크롤 함수
+        function performOptimizedScroll(tab, idPrefix, container) {
+            const monthNum = tab.getAttribute('data-month');
+            const targetElement = document.getElementById(`${idPrefix}-${monthNum}-start`);
+            
+            if (!targetElement || !container) return;
+
+            // 스크롤 계산을 requestAnimationFrame 내에서 실행
+            requestAnimationFrame(() => {
+                const stickyHeader = container.querySelector('thead tr');
+                const stickyHeaderHeight = stickyHeader?.offsetHeight || 50;
+                
+                const containerRect = container.getBoundingClientRect();
+                const targetRect = targetElement.getBoundingClientRect();
+                const scrollOffset = targetRect.top - containerRect.top + container.scrollTop;
+                
+                // 부드러운 스크롤
+                container.scrollTo({
+                    top: Math.max(0, scrollOffset - stickyHeaderHeight - 5),
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // DOM 변경 시 캐시 초기화
+        const observer = new MutationObserver(() => {
+            clearDOMCache();
+        });
+
+        // DOM 로드 완료 후 관찰자 시작
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            });
+        } else {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        // 최적화된 자동 스크롤 함수 - 기존 setTimeout 코드를 대체
+        function autoScrollToRecentGames(currentSelectedTeam) {
+            requestAnimationFrame(() => {
+                const teamContent = getCachedElement('#teamDetailedRecordsContent');
+                if (!teamContent) return;
+
+                if (currentSelectedTeam === '전체') {
+                    scrollAllGamesToRecentDate(teamContent);
+                } else {
+                    scrollTeamGamesToRecentGame(teamContent);
+                }
+            });
+        }
+
+        function scrollTeamGamesToRecentGame(teamContent) {
+            const tableWrapper = teamContent.querySelector('.table-scroll-wrapper');
+            const table = document.getElementById('detailedGameTable');
+            
+            if (!tableWrapper || !table) return;
+
+            const rows = table.querySelectorAll('tbody tr');
+            let targetRow = null;
+            let recentGameIndex = -1;
+
+            // 가장 최근 경기 찾기 (과거 경기)
+            for (let i = rows.length - 1; i >= 0; i--) {
+                const row = rows[i];
+                if (!row.classList.contains('future-game-row')) {
+                    recentGameIndex = i;
+                    break;
+                }
+            }
+
+            if (recentGameIndex >= 0) {
+                // 최근 10경기가 보이도록 조정
+                const targetIndex = Math.max(0, recentGameIndex - 8);
+                targetRow = rows[targetIndex];
+            } else {
+                // 과거 경기가 없으면 첫 번째 미래 경기 찾기
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    if (row.classList.contains('future-game-row')) {
+                        targetRow = row;
+                        break;
+                    }
+                }
+            }
+
+            // 부드러운 스크롤
+            if (targetRow) {
+                requestAnimationFrame(() => {
+                    const wrapperRect = tableWrapper.getBoundingClientRect();
+                    const rowRect = targetRow.getBoundingClientRect();
+                    const scrollPosition = tableWrapper.scrollTop + (rowRect.top - wrapperRect.top) - 100;
+
+                    tableWrapper.scrollTo({
+                        top: Math.max(0, scrollPosition),
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        }
+
+        function scrollAllGamesToRecentDate(teamContent) {
+            const allGamesWrapper = teamContent.querySelector('.table-container');
+            
+            if (!allGamesWrapper) return;
+
+            const rows = allGamesWrapper.querySelectorAll('tbody tr');
+            let targetRow = null;
+            const today = new Date();
+
+            // 뒤에서부터 검색해서 오늘 이전의 가장 최근 날짜 찾기
+            for (let i = rows.length - 1; i >= 0; i--) {
+                const row = rows[i];
+                const firstCell = row.querySelector('td:first-child');
+                
+                if (firstCell) {
+                    const cellText = firstCell.textContent.trim();
+                    const dateMatch = cellText.match(/(\d{1,2})월 (\d{1,2})일/);
+                    
+                    if (dateMatch) {
+                        const [, month, day] = dateMatch;
+                        const gameDate = new Date(2025, parseInt(month) - 1, parseInt(day));
+                        
+                        if (gameDate <= today) {
+                            targetRow = row;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 부드러운 스크롤
+            if (targetRow) {
+                requestAnimationFrame(() => {
+                    const wrapperRect = allGamesWrapper.getBoundingClientRect();
+                    const rowRect = targetRow.getBoundingClientRect();
+                    const scrollPosition = allGamesWrapper.scrollTop + (rowRect.top - wrapperRect.top) - 100;
+
+                    allGamesWrapper.scrollTo({
+                        top: Math.max(0, scrollPosition),
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        }
+
     </script>
 
 </body>
