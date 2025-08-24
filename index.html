@@ -5415,7 +5415,6 @@
                         sortWeeklyTableByTeam(teamName);
                     });
                 });
-                console.log(`주차별 테이블에 ${teamHeaders.length}개 팀 헤더 이벤트 리스너 추가됨`);
             }, 100);
         }
 
@@ -5940,15 +5939,11 @@
                 const tableWrapper = teamContent ? teamContent.querySelector('.table-scroll-wrapper') : null;
                 const table = document.getElementById('detailedGameTable');
                 
-                console.log('teamContent:', teamContent);
-                console.log('tableWrapper:', tableWrapper);
-                console.log('table:', table);
                 
                 if (tableWrapper && table) {
                     // 현재 날짜 기준으로 최근 경기 찾기
                     const today = new Date().toISOString().split('T')[0];
                     const rows = table.querySelectorAll('tbody tr');
-                    console.log('rows 개수:', rows.length);
                     let targetRow = null;
                     
                     // 최근 15경기 정도가 보이도록 스크롤 위치 계산
@@ -5961,7 +5956,6 @@
                         console.log(`행 ${i}: future-game-row 클래스 있음?`, row.classList.contains('future-game-row'));
                         if (!row.classList.contains('future-game-row')) {
                             recentGameIndex = i;
-                            console.log('가장 최근 경기 인덱스:', i);
                             break;
                         }
                     }
@@ -5970,7 +5964,6 @@
                         // 최근 10경기가 보이도록 조정
                         const targetIndex = Math.max(0, recentGameIndex - 8);
                         targetRow = rows[targetIndex];
-                        console.log(`최근 10경기 표시를 위해 인덱스 ${targetIndex} 선택 (최근 경기: ${recentGameIndex})`);
                     } else {
                         // 과거 경기가 없으면 첫 번째 미래 경기 찾기
                         console.log('과거 경기 없음, 미래 경기 찾는 중...');
@@ -6013,14 +6006,10 @@
                 
                 // 전체 탭의 경우에도 최근 날짜로 스크롤
                 if (currentSelectedTeam === '전체') {
-                    console.log('전체 탭 스크롤 처리 시작');
                     const allGamesWrapper = teamContent.querySelector('.table-container');
-                    console.log('전체 탭 table-container:', allGamesWrapper);
                     
                     if (allGamesWrapper) {
-                        console.log('전체 탭 table-container 찾음, 스크롤 처리 시작');
                         const rows = allGamesWrapper.querySelectorAll('tbody tr');
-                        console.log('전체 탭 rows 개수:', rows.length);
                         let targetRow = null;
                         
                         // 실제 최근 날짜 찾기
@@ -6044,7 +6033,6 @@
                                     // 오늘 이전 날짜면 선택
                                     if (gameDate <= today) {
                                         recentDateIndex = i;
-                                        console.log(`최근 경기 날짜 찾음: ${cellText} (인덱스: ${i})`);
                                         break;
                                     }
                                 }
@@ -6056,7 +6044,6 @@
                             // 최근 경기를 상단 5번째 정도에 위치
                             const targetIndex = Math.max(0, recentDateIndex - 5);
                             targetRow = rows[targetIndex];
-                            console.log(`최근 경기를 상단에 표시하기 위해 인덱스 ${targetIndex}로 이동`);
                         } else {
                             // 최근 날짜를 못 찾으면 80% 지점으로
                             const fallbackIndex = Math.floor(rows.length * 0.8);
@@ -6065,16 +6052,11 @@
                         }
                         
                         if (targetRow) {
-                            console.log('전체 탭 타겟 행 찾음:', targetRow);
-                            console.log('전체 탭 스크롤 높이:', allGamesWrapper.scrollHeight);
-                            console.log('전체 탭 클라이언트 높이:', allGamesWrapper.clientHeight);
                             
                             // 스크롤 위치 계산 - 더 간단한 방법 사용
                             const rowOffsetTop = targetRow.offsetTop;
                             const scrollPosition = Math.max(0, rowOffsetTop - 200);
                             
-                            console.log('전체 탭 계산된 스크롤 위치:', scrollPosition);
-                            console.log('전체 탭 현재 스크롤 위치:', allGamesWrapper.scrollTop);
                             
                             allGamesWrapper.scrollTo({
                                 top: scrollPosition,
@@ -8173,7 +8155,6 @@
                 
                 // 모바일에서 셀 폭 강제 적용
                 if (table && window.innerWidth <= 768) {
-                    console.log('모바일 시리즈 테이블 스타일 적용 시작');
                     
                     // 테이블 기본 스타일
                     table.style.tableLayout = 'fixed';
@@ -8243,10 +8224,8 @@
                         });
                     });
                     
-                    console.log('모바일 시리즈 테이블 스타일 적용 완료');
                 } else if (table) {
                     // 데스크톱에서는 max-width 제거하고 자연스럽게
-                    console.log('데스크톱 시리즈 테이블 스타일 적용');
                     table.style.removeProperty('max-width');
                     table.style.width = '100%';
                     table.style.tableLayout = 'auto';
@@ -8367,10 +8346,8 @@
 
         // 시즌 진행률 업데이트 함수
         function updateSeasonProgress() {
-            console.log('dashboardData:', dashboardData);
             
             if (!dashboardData || !dashboardData.standings) {
-                console.log('dashboardData 또는 standings가 없음');
                 return;
             }
 
@@ -9125,7 +9102,6 @@
             
             async loadSeasonData() {
                 try {
-                    console.log('실제 시즌 데이터 로드 시도...');
                     const response = await fetch('magic-number/data/2025-season-data-clean.txt');
                     
                     if (!response.ok) {
@@ -9133,7 +9109,6 @@
                     }
                     
                     const text = await response.text();
-                    console.log('시즌 데이터 로드 성공:', text.length, '바이트');
                     this.parseSeasonData(text);
                     
                 } catch (error) {
@@ -9241,7 +9216,6 @@ KT 9:1 키움(H)`;
                 if (datesWithGames.length > 0) {
                     this.endDate = datesWithGames[datesWithGames.length - 1];
                     this.currentDate = this.endDate;
-                    console.log(`최신 경기 날짜로 설정: ${this.endDate}`);
                     
                     // HTML input 요소도 동적으로 업데이트
                     this.updateDateInputs();
@@ -9275,7 +9249,6 @@ KT 9:1 키움(H)`;
                 
                 // 실제 계산된 최대 게임차 사용
                 this.maxSeasonGamesBehind = maxGamesBehind;
-                console.log(`시즌 최대 게임차: ${this.maxSeasonGamesBehind.toFixed(1)}차 (계산값)`);
             }
             
             processAllData() {
@@ -10842,7 +10815,6 @@ KT 9:1 키움(H)`;
             if (url === 'data/game-by-game-records.json') {
                 // magic-number 폴더 경로로 변경
                 url = 'magic-number/data/game-by-game-records.json';
-                console.log('데이터 경로 변경:', url);
             }
             return originalFetch(url, ...args);
         };
@@ -10926,10 +10898,6 @@ KT 9:1 키움(H)`;
                     }
                 }
                 
-                console.log(`${teamName} 실제 계산:`, {
-                    전반기: `${firstHalfStats.wins}승 ${firstHalfStats.losses}패 ${firstHalfStats.draws}무`,
-                    후반기: `${secondHalfStats.wins}승 ${secondHalfStats.losses}패 ${secondHalfStats.draws}무`
-                });
                 
                 return {
                     firstHalf: firstHalfStats,
@@ -11006,7 +10974,6 @@ KT 9:1 키움(H)`;
                     const secondHalfWinRate = (secondHalfWins + secondHalfLosses) > 0 ? 
                         secondHalfWins / (secondHalfWins + secondHalfLosses) : 0;
                     
-                    console.log(`${team.team}: 전반기 ${firstHalfWins}승${firstHalfLosses}패${firstHalfDraws}무 (승률: ${firstHalfWinRate.toFixed(3)}) | 후반기 ${secondHalfWins}승${secondHalfLosses}패${secondHalfDraws}무 (승률: ${secondHalfWinRate.toFixed(3)})`);
                 
                     // 추가 통계 계산 (팀별 고정 시드를 사용해서 일관된 데이터 생성)
                     const teamSeed = team.team.charCodeAt(0) * 100 + index; // 팀명과 순위 기반 시드
