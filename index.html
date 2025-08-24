@@ -5925,53 +5925,11 @@
                         console.log('전체 탭 rows 개수:', rows.length);
                         let targetRow = null;
                         
-                        // 최근 15경기 정도가 보이도록 날짜 행 찾기 - 전체 탭용 로직
-                        const today = new Date().toISOString().split('T')[0];
-                        console.log('오늘 날짜 기준:', today);
-                        let recentDateIndex = -1;
+                        // 간단하게 전체 행의 70% 지점으로 스크롤
+                        let recentDateIndex = Math.floor(rows.length * 0.7);
                         
-                        // 가장 최근 과거 경기 날짜 찾기
-                        for (let i = rows.length - 1; i >= 0; i--) {
-                            const row = rows[i];
-                            const firstCell = row.querySelector('td:first-child');
-                            console.log(`행 ${i} 첫 번째 셀:`, firstCell ? firstCell.textContent.trim() : 'null');
-                            
-                            if (firstCell) {
-                                // 날짜 형태 확인 (YYYY-MM-DD 또는 MM/DD 등)
-                                const dateText = firstCell.textContent.trim();
-                                const isDateRow = dateText.match(/\d{4}-\d{2}-\d{2}/) || dateText.match(/\d{2}\/\d{2}/);
-                                
-                                if (isDateRow && dateText <= today) {
-                                    recentDateIndex = i;
-                                    console.log('가장 최근 과거 날짜 행 인덱스:', i, dateText);
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        if (recentDateIndex >= 0) {
-                            // 최근 날짜에서 15일 정도 앞으로 이동
-                            const targetIndex = Math.max(0, recentDateIndex - 15);
-                            targetRow = rows[targetIndex];
-                            console.log(`최근 15경기 표시를 위해 전체 탭 인덱스 ${targetIndex} 선택 (최근 날짜: ${recentDateIndex})`);
-                        } else {
-                            // 과거 경기가 없으면 첫 번째 날짜 행 선택
-                            console.log('과거 경기 없음, 첫 번째 날짜 행 찾는 중...');
-                            for (let i = 0; i < rows.length; i++) {
-                                const row = rows[i];
-                                const firstCell = row.querySelector('td:first-child');
-                                if (firstCell) {
-                                    const dateText = firstCell.textContent.trim();
-                                    const isDateRow = dateText.match(/\d{4}-\d{2}-\d{2}/) || dateText.match(/\d{2}\/\d{2}/);
-                                    
-                                    if (isDateRow) {
-                                        targetRow = row;
-                                        console.log('첫 번째 날짜 행 선택:', i, dateText);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                        targetRow = rows[recentDateIndex];
+                        console.log(`전체 탭 ${recentDateIndex}번째 행으로 스크롤`);
                         
                         if (targetRow) {
                             console.log('전체 탭 타겟 행 찾음:', targetRow);
@@ -6226,44 +6184,6 @@
                     </div>
                 </div>
             </div>`;
-            
-            // 전체 탭 스크롤 처리를 위한 스크립트 추가
-            html += `
-            <script>
-                // 전체 탭 DOM 생성 후 스크롤 실행
-                setTimeout(() => {
-                    const container = document.querySelector('.table-container');
-                    if (container) {
-                        const rows = container.querySelectorAll('tbody tr');
-                        const today = new Date().toISOString().split('T')[0];
-                        let recentIndex = -1;
-                        
-                        // 최근 경기 날짜 찾기
-                        for (let i = rows.length - 1; i >= 0; i--) {
-                            const firstCell = rows[i].querySelector('td:first-child');
-                            if (firstCell) {
-                                const dateText = firstCell.textContent.trim();
-                                if (dateText.match(/\\d{1,2}월 \\d{1,2}일/) && dateText <= today) {
-                                    recentIndex = i;
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        // 최근 15경기 위치로 스크롤
-                        if (recentIndex >= 0) {
-                            const targetIndex = Math.max(0, recentIndex - 15);
-                            const targetRow = rows[targetIndex];
-                            if (targetRow) {
-                                container.scrollTo({
-                                    top: Math.max(0, targetRow.offsetTop - 200),
-                                    behavior: 'smooth'
-                                });
-                            }
-                        }
-                    }
-                }, 600);
-            </script>`;
             
             return html;
         }
