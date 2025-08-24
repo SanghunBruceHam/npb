@@ -1048,6 +1048,13 @@
                 z-index: 10;
             }
             
+            /* 요일별 테이블 헤더 스티키 적용 */
+            #weekdayTable thead th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            
             /* 매트릭스 테이블 컨테이너 높이 제한 */
             #matrixContent .table-container,
             #remainingGamesContent .table-container {
@@ -2386,7 +2393,7 @@
             background: #34495e !important;
             color: white !important;
             border: 1px solid #495057;
-            position: static; /* 부모의 sticky를 따라감 */
+            position: relative; /* 클릭 이벤트가 작동하도록 변경 */
             white-space: nowrap; /* 헤더 텍스트 줄바꿈 방지 */
         }
 
@@ -2454,6 +2461,8 @@
             font-weight: var(--font-weight-semibold);
             padding: 8px 4px;
             min-width: 100px;
+            z-index: 101; /* 클릭 이벤트를 위해 z-index 추가 */
+            position: relative;
         }
 
         .team-header, .team-header-column {
@@ -5350,12 +5359,9 @@
                 <table class="weekly-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="min-width: 50px; font-size: var(--font-sm); cursor: pointer;" onclick="sortWeeklyByWeek()">주차</th>
-                            <th rowspan="2" style="min-width: 120px;">기간</th>
-                            <th colspan="${teams.length}">팀별 성적 (승-패-무 / 승률)</th>
-                        </tr>
-                        <tr>
-                            ${teams.map(team => `<th class="team-header sortable-team" style="cursor: pointer;" onclick="sortWeeklyTableByTeam('${team}')">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                            <th style="min-width: 50px; font-size: var(--font-sm); cursor: pointer;" onclick="sortWeeklyByWeek()">주차</th>
+                            <th style="min-width: 120px;">기간</th>
+                            ${teams.map(team => `<th class="team-header sortable-team" style="cursor: pointer;" data-team="${team}">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
                         </tr>
                     </thead>
                     <tbody>`;
@@ -5428,13 +5434,25 @@
             </div>`;
             
             document.getElementById('weeklyStatsContent').innerHTML = html;
+            
+            // 팀명 헤더에 클릭 이벤트 리스너 추가
+            setTimeout(() => {
+                const teamHeaders = document.querySelectorAll('.weekly-table .team-header[data-team]');
+                teamHeaders.forEach(header => {
+                    const teamName = header.getAttribute('data-team');
+                    header.addEventListener('click', function() {
+                        sortWeeklyTableByTeam(teamName);
+                    });
+                });
+                console.log(`주차별 테이블에 ${teamHeaders.length}개 팀 헤더 이벤트 리스너 추가됨`);
+            }, 100);
         }
 
         // 주차별 성적 팀별 정렬 함수
         let weeklyTeamSortState = {}; // 팀별 정렬 상태 (0: 기본, 1: 오름차순, 2: 내림차순)
         
         window.sortWeeklyTableByTeam = function(teamName) {
-            if (!weeklyAnalysisData || !weeklyAnalysisData.weeklyAnalysis) return;
+            console.log(`🔥 주차별 팀 정렬 함수 호출됨: ${teamName}`);
             
             // 현재 팀의 정렬 상태 확인
             const currentState = weeklyTeamSortState[teamName] || 0;
@@ -5446,7 +5464,7 @@
             const nextState = (currentState + 1) % 3;
             weeklyTeamSortState[teamName] = nextState;
             
-            const tbody = document.querySelector('#weeklyStatsContent tbody');
+            const tbody = document.querySelector('.weekly-table tbody');
             if (!tbody) return;
             
             const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -5459,13 +5477,15 @@
                     return weekA - weekB;
                 });
             } else {
-                // 해당 팀 컬럼 찾기
-                const teamHeaders = document.querySelectorAll('#weeklyStatsContent .team-header');
+                // 해당 팀 컬럼 찾기 - 더 정확한 방법 사용
+                const allHeaders = document.querySelectorAll('.weekly-table thead th');
                 let teamIndex = -1;
                 
-                teamHeaders.forEach((header, index) => {
-                    if (header.onclick && header.onclick.toString().includes(teamName)) {
-                        teamIndex = index + 2; // 주차(0), 기간(1) 다음부터 팀 데이터
+                // 헤더에서 팀 이름을 포함한 열 찾기
+                allHeaders.forEach((header, index) => {
+                    const headerText = header.textContent || header.innerText;
+                    if (headerText.includes(teamName) || (header.onclick && header.onclick.toString().includes(teamName))) {
+                        teamIndex = index;
                     }
                 });
                 
@@ -5476,29 +5496,41 @@
                         
                         if (!cellA || !cellB) return 0;
                         
-                        // 승률 추출 (예: "2-1-0 / 0.667" -> 0.667)
-                        const winRateA = parseFloat(cellA.textContent.split('/')[1]?.trim() || '0');
-                        const winRateB = parseFloat(cellB.textContent.split('/')[1]?.trim() || '0');
+                        // 승률 추출 - 주차별 테이블 형식: "2-1-0 (0.667)\n6경기"
+                        const textA = cellA.textContent || cellA.innerText;
+                        const textB = cellB.textContent || cellB.innerText;
+                        
+                        // 괄호 안의 승률 추출 (예: "2-1-0 (0.667)" → 0.667)
+                        const winRateA = parseFloat(textA.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        const winRateB = parseFloat(textB.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        
+                        
                         
                         if (nextState === 1) {
-                            return winRateA - winRateB; // 오름차순
+                            return winRateB - winRateA; // 첫 번째 클릭: 내림차순 (높은 승률부터)
                         } else {
-                            return winRateB - winRateA; // 내림차순
+                            return winRateA - winRateB; // 두 번째 클릭: 오름차순 (낮은 승률부터)
                         }
                     });
                 }
             }
             
             // 정렬된 행들을 다시 tbody에 추가
+            console.log(`정렬 전 행 수: ${rows.length}, 정렬 후 재배열 시작`);
             tbody.innerHTML = '';
-            rows.forEach(row => tbody.appendChild(row));
+            rows.forEach((row, index) => {
+                const weekText = row.cells[0]?.textContent;
+                console.log(`행 ${index}: ${weekText}주차`);
+                tbody.appendChild(row);
+            });
+            console.log('정렬 완료 및 테이블 업데이트됨');
         };
 
         // 주차별 성적 주차 정렬 함수
         let weeklyWeekSortState = 0; // 0: 1주차부터, 1: 최신 주차부터
         
         window.sortWeeklyByWeek = function() {
-            const tbody = document.querySelector('#weeklyStatsContent tbody');
+            const tbody = document.querySelector('.weekly-table tbody');
             if (!tbody) return;
             
             weeklyWeekSortState = (weeklyWeekSortState + 1) % 2;
@@ -7162,8 +7194,8 @@
             const headerRow = document.createElement('tr');
             
             headerRow.innerHTML = `
-                <th style="min-width: 70px; vertical-align: middle; font-size: var(--font-base); white-space: nowrap;">월</th>
-                ${rankedTeams.map(team => `<th style="min-width: 100px; font-size: var(--font-sm); white-space: nowrap; padding: 6px 2px;">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
+                <th style="min-width: 70px; vertical-align: middle; font-size: var(--font-base); white-space: nowrap; cursor: pointer;" onclick="sortMonthlyByMonth()">월</th>
+                ${rankedTeams.map(team => `<th style="min-width: 100px; font-size: var(--font-sm); white-space: nowrap; padding: 6px 2px; cursor: pointer;" onclick="sortMonthlyByTeam('${team}')">${getTeamWithLogo(team, 'team-logo-small')}</th>`).join('')}
             `;
             
             thead.appendChild(headerRow);
@@ -7298,11 +7330,131 @@
             avgRow.innerHTML = avgHtml;
             tbody.appendChild(avgRow);
 
-            // 월별 테이블 정렬 기능 초기화
-            const monthlyTable = document.getElementById('monthlyTable');
-            makeTableSortable('monthlyTable');
-
+            // 월별 테이블은 커스텀 정렬 함수 사용 (makeTableSortable 호출 제거)
         }
+
+        // 월별 성적 정렬 함수들
+        let monthlyMonthSortState = 0; // 0: 기본(3월~8월), 1: 역순(8월~3월)
+        let monthlyTeamSortState = {}; // 팀별 정렬 상태
+        
+        window.sortMonthlyByMonth = function() {
+            const tbody = document.querySelector('#monthlyTable tbody');
+            if (!tbody) return;
+            
+            monthlyMonthSortState = (monthlyMonthSortState + 1) % 2;
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // 평균 행 제외하고 월 행만 정렬
+            const monthRows = rows.filter(row => {
+                const firstCell = row.querySelector('td');
+                return firstCell && !firstCell.textContent.includes('평균');
+            });
+            
+            const avgRows = rows.filter(row => {
+                const firstCell = row.querySelector('td');
+                return firstCell && firstCell.textContent.includes('평균');
+            });
+            
+            if (monthlyMonthSortState === 1) {
+                // 첫 번째 클릭: 3월~8월 순서
+                const monthOrder = ['3월', '4월', '5월', '6월', '7월', '8월'];
+                monthRows.sort((a, b) => {
+                    const monthA = a.querySelector('td').textContent.trim();
+                    const monthB = b.querySelector('td').textContent.trim();
+                    return monthOrder.indexOf(monthA) - monthOrder.indexOf(monthB);
+                });
+            } else {
+                // 두 번째 클릭: 8월~3월 순서 (역순)
+                const monthOrder = ['8월', '7월', '6월', '5월', '4월', '3월'];
+                monthRows.sort((a, b) => {
+                    const monthA = a.querySelector('td').textContent.trim();
+                    const monthB = b.querySelector('td').textContent.trim();
+                    return monthOrder.indexOf(monthA) - monthOrder.indexOf(monthB);
+                });
+            }
+            
+            // 정렬된 월 행들과 평균 행들을 다시 추가
+            tbody.innerHTML = '';
+            monthRows.forEach(row => tbody.appendChild(row));
+            avgRows.forEach(row => tbody.appendChild(row));
+        };
+        
+        window.sortMonthlyByTeam = function(teamName) {
+            const tbody = document.querySelector('#monthlyTable tbody');
+            if (!tbody) return;
+            
+            // 현재 팀 정렬 상태 확인
+            const currentState = monthlyTeamSortState[teamName] || 0;
+            monthlyTeamSortState = {}; // 다른 팀 정렬 상태 초기화
+            
+            const nextState = (currentState + 1) % 3;
+            monthlyTeamSortState[teamName] = nextState;
+            
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            // 평균 행 제외하고 월 행만 정렬
+            const monthRows = rows.filter(row => {
+                const firstCell = row.querySelector('td');
+                return firstCell && !firstCell.textContent.includes('평균');
+            });
+            
+            const avgRows = rows.filter(row => {
+                const firstCell = row.querySelector('td');
+                return firstCell && firstCell.textContent.includes('평균');
+            });
+            
+            if (nextState === 0) {
+                // 기본 순서 (3월~8월)
+                const monthOrder = ['3월', '4월', '5월', '6월', '7월', '8월'];
+                monthRows.sort((a, b) => {
+                    const monthA = a.querySelector('td').textContent.trim();
+                    const monthB = b.querySelector('td').textContent.trim();
+                    return monthOrder.indexOf(monthA) - monthOrder.indexOf(monthB);
+                });
+            } else {
+                // 팀 컬럼 찾기 - 더 정확한 방법 사용
+                const allHeaders = document.querySelectorAll('#monthlyTable thead th');
+                let teamIndex = -1;
+                
+                // 헤더에서 팀 이름을 포함한 열 찾기
+                allHeaders.forEach((header, index) => {
+                    const headerText = header.textContent || header.innerText;
+                    if (headerText.includes(teamName) || (header.onclick && header.onclick.toString().includes(teamName))) {
+                        teamIndex = index;
+                    }
+                });
+                
+                
+                if (teamIndex !== -1) {
+                    monthRows.sort((a, b) => {
+                        const cellA = a.cells[teamIndex];
+                        const cellB = b.cells[teamIndex];
+                        
+                        if (!cellA || !cellB) return 0;
+                        
+                        // 승률 추출 - 월별 테이블 형식: "승-패-무 (승률)" 
+                        const textA = cellA.textContent || cellA.innerText || '';
+                        const textB = cellB.textContent || cellB.innerText || '';
+                        
+                        // 괄호 안의 승률 추출 (예: "2-1-0 (0.667)" → 0.667)
+                        const winRateA = parseFloat(textA.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        const winRateB = parseFloat(textB.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        
+                        
+                        if (nextState === 1) {
+                            return winRateB - winRateA; // 첫 번째 클릭: 내림차순 (높은 승률부터)
+                        } else {
+                            return winRateA - winRateB; // 두 번째 클릭: 오름차순 (낮은 승률부터)
+                        }
+                    });
+                }
+            }
+            
+            // 정렬된 행들을 다시 추가
+            tbody.innerHTML = '';
+            monthRows.forEach(row => tbody.appendChild(row));
+            avgRows.forEach(row => tbody.appendChild(row));
+        };
 
         /**
          * 요일별 성적 분석 테이블 렌더링 (행/열 반전 구조)
@@ -7442,8 +7594,7 @@
             
             tbody.innerHTML = bodyHtml;
             
-            // 요일별 테이블 정렬 기능 초기화
-            makeTableSortable('weekdayTable');
+            // 요일별 테이블은 커스텀 정렬 함수 사용 (makeTableSortable 호출 제거)
         }
 
         // 요일별 성적 정렬 함수들
@@ -7468,8 +7619,8 @@
                 return firstCell && firstCell.textContent.includes('성적');
             });
             
-            if (weekdayDaySortState === 0) {
-                // 월요일부터 일요일 순서
+            if (weekdayDaySortState === 1) {
+                // 첫 번째 클릭: 월요일부터 일요일 순서
                 const dayOrder = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
                 dayRows.sort((a, b) => {
                     const dayA = a.querySelector('td').textContent.trim();
@@ -7477,7 +7628,7 @@
                     return dayOrder.indexOf(dayA) - dayOrder.indexOf(dayB);
                 });
             } else {
-                // 일요일부터 월요일 순서
+                // 두 번째 클릭: 일요일부터 월요일 순서 (역순)
                 const dayOrder = ['일요일', '토요일', '금요일', '목요일', '수요일', '화요일', '월요일'];
                 dayRows.sort((a, b) => {
                     const dayA = a.querySelector('td').textContent.trim();
@@ -7542,14 +7693,19 @@
                         
                         if (!cellA || !cellB) return 0;
                         
-                        // 승률 추출
-                        const winRateA = parseFloat(cellA.textContent.match(/\(([0-9.]+)\)/)?.[1] || '0');
-                        const winRateB = parseFloat(cellB.textContent.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        // 승률 추출 - 요일별 테이블 형식: "승-패-무 (승률)" 
+                        const textA = cellA.textContent || cellA.innerText || '';
+                        const textB = cellB.textContent || cellB.innerText || '';
+                        
+                        // 괄호 안의 승률 추출 (예: "2-1-0 (0.667)" → 0.667)
+                        const winRateA = parseFloat(textA.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        const winRateB = parseFloat(textB.match(/\(([0-9.]+)\)/)?.[1] || '0');
+                        
                         
                         if (nextState === 1) {
-                            return winRateA - winRateB; // 오름차순
+                            return winRateB - winRateA; // 첫 번째 클릭: 내림차순 (높은 승률부터)
                         } else {
-                            return winRateB - winRateA; // 내림차순
+                            return winRateA - winRateB; // 두 번째 클릭: 오름차순 (낮은 승률부터)
                         }
                     });
                 }
@@ -7714,14 +7870,26 @@
             const table = document.getElementById(tableId);
             if (!table) return;
             
+            // 커스텀 정렬이 있는 테이블들은 일반 정렬 적용 안 함
+            const customSortTables = ['weekdayTable', 'monthlyTable'];
+            if (customSortTables.includes(tableId)) {
+                return;
+            }
+            
             const headers = table.querySelectorAll('th');
             headers.forEach((header, index) => {
+                // 기존 이벤트 리스너 제거 (중복 방지)
+                const existingHandler = header._sortHandler;
+                if (existingHandler) {
+                    header.removeEventListener('click', existingHandler);
+                }
+                
                 // no-sort 클래스가 있는 헤더는 일반 정렬에서 제외
                 if (!header.classList.contains('no-sort')) {
                     header.classList.add('sortable');
-                    header.addEventListener('click', () => {
-                        sortTable(table, index, header);
-                    });
+                    const handler = () => sortTable(table, index, header);
+                    header._sortHandler = handler;  // 참조 저장
+                    header.addEventListener('click', handler);
                 }
             });
         }
