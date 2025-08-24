@@ -5953,14 +5953,15 @@
                             }
                         }
                         
-                        // 최근 15경기 정도가 보이도록 조정
+                        // 최근 경기가 상단에 보이도록 조정
                         if (recentDateIndex >= 0) {
-                            const targetIndex = Math.max(0, recentDateIndex - 15);
+                            // 최근 경기를 상단 5번째 정도에 위치
+                            const targetIndex = Math.max(0, recentDateIndex - 5);
                             targetRow = rows[targetIndex];
-                            console.log(`최근 15경기 표시를 위해 인덱스 ${targetIndex}로 이동`);
+                            console.log(`최근 경기를 상단에 표시하기 위해 인덱스 ${targetIndex}로 이동`);
                         } else {
-                            // 최근 날짜를 못 찾으면 70% 지점으로
-                            const fallbackIndex = Math.floor(rows.length * 0.7);
+                            // 최근 날짜를 못 찾으면 80% 지점으로
+                            const fallbackIndex = Math.floor(rows.length * 0.8);
                             targetRow = rows[fallbackIndex];
                             console.log(`최근 날짜 못 찾음, ${fallbackIndex}번째 행으로 대체`);
                         }
