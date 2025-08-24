@@ -3762,6 +3762,7 @@
                     <a href="#daily-stats" class="nav-item">📅 일별통계</a>
                     <a href="#standings" class="nav-item">🏆 종합순위</a>
                     <a href="#rank-chart-section" class="nav-item">📈 순위변동</a>
+                    <a href="#winrate-chart-section" class="nav-item">📉 승률추이</a>
                     <a href="#half-season-stats" class="nav-item">⚾ 전후반기</a>
                     <a href="#pythagorean" class="nav-item">📊 피타고리안</a>
                     <a href="#clutch" class="nav-item">⚾ 클러치</a>
@@ -11203,8 +11204,8 @@ KT 9:1 키움(H)`;
                             intersect: false,
                             callbacks: {
                                 label: (context) => {
-                                    const winRate = (context.parsed.y * 100).toFixed(1);
-                                    return `${context.dataset.label}: ${winRate}%`;
+                                    const winRate = context.parsed.y.toFixed(3);
+                                    return `${context.dataset.label}: ${winRate}`;
                                 }
                             }
                         }
@@ -11214,7 +11215,7 @@ KT 9:1 키움(H)`;
                             min: yMin,
                             max: yMax,
                             ticks: {
-                                callback: (value) => (value * 100).toFixed(1) + '%'
+                                callback: (value) => value.toFixed(3)
                             },
                             title: {
                                 display: true,
