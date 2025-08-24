@@ -4835,6 +4835,39 @@
             return `<span>${teamName}</span>`;
         }
 
+        // 공식 연속 기록 클래스 반환 (종합 순위와 동일)
+        function getOfficialStreakClass(teamName) {
+            if (!dashboardData || !dashboardData.standings) return '';
+            
+            const teamData = dashboardData.standings.find(t => t.team_name === teamName);
+            if (!teamData || !teamData.current_streak) return '';
+            
+            if (teamData.current_streak.includes('W')) return 'win-color';
+            if (teamData.current_streak.includes('L')) return 'loss-color';
+            return '';
+        }
+
+        // 공식 연속 기록 표시 텍스트 반환 (종합 순위와 동일)
+        function getOfficialStreakDisplay(teamName) {
+            if (!dashboardData || !dashboardData.standings) return '-';
+            
+            const teamData = dashboardData.standings.find(t => t.team_name === teamName);
+            if (!teamData || !teamData.current_streak) return '-';
+            
+            const match = teamData.current_streak.match(/(\d+)([WL])/);
+            if (match) {
+                const [, count, type] = match;
+                if (type === 'W') return `${count}연승`;
+                if (type === 'L') return `${count}연패`;
+            }
+            
+            if (teamData.current_streak === 'D' || teamData.current_streak.includes('무')) {
+                return '무승부';
+            }
+            
+            return teamData.current_streak;
+        }
+
         // 데이터 정보 업데이트 함수 (header + footer)
         function updateDataInfo(data) {
             try {
@@ -5611,9 +5644,8 @@
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                                 <span style="font-size: var(--font-sm); color: #718096; font-weight: var(--font-weight-medium);">현재연속</span>
-                                <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="${teamRecord.currentStreak.type === 'W' ? 'win-color' : teamRecord.currentStreak.type === 'L' ? 'loss-color' : ''}">
-                                    ${teamRecord.currentStreak.type === 'W' ? `${teamRecord.currentStreak.count}연승` : 
-                                      teamRecord.currentStreak.type === 'L' ? `${teamRecord.currentStreak.count}연패` : '무'}
+                                <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="${getOfficialStreakClass(currentSelectedTeam)}">
+                                    ${getOfficialStreakDisplay(currentSelectedTeam)}
                                 </span>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
