@@ -4868,6 +4868,22 @@
             return teamData.current_streak;
         }
 
+        // 공식 최장연승 반환 (종합 순위와 동일)
+        function getOfficialMaxWinStreak(teamName) {
+            if (!dashboardData || !dashboardData.streakAnalysis) return '-';
+            
+            const streakData = dashboardData.streakAnalysis.find(t => t.team_name === teamName);
+            return streakData ? streakData.max_win_streak || 0 : 0;
+        }
+
+        // 공식 최장연패 반환 (종합 순위와 동일)
+        function getOfficialMaxLoseStreak(teamName) {
+            if (!dashboardData || !dashboardData.streakAnalysis) return '-';
+            
+            const streakData = dashboardData.streakAnalysis.find(t => t.team_name === teamName);
+            return streakData ? streakData.max_lose_streak || 0 : 0;
+        }
+
         // 데이터 정보 업데이트 함수 (header + footer)
         function updateDataInfo(data) {
             try {
@@ -5650,11 +5666,11 @@
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                                 <span style="font-size: var(--font-sm); color: #718096; font-weight: var(--font-weight-medium);">최장연승</span>
-                                <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="win-color">${teamRecord.longestWinStreak}</span>
+                                <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="win-color">${getOfficialMaxWinStreak(currentSelectedTeam)}</span>
                             </div>
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
                                 <span style="font-size: var(--font-sm); color: #718096; font-weight: var(--font-weight-medium);">최장연패</span>
-                                <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="loss-color">${teamRecord.longestLoseStreak}</span>
+                                <span style="font-size: var(--font-lg); font-weight: var(--font-weight-bold);" class="loss-color">${getOfficialMaxLoseStreak(currentSelectedTeam)}</span>
                             </div>
                         </div>
                     </div>
@@ -5889,12 +5905,7 @@
                             behavior: 'smooth'
                         });
                         
-                        // 타겟 행 하이라이트 효과 (잠시 깜빡임)
-                        targetRow.style.transition = 'background-color 0.3s ease';
-                        targetRow.style.backgroundColor = '#fef3c7';
-                        setTimeout(() => {
-                            targetRow.style.backgroundColor = '';
-                        }, 2000);
+                        // 하이라이트 효과 제거 - 스크롤만 실행
                     } else {
                         console.log('타겟 행을 찾지 못함');
                     }
@@ -5979,12 +5990,7 @@
                                 behavior: 'smooth'
                             });
                             
-                            // 하이라이트 효과
-                            targetRow.style.transition = 'background-color 0.3s ease';
-                            targetRow.style.backgroundColor = '#fef3c7';
-                            setTimeout(() => {
-                                targetRow.style.backgroundColor = '';
-                            }, 2000);
+                            // 하이라이트 효과 제거 - 스크롤만 실행
                         } else {
                             console.log('전체 탭 타겟 행을 찾지 못함');
                         }
