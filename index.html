@@ -5805,20 +5805,28 @@
                     console.log('rows 개수:', rows.length);
                     let targetRow = null;
                     
-                    // 오늘 날짜와 가장 가까운 과거 경기 찾기
+                    // 최근 15경기 정도가 보이도록 스크롤 위치 계산
+                    let recentGameIndex = -1;
+                    let pastGameCount = 0;
+                    
+                    // 가장 최근 경기 찾기
                     for (let i = rows.length - 1; i >= 0; i--) {
                         const row = rows[i];
                         console.log(`행 ${i}: future-game-row 클래스 있음?`, row.classList.contains('future-game-row'));
                         if (!row.classList.contains('future-game-row')) {
-                            // 이미 치른 경기 중 가장 최근 경기
-                            targetRow = row;
-                            console.log('과거 경기 중 최근 경기 선택:', i);
+                            recentGameIndex = i;
+                            console.log('가장 최근 경기 인덱스:', i);
                             break;
                         }
                     }
                     
-                    // 만약 과거 경기가 없으면 첫 번째 미래 경기 찾기
-                    if (!targetRow) {
+                    if (recentGameIndex >= 0) {
+                        // 최근 경기에서 15경기 정도 앞으로 이동
+                        const targetIndex = Math.max(0, recentGameIndex - 15);
+                        targetRow = rows[targetIndex];
+                        console.log(`최근 15경기 표시를 위해 인덱스 ${targetIndex} 선택 (최근 경기: ${recentGameIndex})`);
+                    } else {
+                        // 과거 경기가 없으면 첫 번째 미래 경기 찾기
                         console.log('과거 경기 없음, 미래 경기 찾는 중...');
                         for (let i = 0; i < rows.length; i++) {
                             const row = rows[i];
@@ -5871,10 +5879,12 @@
                         console.log('전체 탭 rows 개수:', rows.length);
                         let targetRow = null;
                         
-                        // 최근 경기 날짜 찾기 - 전체 탭용 로직
+                        // 최근 15경기 정도가 보이도록 날짜 행 찾기 - 전체 탭용 로직
                         const today = new Date().toISOString().split('T')[0];
                         console.log('오늘 날짜 기준:', today);
+                        let recentDateIndex = -1;
                         
+                        // 가장 최근 과거 경기 날짜 찾기
                         for (let i = rows.length - 1; i >= 0; i--) {
                             const row = rows[i];
                             const firstCell = row.querySelector('td:first-child');
@@ -5886,15 +5896,20 @@
                                 const isDateRow = dateText.match(/\d{4}-\d{2}-\d{2}/) || dateText.match(/\d{2}\/\d{2}/);
                                 
                                 if (isDateRow && dateText <= today) {
-                                    targetRow = row;
-                                    console.log('과거 날짜 행 선택:', i, dateText);
+                                    recentDateIndex = i;
+                                    console.log('가장 최근 과거 날짜 행 인덱스:', i, dateText);
                                     break;
                                 }
                             }
                         }
                         
-                        // 과거 경기가 없으면 첫 번째 날짜 행 선택
-                        if (!targetRow) {
+                        if (recentDateIndex >= 0) {
+                            // 최근 날짜에서 15일 정도 앞으로 이동
+                            const targetIndex = Math.max(0, recentDateIndex - 15);
+                            targetRow = rows[targetIndex];
+                            console.log(`최근 15경기 표시를 위해 전체 탭 인덱스 ${targetIndex} 선택 (최근 날짜: ${recentDateIndex})`);
+                        } else {
+                            // 과거 경기가 없으면 첫 번째 날짜 행 선택
                             console.log('과거 경기 없음, 첫 번째 날짜 행 찾는 중...');
                             for (let i = 0; i < rows.length; i++) {
                                 const row = rows[i];
