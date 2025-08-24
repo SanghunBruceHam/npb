@@ -4694,5 +4694,29 @@
     "away_score": 8,
     "home_score": 12,
     "winner": "삼성"
+  },
+  {
+    "date": "2025-08-24",
+    "away_team": "KT",
+    "home_team": "두산",
+    "away_score": 3,
+    "home_score": 2,
+    "winner": "KT"
+  },
+  {
+    "date": "2025-08-24",
+    "away_team": "SSG",
+    "home_team": "한화",
+    "away_score": 2,
+    "home_score": 5,
+    "winner": "한화"
+  },
+  {
+    "date": "2025-08-24",
+    "away_team": "키움",
+    "home_team": "삼성",
+    "away_score": 4,
+    "home_score": 7,
+    "winner": "삼성"
   }
 ]

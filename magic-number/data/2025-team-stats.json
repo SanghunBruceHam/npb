@@ -20,44 +20,44 @@
     "run_diff": 187
   },
   "삼성": {
-    "games": 118,
-    "wins": 57,
-    "losses": 59,
-    "draws": 2,
-    "runs_scored": 609,
-    "runs_allowed": 538,
-    "win_rate": "0.491",
-    "run_diff": 71
-  },
-  "두산": {
-    "games": 118,
-    "wins": 52,
-    "losses": 61,
-    "draws": 5,
-    "runs_scored": 538,
-    "runs_allowed": 552,
-    "win_rate": "0.460",
-    "run_diff": -14
-  },
-  "KT": {
     "games": 119,
     "wins": 58,
+    "losses": 59,
+    "draws": 2,
+    "runs_scored": 616,
+    "runs_allowed": 542,
+    "win_rate": "0.496",
+    "run_diff": 74
+  },
+  "두산": {
+    "games": 119,
+    "wins": 52,
+    "losses": 62,
+    "draws": 5,
+    "runs_scored": 540,
+    "runs_allowed": 555,
+    "win_rate": "0.456",
+    "run_diff": -15
+  },
+  "KT": {
+    "games": 120,
+    "wins": 59,
     "losses": 57,
     "draws": 4,
-    "runs_scored": 518,
-    "runs_allowed": 528,
-    "win_rate": "0.504",
-    "run_diff": -10
+    "runs_scored": 521,
+    "runs_allowed": 530,
+    "win_rate": "0.509",
+    "run_diff": -9
   },
   "SSG": {
-    "games": 116,
+    "games": 117,
     "wins": 58,
-    "losses": 54,
+    "losses": 55,
     "draws": 4,
-    "runs_scored": 460,
-    "runs_allowed": 442,
-    "win_rate": "0.518",
-    "run_diff": 18
+    "runs_scored": 462,
+    "runs_allowed": 447,
+    "win_rate": "0.513",
+    "run_diff": 15
   },
   "롯데": {
     "games": 120,
@@ -70,14 +70,14 @@
     "run_diff": -37
   },
   "한화": {
-    "games": 117,
-    "wins": 66,
+    "games": 118,
+    "wins": 67,
     "losses": 48,
     "draws": 3,
-    "runs_scored": 529,
-    "runs_allowed": 450,
-    "win_rate": "0.579",
-    "run_diff": 79
+    "runs_scored": 534,
+    "runs_allowed": 452,
+    "win_rate": "0.583",
+    "run_diff": 82
   },
   "NC": {
     "games": 113,
@@ -90,13 +90,13 @@
     "run_diff": -21
   },
   "키움": {
-    "games": 120,
+    "games": 121,
     "wins": 38,
-    "losses": 78,
+    "losses": 79,
     "draws": 4,
-    "runs_scored": 478,
-    "runs_allowed": 738,
-    "win_rate": "0.328",
-    "run_diff": -260
+    "runs_scored": 482,
+    "runs_allowed": 745,
+    "win_rate": "0.325",
+    "run_diff": -263
   }
 }

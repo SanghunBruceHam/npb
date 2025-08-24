@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-24T11:35:16.757Z",
+  "lastUpdated": "2025-08-24T12:21:05.398Z",
   "updateDate": "2025. 8. 24.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "totalData": {
@@ -27,10 +27,10 @@
         "awayDraws": 0
       },
       "SSG": {
-        "wins": 7,
+        "wins": 8,
         "losses": 7,
         "draws": 0,
-        "homeWins": 3,
+        "homeWins": 4,
         "homeLosses": 5,
         "homeDraws": 0,
         "awayWins": 4,
@@ -309,13 +309,13 @@
     "SSG": {
       "한화": {
         "wins": 7,
-        "losses": 7,
+        "losses": 8,
         "draws": 0,
         "homeWins": 2,
         "homeLosses": 4,
         "homeDraws": 0,
         "awayWins": 5,
-        "awayLosses": 3,
+        "awayLosses": 4,
         "awayDraws": 0
       },
       "LG": {
@@ -486,13 +486,13 @@
         "awayDraws": 1
       },
       "두산": {
-        "wins": 9,
+        "wins": 10,
         "losses": 4,
         "draws": 1,
         "homeWins": 4,
         "homeLosses": 2,
         "homeDraws": 0,
-        "awayWins": 5,
+        "awayWins": 6,
         "awayLosses": 2,
         "awayDraws": 1
       },
@@ -699,10 +699,10 @@
         "awayDraws": 0
       },
       "키움": {
-        "wins": 8,
+        "wins": 9,
         "losses": 3,
         "draws": 0,
-        "homeWins": 5,
+        "homeWins": 6,
         "homeLosses": 0,
         "homeDraws": 0,
         "awayWins": 3,
@@ -858,10 +858,10 @@
       },
       "KT": {
         "wins": 4,
-        "losses": 9,
+        "losses": 10,
         "draws": 1,
         "homeWins": 2,
-        "homeLosses": 5,
+        "homeLosses": 6,
         "homeDraws": 1,
         "awayWins": 2,
         "awayLosses": 4,
@@ -981,13 +981,13 @@
       },
       "삼성": {
         "wins": 3,
-        "losses": 8,
+        "losses": 9,
         "draws": 0,
         "homeWins": 3,
         "homeLosses": 3,
         "homeDraws": 0,
         "awayWins": 0,
-        "awayLosses": 5,
+        "awayLosses": 6,
         "awayDraws": 0
       },
       "NC": {
@@ -1015,5 +1015,5 @@
     }
   },
   "source": "CLEAN_TXT_AUTOMATION",
-  "dataDate": "2025-08-23"
+  "dataDate": "2025-08-24"
 }
