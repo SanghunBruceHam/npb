@@ -6227,6 +6227,44 @@
                 </div>
             </div>`;
             
+            // 전체 탭 스크롤 처리를 위한 스크립트 추가
+            html += `
+            <script>
+                // 전체 탭 DOM 생성 후 스크롤 실행
+                setTimeout(() => {
+                    const container = document.querySelector('.table-container');
+                    if (container) {
+                        const rows = container.querySelectorAll('tbody tr');
+                        const today = new Date().toISOString().split('T')[0];
+                        let recentIndex = -1;
+                        
+                        // 최근 경기 날짜 찾기
+                        for (let i = rows.length - 1; i >= 0; i--) {
+                            const firstCell = rows[i].querySelector('td:first-child');
+                            if (firstCell) {
+                                const dateText = firstCell.textContent.trim();
+                                if (dateText.match(/\\d{1,2}월 \\d{1,2}일/) && dateText <= today) {
+                                    recentIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // 최근 15경기 위치로 스크롤
+                        if (recentIndex >= 0) {
+                            const targetIndex = Math.max(0, recentIndex - 15);
+                            const targetRow = rows[targetIndex];
+                            if (targetRow) {
+                                container.scrollTo({
+                                    top: Math.max(0, targetRow.offsetTop - 200),
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }
+                }, 600);
+            </script>`;
+            
             return html;
         }
 
