@@ -8353,10 +8353,10 @@
 
                 teamProgressContainer.appendChild(teamProgressItem);
 
-                // 애니메이션 효과로 진행률 바 채우기
+                // 애니메이션 효과로 진행률 바 채우기 (모든 팀 동시에)
                 setTimeout(() => {
                     teamProgressItem.querySelector('.team-progress-fill').style.width = `${progress}%`;
-                }, 800 + (index * 100));
+                }, 800);
             });
         }
 
