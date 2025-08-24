@@ -5786,31 +5786,40 @@
             
             // 테이블 렌더링 후 최근 경기 위치로 자동 스크롤
             setTimeout(() => {
+                console.log('=== 자동 스크롤 디버깅 시작 ===');
                 const tableWrapper = document.querySelector('.table-scroll-wrapper');
                 const table = document.getElementById('detailedGameTable');
+                
+                console.log('tableWrapper:', tableWrapper);
+                console.log('table:', table);
                 
                 if (tableWrapper && table) {
                     // 현재 날짜 기준으로 최근 경기 찾기
                     const today = new Date().toISOString().split('T')[0];
                     const rows = table.querySelectorAll('tbody tr');
+                    console.log('rows 개수:', rows.length);
                     let targetRow = null;
                     
                     // 오늘 날짜와 가장 가까운 과거 경기 찾기
                     for (let i = rows.length - 1; i >= 0; i--) {
                         const row = rows[i];
+                        console.log(`행 ${i}: future-game-row 클래스 있음?`, row.classList.contains('future-game-row'));
                         if (!row.classList.contains('future-game-row')) {
                             // 이미 치른 경기 중 가장 최근 경기
                             targetRow = row;
+                            console.log('과거 경기 중 최근 경기 선택:', i);
                             break;
                         }
                     }
                     
                     // 만약 과거 경기가 없으면 첫 번째 미래 경기 찾기
                     if (!targetRow) {
+                        console.log('과거 경기 없음, 미래 경기 찾는 중...');
                         for (let i = 0; i < rows.length; i++) {
                             const row = rows[i];
                             if (row.classList.contains('future-game-row')) {
                                 targetRow = row;
+                                console.log('미래 경기 선택:', i);
                                 break;
                             }
                         }
@@ -5818,10 +5827,17 @@
                     
                     // 타겟 경기로 스크롤 (부드러운 애니메이션)
                     if (targetRow) {
+                        console.log('타겟 행 찾음:', targetRow);
+                        console.log('테이블 래퍼 스크롤 높이:', tableWrapper.scrollHeight);
+                        console.log('테이블 래퍼 클라이언트 높이:', tableWrapper.clientHeight);
+                        
                         // 스크롤 위치 계산 - 테이블 상단에서 약간 여유를 두고 표시
                         const wrapperRect = tableWrapper.getBoundingClientRect();
                         const rowRect = targetRow.getBoundingClientRect();
                         const scrollPosition = tableWrapper.scrollTop + (rowRect.top - wrapperRect.top) - 100;
+                        
+                        console.log('계산된 스크롤 위치:', scrollPosition);
+                        console.log('현재 스크롤 위치:', tableWrapper.scrollTop);
                         
                         tableWrapper.scrollTo({
                             top: scrollPosition,
@@ -5834,6 +5850,8 @@
                         setTimeout(() => {
                             targetRow.style.backgroundColor = '';
                         }, 2000);
+                    } else {
+                        console.log('타겟 행을 찾지 못함');
                     }
                 }
                 
