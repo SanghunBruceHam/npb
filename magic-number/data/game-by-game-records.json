@@ -1150,11 +1150,21 @@
         "result": "L",
         "runs_scored": 2,
         "runs_allowed": 6
+      },
+      {
+        "gameNumber": 116,
+        "date": "2025-08-24",
+        "opponent": "LG",
+        "isHome": true,
+        "score": "1:2",
+        "result": "L",
+        "runs_scored": 1,
+        "runs_allowed": 2
       }
     ],
     "currentStreak": {
       "type": "L",
-      "count": 4
+      "count": 5
     },
     "longestWinStreak": 5,
     "longestLoseStreak": 7,
@@ -2566,11 +2576,21 @@
         "result": "W",
         "runs_scored": 6,
         "runs_allowed": 2
+      },
+      {
+        "gameNumber": 119,
+        "date": "2025-08-24",
+        "opponent": "KIA",
+        "isHome": false,
+        "score": "2:1",
+        "result": "W",
+        "runs_scored": 2,
+        "runs_allowed": 1
       }
     ],
     "currentStreak": {
       "type": "W",
-      "count": 2
+      "count": 3
     },
     "longestWinStreak": 7,
     "longestLoseStreak": 5,
@@ -8272,11 +8292,21 @@
         "result": "L",
         "runs_scored": 1,
         "runs_allowed": 4
+      },
+      {
+        "gameNumber": 121,
+        "date": "2025-08-24",
+        "opponent": "NC",
+        "isHome": false,
+        "score": "17:5",
+        "result": "W",
+        "runs_scored": 17,
+        "runs_allowed": 5
       }
     ],
     "currentStreak": {
-      "type": "L",
-      "count": 2
+      "type": "W",
+      "count": 1
     },
     "longestWinStreak": 6,
     "longestLoseStreak": 8,
@@ -8512,6 +8542,10 @@
       {
         "type": "L",
         "count": 8
+      },
+      {
+        "type": "L",
+        "count": 2
       },
       {
         "type": "L",
@@ -13900,11 +13934,21 @@
         "result": "W",
         "runs_scored": 4,
         "runs_allowed": 1
+      },
+      {
+        "gameNumber": 114,
+        "date": "2025-08-24",
+        "opponent": "롯데",
+        "isHome": true,
+        "score": "5:17",
+        "result": "L",
+        "runs_scored": 5,
+        "runs_allowed": 17
       }
     ],
     "currentStreak": {
-      "type": "W",
-      "count": 3
+      "type": "L",
+      "count": 1
     },
     "longestWinStreak": 5,
     "longestLoseStreak": 4,
@@ -14148,6 +14192,10 @@
       {
         "type": "L",
         "count": 2
+      },
+      {
+        "type": "W",
+        "count": 3
       }
     ]
   }

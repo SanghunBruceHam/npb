@@ -4718,5 +4718,21 @@
     "away_score": 4,
     "home_score": 7,
     "winner": "삼성"
+  },
+  {
+    "date": "2025-08-24",
+    "away_team": "LG",
+    "home_team": "KIA",
+    "away_score": 2,
+    "home_score": 1,
+    "winner": "LG"
+  },
+  {
+    "date": "2025-08-24",
+    "away_team": "롯데",
+    "home_team": "NC",
+    "away_score": 17,
+    "home_score": 5,
+    "winner": "롯데"
   }
 ]
