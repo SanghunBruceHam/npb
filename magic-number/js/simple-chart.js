@@ -178,34 +178,42 @@ async function loadRealKBOData() {
     }
 }
 
-// 실제 데이터를 기간별로 분할
+// 실제 데이터를 기간별로 분할 (월별 처리)
 function processRealData(seasonRankings) {
     if (!seasonRankings || seasonRankings.length === 0) {
         console.error('시즌 랭킹 데이터가 없습니다');
         return generateMockData();
     }
     
-    
     const periods = [];
-    const daysPerPeriod = 30;
+    const monthlyData = {};
     
-    // 30일씩 분할
-    for (let i = 0; i < seasonRankings.length; i += daysPerPeriod) {
-        const periodData = seasonRankings.slice(i, i + daysPerPeriod);
+    // 월별로 데이터 그룹화
+    seasonRankings.forEach(dayData => {
+        const date = new Date(dayData.date);
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         
-        if (periodData.length > 0) {
-            const startDate = new Date(periodData[0].date);
-            const endDate = new Date(periodData[periodData.length - 1].date);
-            
+        if (!monthlyData[monthKey]) {
+            monthlyData[monthKey] = [];
+        }
+        monthlyData[monthKey].push(dayData);
+    });
+    
+    // 월별 기간 생성
+    Object.keys(monthlyData).sort().forEach(monthKey => {
+        const [year, month] = monthKey.split('-');
+        const monthData = monthlyData[monthKey];
+        
+        if (monthData.length > 0) {
             const period = {
-                title: `${startDate.getMonth() + 1}월 ${startDate.getDate()}일 - ${endDate.getMonth() + 1}월 ${endDate.getDate()}일`,
-                rawData: periodData,
-                data: formatPeriodDataForChart(periodData)
+                title: `${year}년 ${month}월`,
+                rawData: monthData,
+                data: formatPeriodDataForChart(monthData)
             };
             
             periods.push(period);
         }
-    }
+    });
     
     return periods;
 }
@@ -372,6 +380,9 @@ function createCustomLegend() {
         box-sizing: border-box;
     `;
 
+    // 버튼 클릭 상태 초기화
+    let allVisible = true;
+    
     // 전체선택/해제 버튼 생성 (팀 아이템과 동일한 스타일)
     const toggleAllButton = document.createElement('button');
     toggleAllButton.id = 'toggle-all-teams';
@@ -380,36 +391,41 @@ function createCustomLegend() {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 5px 10px;
+        padding: 5px 12px;
         border-radius: 6px;
         cursor: pointer;
         transition: all 0.2s ease;
-        background: rgba(108, 117, 125, 0.9);
-        border: 1px solid rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
         color: white;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 13px;
         white-space: nowrap;
         flex-shrink: 0;
         min-height: 34px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        border: none;
     `;
 
     // 버튼 호버 효과
     toggleAllButton.addEventListener('mouseenter', () => {
-        toggleAllButton.style.background = 'rgba(108, 117, 125, 1)';
+        const hoverGradient = allVisible ? 
+            'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' :
+            'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)';
+        toggleAllButton.style.background = hoverGradient;
         toggleAllButton.style.transform = 'translateY(-1px)';
         toggleAllButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.12)';
     });
     
     toggleAllButton.addEventListener('mouseleave', () => {
-        toggleAllButton.style.background = 'rgba(108, 117, 125, 0.9)';
+        const normalGradient = allVisible ? 
+            'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' :
+            'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+        toggleAllButton.style.background = normalGradient;
         toggleAllButton.style.transform = 'translateY(0)';
-        toggleAllButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.08)';
+        toggleAllButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.15)';
     });
 
     // 버튼 클릭 이벤트
-    let allVisible = true;
     toggleAllButton.addEventListener('click', () => {
         allVisible = !allVisible;
         
@@ -420,8 +436,12 @@ function createCustomLegend() {
         
         chartState.chart.update();
         
-        // 버튼 텍스트 및 범례 아이템 시각적 상태 업데이트
+        // 버튼 텍스트 및 색상 업데이트
         toggleAllButton.textContent = allVisible ? '전체 해제' : '전체 선택';
+        const buttonGradient = allVisible ? 
+            'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' :
+            'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+        toggleAllButton.style.background = buttonGradient;
         
         // 모든 범례 아이템의 시각적 상태 업데이트
         const legendItems = mainLegendContainer.querySelectorAll('div[data-team]');
@@ -864,6 +884,7 @@ function updateSimpleChart() {
     
     // UI 업데이트
     updateSimpleUI();
+    updateProgressIndicator();
 }
 
 // 전체 시즌 차트 데이터 생성
@@ -958,19 +979,42 @@ function updateSimpleUI() {
     const prevBtn = document.getElementById('prevPeriod');
     const nextBtn = document.getElementById('nextPeriod');
     const toggleBtn = document.getElementById('periodToggle');
+    const chartNav = document.getElementById('rank-chart-nav');
     
     if (prevBtn) {
         prevBtn.disabled = chartState.isFullView || chartState.currentPeriod === 0;
         prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+        
+        // 전체시즌 모드이거나 첫 번째 월인 경우 버튼 숨김
+        if (chartState.isFullView || chartState.currentPeriod === 0) {
+            prevBtn.style.display = 'none';
+        } else {
+            prevBtn.style.display = 'inline-block';
+            // 이전월 버튼 텍스트 업데이트
+            const prevPeriod = chartState.periods[chartState.currentPeriod - 1];
+            prevBtn.textContent = `← ${prevPeriod.title}`;
+        }
     }
     
     if (nextBtn) {
         nextBtn.disabled = chartState.isFullView || chartState.currentPeriod === chartState.periods.length - 1;
         nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
+        
+        // 전체시즌 모드이거나 마지막 월인 경우 버튼 숨김
+        if (chartState.isFullView || chartState.currentPeriod === chartState.periods.length - 1) {
+            nextBtn.style.display = 'none';
+        } else {
+            nextBtn.style.display = 'inline-block';
+            // 다음월 버튼 텍스트 업데이트
+            const nextPeriod = chartState.periods[chartState.currentPeriod + 1];
+            nextBtn.textContent = `${nextPeriod.title} →`;
+        }
     }
     
+    // 네비게이션 컨테이너는 항상 space-between 유지 (플레이스홀더 div가 정렬 처리)
+    
     if (toggleBtn) {
-        toggleBtn.textContent = chartState.isFullView ? '📅 30일 단위로 보기' : '📊 전체 시즌 보기';
+        toggleBtn.textContent = chartState.isFullView ? '📅 월별 보기' : '📊 전체 시즌 보기';
     }
     
 }
@@ -1022,6 +1066,32 @@ function handleNextPeriod() {
 function handlePeriodToggle() {
     chartState.isFullView = !chartState.isFullView;
     updateSimpleChart();
+}
+
+// 진행 인디케이터 업데이트 함수
+function updateProgressIndicator() {
+    const container = document.getElementById('progressDots');
+    if (!container) return;
+
+    if (chartState.isFullView) {
+        // 전체 시즌 모드에서는 진행 인디케이터 숨김
+        container.innerHTML = '';
+        return;
+    }
+
+    // 월별 모드에서 진행 인디케이터 표시
+    let html = '';
+    for (let i = 0; i < chartState.periods.length; i++) {
+        const isActive = i === chartState.currentPeriod;
+        html += `<div style="
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: ${isActive ? '#28a745' : '#dee2e6'};
+            transition: all 0.3s ease;
+        "></div>`;
+    }
+    container.innerHTML = html;
 }
 
 // Chart.js 로딩을 기다리는 함수

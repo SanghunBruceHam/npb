@@ -4078,17 +4078,19 @@
             </div>
             
             <!-- 그래프 네비게이션 -->
-            <div class="chart-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
-                <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
-                    background: #4CAF50; 
-                    color: white; 
-                    border: none; 
-                    padding: 8px 16px; 
-                    border-radius: 6px; 
-                    cursor: pointer;
-                    font-size: 14px;
-                    transition: all 0.3s ease;
-                ">← 이전 30일</button>
+            <div class="chart-nav" id="main-rank-chart-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                <div style="min-width: 120px; display: flex; justify-content: flex-start;">
+                    <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
+                        background: #4CAF50; 
+                        color: white; 
+                        border: none; 
+                        padding: 8px 16px; 
+                        border-radius: 6px; 
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    ">← 이전 월</button>
+                </div>
                 
                 <!-- 토글 버튼 (기간 정보 + 모드 전환) -->
                 <button id="periodToggle" onclick="handlePeriodToggle()" style="
@@ -4108,27 +4110,29 @@
                     📊 전체 시즌 보기
                 </button>
                 
-                <button id="nextPeriod" class="nav-btn" onclick="handleNextPeriod()" style="
-                    background: #4CAF50; 
-                    color: white; 
-                    border: none; 
-                    padding: 8px 16px; 
-                    border-radius: 6px; 
-                    cursor: pointer;
-                    font-size: 14px;
-                    transition: all 0.3s ease;
-                ">다음 30일 →</button>
+                <div style="min-width: 120px; display: flex; justify-content: flex-end;">
+                    <button id="nextPeriod" class="nav-btn" onclick="handleNextPeriod()" style="
+                        background: #4CAF50; 
+                        color: white; 
+                        border: none; 
+                        padding: 8px 16px; 
+                        border-radius: 6px; 
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    ">다음 월 →</button>
+                </div>
             </div>
             
-            <!-- 현재 기간 텍스트 (30일 단위 모드에서만) -->
+            <!-- 현재 기간 텍스트 (월 단위 모드에서만) -->
             <div id="currentPeriodText" style="
                 text-align: center;
                 margin: 0;
-                height: 25px;
+                height: 18px;
                 font-size: 13px;
                 color: #666;
                 font-weight: 500;
-                line-height: 25px;
+                line-height: 18px;
                 visibility: hidden;
             ">
                 현재 보는 기간: -
@@ -4138,7 +4142,7 @@
             <div class="progress-indicator" style="
                 display: flex; 
                 justify-content: center; 
-                margin-bottom: 15px;
+                margin-bottom: 8px;
                 gap: 4px;
             " id="progressDots"></div>
             
@@ -4153,8 +4157,119 @@
                     <div style="margin-bottom: 6px;"><strong>기간:</strong> 2025년 3월 22일 개막부터 현재까지 실제 경기 결과 기반</div>
                     <div style="margin-bottom: 6px;"><strong>순위 계산:</strong> 각 날짜별 누적 승률과 승차로 산정된 실제 순위</div>
                     <div style="margin-bottom: 6px;"><strong>플레이오프 기준:</strong> 빨간 선(5.5위)이 플레이오프 진출 경계선</div>
-                    <div style="margin-bottom: 6px;"><strong>조작 방법:</strong> ← → 버튼으로 30일씩 이동, 📊 버튼으로 전체/구간 전환, 팀 로고 클릭으로 표시/숨김</div>
+                    <div style="margin-bottom: 6px;"><strong>조작 방법:</strong> ← → 버튼으로 월별 이동, 📊 버튼으로 전체/구간 전환, 팀 로고 클릭으로 표시/숨김</div>
                     <div><strong>팁:</strong> 차트에 마우스를 올리면 해당 날짜의 순위표를 볼 수 있습니다</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 광고: 승률 추이 카드 위 -->
+        <div class="ad-card">
+            <ins class="adsbygoogle"
+                 style="display:block; width: 100%; height: 250px;"
+                 data-ad-client="ca-pub-5508768187151867"
+                 data-ad-slot="7298546648"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- 3. 승률 변동 그래프 -->
+        <div class="card" id="winrate-chart-section" style="margin-bottom: 30px;">
+            <div class="card-header">
+                <span class="card-icon">📉</span>
+                <h2 class="card-title">승률 추이</h2>
+            </div>
+            
+            <!-- 그래프 네비게이션 -->
+            <div class="chart-nav" id="winrate-chart-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                <div style="min-width: 120px; display: flex; justify-content: flex-start;">
+                    <button id="prevPeriodWinRate" class="nav-btn" onclick="handlePrevPeriodWinRate()" style="
+                        background: #4CAF50; 
+                        color: white; 
+                        border: none; 
+                        padding: 8px 16px; 
+                        border-radius: 6px; 
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    ">← 이전 월</button>
+                </div>
+                
+                <!-- 토글 버튼 (기간 정보 + 모드 전환) -->
+                <button id="periodToggleWinRate" onclick="handlePeriodToggleWinRate()" style="
+                    background: linear-gradient(135deg, #28a745, #34ce57);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+                    min-width: 220px;
+                " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(40, 167, 69, 0.4)'" 
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(40, 167, 69, 0.3)'">
+                    📊 전체 시즌 보기
+                </button>
+                
+                <div style="min-width: 120px; display: flex; justify-content: flex-end;">
+                    <button id="nextPeriodWinRate" class="nav-btn" onclick="handleNextPeriodWinRate()" style="
+                        background: #4CAF50; 
+                        color: white; 
+                        border: none; 
+                        padding: 8px 16px; 
+                        border-radius: 6px; 
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    ">다음 월 →</button>
+                </div>
+            </div>
+            
+            <!-- 현재 기간 텍스트 (월 단위 모드에서만) -->
+            <div id="currentPeriodTextWinRate" style="
+                text-align: center;
+                margin: 0;
+                height: 18px;
+                font-size: 13px;
+                color: #666;
+                font-weight: 500;
+                line-height: 18px;
+                visibility: hidden;
+            ">
+                현재 보는 기간: -
+            </div>
+            
+            <!-- 진행 인디케이터 -->
+            <div class="progress-indicator" style="
+                display: flex; 
+                justify-content: center; 
+                margin-bottom: 8px;
+                gap: 4px;
+            " id="progressDotsWinRate"></div>
+            
+            <div style="position: relative; height: 400px; padding: 20px 10px; min-height: 400px; max-height: 400px;">
+                <canvas id="winRateChart"></canvas>
+            </div>
+            
+            <!-- 팀 레전드 (순위 변동 추이와 동일한 형식) -->
+            <div id="winRateChartLegend">
+                <!-- 동적으로 생성됨 -->
+            </div>
+            
+            <!-- 설명 섹션 -->
+            <div style="margin-top: 20px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📉 승률 추이 그래프 이용 가이드</div>
+                <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
+                    <div style="margin-bottom: 6px;"><strong>기간:</strong> 2025년 3월 22일 개막부터 현재까지 실제 경기 결과 기반</div>
+                    <div style="margin-bottom: 6px;"><strong>승률 계산:</strong> 각 날짜별 누적 승률 (무승부 제외)</div>
+                    <div style="margin-bottom: 6px;"><strong>승률 표시:</strong> 소수점 세 자리까지 표시</div>
+                    <div style="margin-bottom: 6px;"><strong>조작 방법:</strong> ← → 버튼으로 월별 이동, 📊 버튼으로 전체/구간 전환, 팀 로고 클릭으로 표시/숨김</div>
+                    <div><strong>팁:</strong> 차트에 마우스를 올리면 해당 날짜의 승률을 볼 수 있습니다</div>
                 </div>
             </div>
         </div>
@@ -10748,6 +10863,14 @@ KT 9:1 키움(H)`;
                     completeDailyStats = new CompleteDailyStats();
                     window.dailyStatsModule = completeDailyStats; // 전역 접근
                     window.dailyStatsManager = completeDailyStats; // 레전드 버튼용 전역 접근
+                    window.dailyStats = completeDailyStats; // 승률 차트용 전역 접근
+                    
+                    // 승률 차트 초기화 트리거
+                    setTimeout(() => {
+                        if (typeof initWinRateChartAfterDaily === 'function') {
+                            initWinRateChartAfterDaily();
+                        }
+                    }, 500);
                 }, 1000);
             }
         });
@@ -10783,6 +10906,572 @@ KT 9:1 키움(H)`;
         };
     </script>
     <script src="magic-number/js/simple-chart.js"></script>
+
+    <!-- 승률 추이 차트 관련 스크립트 -->
+    <script>
+        // 승률 차트 전역 변수
+        let winRateChartInstance = null;
+        let winRateChartState = {
+            isFullView: false,
+            currentPeriod: 0,
+            periods: []
+        };
+        let winRateChartVisibleTeams = new Set(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
+
+        // 승률 차트 처리 함수들
+        function handlePrevPeriodWinRate() {
+            if (!winRateChartState.isFullView && winRateChartState.currentPeriod > 0) {
+                winRateChartState.currentPeriod--;
+                updateWinRateChart();
+            }
+        }
+
+        function handleNextPeriodWinRate() {
+            if (!winRateChartState.isFullView && winRateChartState.currentPeriod < winRateChartState.periods.length - 1) {
+                winRateChartState.currentPeriod++;
+                updateWinRateChart();
+            }
+        }
+
+        function handlePeriodToggleWinRate() {
+            winRateChartState.isFullView = !winRateChartState.isFullView;
+            updateWinRateChart();
+        }
+
+        // 승률 차트 생성 및 업데이트 함수
+        async function createWinRateChart() {
+            try {
+                const ctx = document.getElementById('winRateChart');
+                if (!ctx) return;
+
+                // 일자별 통계 데이터가 로드될 때까지 대기
+                if (!window.dailyStats || !window.dailyStats.seasonData || window.dailyStats.seasonData.length === 0) {
+                    setTimeout(createWinRateChart, 1000);
+                    return;
+                }
+
+                // 기존 일자별 통계 데이터 활용
+                const processedData = await processSeasonDataForWinRateFromDaily();
+                
+                // 월별 기간 설정
+                winRateChartState.periods = createMonthlyPeriods(processedData);
+                winRateChartState.currentPeriod = winRateChartState.periods.length - 1; // 최신 월부터 시작
+
+                // 차트 생성
+                if (winRateChartInstance) {
+                    winRateChartInstance.destroy();
+                }
+
+                winRateChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: []
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.parsed.y.toFixed(3)}`;
+                                    }
+                                }
+                            },
+                            legend: {
+                                display: false // 기본 레전드 숨김 (커스텀 레전드 사용)
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '날짜'
+                                },
+                                ticks: {
+                                    maxTicksLimit: 15, // 전체 시즌 모드용
+                                    callback: function(value, index, ticks) {
+                                        return this.getLabelForValue(value);
+                                    }
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: '승률'
+                                },
+                                min: 0.000,
+                                max: 1.000,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toFixed(3);
+                                    },
+                                    stepSize: 0.100
+                                }
+                            }
+                        }
+                    }
+                });
+
+                updateWinRateChart();
+                
+                // 초기 레전드 생성
+                updateWinRateChartLegend();
+            } catch (error) {
+                console.error('승률 차트 생성 실패:', error);
+            }
+        }
+
+        // 일자별 통계 데이터를 활용하여 승률 차트용 데이터 생성
+        async function processSeasonDataForWinRateFromDaily() {
+            const processedData = [];
+            const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+            
+            // window.dailyStats.seasonData의 모든 날짜에 대해 처리
+            for (const dayData of window.dailyStats.seasonData) {
+                const date = dayData.date;
+                
+                // 해당 날짜까지의 누적 통계를 통해 순위표 계산
+                const standings = window.dailyStats.calculateStandings(date);
+                
+                // 팀별 승률 데이터 추출
+                const standingsMap = {};
+                standings.forEach(team => {
+                    standingsMap[team.team] = team.winRate || 0;
+                });
+                
+                processedData.push({ date, standings: standingsMap });
+            }
+
+            return processedData;
+        }
+
+        // 월별 기간 생성
+        function createMonthlyPeriods(data) {
+            const periods = [];
+            const monthlyData = {};
+            
+            data.forEach(item => {
+                const date = new Date(item.date);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                
+                if (!monthlyData[monthKey]) {
+                    monthlyData[monthKey] = [];
+                }
+                monthlyData[monthKey].push(item);
+            });
+
+            Object.keys(monthlyData).sort().forEach(monthKey => {
+                const [year, month] = monthKey.split('-');
+                periods.push({
+                    label: `${year}년 ${month}월`,
+                    data: monthlyData[monthKey]
+                });
+            });
+
+            return periods;
+        }
+
+        // 승률 차트 업데이트
+        function updateWinRateChart() {
+            if (!winRateChartInstance || !winRateChartState.periods.length) return;
+
+            const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+            
+            // 일자별 통계와 동일한 팀 색상 사용
+            const teamColors = window.dailyStats ? window.dailyStats.teamColors : {
+                'LG': '#C30452', 'KIA': '#EA0029', '삼성': '#074CA1',
+                '두산': '#131230', 'SSG': '#CE0E2D', 'NC': '#315288',
+                '롯데': '#002955', '한화': '#FF6600', 'KT': '#000000', '키움': '#820024'
+            };
+
+            let chartData, labels;
+
+            if (winRateChartState.isFullView) {
+                // 전체 시즌 데이터
+                const allData = winRateChartState.periods.flatMap(p => p.data);
+                labels = allData.map(d => {
+                    const date = new Date(d.date);
+                    return `${date.getMonth() + 1}/${date.getDate()}`;
+                });
+                chartData = allData;
+            } else {
+                // 현재 월 데이터
+                const currentPeriodData = winRateChartState.periods[winRateChartState.currentPeriod];
+                if (!currentPeriodData) return;
+                
+                labels = currentPeriodData.data.map(d => {
+                    const date = new Date(d.date);
+                    return `${date.getMonth() + 1}/${date.getDate()}`;
+                });
+                chartData = currentPeriodData.data;
+            }
+
+            // 승률 범위 계산 (Y축 최적화)
+            let minWinRate = 1.0, maxWinRate = 0.0;
+            chartData.forEach(item => {
+                teams.forEach(team => {
+                    const winRate = item.standings[team];
+                    if (winRate < minWinRate) minWinRate = winRate;
+                    if (winRate > maxWinRate) maxWinRate = winRate;
+                });
+            });
+
+            // Y축 범위 조정 (여유 공간 추가)
+            const padding = (maxWinRate - minWinRate) * 0.1;
+            const yMin = Math.max(0, minWinRate - padding);
+            const yMax = Math.min(1, maxWinRate + padding);
+
+            // 데이터셋 구성 (표시 상태인 팀들만)
+            const datasets = teams.filter(team => winRateChartVisibleTeams.has(team)).map(team => ({
+                label: team,
+                data: chartData.map(item => item.standings[team]),
+                borderColor: teamColors[team],
+                backgroundColor: teamColors[team] + '20',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.1,
+                pointRadius: 3,
+                pointHoverRadius: 6
+            }));
+
+            winRateChartInstance.data.labels = labels;
+            winRateChartInstance.data.datasets = datasets;
+            
+            // Y축 범위 업데이트
+            winRateChartInstance.options.scales.y.min = yMin;
+            winRateChartInstance.options.scales.y.max = yMax;
+            
+            // X축 설정 업데이트 (월단위 모드에서는 모든 날짜 표시)
+            if (winRateChartState.isFullView) {
+                // 전체 시즌 모드: 제한된 눈금 표시
+                winRateChartInstance.options.scales.x.ticks.maxTicksLimit = 15;
+            } else {
+                // 월단위 모드: 모든 날짜 표시
+                winRateChartInstance.options.scales.x.ticks.maxTicksLimit = labels.length;
+            }
+            
+            winRateChartInstance.update();
+
+            // 커스텀 레전드 업데이트
+            updateWinRateChartLegend();
+
+            // UI 업데이트
+            updateWinRateChartUI();
+        }
+
+        // 승률 차트 UI 업데이트
+        function updateWinRateChartUI() {
+            // 토글 버튼 텍스트 업데이트
+            const toggleBtn = document.getElementById('periodToggleWinRate');
+            if (toggleBtn) {
+                toggleBtn.textContent = winRateChartState.isFullView ? '📊 월별 보기' : '📊 전체 시즌 보기';
+            }
+
+            // 네비게이션 버튼 활성화/비활성화
+            const prevBtn = document.getElementById('prevPeriodWinRate');
+            const nextBtn = document.getElementById('nextPeriodWinRate');
+            const winrateChartNav = document.getElementById('winrate-chart-nav');
+            
+            if (prevBtn && nextBtn) {
+                if (winRateChartState.isFullView) {
+                    prevBtn.disabled = true;
+                    nextBtn.disabled = true;
+                    prevBtn.style.opacity = '0.5';
+                    nextBtn.style.opacity = '0.5';
+                    prevBtn.textContent = '← 이전월';
+                    nextBtn.textContent = '다음월 →';
+                    // 전체시즌 모드에서는 버튼 숨김
+                    prevBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                } else {
+                    prevBtn.disabled = winRateChartState.currentPeriod === 0;
+                    nextBtn.disabled = winRateChartState.currentPeriod >= winRateChartState.periods.length - 1;
+                    prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+                    nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
+                    
+                    // 이전월이 없으면 버튼 숨김, 있으면 표시
+                    if (winRateChartState.currentPeriod === 0) {
+                        prevBtn.style.display = 'none';
+                    } else {
+                        prevBtn.style.display = 'inline-block';
+                        const prevPeriod = winRateChartState.periods[winRateChartState.currentPeriod - 1];
+                        prevBtn.textContent = `← ${prevPeriod.label}`;
+                    }
+                    
+                    // 다음월이 없으면 버튼 숨김, 있으면 표시
+                    if (winRateChartState.currentPeriod >= winRateChartState.periods.length - 1) {
+                        nextBtn.style.display = 'none';
+                    } else {
+                        nextBtn.style.display = 'inline-block';
+                        const nextPeriod = winRateChartState.periods[winRateChartState.currentPeriod + 1];
+                        nextBtn.textContent = `${nextPeriod.label} →`;
+                    }
+                }
+            }
+            
+            // 네비게이션 컨테이너는 항상 space-between 유지 (플레이스홀더 div가 정렬 처리)
+
+            // 현재 기간 텍스트 업데이트
+            const periodText = document.getElementById('currentPeriodTextWinRate');
+            if (periodText) {
+                if (winRateChartState.isFullView) {
+                    // 전체 시즌 모드일 때 전체 기간 표시
+                    if (winRateChartState.periods.length > 0) {
+                        // 첫 번째 기간의 시작일과 마지막 기간의 종료일 계산
+                        const firstPeriod = winRateChartState.periods[0];
+                        const lastPeriod = winRateChartState.periods[winRateChartState.periods.length - 1];
+                        
+                        if (firstPeriod.data.length > 0 && lastPeriod.data.length > 0) {
+                            const startDate = new Date(firstPeriod.data[0].date);
+                            const endDate = new Date(lastPeriod.data[lastPeriod.data.length - 1].date);
+                            periodText.textContent = `전체 시즌: ${startDate.getFullYear()}년 ${startDate.getMonth() + 1}월 ${startDate.getDate()}일 - ${endDate.getFullYear()}년 ${endDate.getMonth() + 1}월 ${endDate.getDate()}일`;
+                        } else {
+                            periodText.textContent = `전체 시즌: 2025년 3월 22일 개막 ~ 현재`;
+                        }
+                    } else {
+                        periodText.textContent = `전체 시즌: 2025년 3월 22일 개막 ~ 현재`;
+                    }
+                    periodText.style.visibility = 'visible';
+                } else if (winRateChartState.periods[winRateChartState.currentPeriod]) {
+                    periodText.textContent = `현재 보는 기간: ${winRateChartState.periods[winRateChartState.currentPeriod].label}`;
+                    periodText.style.visibility = 'visible';
+                } else {
+                    periodText.style.visibility = 'hidden';
+                }
+            }
+
+            // 진행 인디케이터 업데이트
+            updateWinRateProgressIndicator();
+        }
+
+        // 승률 차트 진행 인디케이터 업데이트
+        function updateWinRateProgressIndicator() {
+            const container = document.getElementById('progressDotsWinRate');
+            if (!container || winRateChartState.isFullView) {
+                if (container) container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 0; i < winRateChartState.periods.length; i++) {
+                const isActive = i === winRateChartState.currentPeriod;
+                html += `<div style="
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: ${isActive ? '#28a745' : '#dee2e6'};
+                    transition: all 0.3s ease;
+                "></div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // 승률 차트 커스텀 레전드 업데이트 (simple-chart.js와 완전히 동일한 스타일)
+        function updateWinRateChartLegend() {
+            const legendContainer = document.getElementById('winRateChartLegend');
+            if (!legendContainer) return;
+            
+            // 기존 레전드 초기화
+            legendContainer.innerHTML = '';
+            legendContainer.style.cssText = `
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                justify-content: center;
+                padding: 0;
+                margin-top: 2px;
+            `;
+
+            // 현재 팀 순위대로 정렬 (최신 순위표 기준)
+            let teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+            
+            // 현재 순위에 따라 팀 정렬
+            if (window.dashboardData && window.dashboardData.standings) {
+                teams = window.dashboardData.standings.map(team => team.team);
+            } else if (window.dailyStats && window.dailyStats.seasonData && window.dailyStats.seasonData.length > 0) {
+                // 최신 날짜 기준으로 순위 계산
+                const latestDate = window.dailyStats.seasonData[window.dailyStats.seasonData.length - 1].date;
+                const standings = window.dailyStats.calculateStandings(latestDate);
+                teams = standings.map(team => team.team);
+            }
+            const teamColors = window.dailyStats ? window.dailyStats.teamColors : {
+                'LG': '#C30452', 'KIA': '#EA0029', '삼성': '#074CA1',
+                '두산': '#131230', 'SSG': '#CE0E2D', 'NC': '#315288',
+                '롯데': '#002955', '한화': '#FF6600', 'KT': '#000000', '키움': '#820024'
+            };
+            
+            const teamLogos = window.dailyStats ? window.dailyStats.teamLogos : {
+                'LG': 'images/lg.png', '삼성': 'images/samsung.png', 'KT': 'images/kt.png',
+                '두산': 'images/doosan.png', 'KIA': 'images/kia.png', 'SSG': 'images/ssg.png',
+                '롯데': 'images/lotte.png', 'NC': 'images/nc.png', '한화': 'images/hanwha.png',
+                '키움': 'images/kiwoom.png'
+            };
+
+            // 전체 선택/해제 버튼을 먼저 추가 (앞쪽에 배치)
+            const allSelectedCount = teams.filter(team => winRateChartVisibleTeams.has(team)).length;
+            const allSelected = allSelectedCount === teams.length;
+            
+            const toggleAllItem = document.createElement('div');
+            toggleAllItem.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 5px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                background: linear-gradient(135deg, ${allSelected ? '#ef4444' : '#3b82f6'} 0%, ${allSelected ? '#dc2626' : '#2563eb'} 100%);
+                color: white;
+                font-weight: 600;
+                font-size: 13px;
+                white-space: nowrap;
+                flex-shrink: 0;
+                min-height: 34px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                border: none;
+            `;
+
+            const toggleText = document.createElement('span');
+            toggleText.textContent = allSelected ? '전체 해제' : '전체 선택';
+            
+            toggleAllItem.addEventListener('click', () => {
+                toggleAllWinRateTeams();
+            });
+
+            toggleAllItem.appendChild(toggleText);
+            legendContainer.appendChild(toggleAllItem);
+
+            // 팀 레전드 아이템들 추가
+            teams.forEach(teamName => {
+                const isVisible = winRateChartVisibleTeams.has(teamName);
+                
+                // 레전드 아이템 생성 (simple-chart.js와 동일)
+                const legendItem = document.createElement('div');
+                legendItem.setAttribute('data-team', teamName);
+                legendItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding: 5px 8px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    background: rgba(255,255,255,0.9);
+                    border: 1px solid rgba(0,0,0,0.1);
+                    font-weight: 600;
+                    font-size: 13px;
+                    white-space: nowrap;
+                    flex-shrink: 0;
+                    min-height: 34px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+                    opacity: ${isVisible ? '1' : '0.4'};
+                `;
+
+                // 색상 인디케이터 (원형, simple-chart.js와 동일)
+                const colorBox = document.createElement('div');
+                colorBox.style.cssText = `
+                    width: 12px;
+                    height: 12px;
+                    background-color: ${teamColors[teamName]};
+                    border-radius: 50%;
+                    border: 2px solid white;
+                    box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+                    flex-shrink: 0;
+                    opacity: ${isVisible ? '1' : '0.4'};
+                `;
+
+                // 팀 로고 이미지
+                const logoImg = document.createElement('img');
+                logoImg.src = teamLogos[teamName] || '';
+                logoImg.alt = teamName;
+                logoImg.style.cssText = `
+                    width: 20px;
+                    height: 20px;
+                    object-fit: contain;
+                    border-radius: 3px;
+                    flex-shrink: 0;
+                    filter: ${isVisible ? 'none' : 'grayscale(100%)'};
+                `;
+                logoImg.onerror = () => logoImg.style.display = 'none';
+
+                // 팀명 텍스트
+                const teamText = document.createElement('span');
+                teamText.textContent = teamName;
+                teamText.style.cssText = `
+                    color: #333;
+                    font-weight: 700;
+                    font-size: 13px;
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                    opacity: ${isVisible ? '1' : '0.4'};
+                `;
+
+                // 클릭 이벤트로 팀 토글
+                legendItem.addEventListener('click', () => {
+                    toggleWinRateTeam(teamName);
+                });
+
+                // DOM에 추가
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(logoImg);
+                legendItem.appendChild(teamText);
+                legendContainer.appendChild(legendItem);
+            });
+        }
+
+        // 개별 팀 표시/숨김 토글
+        function toggleWinRateTeam(team) {
+            if (winRateChartVisibleTeams.has(team)) {
+                winRateChartVisibleTeams.delete(team);
+            } else {
+                winRateChartVisibleTeams.add(team);
+            }
+            updateWinRateChart();
+        }
+
+        // 전체 팀 표시/숨김 토글
+        function toggleAllWinRateTeams() {
+            const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+            const allVisible = teams.every(team => winRateChartVisibleTeams.has(team));
+            
+            if (allVisible) {
+                // 전체 해제
+                winRateChartVisibleTeams.clear();
+            } else {
+                // 전체 선택
+                teams.forEach(team => winRateChartVisibleTeams.add(team));
+            }
+            updateWinRateChart();
+        }
+
+        // 승률 차트 초기화
+        function initWinRateChart() {
+            if (typeof Chart !== 'undefined') {
+                createWinRateChart();
+            } else {
+                setTimeout(initWinRateChart, 100);
+            }
+        }
+
+        // 승률 차트를 일자별 통계 로드 후에 초기화하는 함수
+        function initWinRateChartAfterDaily() {
+            if (typeof Chart !== 'undefined' && window.dailyStats && window.dailyStats.seasonData) {
+                createWinRateChart();
+            } else {
+                setTimeout(initWinRateChartAfterDaily, 500);
+            }
+        }
+
+        // 페이지 로드 시 승률 차트 초기화 (일자별 통계 로드 후)
+        document.addEventListener('DOMContentLoaded', function() {
+            initWinRateChartAfterDaily();
+        });
+    </script>
 
     <!-- 전반기/후반기 성적 비교 스크립트 -->
     <script>
