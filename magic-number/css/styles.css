@@ -954,7 +954,7 @@ th {
     white-space: normal;
     word-break: keep-all;
     line-height: 1.3;
-    padding: 8px 6px;
+    padding: 6px 6px;
     vertical-align: middle;
 }
 
@@ -996,6 +996,9 @@ tbody tr:nth-child(odd) {
 
 td {
     font-weight: 400;
+    padding: 6px 6px; /* PC용 기본 셀 패딩 추가 */
+    text-align: center;
+    vertical-align: middle;
 }
 
 td:first-child {
@@ -2107,7 +2110,7 @@ input, textarea, select, button {
         font-size: 0.85rem !important; /* 0.75rem → 0.85rem 모바일 데이터 셀 크기 증가 */
         font-weight: 500 !important;
         text-align: center !important; /* 모든 데이터 셀 중앙 정렬 강제 */
-        padding: 8px 3px !important;   /* 6px → 8px 패딩 증가 */
+        padding: 6px 3px !important;   /* 8px → 6px 상하 패딩 감소 */
         border-bottom: 1px solid var(--border-light) !important;
         border-right: 1px solid var(--border-color) !important;
         white-space: nowrap !important;
