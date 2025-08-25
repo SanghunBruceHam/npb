@@ -11242,6 +11242,23 @@ KT 9:1 키움(H)`;
             }
         }
 
+        // Service Worker 등록 (성능 최적화)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                        // 백그라운드 동기화 등록
+                        if ('sync' in window.ServiceWorkerRegistration.prototype) {
+                            registration.sync.register('kbo-data-sync');
+                        }
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
         // 전역 인스턴스
         let completeDailyStats = null;
 
