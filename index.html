@@ -11410,6 +11410,12 @@ KT 9:1 키움(H)`;
                             intersect: false,
                             mode: 'index'
                         },
+                        elements: {
+                            point: {
+                                borderWidth: 0,  // 테두리 제거하여 채워진 점으로 표시
+                                radius: 3        // 점 크기 3px (비어있는 원형 대신 채워진 점)
+                            }
+                        },
                         plugins: {
                             tooltip: {
                                 callbacks: {
@@ -11577,12 +11583,13 @@ KT 9:1 키움(H)`;
                     label: team,
                     data: data,
                     borderColor: teamColors[team],
-                    backgroundColor: teamColors[team] + '20',
+                    backgroundColor: teamColors[team],
                     borderWidth: 2,
                     fill: false,
                     tension: 0.1,
-                    pointRadius: 3,
-                    pointHoverRadius: 6
+                    pointRadius: 3,           // 점 크기 3px
+                    pointHoverRadius: 6,      // 호버시 점 크기 6px
+                    pointBorderWidth: 0       // 테두리 제거 (채워진 점으로 표시)
                 };
             });
 
@@ -11628,6 +11635,12 @@ KT 9:1 키움(H)`;
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    elements: {
+                        point: {
+                            borderWidth: 0,  // 테두리 제거하여 채워진 점으로 표시
+                            radius: 3        // 점 크기 3px (비어있는 원형 대신 채워진 점)
+                        }
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -11774,11 +11787,11 @@ KT 9:1 키움(H)`;
             for (let i = 0; i < winRateChartState.periods.length; i++) {
                 const isActive = i === winRateChartState.currentPeriod;
                 html += `<div style="
-                    width: 8px;
-                    height: 8px;
-                    border-radius: 50%;
-                    background: ${isActive ? '#28a745' : '#dee2e6'};
-                    transition: all 0.3s ease;
+                    width: 6px;             /* 인디케이터 점 크기 6px (기존 8px에서 축소) */
+                    height: 6px;
+                    border-radius: 50%;     /* 원형 점 */
+                    background: ${isActive ? '#28a745' : '#dee2e6'};  /* 활성: 초록색, 비활성: 회색 */
+                    transition: all 0.3s ease;  /* 부드러운 색상 전환 효과 */
                 "></div>`;
             }
             container.innerHTML = html;
