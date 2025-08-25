@@ -462,6 +462,18 @@
         gtag('config', 'G-TDV2VSSNHN');
     </script>
     
+    <!-- 리소스 힌트 (성능 최적화) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    
+    <!-- 중요한 이미지 preload -->
+    <link rel="preload" href="images/kbo-main-icon.png" as="image" type="image/png">
+    
+    <!-- Chart.js prefetch (사용자가 차트를 볼 가능성이 높음) -->
+    <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/chart.js">
+    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
     
@@ -9326,8 +9338,98 @@
         });
     </script>
 
-    <!-- Chart.js 라이브러리 -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js 지연 로딩으로 성능 최적화 -->
+    <script>
+        // Chart.js 지연 로딩 함수
+        let chartJsLoaded = false;
+        let chartJsLoadPromise = null;
+        
+        function loadChartJs() {
+            if (chartJsLoaded) return Promise.resolve();
+            if (chartJsLoadPromise) return chartJsLoadPromise;
+            
+            chartJsLoadPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+                script.onload = () => {
+                    chartJsLoaded = true;
+                    console.log('Chart.js loaded lazily');
+                    resolve();
+                };
+                script.onerror = () => reject(new Error('Chart.js loading failed'));
+                // 성능 최적화: async 속성 추가
+                script.async = true;
+                document.head.appendChild(script);
+            });
+            
+            return chartJsLoadPromise;
+        }
+        
+        // 전역으로 노출
+        window.loadChartJs = loadChartJs;
+        
+        // Web Vitals 모니터링 (성능 측정)
+        function measureWebVitals() {
+            // Largest Contentful Paint (LCP)
+            new PerformanceObserver((entryList) => {
+                const entries = entryList.getEntries();
+                const lastEntry = entries[entries.length - 1];
+                console.log('LCP:', lastEntry.startTime);
+                
+                // Google Analytics로 전송 (선택사항)
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'web_vitals', {
+                        name: 'LCP',
+                        value: Math.round(lastEntry.startTime),
+                        event_category: 'Web Vitals'
+                    });
+                }
+            }).observe({type: 'largest-contentful-paint', buffered: true});
+            
+            // First Input Delay (FID)
+            new PerformanceObserver((entryList) => {
+                entryList.getEntries().forEach((entry) => {
+                    console.log('FID:', entry.processingStart - entry.startTime);
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'web_vitals', {
+                            name: 'FID',
+                            value: Math.round(entry.processingStart - entry.startTime),
+                            event_category: 'Web Vitals'
+                        });
+                    }
+                });
+            }).observe({type: 'first-input', buffered: true});
+            
+            // Cumulative Layout Shift (CLS)
+            let cumulativeLayoutShift = 0;
+            new PerformanceObserver((entryList) => {
+                entryList.getEntries().forEach((entry) => {
+                    if (!entry.hadRecentInput) {
+                        cumulativeLayoutShift += entry.value;
+                    }
+                });
+                
+                // 페이지 언로드 시 최종 CLS 값 전송
+                window.addEventListener('beforeunload', () => {
+                    console.log('CLS:', cumulativeLayoutShift);
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'web_vitals', {
+                            name: 'CLS',
+                            value: Math.round(cumulativeLayoutShift * 1000) / 1000,
+                            event_category: 'Web Vitals'
+                        });
+                    }
+                });
+            }).observe({type: 'layout-shift', buffered: true});
+        }
+        
+        // Web Vitals 측정 시작
+        if (typeof PerformanceObserver !== 'undefined') {
+            measureWebVitals();
+        }
+    </script>
     
     <!-- 일별 종합지표 분석 스크립트 -->
     <!-- daily-stats-module.js는 미완성이므로 제거 -->
@@ -9932,7 +10034,10 @@ KT 9:1 키움(H)`;
                 nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
             }
             
-            initCharts() {
+            async initCharts() {
+                // Chart.js 지연 로딩
+                await window.loadChartJs();
+                
                 setTimeout(() => {
                     if (typeof Chart !== 'undefined') {
                         this.initGameGapChart();
@@ -12021,21 +12126,28 @@ KT 9:1 키움(H)`;
             updateWinRateChart();
         }
 
-        // 승률 차트 초기화
-        function initWinRateChart() {
+        // 승률 차트 초기화 (Chart.js 지연 로딩)
+        async function initWinRateChart() {
+            await window.loadChartJs();
+            
             if (typeof Chart !== 'undefined') {
                 createWinRateChart();
-            } else {
-                setTimeout(initWinRateChart, 100);
             }
         }
 
-        // 승률 차트를 일자별 통계 로드 후에 초기화하는 함수
-        function initWinRateChartAfterDaily() {
-            if (typeof Chart !== 'undefined' && window.dailyStats && window.dailyStats.seasonData) {
-                createWinRateChart();
-            } else {
+        // 승률 차트를 일자별 통계 로드 후에 초기화하는 함수 (Chart.js 지연 로딩)
+        async function initWinRateChartAfterDaily() {
+            // 필요한 데이터가 로드될 때까지 대기
+            if (!window.dailyStats || !window.dailyStats.seasonData) {
                 setTimeout(initWinRateChartAfterDaily, 500);
+                return;
+            }
+            
+            // Chart.js 지연 로딩
+            await window.loadChartJs();
+            
+            if (typeof Chart !== 'undefined') {
+                createWinRateChart();
             }
         }
 

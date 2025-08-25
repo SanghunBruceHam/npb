@@ -1114,8 +1114,13 @@ function updateProgressIndicator() {
     container.innerHTML = html;
 }
 
-// Chart.js 로딩을 기다리는 함수
-function waitForChart(maxAttempts = 10, interval = 500) {
+// Chart.js 지연 로딩 및 대기 함수
+async function waitForChart(maxAttempts = 10, interval = 500) {
+    // 지연 로딩 먼저 시도
+    if (typeof window.loadChartJs === 'function') {
+        await window.loadChartJs();
+    }
+    
     return new Promise((resolve, reject) => {
         let attempts = 0;
         
