@@ -4254,10 +4254,11 @@
                             <th>3점차승률</th>
                             <th>홈승률</th>
                             <th>원정승률</th>
-                            <th>홈우위</th>
                             <th onclick="event.stopPropagation(); sortByStreakNew();" class="no-sort" style="cursor: pointer;">연승패</th>
                             <th onclick="event.stopPropagation(); sortByMaxWinStreak();" class="no-sort" style="cursor: pointer;">최대연승</th>
                             <th onclick="event.stopPropagation(); sortByMaxLoseStreak();" class="no-sort" style="cursor: pointer;">최대연패</th>
+                            <th onclick="event.stopPropagation(); sortByMaxRank();" class="no-sort" style="cursor: pointer;">최대순위</th>
+                            <th onclick="event.stopPropagation(); sortByMinRank();" class="no-sort" style="cursor: pointer;">최소순위</th>
                         </tr>
                     </thead>
                     <tbody id="fullStandingsBody">
@@ -4275,9 +4276,11 @@
                     <div style="margin-bottom: 6px;"><strong>P승률:</strong> 피타고리안 기대승률 (득실차 기반)</div>
                     <div style="margin-bottom: 6px;"><strong>운지수:</strong> 실제승률-기대승률</div>
                     <div style="margin-bottom: 6px;"><strong>1점차승률:</strong> 1점 차이 경기에서의 승률</div>
-                    <div style="margin-bottom: 6px;"><strong>홈우위:</strong> 홈승률-원정승률</div>
                     <div style="margin-bottom: 6px;"><strong>잔여경기:</strong> 정규시즌 총 144경기 중 남은 경기수</div>
-                    <div><strong>연승패:</strong> 현재 연속 승/패 상태</div>
+                    <div style="margin-bottom: 6px;"><strong>연승패:</strong> 현재 연속 승/패 상태</div>
+                    <div style="margin-bottom: 6px;"><strong>최대순위:</strong> 전승시 도달 가능한 최고 순위 (숫자가 작을수록 좋음)</div>
+                    <div style="margin-bottom: 6px;"><strong>최소순위:</strong> 전패시 도달 가능한 최저 순위 (숫자가 클수록 나쁨)</div>
+                    <div><em style="color: #666; font-size: 11px;">※ 시즌 종료시 해당 팀이 도달할 수 있는 순위 범위를 나타냄</em></div>
                 </div>
             </div>
         </div>
@@ -7004,6 +7007,116 @@
             renderFullStandings();
         }
 
+        // 최대 가능 순위 정렬 모드 (0: 원래순위, 1: 오름차순, 2: 내림차순)
+        var maxRankSortMode = 0;
+        
+        window.sortByMaxRank = function() {
+            if (!dashboardData || !dashboardData.standings) {
+                alert('데이터가 로드되지 않았습니다');
+                return;
+            }
+            
+            // 원본 데이터 백업
+            if (!dashboardData.originalStandings) {
+                dashboardData.originalStandings = [...dashboardData.standings];
+            }
+            
+            maxRankSortMode = (maxRankSortMode + 1) % 3;
+            
+            if (maxRankSortMode === 0) {
+                // 원래 순위 순서로 복원
+                dashboardData.standings = [...dashboardData.originalStandings];
+            } else if (maxRankSortMode === 1) {
+                // 최대 가능 순위 오름차순 정렬 (좋은 순위부터)
+                dashboardData.standings.sort((a, b) => {
+                    const aMaxWins = a.wins + (144 - a.games_played);
+                    const bMaxWins = b.wins + (144 - b.games_played);
+                    
+                    let aMaxRank = 1, bMaxRank = 1;
+                    dashboardData.originalStandings.forEach(team => {
+                        if (team.team_name !== a.team_name && aMaxWins < team.wins) aMaxRank++;
+                        if (team.team_name !== b.team_name && bMaxWins < team.wins) bMaxRank++;
+                    });
+                    
+                    return aMaxRank - bMaxRank;
+                });
+            } else {
+                // 최대 가능 순위 내림차순 정렬 (나쁜 순위부터)
+                dashboardData.standings.sort((a, b) => {
+                    const aMaxWins = a.wins + (144 - a.games_played);
+                    const bMaxWins = b.wins + (144 - b.games_played);
+                    
+                    let aMaxRank = 1, bMaxRank = 1;
+                    dashboardData.originalStandings.forEach(team => {
+                        if (team.team_name !== a.team_name && aMaxWins < team.wins) aMaxRank++;
+                        if (team.team_name !== b.team_name && bMaxWins < team.wins) bMaxRank++;
+                    });
+                    
+                    return bMaxRank - aMaxRank;
+                });
+            }
+            
+            renderFullStandings();
+        }
+
+        // 최소 가능 순위 정렬 모드 (0: 원래순위, 1: 오름차순, 2: 내림차순)
+        var minRankSortMode = 0;
+        
+        window.sortByMinRank = function() {
+            if (!dashboardData || !dashboardData.standings) {
+                alert('데이터가 로드되지 않았습니다');
+                return;
+            }
+            
+            // 원본 데이터 백업
+            if (!dashboardData.originalStandings) {
+                dashboardData.originalStandings = [...dashboardData.standings];
+            }
+            
+            minRankSortMode = (minRankSortMode + 1) % 3;
+            
+            if (minRankSortMode === 0) {
+                // 원래 순위 순서로 복원
+                dashboardData.standings = [...dashboardData.originalStandings];
+            } else if (minRankSortMode === 1) {
+                // 최소 가능 순위 오름차순 정렬 (좋은 순위부터)
+                dashboardData.standings.sort((a, b) => {
+                    let aMinRank = 1, bMinRank = 1;
+                    dashboardData.originalStandings.forEach(team => {
+                        if (team.team_name !== a.team_name) {
+                            const otherMaxWins = team.wins + (144 - team.games_played);
+                            if (a.wins <= otherMaxWins) aMinRank++;
+                        }
+                        if (team.team_name !== b.team_name) {
+                            const otherMaxWins = team.wins + (144 - team.games_played);
+                            if (b.wins <= otherMaxWins) bMinRank++;
+                        }
+                    });
+                    
+                    return aMinRank - bMinRank;
+                });
+            } else {
+                // 최소 가능 순위 내림차순 정렬 (나쁜 순위부터)
+                dashboardData.standings.sort((a, b) => {
+                    let aMinRank = 1, bMinRank = 1;
+                    dashboardData.originalStandings.forEach(team => {
+                        if (team.team_name !== a.team_name) {
+                            const otherMaxWins = team.wins + (144 - team.games_played);
+                            if (a.wins <= otherMaxWins) aMinRank++;
+                        }
+                        if (team.team_name !== b.team_name) {
+                            const otherMaxWins = team.wins + (144 - team.games_played);
+                            if (b.wins <= otherMaxWins) bMinRank++;
+                        }
+                    });
+                    
+                    return bMinRank - aMinRank;
+                });
+            }
+            
+            renderFullStandings();
+        }
+
         // 전체 순위표 (모든 지표 포함)
         function renderFullStandings() {
             const tbody = document.getElementById('fullStandingsBody');
@@ -7063,6 +7176,60 @@
                 const winLossMargin = team.wins - team.losses;
                 const marginClass = winLossMargin > 0 ? 'positive' : winLossMargin < 0 ? 'negative' : 'neutral';
                 
+                // 폰트 색상만 적용하는 함수들 (노란색은 중앙값만)
+                function getRunDiffColor(runDiff) {
+                    if (runDiff >= 100) return '#0d5e1a';  // 매우 좋음 (진한 녹색)
+                    if (runDiff >= 50) return '#198f32';   // 좋음 (녹색)
+                    if (runDiff >= 20) return '#28a745';   // 약간 좋음 (밝은 녹색)
+                    if (runDiff > 0) return '#6c757d';     // 조금 좋음 (회색)
+                    if (runDiff === 0) return '#ffc107';   // 중립 (노란색) - 중앙값만
+                    if (runDiff > -20) return '#fd7e14';   // 조금 나쁨 (주황색)
+                    if (runDiff >= -50) return '#dc3545';  // 약간 나쁨 (빨강)
+                    if (runDiff >= -100) return '#c82333'; // 나쁨 (진한 빨강)
+                    return '#a71d2a';                       // 매우 나쁨 (매우 진한 빨강)
+                }
+                
+                function getWinRateColor(winRate) {
+                    if (winRate >= 0.65) return '#0d5e1a';  // 0.65 이상 (진한 녹색)
+                    if (winRate >= 0.6) return '#198f32';   // 0.6~0.65 (녹색)
+                    if (winRate >= 0.55) return '#28a745';  // 0.55~0.6 (밝은 녹색)
+                    if (winRate > 0.5) return '#6c757d';    // 0.5 초과~0.55 (회색)
+                    if (winRate === 0.5) return '#ffc107';  // 정확히 0.5 (노란색) - 중앙값만
+                    if (winRate >= 0.45) return '#6c757d';  // 0.45~0.5 미만 (회색)
+                    if (winRate >= 0.4) return '#dc3545';   // 0.4~0.45 (빨강)
+                    if (winRate >= 0.35) return '#c82333';  // 0.35~0.4 (진한 빨강)
+                    return '#a71d2a';                        // 0.35 미만 (매우 진한 빨강)
+                }
+                
+                // 가능한 순위 계산
+                const remainingGames = 144 - team.games_played;
+                const maxPossibleWins = team.wins + remainingGames; // 전승시
+                const minPossibleWins = team.wins; // 전패시
+                
+                // 최대 가능 순위 (가장 좋은 순위, 숫자가 작음) - 전승했을 때
+                let maxRank = 1;
+                dashboardData.standings.forEach(otherTeam => {
+                    if (otherTeam.team_name === team.team_name) return;
+                    const otherMinWins = otherTeam.wins; // 상대팀 전패시
+                    if (maxPossibleWins < otherMinWins) {
+                        maxRank++;
+                    }
+                });
+                
+                // 최소 가능 순위 (가장 나쁜 순위, 숫자가 큼) - 전패했을 때
+                let minRank = 1;
+                dashboardData.standings.forEach(otherTeam => {
+                    if (otherTeam.team_name === team.team_name) return;
+                    const otherMaxWins = otherTeam.wins + (144 - otherTeam.games_played); // 상대팀 전승시
+                    if (minPossibleWins <= otherMaxWins) {
+                        minRank++;
+                    }
+                });
+                
+                // 순위는 10위를 넘을 수 없음
+                maxRank = Math.min(maxRank, 10);
+                minRank = Math.min(minRank, 10);
+                
                 row.innerHTML = `
                     <td class="${team.displayRank <= 3 ? `rank-${team.displayRank}` : ''}"><strong>${team.displayRank}</strong></td>
                     <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
@@ -7076,17 +7243,18 @@
                     <td>${144 - team.games_played}</td>
                     <td>${team.runs_scored}</td>
                     <td>${team.runs_allowed}</td>
-                    <td class="${getRunDiffClass(team.run_differential)}">${team.run_differential}</td>
+                    <td><span style="color: ${getRunDiffColor(parseInt(team.run_differential))}">${team.run_differential}</span></td>
                     <td>${pythagorean ? pythagorean.expected_win_rate : '-'}</td>
                     <td class="${pythagorean && parseFloat(pythagorean.luck_factor) > 0.02 ? 'positive' : pythagorean && parseFloat(pythagorean.luck_factor) < -0.02 ? 'negative' : 'neutral'}">${pythagorean ? pythagorean.luck_factor : '-'}</td>
-                    <td class="${oneRun ? getWinRateClass(parseFloat(oneRun.win_rate)) : ''}">${oneRun ? oneRun.win_rate : '-'}</td>
-                    <td class="${clutchTeamData ? getWinRateClass(parseFloat(clutchTeamData.threeRunWinRate)/100) : ''}">${clutchTeamData ? (parseFloat(clutchTeamData.threeRunWinRate)/100).toFixed(3) : '-'}</td>
+                    <td><span style="color: ${oneRun ? getWinRateColor(parseFloat(oneRun.win_rate)) : '#666'}">${oneRun ? oneRun.win_rate : '-'}</span></td>
+                    <td><span style="color: ${clutchTeamData ? getWinRateColor(parseFloat(clutchTeamData.threeRunWinRate)/100) : '#666'}">${clutchTeamData ? (parseFloat(clutchTeamData.threeRunWinRate)/100).toFixed(3) : '-'}</span></td>
                     <td>${homeAway ? homeAway.home_win_rate : '-'}</td>
                     <td>${homeAway ? homeAway.away_win_rate : '-'}</td>
-                    <td class="${homeAway && parseFloat(homeAway.home_advantage) > 0.05 ? 'positive' : homeAway && parseFloat(homeAway.home_advantage) < -0.05 ? 'negative' : 'neutral'}">${homeAway ? homeAway.home_advantage : '-'}</td>
                     <td class="${streakClass}">${streakDisplay}</td>
                     <td>${streak ? streak.max_win_streak : '-'}</td>
                     <td>${streak ? streak.max_lose_streak : '-'}</td>
+                    <td>${maxRank}</td>
+                    <td>${minRank}</td>
                 `;
                 tbody.appendChild(row);
             });
