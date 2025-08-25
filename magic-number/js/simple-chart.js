@@ -380,8 +380,8 @@ function createCustomLegend() {
         return;
     }
     
-    // 차트 컨테이너 찾기
-    const chartContainer = document.querySelector('#rankChart').parentElement;
+    // 레전드 컨테이너 찾기 (고정 위치)
+    const chartContainer = document.getElementById('mainRankChartLegend');
     
     // 범례 컨테이너 생성 (버튼과 팀들을 함께 배치)
     const mainLegendContainer = document.createElement('div');
@@ -608,7 +608,8 @@ function createCustomLegend() {
         }
     });
     
-    // 차트 컨테이너에 메인 범례 컨테이너 추가
+    // 기존 내용 제거 후 메인 범례 컨테이너 추가
+    chartContainer.innerHTML = '';
     chartContainer.appendChild(mainLegendContainer);
 }
 
