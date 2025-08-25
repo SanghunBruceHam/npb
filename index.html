@@ -3242,14 +3242,14 @@
             width: var(--card-width) !important;
             max-width: var(--card-max-width) !important;
             margin: 0 auto;
-            padding: 0 10px;
+            padding: 0;
             box-sizing: border-box;
         }
 
         .nav-menu {
             display: flex;
             justify-content: flex-start;
-            gap: 0px;
+            gap: 4px;
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -3262,7 +3262,7 @@
 
         .nav-item {
             white-space: nowrap;
-            padding: 8px 0;
+            padding: 8px 12px;
             font-size: var(--font-base);
             font-weight: var(--font-weight-medium);
             color: #4a5568;
@@ -3628,11 +3628,11 @@
         @media (max-width: 1024px) {
             .nav-menu {
                 justify-content: flex-start;
-                gap: 1px;
+                gap: 2px;
             }
             .nav-item {
                 font-size: var(--font-sm);
-                padding: 6px 10px;
+                padding: 6px 8px;
                 min-width: 70px;
                 flex: none;
             }
