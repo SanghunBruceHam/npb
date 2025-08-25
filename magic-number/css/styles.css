@@ -204,11 +204,25 @@ body {
     background: transparent;
     border: none;
     flex-wrap: nowrap;
-    overflow: visible;
-    justify-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    justify-content: flex-start;
     align-items: center;
     width: 90%;
     max-width: 1200px;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-menu::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-menu.dragging {
+    cursor: grabbing;
+    user-select: none;
 }
 
 .nav-menu a {

@@ -2506,6 +2506,13 @@ const kboTeams = {
                 } catch (error) {
                     logger.error('❌ 데스크톱 토글 초기화 오류:', error);
                 }
+
+                // 네비게이션 드래그 스크롤 초기화
+                try {
+                    initNavDragScroll();
+                } catch (error) {
+                    logger.error('❌ 네비게이션 드래그 스크롤 초기화 오류:', error);
+                }
                 
                 // 주차별 분석 초기화
                 try {
@@ -2724,6 +2731,105 @@ const kboTeams = {
         
         // 초기화는 runInitialization에서 처리됨
         
+        // 네비게이션 드래그 스크롤 기능
+        function initNavDragScroll() {
+            const navMenu = document.querySelector('.nav-menu');
+            if (!navMenu) return;
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let hasMoved = false;
+
+            // 마우스 이벤트
+            navMenu.addEventListener('mousedown', (e) => {
+                isDown = true;
+                hasMoved = false;
+                navMenu.classList.add('dragging');
+                startX = e.pageX - navMenu.offsetLeft;
+                scrollLeft = navMenu.scrollLeft;
+                e.preventDefault();
+            });
+
+            navMenu.addEventListener('mouseleave', () => {
+                isDown = false;
+                navMenu.classList.remove('dragging');
+            });
+
+            navMenu.addEventListener('mouseup', (e) => {
+                isDown = false;
+                navMenu.classList.remove('dragging');
+                
+                // 클릭인지 드래그인지 구분
+                if (!hasMoved && e.target.tagName === 'A') {
+                    // 실제 클릭이므로 링크 동작을 허용
+                    return;
+                }
+                
+                // 드래그였으므로 링크 클릭 방지
+                if (hasMoved) {
+                    e.preventDefault();
+                }
+            });
+
+            navMenu.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                
+                const x = e.pageX - navMenu.offsetLeft;
+                const walk = (x - startX) * 1.5; // 스크롤 속도 조절
+                
+                if (Math.abs(walk) > 3) {
+                    hasMoved = true;
+                }
+                
+                navMenu.scrollLeft = scrollLeft - walk;
+            });
+
+            // 터치 이벤트 (모바일)
+            let touchHasMoved = false;
+            
+            navMenu.addEventListener('touchstart', (e) => {
+                isDown = true;
+                touchHasMoved = false;
+                navMenu.classList.add('dragging');
+                startX = e.touches[0].pageX - navMenu.offsetLeft;
+                scrollLeft = navMenu.scrollLeft;
+            }, { passive: true });
+
+            navMenu.addEventListener('touchmove', (e) => {
+                if (!isDown) return;
+                
+                const x = e.touches[0].pageX - navMenu.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                
+                if (Math.abs(walk) > 5) {
+                    touchHasMoved = true;
+                    e.preventDefault(); // 스크롤 방지
+                }
+                
+                navMenu.scrollLeft = scrollLeft - walk;
+            });
+
+            navMenu.addEventListener('touchend', (e) => {
+                isDown = false;
+                navMenu.classList.remove('dragging');
+                
+                // 터치 드래그였으면 클릭 방지
+                if (touchHasMoved && e.target.tagName === 'A') {
+                    e.preventDefault();
+                }
+            });
+
+            // 링크 클릭 이벤트 처리
+            navMenu.addEventListener('click', (e) => {
+                if (hasMoved || touchHasMoved) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        }
+
         // 네비게이션 함수들 (CSS scroll-margin-top 활용)
         function scrollToSection(elementId) {
             const element = document.getElementById(elementId);
