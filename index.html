@@ -439,7 +439,7 @@
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden') {
                         if (document.body.hasAttribute('aria-hidden')) {
-                            console.warn('body에 aria-hidden 속성이 감지되어 제거합니다.');
+                            // body에 aria-hidden 속성 제거
                             document.body.removeAttribute('aria-hidden');
                         }
                     }
