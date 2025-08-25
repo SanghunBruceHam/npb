@@ -4176,7 +4176,7 @@
                 </div>
             </div>
             
-            <!-- 승률 추이 차트 (전체 너비) - 메인 승률추이 카드 부분 -->
+            <!-- 승률 추이 차트 (전체 너비) - 일별통계 섹션 내 승률 추이 (ROOT INDEX 메인 카드와는 별개) -->
             <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; height: 535px; display: flex; flex-direction: column;">
                 <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📉 승률 추이</h3>
                 <div style="position: relative; flex: 1; margin-bottom: 8px;">
@@ -4390,7 +4390,7 @@
             </script>
         </div>
 
-        <!-- 3. 승률 변동 그래프 -->
+        <!-- 3. 승률 변동 그래프 - ROOT INDEX 메인 승률 추이 카드 (일별통계 섹션과는 별개) -->
         <div class="card" id="winrate-chart-section" style="margin-bottom: 30px;">
             <div class="card-header">
                 <span class="card-icon">📉</span>
@@ -11288,7 +11288,7 @@ KT 9:1 키움(H)`;
     </script>
     <script src="magic-number/js/simple-chart.js"></script>
 
-    <!-- 승률 추이 차트 관련 스크립트 - 메인 승률추이 카드 스크립트 부분 -->
+    <!-- ROOT INDEX 메인 승률 추이 카드 관련 스크립트 (일별통계 섹션과는 별개) -->
     <script>
         // 승률 차트 전역 변수
         let winRateChartInstance = null;
@@ -11300,7 +11300,7 @@ KT 9:1 키움(H)`;
         let winRateChartVisibleTeams = new Set(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
         let winRateChartTeamLogos = {};
         
-        // 메인 승률추이 카드 - 팀 로고 로드 함수
+        // ROOT INDEX 메인 승률 추이 카드 - 팀 로고 로드 함수
         async function loadWinRateChartTeamLogos() {
             const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
             const logoMap = {
@@ -11758,14 +11758,18 @@ KT 9:1 키움(H)`;
             updateWinRateProgressIndicator();
         }
 
-        // 승률 차트 진행 인디케이터 업데이트
+        // ROOT INDEX 메인 승률 추이 카드 - 진행 인디케이터 업데이트 (일별통계 섹션과는 별개)
         function updateWinRateProgressIndicator() {
             const container = document.getElementById('progressDotsWinRate');
-            if (!container || winRateChartState.isFullView) {
-                if (container) container.innerHTML = '';
+            if (!container) return;
+
+            if (winRateChartState.isFullView) {
+                // 전체 시즌 모드에서는 진행 인디케이터 숨김
+                container.innerHTML = '';
                 return;
             }
 
+            // 월별 모드에서 진행 인디케이터 표시
             let html = '';
             for (let i = 0; i < winRateChartState.periods.length; i++) {
                 const isActive = i === winRateChartState.currentPeriod;
