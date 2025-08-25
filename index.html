@@ -12123,27 +12123,62 @@ KT 9:1 키움(H)`;
 
         // 개별 팀 표시/숨김 토글
         function toggleWinRateTeam(team) {
-            if (winRateChartVisibleTeams.has(team)) {
-                winRateChartVisibleTeams.delete(team);
-            } else {
-                winRateChartVisibleTeams.add(team);
+            if (winRateChartInstance) {
+                // Chart.js의 데이터셋에서 해당 팀 찾기
+                const datasets = winRateChartInstance.data.datasets;
+                const teamDatasetIndex = datasets.findIndex(dataset => dataset.label === team);
+                
+                if (teamDatasetIndex !== -1) {
+                    // Chart.js의 메타데이터를 사용하여 개별 데이터셋 숨김/표시
+                    const meta = winRateChartInstance.getDatasetMeta(teamDatasetIndex);
+                    meta.hidden = !meta.hidden;
+                    
+                    // 가시성 상태 업데이트
+                    if (meta.hidden) {
+                        winRateChartVisibleTeams.delete(team);
+                    } else {
+                        winRateChartVisibleTeams.add(team);
+                    }
+                    
+                    // 차트 업데이트 (다시 그리지 않고 애니메이션으로)
+                    winRateChartInstance.update('none');
+                    
+                    // 레전드만 업데이트
+                    updateWinRateChartLegend();
+                }
             }
-            updateWinRateChart();
         }
 
         // 전체 팀 표시/숨김 토글
         function toggleAllWinRateTeams() {
-            const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
-            const allVisible = teams.every(team => winRateChartVisibleTeams.has(team));
-            
-            if (allVisible) {
-                // 전체 해제
-                winRateChartVisibleTeams.clear();
-            } else {
-                // 전체 선택
-                teams.forEach(team => winRateChartVisibleTeams.add(team));
+            if (winRateChartInstance) {
+                const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+                const allVisible = teams.every(team => winRateChartVisibleTeams.has(team));
+                
+                const datasets = winRateChartInstance.data.datasets;
+                
+                if (allVisible) {
+                    // 전체 해제
+                    winRateChartVisibleTeams.clear();
+                    datasets.forEach((dataset, index) => {
+                        const meta = winRateChartInstance.getDatasetMeta(index);
+                        meta.hidden = true;
+                    });
+                } else {
+                    // 전체 선택
+                    teams.forEach(team => winRateChartVisibleTeams.add(team));
+                    datasets.forEach((dataset, index) => {
+                        const meta = winRateChartInstance.getDatasetMeta(index);
+                        meta.hidden = false;
+                    });
+                }
+                
+                // 차트 업데이트 (다시 그리지 않고 애니메이션으로)
+                winRateChartInstance.update('none');
+                
+                // 레전드만 업데이트
+                updateWinRateChartLegend();
             }
-            updateWinRateChart();
         }
 
         // 승률 차트 초기화 (Chart.js 지연 로딩)
