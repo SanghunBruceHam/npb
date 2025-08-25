@@ -10160,7 +10160,6 @@ KT 9:1 키움(H)`;
                         afterDraw: (chart) => {
                             const ctx = chart.ctx;
                             if (!window.teamLogoImages || Object.keys(window.teamLogoImages).length === 0) {
-                                console.log('팀 로고 이미지가 아직 로드되지 않음');
                                 return;
                             }
                             
@@ -10280,7 +10279,6 @@ KT 9:1 키움(H)`;
                         afterDraw: (chart) => {
                             const ctx = chart.ctx;
                             if (!window.teamLogoImages || Object.keys(window.teamLogoImages).length === 0) {
-                                console.log('팀 로고 이미지가 아직 로드되지 않음');
                                 return;
                             }
                             
@@ -11251,7 +11249,7 @@ KT 9:1 키움(H)`;
         document.addEventListener('DOMContentLoaded', function() {
             // 팀 로고 먼저 로드
             window.loadTeamLogos().then(() => {
-                console.log('모든 팀 로고 로드 완료:', Object.keys(window.teamLogoImages));
+                // 모든 팀 로고 로드 완료
             });
             
             const dailyStatsCard = document.getElementById('daily-stats');
@@ -11422,6 +11420,12 @@ KT 9:1 키움(H)`;
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                right: 25,  // 우측 패딩 추가로 로고 짤림 방지
+                                left: 5
+                            }
+                        },
                         interaction: {
                             intersect: false,
                             mode: 'index'
@@ -11451,7 +11455,9 @@ KT 9:1 키움(H)`;
                                     text: '날짜'
                                 },
                                 ticks: {
-                                    maxTicksLimit: 15, // 전체 시즌 모드용
+                                    maxTicksLimit: 16, // 적절한 틱 수로 조정
+                                    maxRotation: 45,   // 사선 각도 설정
+                                    minRotation: 45,   // 최소 각도도 45도로 고정
                                     callback: function(value, index, ticks) {
                                         return this.getLabelForValue(value);
                                     }
@@ -11651,6 +11657,12 @@ KT 9:1 키움(H)`;
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 25,  // 우측 패딩 추가로 로고 짤림 방지
+                            left: 5
+                        }
+                    },
                     elements: {
                         point: {
                             borderWidth: 0,  // 테두리 제거하여 채워진 점으로 표시
@@ -11688,7 +11700,9 @@ KT 9:1 키움(H)`;
                         },
                         x: {
                             ticks: {
-                                maxTicksLimit: winRateChartState.isFullView ? 15 : labels.length
+                                maxTicksLimit: winRateChartState.isFullView ? 16 : labels.length,
+                                maxRotation: 45,   // 사선 각도 설정
+                                minRotation: 45    // 최소 각도도 45도로 고정
                             }
                         }
                     }

@@ -840,7 +840,8 @@ function createSimpleChart(data) {
                     },
                     x: {
                         grid: {
-                            display: false
+                            display: true,   // x축 격자 표시 활성화
+                            color: '#e5e7eb'  // y축과 동일한 격자 색상
                         }
                     }
                 },
