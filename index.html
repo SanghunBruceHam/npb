@@ -2471,11 +2471,14 @@
         }
         
         /* colspan 헤더 (팀별 성적) */
-        .weekly-table th[colspan] {
+        .weekly-table th[colspan], .detail-table th[colspan] {
             text-align: center;
             font-weight: var(--font-weight-semibold);
             padding: 12px 8px !important;
             font-size: var(--font-lg) !important;
+            background: #2c3e50 !important;
+            color: white !important;
+            border-bottom: 2px solid #34495e !important;
         }
         
         /* 팀명 헤더 */
@@ -4613,19 +4616,30 @@
             </div>
             
             <div class="table-container">
-                <table class="detail-table" id="pythagoreanTable">
+                <table class="detail-table" id="pythagoreanTable" style="table-layout: fixed; width: 100%;">
                     <thead>
                         <tr>
-                            <th>순위</th>
-                            <th>팀</th>
-                            <th>실제승률</th>
-                            <th>피타고리안 기대승률</th>
-                            <th>운 지수</th>
-                            <th>운 상태</th>
-                            <th>득점</th>
-                            <th>실점</th>
-                            <th>경기당 득점</th>
-                            <th>경기당 실점</th>
+                            <th rowspan="2" style="width: 5%;">순위</th>
+                            <th rowspan="2" style="width: 10%;">팀</th>
+                            <th colspan="3">실제 기록</th>
+                            <th colspan="3">기대 기록</th>
+                            <th colspan="2">승률 비교</th>
+                            <th colspan="2">운 지수 분석</th>
+                            <th colspan="2">득실 비교</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 6.5%;">승</th>
+                            <th style="width: 6.5%;">패</th>
+                            <th style="width: 6.5%;">무</th>
+                            <th style="width: 6.5%;">기대 승</th>
+                            <th style="width: 6.5%;">기대 패</th>
+                            <th style="width: 6.5%;">기대 무</th>
+                            <th style="width: 8%;">실제승률</th>
+                            <th style="width: 8%;">기대승률</th>
+                            <th style="width: 7%;">운 지수</th>
+                            <th style="width: 10%;">운 상태</th>
+                            <th style="width: 9%;">실제 득실차</th>
+                            <th style="width: 9%;">기대 득실차</th>
                         </tr>
                     </thead>
                     <tbody id="pythagoreanBody">
@@ -4639,9 +4653,11 @@
                 <div style="font-size: var(--font-base); font-weight: var(--font-weight-medium); margin-bottom: 8px; color: #495057;">📊 지표 설명</div>
                 <div style="font-size: var(--font-sm); color: #6c757d; line-height: 1.5;">
                     <div style="margin-bottom: 6px;"><strong>피타고리안 기대승률:</strong> 득점과 실점으로 계산한 '이론적' 승률 (득점²÷(득점²+실점²))</div>
+                    <div style="margin-bottom: 6px;"><strong>기대 승-무-패:</strong> 피타고리안 승률을 바탕으로 계산한 이론적 승부 기록</div>
                     <div style="margin-bottom: 6px;"><strong>운 지수:</strong> 실제승률 - 기대승률 (양수: 운이 좋음, 음수: 운이 나쁨)</div>
                     <div style="margin-bottom: 6px;"><strong>운 상태:</strong> +0.05 이상(매우 좋음), +0.03~0.05(좋음), +0.01~0.03(약간 좋음), ±0.01(평균적), -0.01~-0.03(약간 나쁨), -0.03~-0.05(나쁨), -0.05 이하(매우 나쁨)</div>
-                    <div><strong>색상 구분:</strong> 녹색(양수), 노란색(±0.01), 빨간색(음수)</div>
+                    <div style="margin-bottom: 6px;"><strong>기대 득실차:</strong> 피타고리안 승률 기반으로 계산한 이론적 득실차</div>
+                    <div><strong>색상 구분:</strong> 검정(실제), 파랑(기대), 녹색/빨강(운 지수)</div>
                 </div>
             </div>
         </div>
@@ -7070,8 +7086,41 @@
             sortedTeams.forEach((team, index) => {
                 const teamData = dashboardData.standings.find(t => t.team_name === team.team_name);
                 const rank = teamData ? teamData.displayRank : (index + 1);
-                const avgScored = teamData ? (teamData.runs_scored / teamData.games_played).toFixed(2) : '-';
-                const avgAllowed = teamData ? (teamData.runs_allowed / teamData.games_played).toFixed(2) : '-';
+                
+                // 실제 기록
+                const actualWins = teamData ? teamData.wins : 0;
+                const actualDraws = teamData ? teamData.draws : 0;
+                const actualLosses = teamData ? teamData.losses : 0;
+                const totalGames = actualWins + actualDraws + actualLosses;
+                
+                // 피타고리안 승률을 이용한 기대 승리수 계산 (정확한 로직)
+                // expected_win_rate가 이미 소수점 형태인지 확인
+                let expectedWinRate = parseFloat(team.expected_win_rate);
+                if (expectedWinRate > 1) {
+                    expectedWinRate = expectedWinRate / 100; // 퍼센트 형태라면 소수점으로 변환
+                }
+                
+                let actualWinRate = parseFloat(team.actual_win_rate);
+                if (actualWinRate > 1) {
+                    actualWinRate = actualWinRate / 100;
+                }
+                
+                // 기대 기록 계산 (올바른 방식)
+                // 무승부는 실제값 유지, 승패만 피타고리안으로 계산
+                const winLossGames = totalGames - actualDraws;
+                const finalExpectedWins = Math.round(winLossGames * expectedWinRate);
+                const finalExpectedLosses = winLossGames - finalExpectedWins;
+                const finalExpectedDraws = actualDraws;
+                
+                // 득실차 계산
+                const actualRunsScored = teamData ? teamData.runs_scored : 0;
+                const actualRunsAllowed = teamData ? teamData.runs_allowed : 0;
+                const actualRunDiff = actualRunsScored - actualRunsAllowed;
+                
+                // 기대 득실차 = 피타고리안 승률 기반으로 역산
+                // 피타고리안 공식: WinRate = RS² / (RS² + RA²)
+                // 이를 역산하여 기대 득실차 계산
+                const expectedRunDiff = Math.round(actualRunDiff * (expectedWinRate / (actualWinRate || 0.5)));
 
                 const row = document.createElement('tr');
                 // 운지수 그라데이션 색상 함수 (차이값 기준)
@@ -7090,14 +7139,18 @@
                 row.innerHTML = `
                     <td class="rank-${rank <= 3 ? rank : 'other'}" style="font-weight: var(--font-weight-bold); text-align: center;">${rank}</td>
                     <td class="team-name">${getTeamWithLogo(team.team_name)}</td>
+                    <td><strong>${actualWins}</strong></td>
+                    <td>${actualLosses}</td>
+                    <td>${actualDraws}</td>
+                    <td style="color: #007bff;">${finalExpectedWins}</td>
+                    <td style="color: #007bff;">${finalExpectedLosses}</td>
+                    <td style="color: #007bff;">${finalExpectedDraws}</td>
                     <td><strong>${team.actual_win_rate}</strong></td>
-                    <td>${team.expected_win_rate}</td>
+                    <td style="color: #007bff;">${team.expected_win_rate}</td>
                     <td class="${luckClass}"><strong>${team.luck_factor}</strong></td>
                     <td class="${luckClass}" style="white-space: nowrap;">${team.luck_status}</td>
-                    <td>${teamData ? teamData.runs_scored : '-'}</td>
-                    <td>${teamData ? teamData.runs_allowed : '-'}</td>
-                    <td>${avgScored}</td>
-                    <td>${avgAllowed}</td>
+                    <td><strong>${actualRunDiff >= 0 ? '+' : ''}${actualRunDiff}</strong></td>
+                    <td style="color: #007bff;">${expectedRunDiff >= 0 ? '+' : ''}${expectedRunDiff}</td>
                 `;
                 tbody.appendChild(row);
             });
