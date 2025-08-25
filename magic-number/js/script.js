@@ -261,14 +261,19 @@ const kboTeams = {
                     const firstPlaceMagic = magicNumbers[team.team];
                     magicNumber = firstPlaceMagic ? firstPlaceMagic.championship : 0;
                 } else {
-                    // 나머지 팀: PO 진출 매직넘버 (72승 기준)
-                    magicNumber = Math.max(0, 72 - team.wins);
+                    // 나머지 팀: 5위까지 PO 진출 매직넘버 (최대가능 승수 기준)
+                    magicNumber = this.calculatePlayoffMagicNumber(team, currentStandings);
                 }
                 
                 if (magicNumber === 0) {
                     return team.displayRank === 1 ? 
                         '<span style="color: #FFD700; ">우승확정</span>' :
                         '<span style="color: #4CAF50; ">PO확정</span>';
+                }
+                
+                // 수학적으로 불가능한 경우
+                if (magicNumber >= 999) {
+                    return '<span style="color: #999; ">-</span>';
                 }
                 
                 // 매직넘버 색상 결정
@@ -279,6 +284,53 @@ const kboTeams = {
                 else color = '#9E9E9E';                        // 회색
                 
                 return `<span style="color: ${color}; ">${magicNumber}</span>`;
+            },
+            
+            // 5위까지 플레이오프 진출을 위한 매직넘버 계산
+            // 최대가능 승수 기준으로 6위팀의 최대 가능 승수보다 1승 더 필요
+            calculatePlayoffMagicNumber(team, standings) {
+                try {
+                    // 현재 순위 5위까지는 플레이오프 진출
+                    if (team.displayRank <= 5) {
+                        // 이미 5위 이내면 남은 경기를 모두 져도 플레이오프 진출 가능한지 확인
+                        const remainingGames = 144 - team.games; // KBO 정규시즌 총 144경기
+                        const currentWins = team.wins;
+                        
+                        // 6위팀의 최대 가능 승수 계산
+                        let sixthPlaceMaxWins = 0;
+                        for (let i = 5; i < standings.length; i++) { // 6위부터 확인
+                            const competitor = standings[i];
+                            const competitorRemaining = 144 - competitor.games;
+                            const competitorMaxWins = competitor.wins + competitorRemaining;
+                            sixthPlaceMaxWins = Math.max(sixthPlaceMaxWins, competitorMaxWins);
+                        }
+                        
+                        // 6위팀의 최대 승수보다 1승 더 필요
+                        const neededWins = sixthPlaceMaxWins + 1;
+                        const magicNumber = Math.max(0, neededWins - currentWins);
+                        
+                        return magicNumber;
+                    } else {
+                        // 6위 이하팀: 5위팀을 추월하기 위한 매직넘버
+                        const fifthPlaceTeam = standings.find(t => t.displayRank === 5);
+                        if (!fifthPlaceTeam) return 999; // 5위팀이 없으면 불가능
+                        
+                        const remainingGames = 144 - team.games;
+                        const maxPossibleWins = team.wins + remainingGames;
+                        
+                        // 5위팀의 현재 승수보다 많이 이겨야 함
+                        const neededWins = fifthPlaceTeam.wins + 1;
+                        
+                        if (maxPossibleWins < neededWins) {
+                            return 999; // 수학적으로 불가능
+                        }
+                        
+                        return Math.max(0, neededWins - team.wins);
+                    }
+                } catch (error) {
+                    logger.error('플레이오프 매직넘버 계산 중 오류:', error);
+                    return Math.max(0, 72 - team.wins); // 폴백으로 기존 로직 사용
+                }
             },
             
             // 테이블 행 HTML 생성 (공통 스타일 적용)
