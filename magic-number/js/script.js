@@ -925,11 +925,13 @@ const kboTeams = {
                         aValue = (aAwayWins + aAwayLosses) > 0 ? aAwayWins / (aAwayWins + aAwayLosses) : 0;
                         bValue = (bAwayWins + bAwayLosses) > 0 ? bAwayWins / (bAwayWins + bAwayLosses) : 0;
                         break;
-                    case 'magic':
-                        const aMagic = a.cells[14].textContent;
-                        const bMagic = b.cells[14].textContent;
-                        aValue = getMagicNumberSortValue(aMagic);
-                        bValue = getMagicNumberSortValue(bMagic);
+                    case 'maxRank':
+                        aValue = parseInt(a.cells[14].textContent);
+                        bValue = parseInt(b.cells[14].textContent);
+                        break;
+                    case 'minRank':
+                        aValue = parseInt(a.cells[15].textContent);
+                        bValue = parseInt(b.cells[15].textContent);
                         break;
                     default:
                         return 0;
@@ -1078,25 +1080,37 @@ const kboTeams = {
                 row.className = rankClass;
                 row.style.borderLeft = `4px solid ${teamData.color}`;
 
-                // 매직넘버 계산
-                let magicNumberDisplay = '-';
-                if (team.displayRank === 1) {
-                    // service-data.json의 매직넘버 사용
-                    const magicNumbers = currentKBOData?.magicNumbers || {};
-                    const teamMagicData = magicNumbers[team.team];
-                    const magicNumber = teamMagicData ? teamMagicData.championship : 0;
-                    magicNumberDisplay = magicNumber > 0 ? magicNumber : '확정';
-                } else {
-                    const playoffBaseline = 72;
-                    const playoffMagicNumber = Math.max(0, playoffBaseline - team.wins);
-                    if (playoffMagicNumber === 0) {
-                        magicNumberDisplay = 'PO확정';
-                    } else if (team.wins + (144 - team.games) >= playoffBaseline) {
-                        magicNumberDisplay = playoffMagicNumber;
-                    } else {
-                        magicNumberDisplay = '불가능';
+                // 가능한 순위 계산
+                const maxPossibleWins = team.wins + remainingGames; // 전승시
+                const minPossibleWins = team.wins; // 전패시
+                
+                // 최대 가능 순위 (가장 좋은 순위, 숫자가 작음) - 전승했을 때
+                let maxRank = 1;
+                for (let i = 0; i < currentStandings.length; i++) {
+                    const otherTeam = currentStandings[i];
+                    if (otherTeam.team === team.team) continue;
+                    
+                    const otherMinWins = otherTeam.wins; // 상대팀 전패시
+                    if (maxPossibleWins < otherMinWins) {
+                        maxRank++;
                     }
                 }
+                
+                // 최소 가능 순위 (가장 나쁜 순위, 숫자가 큼) - 전패했을 때
+                let minRank = 1;
+                for (let i = 0; i < currentStandings.length; i++) {
+                    const otherTeam = currentStandings[i];
+                    if (otherTeam.team === team.team) continue;
+                    
+                    const otherMaxWins = otherTeam.wins + (144 - otherTeam.games); // 상대팀 전승시
+                    if (minPossibleWins <= otherMaxWins) {
+                        minRank++;
+                    }
+                }
+                
+                // 순위는 10위를 넘을 수 없음
+                maxRank = Math.min(maxRank, 10);
+                minRank = Math.min(minRank, 10);
 
                 // 연속 기록 강조
                 const streakFormatted = formatStreak(team.streak);
@@ -1132,7 +1146,8 @@ const kboTeams = {
                     <td>${streakFormatted}</td>
                     <td>${homeDisplay}</td>
                     <td>${awayDisplay}</td>
-                    <td>${magicNumberDisplay}</td>
+                    <td>${maxRank}</td>
+                    <td>${minRank}</td>
                 `;
 
                 tbody.appendChild(row);
@@ -1157,7 +1172,7 @@ const kboTeams = {
                 // 에러가 발생하면 기본 메시지 표시
                 const tbody = document.querySelector('#standings-table tbody');
                 if (tbody) {
-                    tbody.innerHTML = '<tr><td colspan="13" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="16" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
                 }
             }
         }
@@ -1790,12 +1805,13 @@ const kboTeams = {
                 // 팀명에 로고 추가
                 const teamNameWithLogo = Utils.getTeamNameWithLogo(team);
                 
-                // 역대 기준 트래직넘버 계산 (72승 기준)
-                const historicTragicNumber = maxPossibleWins < playoffThreshold ? 0 : playoffThreshold - maxPossibleWins;
+                // 역대 기준 트래직넘버 계산 (71승 기준)
+                const tragicThreshold = 71;
+                const historicTragicNumber = maxPossibleWins < tragicThreshold ? 0 : tragicThreshold - maxPossibleWins;
                 let historicTragicDisplay = '';
                 
                 if (historicTragicNumber === 0) {
-                    if (maxPossibleWins < playoffThreshold) {
+                    if (maxPossibleWins < tragicThreshold) {
                         historicTragicDisplay = '<span style="color: #c0392b; font-weight: bold;">탈락</span>';
                     } else {
                         historicTragicDisplay = '<span style="color: #2ecc71; font-weight: bold;">안전</span>';
@@ -2037,7 +2053,7 @@ const kboTeams = {
                 return Math.max(0, remainingGames - (team.wins - sixthPlace.wins) + 1);
             } else {
                 // 플레이오프 권 밖
-                const baselineWins = 72; // 플레이오프 진출 기준선
+                const baselineWins = 71; // 플레이오프 진출 기준선
                 const maxPossibleWins = team.wins + remainingGames;
                 if (maxPossibleWins >= baselineWins) {
                     return Math.max(0, maxPossibleWins - baselineWins + 1);

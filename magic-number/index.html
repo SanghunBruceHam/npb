@@ -784,10 +784,10 @@
                                 </ul>
                             </div>
                             <div>
-                                <strong style="color: #2d3748; font-size: 13px;">🎯 매직/트래직넘버</strong>
+                                <strong style="color: #2d3748; font-size: 13px;">🎯 매직/트래직넘버 (역대 기준)</strong>
                                 <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
-                                    <li><strong>PO 매직:</strong> PO 진출 필요 승수</li>
-                                    <li><strong>PO 트래직:</strong> 탈락까지 남은 패수</li>
+                                    <li><strong>역대 기준 매직넘버:</strong> 72승까지 필요 승수</li>
+                                    <li><strong>역대 기준 트래직넘버:</strong> 71승 달성 불가능까지 남은 패수</li>
                                     <li><strong>필요승률:</strong> 잔여경기 목표 승률</li>
                                 </ul>
                             </div>
@@ -800,7 +800,7 @@
                             <span style="color: #dc2626; font-weight: 600; margin-left: 6px;">■ 탈락</span>
                         </div>
                         <div style="margin-top: 8px; font-size: 11px; color: #666;">
-                            📌 수학적 계산 결과, 시즌 진행시 현실화
+                            📌 역대 기준: 매직넘버는 72승, 트래직넘버는 71승 기준으로 계산
                         </div>
                     </div>
                 </div>
@@ -859,8 +859,11 @@
                                     </th>
                                     <th>홈</th>
                                     <th>방문</th>
-                                    <th class="sortable-header" data-sort="magic" onclick="sortTable('standings', 'magic')">
-                                        매직넘버 <span class="sort-arrow">↕</span>
+                                    <th class="sortable-header" data-sort="maxRank" onclick="sortTable('standings', 'maxRank')">
+                                        최대 가능 순위 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="minRank" onclick="sortTable('standings', 'minRank')">
+                                        최소 가능 순위 <span class="sort-arrow">↕</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -881,7 +884,7 @@
                             </div>
                             <div>
                                 <strong style="color: #1a237e; font-size: 13px;">🔥 연속:</strong> <span style="font-size: 12px;">현재 연승/연패 기록</span><br>
-                                <strong style="color: #1a237e; font-size: 13px;">✨ 매직:</strong> <span style="font-size: 12px;">1위: 우승 매직넘버, 2위~: 플레이오프(72승) 매직넘버</span><br>
+                                <strong style="color: #1a237e; font-size: 13px;">🎯 가능순위:</strong> <span style="font-size: 12px;">시즌 종료시 가능한 최고/최저 순위</span><br>
                                 <strong style="color: #16a34a; font-size: 12px;">초록:</strong> <span style="font-size: 11px;">높은 승률 (60%+)</span><br>
                                 <strong style="color: #dc2626; font-size: 12px;">빨강:</strong> <span style="font-size: 11px;">낮은 승률 (40% 미만)</span>
                             </div>
@@ -1015,6 +1018,9 @@
                     <div style="position: relative; height: 400px; padding: 20px 10px; min-height: 400px; max-height: 400px;">
                         <canvas id="rankChart"></canvas>
                     </div>
+                    
+                    <!-- 커스텀 레전드 컨테이너 -->
+                    <div id="mainRankChartLegend" style="margin-top: 15px; padding: 10px;"></div>
                     
                     
                     <div class="legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 35px; border-left: 3px solid #FF6B35; font-size: 13px;">
