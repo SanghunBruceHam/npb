@@ -256,7 +256,7 @@ const kboTeams = {
                 const magicNumbers = currentKBOData?.magicNumbers || {};
                 
                 let magicNumber = 0;
-                if (team.displayRank === 1) {
+                if (team.rank === 1) {
                     // 1위팀: 우승 매직넘버
                     const firstPlaceMagic = magicNumbers[team.team];
                     magicNumber = firstPlaceMagic ? firstPlaceMagic.championship : 0;
@@ -266,7 +266,7 @@ const kboTeams = {
                 }
                 
                 if (magicNumber === 0) {
-                    return team.displayRank === 1 ? 
+                    return team.rank === 1 ? 
                         '<span style="color: #FFD700; ">우승확정</span>' :
                         '<span style="color: #4CAF50; ">PO확정</span>';
                 }
@@ -291,7 +291,7 @@ const kboTeams = {
             calculatePlayoffMagicNumber(team, standings) {
                 try {
                     // 현재 순위 5위까지는 플레이오프 진출
-                    if (team.displayRank <= 5) {
+                    if (team.rank <= 5) {
                         // 이미 5위 이내면 남은 경기를 모두 져도 플레이오프 진출 가능한지 확인
                         const remainingGames = 144 - team.games; // KBO 정규시즌 총 144경기
                         const currentWins = team.wins;
@@ -312,7 +312,7 @@ const kboTeams = {
                         return magicNumber;
                     } else {
                         // 6위 이하팀: 5위팀을 추월하기 위한 매직넘버
-                        const fifthPlaceTeam = standings.find(t => t.displayRank === 5);
+                        const fifthPlaceTeam = standings.find(t => t.rank === 5);
                         if (!fifthPlaceTeam) return 999; // 5위팀이 없으면 불가능
                         
                         const remainingGames = 144 - team.games;
@@ -1987,7 +1987,7 @@ const kboTeams = {
                         }
                         
                         row.innerHTML = `
-                            <td style="text-align: center;">${team.displayRank}위</td>
+                            <td style="text-align: center;">${team.rank}위</td>
                             <td class="team-name">${Utils.getTeamNameWithLogo(team)}</td>
                             <td style="text-align: center;">${wins}</td>
                             <td style="text-align: center;">${remainingGames}</td>
