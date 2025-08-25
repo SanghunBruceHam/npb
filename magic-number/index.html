@@ -906,24 +906,26 @@
                 </div>
 
                 <!-- 순위 변동 그래프 -->
-                <div class="card" id="rank-chart-section" style="margin-bottom: 30px;">
+                <div class="card" id="rank-chart-section" style="margin-bottom: 15px;">
                     <h2>📈 순위 변동 추이</h2>
                     
                     <!-- 그래프 네비게이션 -->
-                    <div class="chart-nav" id="rank-chart-nav" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; padding: 10px;">
-                        <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
-                            background: #4CAF50; 
-                            color: white; 
-                            border: none; 
-                            padding: 8px 16px; 
-                            border-radius: 6px; 
-                            cursor: pointer;
-                            font-size: 14px;
-                            transition: all 0.3s ease;
-                            order: 1;
-                        ">← 이전 30일</button>
+                    <div class="chart-nav" id="rank-chart-nav" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-bottom: 15px; padding: 10px;">
+                        <!-- 왼쪽 버튼 영역 -->
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button id="prevPeriod" class="nav-btn" onclick="handlePrevPeriod()" style="
+                                background: #4CAF50; 
+                                color: white; 
+                                border: none; 
+                                padding: 8px 16px; 
+                                border-radius: 6px; 
+                                cursor: pointer;
+                                font-size: 14px;
+                                transition: all 0.3s ease;
+                            ">← 이전 30일</button>
+                        </div>
                         
-                        <!-- 토글 버튼 (기간 정보 + 모드 전환) -->
+                        <!-- 중앙 토글 버튼 (항상 가운데 고정) -->
                         <button id="periodToggle" onclick="handlePeriodToggle()" style="
                             background: linear-gradient(135deg, #28a745, #34ce57);
                             color: white;
@@ -936,49 +938,58 @@
                             transition: all 0.3s ease;
                             box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
                             min-width: 220px;
-                            order: 2;
+                            justify-self: center;
                         " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 8px rgba(40, 167, 69, 0.4)'" 
                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(40, 167, 69, 0.3)'">
                             📊 전체 시즌 보기
                         </button>
                         
-                        <button id="nextPeriod" class="nav-btn" onclick="handleNextPeriod()" style="
-                            background: #4CAF50; 
-                            color: white; 
-                            border: none; 
-                            padding: 8px 16px; 
-                            border-radius: 6px; 
-                            cursor: pointer;
-                            font-size: 14px;
-                            transition: all 0.3s ease;
-                            order: 3;
-                        ">다음 30일 →</button>
+                        <!-- 오른쪽 버튼 영역 -->
+                        <div style="display: flex; justify-content: flex-start;">
+                            <button id="nextPeriod" class="nav-btn" onclick="handleNextPeriod()" style="
+                                background: #4CAF50; 
+                                color: white; 
+                                border: none; 
+                                padding: 8px 16px; 
+                                border-radius: 6px; 
+                                cursor: pointer;
+                                font-size: 14px;
+                                transition: all 0.3s ease;
+                            ">다음 30일 →</button>
+                        </div>
                     </div>
                     
                     <!-- 반응형 모바일 스타일 추가 -->
                     <style>
+                        /* 데스크탑: 그리드 레이아웃으로 중앙 버튼 고정 */
+                        .chart-nav {
+                            display: grid !important;
+                            grid-template-columns: 1fr auto 1fr !important;
+                            align-items: center !important;
+                        }
+                        
+                        /* 태블릿 반응형 */
                         @media (max-width: 768px) {
                             .chart-nav {
+                                display: flex !important;
                                 flex-direction: column !important;
                                 gap: 8px !important;
+                            }
+                            .chart-nav > div {
+                                width: 100% !important;
+                                display: flex !important;
+                                justify-content: center !important;
                             }
                             .chart-nav button {
                                 width: 100% !important;
                                 max-width: 280px !important;
-                                order: unset !important;
                             }
                             #periodToggle {
                                 min-width: unset !important;
-                                order: 1 !important;
-                            }
-                            #prevPeriod {
-                                order: 2 !important;
-                            }
-                            #nextPeriod {
-                                order: 3 !important;
                             }
                         }
                         
+                        /* 모바일 반응형 */
                         @media (max-width: 480px) {
                             .chart-nav {
                                 padding: 8px 5px !important;
@@ -1011,19 +1022,18 @@
                     <div class="progress-indicator" style="
                         display: flex; 
                         justify-content: center; 
-                        margin-bottom: 15px;
+                        margin-bottom: 5px;
                         gap: 4px;
                     " id="progressDots"></div>
                     
-                    <div style="position: relative; height: 400px; padding: 20px 10px; min-height: 400px; max-height: 400px;">
+                    <div style="position: relative; height: 400px; padding: 5px 10px; min-height: 400px; max-height: 400px;">
                         <canvas id="rankChart"></canvas>
                     </div>
                     
                     <!-- 커스텀 레전드 컨테이너 -->
-                    <div id="mainRankChartLegend" style="margin-top: 15px; padding: 10px;"></div>
+                    <div id="mainRankChartLegend" style="margin-top: 3px; padding: 5px;"></div>
                     
-                    
-                    <div class="legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 35px; border-left: 3px solid #FF6B35; font-size: 13px;">
+                    <div class="legend-text" style="background: #f8f9fa; padding: 12px 15px; border-radius: 6px; margin-top: 8px; border-left: 3px solid #FF6B35; font-size: 13px;">
                         <h3 style="margin: 0 0 10px 0; color: #FF6B35; font-weight: 600; font-size: 14px;">📈 순위 변동 그래프 이용 가이드</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
                             <div>
