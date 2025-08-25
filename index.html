@@ -3842,32 +3842,21 @@
                 const maxScroll = navMenu.scrollWidth - navMenu.clientWidth;
                 const scrollThreshold = 10; // 스크롤 임계값
                 
-                // 디버깅용 로그
-                console.log('scrollWidth:', navMenu.scrollWidth, 'clientWidth:', navMenu.clientWidth, 'maxScroll:', maxScroll, 'scrollLeft:', scrollLeft);
-                
-                // 요소 존재 확인
-                console.log('leftArrow:', leftArrow, 'rightArrow:', rightArrow);
                 
                 // 맨 왼쪽(시작): 오른쪽 화살표만
                 if (scrollLeft <= scrollThreshold) {
                     leftArrow.style.display = 'none';
                     rightArrow.style.display = maxScroll > 0 ? 'block' : 'none';
-                    console.log('위치: 맨 왼쪽, 오른쪽 화살표:', maxScroll > 0 ? '표시' : '숨김');
-                    console.log('rightArrow display:', rightArrow.style.display);
                 }
                 // 맨 오른쪽(끝): 왼쪽 화살표만  
                 else if (scrollLeft >= maxScroll - scrollThreshold) {
                     leftArrow.style.display = 'block';
                     rightArrow.style.display = 'none';
-                    console.log('위치: 맨 오른쪽, 왼쪽 화살표 표시');
-                    console.log('leftArrow display:', leftArrow.style.display);
                 }
                 // 중간: 양쪽 화살표 모두
                 else {
                     leftArrow.style.display = 'block';
                     rightArrow.style.display = 'block';
-                    console.log('위치: 중간, 양쪽 화살표 표시');
-                    console.log('leftArrow display:', leftArrow.style.display, 'rightArrow display:', rightArrow.style.display);
                 }
             }
 
@@ -12366,8 +12355,6 @@ KT 9:1 키움(H)`;
             const container = document.querySelector('#teamDetailedRecordsContent .all-games-month-tabs-container');
             
             if (!container) {
-                console.warn('전체 게임 월별 탭 컨테이너를 찾을 수 없습니다.');
-                console.warn('사용 가능한 컨테이너:', document.querySelectorAll('.all-games-month-tabs-container'));
                 return;
             }
 
@@ -12377,11 +12364,8 @@ KT 9:1 키움(H)`;
 
             // 이벤트 위임 사용 - 하나의 리스너로 모든 탭 처리
             container.addEventListener('click', (e) => {
-                console.log('전체 게임 월별 탭 컨테이너 클릭됨:', e.target);
                 const tab = e.target.closest('.all-games-month-tab');
-                console.log('찾은 탭:', tab);
                 if (!tab) {
-                    console.log('월별 탭이 아닌 요소 클릭됨');
                     return;
                 }
 
@@ -12390,7 +12374,6 @@ KT 9:1 키움(H)`;
 
             // 리스너 추가 표시
             container.setAttribute('data-listener-added', 'true');
-            console.log('전체 게임 월별 탭 이벤트 리스너가 성공적으로 추가되었습니다.');
         }
 
         // 최적화된 팀별 월별 탭 초기화
@@ -12398,7 +12381,6 @@ KT 9:1 키움(H)`;
             const container = document.querySelector('.team-month-tabs-container');
             
             if (!container) {
-                console.warn('팀별 월별 탭 컨테이너를 찾을 수 없습니다.');
                 return;
             }
 
@@ -12416,25 +12398,16 @@ KT 9:1 키움(H)`;
 
             // 리스너 추가 표시
             container.setAttribute('data-listener-added', 'true');
-            console.log('팀별 월별 탭 이벤트 리스너가 성공적으로 추가되었습니다.');
         }
 
         // 통합된 월별 탭 클릭 핸들러
         function handleMonthTabClick(clickedTab, tabSelector, idPrefix, containerSelector) {
-            console.log('월별 탭 클릭됨:', clickedTab.textContent, 'data-month:', clickedTab.dataset.month);
-            console.log('탭 셀렉터:', tabSelector, 'ID 접두사:', idPrefix, '컨테이너 셀렉터:', containerSelector);
-            
             const allTabs = document.querySelectorAll(tabSelector);
             const container = document.querySelector(containerSelector);
             
-            console.log('찾은 탭 개수:', allTabs.length, '컨테이너 찾음:', !!container);
-            console.log('컨테이너 셀렉터 시도:', containerSelector);
-            
             if (!container) {
-                console.error('컨테이너를 찾을 수 없습니다:', containerSelector);
                 // 대안으로 모든 테이블 컨테이너 시도
                 const altContainer = document.querySelector('.table-container');
-                console.log('대안 컨테이너 찾음:', !!altContainer);
                 if (altContainer) {
                     performOptimizedScroll(clickedTab, idPrefix, altContainer);
                 }
@@ -12461,8 +12434,6 @@ KT 9:1 키움(H)`;
                     color: 'white'
                 });
                 
-                // 탭 변경 성공 알림 (임시)
-                console.log(`✅ ${clickedTab.textContent} 탭으로 성공적으로 전환되었습니다!`);
 
                 // 디바운스된 스크롤 실행
                 performOptimizedScroll(clickedTab, idPrefix, container);
