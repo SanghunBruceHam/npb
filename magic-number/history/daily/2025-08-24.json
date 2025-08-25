@@ -1,6 +1,6 @@
 {
   "date": "2025-08-24",
-  "createdAt": "2025-08-25T13:36:05.789Z",
+  "createdAt": "2025-08-25T13:47:45.412Z",
   "snapshot": {
     "standings": [
       {
@@ -438,7 +438,7 @@
     },
     "metadata": {
       "source": "CLEAN_TXT_AUTOMATION",
-      "lastUpdated": "2025-08-25T13:36:01.604Z",
+      "lastUpdated": "2025-08-25T13:47:41.103Z",
       "totalTeams": 10
     }
   }
