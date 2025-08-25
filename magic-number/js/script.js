@@ -333,6 +333,17 @@ const kboTeams = {
                 }
             },
             
+            // 최대가능 승수 기준 매직넘버 계산 (개선된 플레이오프 매직넘버)
+            calculateMaxWinsMagicNumber(team, standings) {
+                try {
+                    // 개선된 플레이오프 매직넘버 로직 사용
+                    return this.calculatePlayoffMagicNumber(team, standings);
+                } catch (error) {
+                    logger.error('최대승수 기준 매직넘버 계산 중 오류:', error);
+                    return Math.max(0, 72 - team.wins); // 폴백으로 기존 로직 사용
+                }
+            },
+            
             // 테이블 행 HTML 생성 (공통 스타일 적용)
             createTableRow(cells, teamColor = null, additionalClasses = '') {
                 const row = document.createElement('tr');
@@ -1960,12 +1971,28 @@ const kboTeams = {
                             row.style.borderLeft = `4px solid ${teamData.color}`;
                         }
                         
+                        // 최대승수 기준 매직넘버 계산
+                        const maxWinsMagic = Utils.calculateMaxWinsMagicNumber(team, currentStandings);
+                        let maxWinsMagicDisplay = '';
+                        if (maxWinsMagic === 0) {
+                            maxWinsMagicDisplay = '<span style="color: #4CAF50;">확정</span>';
+                        } else if (maxWinsMagic >= 999) {
+                            maxWinsMagicDisplay = '<span style="color: #999;">-</span>';
+                        } else if (maxWinsMagic <= 3) {
+                            maxWinsMagicDisplay = `<span style="color: #4CAF50;">${maxWinsMagic}</span>`;
+                        } else if (maxWinsMagic <= 10) {
+                            maxWinsMagicDisplay = `<span style="color: #FF9800;">${maxWinsMagic}</span>`;
+                        } else {
+                            maxWinsMagicDisplay = `<span style="color: #FF5722;">${maxWinsMagic}</span>`;
+                        }
+                        
                         row.innerHTML = `
                             <td style="text-align: center;">${team.displayRank}위</td>
                             <td class="team-name">${Utils.getTeamNameWithLogo(team)}</td>
                             <td style="text-align: center;">${wins}</td>
                             <td style="text-align: center;">${remainingGames}</td>
                             <td style="text-align: center;">${maxWins}</td>
+                            <td class="max-wins-magic" style="text-align: center;">${maxWinsMagicDisplay}</td>
                             <td class="magic-number" style="text-align: center;">${magicDisplay}</td>
                             <td class="tragic-number" style="text-align: center;">${tragicDisplay}</td>
                             <td class="required-rate" style="text-align: center;">${requiredWinRate}</td>
