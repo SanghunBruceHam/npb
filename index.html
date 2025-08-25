@@ -3761,19 +3761,18 @@
         <nav class="navigation">
             <div class="nav-container" style="position: relative;">
                 <!-- 왼쪽 스크롤 표시 화살표 -->
-                <div id="nav-arrow-left" class="nav-scroll-arrow nav-arrow-left" style="
+                <div id="nav-arrow-left" class="nav-scroll-arrow nav-arrow-left" onclick="scrollNavLeft()" style="
                     position: absolute;
                     left: 5px;
                     top: 50%;
                     transform: translateY(-50%);
-                    pointer-events: none;
-                    display: none;
+                    pointer-events: auto;
+                    cursor: pointer;
                     color: #ffffff;
-                    font-size: 24px;
+                    font-size: 20px;
                     font-weight: bold;
                     z-index: 100;
-                    pointer-events: none;
-                    background: rgba(0, 0, 0, 0.5);
+                    background: rgba(0, 0, 0, 0.7);
                     border-radius: 50%;
                     border: none;
                     width: 30px;
@@ -3804,19 +3803,18 @@
                 </div>
                 
                 <!-- 오른쪽 스크롤 표시 화살표 -->
-                <div id="nav-arrow-right" class="nav-scroll-arrow nav-arrow-right" style="
+                <div id="nav-arrow-right" class="nav-scroll-arrow nav-arrow-right" onclick="scrollNavRight()" style="
                     position: absolute;
                     right: 5px;
                     top: 50%;
                     transform: translateY(-50%);
-                    pointer-events: none;
-                    display: none;
+                    pointer-events: auto;
+                    cursor: pointer;
                     color: #ffffff;
-                    font-size: 24px;
+                    font-size: 20px;
                     font-weight: bold;
                     z-index: 100;
-                    pointer-events: none;
-                    background: rgba(0, 0, 0, 0.5);
+                    background: rgba(0, 0, 0, 0.7);
                     border-radius: 50%;
                     border: none;
                     width: 30px;
@@ -3873,6 +3871,23 @@
                 }
             }
 
+            // 네비게이션 스크롤 함수들
+            window.scrollNavLeft = function() {
+                const scrollAmount = navMenu.clientWidth * 0.7; // 화면 너비의 70%만큼 스크롤
+                navMenu.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            };
+            
+            window.scrollNavRight = function() {
+                const scrollAmount = navMenu.clientWidth * 0.7; // 화면 너비의 70%만큼 스크롤
+                navMenu.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            };
+            
             // 페이지 로드 시 및 스크롤 시 화살표 업데이트
             updateScrollArrows();
             navMenu.addEventListener('scroll', updateScrollArrows);
