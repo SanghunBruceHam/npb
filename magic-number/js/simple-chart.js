@@ -393,7 +393,7 @@ function createCustomLegend() {
         align-items: center;
         gap: 8px;
         margin-top: 5px;
-        margin-bottom: 15px;
+        margin-bottom: 0;
         padding: 0 10px;
         background: none;
         border-radius: 0;
