@@ -21,7 +21,7 @@ async function loadTeamLogos() {
                 console.warn(`로고 로드 실패: ${team}`);
                 resolve();
             };
-            img.src = `../images/${getTeamLogo(team)}`;
+            img.src = `images/${getTeamLogo(team)}`;
         });
     });
     
@@ -695,7 +695,29 @@ function createSimpleChart(data) {
         chartState.chart = new Chart(ctx, {
             type: 'line',
             data: data,
-            plugins: [],
+            plugins: [{
+                id: 'teamLogos',
+                afterDraw: (chart) => {
+                    const ctx = chart.ctx;
+                    chart.data.datasets.forEach((dataset, index) => {
+                        const meta = chart.getDatasetMeta(index);
+                        if (meta.data && meta.data.length > 0 && !meta.hidden) {
+                            const lastPoint = meta.data[meta.data.length - 1];
+                            const teamName = dataset.label;
+                            const logoImg = chartState.teamLogoImages[teamName];
+                            
+                            if (logoImg && lastPoint) {
+                                ctx.save();
+                                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                                ctx.shadowBlur = 2;
+                                const size = 24;
+                                ctx.drawImage(logoImg, lastPoint.x - size/2, lastPoint.y - size/2, size, size);
+                                ctx.restore();
+                            }
+                        }
+                    });
+                }
+            }],
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -1016,7 +1038,7 @@ function updateSimpleUI() {
 async function initSimpleChart() {
     
     try {
-        // 팀 로고 이미지 먼저 로드
+        // 팀 로고 로드
         await loadTeamLogos();
         
         // 실제 KBO 데이터 로드

@@ -4176,7 +4176,7 @@
                 </div>
             </div>
             
-            <!-- 승률 추이 차트 (전체 너비) -->
+            <!-- 승률 추이 차트 (전체 너비) - 메인 승률추이 카드 부분 -->
             <div class="daily-stats-sub-card" style="background: #f8f9fa; border-radius: 8px; padding: 16px; border: 1px solid #e9ecef; height: 535px; display: flex; flex-direction: column;">
                 <h3 style="color: #333; font-size: 16px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; flex-shrink: 0;">📉 승률 추이</h3>
                 <div style="position: relative; flex: 1; margin-bottom: 8px;">
@@ -4467,6 +4467,7 @@
             " id="progressDotsWinRate"></div>
             
             <div style="position: relative; height: 400px; padding: 20px 10px; min-height: 400px; max-height: 400px;">
+                <!-- 메인 승률추이 카드 캔버스 -->
                 <canvas id="winRateChart"></canvas>
             </div>
             
@@ -9326,6 +9327,49 @@
     <!-- 일별 종합지표 분석 스크립트 -->
     <!-- daily-stats-module.js는 미완성이므로 제거 -->
     <script>
+        // 전역 팀 로고 이미지 저장소
+        window.teamLogoImages = {};
+        
+        // 팀 로고 이미지 로드 함수
+        window.loadTeamLogos = function() {
+            const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
+            const teamFileMap = {
+                'LG': 'lg.png',
+                'KIA': 'kia.png', 
+                '삼성': 'samsung.png',
+                '두산': 'doosan.png',
+                'SSG': 'ssg.png',
+                'NC': 'nc.png',
+                '롯데': 'lotte.png',
+                '한화': 'hanwha.png',
+                'KT': 'kt.png',
+                '키움': 'kiwoom.png'
+            };
+            
+            const promises = teams.map(team => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        // 적당한 크기의 캔버스로 이미지 리사이즈
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = 30;
+                        canvas.height = 30;
+                        ctx.drawImage(img, 0, 0, 30, 30);
+                        window.teamLogoImages[team] = canvas;
+                        console.log(`팀 로고 로드 성공: ${team} (${teamFileMap[team]})`);
+                        resolve();
+                    };
+                    img.onerror = (err) => {
+                        console.error(`팀 로고 로드 실패: ${team} (${teamFileMap[team]})`, err);
+                        resolve();
+                    };
+                    img.src = `magic-number/images/${teamFileMap[team]}`;
+                });
+            });
+            return Promise.all(promises);
+        };
+        
         // 완전한 일별 통계 시스템 - 실제 데이터 사용
         class CompleteDailyStats {
             constructor() {
@@ -10106,6 +10150,40 @@ KT 9:1 키움(H)`;
                 this.winRateChart = new Chart(ctx.getContext('2d'), {
                     type: 'line',
                     data: { labels: [], datasets: [] },
+                    plugins: [{
+                        id: 'teamLogos',
+                        afterDraw: (chart) => {
+                            const ctx = chart.ctx;
+                            if (!window.teamLogoImages || Object.keys(window.teamLogoImages).length === 0) {
+                                console.log('팀 로고 이미지가 아직 로드되지 않음');
+                                return;
+                            }
+                            
+                            chart.data.datasets.forEach((dataset, index) => {
+                                const meta = chart.getDatasetMeta(index);
+                                if (meta.data && meta.data.length > 0 && !meta.hidden) {
+                                    const lastPoint = meta.data[meta.data.length - 1];
+                                    const teamName = dataset.label;
+                                    const logoImg = window.teamLogoImages[teamName];
+                                    
+                                    if (logoImg && lastPoint && typeof lastPoint.x === 'number' && typeof lastPoint.y === 'number') {
+                                        console.log(`그리는 팀 로고: ${teamName}, 위치: (${lastPoint.x}, ${lastPoint.y})`);
+                                        ctx.save();
+                                        ctx.globalCompositeOperation = 'source-over';
+                                        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                                        ctx.shadowBlur = 3;
+                                        ctx.shadowOffsetX = 2;
+                                        ctx.shadowOffsetY = 2;
+                                        const size = 32;
+                                        ctx.drawImage(logoImg, lastPoint.x - size/2, lastPoint.y - size/2, size, size);
+                                        ctx.restore();
+                                    } else {
+                                        console.log(`로고 그리기 실패: ${teamName}`, {logoImg: !!logoImg, lastPoint, x: lastPoint?.x, y: lastPoint?.y});
+                                    }
+                                }
+                            });
+                        }
+                    }],
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -10192,6 +10270,40 @@ KT 9:1 키움(H)`;
                 this.rankChart = new Chart(ctx.getContext('2d'), {
                     type: 'line',
                     data: { labels: [], datasets: [] },
+                    plugins: [{
+                        id: 'teamLogos',
+                        afterDraw: (chart) => {
+                            const ctx = chart.ctx;
+                            if (!window.teamLogoImages || Object.keys(window.teamLogoImages).length === 0) {
+                                console.log('팀 로고 이미지가 아직 로드되지 않음');
+                                return;
+                            }
+                            
+                            chart.data.datasets.forEach((dataset, index) => {
+                                const meta = chart.getDatasetMeta(index);
+                                if (meta.data && meta.data.length > 0 && !meta.hidden) {
+                                    const lastPoint = meta.data[meta.data.length - 1];
+                                    const teamName = dataset.label;
+                                    const logoImg = window.teamLogoImages[teamName];
+                                    
+                                    if (logoImg && lastPoint && typeof lastPoint.x === 'number' && typeof lastPoint.y === 'number') {
+                                        console.log(`그리는 팀 로고: ${teamName}, 위치: (${lastPoint.x}, ${lastPoint.y})`);
+                                        ctx.save();
+                                        ctx.globalCompositeOperation = 'source-over';
+                                        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                                        ctx.shadowBlur = 3;
+                                        ctx.shadowOffsetX = 2;
+                                        ctx.shadowOffsetY = 2;
+                                        const size = 32;
+                                        ctx.drawImage(logoImg, lastPoint.x - size/2, lastPoint.y - size/2, size, size);
+                                        ctx.restore();
+                                    } else {
+                                        console.log(`로고 그리기 실패: ${teamName}`, {logoImg: !!logoImg, lastPoint, x: lastPoint?.x, y: lastPoint?.y});
+                                    }
+                                }
+                            });
+                        }
+                    }],
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -11121,6 +11233,11 @@ KT 9:1 키움(H)`;
 
         // DOM 로드 완료 후 초기화
         document.addEventListener('DOMContentLoaded', function() {
+            // 팀 로고 먼저 로드
+            window.loadTeamLogos().then(() => {
+                console.log('모든 팀 로고 로드 완료:', Object.keys(window.teamLogoImages));
+            });
+            
             const dailyStatsCard = document.getElementById('daily-stats');
             if (dailyStatsCard) {
                 setTimeout(() => {
@@ -11171,7 +11288,7 @@ KT 9:1 키움(H)`;
     </script>
     <script src="magic-number/js/simple-chart.js"></script>
 
-    <!-- 승률 추이 차트 관련 스크립트 -->
+    <!-- 승률 추이 차트 관련 스크립트 - 메인 승률추이 카드 스크립트 부분 -->
     <script>
         // 승률 차트 전역 변수
         let winRateChartInstance = null;
@@ -11183,7 +11300,7 @@ KT 9:1 키움(H)`;
         let winRateChartVisibleTeams = new Set(['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움']);
         let winRateChartTeamLogos = {};
         
-        // 승률 차트용 팀 로고 로드
+        // 메인 승률추이 카드 - 팀 로고 로드 함수
         async function loadWinRateChartTeamLogos() {
             const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
             const logoMap = {
@@ -11203,7 +11320,7 @@ KT 9:1 키움(H)`;
                         console.warn(`승률 차트 로고 로드 실패: ${team}`);
                         resolve();
                     };
-                    img.src = `images/${logoMap[team]}`;
+                    img.src = `magic-number/images/${logoMap[team]}`;
                 });
             });
             
@@ -11263,6 +11380,29 @@ KT 9:1 키움(H)`;
                         labels: [],
                         datasets: []
                     },
+                    plugins: [{
+                        id: 'winRateTeamLogos',
+                        afterDraw: (chart) => {
+                            const ctx = chart.ctx;
+                            chart.data.datasets.forEach((dataset, index) => {
+                                const meta = chart.getDatasetMeta(index);
+                                if (meta.data && meta.data.length > 0 && !meta.hidden) {
+                                    const lastPoint = meta.data[meta.data.length - 1];
+                                    const teamName = dataset.label;
+                                    const logoImg = winRateChartTeamLogos[teamName];
+                                    
+                                    if (logoImg && lastPoint) {
+                                        ctx.save();
+                                        ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                                        ctx.shadowBlur = 2;
+                                        const size = 24;
+                                        ctx.drawImage(logoImg, lastPoint.x - size/2, lastPoint.y - size/2, size, size);
+                                        ctx.restore();
+                                    }
+                                }
+                            });
+                        }
+                    }],
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
@@ -11313,7 +11453,7 @@ KT 9:1 키움(H)`;
                     }
                 });
 
-                updateWinRateChart();
+                await updateWinRateChart();
                 
                 // 초기 레전드 생성
                 updateWinRateChartLegend();
@@ -11373,8 +11513,13 @@ KT 9:1 키움(H)`;
         }
 
         // 승률 차트 업데이트
-        function updateWinRateChart() {
+        async function updateWinRateChart() {
             if (!winRateChartInstance || !winRateChartState.periods.length) return;
+            
+            // 팀 로고가 로드되지 않았으면 로드
+            if (Object.keys(winRateChartTeamLogos).length === 0) {
+                await loadWinRateChartTeamLogos();
+            }
 
             const teams = ['LG', 'KIA', '삼성', '두산', 'SSG', 'NC', '롯데', '한화', 'KT', '키움'];
             
@@ -11457,6 +11602,29 @@ KT 9:1 키움(H)`;
                     labels: labels,
                     datasets: datasets
                 },
+                plugins: [{
+                    id: 'teamLogos',
+                    afterDraw: (chart) => {
+                        const ctx = chart.ctx;
+                        chart.data.datasets.forEach((dataset, index) => {
+                            const meta = chart.getDatasetMeta(index);
+                            if (meta.data.length > 0 && !meta.hidden) {
+                                const lastPoint = meta.data[meta.data.length - 1];
+                                const teamName = dataset.label;
+                                const logoImg = winRateChartTeamLogos[teamName];
+                                
+                                if (logoImg && lastPoint) {
+                                    ctx.save();
+                                    ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                                    ctx.shadowBlur = 2;
+                                    const size = 24;
+                                    ctx.drawImage(logoImg, lastPoint.x - size/2, lastPoint.y - size/2, size, size);
+                                    ctx.restore();
+                                }
+                            }
+                        });
+                    }
+                }],
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
