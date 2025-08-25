@@ -4,7 +4,7 @@ const fs = require('fs');
 function displayWeekdayAnalysis() {
     try {
         const dashboardData = JSON.parse(
-            fs.readFileSync('/Users/sanghunbruceham/Documents/GitHub/kbo/magic-number/data/enhanced-dashboard.json', 'utf8')
+            fs.readFileSync('../data/enhanced-dashboard.json', 'utf8')
         );
         
         const teams = ['한화', 'KIA', 'KT', 'LG', '롯데', 'NC', '두산', 'SSG', '삼성', '키움'];

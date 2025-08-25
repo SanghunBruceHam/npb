@@ -5482,7 +5482,7 @@
                 
                 // 경기 일정과 실제 수집된 경기 데이터를 모두 로드
                 const [scheduleResponse, gameRecordsResponse] = await Promise.all([
-                    fetch('2025-season-schedule-complete.txt'),
+                    fetch('magic-number/data/2025-season-schedule-complete.txt'),
                     fetch('data/game-by-game-records.json')
                 ]);
                 

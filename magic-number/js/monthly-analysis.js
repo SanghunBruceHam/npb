@@ -5,7 +5,7 @@ const teams = ['한화', 'KIA', 'KT', 'LG', '롯데', 'NC', '두산', 'SSG', '�
 
 // 월별 성적 분석 함수
 function parseGameData() {
-    const data = fs.readFileSync('/Users/sanghunbruceham/Documents/GitHub/kbo/magic-number/data/2025-season-data-clean.txt', 'utf8');
+    const data = fs.readFileSync('../data/2025-season-data-clean.txt', 'utf8');
     const lines = data.split('\n').filter(line => line.trim());
     
     const monthlyStats = {};
@@ -254,10 +254,10 @@ function saveToJSON(monthlyStats, months) {
         }
     };
     
-    fs.writeFileSync('/Users/sanghunbruceham/Documents/GitHub/kbo/monthly-analysis-complete.json', 
+    fs.writeFileSync('../data/monthly-analysis-complete.json', 
         JSON.stringify(analysisData, null, 2));
     
-    console.log('💾 분석 결과가 monthly-analysis-complete.json 파일로 저장되었습니다.');
+    console.log('💾 분석 결과가 ../data/monthly-analysis-complete.json 파일로 저장되었습니다.');
 }
 
 // 메인 실행
