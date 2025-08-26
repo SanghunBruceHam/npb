@@ -1658,7 +1658,7 @@ const kboTeams = {
                 handleError(error, '1위 탈환 가능성 렌더링 실패');
                 const tbody = document.querySelector('#chase-table tbody');
                 if (tbody) {
-                    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; color: #999; padding: 20px;">데이터를 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</td></tr>';
                 }
             }
         }
@@ -1674,7 +1674,7 @@ const kboTeams = {
 
                 // currentStandings로 직접 계산
                 if (!currentStandings || currentStandings.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="10">데이터 로딩 중...</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="11">데이터 로딩 중...</td></tr>';
                     return;
                 }
                 
@@ -1700,47 +1700,81 @@ const kboTeams = {
                 // 최대가능승수 기준 5위 팀의 최대가능승수가 "최종 5위 예상 승수"
                 const fifthPlaceMaxWins = teamsWithMaxWins[4] ? teamsWithMaxWins[4].maxPossibleWins : 72;
                 
-                // PO 매직넘버 계산: (최종 5위 예상 승수 + 1) - 현재팀 최대가능승수  
-                const poMagicNumber = (fifthPlaceMaxWins + 1) - maxPossibleWins;
-                let maxWinsMagicDisplay = '';
-                
-                if (poMagicNumber > 0) {
-                    // 양수면 아직 더 승수 필요 (높을수록 나쁨)
-                    if (poMagicNumber <= 3) {
-                        maxWinsMagicDisplay = `<span style="color: #2ecc71;">${poMagicNumber}</span>`;
-                    } else if (poMagicNumber <= 6) {
-                        maxWinsMagicDisplay = `<span style="color: #27ae60;">${poMagicNumber}</span>`;
-                    } else if (poMagicNumber <= 10) {
-                        maxWinsMagicDisplay = `<span style="color: #f39c12;">${poMagicNumber}</span>`;
-                    } else if (poMagicNumber <= 15) {
-                        maxWinsMagicDisplay = `<span style="color: #e67e22;">${poMagicNumber}</span>`;
-                    } else if (poMagicNumber <= 25) {
-                        maxWinsMagicDisplay = `<span style="color: #e74c3c;">${poMagicNumber}</span>`;
-                    } else {
-                        maxWinsMagicDisplay = `<span style="color: #c0392b;">${poMagicNumber}</span>`;
-                    }
-                } else if (poMagicNumber === 0) {
-                    // 정확히 최종 5위+1승과 같음
-                    maxWinsMagicDisplay = '<span style="color: #2ecc71;">확정</span>';
-                } else {
-                    // 음수면 이미 최종 5위+1승 초과 (확정)
-                    maxWinsMagicDisplay = '<span style="color: #2ecc71;">확정</span>';
+                // PO 매직넘버 계산: 각팀이 몇 승을 더 해야 5위팀의 최대가능 승률을 넘어 PO 진출을 확정할 수 있는지 (승수로 표시)
+                // 5위 팀 찾기
+                let fifthPlaceTeam = null;
+                if (currentStandings.length >= 5) {
+                    fifthPlaceTeam = currentStandings[4]; // 5위 팀
+                } else if (currentStandings.length >= 4) {
+                    fifthPlaceTeam = currentStandings[3]; // 4위 팀
                 }
                 
-                // PO 트래직넘버 계산: 현재팀 최대가능승수 - 최종 5위 예상 승수
-                const poTragicNumber = maxPossibleWins - fifthPlaceMaxWins;
+                let poMagicNumber = 0;
+                let maxWinsMagicDisplay = '';
+                
+                if (!fifthPlaceTeam) {
+                    maxWinsMagicDisplay = '0';
+                } else {
+                    // 5위팀의 최대가능 승률 계산
+                    const fifthPlaceRemainingGames = 144 - fifthPlaceTeam.games;
+                    const fifthPlaceMaxWins = fifthPlaceTeam.wins + fifthPlaceRemainingGames;
+                    const fifthPlaceMaxWinRate = fifthPlaceMaxWins / (fifthPlaceMaxWins + fifthPlaceTeam.losses);
+                    
+                    // 현재 팀이 몇 승을 더 해야 5위팀의 최대가능 승률을 넘는지 계산
+                    let found = false;
+                    for (let additionalWins = 0; additionalWins <= remainingGames; additionalWins++) {
+                        const newWins = team.wins + additionalWins;
+                        const newLosses = team.losses + (remainingGames - additionalWins);
+                        const newWinRate = newWins / (newWins + newLosses);
+                        
+                        if (newWinRate > fifthPlaceMaxWinRate) {
+                            poMagicNumber = additionalWins;
+                            found = true;
+                            break;
+                        }
+                    }
+                    
+                    // 승률 비교 후 승수 표시
+                    if (!found) {
+                        // 전승해도 5위팀 최대가능 승률을 넘을 수 없는 경우
+                        // 5위팀의 최대가능 승률을 넘기 위해 필요한 최소 승수 계산
+                        const totalGamesAfterSeason = 144;
+                        const neededWinRate = fifthPlaceMaxWinRate + 0.001; // 약간 더 높게
+                        const neededWins = Math.ceil(neededWinRate * totalGamesAfterSeason);
+                        poMagicNumber = Math.max(0, neededWins - team.wins);
+                    }
+                    
+                    if (poMagicNumber === 0) {
+                        maxWinsMagicDisplay = '0';
+                    } else if (poMagicNumber > remainingGames) {
+                        maxWinsMagicDisplay = `<span style="color: #c0392b;">자력 불가</span> (${poMagicNumber})`;
+                    } else {
+                        maxWinsMagicDisplay = poMagicNumber;
+                    }
+                }
+                
+                // PO 트래직넘버 계산: 나의 최대가능승수 - 5위팀의 현재승수 (승수 차이)
+                // 5위 팀 찾기 (PO 트래직용)
+                let tragicFifthPlace = null;
+                if (currentStandings.length >= 5) {
+                    tragicFifthPlace = currentStandings[4]; // 5위 팀
+                } else if (currentStandings.length >= 4) {
+                    tragicFifthPlace = currentStandings[3]; // 4위 팀
+                }
+                
                 let poTragicDisplay = '';
                 
-                if (poTragicNumber < 0) {
-                    poTragicDisplay = '<span style="color: #c0392b;">탈락</span>';
-                } else if (poTragicNumber === 0) {
-                    poTragicDisplay = '<span style="color: #f39c12;">-0</span>';
-                } else if (poTragicNumber <= 5) {
-                    poTragicDisplay = `<span style="color: #e67e22;">-${poTragicNumber}</span>`;
-                } else if (poTragicNumber <= 10) {
-                    poTragicDisplay = `<span style="color: #f39c12;">-${poTragicNumber}</span>`;
+                if (!tragicFifthPlace) {
+                    poTragicDisplay = '0';
                 } else {
-                    poTragicDisplay = `<span style="color: #27ae60;">-${poTragicNumber}</span>`;
+                    // 나의 최대가능승수 - (5위팀의 현재승수 - 1)
+                    const poTragicNumber = maxPossibleWins - (tragicFifthPlace.wins - 1);
+                    
+                    if (poTragicNumber <= 0) {
+                        poTragicDisplay = '<span style="color: #c0392b;">탈락</span>';
+                    } else {
+                        poTragicDisplay = poTragicNumber;
+                    }
                 }
                 
                 // 역대 기준 매직넘버 계산 (72승 기준)
@@ -1873,6 +1907,8 @@ const kboTeams = {
                     <td>${team.wins}</td>
                     <td>${remainingGames}</td>
                     <td>${maxPossibleWins}</td>
+                    <td class="po-magic" style="text-align: center;">${maxWinsMagicDisplay}</td>
+                    <td class="po-tragic" style="text-align: center;">${poTragicDisplay}</td>
                     <td class="historic-magic" style="text-align: center;">${magicDisplay}</td>
                     <td class="historic-tragic" style="text-align: center;">${historicTragicDisplay}</td>
                     <td class="required-rate">${requiredWinPct}</td>
