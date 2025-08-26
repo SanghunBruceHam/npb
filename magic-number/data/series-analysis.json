@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-26T11:37:04.818Z",
+  "lastUpdated": "2025-08-26T12:23:31.021Z",
   "updateDate": "2025. 8. 26.",
   "teamStats": {
     "LG": {
@@ -8567,13 +8567,13 @@
       }
     },
     "KT": {
-      "totalSeries": 43,
+      "totalSeries": 44,
       "winningSeries": 21,
-      "losingSeries": 17,
+      "losingSeries": 18,
       "splitSeries": 5,
       "sweepWins": 3,
       "sweepLosses": 4,
-      "seriesWinRate": "48.8",
+      "seriesWinRate": "47.7",
       "series": [
         {
           "opponent": "한화",
@@ -10634,13 +10634,43 @@
           "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 43
+        },
+        {
+          "opponent": "롯데",
+          "isHome": false,
+          "games": [
+            {
+              "gameNumber": 121,
+              "date": "2025-08-26",
+              "opponent": "롯데",
+              "isHome": false,
+              "score": "3:4",
+              "result": "L",
+              "runs_scored": 3,
+              "runs_allowed": 4
+            }
+          ],
+          "startDate": "2025-08-26",
+          "lastDate": "2025-08-26",
+          "wins": 0,
+          "losses": 1,
+          "draws": 0,
+          "homeGames": 0,
+          "awayGames": 1,
+          "result": "LOSS",
+          "isSweep": false,
+          "isWinningSweep": false,
+          "isLosingSweep": false,
+          "totalGames": 1,
+          "seriesType": "AWAY",
+          "seriesNumber": 44
         }
       ],
       "currentStreak": {
-        "type": "WIN",
+        "type": "LOSS",
         "count": 1,
-        "startDate": "2025-08-22",
-        "endDate": "2025-08-24"
+        "startDate": "2025-08-26",
+        "endDate": "2025-08-26"
       },
       "longestWinningStreak": {
         "count": 5,
@@ -10670,9 +10700,9 @@
           "sweepLosses": 0
         },
         "롯데": {
-          "totalSeries": 4,
+          "totalSeries": 5,
           "wins": 1,
-          "losses": 2,
+          "losses": 3,
           "splits": 1,
           "sweepWins": 0,
           "sweepLosses": 0
@@ -12839,13 +12869,13 @@
       }
     },
     "롯데": {
-      "totalSeries": 43,
-      "winningSeries": 18,
+      "totalSeries": 44,
+      "winningSeries": 19,
       "losingSeries": 20,
       "splitSeries": 5,
       "sweepWins": 4,
       "sweepLosses": 1,
-      "seriesWinRate": "41.9",
+      "seriesWinRate": "43.2",
       "series": [
         {
           "opponent": "LG",
@@ -14916,13 +14946,43 @@
           "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 43
+        },
+        {
+          "opponent": "KT",
+          "isHome": true,
+          "games": [
+            {
+              "gameNumber": 122,
+              "date": "2025-08-26",
+              "opponent": "KT",
+              "isHome": true,
+              "score": "4:3",
+              "result": "W",
+              "runs_scored": 4,
+              "runs_allowed": 3
+            }
+          ],
+          "startDate": "2025-08-26",
+          "lastDate": "2025-08-26",
+          "wins": 1,
+          "losses": 0,
+          "draws": 0,
+          "homeGames": 1,
+          "awayGames": 0,
+          "result": "WIN",
+          "isSweep": false,
+          "isWinningSweep": false,
+          "isLosingSweep": false,
+          "totalGames": 1,
+          "seriesType": "HOME",
+          "seriesNumber": 44
         }
       ],
       "currentStreak": {
-        "type": "LOSS",
-        "count": 6,
-        "startDate": "2025-08-05",
-        "endDate": "2025-08-24"
+        "type": "WIN",
+        "count": 1,
+        "startDate": "2025-08-26",
+        "endDate": "2025-08-26"
       },
       "longestWinningStreak": {
         "count": 5,
@@ -14952,8 +15012,8 @@
           "sweepLosses": 0
         },
         "KT": {
-          "totalSeries": 4,
-          "wins": 2,
+          "totalSeries": 5,
+          "wins": 3,
           "losses": 1,
           "splits": 1,
           "sweepWins": 0,
@@ -21635,10 +21695,10 @@
         "totalSeries": 5
       },
       "롯데": {
-        "record": "1-2-1",
-        "winRate": "25.0",
+        "record": "1-3-1",
+        "winRate": "20.0",
         "sweeps": "0-0",
-        "totalSeries": 4
+        "totalSeries": 5
       },
       "두산": {
         "record": "4-1-0",
@@ -21742,10 +21802,10 @@
         "totalSeries": 5
       },
       "KT": {
-        "record": "2-1-1",
-        "winRate": "50.0",
+        "record": "3-1-1",
+        "winRate": "60.0",
         "sweeps": "0-0",
-        "totalSeries": 4
+        "totalSeries": 5
       },
       "SSG": {
         "record": "1-3-1",

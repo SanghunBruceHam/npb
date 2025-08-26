@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-26T11:37:04.363Z",
+  "lastUpdated": "2025-08-26T12:23:30.569Z",
   "updateDate": "2025. 8. 26.",
   "clutchAnalysis": {
     "LG": {
@@ -925,15 +925,15 @@
       "clutchIndex": "37.0"
     },
     "KT": {
-      "totalGames": 120,
-      "oneRunGames": 35,
+      "totalGames": 121,
+      "oneRunGames": 36,
       "oneRunWins": 16,
-      "oneRunLosses": 19,
-      "oneRunWinRate": "45.7",
-      "closeGames": 55,
+      "oneRunLosses": 20,
+      "oneRunWinRate": "44.4",
+      "closeGames": 56,
       "closeWins": 28,
-      "closeLosses": 27,
-      "closeWinRate": "50.9",
+      "closeLosses": 28,
+      "closeWinRate": "50.0",
       "threeRunGames": 28,
       "threeRunWins": 18,
       "threeRunLosses": 10,
@@ -1157,7 +1157,7 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "51.0"
+      "clutchIndex": "50.1"
     },
     "SSG": {
       "totalGames": 117,
@@ -1335,15 +1335,15 @@
       "clutchIndex": "50.1"
     },
     "롯데": {
-      "totalGames": 121,
-      "oneRunGames": 23,
-      "oneRunWins": 11,
+      "totalGames": 122,
+      "oneRunGames": 24,
+      "oneRunWins": 12,
       "oneRunLosses": 12,
-      "oneRunWinRate": "47.8",
-      "closeGames": 48,
-      "closeWins": 26,
+      "oneRunWinRate": "50.0",
+      "closeGames": 49,
+      "closeWins": 27,
       "closeLosses": 22,
-      "closeWinRate": "54.2",
+      "closeWinRate": "55.1",
       "threeRunGames": 48,
       "threeRunWins": 24,
       "threeRunLosses": 24,
@@ -1585,7 +1585,7 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "50.2"
+      "clutchIndex": "51.5"
     },
     "두산": {
       "totalGames": 119,

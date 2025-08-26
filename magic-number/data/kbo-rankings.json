@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-26T11:37:01.356Z",
+  "lastUpdated": "2025-08-26T12:23:27.227Z",
   "updateDate": "2025. 8. 26.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "rankings": [
@@ -46,32 +46,32 @@
       "awayRecord": "31-29-0"
     },
     {
-      "rank": 4,
+      "rank": 3,
       "team": "롯데",
-      "games": 121,
-      "wins": 59,
+      "games": 122,
+      "wins": 60,
       "losses": 57,
       "draws": 5,
-      "winRate": 0.509,
-      "gamesBehind": 14,
-      "recent10": "1승2무7패",
-      "streak": "1승",
-      "homeRecord": "30-27-3",
+      "winRate": 0.513,
+      "gamesBehind": 13.5,
+      "recent10": "2승2무6패",
+      "streak": "2승",
+      "homeRecord": "31-27-3",
       "awayRecord": "29-30-2"
     },
     {
-      "rank": 4,
+      "rank": 5,
       "team": "KT",
-      "games": 120,
+      "games": 121,
       "wins": 59,
-      "losses": 57,
+      "losses": 58,
       "draws": 4,
-      "winRate": 0.509,
-      "gamesBehind": 14,
+      "winRate": 0.504,
+      "gamesBehind": 14.5,
       "recent10": "5승0무5패",
-      "streak": "3승",
+      "streak": "1패",
       "homeRecord": "29-29-1",
-      "awayRecord": "30-28-3"
+      "awayRecord": "30-29-3"
     },
     {
       "rank": 6,
@@ -173,22 +173,22 @@
       "currentRank": 3
     },
     "롯데": {
+      "playoff": 12,
+      "championship": 22,
+      "elimination": 10,
+      "homeAdvantage": 8,
+      "remainingGames": 22,
+      "maxPossibleWins": 82,
+      "currentRank": 3
+    },
+    "KT": {
       "playoff": 13,
       "championship": 23,
       "elimination": 10,
       "homeAdvantage": 9,
       "remainingGames": 23,
       "maxPossibleWins": 82,
-      "currentRank": 4
-    },
-    "KT": {
-      "playoff": 13,
-      "championship": 24,
-      "elimination": 11,
-      "homeAdvantage": 9,
-      "remainingGames": 24,
-      "maxPossibleWins": 83,
-      "currentRank": 4
+      "currentRank": 5
     },
     "NC": {
       "playoff": 18,
@@ -236,8 +236,8 @@
       "currentRank": 10
     }
   },
-  "lastMagicUpdate": "2025-08-26T11:37:01.356Z",
+  "lastMagicUpdate": "2025-08-26T12:23:27.227Z",
   "totalTeams": 10,
   "source": "CLEAN_TXT_AUTOMATION",
-  "dataDate": "2025-08-24"
+  "dataDate": "2025-08-26"
 }
