@@ -399,8 +399,16 @@ class KBODataProcessor {
 
     // 매직넘버 계산 헬퍼 함수들
     calculatePlayoffMagic(team, index) {
-        // 플레이오프 진출 기준: 역대 5위 평균 72승 기준
-        const PLAYOFF_THRESHOLD = 72;
+        /**
+         * 플레이오프 매직넘버 계산 기준:
+         * 1. 산술적 매직넘버: 현재 5위팀의 최대 가능 승수 + 1 (실시간 계산)
+         * 2. 역대 기준 매직넘버: 72승 기준 (역대 5위 평균 승수)
+         * 
+         * 현재 적용: 역대 기준 매직넘버 (72승 기준)
+         * - 안정적이고 예측 가능한 기준
+         * - 시즌 후반까지 일관된 목표 제시
+         */
+        const PLAYOFF_THRESHOLD = 72; // 역대 5위 평균 승수 기준
         
         // 현재 팀이 72승을 달성하기 위해 필요한 승수
         const neededWins = Math.max(0, PLAYOFF_THRESHOLD - team.wins);
@@ -469,8 +477,16 @@ class KBODataProcessor {
     }
 
     calculateEliminationMagic(team, index) {
-        // 트래직넘버: 72승 달성 불가능해지는 시점까지의 패배 수
-        const PLAYOFF_THRESHOLD = 72;
+        /**
+         * 트래직넘버 계산 기준:
+         * 1. 산술적 트래직넘버: 현재 5위팀을 넘어설 수 없게 되는 패배 수 (실시간 계산)
+         * 2. 역대 기준 트래직넘버: 72승 달성 불가능해지는 패배 수
+         * 
+         * 현재 적용: 역대 기준 트래직넘버 (72승 기준)
+         * - 플레이오프 매직넘버와 일관성 유지
+         * - 안정적인 탈락 기준 제시
+         */
+        const PLAYOFF_THRESHOLD = 72; // 역대 5위 평균 승수 기준
         const currentWins = team.wins;
         const currentLosses = team.losses;
         const remainingGames = team.remainingGames;
