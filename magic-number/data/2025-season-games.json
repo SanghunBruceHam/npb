@@ -4766,5 +4766,13 @@
     "away_score": 6,
     "home_score": 2,
     "winner": "삼성"
+  },
+  {
+    "date": "2025-08-26",
+    "away_team": "LG",
+    "home_team": "NC",
+    "away_score": 7,
+    "home_score": 9,
+    "winner": "NC"
   }
 ]

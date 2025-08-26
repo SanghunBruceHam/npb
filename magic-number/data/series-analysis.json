@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2025-08-26T13:08:43.597Z",
+  "lastUpdated": "2025-08-26T13:12:21.524Z",
   "updateDate": "2025. 8. 26.",
   "teamStats": {
     "LG": {
-      "totalSeries": 43,
+      "totalSeries": 44,
       "winningSeries": 27,
-      "losingSeries": 12,
+      "losingSeries": 13,
       "splitSeries": 4,
       "sweepWins": 7,
       "sweepLosses": 1,
-      "seriesWinRate": "62.8",
+      "seriesWinRate": "61.4",
       "series": [
         {
           "opponent": "롯데",
@@ -2060,13 +2060,43 @@
           "totalGames": 3,
           "seriesType": "AWAY",
           "seriesNumber": 43
+        },
+        {
+          "opponent": "NC",
+          "isHome": false,
+          "games": [
+            {
+              "gameNumber": 120,
+              "date": "2025-08-26",
+              "opponent": "NC",
+              "isHome": false,
+              "score": "7:9",
+              "result": "L",
+              "runs_scored": 7,
+              "runs_allowed": 9
+            }
+          ],
+          "startDate": "2025-08-26",
+          "lastDate": "2025-08-26",
+          "wins": 0,
+          "losses": 1,
+          "draws": 0,
+          "homeGames": 0,
+          "awayGames": 1,
+          "result": "LOSS",
+          "isSweep": false,
+          "isWinningSweep": false,
+          "isLosingSweep": false,
+          "totalGames": 1,
+          "seriesType": "AWAY",
+          "seriesNumber": 44
         }
       ],
       "currentStreak": {
-        "type": "WIN",
-        "count": 12,
-        "startDate": "2025-07-08",
-        "endDate": "2025-08-24"
+        "type": "LOSS",
+        "count": 1,
+        "startDate": "2025-08-26",
+        "endDate": "2025-08-26"
       },
       "longestWinningStreak": {
         "count": 12,
@@ -2096,9 +2126,9 @@
           "sweepLosses": 0
         },
         "NC": {
-          "totalSeries": 4,
+          "totalSeries": 5,
           "wins": 2,
-          "losses": 2,
+          "losses": 3,
           "splits": 0,
           "sweepWins": 0,
           "sweepLosses": 0
@@ -17351,13 +17381,13 @@
       }
     },
     "NC": {
-      "totalSeries": 41,
-      "winningSeries": 17,
+      "totalSeries": 42,
+      "winningSeries": 18,
       "losingSeries": 17,
       "splitSeries": 7,
       "sweepWins": 3,
       "sweepLosses": 4,
-      "seriesWinRate": "41.5",
+      "seriesWinRate": "42.9",
       "series": [
         {
           "opponent": "KIA",
@@ -19318,13 +19348,43 @@
           "totalGames": 3,
           "seriesType": "HOME",
           "seriesNumber": 41
+        },
+        {
+          "opponent": "LG",
+          "isHome": true,
+          "games": [
+            {
+              "gameNumber": 115,
+              "date": "2025-08-26",
+              "opponent": "LG",
+              "isHome": true,
+              "score": "9:7",
+              "result": "W",
+              "runs_scored": 9,
+              "runs_allowed": 7
+            }
+          ],
+          "startDate": "2025-08-26",
+          "lastDate": "2025-08-26",
+          "wins": 1,
+          "losses": 0,
+          "draws": 0,
+          "homeGames": 1,
+          "awayGames": 0,
+          "result": "WIN",
+          "isSweep": false,
+          "isWinningSweep": false,
+          "isLosingSweep": false,
+          "totalGames": 1,
+          "seriesType": "HOME",
+          "seriesNumber": 42
         }
       ],
       "currentStreak": {
         "type": "WIN",
-        "count": 1,
+        "count": 2,
         "startDate": "2025-08-22",
-        "endDate": "2025-08-24"
+        "endDate": "2025-08-26"
       },
       "longestWinningStreak": {
         "count": 3,
@@ -19354,8 +19414,8 @@
           "sweepLosses": 1
         },
         "LG": {
-          "totalSeries": 4,
-          "wins": 2,
+          "totalSeries": 5,
+          "wins": 3,
           "losses": 2,
           "splits": 0,
           "sweepWins": 0,
@@ -21659,10 +21719,10 @@
         "totalSeries": 5
       },
       "NC": {
-        "record": "2-2-0",
-        "winRate": "50.0",
+        "record": "2-3-0",
+        "winRate": "40.0",
         "sweeps": "0-0",
-        "totalSeries": 4
+        "totalSeries": 5
       },
       "키움": {
         "record": "3-1-0",
@@ -22072,10 +22132,10 @@
     },
     "NC": {
       "LG": {
-        "record": "2-2-0",
-        "winRate": "50.0",
+        "record": "3-2-0",
+        "winRate": "60.0",
         "sweeps": "0-0",
-        "totalSeries": 4
+        "totalSeries": 5
       },
       "한화": {
         "record": "2-2-1",

@@ -2596,11 +2596,21 @@
         "result": "W",
         "runs_scored": 2,
         "runs_allowed": 1
+      },
+      {
+        "gameNumber": 120,
+        "date": "2025-08-26",
+        "opponent": "NC",
+        "isHome": false,
+        "score": "7:9",
+        "result": "L",
+        "runs_scored": 7,
+        "runs_allowed": 9
       }
     ],
     "currentStreak": {
-      "type": "W",
-      "count": 3
+      "type": "L",
+      "count": 1
     },
     "longestWinStreak": 7,
     "longestLoseStreak": 5,
@@ -2828,6 +2838,10 @@
       {
         "type": "L",
         "count": 1
+      },
+      {
+        "type": "W",
+        "count": 3
       },
       {
         "type": "W",
@@ -14032,10 +14046,20 @@
         "result": "L",
         "runs_scored": 5,
         "runs_allowed": 17
+      },
+      {
+        "gameNumber": 115,
+        "date": "2025-08-26",
+        "opponent": "LG",
+        "isHome": true,
+        "score": "9:7",
+        "result": "W",
+        "runs_scored": 9,
+        "runs_allowed": 7
       }
     ],
     "currentStreak": {
-      "type": "L",
+      "type": "W",
       "count": 1
     },
     "longestWinStreak": 5,
@@ -14284,6 +14308,10 @@
       {
         "type": "W",
         "count": 3
+      },
+      {
+        "type": "L",
+        "count": 1
       }
     ]
   }

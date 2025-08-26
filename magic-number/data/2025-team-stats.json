@@ -10,14 +10,14 @@
     "run_diff": -18
   },
   "LG": {
-    "games": 119,
+    "games": 120,
     "wins": 73,
-    "losses": 43,
+    "losses": 44,
     "draws": 3,
-    "runs_scored": 641,
-    "runs_allowed": 453,
-    "win_rate": "0.629",
-    "run_diff": 188
+    "runs_scored": 648,
+    "runs_allowed": 462,
+    "win_rate": "0.624",
+    "run_diff": 186
   },
   "삼성": {
     "games": 120,
@@ -80,14 +80,14 @@
     "run_diff": 84
   },
   "NC": {
-    "games": 114,
-    "wins": 54,
+    "games": 115,
+    "wins": 55,
     "losses": 54,
     "draws": 6,
-    "runs_scored": 575,
-    "runs_allowed": 608,
-    "win_rate": "0.500",
-    "run_diff": -33
+    "runs_scored": 584,
+    "runs_allowed": 615,
+    "win_rate": "0.505",
+    "run_diff": -31
   },
   "키움": {
     "games": 122,

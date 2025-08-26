@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-08-26T13:08:39.760Z",
+  "lastUpdated": "2025-08-26T13:12:17.186Z",
   "updateDate": "2025. 8. 26.",
   "note": "2025-season-data-clean.txt 기반 완전 자동화 처리",
   "totalData": {
@@ -173,13 +173,13 @@
       },
       "NC": {
         "wins": 6,
-        "losses": 5,
+        "losses": 6,
         "draws": 0,
         "homeWins": 2,
         "homeLosses": 4,
         "homeDraws": 0,
         "awayWins": 4,
-        "awayLosses": 1,
+        "awayLosses": 2,
         "awayDraws": 0
       },
       "두산": {
@@ -723,10 +723,10 @@
         "awayDraws": 1
       },
       "LG": {
-        "wins": 5,
+        "wins": 6,
         "losses": 6,
         "draws": 0,
-        "homeWins": 1,
+        "homeWins": 2,
         "homeLosses": 4,
         "homeDraws": 0,
         "awayWins": 4,
