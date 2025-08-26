@@ -157,22 +157,6 @@ class KBOWorkingCrawler:
                             current_date = f"2025-{month}-{day}"
                             print(f"\n📅 날짜: {current_date}")
                 
-                # 시간 정보 추출
-                time_cell = row.find('td', class_='td_time')
-                game_time = None
-                if time_cell:
-                    time_elem = time_cell.find('span', class_='txt_time')
-                    if time_elem:
-                        game_time = time_elem.get_text(strip=True)
-                
-                # 경기장 정보 추출
-                venue_cell = row.find('td', class_='td_area')
-                venue = None
-                if venue_cell:
-                    venue_elem = venue_cell.find('span')
-                    if venue_elem:
-                        venue = venue_elem.get_text(strip=True)
-                
                 # 경기 정보 추출
                 team_cell = row.find('td', class_='td_team')
                 if team_cell and current_date:
@@ -214,52 +198,27 @@ class KBOWorkingCrawler:
                                 state_elem = team_cell.find('span', class_='state_game')
                                 state = state_elem.get_text(strip=True) if state_elem else "종료"
                                 
-                                # 경기 상태 분류
+                                # 완료된 경기만 저장 - 엄격한 검증
                                 completed_states = ["종료", "완료", "끝"]
-                                cancelled_states = ["취소", "연기", "우천중단", "중단", "경기취소", "우천연기"]
-                                postponed_states = ["연기", "우천연기", "경기연기"]
-                                
                                 is_completed = (
                                     state in completed_states or 
                                     (state == "종료" and home_score >= 0 and away_score >= 0 and 
                                      home_score <= 30 and away_score <= 30)  # 점수 범위 검증
                                 )
                                 
-                                is_cancelled = any(cancel_word in state for cancel_word in cancelled_states)
-                                is_postponed = any(postpone_word in state for postpone_word in postponed_states)
-                                
-                                # 완료된 경기 또는 취소/연기된 경기 저장
-                                if is_completed or is_cancelled or is_postponed:
+                                if is_completed:
                                     # KBO 웹사이트에서 team_home div가 실제로는 원정팀, team_away div가 홈팀을 의미함
                                     game = {
                                         'date': current_date,
-                                        'time': game_time,
-                                        'venue': venue,
                                         'away_team': self.normalize_team_name(home_team),  # team_home div = 원정팀
                                         'home_team': self.normalize_team_name(away_team),  # team_away div = 홈팀
-                                        'away_score': home_score if is_completed else None,  # 취소/연기시 점수 없음
-                                        'home_score': away_score if is_completed else None,  # 취소/연기시 점수 없음
-                                        'state': state,
-                                        'status': 'completed' if is_completed else ('cancelled' if is_cancelled else 'postponed'),
-                                        'is_cancelled': is_cancelled,
-                                        'is_postponed': is_postponed
+                                        'away_score': home_score,  # team_home 점수 = 원정팀 점수
+                                        'home_score': away_score,  # team_away 점수 = 홈팀 점수
+                                        'state': state
                                     }
                                     
                                     games.append(game)
-                                    
-                                    # 시간과 경기장 정보 추가
-                                    extra_info = ""
-                                    if game_time:
-                                        extra_info += f" {game_time}"
-                                    if venue:
-                                        extra_info += f" @{venue}"
-                                    
-                                    if is_completed:
-                                        print(f"  ✅ {self.normalize_team_name(home_team)} {home_score}:{away_score} {self.normalize_team_name(away_team)}{extra_info} [완료]")
-                                    elif is_cancelled:
-                                        print(f"  ❌ {self.normalize_team_name(away_team)} vs {self.normalize_team_name(home_team)}{extra_info} [취소: {state}]")
-                                    elif is_postponed:
-                                        print(f"  ⏸️ {self.normalize_team_name(away_team)} vs {self.normalize_team_name(home_team)}{extra_info} [연기: {state}]")
+                                    print(f"  ✅ {self.normalize_team_name(home_team)} {home_score}:{away_score} {self.normalize_team_name(away_team)} [완료]")
                                 else:
                                     print(f"  ⏳ {self.normalize_team_name(away_team)} vs {self.normalize_team_name(home_team)} [{state}] - 제외")
                 
@@ -318,16 +277,7 @@ class KBOWorkingCrawler:
         # 새로운 경기만 필터링 (날짜별 정확한 중복 체크)
         new_games = []
         for game in games:
-            # 취소/연기된 경기는 다른 형식으로 저장
-            if game.get('status') == 'completed':
-                game_line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
-            elif game.get('status') == 'cancelled':
-                game_line = f"{game['away_team']} vs {game['home_team']}(H) [취소: {game['state']}]"
-            elif game.get('status') == 'postponed':
-                game_line = f"{game['away_team']} vs {game['home_team']}(H) [연기: {game['state']}]"
-            else:
-                game_line = f"{game['away_team']} vs {game['home_team']}(H) [{game.get('state', '미정')}]"
-            
+            game_line = f"{game['away_team']} {game['away_score']}:{game['home_score']} {game['home_team']}(H)"
             game_date = game['date']
             
             # 1차: 해당 날짜에 같은 경기가 있는지 확인
