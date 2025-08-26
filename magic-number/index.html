@@ -698,13 +698,13 @@
                                 </ul>
                             </div>
                             <div>
-                                <strong style="color: #2d3748; font-size: 13px;">🏆 탈환 분석</strong>
+                                <strong style="color: #2d3748; font-size: 13px;">🏆 1위 탈환 계산법</strong>
                                 <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
                                     <li><strong>1위팀 조건:</strong> 추격팀 전승시 1위가 져야할 경기수</li>
-                                    <li><strong>트래직넘버:</strong> (1위팀이 내 최대승률 넘는 필요승수) - (내 최대승수)</li>
-                                    <li><strong>탈환 가능:</strong> 수학적 1위 추월 가능성</li>
-                                    <li><strong>역대기준:</strong> 87승 달성 필요 승률</li>
-                                    <li><strong>달성 가능:</strong> 역대 평균 87승 달성 여부</li>
+                                    <li><strong>트래직넘버:</strong> 1위팀이 내 최대가능 승률을 넘기 위해 필요한 승수</li>
+                                    <li><strong>계산방식:</strong> 승률 비교 기준으로 1위 추월 가능성 분석</li>
+                                    <li><strong>"불가능":</strong> 전승해도 1위팀 최저가능 승률을 넘을 수 없음</li>
+                                    <li><strong>"역대기준":</strong> 87승 달성 필요 승률 및 가능 여부</li>
                                 </ul>
                             </div>
                         </div>
@@ -799,10 +799,18 @@
                                 </ul>
                             </div>
                             <div>
-                                <strong style="color: #2d3748; font-size: 13px;">🎯 매직/트래직넘버 (역대 기준)</strong>
+                                <strong style="color: #2d3748; font-size: 13px;">🏟️ 플레이오프 진출 조건 계산법</strong>
                                 <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
-                                    <li><strong>PO 매직:</strong> 5위팀 최대가능 승률을 넘어 PO 진출 확정하기 위해 필요한 승수</li>
-                                    <li><strong>PO 트래직:</strong> 나의 최대가능승수 - (5위팀 현재승수 - 1)</li>
+                                    <li><strong>PO 매직넘버:</strong> 5위팀(없으면 4위팀) 최대가능 승률을 넘어 PO 진출 확정하기 위해 필요한 승수</li>
+                                    <li><strong>계산방식:</strong> 승률 비교 기준으로 플레이오프 진출 확정점 분석</li>
+                                    <li><strong>"자력 불가":</strong> 잔여경기 전승해도 5위팀 승률을 넘을 수 없음 (괄호 안 실제 필요 승수)</li>
+                                    <li><strong>PO 트래직넘버:</strong> 나의 최대가능승수 - (5위팀 현재승수 - 1)</li>
+                                    <li><strong>"탈락":</strong> 트래직넘버가 0 이하로 플레이오프 진출 불가능</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong style="color: #2d3748; font-size: 13px;">🎯 역대 기준 매직/트래직넘버</strong>
+                                <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
                                     <li><strong>역대 기준 매직넘버:</strong> 72승까지 필요 승수</li>
                                     <li><strong>역대 기준 트래직넘버:</strong> 71승 달성 불가능까지 남은 패수</li>
                                     <li><strong>필요승률:</strong> 잔여경기 목표 승률</li>
