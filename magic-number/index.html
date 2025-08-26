@@ -674,6 +674,7 @@
                                     <th>잔여경기</th>
                                     <th>최대가능승수</th>
                                     <th>1위팀 필요<br>조건</th>
+                                    <th>트래직넘버<br><span style="font-size:10px;">(승률기준)</span></th>
                                     <th>현재 1위<br>탈환 가능 여부</th>
                                     <th>역대 1위 기준<br>필요 승률</th>
                                     <th>역대 1위 성적<br>달성 가능성</th>
@@ -700,6 +701,7 @@
                                 <strong style="color: #2d3748; font-size: 13px;">🏆 탈환 분석</strong>
                                 <ul style="margin: 6px 0 0 0; padding-left: 16px; line-height: 1.4; font-size: 12px;">
                                     <li><strong>1위팀 조건:</strong> 추격팀 전승시 1위가 져야할 경기수</li>
+                                    <li><strong>트래직넘버:</strong> (1위팀이 내 최대승률 넘는 필요승수) - (내 최대승수)</li>
                                     <li><strong>탈환 가능:</strong> 수학적 1위 추월 가능성</li>
                                     <li><strong>역대기준:</strong> 87승 달성 필요 승률</li>
                                     <li><strong>달성 가능:</strong> 역대 평균 87승 달성 여부</li>
@@ -713,7 +715,14 @@
                             <span style="color: #d97706; font-weight: 600; margin-left: 6px;">■ 55-70%</span>
                             <span style="color: #dc2626; font-weight: 600; margin-left: 6px;">■ 70%+</span>
                         </div>
-                        <div style="margin-top: 8px; font-size: 11px; color: #666;">
+                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #666;">
+                            <strong>⚾ 타이브레이커 표시:</strong>
+                            <span style="margin-left: 6px;">TB = 타이브레이커 필요</span>
+                            <span style="margin-left: 6px;">+ = 상대전적 우위</span>
+                            <span style="margin-left: 6px;">- = 상대전적 열세</span>
+                            <span style="margin-left: 6px;">⚾ = 타이브레이커 가능</span>
+                        </div>
+                        <div style="margin-top: 4px; font-size: 11px; color: #666;">
                             📌 2015-2024년 1위팀 평균 86.9승 기준
                         </div>
                     </div>
@@ -755,6 +764,12 @@
                                     <th class="sortable-header" data-sort="maxWins" onclick="sortTable('playoff', 'maxWins')">
                                         최대가능 승수 <span class="sort-arrow">↕</span>
                                     </th>
+                                    <th class="sortable-header" data-sort="poMagic" onclick="sortTable('playoff', 'poMagic')">
+                                        PO<br>매직넘버 <span class="sort-arrow">↕</span>
+                                    </th>
+                                    <th class="sortable-header" data-sort="poTragic" onclick="sortTable('playoff', 'poTragic')">
+                                        PO<br>트래직넘버 <span class="sort-arrow">↕</span>
+                                    </th>
                                     <th class="sortable-header" data-sort="magic" onclick="sortTable('playoff', 'magic')">
                                         역대 기준<br>매직넘버 <span class="sort-arrow">↕</span>
                                     </th>
@@ -781,6 +796,8 @@
                                     <li><strong>현재승수:</strong> 누적 승수</li>
                                     <li><strong>잔여경기:</strong> 남은 경기 수</li>
                                     <li><strong>최대승수:</strong> 전승시 최종 승수</li>
+                                    <li><strong>PO 매직:</strong> 5위 최대승수 - 나의 현재승수</li>
+                                    <li><strong>PO 트래직:</strong> 나의 최대승수 - 5위 현재승수</li>
                                 </ul>
                             </div>
                             <div>

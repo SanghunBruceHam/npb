@@ -1937,7 +1937,7 @@ input, textarea, select, button {
 🎯 관리 대상 테이블:
    ✅ #standings-table (팀 순위표) - 15개 컬럼
    ✅ #playoff-table (플레이오프 진출 조건) - 9개 컬럼  
-   ✅ #chase-table (1위 탈환 가능성) - 10개 컬럼
+   ✅ #chase-table (1위 탈환 가능성) - 11개 컬럼
 
 📐 통합 컬럼 크기 시스템:
    📱 768px 이하: 순위 20px, 팀명 35px (총 55px)
