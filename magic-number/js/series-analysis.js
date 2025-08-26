@@ -59,6 +59,37 @@ class SeriesAnalyzer {
     }
 
     /**
+     * 시리즈 완료 여부 판정
+     * - 마지막 시리즈인 경우: 오늘 날짜와 비교하여 진행중인지 확인
+     * - 중간 시리즈인 경우: 다음 시리즈 시작 날짜와 비교
+     */
+    isSeriesComplete(series, seriesIndex, allSeries) {
+        const today = new Date();
+        const lastGameDate = new Date(series.lastDate);
+        
+        // 마지막 시리즈인 경우
+        if (seriesIndex === allSeries.length - 1) {
+            // 마지막 경기가 오늘이거나 최근이면 진행중일 가능성
+            const daysDiff = Math.abs(today - lastGameDate) / (1000 * 60 * 60 * 24);
+            
+            // 1) 마지막 경기가 오늘인 경우: 시리즈가 진행중일 수 있음
+            if (daysDiff <= 1) {
+                // 단, 이미 2승 이상 또는 2패 이상이면 완료로 간주
+                if (series.wins >= 2 || series.losses >= 2) {
+                    return true; // 완료
+                }
+                return false; // 진행중
+            }
+            
+            // 2) 마지막 경기가 2일 이상 전이면 시리즈 완료
+            return true;
+        }
+        
+        // 중간 시리즈는 다음 시리즈가 시작되었으므로 완료된 것으로 간주
+        return true;
+    }
+
+    /**
      * 게임들을 시리즈별로 그룹화 (KBO 정확한 시리즈 구조)
      */
     groupGamesBySeries(games) {
@@ -118,12 +149,18 @@ class SeriesAnalyzer {
             // 시리즈 결과 판정 (KBO 실제 규칙)
             const totalGames = s.games.length;
             
-            // 위닝/루징 시리즈 판정 기준:
-            // 1) 3연전에서 2승 또는 2패 확정시
-            // 2) 시리즈 완료 후 최종 승패 차이로 판정
-            // 3) 1승 1패로 끝나는 시리즈는 SPLIT으로 처리
+            // 위닝/루징 시리즈 판정 기준 개선:
+            // 1) 시리즈가 진행중인지 완료되었는지 먼저 확인
+            // 2) 완료된 시리즈만 WIN/LOSS/SPLIT 판정
+            // 3) 진행중인 시리즈는 ONGOING으로 표시하여 연속 기록에서 제외
             
-            if (s.wins >= 2 && s.losses <= 1) {
+            // 시리즈 완료 여부 판정
+            const isSeriesComplete = this.isSeriesComplete(s, index, validSeries);
+            
+            if (!isSeriesComplete) {
+                // 진행중인 시리즈 - 연속 기록 계산에서 제외
+                s.result = 'ONGOING';
+            } else if (s.wins >= 2 && s.losses <= 1) {
                 // 2승 이상 확정 (2승, 2승1패, 3승)
                 s.result = 'WIN';
             } else if (s.losses >= 2 && s.wins <= 1) {
@@ -209,22 +246,22 @@ class SeriesAnalyzer {
         // 최신 시리즈부터 역순으로 확인
         const sortedSeries = [...series].sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
         
-        // SPLIT을 제외한 시리즈만 필터링
-        const nonSplitSeries = sortedSeries.filter(s => s.result !== 'SPLIT');
+        // SPLIT과 ONGOING을 제외한 완료된 시리즈만 필터링
+        const completedSeries = sortedSeries.filter(s => s.result !== 'SPLIT' && s.result !== 'ONGOING');
         
-        if (nonSplitSeries.length === 0) return { type: 'NONE', count: 0 };
+        if (completedSeries.length === 0) return { type: 'NONE', count: 0 };
         
         // 가장 최근의 실제 결과(WIN/LOSS)를 기준으로 연속 카운트
-        const lastResult = nonSplitSeries[0].result;
+        const lastResult = completedSeries[0].result;
         let count = 0;
         let startDate = null;
         let endDate = null;
 
-        for (let i = 0; i < nonSplitSeries.length; i++) {
-            if (nonSplitSeries[i].result === lastResult) {
+        for (let i = 0; i < completedSeries.length; i++) {
+            if (completedSeries[i].result === lastResult) {
                 count++;
-                if (count === 1) endDate = nonSplitSeries[i].lastDate;
-                startDate = nonSplitSeries[i].startDate;
+                if (count === 1) endDate = completedSeries[i].lastDate;
+                startDate = completedSeries[i].startDate;
             } else {
                 // 다른 결과가 나오면 연속 종료
                 break;
@@ -246,10 +283,10 @@ class SeriesAnalyzer {
     calculateLongestStreak(series, type) {
         if (series.length === 0) return { count: 0, startDate: null, endDate: null };
 
-        // 날짜순으로 정렬 후 SPLIT 제외
+        // 날짜순으로 정렬 후 SPLIT과 ONGOING 제외
         const sortedSeries = [...series]
             .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
-            .filter(s => s.result !== 'SPLIT');
+            .filter(s => s.result !== 'SPLIT' && s.result !== 'ONGOING');
         
         let maxStreak = 0;
         let currentStreak = 0;

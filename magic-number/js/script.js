@@ -1091,7 +1091,12 @@ const kboTeams = {
                     if (otherTeam.team === team.team) continue;
                     
                     const otherMinWins = otherTeam.wins; // 상대팀 전패시
-                    if (maxPossibleWins < otherMinWins) {
+                    const otherMinLosses = otherTeam.losses + (144 - otherTeam.games); // 상대팀 전패시 패수
+                    const otherMinWinRate = otherMinWins / (otherMinWins + otherMinLosses); // 상대팀 최저 승률 (무승부 제외)
+                    const myMaxLosses = team.losses; // 내 전승시 패수는 그대로
+                    const myMaxWinRate = maxPossibleWins / (maxPossibleWins + myMaxLosses); // 내 최고 승률 (무승부 제외)
+                    
+                    if (myMaxWinRate < otherMinWinRate) {
                         maxRank++;
                     }
                 }
@@ -1103,7 +1108,12 @@ const kboTeams = {
                     if (otherTeam.team === team.team) continue;
                     
                     const otherMaxWins = otherTeam.wins + (144 - otherTeam.games); // 상대팀 전승시
-                    if (minPossibleWins <= otherMaxWins) {
+                    const otherMaxLosses = otherTeam.losses; // 상대팀 전승시 패수는 그대로
+                    const otherMaxWinRate = otherMaxWins / (otherMaxWins + otherMaxLosses); // 상대팀 최고 승률 (무승부 제외)
+                    const myMinLosses = team.losses + (144 - team.games); // 내 전패시 패수
+                    const myMinWinRate = minPossibleWins / (minPossibleWins + myMinLosses); // 내 최저 승률 (무승부 제외)
+                    
+                    if (myMinWinRate < otherMaxWinRate) {
                         minRank++;
                     }
                 }

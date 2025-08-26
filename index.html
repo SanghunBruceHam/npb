@@ -7211,7 +7211,12 @@
                 dashboardData.standings.forEach(otherTeam => {
                     if (otherTeam.team_name === team.team_name) return;
                     const otherMinWins = otherTeam.wins; // 상대팀 전패시
-                    if (maxPossibleWins < otherMinWins) {
+                    const otherMinLosses = otherTeam.losses + (144 - otherTeam.games_played); // 상대팀 전패시 패수
+                    const otherMinWinRate = otherMinWins / (otherMinWins + otherMinLosses); // 상대팀 최저 승률 (무승부 제외)
+                    const myMaxLosses = team.losses; // 내 전승시 패수는 그대로
+                    const myMaxWinRate = maxPossibleWins / (maxPossibleWins + myMaxLosses); // 내 최고 승률 (무승부 제외)
+                    
+                    if (myMaxWinRate < otherMinWinRate) {
                         maxRank++;
                     }
                 });
@@ -7221,7 +7226,12 @@
                 dashboardData.standings.forEach(otherTeam => {
                     if (otherTeam.team_name === team.team_name) return;
                     const otherMaxWins = otherTeam.wins + (144 - otherTeam.games_played); // 상대팀 전승시
-                    if (minPossibleWins <= otherMaxWins) {
+                    const otherMaxLosses = otherTeam.losses; // 상대팀 전승시 패수는 그대로
+                    const otherMaxWinRate = otherMaxWins / (otherMaxWins + otherMaxLosses); // 상대팀 최고 승률 (무승부 제외)
+                    const myMinLosses = team.losses + (144 - team.games_played); // 내 전패시 패수
+                    const myMinWinRate = minPossibleWins / (minPossibleWins + myMinLosses); // 내 최저 승률 (무승부 제외)
+                    
+                    if (myMinWinRate < otherMaxWinRate) {
                         minRank++;
                     }
                 });
@@ -8879,7 +8889,7 @@
                         <div style="margin-bottom: 6px;"><strong>위닝/루징 시리즈:</strong> 시리즈에서 승리/패배한 경우</div>
                         <div style="margin-bottom: 6px;"><strong>스윕승/스윕패:</strong> 시리즈에서 모든 경기를 완전히 승리/패배한 경우 (위닝/루징 시리즈에 포함)</div>
                         <div style="margin-bottom: 6px;"><strong>시리즈 승률:</strong> 위닝시리즈 수 ÷ (위닝 + 루징 + 무) × 100</div>
-                        <div><strong>연속기록:</strong> 최근 시리즈에서의 위닝/루징 연속 횟수</div>
+                        <div><strong>연속기록:</strong> 완료된 이전 시리즈에서의 위닝/루징 연속 횟수 (진행 중인 시리즈 제외, 단 2승/2패 확정시는 표시)</div>
                     </div>
                 </div>
                 
