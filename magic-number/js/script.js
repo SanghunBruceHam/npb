@@ -378,7 +378,7 @@ const kboTeams = {
             }
             
             // 팝업 대신 콘솔에만 로그
-            console.warn(`[ERROR] ${userMessage}`);
+            logger.warn(`[ERROR] ${userMessage}`);
         }
         
         // 데이터 정보 업데이트 함수
@@ -436,7 +436,7 @@ const kboTeams = {
                     const response = await fetch(`data/kbo-records.json?v=${Date.now()}`);
                     recordsData = await response.json();
                 } catch (error) {
-                    console.warn('⚠️ 상대전적 데이터 로드 실패, 승률만으로 정렬:', error);
+                    logger.warn('⚠️ 상대전적 데이터 로드 실패, 승률만으로 정렬:', error);
                 }
 
                 // 승률과 상대전적 기준으로 정렬
@@ -471,7 +471,7 @@ const kboTeams = {
                 
                 
             } catch (error) {
-                console.error('❌ 매직넘버 순위 정렬 실패:', error);
+                logger.error('❌ 매직넘버 순위 정렬 실패:', error);
             }
         }
 
@@ -2500,27 +2500,27 @@ const kboTeams = {
                 try {
                     renderChampionshipCondition();
                 } catch (error) {
-                    console.error('❌ 우승 조건 렌더링 오류:', error);
+                    logger.error('❌ 우승 조건 렌더링 오류:', error);
                 }
                 
                 try {
                     renderChaseAnalysis();
                 } catch (error) {
-                    console.error('❌ 1위 탈환 가능성 렌더링 오류:', error);
+                    logger.error('❌ 1위 탈환 가능성 렌더링 오류:', error);
                 }
                 
                 
                 try {
                     renderPlayoffCondition();
                 } catch (error) {
-                    console.error('❌ 플레이오프 조건 렌더링 오류:', error);
+                    logger.error('❌ 플레이오프 조건 렌더링 오류:', error);
                 }
                 
                 
                 try {
                     renderHeadToHead();
                 } catch (error) {
-                    console.error('❌ 팀간 상대전적 렌더링 오류:', error);
+                    logger.error('❌ 팀간 상대전적 렌더링 오류:', error);
                 }
                 
                 try {
@@ -3358,7 +3358,7 @@ const kboTeams = {
                         scenarioContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                 } else {
-                    console.error('scenario-content 요소를 찾을 수 없습니다.');
+                    logger.error('scenario-content 요소를 찾을 수 없습니다.');
                 }
                 
             } catch (error) {

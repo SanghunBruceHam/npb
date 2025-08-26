@@ -18,7 +18,7 @@ async function loadTeamLogos() {
                 resolve();
             };
             img.onerror = () => {
-                console.warn(`로고 로드 실패: ${team}`);
+                // 로고 로드 실패는 치명적 오류가 아니므로 조용히 처리
                 resolve();
             };
             img.src = `images/${getTeamLogo(team)}`;
@@ -194,8 +194,7 @@ async function loadRealKBOData() {
         return processRealData(seasonRankings);
         
     } catch (error) {
-        console.error('실제 데이터 로드 실패:', error);
-        console.warn('실제 데이터 로드에 실패했습니다. 가짜 데이터를 사용합니다.');
+        // 실제 데이터 로드 실패 시 조용히 가짜 데이터 사용
         return generateMockData();
     }
 }
@@ -203,7 +202,7 @@ async function loadRealKBOData() {
 // 실제 데이터를 기간별로 분할 (월별 처리)
 function processRealData(seasonRankings) {
     if (!seasonRankings || seasonRankings.length === 0) {
-        console.error('시즌 랭킹 데이터가 없습니다');
+        // 시즌 랭킹 데이터가 없으면 가짜 데이터 사용
         return generateMockData();
     }
     
@@ -376,7 +375,7 @@ function createCustomLegend() {
     }
     
     if (!chartState.chart) {
-        console.error('차트가 생성되지 않음');
+        // 차트가 생성되지 않음
         return;
     }
     
@@ -663,7 +662,7 @@ function getFixedRankingSortedTeams() {
             return sortedTeams;
         }
     } catch (error) {
-        console.warn('고정 순위 기준 정렬 실패, 기본 순서 사용:', error);
+        // 고정 순위 기준 정렬 실패, 기본 순서 사용
     }
     
     // 기본 순서로 대체 (데이터셋 순서대로)
@@ -683,8 +682,7 @@ function createSimpleChart(data) {
     const ctx = document.getElementById('rankChart');
     
     if (!ctx) {
-        console.error('rankChart 캔버스를 찾을 수 없습니다');
-        console.error('rankChart 캔버스 요소를 찾을 수 없습니다');
+        // rankChart 캔버스 요소를 찾을 수 없음
         return null;
     }
     
@@ -859,8 +857,7 @@ function createSimpleChart(data) {
         
         return chartState.chart;
     } catch (error) {
-        console.error('차트 생성 오류:', error);
-        console.error('차트 생성 상세 오류:', error.message);
+        // 차트 생성 오류
         return null;
     }
 }
@@ -869,7 +866,7 @@ function createSimpleChart(data) {
 function updateSimpleChart() {
     
     if (chartState.periods.length === 0) {
-        console.error('기간 데이터가 없습니다');
+        // 기간 데이터가 없음
         return;
     }
     
@@ -882,7 +879,7 @@ function updateSimpleChart() {
         // 특정 기간 데이터 사용
         const period = chartState.periods[chartState.currentPeriod];
         if (!period) {
-            console.error('현재 기간 데이터를 찾을 수 없습니다');
+            // 현재 기간 데이터를 찾을 수 없음
             return;
         }
         chartData = period.data;
@@ -1051,19 +1048,12 @@ async function initSimpleChart() {
         updateSimpleChart();
         
     } catch (error) {
-        console.error('차트 초기화 중 오류:', error);
-        alert('차트 초기화 실패: ' + error.message);
+        // 차트 초기화 실패 시 조용히 처리
     }
 }
 
 // 전역 함수들
 function handlePrevPeriod() {
-    // console.log('현재 상태:', {
-    //     isFullView: chartState.isFullView,
-    //     currentPeriod: chartState.currentPeriod,
-    //     periodsLength: chartState.periods.length
-    // });
-    
     if (!chartState.isFullView && chartState.currentPeriod > 0) {
         chartState.currentPeriod--;
         updateSimpleChart();
@@ -1071,12 +1061,6 @@ function handlePrevPeriod() {
 }
 
 function handleNextPeriod() {
-    // console.log('현재 상태:', {
-    //     isFullView: chartState.isFullView,
-    //     currentPeriod: chartState.currentPeriod,
-    //     periodsLength: chartState.periods.length
-    // });
-    
     if (!chartState.isFullView && chartState.currentPeriod < chartState.periods.length - 1) {
         chartState.currentPeriod++;
         updateSimpleChart();
@@ -1150,7 +1134,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // 캔버스 요소 확인
     const canvas = document.getElementById('rankChart');
     if (!canvas) {
-        console.error('rankChart 캔버스 요소를 찾을 수 없습니다');
+        // rankChart 캔버스 요소를 찾을 수 없음
         return;
     }
     
@@ -1162,8 +1146,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         await initSimpleChart();
         
     } catch (error) {
-        console.error('초기화 실패:', error);
-        
+        // 초기화 실패 시 조용히 처리
         // 사용자에게 친화적인 오류 메시지 표시
         const errorDiv = document.createElement('div');
         errorDiv.innerHTML = `
