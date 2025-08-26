@@ -1525,11 +1525,14 @@ const kboTeams = {
                 // 144경기 체제 역대 1위 평균 승수 (2015-2024: 86.9승)
                 const historicalFirstPlaceWins = 87; // 2015-2024년 1위팀 평균 승수
 
-                currentStandings.forEach(team => {
+                currentStandings.forEach((team, index) => {
                 const teamData = kboTeams[team.team];
                 const remainingGames = 144 - team.games;
                 const maxPossibleWins = team.wins + remainingGames;
                 const firstPlaceRemaining = 144 - firstPlace.games;
+                
+                // 1위 탈환 트래직넘버 계산
+                const firstPlaceTragic = calculateFirstPlaceTragicNumber(team, currentStandings, index);
                 
                 // 1위팀과 2위 이하 팀별로 다른 로직 적용
                 let requiredFirstPlaceWins, canCatch, winPctColor, winPctDisplay, canReachHistoricalAverage;
@@ -1614,6 +1617,22 @@ const kboTeams = {
                 const textColor = isFirstPlace ? teamData.color : '#666';
                 const catchColor = typeof canCatch === 'string' ? (isFirstPlace ? teamData.color : '#3498db') : (canCatch ? '#27ae60' : '#e74c3c');
                 
+                // 1위 탈환 트래직넘버 표시 텍스트 생성
+                let tragicDisplay, tragicColor;
+                if (team.displayRank === 1) {
+                    tragicDisplay = '-';
+                    tragicColor = teamData.color;
+                } else if (firstPlaceTragic === 999) {
+                    tragicDisplay = '불가능';
+                    tragicColor = '#e74c3c';
+                } else if (firstPlaceTragic === 0) {
+                    tragicDisplay = '가능';
+                    tragicColor = textColor; // 기본 텍스트 색상 사용
+                } else {
+                    tragicDisplay = firstPlaceTragic;
+                    tragicColor = textColor; // 기본 텍스트 색상 사용
+                }
+                
                 row.innerHTML = `
                     <td style="color: ${teamData.color}; font-weight: ${isFirstPlace ? '700' : '600'};">${team.displayRank}</td>
                     <td class="team-name" style="font-weight: ${isFirstPlace ? '600' : 'normal'};">${teamNameWithLogo}</td>
@@ -1622,6 +1641,9 @@ const kboTeams = {
                     <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${remainingGames}</td>
                     <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${maxPossibleWins}</td>
                     <td style="color: ${textColor}; font-weight: ${isFirstPlace ? '600' : 'normal'};">${typeof requiredFirstPlaceWins === 'string' ? requiredFirstPlaceWins : requiredFirstPlaceWins + '승 이하'}</td>
+                    <td style="color: ${tragicColor}; font-weight: ${isFirstPlace ? '700' : '600'}; text-shadow: ${isFirstPlace ? `0 1px 2px ${teamData.color}20` : 'none'};">
+                        ${tragicDisplay}
+                    </td>
                     <td style="color: ${catchColor}; font-weight: ${isFirstPlace ? '700' : '600'}; text-shadow: ${isFirstPlace ? `0 1px 2px ${teamData.color}20` : 'none'};">
                         ${typeof canCatch === 'string' ? canCatch : (canCatch ? '가능' : '불가능')}
                     </td>
@@ -2060,6 +2082,50 @@ const kboTeams = {
                 }
                 return 0; // 이미 탈락
             }
+        }
+
+        // 1위 탈환을 위한 트래직넘버 계산 (승률 기준, 승수 표시)
+        function calculateFirstPlaceTragicNumber(team, rankings, index) {
+            const totalGames = 144;
+            const remainingGames = totalGames - team.games;
+            
+            // 1위팀 정보
+            const firstPlace = rankings[0];
+            if (!firstPlace || team.team === firstPlace.team) {
+                return 0; // 이미 1위이거나 1위팀 정보가 없음
+            }
+            
+            // 현재 팀의 최대 가능 승률 계산
+            const teamMaxPossibleWins = team.wins + remainingGames;
+            const teamMaxPossibleWinRate = teamMaxPossibleWins / (teamMaxPossibleWins + team.losses);
+            
+            // 1위팀 잔여 경기 계산
+            const firstRemainingGames = totalGames - firstPlace.games;
+            
+            // 1위팀의 최저 가능 승률과 현재 팀의 최대 승률 비교
+            const firstMinWins = firstPlace.wins; // 1위팀이 전패할 때의 승수
+            const firstMinWinRate = firstMinWins / (firstMinWins + firstPlace.losses + firstRemainingGames);
+            
+            // 현재 팀이 전승해도 1위팀이 전패했을 때의 승률을 못 넘으면 1위 탈환 불가능
+            if (teamMaxPossibleWinRate <= firstMinWinRate) {
+                return 999; // 1위 탈환 불가능
+            }
+            
+            // 1위팀이 몇 승을 더 해야 현재 팀의 최대 승률을 넘는지 계산
+            
+            for (let additionalWins = 0; additionalWins <= firstRemainingGames; additionalWins++) {
+                const firstFinalWins = firstPlace.wins + additionalWins;
+                const firstFinalLosses = firstPlace.losses + (firstRemainingGames - additionalWins);
+                const firstFinalWinRate = firstFinalWins / (firstFinalWins + firstFinalLosses);
+                
+                // 1위팀의 최종 승률이 현재 팀의 최대 승률을 넘는지 확인
+                if (firstFinalWinRate > teamMaxPossibleWinRate) {
+                    return additionalWins; // 1위팀이 이만큼 승리하면 현재 팀이 1위 탈환 불가
+                }
+            }
+            
+            // 1위팀이 전패해도 현재 팀의 최대 승률을 넘지 못함 (1위 탈환 가능)
+            return 0;
         }
 
         function determineTeamStatus(team, championshipMagic, playoffMagic, tragicNumber, index) {
