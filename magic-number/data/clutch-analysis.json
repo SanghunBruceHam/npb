@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2025-08-27T11:36:55.721Z",
+  "lastUpdated": "2025-08-27T12:53:54.600Z",
   "updateDate": "2025. 8. 27.",
   "clutchAnalysis": {
     "LG": {
-      "totalGames": 120,
+      "totalGames": 121,
       "oneRunGames": 34,
       "oneRunWins": 19,
       "oneRunLosses": 15,
@@ -16,7 +16,7 @@
       "threeRunWins": 19,
       "threeRunLosses": 16,
       "threeRunWinRate": "54.3",
-      "blowoutWins": 28,
+      "blowoutWins": 29,
       "blowoutScored": [
         {
           "date": "2025-03-22",
@@ -185,6 +185,12 @@
           "opponent": "KIA",
           "score": "14:2",
           "runs": 14
+        },
+        {
+          "date": "2025-08-27",
+          "opponent": "NC",
+          "score": "10:1",
+          "runs": 10
         }
       ],
       "blowoutLosses": 4,
@@ -216,8 +222,8 @@
       ],
       "shutoutWins": 10,
       "shutoutLosses": 4,
-      "highScoringGames": 15,
-      "highScoringWins": 15,
+      "highScoringGames": 16,
+      "highScoringWins": 16,
       "scorelessGames": 4,
       "comebackPotential": {
         "trailingWins": 0,
@@ -226,19 +232,19 @@
       "clutchIndex": "56.2"
     },
     "한화": {
-      "totalGames": 119,
+      "totalGames": 120,
       "oneRunGames": 37,
       "oneRunWins": 21,
       "oneRunLosses": 16,
       "oneRunWinRate": "56.8",
-      "closeGames": 57,
-      "closeWins": 33,
+      "closeGames": 58,
+      "closeWins": 34,
       "closeLosses": 24,
-      "closeWinRate": "57.9",
-      "threeRunGames": 32,
-      "threeRunWins": 18,
+      "closeWinRate": "58.6",
+      "threeRunGames": 33,
+      "threeRunWins": 19,
       "threeRunLosses": 14,
-      "threeRunWinRate": "56.3",
+      "threeRunWinRate": "57.6",
       "blowoutWins": 27,
       "blowoutScored": [
         {
@@ -452,7 +458,7 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "57.0"
+      "clutchIndex": "57.5"
     },
     "KIA": {
       "totalGames": 117,
@@ -925,7 +931,7 @@
       "clutchIndex": "37.0"
     },
     "KT": {
-      "totalGames": 121,
+      "totalGames": 122,
       "oneRunGames": 36,
       "oneRunWins": 16,
       "oneRunLosses": 20,
@@ -938,7 +944,7 @@
       "threeRunWins": 18,
       "threeRunLosses": 10,
       "threeRunWinRate": "64.3",
-      "blowoutWins": 24,
+      "blowoutWins": 25,
       "blowoutScored": [
         {
           "date": "2025-03-25",
@@ -1083,6 +1089,12 @@
           "opponent": "두산",
           "score": "13:8",
           "runs": 13
+        },
+        {
+          "date": "2025-08-27",
+          "opponent": "롯데",
+          "score": "7:2",
+          "runs": 7
         }
       ],
       "blowoutLosses": 10,
@@ -1341,7 +1353,7 @@
       "clutchIndex": "50.1"
     },
     "롯데": {
-      "totalGames": 122,
+      "totalGames": 123,
       "oneRunGames": 24,
       "oneRunWins": 12,
       "oneRunLosses": 12,
@@ -1805,7 +1817,7 @@
       "clutchIndex": "43.4"
     },
     "NC": {
-      "totalGames": 115,
+      "totalGames": 116,
       "oneRunGames": 25,
       "oneRunWins": 12,
       "oneRunLosses": 13,
@@ -2001,7 +2013,7 @@
           "runs": 9
         }
       ],
-      "blowoutLosses": 12,
+      "blowoutLosses": 13,
       "blowoutAllowed": [
         {
           "date": "2025-03-22",
@@ -2074,6 +2086,12 @@
           "opponent": "롯데",
           "score": "5:17",
           "diff": 12
+        },
+        {
+          "date": "2025-08-27",
+          "opponent": "LG",
+          "score": "1:10",
+          "diff": 9
         }
       ],
       "shutoutWins": 7,
@@ -2088,19 +2106,19 @@
       "clutchIndex": "53.1"
     },
     "키움": {
-      "totalGames": 122,
+      "totalGames": 123,
       "oneRunGames": 23,
       "oneRunWins": 15,
       "oneRunLosses": 8,
       "oneRunWinRate": "65.2",
-      "closeGames": 48,
+      "closeGames": 49,
       "closeWins": 20,
-      "closeLosses": 28,
-      "closeWinRate": "41.7",
-      "threeRunGames": 38,
+      "closeLosses": 29,
+      "closeWinRate": "40.8",
+      "threeRunGames": 39,
       "threeRunWins": 11,
-      "threeRunLosses": 27,
-      "threeRunWinRate": "28.9",
+      "threeRunLosses": 28,
+      "threeRunWinRate": "28.2",
       "blowoutWins": 15,
       "blowoutScored": [
         {
@@ -2296,7 +2314,7 @@
         "trailingWins": 0,
         "leadBlownLosses": 0
       },
-      "clutchIndex": "50.9"
+      "clutchIndex": "50.5"
     }
   }
 }
