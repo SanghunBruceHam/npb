@@ -3,21 +3,21 @@
     <channel>
         <title>KBO 매직넘버 계산기 - 실시간 업데이트</title>
         <description>2025 KBO 리그 매직넘버, 플레이오프 진출 조건, 우승 가능성을 실시간으로 업데이트합니다.</description>
-        <link>https://kbo.mahalohana-bruce.com/</link>
-        <atom:link href="https://kbo.mahalohana-bruce.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <link>https://kbo-dashboard.co.kr/</link>
+        <atom:link href="https://kbo-dashboard.co.kr/rss.xml" rel="self" type="application/rss+xml"/>
         <language>ko-KR</language>
         <category>Sports</category>
         <category>Baseball</category>
         <category>KBO</category>
-        <managingEditor>admin@mahalohana-bruce.com (KBO 매직넘버 계산기)</managingEditor>
-        <webMaster>webmaster@mahalohana-bruce.com (KBO 매직넘버 계산기)</webMaster>
-        <lastBuildDate>Fri, 09 Aug 2025 23:00:00 +0900</lastBuildDate>
-        <pubDate>Fri, 09 Aug 2025 23:00:00 +0900</pubDate>
+        <managingEditor>admin@kbo-dashboard.co.kr (KBO 매직넘버 계산기)</managingEditor>
+        <webMaster>webmaster@kbo-dashboard.co.kr (KBO 매직넘버 계산기)</webMaster>
+        <lastBuildDate>Wed, 27 Aug 2025 11:45:00 +0900</lastBuildDate>
+        <pubDate>Wed, 27 Aug 2025 11:45:00 +0900</pubDate>
         <ttl>360</ttl>
         <image>
-            <url>https://kbo.mahalohana-bruce.com/magic-number/icons/kbo-magic-number-icon.png</url>
+            <url>https://kbo-dashboard.co.kr/magic-number/icons/kbo-magic-number-icon.png</url>
             <title>KBO 매직넘버 계산기</title>
-            <link>https://kbo.mahalohana-bruce.com/</link>
+            <link>https://kbo-dashboard.co.kr/</link>
             <width>144</width>
             <height>144</height>
         </image>
@@ -35,7 +35,7 @@
                 • PO 매직넘버: 13
                 • 최대 가능 승수: 103승
             ]]></description>
-            <link>https://kbo.mahalohana-bruce.com/magic-number/#hanwha-update</link>
+            <link>https://kbo-dashboard.co.kr/magic-number/#hanwha-update</link>
             <guid isPermaLink="false">kbo-magic-2025-08-03-hanwha</guid>
             <pubDate>Sat, 03 Aug 2025 23:00:00 +0900</pubDate>
             <category>한화 이글스</category>
@@ -55,7 +55,7 @@
                 • 게임차: 0게임 (1위와)
                 • 최근 10경기: 9승 0무 1패
             ]]></description>
-            <link>https://kbo.mahalohana-bruce.com/magic-number/#lg-update</link>
+            <link>https://kbo-dashboard.co.kr/magic-number/#lg-update</link>
             <guid isPermaLink="false">kbo-magic-2025-08-03-lg</guid>
             <pubDate>Sat, 03 Aug 2025 22:30:00 +0900</pubDate>
             <category>LG 트윈스</category>
@@ -74,7 +74,7 @@
                 • 연속: 5승
                 • 최근 폼: 상승세
             ]]></description>
-            <link>https://kbo.mahalohana-bruce.com/magic-number/#lotte-update</link>
+            <link>https://kbo-dashboard.co.kr/magic-number/#lotte-update</link>
             <guid isPermaLink="false">kbo-magic-2025-07-29-lotte</guid>
             <pubDate>Sat, 03 Aug 2025 22:00:00 +0900</pubDate>
             <category>롯데 자이언츠</category>
@@ -95,7 +95,7 @@
                 • 6위 삼성: 47승 47패 (PO 매직넘버 25)
                 • 7위 SSG: 46승 46패 (PO 매직넘버 26)
             ]]></description>
-            <link>https://kbo.mahalohana-bruce.com/magic-number/#playoff-race</link>
+            <link>https://kbo-dashboard.co.kr/magic-number/#playoff-race</link>
             <guid isPermaLink="false">kbo-magic-2025-07-29-playoff</guid>
             <pubDate>Sat, 03 Aug 2025 21:30:00 +0900</pubDate>
             <category>플레이오프</category>
@@ -114,7 +114,7 @@
                 • 최근 연속: 5패
                 • 상황: 진출 불가능
             ]]></description>
-            <link>https://kbo.mahalohana-bruce.com/magic-number/#kiwoom-update</link>
+            <link>https://kbo-dashboard.co.kr/magic-number/#kiwoom-update</link>
             <guid isPermaLink="false">kbo-magic-2025-07-29-kiwoom</guid>
             <pubDate>Sat, 03 Aug 2025 21:00:00 +0900</pubDate>
             <category>키움 히어로즈</category>
@@ -135,7 +135,7 @@
                 
                 앞으로도 더 나은 서비스로 찾아뵙겠습니다.
             ]]></description>
-            <link>https://kbo.mahalohana-bruce.com/magic-number/</link>
+            <link>https://kbo-dashboard.co.kr/magic-number/</link>
             <guid isPermaLink="false">kbo-magic-2025-07-29-update</guid>
             <pubDate>Sat, 03 Aug 2025 20:00:00 +0900</pubDate>
             <category>시스템</category>
