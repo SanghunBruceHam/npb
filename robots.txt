@@ -60,3 +60,6 @@ Disallow: /scripts/
 Disallow: /*?utm_*
 Disallow: /*?ref=*
 Disallow: /*?source=*
+
+
+#DaumWebMasterTool:4de307f9d45b745806b2b99f7aa83bd318a242c1644656a6b2d69aabeefef418:vepFwY++/ERe+MVfsaKpJQ==
