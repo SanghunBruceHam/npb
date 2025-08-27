@@ -4774,5 +4774,45 @@
     "away_score": 7,
     "home_score": 9,
     "winner": "NC"
+  },
+  {
+    "date": "2025-08-27",
+    "away_team": "한화",
+    "home_team": "키움",
+    "away_score": 3,
+    "home_score": 1,
+    "winner": "한화"
+  },
+  {
+    "date": "2025-08-27",
+    "away_team": "KT",
+    "home_team": "롯데",
+    "away_score": 7,
+    "home_score": 2,
+    "winner": "KT"
+  },
+  {
+    "date": "2025-08-27",
+    "away_team": "LG",
+    "home_team": "NC",
+    "away_score": 10,
+    "home_score": 1,
+    "winner": "LG"
+  },
+  {
+    "date": "2025-08-27",
+    "away_team": "삼성",
+    "home_team": "두산",
+    "away_score": 14,
+    "home_score": 1,
+    "winner": "삼성"
+  },
+  {
+    "date": "2025-08-27",
+    "away_team": "KIA",
+    "home_team": "SSG",
+    "away_score": 4,
+    "home_score": 2,
+    "winner": "KIA"
   }
 ]
