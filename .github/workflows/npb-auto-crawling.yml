@@ -1,4 +1,4 @@
-name: KBO 자동 데이터 크롤링 및 업데이트
+name: NPB 자동 데이터 크롤링 및 업데이트
 
 on:
   push:
@@ -34,11 +34,11 @@ permissions:
 
 # 동시 실행 방지
 concurrency:
-  group: kbo-auto-update
+  group: npb-auto-update
   cancel-in-progress: true
 
 jobs:
-  kbo-auto-update:
+  npb-auto-update:
     runs-on: ubuntu-latest
     
     
@@ -74,9 +74,9 @@ jobs:
     - name: ⚙️ 환경변수 설정
       run: |
         echo "GITHUB_ACTIONS=true" >> $GITHUB_ENV
-        echo "KBO_PROJECT_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+        echo "NPB_PROJECT_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
         echo "NODE_ENV=production" >> $GITHUB_ENV
-        echo "KBO_LOG_LEVEL=INFO" >> $GITHUB_ENV
+        echo "NPB_LOG_LEVEL=INFO" >> $GITHUB_ENV
 
     # 6. 의존성 설치
     - name: 📦 Node.js 의존성 설치
@@ -94,11 +94,11 @@ jobs:
     - name: 🔍 프로젝트 경로 검증
       run: npm test
 
-    # 8. KBO 데이터 크롤링 (조건부)
-    - name: 🕷️ KBO 데이터 크롤링
+    # 8. NPB 데이터 크롤링 (조건부)
+    - name: 🕷️ NPB 데이터 크롤링
       if: ${{ github.event.inputs.skip_crawling != 'true' }}
       run: |
-        echo "🚀 KBO 크롤링 시작..."
+        echo "🚀 NPB 크롤링 시작..."
         npm run crawl
         CRAWL_EXIT_CODE=$?
         if [ $CRAWL_EXIT_CODE -ne 0 ]; then
@@ -219,7 +219,7 @@ jobs:
       id: check_changes
       run: |
         git config --local user.email "action@github.com"
-        git config --local user.name "KBO Auto Crawler"
+        git config --local user.name "NPB Auto Crawler"
         
         # 변경사항 있는지 확인
         if [ -n "$(git status --porcelain)" ]; then
@@ -259,7 +259,7 @@ jobs:
         
         # 커밋 메시지 생성
         git add .
-        git commit -m "🤖 KBO 데이터 자동 업데이트 - ${CURRENT_TIME}
+        git commit -m "🤖 NPB 데이터 자동 업데이트 - ${CURRENT_TIME}
 
         ${TIME_EMOJI} ${TIME_MSG}
         🎯 PathManager 기반 안정적 데이터 처리 완료
@@ -267,7 +267,7 @@ jobs:
         📸 일일 스냅샷 히스토리 저장
         
         🤖 Generated with GitHub Actions
-        Co-Authored-By: KBO-Auto-Crawler <action@github.com>"
+        Co-Authored-By: NPB-Auto-Crawler <action@github.com>"
         
         # 원격 변경사항 확인 및 안전한 푸시
         git fetch origin main
@@ -298,7 +298,7 @@ jobs:
       if: always()
       run: |
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "🎯 KBO 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "🎯 NPB 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         
         # 데이터 파일 확인
@@ -358,14 +358,14 @@ jobs:
       if: always()
       run: |
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "🎯 KBO 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "🎯 NPB 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         
         if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
           echo "✅ 데이터 업데이트: 완료"
           echo "✅ 자동 커밋: 완료" 
           echo "✅ GitHub Pages 자동 배포: Branch 방식으로 진행됨"
-          echo "🌐 배포 URL: https://kbo-dashboard.co.kr"
+          echo "🌐 배포 URL: https://npb-dashboard.co.kr"
         else
           echo "📋 변경사항이 없어서 업데이트를 건너뜁니다"
         fi

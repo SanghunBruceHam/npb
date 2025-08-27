@@ -1,16 +1,16 @@
 {
-  "name": "kbo-magic-number-calculator",
+  "name": "npb-magic-number-calculator",
   "version": "2.0.0",
-  "description": "🏆 KBO 매직넘버 계산기 - 2025 KBO 리그 실시간 매직넘버, 플레이오프 진출 조건 계산 및 자동화 시스템",
+  "description": "🏆 NPB 매직넘버 계산기 - 2025 NPB 리그 실시간 매직넘버, 플레이오프 진출 조건 계산 및 자동화 시스템",
   "main": "magic-number/js/process-season-data.js",
-  "homepage": "https://kbo-dashboard.co.kr/",
+  "homepage": "https://npb-dashboard.co.kr/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanghunBruceHam/kbo.git"
+    "url": "https://github.com/SanghunBruceHam/npb.git"
   },
   "scripts": {
     "process": "node scripts/runner.js magic-number/js/process-season-data.js",
-    "update-data": "node scripts/runner.js magic-number/js/process-season-data.js && echo '✅ KBO 데이터 업데이트 완료!'",
+    "update-data": "node scripts/runner.js magic-number/js/process-season-data.js && echo '✅ NPB 데이터 업데이트 완료!'",
     "crawl": "node scripts/runner.js magic-number/crawlers/kbo-python-working-crawler.py",
     "snapshot": "node scripts/runner.js magic-number/js/daily-snapshot.js snapshot",
     "history": "node scripts/runner.js magic-number/js/daily-snapshot.js history",
@@ -36,7 +36,7 @@
     "help": "node scripts/runner.js --help"
   },
   "keywords": [
-    "kbo",
+    "npb",
     "baseball",
     "magic-number",
     "playoff",
@@ -44,7 +44,7 @@
     "scraping",
     "automation",
     "github-actions",
-    "korean-baseball",
+    "japanese-baseball",
     "pwa",
     "calculator"
   ],
