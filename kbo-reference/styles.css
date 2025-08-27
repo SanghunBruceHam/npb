@@ -1,0 +1,1436 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #f5f7fa;
+            color: var(--default-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        /* 분석 테이블 공통 변수 정의 */
+        :root {
+            /* 색상 변수 */
+            --positive-bg-light: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(22, 163, 74, 0.08) 100%);
+            --positive-bg-medium: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.15) 100%);
+            --positive-bg-strong: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.25) 100%);
+            --positive-color: #059669;
+            
+            --negative-bg-light: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.08) 100%);
+            --negative-bg-medium: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.15) 100%);
+            --negative-bg-strong: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.25) 100%);
+            --negative-color: #dc2626;
+            
+            --neutral-bg-light: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(245, 158, 11, 0.12) 100%);
+            --neutral-bg-medium: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(245, 158, 11, 0.25) 100%);
+            --neutral-bg-strong: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(245, 158, 11, 0.35) 100%);
+            --neutral-color: #f59e0b;
+            
+            /* 추가 강도별 그라데이션 */
+            --positive-bg-very-light: linear-gradient(135deg, rgba(34, 197, 94, 0.02) 0%, rgba(22, 163, 74, 0.04) 100%);
+            --positive-bg-very-strong: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(22, 163, 74, 0.35) 100%);
+            
+            --negative-bg-very-light: linear-gradient(135deg, rgba(239, 68, 68, 0.02) 0%, rgba(220, 38, 38, 0.04) 100%);
+            --negative-bg-very-strong: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.35) 100%);
+            
+            --neutral-bg-very-light: linear-gradient(135deg, rgba(255, 193, 7, 0.05) 0%, rgba(245, 158, 11, 0.08) 100%);
+            --neutral-bg-very-strong: linear-gradient(135deg, rgba(255, 193, 7, 0.4) 0%, rgba(245, 158, 11, 0.45) 100%);
+            
+            --default-bg: #f8f9fa;
+            --default-color: #666;
+            
+            /* 표준화된 폰트 사이즈 */
+            --font-2xs: 0.7rem;    /* 매우 작은 보조 텍스트 */
+            --font-xs: 0.75rem;    /* 작은 보조 텍스트 */
+            --font-sm: 0.8rem;     /* 보조 정보 */
+            --font-base: 0.85rem;  /* 기본 텍스트 */
+            --font-md: 0.9rem;     /* 중간 텍스트 */
+            --font-lg: 1rem;       /* 큰 텍스트 */
+            --font-xl: 1.2rem;     /* 소제목 */
+            --font-2xl: 1.5rem;    /* 중제목 */
+            --font-3xl: 2rem;      /* 대제목 */
+            --font-4xl: 2.5rem;    /* 메인 제목 */
+            --rank-col: 50px;       /* 순위 열 고정 너비 */
+            --team-col: 80px;       /* 팀명 열 고정 너비(기본) */
+            
+            /* 폰트 패밀리 시스템 */
+            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+            
+            /* 폰트 굵기 시스템 */
+            --font-weight-light: 300;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            
+            /* 숫자/데이터 표시용 통합 스타일 */
+            --data-font-family: var(--font-family-base);
+            --data-font-weight: var(--font-weight-semibold);
+            --data-font-size: var(--font-base);
+            
+            /* 승률 표시용 통합 스타일 (일반 폰트로 통일) */
+            --winrate-font-family: var(--font-family-base);
+            --winrate-font-weight: var(--font-weight-semibold);
+            --winrate-font-size: var(--font-base);
+            
+            /* 카드 공통 스타일 변수 */
+            --card-width: 100%;
+            --card-max-width: 100%;
+            --card-padding: 8px;
+            --card-margin: 0 auto 8px auto;
+            --card-border-radius: 15px;
+            --card-background: rgba(255, 255, 255, 0.95);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --card-backdrop-filter: blur(10px);
+            /* Sticky layering & shadow variables */
+            --z-sticky-header: 20;
+            --z-sticky-col1-header: 30;
+            --z-sticky-col1: 25;
+            --z-sticky-col2-header: 40;
+            --z-sticky-col2: 35;
+            --z-sticky-corner: 50; /* top-left corner cell */
+            --sticky-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            --sticky-shadow-soft: 0 2px 4px rgba(0,0,0,0.12);
+        }
+        .container {
+            max-width: var(--card-max-width);
+            margin: 0 auto;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        @media (min-width: 769px) {
+            .container {
+                padding: 20px;
+            }
+        }
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+            color: #ffffff;
+            padding: 40px 20px 25px 20px;
+            margin: 0 0 10px 0;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+        }
+        .header-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .header h1 {
+            font-size: var(--font-4xl);
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: var(--font-weight-bold);
+        }
+        .header .subtitle {
+            font-size: var(--font-xl);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+        }
+        .update-info {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: var(--font-md);
+            font-weight: var(--font-weight-medium);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .full-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 900px) {
+            .full-grid {
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+                gap: 25px;
+                margin-bottom: 30px;
+                max-width: 1400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        /* 대형 화면에서는 최대 2-3컬럼으로 제한 */
+        @media (min-width: 1400px) {
+            .full-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 1200px;
+            }
+        }
+        /* PC 버전 전체 컨테이너 폭 제한 */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1300px;
+            }
+            
+            /* PC에서 날짜를 한 줄로 표시 */
+            .date-cell br {
+                display: none;
+            }
+            
+            .date-cell .date-main {
+                margin-right: 6px;
+            }
+            
+            .date-cell .date-day {
+                margin-right: 6px;
+            }
+            
+            .date-cell .date-time,
+            .date-cell .date-holiday {
+                margin-left: 6px;
+            }
+        }
+        .wide-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .card {
+            background: var(--card-background);
+            border-radius: var(--card-border-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: var(--card-backdrop-filter);
+            margin: var(--card-margin);
+            width: var(--card-width) !important;
+            max-width: var(--card-max-width) !important;
+            min-width: 0 !important;
+            box-sizing: border-box;
+            overflow: visible; /* 모든 콘텐츠 표시 */
+        }
+        /* 광고 카드 전용 클래스 - card 스타일 상속 */
+        .ad-card {
+            background: var(--card-background);
+            border-radius: var(--card-border-radius);
+            padding: var(--card-padding);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: var(--card-backdrop-filter);
+            margin: var(--card-margin);
+            width: var(--card-width) !important;
+            max-width: var(--card-max-width) !important;
+            min-width: 0 !important;
+            box-sizing: border-box;
+            text-align: center;
+            overflow: hidden; /* 광고가 카드 밖으로 넘치지 않도록 */
+        }
+        .ad-card .adsbygoogle {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        /* 개선 제안 카드 전용 스타일 */
+        .improvement-suggestion-content {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .improvement-suggestion-text {
+            font-size: var(--font-base);
+            margin: 0 0 20px 0;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        .improvement-suggestion-subtext {
+            font-size: var(--font-sm);
+            opacity: 0.8;
+        }
+        .improvement-suggestion-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: var(--font-base);
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: var(--font-weight-semibold);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        .improvement-suggestion-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        .card-icon {
+            font-size: var(--font-3xl);
+            margin-right: 15px;
+        }
+        .card-title {
+            font-size: var(--font-2xl);
+            font-weight: var(--font-weight-semibold);
+            color: #2c3e50;
+        }
+        /* 전체 순위표 - 가로 스크롤 */
+        .full-standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+            font-size: var(--font-base);
+        }
+        .full-standings-table th,
+        .full-standings-table td {
+            padding: 10px 6px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            white-space: nowrap;
+        }
+        
+        .full-standings-table th {
+            border: 1px solid #d1d5db;
+        }
+        .full-standings-table th {
+            background: #34495e;
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-base);
+            font-family: var(--font-family-base);
+        }
+        .full-standings-table .team-name {
+            text-align: center !important;
+            font-weight: var(--font-weight-semibold);
+            min-width: 70px;
+        }
+        .full-standings-table .rank-1 { background: #fff3cd; }
+        .full-standings-table .rank-2 { background: #f8f9fa; }
+        .full-standings-table .rank-3 { background: #f8f9fa; }
+        /* 지표 그리드 */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .metric-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+        .metric-card.positive {
+            border-left-color: #27ae60;
+            background: #f0f9f4;
+        }
+        .metric-card.negative {
+            border-left-color: #e74c3c;
+            background: #fdf2f2;
+        }
+        .metric-card.neutral {
+            border-left-color: #d97706;
+            background: #fffbf0;
+        }
+        .metric-value {
+            font-size: var(--font-2xl);
+            font-weight: var(--font-weight-bold);
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .metric-label {
+            font-size: var(--font-sm);
+            color: #7f8c8d;
+            font-weight: var(--font-weight-medium);
+        }
+        .metric-team {
+            font-size: var(--font-md);
+            font-weight: var(--font-weight-semibold);
+            color: #2980b9;
+            margin-bottom: 5px;
+        }
+        /* 상세 테이블 */
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0;
+            font-size: var(--font-base);
+        }
+        .detail-table th,
+        .detail-table td {
+            padding: 8px 6px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+        }
+        .detail-table th {
+            background: #34495e;
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-base);
+            font-family: var(--font-family-base);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            user-select: none;
+            position: relative;
+        }
+        
+        .detail-table th:hover {
+            background: #2c3e50;
+        }
+        
+        .detail-table th.sortable::after {
+            content: '';
+        }
+        
+        .detail-table th.sort-asc::after {
+            content: '';
+        }
+        
+        .detail-table th.sort-desc::after {
+            content: '';
+        }
+        .detail-table .team-name {
+            text-align: center !important;
+            font-weight: var(--font-weight-semibold);
+        }
+        /* 순위 열 스타일 */
+        .detail-table th:first-child {
+            width: var(--rank-col);
+            min-width: var(--rank-col);
+            max-width: var(--rank-col);
+        }
+        
+        /* 순위 셀 통일된 스타일 */
+        .detail-table td:first-child,
+        .full-standings-table td:first-child {
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-bold);
+            text-align: center;
+        }
+        
+        .detail-table td:first-child {
+            width: var(--rank-col);
+            min-width: var(--rank-col);
+            max-width: var(--rank-col);
+            font-weight: var(--font-weight-bold);
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #495057;
+        }
+        /* 순위별 특별 표시 */
+        .rank-1 { 
+            background: linear-gradient(135deg, #ffd700, #ffed4e) !important; 
+            color: #8b5a00 !important; 
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-bold) !important;
+        }
+        .rank-2 { 
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8) !important; 
+            color: #666666 !important; 
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-bold) !important;
+        }
+        .rank-3 { 
+            background: linear-gradient(135deg, #cd7f32, #daa557) !important; 
+            color: #5d3a0a !important; 
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-bold) !important;
+        }
+        
+        .rank-other {
+            font-size: var(--font-base) !important;
+            font-weight: var(--font-weight-semibold) !important;
+        }
+        .positive { color: #059669; font-weight: var(--font-weight-semibold); }
+        .negative { color: #dc2626; font-weight: var(--font-weight-semibold); }
+        .neutral { color: #d97706; font-weight: var(--font-weight-semibold); }
+        
+        /* 승-패-승률 셀 스타일 개선 */
+        .record-cell {
+            text-align: center;
+            padding: 8px 4px;
+            font-size: var(--font-base);
+            line-height: 1.3;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .record-cell:hover {
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .record-cell .record {
+            font-family: var(--data-font-family);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-md);
+            margin-bottom: 2px;
+            display: block;
+        }
+        
+        .record-cell .rate {
+            font-family: var(--winrate-font-family);
+            font-size: var(--font-sm);
+            font-weight: var(--winrate-font-weight);
+            opacity: 0.9;
+            display: block;
+            padding: 1px 4px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.7);
+        }
+        
+        .record-cell .games {
+            font-size: var(--font-2xs);
+            color: #666;
+            margin-top: 2px;
+            display: block;
+            opacity: 0.8;
+        }
+        /* 매트릭스 테이블 */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--font-base);
+            margin-top: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 1100px; /* 매트릭스 테이블 최소 너비 */
+        }
+        .matrix-table th,
+        .matrix-table td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            position: relative;
+            min-width: 90px;
+            width: 90px;
+            max-width: 90px;
+        }
+        .matrix-table th {
+            background: #34495e;
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-base);
+            font-family: var(--font-family-base);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        
+        /* 태블릿 이상 해상도에서 매트릭스 테이블 스티키 헤더 적용 */
+        @media (min-width: 769px) {
+            .matrix-table th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            
+            /* 요일별 테이블 헤더 스티키 적용 */
+            #weekdayTable thead th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            
+            /* 매트릭스 테이블 컨테이너 높이 제한 */
+            #matrixContent .table-container,
+            #remainingGamesContent .table-container {
+                max-height: 600px;
+                overflow-y: auto;
+                position: relative;
+            }
+        }
+        
+        /* 왼쪽 팀명 열 간격 조정 */
+        .matrix-table th:first-child,
+        .matrix-table td:first-child {
+            padding: 8px 4px !important;
+            min-width: 70px !important;
+            width: 70px !important;
+            max-width: 70px !important;
+        }
+        .matrix-table td {
+            background: white;
+            transition: background-color 0.2s ease;
+        }
+        .matrix-table td:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.02);
+        }
+        .matrix-table .matrix-record {
+            font-family: var(--data-font-family) !important;
+            font-weight: var(--font-weight-bold) !important;
+            font-size: var(--font-lg) !important;
+            display: block !important;
+            margin-bottom: 2px !important;
+        }
+        .matrix-table .matrix-remaining {
+            font-size: var(--font-sm) !important;
+            color: #666 !important;
+            font-weight: var(--font-weight-medium) !important;
+        }
+        .matrix-table .diagonal {
+            background: linear-gradient(135deg, #2c3e50, #34495e) !important;
+            color: white !important;
+            font-weight: var(--font-weight-bold) !important;
+        }
+        .matrix-table .positive-strong { background: var(--positive-bg-strong); color: var(--positive-color); }
+        .matrix-table .positive-medium { background: var(--positive-bg-medium); color: var(--positive-color); }
+        .matrix-table .positive-light { background: var(--positive-bg-light); color: var(--positive-color); }
+        .matrix-table .negative-strong { background: var(--negative-bg-strong); color: var(--negative-color); }
+        .matrix-table .negative-medium { background: var(--negative-bg-medium); color: var(--negative-color); }
+        .matrix-table .negative-light { background: var(--negative-bg-light); color: var(--negative-color); }
+        .matrix-table .neutral-strong { background: var(--neutral-bg-strong); color: var(--neutral-color); }
+        .matrix-table .neutral-medium { background: var(--neutral-bg-medium); color: var(--neutral-color); }
+        .matrix-table .neutral-light { background: var(--neutral-bg-light); color: var(--neutral-color); }
+        /* 차트 영역 */
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chart-header {
+            font-size: var(--font-xl);
+            font-weight: var(--font-weight-semibold);
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .chart-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .chart-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: var(--font-sm);
+            font-weight: var(--font-weight-medium);
+            transition: all 0.2s ease;
+        }
+        .chart-btn:hover {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+        .chart-btn.active {
+            background: #2c3e50;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            .chart-wrapper {
+                height: 400px;
+            }
+        }
+        /* 테이블 컨테이너 - 가로 스크롤 */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin-top: 0;
+        }
+        
+        /* 스크롤바 스타일링 */
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* 탭 스타일 */
+        .tab-container {
+            display: flex;
+            gap: 0;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .tab {
+            background: transparent;
+            color: #6c757d;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: var(--font-base);
+            font-weight: var(--font-weight-medium);
+            font-family: var(--font-family-base);
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: fit-content;
+        }
+        
+        .tab:hover {
+            background: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+        }
+        
+        .tab.active {
+            background: #007bff;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 모바일에서 탭 컨테이너 가로 스크롤 */
+        @media (max-width: 768px) {
+            .tab-container {
+                overflow-x: auto;
+                overflow-y: hidden;
+                flex-wrap: nowrap;
+                padding-bottom: 8px;
+                margin-bottom: 20px;
+            }
+            
+            .tab {
+                padding: 10px 14px;
+                font-size: var(--font-sm);
+                min-width: 80px;
+            }
+        }
+        
+        /* 탭 컨테이너 스크롤바 스타일 */
+        .tab-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .tab-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .tab-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 123, 255, 0.3);
+            border-radius: 2px;
+        }
+        /* 접기/펼치기 버튼 스타일 */
+        .toggle-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: var(--font-sm);
+            font-weight: var(--font-weight-medium);
+            font-family: var(--font-family-base);
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .toggle-btn::after {
+            content: '▼';
+            font-size: var(--font-xs);
+            transition: transform 0.2s ease;
+        }
+        
+        .toggle-btn.collapsed::after {
+            transform: rotate(-90deg);
+        }
+        /* 분석 카드 공통 스타일 */
+        .analysis-card {
+            background: var(--card-background);
+            border-radius: var(--card-border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: var(--card-backdrop-filter);
+        }
+        .analysis-header {
+            font-size: var(--font-2xl);
+            font-weight: var(--font-weight-semibold);
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .analysis-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .analysis-content.active {
+            display: block;
+        }
+        /* 통계 요약 카드 */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+        .stat-value {
+            font-size: var(--font-2xl);
+            font-weight: var(--font-weight-bold);
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: var(--font-sm);
+            color: #7f8c8d;
+            font-weight: var(--font-weight-medium);
+        }
+        /* 하이라이트 효과 */
+        .highlight {
+            background: linear-gradient(120deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 235, 59, 0.2) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: var(--font-weight-semibold);
+            color: #f57c00;
+        }
+        /* 팀 로고 스타일 */
+        .team-logo {
+            width: 24px;
+            height: 32px;
+            object-fit: contain;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        @media (max-width: 768px) {
+            .team-logo {
+                width: 20px;
+                height: 26px;
+                margin-right: 4px;
+            }
+        }
+        /* 팀명과 로고 컨테이너 */
+        .team-name-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        /* 선택 기능 개선 방지 */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* 반응형 폰트 크기 조정 */
+        @media (max-width: 480px) {
+            :root {
+                --font-2xs: 0.65rem;
+                --font-xs: 0.7rem;
+                --font-sm: 0.75rem;
+                --font-base: 0.8rem;
+                --font-md: 0.85rem;
+                --font-lg: 0.9rem;
+                --font-xl: 1rem;
+                --font-2xl: 1.2rem;
+                --font-3xl: 1.5rem;
+                --font-4xl: 2rem;
+            }
+        }
+        /* 로딩 애니메이션 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            font-size: var(--font-lg);
+            color: #6c757d;
+        }
+        .loading::after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            margin-left: 10px;
+            border: 3px solid #e3e3e3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* 에러 메시지 */
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 20px 0;
+            font-size: var(--font-base);
+        }
+        /* 성공 메시지 */
+        .success-message {
+            background: #d1edff;
+            color: #0c5460;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #0dcaf0;
+            margin: 20px 0;
+            font-size: var(--font-base);
+        }
+        /* 정보 메시지 */
+        .info-message {
+            background: #cff4fc;
+            color: #055160;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 20px 0;
+            font-size: var(--font-base);
+        }
+        /* 푸터 영역 */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .footer-link {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: var(--font-base);
+            transition: color 0.2s ease;
+        }
+        .footer-link:hover {
+            color: #3498db;
+        }
+        .footer-text {
+            color: #95a5a6;
+            font-size: var(--font-sm);
+            margin-top: 20px;
+        }
+        /* 스크롤 위치 표시 */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform-origin: left;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .scroll-indicator.visible {
+            opacity: 1;
+        }
+        /* 프린트 최적화 */
+        @media print {
+            .card {
+                background: white !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+            
+            .toggle-btn,
+            .chart-controls,
+            .tab-container {
+                display: none !important;
+            }
+            
+            .analysis-content,
+            .tab-content {
+                display: block !important;
+            }
+            
+            body {
+                background: white !important;
+                font-size: 10px !important;
+            }
+            
+            .header {
+                background: white !important;
+                color: black !important;
+            }
+        }
+        /* 다크 모드 준비 (사용자 설정에 따라 활성화) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --card-background: rgba(45, 55, 72, 0.95);
+                --default-bg: #2d3748;
+                --default-color: #e2e8f0;
+            }
+            
+            body {
+                background: #1a202c;
+                color: #e2e8f0;
+            }
+            
+            .detail-table th,
+            .full-standings-table th,
+            .matrix-table th {
+                background: #2d3748 !important;
+                color: #e2e8f0 !important;
+            }
+            
+            .detail-table td,
+            .full-standings-table td,
+            .matrix-table td {
+                background: #374151 !important;
+                color: #e2e8f0 !important;
+                border-color: #4a5568 !important;
+            }
+        }
+        /* 접근성 개선 */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        /* 고대비 모드 지원 */
+        @media (prefers-contrast: high) {
+            .card {
+                border: 2px solid #000;
+            }
+            
+            .detail-table th,
+            .detail-table td {
+                border: 2px solid #000;
+            }
+            
+            .positive { color: #006600 !important; }
+            .negative { color: #cc0000 !important; }
+            .neutral { color: #cc6600 !important; }
+        }
+        
+        /* 추가 반응형 최적화 */
+        @media (max-width: 320px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .card {
+                padding: 6px;
+                margin-bottom: 6px;
+            }
+            
+            .header {
+                padding: 20px 10px 15px 10px;
+            }
+        }
+        /* 최적화된 게임 차트 버튼 스타일 */
+        .games-chart-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0 20px 0;
+            flex-wrap: wrap;
+        }
+        .games-chart-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: var(--font-sm);
+            font-weight: var(--font-weight-medium);
+            font-family: var(--font-family-base);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+            min-width: 70px;
+        }
+        .games-chart-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+        }
+        .games-chart-btn.active {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            box-shadow: 0 3px 12px rgba(79, 70, 229, 0.5);
+            transform: translateY(-2px);
+        }
+        @media (max-width: 480px) {
+            .games-chart-controls {
+                gap: 6px;
+                margin: 12px 0 18px 0;
+            }
+            .games-chart-btn {
+                padding: 6px 10px;
+                font-size: var(--font-xs);
+                min-width: 60px;
+            }
+        }
+        /* sticky 컬럼 지원 (테이블 첫 번째 컬럼 고정) */
+        .sticky-column {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background: inherit;
+            box-shadow: var(--sticky-shadow);
+        }
+        
+        /* sticky 헤더 지원 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: inherit;
+            box-shadow: var(--sticky-shadow-soft);
+        }
+        
+        /* 모바일용 간소화된 매트릭스 */
+        @media (max-width: 768px) {
+            .matrix-table th,
+            .matrix-table td {
+                min-width: 70px;
+                width: 70px;
+                max-width: 70px;
+                padding: 4px 2px;
+            }
+            
+            .matrix-table .matrix-record {
+                font-size: var(--font-base) !important;
+            }
+            
+            .matrix-table .matrix-remaining {
+                font-size: var(--font-xs) !important;
+            }
+        }
+        
+        /* 성능 최적화를 위한 will-change 속성 */
+        .chart-wrapper,
+        .table-container,
+        .toggle-btn,
+        .tab {
+            will-change: transform, opacity;
+        }
+        
+        /* 메모리 최적화를 위한 contain 속성 */
+        .card,
+        .analysis-card {
+            contain: layout style paint;
+        }
+        
+        /* GPU 가속을 위한 transform3d 사용 */
+        .card:hover,
+        .toggle-btn:hover,
+        .tab:hover {
+            transform: translate3d(0, -1px, 0);
+        }
+        
+        /* 크리티컬 CSS 최적화 */
+        .critical-above-fold {
+            display: block;
+        }
+        
+        .non-critical-below-fold {
+            display: none;
+        }
+        
+        /* 웹사이트 로드 완료 후 표시 */
+        .page-loaded .non-critical-below-fold {
+            display: block;
+        }
+        
+        /* 매트릭스 테이블 전용 스타일 - 모바일 최적화 및 스티키 적용 */
+        .matrix-table-container {
+            position: relative;
+            max-height: 500px;
+            overflow: auto;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 매트릭스 테이블 스티키 헤더 */
+        .matrix-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky-header);
+            background: #34495e;
+            box-shadow: var(--sticky-shadow-soft);
+        }
+        
+        /* 매트릭스 테이블 스티키 첫 번째 컬럼 */
+        .matrix-table th:first-child,
+        .matrix-table td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: var(--z-sticky-col1);
+            background: inherit;
+            box-shadow: var(--sticky-shadow);
+        }
+        
+        /* 매트릭스 테이블 좌상단 모서리 셀 */
+        .matrix-table thead th:first-child {
+            z-index: var(--z-sticky-corner);
+            background: #2c3e50;
+        }
+        
+        /* 경기 일정 테이블 최적화 */
+        .schedule-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: var(--font-base);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .schedule-table th,
+        .schedule-table td {
+            padding: 8px 6px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+            border-right: 1px solid #e9ecef;
+        }
+        
+        .schedule-table th {
+            background: linear-gradient(135deg, #495057, #6c757d);
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-base);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .schedule-table tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            transform: scale(1.005);
+            transition: all 0.2s ease;
+        }
+        
+        /* 경기 상태별 스타일 */
+        .game-completed { background-color: rgba(40, 167, 69, 0.1); }
+        .game-scheduled { background-color: rgba(0, 123, 255, 0.1); }
+        .game-postponed { background-color: rgba(220, 53, 69, 0.1); }
+        .game-cancelled { background-color: rgba(108, 117, 125, 0.1); }
+        
+        /* 날짜 셀 특별 스타일 */
+        .date-cell {
+            font-weight: var(--font-weight-semibold);
+            min-width: 80px;
+        }
+        
+        .date-main { color: #495057; }
+        .date-day { color: #6c757d; font-size: var(--font-sm); }
+        .date-time { color: #007bff; font-size: var(--font-sm); }
+        .date-holiday { color: #dc3545; font-weight: var(--font-weight-bold); }
+        
+        /* 스코어 표시 스타일 */
+        .score-display {
+            font-family: var(--data-font-family);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-md);
+        }
+        
+        .score-winner { color: #28a745; }
+        .score-loser { color: #6c757d; }
+        
+        /* 팀명 표시 최적화 */
+        .team-name-short {
+            font-weight: var(--font-weight-semibold);
+            color: #495057;
+        }
+        
+        .team-home { border-left: 3px solid #007bff; padding-left: 6px; }
+        .team-away { border-left: 3px solid #6c757d; padding-left: 6px; }
+        
+        /* 반응형 테이블 스크롤 표시기 */
+        .table-scroll-indicator {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 60px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1));
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .table-container:hover .table-scroll-indicator {
+            opacity: 1;
+        }
+        
+        /* 접근성을 위한 포커스 스타일 */
+        .tab:focus,
+        .toggle-btn:focus,
+        .chart-btn:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        
+        /* 테이블 셀 내용 오버플로우 처리 */
+        .cell-content {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* 툴팁 스타일 (향후 확장용) */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: var(--font-sm);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        
+        .tooltip.visible {
+            opacity: 1;
+        }
+        
+        /* 성능 모니터링을 위한 숨김 스타일 */
+        .performance-marker {
+            display: none;
+        }
+        
+        /* 브라우저별 최적화 */
+        @supports (backdrop-filter: blur(10px)) {
+            .card,
+            .ad-card,
+            .analysis-card {
+                backdrop-filter: blur(10px);
+                background: rgba(255, 255, 255, 0.9);
+            }
+        }
+        
+        @supports not (backdrop-filter: blur(10px)) {
+            .card,
+            .ad-card,
+            .analysis-card {
+                background: rgba(255, 255, 255, 0.98);
+            }
+        }
+        
+        /* iOS Safari 최적화 */
+        @supports (-webkit-touch-callout: none) {
+            .table-container {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        
+        /* 메모리 사용량 최적화 */
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lazy-load.loaded {
+            opacity: 1;
+        }
+        
+        /* 캐시 효율성을 위한 아이콘 폰트 최적화 */
+        .icon {
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* 최종 성능 최적화 규칙 */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        /* 개별 셀의 백그라운드 색상 변화를 위한 유틸리티 클래스 */
+        .bg-positive-very-light { background: var(--positive-bg-very-light); }
+        .bg-positive-light { background: var(--positive-bg-light); }
+        .bg-positive-medium { background: var(--positive-bg-medium); }
+        .bg-positive-strong { background: var(--positive-bg-strong); }
+        .bg-positive-very-strong { background: var(--positive-bg-very-strong); }
+        
+        .bg-negative-very-light { background: var(--negative-bg-very-light); }
+        .bg-negative-light { background: var(--negative-bg-light); }
+        .bg-negative-medium { background: var(--negative-bg-medium); }
+        .bg-negative-strong { background: var(--negative-bg-strong); }
+        .bg-negative-very-strong { background: var(--negative-bg-very-strong); }
+        
+        .bg-neutral-very-light { background: var(--neutral-bg-very-light); }
+        .bg-neutral-light { background: var(--neutral-bg-light); }
+        .bg-neutral-medium { background: var(--neutral-bg-medium); }
+        .bg-neutral-strong { background: var(--neutral-bg-strong); }
+        .bg-neutral-very-strong { background: var(--neutral-bg-very-strong); }

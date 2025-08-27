@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>KBO 매직넘버 계산기 - 실시간 업데이트</title>
-        <description>2025 KBO 리그 매직넘버, 플레이오프 진출 조건, 우승 가능성을 실시간으로 업데이트합니다.</description>
-        <link>https://kbo-dashboard.co.kr/</link>
-        <atom:link href="https://kbo-dashboard.co.kr/rss.xml" rel="self" type="application/rss+xml"/>
+        <title>NPB 매직넘버 계산기 - 실시간 업데이트</title>
+        <description>2025 NPB 리그 매직넘버, 클라이맥스 시리즈 진출 조건, 교류전 성적을 실시간으로 업데이트합니다.</description>
+        <link>https://npb-dashboard.co.kr/</link>
+        <atom:link href="https://npb-dashboard.co.kr/rss.xml" rel="self" type="application/rss+xml"/>
         <language>ko-KR</language>
         <category>Sports</category>
         <category>Baseball</category>
-        <category>KBO</category>
-        <managingEditor>admin@kbo-dashboard.co.kr (KBO 매직넘버 계산기)</managingEditor>
-        <webMaster>webmaster@kbo-dashboard.co.kr (KBO 매직넘버 계산기)</webMaster>
+        <category>NPB</category>
+        <managingEditor>admin@npb-dashboard.co.kr (NPB 매직넘버 계산기)</managingEditor>
+        <webMaster>webmaster@npb-dashboard.co.kr (NPB 매직넘버 계산기)</webMaster>
         <lastBuildDate>Wed, 27 Aug 2025 11:45:00 +0900</lastBuildDate>
         <pubDate>Wed, 27 Aug 2025 11:45:00 +0900</pubDate>
         <ttl>360</ttl>
         <image>
-            <url>https://kbo-dashboard.co.kr/magic-number/icons/kbo-magic-number-icon.png</url>
-            <title>KBO 매직넘버 계산기</title>
-            <link>https://kbo-dashboard.co.kr/</link>
+            <url>https://npb-dashboard.co.kr/images/npb-icon.png</url>
+            <title>NPB 매직넘버 계산기</title>
+            <link>https://npb-dashboard.co.kr/</link>
             <width>144</width>
             <height>144</height>
         </image>

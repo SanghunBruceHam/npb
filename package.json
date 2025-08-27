@@ -11,7 +11,10 @@
   "scripts": {
     "process": "node scripts/runner.js magic-number/js/process-season-data.js",
     "update-data": "node scripts/runner.js magic-number/js/process-season-data.js && echo '✅ NPB 데이터 업데이트 완료!'",
-    "crawl": "node scripts/runner.js magic-number/crawlers/kbo-python-working-crawler.py",
+    "crawl-yahoo": "python3 crawlers/yahoo-npb-daily-crawler.py",
+    "crawl-nikkan": "python3 crawlers/nikkan-npb-crawler.py",
+    "crawl-screenshot": "node crawlers/npb-screenshot-crawler.js",
+    "crawl-sample": "python3 crawlers/simple-npb-crawler.py",
     "snapshot": "node scripts/runner.js magic-number/js/daily-snapshot.js snapshot",
     "history": "node scripts/runner.js magic-number/js/daily-snapshot.js history",
     "trend": "node scripts/runner.js magic-number/js/daily-snapshot.js trend",
