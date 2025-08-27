@@ -260,7 +260,7 @@ LG 7:4 두산(H)
 
 ### 🌐 배포 환경
 - **GitHub Pages**: 정적 사이트 호스팅
-- **Custom Domain**: `kbo.mahalohana-bruce.com`
+- **Custom Domain**: `kbo-dashboard.co.kr`
 - **HTTPS**: Let's Encrypt 보안 인증서
 
 ### 📊 모니터링 및 성능
@@ -362,7 +362,7 @@ LG 7:4 두산(H)
 ### 📧 연락처
 - **개발자**: SanghunBruceHam
 - **이메일**: GitHub 프로필 참조
-- **웹사이트**: https://kbo.mahalohana-bruce.com/
+- **웹사이트**: https://kbo-dashboard.co.kr/
 
 ---
 
@@ -412,7 +412,7 @@ LG 7:4 두산(H)
 
 **📅 최종 업데이트**: 2025년 8월 26일  
 **👨‍💻 작성자**: SanghunBruceHam  
-**🌐 프로젝트 홈페이지**: https://kbo.mahalohana-bruce.com/  
+**🌐 프로젝트 홈페이지**: https://kbo-dashboard.co.kr/  
 **📂 GitHub 저장소**: https://github.com/SanghunBruceHam/kbo
 
 ---

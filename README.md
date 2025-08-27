@@ -49,8 +49,8 @@ kbo/
 
 ## 🌐 웹사이트 접속
 
-- **메인 사이트**: [https://kbo.mahalohana-bruce.com/](https://kbo.mahalohana-bruce.com/)
-- **매직넘버 계산기**: [https://kbo.mahalohana-bruce.com/magic-number/](https://kbo.mahalohana-bruce.com/magic-number/)
+- **메인 사이트**: [https://kbo-dashboard.co.kr/](https://kbo-dashboard.co.kr/)
+- **매직넘버 계산기**: [https://kbo-dashboard.co.kr/magic-number/](https://kbo-dashboard.co.kr/magic-number/)
 
 ## ⚡ 빠른 시작
 
@@ -142,4 +142,4 @@ npm run serve  # http://localhost:8080/magic-number/
 ---
 **최종 업데이트**: 2025년 8월 9일  
 **개발자**: SanghunBruceHam  
-**웹사이트**: https://kbo.mahalohana-bruce.com/
+**웹사이트**: https://kbo-dashboard.co.kr/

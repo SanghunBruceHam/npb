@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "🏆 KBO 매직넘버 계산기 - 2025 KBO 리그 실시간 매직넘버, 플레이오프 진출 조건 계산 및 자동화 시스템",
   "main": "magic-number/js/process-season-data.js",
-  "homepage": "https://kbo.mahalohana-bruce.com/",
+  "homepage": "https://kbo-dashboard.co.kr/",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanghunBruceHam/kbo.git"

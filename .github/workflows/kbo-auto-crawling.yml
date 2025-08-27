@@ -365,7 +365,7 @@ jobs:
           echo "✅ 데이터 업데이트: 완료"
           echo "✅ 자동 커밋: 완료" 
           echo "✅ GitHub Pages 자동 배포: Branch 방식으로 진행됨"
-          echo "🌐 배포 URL: https://kbo.mahalohana-bruce.com"
+          echo "🌐 배포 URL: https://kbo-dashboard.co.kr"
         else
           echo "📋 변경사항이 없어서 업데이트를 건너뜁니다"
         fi
