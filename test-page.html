@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPB 대시보드 테스트</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .status-box {
+            background: #f0fff4;
+            border: 2px solid #68d391;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .success {
+            color: #22543d;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .info {
+            background: #ebf8ff;
+            border: 2px solid #63b3ed;
+            color: #2a4365;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .test-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .test-btn {
+            background: #4299e1;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .test-btn:hover {
+            background: #3182ce;
+        }
+        
+        .test-btn.primary {
+            background: #48bb78;
+        }
+        
+        .test-btn.primary:hover {
+            background: #38a169;
+        }
+        
+        .debug-info {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏟️ NPB 대시보드 연결 테스트</h1>
+        
+        <div class="status-box">
+            <div class="success">✅ 리다이렉트 문제 해결 테스트 중...</div>
+            <p>이 페이지가 정상적으로 로드되면 GitHub Pages 설정이 올바르게 작동하고 있습니다.</p>
+        </div>
+        
+        <div class="info">
+            <strong>현재 URL:</strong><br>
+            <span id="current-url">JavaScript로 확인 중...</span>
+        </div>
+        
+        <div class="test-links">
+            <a href="dashboard.html" class="test-btn primary">대시보드 테스트</a>
+            <a href="index-simple.html" class="test-btn">간단한 페이지</a>
+            <a href="/" class="test-btn">메인 페이지</a>
+        </div>
+        
+        <div class="debug-info">
+            <strong>디버그 정보:</strong><br>
+            현재 시간: <span id="current-time"></span><br>
+            호스트: <span id="host"></span><br>
+            프로토콜: <span id="protocol"></span><br>
+            전체 URL: <span id="full-url"></span>
+        </div>
+        
+        <div class="info">
+            <h3>📋 체크리스트</h3>
+            <ul>
+                <li>✅ CNAME 파일 제거됨</li>
+                <li>✅ Jekyll 워크플로우 비활성화됨</li>
+                <li>✅ 모든 npb-dashboard.co.kr 참조 제거됨</li>
+                <li>✅ Google Analytics 태그 제거됨</li>
+                <li>✅ .nojekyll 파일 추가됨</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 현재 페이지 정보 표시
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('current-time').textContent = new Date().toLocaleString('ko-KR');
+        document.getElementById('host').textContent = window.location.hostname;
+        document.getElementById('protocol').textContent = window.location.protocol;
+        document.getElementById('full-url').textContent = window.location.toString();
+        
+        // 리다이렉트 감지
+        if (window.location.hostname.includes('npb-dashboard.co.kr')) {
+            document.body.innerHTML = `
+                <div style="background: #fed7d7; color: #c53030; padding: 40px; text-align: center; font-size: 18px;">
+                    <h2>❌ 리다이렉트 문제 발생!</h2>
+                    <p>여전히 npb-dashboard.co.kr로 리다이렉트되고 있습니다.</p>
+                    <p>GitHub Pages 설정을 수동으로 확인해야 합니다.</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
