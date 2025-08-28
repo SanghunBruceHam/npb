@@ -265,5 +265,20 @@
             setInterval(updateLastUpdateTime, 60000); // 1분마다 업데이트
         });
     </script>
+
+    <!-- NPB JavaScript 모듈들 로드 -->
+    <!-- 핵심 모듈들 먼저 로드 -->
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/data-manager.js"></script>
+    <script src="js/core/api-client.js"></script>
+    
+    <!-- 테이블 모듈들 로드 -->
+    <script src="js/tables/standings.js"></script>
+    <script src="js/tables/pythagorean.js"></script>
+    <script src="js/tables/home-away.js"></script>
+    <script src="js/tables/magic-number.js"></script>
+    
+    <!-- 메인 애플리케이션 마지막에 로드 -->
+    <script src="js/app.js"></script>
 </body>
 </html>
