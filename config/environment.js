@@ -7,7 +7,7 @@ const npbConfig = {
     version: "1.0.0",
     description: "2025 일본프로야구 리그 실시간 매직넘버 & 클라이맥스 시리즈 분석",
     author: "SanghunBruceHam",
-    homepage: "https://npb-dashboard.co.kr",
+    homepage: "https://sanghunbruceham.github.io/npb",
     repository: "https://github.com/SanghunBruceHam/npb"
   },
 
