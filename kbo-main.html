@@ -28,14 +28,8 @@
     <meta name="geo.region" content="KR">
     <meta name="geo.country" content="Korea">
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8F8C9SDX3"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
     
-      gtag('config', 'G-G8F8C9SDX3');
     </script>
     
     <!-- 추가 SEO 메타태그 -->
@@ -9499,8 +9493,6 @@
                 console.log('LCP:', lastEntry.startTime);
                 
                 // Google Analytics로 전송 (선택사항)
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'web_vitals', {
                         name: 'LCP',
                         value: Math.round(lastEntry.startTime),
                         event_category: 'Web Vitals'
@@ -9513,8 +9505,6 @@
                 entryList.getEntries().forEach((entry) => {
                     console.log('FID:', entry.processingStart - entry.startTime);
                     
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'web_vitals', {
                             name: 'FID',
                             value: Math.round(entry.processingStart - entry.startTime),
                             event_category: 'Web Vitals'
@@ -9536,8 +9526,6 @@
                 window.addEventListener('beforeunload', () => {
                     console.log('CLS:', cumulativeLayoutShift);
                     
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'web_vitals', {
                             name: 'CLS',
                             value: Math.round(cumulativeLayoutShift * 1000) / 1000,
                             event_category: 'Web Vitals'
