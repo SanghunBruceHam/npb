@@ -1,0 +1,22 @@
+{
+    "totalGames": 1000,
+    "lastUpdate": "2025-08-28T00:00:00.000Z",
+    "games": [
+        {
+            "date": "2025-08-27",
+            "homeTeam": "読売ジャイアンツ",
+            "awayTeam": "阪神タイガース",
+            "homeScore": 5,
+            "awayScore": 3,
+            "winner": "読売ジャイアンツ"
+        },
+        {
+            "date": "2025-08-27", 
+            "homeTeam": "福岡ソフトバンクホークス",
+            "awayTeam": "千葉ロッテマリーンズ",
+            "homeScore": 7,
+            "awayScore": 4,
+            "winner": "福岡ソフトバンクホークス"
+        }
+    ]
+}
