@@ -113,27 +113,36 @@ NPB_TEAMS = {
     }
 }
 
-# 데이터 소스 URL 설정
+# 데이터 소스 URL 설정 (니칸스포츠 중심)
 DATA_SOURCES = {
+    'nikkansports': {
+        'base_url': 'https://www.nikkansports.com/baseball/professional',
+        'score_pattern': 'https://www.nikkansports.com/baseball/professional/score/{year}/pf-score-{date}.html',
+        'standings_pattern': 'https://www.nikkansports.com/baseball/professional/score/{year}/pf-score-{date}.html',
+        'rate_limit': 1,  # seconds between requests
+        'timeout': 30,
+        'encoding': 'utf-8',
+        'stable': True,  # 안정적인 URL 패턴
+        'description': '일관된 URL 패턴으로 안정적인 데이터 수집'
+    },
+    
+    # 백업 소스들 (필요시 사용)
     'npb_official': {
         'base_url': 'https://npb.jp',
         'standings': 'https://npb.jp/standings/',
         'games': 'https://npb.jp/games/',
-        'rate_limit': 2,  # seconds between requests
-        'timeout': 30
+        'rate_limit': 2,
+        'timeout': 30,
+        'stable': False,
+        'description': '공식 사이트 (구조 변경 가능성)'
     },
     'yahoo_sports': {
         'base_url': 'https://baseball.yahoo.co.jp/npb',
         'schedule': 'https://baseball.yahoo.co.jp/npb/schedule/',
-        'game_results': 'https://baseball.yahoo.co.jp/npb/game/',
         'rate_limit': 1,
-        'timeout': 20
-    },
-    'sports_navi': {
-        'base_url': 'https://sports.yahoo.co.jp/baseball',
-        'standings': 'https://sports.yahoo.co.jp/baseball/npb/standings',
-        'rate_limit': 1,
-        'timeout': 15
+        'timeout': 20,
+        'stable': False,
+        'description': '야후 스포츠 (구조 변경 가능성)'
     }
 }
 
