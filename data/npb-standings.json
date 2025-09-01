@@ -1,0 +1,138 @@
+{
+  "timestamp": "2025-09-01T07:12:36.534Z",
+  "season": 2025,
+  "standings": [
+    {
+      "rank": 1,
+      "name": "阪神",
+      "league": "central",
+      "wins": 73,
+      "losses": 44,
+      "draws": 3,
+      "winPct": 0.624,
+      "gamesBehind": 0,
+      "gamesPlayed": 120
+    },
+    {
+      "rank": 2,
+      "name": "巨人",
+      "league": "central",
+      "wins": 57,
+      "losses": 60,
+      "draws": 3,
+      "winPct": 0.487,
+      "gamesBehind": 16,
+      "gamesPlayed": 120
+    },
+    {
+      "rank": 3,
+      "name": "DeNA",
+      "league": "central",
+      "wins": 54,
+      "losses": 60,
+      "draws": 5,
+      "winPct": 0.474,
+      "gamesBehind": 17.5,
+      "gamesPlayed": 119
+    },
+    {
+      "rank": 4,
+      "name": "広島",
+      "league": "central",
+      "wins": 53,
+      "losses": 61,
+      "draws": 5,
+      "winPct": 0.465,
+      "gamesBehind": 18.5,
+      "gamesPlayed": 119
+    },
+    {
+      "rank": 5,
+      "name": "中日",
+      "league": "central",
+      "wins": 54,
+      "losses": 63,
+      "draws": 2,
+      "winPct": 0.462,
+      "gamesBehind": 19,
+      "gamesPlayed": 119
+    },
+    {
+      "rank": 6,
+      "name": "ヤクルト",
+      "league": "central",
+      "wins": 43,
+      "losses": 66,
+      "draws": 6,
+      "winPct": 0.394,
+      "gamesBehind": 26,
+      "gamesPlayed": 115
+    },
+    {
+      "rank": 1,
+      "name": "ソフトバンク",
+      "league": "pacific",
+      "wins": 70,
+      "losses": 44,
+      "draws": 4,
+      "winPct": 0.614,
+      "gamesBehind": 0,
+      "gamesPlayed": 118
+    },
+    {
+      "rank": 2,
+      "name": "日本ハム",
+      "league": "pacific",
+      "wins": 70,
+      "losses": 46,
+      "draws": 3,
+      "winPct": 0.603,
+      "gamesBehind": 1,
+      "gamesPlayed": 119
+    },
+    {
+      "rank": 3,
+      "name": "オリックス",
+      "league": "pacific",
+      "wins": 60,
+      "losses": 53,
+      "draws": 3,
+      "winPct": 0.531,
+      "gamesBehind": 8.5,
+      "gamesPlayed": 116
+    },
+    {
+      "rank": 4,
+      "name": "楽天",
+      "league": "pacific",
+      "wins": 56,
+      "losses": 59,
+      "draws": 2,
+      "winPct": 0.487,
+      "gamesBehind": 13.5,
+      "gamesPlayed": 117
+    },
+    {
+      "rank": 5,
+      "name": "西武",
+      "league": "pacific",
+      "wins": 52,
+      "losses": 62,
+      "draws": 3,
+      "winPct": 0.456,
+      "gamesBehind": 17,
+      "gamesPlayed": 117
+    },
+    {
+      "rank": 6,
+      "name": "ロッテ",
+      "league": "pacific",
+      "wins": 44,
+      "losses": 68,
+      "draws": 3,
+      "winPct": 0.393,
+      "gamesBehind": 24,
+      "gamesPlayed": 115
+    }
+  ]
+}

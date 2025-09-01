@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPB 매직넘버 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .league-section {
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .team-name {
+            text-align: left;
+            font-weight: bold;
+        }
+        .magic-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #d00;
+        }
+        .clinched {
+            color: #090;
+            font-weight: bold;
+        }
+        .eliminated {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NPB 2025 매직넘버 분석</h1>
+        
+        <div id="central-league" class="league-section">
+            <h2>セントラル・リーグ</h2>
+            <table id="central-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>팀</th>
+                        <th>승</th>
+                        <th>패</th>
+                        <th>무</th>
+                        <th>승률</th>
+                        <th>게임차</th>
+                        <th>남은경기</th>
+                        <th>최대승수</th>
+                        <th>매직넘버</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        
+        <div id="pacific-league" class="league-section">
+            <h2>パシフィック・リーグ</h2>
+            <table id="pacific-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>팀</th>
+                        <th>승</th>
+                        <th>패</th>
+                        <th>무</th>
+                        <th>승률</th>
+                        <th>게임차</th>
+                        <th>남은경기</th>
+                        <th>최대승수</th>
+                        <th>매직넘버</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_GAMES = 143; // NPB 2025 시즌 총 경기 수
+
+        // 매직넘버 계산 함수
+        function calculateMagicNumber(team, teams) {
+            // 현재 팀의 남은 경기와 최대 가능 승수
+            const teamRemaining = TOTAL_GAMES - team.gamesPlayed;
+            const teamMaxWins = team.wins + teamRemaining;
+            
+            // 다른 팀들의 최대 가능 승수
+            const otherTeams = teams.filter(t => t.name !== team.name);
+            const otherMaxWins = otherTeams.map(t => {
+                const remaining = TOTAL_GAMES - t.gamesPlayed;
+                return t.wins + remaining;
+            });
+            
+            // 2위 팀의 최대 가능 승수 (현재 순위 기준)
+            const secondBestMaxWins = Math.max(...otherMaxWins);
+            
+            // 매직넘버 = (2위 팀 최대승수 + 1) - 현재팀 승수
+            const magicNumber = Math.max(0, secondBestMaxWins + 1 - team.wins);
+            
+            // 이미 확정인 경우
+            if (team.wins > secondBestMaxWins) return '✓';
+            
+            // 탈락한 경우
+            if (teamMaxWins <= Math.max(...otherTeams.map(t => t.wins))) return 'E';
+            
+            return magicNumber;
+        }
+
+        // 데이터 로드 및 렌더링
+        async function loadAndRender() {
+            try {
+                const response = await fetch('data/npb-standings.json');
+                const data = await response.json();
+                
+                // 리그별로 분리
+                const centralTeams = data.standings
+                    .filter(team => team.league === 'central')
+                    .sort((a, b) => b.winPct - a.winPct);
+                    
+                const pacificTeams = data.standings
+                    .filter(team => team.league === 'pacific')
+                    .sort((a, b) => b.winPct - a.winPct);
+                
+                // 테이블 렌더링
+                renderTable('central-table', centralTeams);
+                renderTable('pacific-table', pacificTeams);
+                
+            } catch (error) {
+                console.error('데이터 로드 실패:', error);
+            }
+        }
+
+        function renderTable(tableId, teams) {
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            tbody.innerHTML = '';
+            
+            teams.forEach((team, index) => {
+                const remaining = TOTAL_GAMES - team.gamesPlayed;
+                const maxWins = team.wins + remaining;
+                const magicNumber = calculateMagicNumber(team, teams);
+                
+                const row = document.createElement('tr');
+                if (magicNumber === '✓') row.classList.add('clinched');
+                if (magicNumber === 'E') row.classList.add('eliminated');
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td class="team-name">${team.name}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.losses}</td>
+                    <td>${team.draws}</td>
+                    <td>${team.winPct.toFixed(3)}</td>
+                    <td>${team.gamesBehind || '-'}</td>
+                    <td>${remaining}</td>
+                    <td>${maxWins}</td>
+                    <td class="magic-number">${magicNumber}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // 페이지 로드 시 실행
+        loadAndRender();
+        
+        // 30초마다 자동 갱신
+        setInterval(loadAndRender, 30000);
+    </script>
+</body>
+</html>

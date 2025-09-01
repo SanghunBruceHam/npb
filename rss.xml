@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>NPB 매직넘버 계산기 - 실시간 업데이트</title>
+        <description>2025 NPB 리그 매직넘버, 클라이맥스 시리즈 진출 조건, 교류전 성적을 실시간으로 업데이트합니다.</description>
+        <link>https://npb-dashboard.co.kr/</link>
+        <atom:link href="https://npb-dashboard.co.kr/rss.xml" rel="self" type="application/rss+xml"/>
+        <language>ko-KR</language>
+        <category>Sports</category>
+        <category>Baseball</category>
+        <category>NPB</category>
+        <managingEditor>admin@npb-dashboard.co.kr (NPB 매직넘버 계산기)</managingEditor>
+        <webMaster>webmaster@npb-dashboard.co.kr (NPB 매직넘버 계산기)</webMaster>
+        <lastBuildDate>Wed, 27 Aug 2025 11:45:00 +0900</lastBuildDate>
+        <pubDate>Wed, 27 Aug 2025 11:45:00 +0900</pubDate>
+        <ttl>360</ttl>
+        <image>
+            <url>https://npb-dashboard.co.kr/images/npb-icon.png</url>
+            <title>NPB 매직넘버 계산기</title>
+            <link>https://npb-dashboard.co.kr/</link>
+            <width>144</width>
+            <height>144</height>
+        </image>
+
+        <!-- 최신 업데이트 항목들 -->
+        <item>
+            <title>한화 이글스 매직넘버 44 - 1위 독주, 우승 가시권</title>
+            <description><![CDATA[
+                한화 이글스가 59승 38패 3무로 1위를 유지하며 매직넘버 44를 기록했습니다. 
+                현재 승률 0.608으로 강력한 우승 후보로 자리매김하고 있습니다.
+                
+                주요 현황:
+                • 매직넘버: 44
+                • 잔여경기: 44경기
+                • PO 매직넘버: 13
+                • 최대 가능 승수: 103승
+            ]]></description>
+            <link>https://kbo-dashboard.co.kr/magic-number/#hanwha-update</link>
+            <guid isPermaLink="false">kbo-magic-2025-08-03-hanwha</guid>
+            <pubDate>Sat, 03 Aug 2025 23:00:00 +0900</pubDate>
+            <category>한화 이글스</category>
+            <category>매직넘버</category>
+            <category>우승</category>
+        </item>
+
+        <item>
+            <title>LG 트윈스 2위, 6연승으로 우승 경쟁 합류</title>
+            <description><![CDATA[
+                LG 트윈스가 61승 40패 2무로 2위를 굳건히 지키며 플레이오프 매직넘버 11을 기록했습니다.
+                현재 승률 0.604로 최근 6연승의 무서운 상승세를 보이고 있습니다.
+                
+                주요 현황:
+                • 순위: 2위
+                • PO 매직넘버: 11
+                • 게임차: 0게임 (1위와)
+                • 최근 10경기: 9승 0무 1패
+            ]]></description>
+            <link>https://kbo-dashboard.co.kr/magic-number/#lg-update</link>
+            <guid isPermaLink="false">kbo-magic-2025-08-03-lg</guid>
+            <pubDate>Sat, 03 Aug 2025 22:30:00 +0900</pubDate>
+            <category>LG 트윈스</category>
+            <category>플레이오프</category>
+        </item>
+
+        <item>
+            <title>롯데 자이언츠 3위, 5연승으로 상승세</title>
+            <description><![CDATA[
+                롯데 자이언츠가 최근 5연승으로 3위까지 올라섰습니다. 
+                53승 42패 3무로 플레이오프 매직넘버 19를 기록하며 안정권에 진입했습니다.
+                
+                주요 현황:
+                • 순위: 3위 (상승)
+                • PO 매직넘버: 19
+                • 연속: 5승
+                • 최근 폼: 상승세
+            ]]></description>
+            <link>https://kbo-dashboard.co.kr/magic-number/#lotte-update</link>
+            <guid isPermaLink="false">kbo-magic-2025-07-29-lotte</guid>
+            <pubDate>Sat, 03 Aug 2025 22:00:00 +0900</pubDate>
+            <category>롯데 자이언츠</category>
+            <category>플레이오프</category>
+            <category>연승</category>
+        </item>
+
+        <item>
+            <title>플레이오프 경쟁 치열, 4-7위 팀들 박빙</title>
+            <description><![CDATA[
+                KT, KIA, 삼성, SSG가 플레이오프 진출을 위한 치열한 경쟁을 벌이고 있습니다.
+                모든 팀이 0.500 승률 언저리에서 막상막하의 경기를 보여주고 있어 
+                시즌 막판까지 흥미진진한 순위 경쟁이 예상됩니다.
+                
+                현재 상황:
+                • 4위 KT: 50승 45패 (PO 매직넘버 22)
+                • 5위 KIA: 46승 46패 (PO 매직넘버 26)
+                • 6위 삼성: 47승 47패 (PO 매직넘버 25)
+                • 7위 SSG: 46승 46패 (PO 매직넘버 26)
+            ]]></description>
+            <link>https://kbo-dashboard.co.kr/magic-number/#playoff-race</link>
+            <guid isPermaLink="false">kbo-magic-2025-07-29-playoff</guid>
+            <pubDate>Sat, 03 Aug 2025 21:30:00 +0900</pubDate>
+            <category>플레이오프</category>
+            <category>순위경쟁</category>
+        </item>
+
+        <item>
+            <title>키움 히어로즈 최하위, 플레이오프 진출 사실상 불가능</title>
+            <description><![CDATA[
+                키움 히어로즈가 28승 67패 3무로 최하위를 기록하며 플레이오프 진출이 사실상 불가능해졌습니다.
+                현재 승률 0.295로 역대 최악의 시즌을 보내고 있습니다.
+                
+                현재 상황:
+                • 순위: 10위 (최하위)
+                • 1위와 격차: 30게임
+                • 최근 연속: 5패
+                • 상황: 진출 불가능
+            ]]></description>
+            <link>https://kbo-dashboard.co.kr/magic-number/#kiwoom-update</link>
+            <guid isPermaLink="false">kbo-magic-2025-07-29-kiwoom</guid>
+            <pubDate>Sat, 03 Aug 2025 21:00:00 +0900</pubDate>
+            <category>키움 히어로즈</category>
+            <category>최하위</category>
+        </item>
+
+        <!-- 시스템 업데이트 -->
+        <item>
+            <title>매직넘버 계산기 시스템 업데이트 - 실시간 데이터 연동</title>
+            <description><![CDATA[
+                KBO 매직넘버 계산기가 더욱 정확하고 빠른 데이터 업데이트를 위해 시스템을 개선했습니다.
+                
+                개선사항:
+                • 실시간 순위 업데이트
+                • 매직넘버 자동 계산
+                • 모바일 최적화
+                • 페이지 로딩 속도 향상
+                
+                앞으로도 더 나은 서비스로 찾아뵙겠습니다.
+            ]]></description>
+            <link>https://kbo-dashboard.co.kr/magic-number/</link>
+            <guid isPermaLink="false">kbo-magic-2025-07-29-update</guid>
+            <pubDate>Sat, 03 Aug 2025 20:00:00 +0900</pubDate>
+            <category>시스템</category>
+            <category>업데이트</category>
+        </item>
+    </channel>
+</rss>

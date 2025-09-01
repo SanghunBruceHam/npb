@@ -1,0 +1,386 @@
+name: NPB 자동 데이터 크롤링 및 업데이트
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # 한국시간 기준: 경기 시간대 집중 모니터링 (UTC +9시간 차이)
+    - cron: '30 7 * * *'  # UTC 07:30 = KST 16:30 (오후 4시 반)
+    - cron: '0 8 * * *'   # UTC 08:00 = KST 17:00 (오후 5시)
+    - cron: '30 8 * * *'  # UTC 08:30 = KST 17:30 (오후 5시 반)
+    - cron: '30 10 * * *' # UTC 10:30 = KST 19:30 (오후 7시 반)
+    - cron: '0 11 * * *'  # UTC 11:00 = KST 20:00 (오후 8시)
+    - cron: '30 11 * * *' # UTC 11:30 = KST 20:30 (오후 8시 반)
+    - cron: '0 12 * * *'  # UTC 12:00 = KST 21:00 (오후 9시)
+    - cron: '30 12 * * *' # UTC 12:30 = KST 21:30 (오후 9시 반)
+    - cron: '0 13 * * *'  # UTC 13:00 = KST 22:00 (오후 10시)
+    - cron: '30 13 * * *' # UTC 13:30 = KST 22:30 (오후 10시 반)
+    - cron: '0 14 * * *'  # UTC 14:00 = KST 23:00 (오후 11시)
+    - cron: '30 14 * * *' # UTC 14:30 = KST 23:30 (오후 11시 반)
+  workflow_dispatch: # 수동 실행 허용
+    inputs:
+      skip_crawling:
+        description: '크롤링 건너뛰기 (데이터 처리만)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+# 권한 설정
+permissions:
+  contents: write    # 코드 체크아웃 및 커밋
+
+# 동시 실행 방지
+concurrency:
+  group: npb-auto-update
+  cancel-in-progress: true
+
+jobs:
+  npb-auto-update:
+    runs-on: ubuntu-latest
+    
+    
+    steps:
+    # 1. 저장소 체크아웃
+    - name: 📁 저장소 체크아웃
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # 전체 히스토리 가져오기
+
+    # 2. Node.js 환경 설정
+    - name: 🟢 Node.js 설정
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    # 3. Python 환경 설정
+    - name: 🐍 Python 설정
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    # 4. Chrome 브라우저 설치 (크롤링용)
+    - name: 🌐 Chrome 브라우저 설치
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
+
+    # 5. 환경변수 설정
+    - name: ⚙️ 환경변수 설정
+      run: |
+        echo "GITHUB_ACTIONS=true" >> $GITHUB_ENV
+        echo "NPB_PROJECT_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+        echo "NODE_ENV=production" >> $GITHUB_ENV
+        echo "NPB_LOG_LEVEL=INFO" >> $GITHUB_ENV
+
+    # 6. 의존성 설치
+    - name: 📦 Node.js 의존성 설치
+      run: npm ci
+
+    - name: 📦 Python 의존성 설치
+      run: |
+        if [ -f magic-number/crawlers/requirements.txt ]; then
+          pip install -r magic-number/crawlers/requirements.txt
+        else
+          pip install selenium beautifulsoup4
+        fi
+
+    # 7. 경로 시스템 검증
+    - name: 🔍 프로젝트 경로 검증
+      run: npm test
+
+    # 8. NPB 데이터 크롤링 (조건부)
+    - name: 🕷️ NPB 데이터 크롤링
+      if: ${{ github.event.inputs.skip_crawling != 'true' }}
+      run: |
+        echo "🚀 NPB 크롤링 시작..."
+        npm run crawl
+        CRAWL_EXIT_CODE=$?
+        if [ $CRAWL_EXIT_CODE -ne 0 ]; then
+          echo "❌ 크롤링 실패 (Exit code: $CRAWL_EXIT_CODE)"
+          echo "🔍 크롤링 에러 발생 - 데이터 소스 확인 필요"
+          exit 1
+        fi
+        echo "✅ 크롤링 완료"
+
+    # 9. 크롤링 데이터 검증
+    - name: 🔍 크롤링 데이터 검증
+      if: ${{ github.event.inputs.skip_crawling != 'true' }}
+      run: |
+        echo "📋 크롤링된 데이터 검증 중..."
+        
+        # 2025-season-data-clean.txt 파일 확인
+        if [ ! -f "magic-number/data/2025-season-data-clean.txt" ]; then
+          echo "❌ 2025-season-data-clean.txt 파일이 없습니다"
+          exit 1
+        fi
+        
+        # 파일 크기 확인 (최소 1KB 이상)
+        FILE_SIZE=$(stat -f%z "magic-number/data/2025-season-data-clean.txt" 2>/dev/null || stat -c%s "magic-number/data/2025-season-data-clean.txt" 2>/dev/null)
+        if [ "$FILE_SIZE" -lt 1024 ]; then
+          echo "❌ 데이터 파일이 너무 작습니다 (크기: ${FILE_SIZE} bytes)"
+          exit 1
+        fi
+        
+        # 오늘 날짜 데이터 확인
+        TODAY=$(TZ='Asia/Seoul' date '+%Y-%m-%d')
+        if grep -q "$TODAY" "magic-number/data/2025-season-data-clean.txt"; then
+          echo "✅ 오늘($TODAY) 데이터가 포함되어 있습니다"
+        else
+          echo "⚠️ 오늘($TODAY) 데이터가 없을 수 있습니다 (경기가 없거나 아직 업데이트되지 않음)"
+        fi
+        
+        echo "✅ 데이터 검증 완료"
+
+    # 10. 데이터 처리 및 변환
+    - name: 📊 시즌 데이터 처리
+      run: |
+        echo "📈 시즌 데이터 처리 시작..."
+        npm run process
+        echo "✅ 기본 데이터 처리 완료"
+
+    # 10-1. 데이터 디렉토리 권한 확인 및 설정
+    - name: 📁 데이터 디렉토리 권한 설정
+      run: |
+        echo "📁 데이터 디렉토리 권한 확인 중..."
+        mkdir -p magic-number/data
+        chmod -R 755 magic-number/data
+        ls -la magic-number/data/
+        echo "✅ 데이터 디렉토리 권한 설정 완료"
+
+    # 10-2. 시즌 데이터 파싱 (데이터베이스용)
+    - name: 📊 시즌 데이터 파싱
+      run: |
+        echo "📊 시즌 데이터 파싱 중..."
+        npm run parse-season-data
+        echo "✅ 2025-season-games.json 생성 완료"
+
+    # 10-3. 데이터베이스 업데이트
+    - name: 🗄️ 데이터베이스 업데이트
+      run: |
+        echo "🗄️ SQLite 데이터베이스 업데이트 중..."
+        npm run database-update
+        echo "✅ 데이터베이스 업데이트 완료"
+
+    # 10-4. 게임별 기록 분석 (의존성 파일 생성)
+    - name: 🏆 게임별 기록 분석
+      run: |
+        echo "🏆 게임별 기록 분석 중..."
+        npm run weekly-game-analysis
+        echo "✅ game-by-game-records.json 생성 완료"
+
+    # 10-5. 순위 변동 매트릭스 생성 (순위 변동 그래프용)
+    - name: 📈 순위 변동 매트릭스 생성
+      run: |
+        echo "📈 순위 변동 매트릭스 생성 중..."
+        npm run rank-matrix
+        echo "✅ magic-matrix-data.json 생성 완료"
+
+    # 10-6. 추가 분석 데이터 생성 (루트 index.html용)
+    - name: 📈 고급 분석 데이터 생성
+      run: |
+        echo "🔍 고급 분석 데이터 생성 중..."
+        npm run analysis
+        
+        # 생성된 JSON 파일들 확인
+        echo "📋 생성된 분석 데이터 파일 확인:"
+        for file in enhanced-dashboard.json weekly-analysis.json clutch-analysis.json home-away-analysis.json series-analysis.json game-by-game-records.json magic-matrix-data.json; do
+          if [ -f "magic-number/data/$file" ]; then
+            SIZE=$(du -h "magic-number/data/$file" | cut -f1)
+            echo "  ✅ $file (${SIZE})"
+          else
+            echo "  ❌ $file - 파일이 생성되지 않음"
+          fi
+        done
+        
+        echo "✅ 모든 분석 데이터 생성 완료"
+
+    # 11. 자동 백업 생성
+    - name: 💾 자동 백업 생성
+      run: |
+        echo "🔄 중요 데이터 백업 생성 중..."
+        npm run backup
+        echo "✅ 백업 생성 완료"
+        
+    # 12. 일일 스냅샷 저장
+    - name: 📸 일일 순위 스냅샷 저장
+      run: |
+        echo "💾 일일 스냅샷 저장 중..."
+        npm run snapshot
+        echo "✅ 스냅샷 저장 완료"
+        
+    # 13. 변경사항 확인 및 커밋
+    - name: 📝 변경사항 확인
+      id: check_changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "NPB Auto Crawler"
+        
+        # 변경사항 있는지 확인
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes_detected=true" >> $GITHUB_OUTPUT
+          echo "📋 변경사항 발견됨"
+          git status --short
+        else
+          echo "changes_detected=false" >> $GITHUB_OUTPUT
+          echo "📋 변경사항 없음"
+        fi
+
+    # 13. 자동 커밋 (변경사항이 있을 때만)
+    - name: 🔄 자동 커밋 및 푸시
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        # 현재 시간 (한국시간)
+        CURRENT_TIME=$(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')
+        CURRENT_HOUR=$(TZ='Asia/Seoul' date '+%H')
+        
+        # 시간대별 이모지 및 메시지
+        if [ "$CURRENT_HOUR" -ge 18 ] && [ "$CURRENT_HOUR" -lt 22 ]; then
+          TIME_EMOJI="🌅"
+          TIME_MSG="오후 6시 경기 결과 업데이트"
+        elif [ "$CURRENT_HOUR" -eq 22 ]; then
+          TIME_EMOJI="🌆"
+          TIME_MSG="오후 10시 경기 결과 업데이트"
+        elif [ "$CURRENT_HOUR" -eq 23 ]; then
+          TIME_EMOJI="🌃"
+          TIME_MSG="오후 11시 경기 결과 업데이트"
+        elif [ "$CURRENT_HOUR" -eq 0 ] || [ "$CURRENT_HOUR" -lt 2 ]; then
+          TIME_EMOJI="🌙"
+          TIME_MSG="최종 경기 결과 업데이트 (밤 12시)"
+        else
+          TIME_EMOJI="🔄"
+          TIME_MSG="정기 데이터 업데이트"
+        fi
+        
+        # 커밋 메시지 생성
+        git add .
+        git commit -m "🤖 NPB 데이터 자동 업데이트 - ${CURRENT_TIME}
+
+        ${TIME_EMOJI} ${TIME_MSG}
+        🎯 PathManager 기반 안정적 데이터 처리 완료
+        📊 순위표, 매직넘버, 상대전적 업데이트
+        📸 일일 스냅샷 히스토리 저장
+        
+        🤖 Generated with GitHub Actions
+        Co-Authored-By: NPB-Auto-Crawler <action@github.com>"
+        
+        # 원격 변경사항 확인 및 안전한 푸시
+        git fetch origin main
+        
+        # 원격에 새로운 커밋이 있는지 확인
+        LOCAL_HEAD=$(git rev-parse HEAD)
+        REMOTE_HEAD=$(git rev-parse origin/main)
+        
+        if [ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]; then
+          echo "⚠️ 원격에 새로운 변경사항이 있습니다. 리베이스 시도..."
+          git pull --rebase origin main
+          if [ $? -ne 0 ]; then
+            echo "❌ 리베이스 실패. 현재 변경사항으로 강제 푸시합니다."
+            git push --force-with-lease origin main
+          else
+            echo "✅ 리베이스 성공. 정상 푸시합니다."
+            git push origin main
+          fi
+        else
+          echo "✅ 원격과 동기화됨. 정상 푸시합니다."
+          git push origin main
+        fi
+        
+        echo "✅ 자동 커밋 및 푸시 완료"
+
+    # 14. 실행 결과 요약
+    - name: 📊 실행 결과 요약
+      if: always()
+      run: |
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "🎯 NPB 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        
+        # 데이터 파일 확인
+        echo "📁 데이터 파일 현황:"
+        if [ -f magic-number/data/service-data.json ]; then
+          SERVICE_SIZE=$(du -h magic-number/data/service-data.json | cut -f1)
+          echo "  ✅ service-data.json (${SERVICE_SIZE})"
+        fi
+        if [ -f magic-number/data/kbo-rankings.json ]; then
+          RANKING_SIZE=$(du -h magic-number/data/kbo-rankings.json | cut -f1)
+          echo "  ✅ kbo-rankings.json (${RANKING_SIZE})"
+        fi
+        if [ -f magic-number/history/daily/$(TZ='Asia/Seoul' date '+%Y-%m-%d').json ]; then
+          SNAPSHOT_SIZE=$(du -h magic-number/history/daily/$(TZ='Asia/Seoul' date '+%Y-%m-%d').json | cut -f1)
+          echo "  ✅ 오늘 스냅샷 (${SNAPSHOT_SIZE})"
+        fi
+        
+        # 히스토리 통계
+        if [ -d magic-number/history/daily ]; then
+          DAILY_COUNT=$(ls -1 magic-number/history/daily/*.json 2>/dev/null | wc -l)
+          echo "  📈 총 히스토리: ${DAILY_COUNT}개 일일 스냅샷"
+        fi
+        
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # 15. 파일 확인 (Pages는 main 브랜치에서 자동 배포됨)
+    - name: 📁 배포 파일 확인
+      if: steps.check_changes.outputs.changes_detected == 'true'
+      run: |
+        echo "🌐 GitHub Pages 자동 배포 확인..."
+        
+        # magic-number 폴더 존재 확인
+        if [ ! -d "magic-number" ]; then
+          echo "❌ magic-number 폴더를 찾을 수 없습니다."
+          exit 1
+        fi
+        
+        # 주요 파일들 확인
+        echo "📁 업데이트된 파일들:"
+        echo "  - index.html: $([ -f index.html ] && echo '✅' || echo '❌')"
+        echo "  - magic-number/index.html: $([ -f magic-number/index.html ] && echo '✅' || echo '❌')"
+        echo "  - service-data.json: $([ -f magic-number/data/service-data.json ] && echo '✅' || echo '❌')"
+        echo "  - kbo-rankings.json: $([ -f magic-number/data/kbo-rankings.json ] && echo '✅' || echo '❌')"
+        
+        # 히스토리 파일 수 확인
+        if [ -d magic-number/history/daily ]; then
+          HISTORY_COUNT=$(ls -1 magic-number/history/daily/*.json 2>/dev/null | wc -l)
+          echo "  - 일일 히스토리: ${HISTORY_COUNT}개 파일"
+        fi
+        
+        echo "✅ 파일 확인 완료 - 루트 및 magic-number 모두 배포 준비됨"
+
+
+
+    # 16. 최종 완료 알림
+    - name: 🎉 전체 프로세스 완료 알림
+      if: always()
+      run: |
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "🎯 NPB 자동 업데이트 완료 - $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        
+        if [ "${{ steps.check_changes.outputs.changes_detected }}" == "true" ]; then
+          echo "✅ 데이터 업데이트: 완료"
+          echo "✅ 자동 커밋: 완료" 
+          echo "✅ GitHub Pages 자동 배포: Branch 방식으로 진행됨"
+          echo "🌐 배포 URL: https://npb-dashboard.co.kr"
+        else
+          echo "📋 변경사항이 없어서 업데이트를 건너뜁니다"
+        fi
+        
+        echo "📅 다음 실행 스케줄:"
+        echo "   - 🌅 오후 4시 반 (한국시간 16:30)"
+        echo "   - 🌅 오후 5시 (한국시간 17:00)"
+        echo "   - 🌅 오후 5시 반 (한국시간 17:30)"
+        echo "   - 🌆 오후 7시 반 (한국시간 19:30)"
+        echo "   - 🌆 오후 8시 (한국시간 20:00)"
+        echo "   - 🌆 오후 8시 반 (한국시간 20:30)"
+        echo "   - 🌇 오후 9시 (한국시간 21:00)"
+        echo "   - 🌇 오후 9시 반 (한국시간 21:30)"
+        echo "   - 🌃 오후 10시 (한국시간 22:00)"
+        echo "   - 🌃 오후 10시 반 (한국시간 22:30)"
+        echo "   - 🌃 오후 11시 (한국시간 23:00)"
+        echo "   - 🌙 오후 11시 반 (한국시간 23:30)"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

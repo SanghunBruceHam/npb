@@ -1,0 +1,23 @@
+# KBO 프로젝트 환경변수 설정 예시
+# 실제 사용시 .env 파일로 복사하여 사용하세요
+
+# 프로젝트 루트 경로 (선택사항 - 자동 감지됨)
+# KBO_PROJECT_ROOT=/path/to/your/kbo/project
+
+# 데이터 디렉토리 커스텀 경로 (선택사항)
+# KBO_DATA_DIR=/custom/path/to/data
+
+# 로그 레벨 설정
+KBO_LOG_LEVEL=INFO
+
+# 크롤링 설정
+KBO_CRAWLING_DELAY=2
+KBO_CRAWLING_TIMEOUT=30
+
+# GitHub Actions 환경에서 사용되는 변수들
+# GITHUB_WORKSPACE는 GitHub Actions에서 자동 설정됨
+# RUNNER_OS는 GitHub Actions에서 자동 설정됨 (Linux, Windows, macOS)
+
+# 개발 환경 설정
+NODE_ENV=development
+PYTHON_ENV=development
