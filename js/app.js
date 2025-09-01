@@ -43,6 +43,8 @@ class NPBDashboardApp {
             this.initialized = true;
             console.log('✅ NPB 대시보드 초기화 완료!');
             
+            // 테이블 정렬 기능은 table-sort.js가 자동으로 처리
+            
             // 초기화 완료 이벤트 발생
             this.dispatchEvent('npb-dashboard-ready');
             
@@ -78,10 +80,30 @@ class NPBDashboardApp {
      */
     initializeTables() {
         const tableConfigs = [
+            // 기본 테이블들
             { name: 'standings', class: 'NPBStandingsTable', container: 'standings-container' },
-            { name: 'pythagorean', class: 'NPBPythagoreanTable', container: 'pythagorean-container' },
+            { name: 'magicNumber', class: 'NPBMagicNumberTable', container: 'magic-number-container' },
             { name: 'homeAway', class: 'NPBHomeAwayTable', container: 'home-away-container' },
-            { name: 'magicNumber', class: 'NPBMagicNumberTable', container: 'magic-number-container' }
+            { name: 'headToHead', class: 'NPBHeadToHeadTable', container: 'head-to-head-container' },
+            { name: 'interleague', class: 'NPBInterleagueTable', container: 'interleague-container' },
+            
+            // extra-tabs.js의 View 클래스들
+            { name: 'seasonProgress', class: 'NPBSeasonProgressView', container: 'season-progress-container' },
+            { name: 'clutch', class: 'NPBClutchAnalysisView', container: 'clutch-analysis-container' },
+            { name: 'gameStreaks', class: 'NPBGameStreaksView', container: 'game-streaks-container' },
+            { name: 'teamSchedule', class: 'NPBTeamScheduleView', container: 'team-schedule-container' },
+            { name: 'seriesAnalysis', class: 'NPBSeriesAnalysisView', container: 'series-analysis-container' },
+            { name: 'remainingGames', class: 'NPBRemainingGamesView', container: 'remaining-games-container' },
+            { name: 'stadiumAnalysis', class: 'NPBStadiumAnalysisView', container: 'stadium-analysis-container' },
+            
+            // 통합 컨테이너들 - 개별 컴포넌트 콘텐츠로 매핑
+            { name: 'trendsAnalysis', class: 'NPBDailyTrendsView', container: 'trends-analysis-container' },
+            
+            { name: 'comprehensiveMetrics', class: 'NPBHalfSeasonView', container: 'comprehensive-metrics-container' },
+            
+            { name: 'advancedMetrics', class: 'NPBAdvancedMetricsView', container: 'advanced-metrics-container' },
+            
+            { name: 'periodAnalysis', class: 'NPBMonthlyAnalysisView', container: 'period-analysis-container' }
         ];
         
         tableConfigs.forEach(config => {
@@ -119,7 +141,7 @@ class NPBDashboardApp {
             // 로딩 상태 설정
             window.npbDataManager.setLoading(true);
             
-            // 모든 데이터 로드
+            // 모든 데이터 로드(시즌 데이터 기반 실계산 우선)
             const allData = await window.npbApiClient.loadAllData();
             
             // 데이터 매니저에 데이터 업데이트
@@ -143,8 +165,8 @@ class NPBDashboardApp {
             
         } catch (error) {
             console.error('❌ 초기 데이터 로딩 실패:', error);
-            // 목업 데이터라도 로드
-            this.loadFallbackData();
+            // 폴백 목업 사용 안함: 실제 데이터만 사용
+            this.showError('실제 데이터 로딩에 실패했습니다. 데이터 파일을 확인해 주세요.');
         } finally {
             window.npbDataManager.setLoading(false);
         }
@@ -153,23 +175,7 @@ class NPBDashboardApp {
     /**
      * 폴백 데이터 로드 (목업 데이터 사용)
      */
-    loadFallbackData() {
-        console.log('🔄 폴백 데이터 로딩...');
-        
-        try {
-            const mockStandings = window.npbApiClient.getMockStandings();
-            const mockTeamStats = window.npbApiClient.getMockTeamStats();
-            const mockGameRecords = window.npbApiClient.getMockGameRecords();
-            
-            window.npbDataManager.updateData('standings', mockStandings);
-            window.npbDataManager.updateData('teamStats', mockTeamStats);
-            window.npbDataManager.updateData('gameRecords', mockGameRecords);
-            
-            console.log('✅ 폴백 데이터 로딩 완료');
-        } catch (error) {
-            console.error('❌ 폴백 데이터 로딩도 실패:', error);
-        }
-    }
+    loadFallbackData() { /* 더 이상 목업 로드하지 않음 */ }
     
     /**
      * 이벤트 리스너 설정
@@ -324,6 +330,8 @@ class NPBDashboardApp {
         if (targetButton) targetButton.classList.add('active');
         
         console.log(`📋 탭 전환: ${tabName}`);
+        
+        // 정렬 기능은 table-sort.js가 자동 처리
     }
     
     /**
@@ -472,20 +480,65 @@ class NPBDashboardApp {
     }
 }
 
+// 모든 모듈이 로드될 때까지 대기하는 함수
+function waitForModules(maxAttempts = 50) {
+    return new Promise((resolve, reject) => {
+        let attempts = 0;
+        
+        const checkModules = () => {
+            attempts++;
+            
+            // 필수 모듈들이 모두 로드되었는지 확인
+            const requiredModules = ['NPBUtils', 'npbDataManager', 'npbApiClient'];
+            const allLoaded = requiredModules.every(module => window[module]);
+            
+            if (allLoaded) {
+                console.log('✅ 모든 모듈이 로드되었습니다.');
+                resolve();
+            } else if (attempts >= maxAttempts) {
+                reject(new Error(`모듈 로딩 실패. 누락된 모듈: ${requiredModules.filter(m => !window[m]).join(', ')}`));
+            } else {
+                console.log(`⏳ 모듈 로딩 대기 중... (${attempts}/${maxAttempts})`);
+                setTimeout(checkModules, 100);
+            }
+        };
+        
+        checkModules();
+    });
+}
+
 // DOM 로드 완료 후 자동 초기화
 document.addEventListener('DOMContentLoaded', async () => {
-    // 전역 앱 인스턴스 생성
-    window.npbDashboard = new NPBDashboardApp();
-    
-    // 저장된 테마 복원
-    const savedTheme = NPBUtils.storage.get('theme', 'light');
-    document.body.setAttribute('data-theme', savedTheme);
-    
-    // 앱 초기화
     try {
+        // 모든 모듈이 로드될 때까지 대기
+        await waitForModules();
+        
+        // 전역 앱 인스턴스 생성
+        window.npbDashboard = new NPBDashboardApp();
+        
+        // 저장된 테마 복원
+        if (window.NPBUtils && window.NPBUtils.storage) {
+            const savedTheme = window.NPBUtils.storage.get('theme', 'light');
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+        
+        // 앱 초기화
+        console.log('🚀 NPB 대시보드 초기화 시작...');
         await window.npbDashboard.init();
+        
     } catch (error) {
-        console.error('NPB 대시보드 자동 초기화 실패:', error);
+        console.error('❌ NPB 대시보드 자동 초기화 실패:', error);
+        
+        // 초기화 오류 표시
+        const errorContainer = document.getElementById('initialization-error');
+        if (errorContainer) {
+            errorContainer.style.display = 'block';
+            errorContainer.innerHTML = `
+                <h3>⚠️ 초기화 오류</h3>
+                <p>${error.message}</p>
+                <button onclick="location.reload()">페이지 새로고침</button>
+            `;
+        }
     }
 });
 

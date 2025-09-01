@@ -11,8 +11,9 @@ const NPBUtils = {
      * @returns {number} 승률 (0.000 형태)
      */
     calculateWinPct(wins, losses, draws = 0) {
-        const totalGames = wins + losses + draws;
-        return totalGames === 0 ? 0 : wins / totalGames;
+        // NPB 승률은 무승부 제외
+        const decisiveGames = wins + losses;
+        return decisiveGames === 0 ? 0 : wins / decisiveGames;
     },
     
     /**
@@ -49,12 +50,10 @@ const NPBUtils = {
      * @returns {number} 게임차
      */
     calculateGamesBehind(team, leader) {
-        const teamPct = team.wins / (team.wins + team.losses);
-        const leaderPct = leader.wins / (leader.wins + leader.losses);
-        const teamGames = team.wins + team.losses;
-        const leaderGames = leader.wins + leader.losses;
-        
-        return ((leaderPct * leaderGames) - (teamPct * teamGames)) / 2;
+        // GB = ((리더W - 팀W) + (팀L - 리더L)) / 2  (무승부 제외)
+        const dWins = (leader.wins || 0) - (team.wins || 0);
+        const dLoss = (team.losses || 0) - (leader.losses || 0);
+        return (dWins + dLoss) / 2;
     },
     
     /**
@@ -152,6 +151,7 @@ const NPBUtils = {
             'ホークス': '福岡ソフトバンクホークス',
             'ロッテ': '千葉ロッテマリーンズ',
             'マリーンズ': '千葉ロッテマリーンズ',
+            '日本ハム': '北海道日本ハムファイターズ',
             '西武': '埼玉西武ライオンズ',
             'ライオンズ': '埼玉西武ライオンズ',
             '楽天': '東北楽天ゴールデンイーグルス',
@@ -163,6 +163,42 @@ const NPBUtils = {
         };
         
         return nameMap[teamName] || teamName;
+    },
+    
+    /**
+     * 팀 이모지 반환
+     * @param {string} teamName - 팀명
+     * @returns {string} 팀 이모지
+     */
+    getTeamEmoji(teamName) {
+        const emojiMap = {
+            '読売ジャイアンツ': '🟠',
+            '巨人': '🟠',
+            '阪神タイガース': '🐯',
+            '阪神': '🐯',
+            '広島東洋カープ': '🔴',
+            '広島': '🔴',
+            '横浜DeNAベイスターズ': '⭐',
+            'DeNA': '⭐',
+            '中日ドラゴンズ': '🐲',
+            '中日': '🐲',
+            'ヤクルトスワローズ': '🕊️',
+            'ヤクルト': '🕊️',
+            '福岡ソフトバンクホークス': '🦅',
+            'ソフトバンク': '🦅',
+            '千葉ロッテマリーンズ': '🌊',
+            'ロッテ': '🌊',
+            '埼玉西武ライオンズ': '🦁',
+            '西武': '🦁',
+            '東北楽天ゴールデンイーグルス': '🦅',
+            '楽天': '🦅',
+            '北海道日本ハムファイターズ': '⚾',
+            '日本ハム': '⚾',
+            'オリックスバファローズ': '🐃',
+            'オリックス': '🐃'
+        };
+        
+        return emojiMap[teamName] || '⚾';
     },
     
     /**
@@ -285,7 +321,7 @@ const NPBUtils = {
     }
 };
 
-// 전역 유틸리티 함수로 등록
+// 전역 등록
 if (typeof window !== 'undefined') {
     window.NPBUtils = NPBUtils;
 }

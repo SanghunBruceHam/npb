@@ -67,52 +67,33 @@ class NPBApiClient {
      * NPB 순위 데이터 가져오기
      */
     async getStandings() {
-        try {
-            const data = await this.requestWithRetry(`${this.baseUrl}/npb-standings.json`);
-            return this.processStandingsData(data);
-        } catch (error) {
-            console.error('순위 데이터 로드 실패:', error);
-            return this.getMockStandings(); // 목업 데이터 반환
-        }
+        // 기본 파일 로드. 실제 데이터 우선화를 위해 loadAllData에서 seasonData 기반으로 재계산함.
+        const data = await this.requestWithRetry(`${this.baseUrl}/npb-standings.json`);
+        return this.processStandingsData(data);
     }
     
     /**
      * NPB 팀 통계 데이터 가져오기
      */
     async getTeamStats() {
-        try {
-            const data = await this.requestWithRetry(`${this.baseUrl}/npb-team-stats.json`);
-            return this.processTeamStatsData(data);
-        } catch (error) {
-            console.error('팀 통계 데이터 로드 실패:', error);
-            return this.getMockTeamStats();
-        }
+        const data = await this.requestWithRetry(`${this.baseUrl}/npb-team-stats.json`);
+        return this.processTeamStatsData(data);
     }
     
     /**
      * NPB 경기 기록 가져오기
      */
     async getGameRecords() {
-        try {
-            const data = await this.requestWithRetry(`${this.baseUrl}/npb-game-records.json`);
-            return this.processGameRecordsData(data);
-        } catch (error) {
-            console.error('경기 기록 데이터 로드 실패:', error);
-            return this.getMockGameRecords();
-        }
+        const data = await this.requestWithRetry(`${this.baseUrl}/npb-game-records.json`);
+        return this.processGameRecordsData(data);
     }
     
     /**
      * 시즌 데이터 가져오기 (크롤링된 데이터)
      */
     async getSeasonData() {
-        try {
-            const data = await this.requestWithRetry(`${this.baseUrl}/npb-2025-season-data.json`);
-            return data;
-        } catch (error) {
-            console.error('시즌 데이터 로드 실패:', error);
-            return null;
-        }
+        const data = await this.requestWithRetry(`${this.baseUrl}/npb-2025-season-data.json`);
+        return data;
     }
     
     /**
@@ -122,20 +103,32 @@ class NPBApiClient {
         console.log('📡 NPB 데이터 로딩 시작...');
         
         try {
-            const [standings, teamStats, gameRecords, seasonData] = await Promise.allSettled([
+            // 시즌 데이터 우선 로드(실제 데이터 계산 기반)
+            const seasonData = await this.getSeasonData().catch(() => null);
+            const [standingsRes, teamStatsRes, gameRecordsRes] = await Promise.allSettled([
                 this.getStandings(),
                 this.getTeamStats(),
-                this.getGameRecords(),
-                this.getSeasonData()
+                this.getGameRecords()
             ]);
-            
-            const result = {
-                standings: standings.status === 'fulfilled' ? standings.value : null,
-                teamStats: teamStats.status === 'fulfilled' ? teamStats.value : null,
-                gameRecords: gameRecords.status === 'fulfilled' ? gameRecords.value : null,
-                seasonData: seasonData.status === 'fulfilled' ? seasonData.value : null,
-                loadTime: new Date()
-            };
+
+            let standings = standingsRes.status === 'fulfilled' ? standingsRes.value : null;
+            let teamStats = teamStatsRes.status === 'fulfilled' ? teamStatsRes.value : null;
+            let gameRecords = gameRecordsRes.status === 'fulfilled' ? gameRecordsRes.value : null;
+
+            // 시즌 데이터가 있으면 이를 기반으로 실시간 계산하여 덮어쓰기
+            if (seasonData && Array.isArray(seasonData)) {
+                try {
+                    standings = this.buildStandingsFromSeasonData(seasonData);
+                } catch (e) { console.warn('standings 재계산 실패:', e.message); }
+                try {
+                    teamStats = this.buildTeamStatsFromSeasonData(seasonData);
+                } catch (e) { console.warn('teamStats 재계산 실패:', e.message); }
+                try {
+                    gameRecords = this.buildGameRecordsFromSeasonData(seasonData);
+                } catch (e) { console.warn('gameRecords 재구성 실패:', e.message); }
+            }
+
+            const result = { standings, teamStats, gameRecords, seasonData, loadTime: new Date() };
             
             console.log('✅ NPB 데이터 로딩 완료:', result);
             return result;
@@ -149,70 +142,122 @@ class NPBApiClient {
      * 순위 데이터 처리
      */
     processStandingsData(data) {
-        if (!data || !Array.isArray(data)) return this.getMockStandings();
-        
-        return data.map(team => ({
-            ...team,
-            winPct: team.wins / (team.wins + team.losses + team.draws),
-            gamesBehind: 0 // 계산 필요
-        })).sort((a, b) => b.winPct - a.winPct);
+        // data가 객체이고 standings 배열을 가지고 있는 경우
+        if (data && data.standings && Array.isArray(data.standings)) {
+            return data.standings.map(team => ({
+                ...team,
+                winPct: team.winPct || ((team.wins + team.losses) > 0 ? team.wins / (team.wins + team.losses) : 0),
+                gamesBehind: team.gamesBehind || 0
+            }));
+        }
+        // data가 직접 배열인 경우 (legacy 지원)
+        else if (Array.isArray(data)) {
+            return data.map(team => ({
+                ...team,
+                winPct: team.winPct || ((team.wins + team.losses) > 0 ? team.wins / (team.wins + team.losses) : 0),
+                gamesBehind: team.gamesBehind || 0
+            }));
+        }
+        return null;
     }
     
     /**
      * 팀 통계 데이터 처리
      */
     processTeamStatsData(data) {
-        return data || this.getMockTeamStats();
+        return data || null;
     }
     
     /**
      * 경기 기록 데이터 처리
      */
     processGameRecordsData(data) {
-        return data || this.getMockGameRecords();
+        return data || null;
     }
     
     /**
      * 목업 순위 데이터 (개발용)
      */
-    getMockStandings() {
-        return [
-            { name: '読売ジャイアンツ', league: 'central', wins: 45, losses: 30, draws: 0, winPct: 0.600 },
-            { name: '阪神タイガース', league: 'central', wins: 42, losses: 33, draws: 0, winPct: 0.560 },
-            { name: '広島東洋カープ', league: 'central', wins: 40, losses: 35, draws: 0, winPct: 0.533 },
-            { name: '横浜DeNAベイスターズ', league: 'central', wins: 38, losses: 37, draws: 0, winPct: 0.507 },
-            { name: '中日ドラゴンズ', league: 'central', wins: 35, losses: 40, draws: 0, winPct: 0.467 },
-            { name: 'ヤクルトスワローズ', league: 'central', wins: 32, losses: 43, draws: 0, winPct: 0.427 },
-            { name: '福岡ソフトバンクホークス', league: 'pacific', wins: 48, losses: 27, draws: 0, winPct: 0.640 },
-            { name: '千葉ロッテマリーンズ', league: 'pacific', wins: 44, losses: 31, draws: 0, winPct: 0.587 },
-            { name: '埼玉西武ライオンズ', league: 'pacific', wins: 41, losses: 34, draws: 0, winPct: 0.547 },
-            { name: '東北楽天ゴールデンイーグルス', league: 'pacific', wins: 38, losses: 37, draws: 0, winPct: 0.507 },
-            { name: '北海道日本ハムファイターズ', league: 'pacific', wins: 35, losses: 40, draws: 0, winPct: 0.467 },
-            { name: 'オリックスバファローズ', league: 'pacific', wins: 29, losses: 46, draws: 0, winPct: 0.387 }
-        ];
-    }
-    
-    /**
-     * 목업 팀 통계 (개발용)
-     */
-    getMockTeamStats() {
-        return this.getMockStandings().map(team => ({
-            ...team,
-            runsScored: Math.floor(Math.random() * 200) + 300,
-            runsAllowed: Math.floor(Math.random() * 200) + 300,
-            homeWins: Math.floor(team.wins * 0.6),
-            awayWins: Math.floor(team.wins * 0.4)
+    // 시즌 데이터 기반 실시간 계산기들
+    buildStandingsFromSeasonData(seasonData) {
+        const teamSet = new Set();
+        seasonData.forEach(day => (day.games || []).forEach(g => {
+            teamSet.add(NPBUtils.normalizeTeamName(g.homeTeam || g.home));
+            teamSet.add(NPBUtils.normalizeTeamName(g.awayTeam || g.away));
         }));
+        const teams = Array.from(teamSet);
+        const tally = new Map(teams.map(t => [t, { wins:0, losses:0, draws:0 }]));
+        const days = [...seasonData].sort((a,b)=> new Date(a.date)-new Date(b.date));
+        for (const day of days) {
+            for (const g of (day.games || [])) {
+                const hs = g.homeScore, as = g.awayScore;
+                if (typeof hs !== 'number' || typeof as !== 'number') continue;
+                const h = NPBUtils.normalizeTeamName(g.homeTeam || g.home);
+                const a = NPBUtils.normalizeTeamName(g.awayTeam || g.away);
+                const hT = tally.get(h), aT = tally.get(a);
+                if (hs === as) { hT.draws++; aT.draws++; }
+                else if (hs > as) { hT.wins++; aT.losses++; }
+                else { hT.losses++; aT.wins++; }
+            }
+        }
+        return teams.map(name => {
+            const t = tally.get(name);
+            const league = NPBUtils.getTeamLeague(name);
+            const winPct = NPBUtils.calculateWinPct(t.wins, t.losses, t.draws);
+            return { name, league, wins: t.wins, losses: t.losses, draws: t.draws, winPct };
+        }).sort((a,b)=> b.winPct - a.winPct || (b.wins - a.wins));
     }
-    
-    /**
-     * 목업 경기 기록 (개발용)
-     */
-    getMockGameRecords() {
+
+    buildTeamStatsFromSeasonData(seasonData) {
+        const teamSet = new Set();
+        seasonData.forEach(day => (day.games || []).forEach(g => {
+            teamSet.add(NPBUtils.normalizeTeamName(g.homeTeam || g.home));
+            teamSet.add(NPBUtils.normalizeTeamName(g.awayTeam || g.away));
+        }));
+        const teams = Array.from(teamSet);
+        const init = () => ({ runsScored:0, runsAllowed:0, wins:0, losses:0, draws:0, homeWins:0, awayWins:0 });
+        const map = new Map(teams.map(t=>[t, init()]));
+        for (const day of seasonData) {
+            for (const g of (day.games || [])) {
+                const hs = g.homeScore, as = g.awayScore;
+                if (typeof hs !== 'number' || typeof as !== 'number') continue;
+                const h = NPBUtils.normalizeTeamName(g.homeTeam || g.home);
+                const a = NPBUtils.normalizeTeamName(g.awayTeam || g.away);
+                const hm = map.get(h), am = map.get(a);
+                hm.runsScored += hs; hm.runsAllowed += as;
+                am.runsScored += as; am.runsAllowed += hs;
+                if (hs === as) { hm.draws++; am.draws++; }
+                else if (hs > as) { hm.wins++; am.losses++; hm.homeWins++; }
+                else { am.wins++; hm.losses++; am.awayWins++; }
+            }
+        }
+        return teams.map(name => {
+            const s = map.get(name);
+            const league = NPBUtils.getTeamLeague(name);
+            return { name, league, ...s };
+        });
+    }
+
+    buildGameRecordsFromSeasonData(seasonData) {
+        const games = [];
+        let finalCount = 0;
+        seasonData.forEach(day => {
+            (day.games || []).forEach(g => {
+                games.push({
+                    date: day.date,
+                    homeTeam: g.homeTeam || g.home,
+                    awayTeam: g.awayTeam || g.away,
+                    homeScore: g.homeScore,
+                    awayScore: g.awayScore,
+                    status: g.status || g.gameType || null
+                });
+                if (typeof g.homeScore === 'number' && typeof g.awayScore === 'number') finalCount++;
+            });
+        });
         return {
-            totalGames: 1000,
+            totalGames: finalCount,
             lastUpdate: new Date().toISOString(),
-            games: []
+            games
         };
     }
 }

@@ -19,6 +19,12 @@ const npbConfig = {
       interleague: 18    // 교류전 경기
     },
     totalSeasonGames: 161,  // 총 경기 수
+    // 2025 올스타 브레이크 (공식 NPB 페이지 기준)
+    // 제1전: 2025-07-23, 제2전: 2025-07-24
+    allStar: {
+      firstGame: '2025-07-23',
+      secondGame: '2025-07-24'
+    }
   },
 
   // 클라이맥스 시리즈 설정

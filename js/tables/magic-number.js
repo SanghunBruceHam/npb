@@ -11,8 +11,12 @@ class NPBMagicNumberTable {
         }
         
         this.data = null;
-        this.totalGames = 143; // NPB 시즌 총 경기 수
-        this.playoffSpots = 3; // 각 리그당 플레이오프 진출 팀 수
+        this.totalGames = 143; // NPB 2025 시즌 총 경기 수 (정규시즌)
+        this.playoffSpots = 3; // 각 리그당 클라이맥스 시리즈 진출 팀 수 (1위, 2위, 3위)
+        this.leagueNames = {
+            central: '센트럴',
+            pacific: '퍼시픽'
+        };
         this.init();
     }
     
@@ -44,13 +48,10 @@ class NPBMagicNumberTable {
                 <p class="section-description">리그 우승과 플레이오프 진출에 필요한 승수를 분석합니다.</p>
                 
                 <div class="magic-controls">
-                    <div class="scenario-selector">
-                        <label>시나리오:</label>
-                        <select id="magic-scenario">
-                            <option value="championship">리그 우승</option>
-                            <option value="playoff">플레이오프 진출</option>
-                            <option value="elimination">플레이오프 탈락</option>
-                        </select>
+                    <div class="scenario-tabs">
+                        <button class="scenario-tab-btn active" data-scenario="championship">🏆 리그 우승</button>
+                        <button class="scenario-tab-btn" data-scenario="playoff">⚾ 플레이오프 진출</button>
+                        <button class="scenario-tab-btn" data-scenario="elimination">❌ 플레이오프 탈락</button>
                     </div>
                     
                     <div class="remaining-games-info">
@@ -68,11 +69,13 @@ class NPBMagicNumberTable {
                                     <th>팀</th>
                                     <th>승</th>
                                     <th>패</th>
-                                    <th>남은 경기</th>
+                                    <th>승률</th>
+                                    <th>게임차</th>
+                                    <th>남은경기</th>
                                     <th>매직넘버</th>
-                                    <th>최대 가능 승수</th>
-                                    <th>우승 가능성</th>
-                                    <th>플레이오프 확률</th>
+                                    <th>최대승수</th>
+                                    <th>리그우승</th>
+                                    <th>CS진출</th>
                                 </tr>
                             </thead>
                             <tbody id="central-magic-body">
@@ -90,11 +93,13 @@ class NPBMagicNumberTable {
                                     <th>팀</th>
                                     <th>승</th>
                                     <th>패</th>
-                                    <th>남은 경기</th>
+                                    <th>승률</th>
+                                    <th>게임차</th>
+                                    <th>남은경기</th>
                                     <th>매직넘버</th>
-                                    <th>최대 가능 승수</th>
-                                    <th>우승 가능성</th>
-                                    <th>플레이오프 확률</th>
+                                    <th>최대승수</th>
+                                    <th>리그우승</th>
+                                    <th>CS진출</th>
                                 </tr>
                             </thead>
                             <tbody id="pacific-magic-body">
@@ -123,10 +128,14 @@ class NPBMagicNumberTable {
      * 컨트롤 설정
      */
     setupControls() {
-        const scenarioSelect = document.getElementById('magic-scenario');
-        if (scenarioSelect) {
-            scenarioSelect.addEventListener('change', () => this.render());
-        }
+        // 시나리오 탭 이벤트 리스너
+        document.querySelectorAll('.scenario-tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.scenario-tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.render();
+            });
+        });
     }
     
     /**
@@ -161,6 +170,10 @@ class NPBMagicNumberTable {
         // 요약 정보 렌더링
         this.renderSummary(centralMagicData, pacificMagicData);
         
+        // 상단 카드 업데이트
+        const allTeams = [...centralMagicData, ...pacificMagicData];
+        this.updateMagicStatusCard(allTeams);
+        
         console.log('🔮 매직넘버 테이블 렌더링 완료');
     }
     
@@ -168,7 +181,8 @@ class NPBMagicNumberTable {
      * 매직넘버 계산
      */
     calculateMagicNumbers(teams) {
-        const scenario = document.getElementById('magic-scenario')?.value || 'championship';
+        const activeBtn = document.querySelector('.scenario-tab-btn.active');
+        const scenario = activeBtn ? activeBtn.dataset.scenario : 'championship';
         
         return teams.map((team, index) => {
             const rank = index + 1;
@@ -216,55 +230,86 @@ class NPBMagicNumberTable {
      * 리그 우승 매직넘버 계산
      */
     calculateChampionshipMagicNumber(team, teams) {
-        // 2위 팀의 최대 가능 승수와 비교
         const otherTeams = teams.filter(t => t.name !== team.name);
-        if (otherTeams.length === 0) return 1;
+        if (otherTeams.length === 0) return 0; // 팀이 1개뿐이면 이미 우승
         
-        const secondBestMaxWins = Math.max(...otherTeams.map(t => {
+        // 현재 팀의 최대 가능 승수
+        const teamTotalGames = team.wins + team.losses + (team.draws || 0);
+        const teamRemainingGames = this.totalGames - teamTotalGames;
+        const teamMaxWins = team.wins + teamRemainingGames;
+        
+        // 다른 팀들의 현재 승수와 최대 가능 승수 계산
+        const otherTeamsData = otherTeams.map(t => {
             const totalGames = t.wins + t.losses + (t.draws || 0);
-            return t.wins + (this.totalGames - totalGames);
-        }));
+            const remainingGames = this.totalGames - totalGames;
+            return {
+                name: t.name,
+                currentWins: t.wins,
+                maxWins: t.wins + remainingGames
+            };
+        });
         
-        const magicNumber = Math.max(1, secondBestMaxWins + 1 - team.wins);
+        // 2위 팀(현재 승수 기준)의 최대 가능 승수
+        const secondBestTeamMaxWins = otherTeamsData
+            .sort((a, b) => b.currentWins - a.currentWins)[0]?.maxWins || 0;
         
-        // 이미 우승 확정인지 확인
-        if (team.wins > secondBestMaxWins) return 0;
+        // 매직넘버 계산: (2위 팀 최대승수 + 1) - 현재팀승수
+        let magicNumber = Math.max(0, secondBestTeamMaxWins + 1 - team.wins);
         
-        // 탈락했는지 확인
-        const teamMaxWins = team.wins + (this.totalGames - team.wins - team.losses - (team.draws || 0));
-        if (teamMaxWins <= secondBestMaxWins) return 'E';
+        // 이미 우승 확정인지 확인 (현재 승수가 다른 모든 팀의 최대 가능 승수보다 큰 경우)
+        const maxOtherTeamWins = Math.max(...otherTeamsData.map(t => t.maxWins));
+        if (team.wins > maxOtherTeamWins) return 0;
+        
+        // 탈락했는지 확인 (최대 가능 승수가 현재 1위 팀의 승수보다 작은 경우)
+        const firstPlaceWins = Math.max(...otherTeamsData.map(t => t.currentWins));
+        if (teamMaxWins < firstPlaceWins) return 'E';
         
         return magicNumber;
     }
     
     /**
-     * 플레이오프 진출 매직넘버 계산
+     * 플레이오프 진출 매직넘버 계산 (NPB는 각 리그 3위까지 플레이오프)
      */
     calculatePlayoffMagicNumber(team, teams) {
-        // 4위 팀의 최대 가능 승수와 비교
         const otherTeams = teams.filter(t => t.name !== team.name);
-        if (otherTeams.length < this.playoffSpots) return 1;
+        if (otherTeams.length < this.playoffSpots) return 0; // 충분한 팀이 없으면 이미 확정
         
-        const sortedOthers = otherTeams
+        // 현재 팀의 최대 가능 승수
+        const teamTotalGames = team.wins + team.losses + (team.draws || 0);
+        const teamRemainingGames = this.totalGames - teamTotalGames;
+        const teamMaxWins = team.wins + teamRemainingGames;
+        
+        // 다른 팀들의 최대 가능 승수 계산
+        const otherTeamsData = otherTeams
             .map(t => {
                 const totalGames = t.wins + t.losses + (t.draws || 0);
+                const remainingGames = this.totalGames - totalGames;
                 return {
-                    ...t,
-                    maxWins: t.wins + (this.totalGames - totalGames)
+                    name: t.name,
+                    currentWins: t.wins,
+                    maxWins: t.wins + remainingGames,
+                    winPct: t.winPct || (t.wins / (t.wins + t.losses + (t.draws || 0)))
                 };
             })
-            .sort((a, b) => b.maxWins - a.maxWins);
+            .sort((a, b) => b.maxWins - a.maxWins); // 최대 가능 승수 기준 정렬
         
-        const fourthBestMaxWins = sortedOthers[this.playoffSpots - 1]?.maxWins || 0;
+        // 플레이오프 컷라인 (3위)에 해당하는 팀의 최대 가능 승수
+        const playoffCutoffMaxWins = otherTeamsData[this.playoffSpots - 1]?.maxWins || 0;
         
-        const magicNumber = Math.max(1, fourthBestMaxWins + 1 - team.wins);
+        // 매직넘버 계산: (컷라인 팀의 최대승수 + 1) - 현재팀승수
+        let magicNumber = Math.max(0, playoffCutoffMaxWins + 1 - team.wins);
         
         // 이미 플레이오프 확정인지 확인
-        if (team.wins > fourthBestMaxWins) return 0;
+        if (team.wins > playoffCutoffMaxWins) return 0;
         
-        // 탈락했는지 확인
-        const teamMaxWins = team.wins + (this.totalGames - team.wins - team.losses - (team.draws || 0));
-        if (teamMaxWins <= fourthBestMaxWins) return 'E';
+        // 플레이오프 탈락했는지 확인 (상위 3팀의 현재 승수와 비교)
+        const topThreeCurrentWins = otherTeamsData
+            .sort((a, b) => b.currentWins - a.currentWins)
+            .slice(0, this.playoffSpots) // 현재 상위 3팀
+            .map(t => t.currentWins);
+        const thirdPlaceWins = topThreeCurrentWins[2] || 0;
+        
+        if (teamMaxWins < thirdPlaceWins) return 'E';
         
         return magicNumber;
     }
@@ -283,41 +328,91 @@ class NPBMagicNumberTable {
     }
     
     /**
-     * 우승 확률 계산 (간단한 추정)
+     * 리그 우승 확률 계산 (NPB 정규시즌 1위)
      */
     calculateChampionshipProbability(team, teams) {
         const teamRank = teams.findIndex(t => t.name === team.name) + 1;
-        if (teamRank > 3) return 0;
         
-        // 현재 순위와 승률을 기반으로 한 간단한 확률 모델
-        const winPctFactor = Math.pow(team.winPct, 2);
-        const rankPenalty = Math.pow(0.7, teamRank - 1);
+        // 이미 확정된 경우
+        if (team.status === 'clinched' && team.magicNumber === 0) return 100;
+        if (team.status === 'eliminated') return 0;
         
-        return Math.min(95, Math.max(1, winPctFactor * rankPenalty * 100));
+        // 4위 이하는 우승 가능성이 매우 낮음
+        if (teamRank > 4) return 0;
+        
+        // 승률 기반 기본 확률
+        const winPctFactor = team.winPct || (team.wins / (team.wins + team.losses + (team.draws || 0)));
+        
+        // 순위별 가중치 (1위가 압도적으로 유리)
+        let rankMultiplier;
+        if (teamRank === 1) rankMultiplier = 2.5;
+        else if (teamRank === 2) rankMultiplier = 1.2;
+        else if (teamRank === 3) rankMultiplier = 0.6;
+        else rankMultiplier = 0.2;
+        
+        // 매직넘버가 작을수록 확률 증가
+        let magicFactor = 1.0;
+        if (typeof team.magicNumber === 'number' && team.magicNumber > 0) {
+            magicFactor = Math.max(0.3, 1 - (team.magicNumber / 20));
+        }
+        
+        // 남은 경기 수 고려
+        const remainingGamesFactor = 1 + (team.remainingGames / this.totalGames * 0.5);
+        
+        const baseProbability = winPctFactor * rankMultiplier * magicFactor * remainingGamesFactor * 100;
+        
+        return Math.min(95, Math.max(0.1, baseProbability));
     }
     
     /**
-     * 플레이오프 진출 확률 계산
+     * 클라이맥스 시리즈 진출 확률 계산 (NPB 플레이오프)
      */
     calculatePlayoffProbability(team, teams) {
         const teamRank = teams.findIndex(t => t.name === team.name) + 1;
-        if (teamRank > 5) return 0;
         
-        const winPctFactor = team.winPct;
-        const rankBonus = teamRank <= this.playoffSpots ? 1.5 : Math.pow(0.8, teamRank - this.playoffSpots);
+        // 4위 이하는 클라이맥스 시리즈 진출 불가
+        if (teamRank > this.playoffSpots) return 0;
         
-        return Math.min(99, Math.max(1, winPctFactor * rankBonus * 100));
+        // 이미 확정된 팀
+        if (team.status === 'clinched') return 100;
+        if (team.status === 'eliminated') return 0;
+        
+        // 승률과 순위 기반 확률 계산
+        const winPctFactor = team.winPct || (team.wins / (team.wins + team.losses + (team.draws || 0)));
+        
+        // 순위별 가중치 (1위: 높은 확률, 3위: 중간 확률)
+        let rankMultiplier;
+        if (teamRank === 1) rankMultiplier = 1.8;
+        else if (teamRank === 2) rankMultiplier = 1.4;
+        else if (teamRank === 3) rankMultiplier = 1.0;
+        
+        // 남은 경기와 게임차 고려
+        const gamesToPlay = team.remainingGames || 0;
+        const gamesFactor = Math.min(1.2, 1 + (gamesToPlay / this.totalGames));
+        
+        const baseProbability = winPctFactor * rankMultiplier * gamesFactor * 100;
+        
+        return Math.min(99, Math.max(1, baseProbability));
     }
     
     /**
      * 팀 상태 판단
      */
     getTeamStatus(rank, magicNumber, remainingGames) {
+        // 확정 상황
         if (magicNumber === 0) return 'clinched';
         if (magicNumber === 'E') return 'eliminated';
-        if (rank === 1 && magicNumber <= 5) return 'magic-low';
-        if (rank <= 3 && magicNumber <= remainingGames) return 'contender';
-        if (rank <= 3) return 'in-race';
+        
+        // 매직넘버가 낮은 경우 (우승 가능성 높음)
+        if (rank === 1 && typeof magicNumber === 'number' && magicNumber <= 5) return 'magic-low';
+        
+        // 플레이오프 경쟁권 (3위까지)
+        if (rank <= 3 && typeof magicNumber === 'number') {
+            if (magicNumber <= remainingGames) return 'contender';
+            return 'in-race';
+        }
+        
+        // 플레이오프 경쟁 밖
         return 'longshot';
     }
     
@@ -329,7 +424,6 @@ class NPBMagicNumberTable {
         if (!tbody) return;
         
         tbody.innerHTML = teams.map(team => {
-            const logoFileName = NPBUtils.getTeamLogoFileName(team.name);
             const league = NPBUtils.getTeamLeague(team.name);
             
             // 상태에 따른 클래스
@@ -338,16 +432,28 @@ class NPBMagicNumberTable {
                                team.magicNumber === 0 ? '✓' : 
                                team.magicNumber;
             
+            // 승률 계산
+            const winPct = (team.wins / (team.wins + team.losses + (team.draws || 0)) * 100).toFixed(1);
+            
+            // 게임차 계산 (1위와의 차이)
+            const firstPlaceWins = teams[0].wins;
+            const firstPlaceLosses = teams[0].losses;
+            const gameBehind = team.rank === 1 ? '-' : 
+                ((firstPlaceWins - team.wins + team.losses - firstPlaceLosses) / 2).toFixed(1);
+            
             return `
                 <tr class="team-row ${statusClass}">
                     <td class="rank">${team.rank}</td>
                     <td class="team-name">
-                        <img src="/images/${league}/${logoFileName}" 
-                             alt="${team.name}" class="team-logo" onerror="this.style.display='none'">
-                        <span>${team.name}</span>
+                        <div class="team-info">
+                            <span class="team-logo">${NPBUtils.getTeamEmoji(team.name)}</span>
+                            <span>${team.name}</span>
+                        </div>
                     </td>
                     <td class="wins">${team.wins}</td>
                     <td class="losses">${team.losses}</td>
+                    <td class="win-pct">${winPct}%</td>
+                    <td class="game-behind">${gameBehind}</td>
                     <td class="remaining">${team.remainingGames}</td>
                     <td class="magic-number ${team.magicNumber <= 5 && team.magicNumber > 0 ? 'critical' : ''}">${magicDisplay}</td>
                     <td class="max-wins">${team.maxPossibleWins}</td>
@@ -412,6 +518,24 @@ class NPBMagicNumberTable {
                 </div>
             ` : ''}
         `;
+    }
+    
+    // 매직넘버 현황을 상단 카드에 업데이트
+    updateMagicStatusCard(allTeams) {
+        const statusCard = document.getElementById('magic-status-card');
+        if (!statusCard) return;
+        
+        const clinched = allTeams.filter(t => t.status === 'clinched');
+        const eliminated = allTeams.filter(t => t.status === 'eliminated');
+        const contenders = allTeams.filter(t => t.status === 'contender' || t.status === 'in-race');
+        
+        document.getElementById('clinched-count').textContent = clinched.length;
+        document.getElementById('eliminated-count').textContent = eliminated.length;
+        document.getElementById('competing-count').textContent = contenders.length;
+        document.getElementById('avg-magic-number').textContent = this.calculateAverageMagicNumber(allTeams);
+        
+        // 카드 표시
+        statusCard.style.display = 'block';
     }
     
     /**

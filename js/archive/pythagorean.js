@@ -125,6 +125,8 @@ class NPBPythagoreanTable {
         
         // 기본적으로 세리그 표시
         this.renderLeague('central');
+        
+        
         console.log('🔬 피타고리안 분석 테이블 렌더링 완료');
     }
     
@@ -189,7 +191,6 @@ class NPBPythagoreanTable {
         
         tbody.innerHTML = teams.map((team, index) => {
             const rank = index + 1;
-            const logoFileName = NPBUtils.getTeamLogoFileName(team.name);
             const league = NPBUtils.getTeamLeague(team.name);
             
             // 차이에 따른 색상 클래스
@@ -202,11 +203,7 @@ class NPBPythagoreanTable {
             return `
                 <tr class="team-row">
                     <td class="rank">${rank}</td>
-                    <td class="team-name">
-                        <img src="/images/${league}/${logoFileName}" 
-                             alt="${team.name}" class="team-logo" onerror="this.style.display='none'">
-                        <span>${team.name}</span>
-                    </td>
+                    <td class="team-name">${team.name}</td>
                     <td class="actual-winpct">${NPBUtils.formatWinPct(team.actualWinPct)}</td>
                     <td class="pythagorean-winpct">${NPBUtils.formatWinPct(team.pythagoreanWinPct)}</td>
                     <td class="difference ${differenceClass}">
@@ -221,6 +218,7 @@ class NPBPythagoreanTable {
                 </tr>
             `;
         }).join('');
+        
     }
     
     /**

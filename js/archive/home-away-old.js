@@ -1,5 +1,6 @@
 /**
- * NPB 홈/원정 성적 분석 테이블 모듈 - 통일된 구조
+ * NPB 홈/원정 성적 분석 테이블 모듈
+ * 각 팀의 홈구장과 원정에서의 성적을 비교 분석
  */
 class NPBHomeAwayTable {
     constructor(containerId) {
@@ -15,34 +16,48 @@ class NPBHomeAwayTable {
         this.init();
     }
     
+    /**
+     * 초기화
+     */
     init() {
+        // 데이터 구독 설정
         this.subscribeToData();
         this.createTable();
     }
     
+    /**
+     * 데이터 구독 설정
+     */
     subscribeToData() {
         if (!window.npbDataManager) return;
         
+        // 순위 데이터 구독
         window.npbDataManager.subscribe('standings', (data) => {
             this.data = data;
             this.renderIfReady();
         });
         
+        // 팀 통계 데이터 구독
         window.npbDataManager.subscribe('teamStats', (data) => {
             this.teamStats = data;
             this.renderIfReady();
         });
         
+        // 경기 기록 데이터 구독
         window.npbDataManager.subscribe('gameRecords', (data) => {
             this.gameRecords = data;
             this.renderIfReady();
         });
         
+        // 로딩 상태 구독
         window.npbDataManager.subscribe('loading', (isLoading) => {
             this.showLoadingState(isLoading);
         });
     }
     
+    /**
+     * 테이블 구조 생성
+     */
     createTable() {
         this.container.innerHTML = `
             <div class="unified-section">
@@ -111,6 +126,9 @@ class NPBHomeAwayTable {
         }, 100);
     }
     
+    /**
+     * 정렬 기능 초기화
+     */
     initializeSorting() {
         const tables = this.container.querySelectorAll('.unified-table');
         tables.forEach(table => {
@@ -123,6 +141,9 @@ class NPBHomeAwayTable {
         });
     }
     
+    /**
+     * 테이블 정렬
+     */
     sortTable(table, clickedHeader) {
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -157,17 +178,26 @@ class NPBHomeAwayTable {
         rows.forEach(row => tbody.appendChild(row));
     }
     
+    /**
+     * 셀 값 추출
+     */
     getCellValue(row, columnIndex) {
         const cell = row.cells[columnIndex];
         return cell.textContent.trim();
     }
     
+    /**
+     * 데이터가 준비되면 렌더링
+     */
     renderIfReady() {
         if (this.data && this.teamStats && this.gameRecords) {
             this.render();
         }
     }
     
+    /**
+     * 데이터 렌더링
+     */
     render() {
         if (!this.data) return;
         
@@ -182,6 +212,9 @@ class NPBHomeAwayTable {
         this.renderLeagueTable('pacific-home-away-body', pacificData);
     }
     
+    /**
+     * 홈/원정 데이터 계산
+     */
     calculateHomeAwayStats() {
         return this.data.map(team => {
             const homeGames = this.gameRecords?.filter(game => 
@@ -223,6 +256,9 @@ class NPBHomeAwayTable {
         });
     }
     
+    /**
+     * 리그별 테이블 렌더링
+     */
     renderLeagueTable(bodyId, teams) {
         const tbody = document.getElementById(bodyId);
         if (!tbody) return;
@@ -250,7 +286,44 @@ class NPBHomeAwayTable {
         }).join('');
     }
     
+    /**
+     * 로딩 상태 표시
+     */
     showLoadingState(isLoading) {
         // 로딩 상태 처리 (필요시 구현)
     }
+    
+    /**
+     * 데이터 새로고침
+     */
+    async refresh() {
+        if (window.npbApiClient && window.npbDataManager) {
+            window.npbDataManager.setLoading(true);
+            try {
+                const [standings, teamStats, gameRecords] = await Promise.all([
+                    window.npbApiClient.getStandings(),
+                    window.npbApiClient.getTeamStats(),
+                    window.npbApiClient.getGameRecords()
+                ]);
+                
+                window.npbDataManager.updateData('standings', standings);
+                window.npbDataManager.updateData('teamStats', teamStats);
+                window.npbDataManager.updateData('gameRecords', gameRecords);
+            } catch (error) {
+                console.error('홈/원정 데이터 새로고침 실패:', error);
+            } finally {
+                window.npbDataManager.setLoading(false);
+            }
+        }
+    }
+}
+
+// 전역 사용을 위한 등록
+if (typeof window !== 'undefined') {
+    window.NPBHomeAwayTable = NPBHomeAwayTable;
+}
+
+// Node.js 환경 지원
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = NPBHomeAwayTable;
 }
