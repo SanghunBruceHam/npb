@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPB Dashboard - 일본프로야구 데이터 분석 플랫폼</title>
+    <meta name="description" content="NPB 2025시즌 실시간 순위, 매직넘버, 상대전적 등 종합 야구 데이터 분석">
+    <meta name="keywords" content="NPB, 일본프로야구, 순위표, 매직넘버, 야구통계, 데이터분석">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center py-3">
+                <div class="header-brand">
+                    <h1 class="h3 mb-0 fw-bold">NPB Dashboard</h1>
+                    <small class="text-muted">일본프로야구 2025시즌</small>
+                </div>
+                <div class="header-stats d-none d-md-flex">
+                    <div class="d-flex gap-4">
+                        <div class="text-center">
+                            <div class="fw-bold fs-5" id="completed-games">-</div>
+                            <small class="text-muted">완료 경기</small>
+                        </div>
+                        <div class="text-center">
+                            <div class="fw-bold fs-5" id="season-progress">-</div>
+                            <small class="text-muted">시즌 진행률</small>
+                        </div>
+                        <div class="text-center">
+                            <div class="fw-bold fs-5" id="current-date"></div>
+                            <small class="text-muted">업데이트: <span id="last-update">로딩중</span></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline-primary btn-sm" id="refresh-btn">
+                        <i class="bi bi-arrow-clockwise me-1"></i>
+                        <span class="d-none d-sm-inline">새로고침</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="main-nav">
+        <div class="container-fluid">
+            <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="standings-tab" data-bs-toggle="tab" data-bs-target="#standings" type="button" role="tab">
+                        <i class="bi bi-list-ol me-2"></i>
+                        <span class="nav-text">순위표</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="magic-tab" data-bs-toggle="tab" data-bs-target="#magic" type="button" role="tab">
+                        <i class="bi bi-stars me-2"></i>
+                        <span class="nav-text">매직넘버</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="matchups-tab" data-bs-toggle="tab" data-bs-target="#matchups" type="button" role="tab">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>
+                        <span class="nav-text">상대전적</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
+                        <i class="bi bi-graph-up me-2"></i>
+                        <span class="nav-text">분석</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule" type="button" role="tab">
+                        <i class="bi bi-calendar3 me-2"></i>
+                        <span class="nav-text">일정</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-fluid">
+            <div class="tab-content" id="mainTabContent">
+                
+                <!-- 순위표 Tab -->
+                <div class="tab-pane fade show active" id="standings" role="tabpanel">
+                    <div class="content-header">
+                        <h2 class="content-title">실시간 순위표</h2>
+                        <p class="content-subtitle">NPB 2025시즌 센트럴/퍼시픽 리그 현재 순위</p>
+                    </div>
+
+                    <!-- League Selector -->
+                    <div class="league-selector mb-4">
+                        <ul class="nav nav-pills justify-content-center" id="leagueSelector" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="all-leagues-tab" data-bs-toggle="pill" data-bs-target="#all-leagues" type="button" role="tab">
+                                    전체 리그
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="central-only-tab" data-bs-toggle="pill" data-bs-target="#central-only" type="button" role="tab">
+                                    센트럴 리그
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pacific-only-tab" data-bs-toggle="pill" data-bs-target="#pacific-only" type="button" role="tab">
+                                    퍼시픽 리그
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Standings Content -->
+                    <div class="tab-content" id="leagueTabContent">
+                        <!-- All Leagues View -->
+                        <div class="tab-pane fade show active" id="all-leagues" role="tabpanel">
+                            <div class="row g-4">
+                                <div class="col-xl-6">
+                                    <div class="standings-section">
+                                        <div class="standings-header central-header">
+                                            <h3 class="h5 mb-0 fw-bold">센트럴 리그</h3>
+                                            <small class="text-light opacity-75">Central League</small>
+                                        </div>
+                                        <div id="central-standings-loading" class="loading-state">
+                                            <div class="d-flex justify-content-center py-4">
+                                                <div class="spinner-border text-primary" role="status"></div>
+                                            </div>
+                                        </div>
+                                        <div id="central-standings" class="standings-table-container">
+                                            <!-- Central League standings will be inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="standings-section">
+                                        <div class="standings-header pacific-header">
+                                            <h3 class="h5 mb-0 fw-bold">퍼시픽 리그</h3>
+                                            <small class="text-light opacity-75">Pacific League</small>
+                                        </div>
+                                        <div id="pacific-standings-loading" class="loading-state">
+                                            <div class="d-flex justify-content-center py-4">
+                                                <div class="spinner-border text-primary" role="status"></div>
+                                            </div>
+                                        </div>
+                                        <div id="pacific-standings" class="standings-table-container">
+                                            <!-- Pacific League standings will be inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Central League Only -->
+                        <div class="tab-pane fade" id="central-only" role="tabpanel">
+                            <div class="standings-section full-width">
+                                <div id="central-standings-single" class="standings-table-container">
+                                    <!-- Central League standings (full width) -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pacific League Only -->
+                        <div class="tab-pane fade" id="pacific-only" role="tabpanel">
+                            <div class="standings-section full-width">
+                                <div id="pacific-standings-single" class="standings-table-container">
+                                    <!-- Pacific League standings (full width) -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 매직넘버 Tab -->
+                <div class="tab-pane fade" id="magic" role="tabpanel">
+                    <div class="content-header">
+                        <h2 class="content-title">매직넘버 분석</h2>
+                        <p class="content-subtitle">우승 및 플레이오프 진출 가능성 분석</p>
+                    </div>
+
+                    <!-- Magic Number Sub-tabs -->
+                    <div class="sub-nav mb-4">
+                        <ul class="nav nav-tabs" id="magicTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="scenarios-tab" data-bs-toggle="tab" data-bs-target="#scenarios" type="button" role="tab">
+                                    <i class="bi bi-dice-5 me-2"></i>경우의 수
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="comeback-tab" data-bs-toggle="tab" data-bs-target="#comeback" type="button" role="tab">
+                                    <i class="bi bi-trophy me-2"></i>1위 탈환
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="playoff-tab" data-bs-toggle="tab" data-bs-target="#playoff" type="button" role="tab">
+                                    <i class="bi bi-award me-2"></i>플레이오프
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="magic-standings-tab" data-bs-toggle="tab" data-bs-target="#magic-standings" type="button" role="tab">
+                                    <i class="bi bi-table me-2"></i>순위표
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="magicTabContent">
+                        <div class="tab-pane fade show active" id="scenarios" role="tabpanel">
+                            <div id="magic-scenarios-content">
+                                <!-- Magic number scenarios content -->
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="comeback" role="tabpanel">
+                            <div id="magic-comeback-content">
+                                <!-- Comeback scenarios content -->
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="playoff" role="tabpanel">
+                            <div id="magic-playoff-content">
+                                <!-- Playoff scenarios content -->
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="magic-standings" role="tabpanel">
+                            <div id="magic-standings-content">
+                                <!-- Magic number standings content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 상대전적 Tab -->
+                <div class="tab-pane fade" id="matchups" role="tabpanel">
+                    <div class="content-header">
+                        <h2 class="content-title">상대전적 매트릭스</h2>
+                        <p class="content-subtitle">NPB 12개 팀 간의 시즌 상대전적</p>
+                    </div>
+
+                    <div id="head-to-head-loading" class="loading-state">
+                        <div class="d-flex justify-content-center py-5">
+                            <div class="spinner-border text-primary" role="status"></div>
+                        </div>
+                    </div>
+                    <div id="head-to-head-matrix">
+                        <!-- Head-to-head matrix will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- 분석 Tab -->
+                <div class="tab-pane fade" id="analytics" role="tabpanel">
+                    <div class="content-header">
+                        <h2 class="content-title">고급 분석</h2>
+                        <p class="content-subtitle">팀별 성과 분석 및 통계</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h5 class="mb-0">팀별 승률 추이</h5>
+                                </div>
+                                <div class="chart-body">
+                                    <canvas id="winPercentageChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h5 class="mb-0">득실점 분석</h5>
+                                </div>
+                                <div class="chart-body">
+                                    <canvas id="runsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 일정 Tab -->
+                <div class="tab-pane fade" id="schedule" role="tabpanel">
+                    <div class="content-header">
+                        <h2 class="content-title">경기 일정</h2>
+                        <p class="content-subtitle">오늘 경기 및 주간 일정</p>
+                    </div>
+
+                    <div id="schedule-content">
+                        <!-- Schedule content will be inserted here -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container-fluid">
+            <div class="row align-items-center py-3">
+                <div class="col-md-6">
+                    <p class="mb-0 small text-muted">
+                        © 2025 NPB Dashboard. 데이터 출처: NPB Official, Yahoo Sports JP
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 small text-muted">
+                        실시간 데이터 제공 · 고급 분석 · 개발자 API
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle text-danger me-2"></i>
+                        오류 발생
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="error-message">데이터를 불러오는 중 오류가 발생했습니다.</p>
+                    <p class="small text-muted mb-0">잠시 후 다시 시도해주세요.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                    <button type="button" class="btn btn-primary" onclick="location.reload()">새로고침</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/utils/config.js"></script>
+    <script src="js/utils/api-client.js"></script>
+    <script src="js/components/standings-table.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
