@@ -1,0 +1,666 @@
+/* NPB Dashboard Specific Styles */
+/* NPB 대시보드 전용 스타일 */
+
+/* 헤더 섹션 */
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-5);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.header h1 {
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin-bottom: var(--spacing-2);
+}
+
+.header p {
+  font-size: var(--font-base);
+  color: var(--color-gray-600);
+  margin: 0;
+}
+
+/* 컨트롤 섹션 */
+.controls {
+  margin-bottom: var(--spacing-5);
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* 매직넘버 현황 카드 */
+.magic-status-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-5);
+  margin-bottom: var(--spacing-6);
+  box-shadow: var(--shadow-lg);
+  border: var(--border-width) solid #fcd34d;
+}
+
+.magic-status-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: #92400e;
+  margin-bottom: var(--spacing-4);
+}
+
+.magic-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.magic-status-item {
+  background: white;
+  padding: var(--spacing-3);
+  border-radius: var(--radius-md);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.magic-status-label {
+  font-size: var(--font-xs);
+  color: var(--color-gray-600);
+  margin-bottom: var(--spacing-1);
+  font-weight: 500;
+}
+
+.magic-status-value {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-gray-900);
+}
+
+.magic-status-unit {
+  font-size: var(--font-sm);
+  color: var(--color-gray-600);
+  margin-left: var(--spacing-1);
+}
+
+/* 리그 구분 */
+.leagues-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-8);
+  margin-top: var(--spacing-5);
+}
+
+.league-section {
+  background: white;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.league-header {
+  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-bottom: 2px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.league-title {
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--color-gray-700);
+}
+
+.league-title.central {
+  color: var(--color-central);
+}
+
+.league-title.pacific {
+  color: var(--color-pacific);
+}
+
+.league-content {
+  padding: 0;
+}
+
+/* 통일된 테이블 스타일 */
+.unified-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-sm);
+}
+
+.unified-table th,
+.unified-table td {
+  padding: var(--spacing-2);
+  text-align: left;
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.unified-table th {
+  background: var(--color-gray-50);
+  font-weight: 600;
+  color: var(--color-gray-700);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.unified-table th:hover {
+  background: var(--color-gray-100);
+}
+
+.unified-table tbody tr:hover {
+  background: var(--color-gray-50);
+}
+
+.unified-table .rank-cell {
+  font-weight: 600;
+  text-align: center;
+  width: 40px;
+}
+
+.unified-table .team-cell {
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.unified-table .number-cell {
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+.unified-table .center-cell {
+  text-align: center;
+}
+
+/* 상대전적 매트릭스 */
+.h2h-matrix-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 1px;
+  font-size: var(--font-xs);
+  background: var(--color-gray-50);
+}
+
+.h2h-matrix-table th {
+  background: var(--color-gray-100);
+  padding: var(--spacing-1);
+  text-align: center;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  border: var(--border-width) solid var(--color-gray-200);
+}
+
+.h2h-matrix-table .team-header {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  min-width: 80px;
+  background: var(--color-gray-200);
+}
+
+.h2h-matrix-table .opponent-header {
+  min-width: 55px;
+  max-width: 65px;
+}
+
+.h2h-matrix-table .team-name {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--color-gray-50);
+  padding: var(--spacing-1) var(--spacing-2);
+  font-weight: 500;
+  border: var(--border-width) solid var(--color-gray-200);
+  min-width: 80px;
+}
+
+.h2h-matrix-table .record-cell {
+  padding: var(--spacing-1);
+  text-align: center;
+  border: var(--border-width) solid var(--color-gray-200);
+  background: white;
+  min-width: 55px;
+  max-width: 65px;
+  height: 45px;
+  vertical-align: middle;
+}
+
+.h2h-matrix-table .main-record {
+  font-weight: bold;
+  font-size: var(--font-xs);
+  margin-bottom: var(--spacing-1);
+}
+
+.h2h-matrix-table .win-rate {
+  font-size: 7px;
+  color: var(--color-gray-500);
+  margin-bottom: 1px;
+}
+
+.h2h-matrix-table .split-rates {
+  font-size: 6px;
+  color: var(--color-gray-400);
+  display: flex;
+  justify-content: space-between;
+}
+
+.h2h-matrix-table .self-match {
+  background: var(--color-gray-100);
+  text-align: center;
+  color: var(--color-gray-400);
+  border: var(--border-width) solid var(--color-gray-200);
+}
+
+.h2h-matrix-table .no-games {
+  background: var(--color-gray-50);
+  text-align: center;
+  color: var(--color-gray-300);
+  border: var(--border-width) solid var(--color-gray-200);
+}
+
+/* 승부 색상 */
+.h2h-matrix-table .win {
+  background: #f0fdf4;
+  color: var(--color-success);
+}
+
+.h2h-matrix-table .win-big {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 600;
+}
+
+.h2h-matrix-table .lose {
+  background: #fef2f2;
+  color: var(--color-danger);
+}
+
+.h2h-matrix-table .lose-big {
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+/* 플레이오프 위치 */
+.playoff-position {
+  background: #ecfdf5;
+}
+
+/* 에러 메시지 */
+.error-message {
+  background: #fef2f2;
+  color: var(--color-danger);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-md);
+  margin: var(--spacing-2) 0;
+  display: none;
+}
+
+#initialization-error {
+  background: #fef2f2;
+  color: var(--color-danger);
+  padding: var(--spacing-5);
+  border-radius: var(--radius-md);
+  margin: var(--spacing-5) 0;
+  display: none;
+  text-align: center;
+}
+
+/* 디버그 패널 */
+#debug-panel {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: var(--border-width) solid var(--color-gray-300);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  max-width: 320px;
+  display: none;
+  z-index: var(--z-popover);
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+}
+
+/* 서브 탭 스타일 */
+.sub-tabs {
+  display: flex;
+  gap: var(--spacing-1);
+  margin: var(--spacing-4) 0;
+  padding: var(--spacing-1);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+.sub-tab-btn {
+  background: none;
+  color: var(--color-gray-600);
+  border: none;
+  padding: var(--spacing-2) var(--spacing-4);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: var(--font-sm);
+  font-weight: 500;
+}
+
+.sub-tab-btn:hover {
+  background: var(--color-gray-200);
+  color: var(--color-gray-700);
+}
+
+.sub-tab-btn.active {
+  background: var(--color-brand);
+  color: white;
+}
+
+.sub-content {
+  display: none;
+  min-height: 300px;
+}
+
+.sub-content.active {
+  display: block;
+}
+
+/* 프로그레스바 스타일 */
+.progress-section {
+  margin-bottom: var(--spacing-8);
+}
+
+.progress-section h4 {
+  color: var(--color-gray-900);
+  margin-bottom: var(--spacing-5);
+  font-size: var(--font-base);
+  font-weight: 600;
+}
+
+.progress-item {
+  margin-bottom: var(--spacing-5);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+
+.progress-value {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 24px;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar.small {
+  height: 16px;
+  border-radius: var(--radius-md);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.8s ease-out;
+  position: relative;
+}
+
+.progress-fill.overall {
+  background: linear-gradient(90deg, var(--color-success) 0%, #10b981 100%);
+}
+
+.progress-fill.central {
+  background: linear-gradient(90deg, var(--color-central) 0%, #60a5fa 100%);
+}
+
+.progress-fill.pacific {
+  background: linear-gradient(90deg, var(--color-pacific) 0%, #f87171 100%);
+}
+
+.progress-info {
+  font-size: var(--font-xs);
+  color: var(--color-gray-600);
+  margin-top: var(--spacing-1);
+}
+
+/* 팀 일정 테이블 */
+.team-schedule-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.team-tabs-container {
+  margin: var(--spacing-5) 0;
+}
+
+.team-tabs-section {
+  margin-bottom: var(--spacing-5);
+}
+
+.team-tabs-section h4 {
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--color-gray-700);
+  font-size: var(--font-sm);
+  font-weight: 600;
+}
+
+.team-tabs {
+  display: flex;
+  gap: var(--spacing-1);
+  flex-wrap: wrap;
+  padding: var(--spacing-2);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+}
+
+.team-tab-btn {
+  background: white;
+  color: var(--color-gray-600);
+  border: var(--border-width) solid var(--border-color);
+  padding: var(--spacing-1) var(--spacing-3);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  font-size: var(--font-xs);
+  font-weight: 500;
+}
+
+.team-tab-btn:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-700);
+}
+
+.team-tab-btn.active {
+  background: var(--color-brand);
+  color: white;
+  border-color: var(--color-brand);
+}
+
+.central-teams .team-tab-btn.active {
+  background: var(--color-central);
+  border-color: var(--color-central);
+}
+
+.pacific-teams .team-tab-btn.active {
+  background: var(--color-pacific);
+  border-color: var(--color-pacific);
+}
+
+/* 경기 상태별 배지 */
+.home-badge {
+  background: var(--color-success);
+  color: white;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-xs);
+  font-weight: 600;
+}
+
+.away-badge {
+  background: var(--color-warning);
+  color: white;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-xs);
+  font-weight: 600;
+}
+
+.future-badge {
+  background: var(--color-gray-600);
+  color: white;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-xs);
+  font-weight: 600;
+}
+
+/* 경기 행 스타일 */
+.home-game {
+  background: #f0fdf4;
+}
+
+.home-game:hover {
+  background: #dcfce7;
+}
+
+.away-game {
+  background: #fef3c7;
+}
+
+.away-game:hover {
+  background: #fed7aa;
+}
+
+.future-game {
+  background: var(--color-gray-50);
+  color: var(--color-gray-400);
+}
+
+.future-game td {
+  color: var(--color-gray-400);
+}
+
+.future-game:hover {
+  background: var(--color-gray-100);
+}
+
+/* 매직넘버 탭 특별 애니메이션 */
+@keyframes yellowFlash {
+  0%, 100% { 
+    background: none;
+    color: var(--color-gray-600);
+  }
+  25%, 75% { 
+    background: #fef3c7;
+    color: #92400e;
+  }
+}
+
+.tab-button[data-tab="magic-number"] {
+  animation: yellowFlash 2s infinite;
+}
+
+.tab-button[data-tab="magic-number"].active {
+  animation: none;
+  color: var(--color-brand);
+  border-bottom-color: var(--color-brand);
+}
+
+/* 팀 일정 스타일 */
+.team-schedule-table-section {
+  margin-top: var(--spacing-5);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.fixed-header {
+  background: var(--color-gray-50);
+  border-bottom: 2px solid var(--color-gray-300);
+  position: relative;
+  z-index: var(--z-sticky);
+}
+
+.header-row {
+  display: flex;
+}
+
+.header-cell {
+  padding: var(--spacing-2);
+  font-weight: 600;
+  color: var(--color-gray-700);
+  font-size: var(--font-sm);
+  border-right: var(--border-width) solid var(--border-color);
+  text-align: left;
+}
+
+.header-cell:last-child {
+  border-right: none;
+}
+
+.scrollable-body {
+  height: 450px;
+  overflow-y: auto;
+}
+
+.body-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.body-table td {
+  font-size: var(--font-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 반응형 수정 */
+@media (max-width: 768px) {
+  .magic-status-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-3);
+  }
+  
+  .magic-status-card {
+    padding: var(--spacing-4);
+  }
+  
+  .h2h-matrix-table th,
+  .h2h-matrix-table td {
+    padding: var(--spacing-1);
+    font-size: 9px;
+  }
+  
+  .team-tabs {
+    gap: var(--spacing-1);
+  }
+  
+  .team-tab-btn {
+    padding: 4px var(--spacing-2);
+    font-size: 10px;
+  }
+}
