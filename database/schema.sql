@@ -223,11 +223,7 @@ CREATE TABLE api_usage (
     status_code INTEGER NOT NULL,
     response_time_ms INTEGER,
     user_agent TEXT,
-    request_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    -- Index for rate limiting queries
-    INDEX idx_api_usage_ip_time (client_ip, request_timestamp),
-    INDEX idx_api_usage_endpoint (endpoint)
+    request_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Performance metrics
@@ -236,9 +232,7 @@ CREATE TABLE performance_metrics (
     metric_name VARCHAR(100) NOT NULL,
     metric_value DECIMAL(10,2) NOT NULL,
     unit VARCHAR(20) NOT NULL, -- 'ms', 'mb', 'count' etc.
-    recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    INDEX idx_performance_name_time (metric_name, recorded_at)
+    recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create indexes for performance
@@ -256,6 +250,11 @@ CREATE INDEX idx_magic_team_season ON magic_numbers (team_id, season);
 
 CREATE INDEX idx_h2h_teams ON head_to_head (team_a_id, team_b_id);
 CREATE INDEX idx_h2h_season ON head_to_head (season);
+
+CREATE INDEX idx_api_usage_ip_time ON api_usage (client_ip, request_timestamp);
+CREATE INDEX idx_api_usage_endpoint ON api_usage (endpoint);
+
+CREATE INDEX idx_performance_name_time ON performance_metrics (metric_name, recorded_at);
 
 -- Create triggers for updated_at timestamps
 CREATE OR REPLACE FUNCTION update_updated_at_column()
