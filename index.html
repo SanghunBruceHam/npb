@@ -81,7 +81,133 @@
         
         <div id="magic-number-tab" class="tab-content">
             <div id="magic-number-container">
-                <div class="loading-indicator">매직넘버 계산 중...</div>
+                <!-- 매직넘버 서브 탭 -->
+                <div class="sub-tabs">
+                    <button class="sub-tab-btn active" data-subtab="championship-scenarios">🎲 우승 & 플레이오프 경우의 수</button>
+                    <button class="sub-tab-btn" data-subtab="first-place-chance">🎯 1위 탈환 가능성</button>
+                    <button class="sub-tab-btn" data-subtab="playoff-conditions">🏢️ 플레이오프 진출 조건</button>
+                    <button class="sub-tab-btn" data-subtab="team-rankings">📊 팀 순위표</button>
+                </div>
+                
+                <!-- 우승 & 플레이오프 경우의 수 -->
+                <div id="championship-scenarios-content" class="sub-content active">
+                    <div class="unified-section">
+                        <div class="unified-header">
+                            <h3>🎲 우승 & 플레이오프 경우의 수</h3>
+                            <p class="unified-description">각 팀의 우승 및 플레이오프 진출 시나리오 분석</p>
+                        </div>
+                        
+                        <!-- 센트럴 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title central">센트럴 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="central-championship-scenarios" class="loading-indicator">센트럴 리그 경우의 수 계산 중...</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 퍼시픽 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title pacific">퍼시픽 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="pacific-championship-scenarios" class="loading-indicator">퍼시픽 리그 경우의 수 계산 중...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 1위 탈환 가능성 -->
+                <div id="first-place-chance-content" class="sub-content">
+                    <div class="unified-section">
+                        <div class="unified-header">
+                            <h3>🎯 1위 탈환 가능성</h3>
+                            <p class="unified-description">각 팀이 리그 1위를 탈환할 수 있는 조건과 확률</p>
+                        </div>
+                        
+                        <!-- 센트럴 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title central">센트럴 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="central-first-place" class="loading-indicator">센트럴 리그 1위 탈환 가능성 계산 중...</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 퍼시픽 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title pacific">퍼시픽 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="pacific-first-place" class="loading-indicator">퍼시픽 리그 1위 탈환 가능성 계산 중...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 플레이오프 진출 조건 -->
+                <div id="playoff-conditions-content" class="sub-content">
+                    <div class="unified-section">
+                        <div class="unified-header">
+                            <h3>🏢️ 플레이오프 진출 조건</h3>
+                            <p class="unified-description">클라이맥스 시리즈 및 CS 진출을 위한 조건과 매직넘버</p>
+                        </div>
+                        
+                        <!-- 센트럴 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title central">센트럴 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="central-playoff-conditions" class="loading-indicator">센트럴 리그 플레이오프 조건 계산 중...</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 퍼시픽 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title pacific">퍼시픽 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="pacific-playoff-conditions" class="loading-indicator">퍼시픽 리그 플레이오프 조건 계산 중...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 팀 순위표 -->
+                <div id="team-rankings-content" class="sub-content">
+                    <div class="unified-section">
+                        <div class="unified-header">
+                            <h3>📊 팀 순위표</h3>
+                            <p class="unified-description">매직넘버와 함께 보는 상세 순위표</p>
+                        </div>
+                        
+                        <!-- 센트럴 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title central">센트럴 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="central-team-rankings" class="loading-indicator">센트럴 리그 순위표 로딩 중...</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 퍼시픽 리그 -->
+                        <div class="league-section">
+                            <div class="league-header">
+                                <div class="league-title pacific">퍼시픽 리그</div>
+                            </div>
+                            <div class="league-content">
+                                <div id="pacific-team-rankings" class="loading-indicator">퍼시픽 리그 순위표 로딩 중...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         

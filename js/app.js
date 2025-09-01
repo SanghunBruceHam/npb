@@ -83,6 +83,7 @@ class NPBDashboardApp {
             // 기본 테이블들
             { name: 'standings', class: 'NPBStandingsTable', container: 'standings-container' },
             { name: 'magicNumber', class: 'NPBMagicNumberTable', container: 'magic-number-container' },
+            { name: 'magicNumberSubTabs', class: 'NPBMagicNumberSubTabs', container: 'magic-number-container' },
             { name: 'homeAway', class: 'NPBHomeAwayTable', container: 'home-away-container' },
             { name: 'headToHead', class: 'NPBHeadToHeadTable', container: 'head-to-head-container' },
             { name: 'interleague', class: 'NPBInterleagueTable', container: 'interleague-container' },

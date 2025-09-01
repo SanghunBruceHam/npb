@@ -39,15 +39,129 @@ class NPBMagicNumberTable {
     }
     
     /**
-     * 테이블 구조 생성
+     * 서브탭 초기화
+     */
+    initializeSubTabs() {
+        const subTabButtons = this.container.querySelectorAll('.sub-tab-btn');
+        subTabButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.switchSubTab(button.dataset.subtab);
+            });
+        });
+    }
+    
+    /**
+     * 서브탭 전환
+     */
+    switchSubTab(targetSubTab) {
+        // 모든 서브탭 버튼과 콘텐츠 비활성화
+        this.container.querySelectorAll('.sub-tab-btn').forEach(btn => 
+            btn.classList.remove('active'));
+        this.container.querySelectorAll('.sub-content').forEach(content => 
+            content.classList.remove('active'));
+        
+        // 선택된 서브탭 활성화
+        const targetButton = this.container.querySelector(`[data-subtab="${targetSubTab}"]`);
+        const targetContent = this.container.querySelector(`#${targetSubTab}-content`);
+        
+        if (targetButton && targetContent) {
+            targetButton.classList.add('active');
+            targetContent.classList.add('active');
+            this.renderSubTabContent(targetSubTab);
+        }
+    }
+    
+    /**
+     * 서브탭별 콘텐츠 렌더링
+     */
+    renderSubTabContent(subTab) {
+        if (!this.data) return;
+        
+        switch(subTab) {
+            case 'championship-scenarios':
+                this.renderChampionshipScenarios();
+                break;
+            case 'first-place-chance':
+                this.renderFirstPlaceChance();
+                break;
+            case 'playoff-conditions':
+                this.renderPlayoffConditions();
+                break;
+            case 'team-rankings':
+                this.renderTeamRankings();
+                break;
+            default:
+                this.renderChampionshipScenarios();
+        }
+    }
+    
+    /**
+     * 우승 & 플레이오프 경우의 수 렌더링
+     */
+    renderChampionshipScenarios() {
+        const centralContainer = document.getElementById('central-championship-scenarios');
+        const pacificContainer = document.getElementById('pacific-championship-scenarios');
+        
+        if (centralContainer) {
+            centralContainer.innerHTML = this.createChampionshipScenariosTable('central');
+        }
+        if (pacificContainer) {
+            pacificContainer.innerHTML = this.createChampionshipScenariosTable('pacific');
+        }
+    }
+    
+    /**
+     * 1위 탈환 가능성 렌더링
+     */
+    renderFirstPlaceChance() {
+        const centralContainer = document.getElementById('central-first-place');
+        const pacificContainer = document.getElementById('pacific-first-place');
+        
+        if (centralContainer) {
+            centralContainer.innerHTML = this.createFirstPlaceTable('central');
+        }
+        if (pacificContainer) {
+            pacificContainer.innerHTML = this.createFirstPlaceTable('pacific');
+        }
+    }
+    
+    /**
+     * 플레이오프 진출 조건 렌더링
+     */
+    renderPlayoffConditions() {
+        const centralContainer = document.getElementById('central-playoff-conditions');
+        const pacificContainer = document.getElementById('pacific-playoff-conditions');
+        
+        if (centralContainer) {
+            centralContainer.innerHTML = this.createPlayoffConditionsTable('central');
+        }
+        if (pacificContainer) {
+            pacificContainer.innerHTML = this.createPlayoffConditionsTable('pacific');
+        }
+    }
+    
+    /**
+     * 팀 순위표 렌더링
+     */
+    renderTeamRankings() {
+        const centralContainer = document.getElementById('central-team-rankings');
+        const pacificContainer = document.getElementById('pacific-team-rankings');
+        
+        if (centralContainer) {
+            centralContainer.innerHTML = this.createTeamRankingsTable('central');
+        }
+        if (pacificContainer) {
+            pacificContainer.innerHTML = this.createTeamRankingsTable('pacific');
+        }
+    }
+    
+    /**
+     * 테이블 구조 생성 (서브탭은 HTML에서 이미 생성됨)
      */
     createTable() {
-        this.container.innerHTML = `
-            <div class="magic-number-section">
-                <h3>🔮 매직넘버 분석</h3>
-                <p class="section-description">리그 우승과 플레이오프 진출에 필요한 승수를 분석합니다.</p>
-                
-                <div class="magic-controls">
+        // 서브탭 이벤트 초기화
+        this.initializeSubTabs();
                     <div class="scenario-tabs">
                         <button class="scenario-tab-btn active" data-scenario="championship">🏆 리그 우승</button>
                         <button class="scenario-tab-btn" data-scenario="playoff">⚾ 플레이오프 진출</button>
