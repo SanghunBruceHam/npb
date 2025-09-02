@@ -163,20 +163,12 @@
             <div style="margin-bottom: 20px;">
                 <h3>セントラルリーグ</h3>
                 <div class="scroll-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="center" style="background: #f8f9fa;">勝率</th>
-                                <th class="center" id="central-team-1">チーム1</th>
-                                <th class="center" id="central-team-2">チーム2</th>
-                                <th class="center" id="central-team-3">チーム3</th>
-                                <th class="center" id="central-team-4">チーム4</th>
-                                <th class="center" id="central-team-5">チーム5</th>
-                                <th class="center" id="central-team-6">チーム6</th>
-                            </tr>
+                    <table style="font-size: 11px; border-collapse: collapse;">
+                        <thead id="central-scenarios-header">
+                            <!-- KBO 스타일 4줄 헤더 -->
                         </thead>
                         <tbody id="central-scenarios">
-                            <tr><td colspan="7" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="20" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -522,36 +514,38 @@
             }
 
             // Create KBO-style 4-row header
-            let headerHTML = `
-                <tr>
-                    <td rowspan="4" style="background: #f8f9fa; font-weight: bold; vertical-align: middle; width: 60px;">최종승률</td>`;
-            
-            // Row 1: Team rankings
-            teams.forEach(team => {
-                headerHTML += `<td class="center" style="background: #f0f0f0; font-weight: bold; padding: 4px;">${team.position_rank}위</td>`;
-            });
-            headerHTML += `</tr><tr>`;
-            
-            // Row 2: Team names
-            teams.forEach(team => {
-                headerHTML += `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px;">${team.team_abbreviation}</td>`;
-            });
-            headerHTML += `</tr><tr>`;
-            
-            // Row 3: Current records
-            teams.forEach(team => {
-                headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 11px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0}</td>`;
-            });
-            headerHTML += `</tr><tr>`;
-            
-            // Row 4: Remaining games
-            teams.forEach(team => {
-                const remaining = TOTAL_GAMES - team.games_played;
-                headerHTML += `<td class="center" style="background: #f8f9fa; font-size: 11px; padding: 4px;">잔여${remaining}</td>`;
-            });
-            headerHTML += `</tr>`;
-            
-            header.innerHTML = headerHTML;
+            if (header) {
+                let headerHTML = `
+                    <tr>
+                        <td rowspan="4" style="background: #f8f9fa; font-weight: bold; vertical-align: middle; width: 60px;">최종승률</td>`;
+                
+                // Row 1: Team rankings
+                teams.forEach(team => {
+                    headerHTML += `<td class="center" style="background: #f0f0f0; font-weight: bold; padding: 4px;">${team.position_rank}위</td>`;
+                });
+                headerHTML += `</tr><tr>`;
+                
+                // Row 2: Team names
+                teams.forEach(team => {
+                    headerHTML += `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px;">${team.team_abbreviation}</td>`;
+                });
+                headerHTML += `</tr><tr>`;
+                
+                // Row 3: Current records
+                teams.forEach(team => {
+                    headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 11px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0}</td>`;
+                });
+                headerHTML += `</tr><tr>`;
+                
+                // Row 4: Remaining games
+                teams.forEach(team => {
+                    const remaining = TOTAL_GAMES - team.games_played;
+                    headerHTML += `<td class="center" style="background: #f8f9fa; font-size: 11px; padding: 4px;">잔여${remaining}</td>`;
+                });
+                headerHTML += `</tr>`;
+                
+                header.innerHTML = headerHTML;
+            }
 
             // Win rate targets to display (from high to low)
             const winRateTargets = [0.700, 0.650, 0.600, 0.550, 0.500, 0.450, 0.400, 0.350, 0.300];
