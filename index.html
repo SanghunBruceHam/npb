@@ -176,20 +176,12 @@
             <div>
                 <h3>パシフィックリーグ</h3>
                 <div class="scroll-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2" class="center" style="vertical-align: middle;">チーム</th>
-                                <th rowspan="2" class="center" style="vertical-align: middle;">現在</th>
-                                <th rowspan="2" class="center" style="vertical-align: middle;">残り</th>
-                                <th colspan="11" class="center">残り試合 勝利数別 最終勝率</th>
-                            </tr>
-                            <tr id="pacific-scenarios-header">
-                                <!-- 動적으로 생성됨 -->
-                            </tr>
+                    <table style="font-size: 11px; border-collapse: collapse;">
+                        <thead id="pacific-scenarios-header">
+                            <!-- KBO 스타일 4줄 헤더 -->
                         </thead>
                         <tbody id="pacific-scenarios">
-                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="20" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
