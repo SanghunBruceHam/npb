@@ -54,6 +54,7 @@
         <div class="nav-tabs">
             <div class="nav-tab active" onclick="showTab('magic-regular')">正規シーズン優勝マジック</div>
             <div class="nav-tab" onclick="showTab('magic-playoff')">プレーオフマジック</div>
+            <div class="nav-tab" onclick="showTab('scenarios')">経路の数</div>
             <div class="nav-tab" onclick="showTab('standings')">チーム順位</div>
             <div class="nav-tab" onclick="showTab('remaining')">残り試合数</div>
         </div>
@@ -150,6 +151,51 @@
                         </thead>
                         <tbody id="pacific-magic-playoff">
                             <tr><td colspan="8" class="loading">読み込み中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenarios -->
+        <div id="scenarios" class="tab-content">
+            <h2>順位確定・進出経路の数</h2>
+            <div class="leagues">
+                <div>
+                    <h3>セントラルリーグ</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="center">順位</th>
+                                <th>チーム</th>
+                                <th class="center">優勝確率</th>
+                                <th class="center">プレーオフ確率</th>
+                                <th class="center">可能シナリオ</th>
+                                <th class="center">最高順位</th>
+                                <th class="center">最低順位</th>
+                            </tr>
+                        </thead>
+                        <tbody id="central-scenarios">
+                            <tr><td colspan="7" class="loading">読み込み中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3>パシフィックリーグ</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="center">順位</th>
+                                <th>チーム</th>
+                                <th class="center">優勝確率</th>
+                                <th class="center">プレーオフ確率</th>
+                                <th class="center">可能シナリオ</th>
+                                <th class="center">最高順位</th>
+                                <th class="center">最低順位</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pacific-scenarios">
+                            <tr><td colspan="7" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -283,6 +329,7 @@
                 
                 updateMagicRegular();
                 updateMagicPlayoff();
+                updateScenarios();
                 updateDetailedStandings();
                 updateRemainingGames();
                 
@@ -346,7 +393,9 @@
                     }
                 } else {
                     // Playoff magic/elimination (top 3)
-                    if (team.position_rank <= 3 && remainingGames > 0) {
+                    if (team.playoff_magic !== undefined) {
+                        magic = team.playoff_magic === 0 ? '✓' : team.playoff_magic;
+                    } else if (team.position_rank <= 3 && remainingGames > 0) {
                         const fourthPlace = teams[3] || {};
                         if (fourthPlace.wins) {
                             const maxWinsFourth = fourthPlace.wins + (TOTAL_GAMES - fourthPlace.games_played);
@@ -357,7 +406,9 @@
                         }
                     }
                     
-                    if (team.position_rank > 3) {
+                    if (team.playoff_elimination !== undefined) {
+                        eliminate = team.playoff_elimination;
+                    } else if (team.position_rank > 3) {
                         const maxWinsTeam = team.wins + remainingGames;
                         if (thirdPlace.wins && maxWinsTeam < thirdPlace.wins) {
                             eliminate = 'E';
@@ -445,6 +496,82 @@
                         <td class="center">${homeWinPct}</td>
                         <td class="center">${awayWins}-${awayLosses}</td>
                         <td class="center">${awayWinPct}</td>
+                        <td class="center">${bestRank}</td>
+                        <td class="center">${worstRank}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateScenarios() {
+            updateScenariosTable('central-scenarios', standingsData.central_league?.standings || []);
+            updateScenariosTable('pacific-scenarios', standingsData.pacific_league?.standings || []);
+        }
+
+        function updateScenariosTable(id, teams) {
+            const tbody = document.getElementById(id);
+            if (!teams.length) {
+                tbody.innerHTML = '<tr><td colspan="7" class="loading">データがありません</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = teams.map(team => {
+                const rankClass = team.position_rank === 1 ? 'rank1' : 
+                                 team.position_rank === 2 ? 'rank2' : 
+                                 team.position_rank === 3 ? 'rank3' : '';
+                
+                const remainingGames = TOTAL_GAMES - team.games_played;
+                
+                // Calculate probabilities based on current standings
+                let winProb = 0;
+                let playoffProb = 0;
+                let scenarios = 'N/A';
+                let bestRank = team.position_rank;
+                let worstRank = team.position_rank;
+                
+                if (remainingGames > 0) {
+                    // Simple probability calculation based on current position
+                    if (team.position_rank === 1) {
+                        winProb = team.magic_number <= 3 ? 95 : team.magic_number <= 8 ? 75 : 50;
+                        playoffProb = 99;
+                        scenarios = Math.pow(2, Math.min(remainingGames, 10)).toLocaleString();
+                        bestRank = 1;
+                        worstRank = Math.min(3, teams.length);
+                    } else if (team.position_rank === 2) {
+                        winProb = team.games_behind <= 3 ? 25 : team.games_behind <= 6 ? 15 : 5;
+                        playoffProb = 90;
+                        scenarios = Math.pow(2, Math.min(remainingGames, 8)).toLocaleString();
+                        bestRank = 1;
+                        worstRank = Math.min(4, teams.length);
+                    } else if (team.position_rank === 3) {
+                        winProb = team.games_behind <= 5 ? 10 : 2;
+                        playoffProb = 75;
+                        scenarios = Math.pow(2, Math.min(remainingGames, 6)).toLocaleString();
+                        bestRank = 1;
+                        worstRank = teams.length;
+                    } else {
+                        winProb = 1;
+                        playoffProb = team.position_rank === 4 ? 25 : team.position_rank === 5 ? 5 : 1;
+                        scenarios = Math.pow(2, Math.min(remainingGames, 4)).toLocaleString();
+                        bestRank = Math.max(1, team.position_rank - 2);
+                        worstRank = teams.length;
+                    }
+                } else {
+                    // Season finished
+                    winProb = team.position_rank === 1 ? 100 : 0;
+                    playoffProb = team.position_rank <= 3 ? 100 : 0;
+                    scenarios = '1';
+                    bestRank = team.position_rank;
+                    worstRank = team.position_rank;
+                }
+                
+                return `
+                    <tr class="${rankClass}">
+                        <td class="center">${team.position_rank}</td>
+                        <td>${team.team_abbreviation}</td>
+                        <td class="center">${winProb}%</td>
+                        <td class="center">${playoffProb}%</td>
+                        <td class="center">${scenarios}</td>
                         <td class="center">${bestRank}</td>
                         <td class="center">${worstRank}</td>
                     </tr>

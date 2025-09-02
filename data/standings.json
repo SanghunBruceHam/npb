@@ -22,6 +22,7 @@
         "away_wins": 36,
         "away_losses": 29,
         "magic_number": 8,
+        "playoff_magic": 0,
         "clinch_status": "leader"
       },
       {
@@ -42,7 +43,8 @@
         "home_wins": 38,
         "home_losses": 28,
         "away_wins": 33,
-        "away_losses": 31
+        "away_losses": 31,
+        "playoff_magic": 0
       },
       {
         "team_id": "YB",
@@ -62,7 +64,8 @@
         "home_wins": 36,
         "home_losses": 30,
         "away_wins": 33,
-        "away_losses": 32
+        "away_losses": 32,
+        "playoff_magic": 1
       },
       {
         "team_id": "G",
