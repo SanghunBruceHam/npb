@@ -1,0 +1,124 @@
+{
+  "today_games": [
+    {
+      "game_id": "20250901001",
+      "game_date": "2025-09-01",
+      "home_team": "도쿄야쿠르트",
+      "away_team": "요코하마DeNA",
+      "home_score": 7,
+      "away_score": 4,
+      "game_status": "completed",
+      "is_extra_innings": false,
+      "total_innings": 9,
+      "is_draw": false,
+      "stadium": "도쿄 돔"
+    },
+    {
+      "game_id": "20250901002",
+      "game_date": "2025-09-01",
+      "home_team": "후쿠오카소프트뱅크",
+      "away_team": "치바롯데",
+      "home_score": 5,
+      "away_score": 3,
+      "game_status": "completed",
+      "is_extra_innings": false,
+      "total_innings": 9,
+      "is_draw": false,
+      "stadium": "야후오쿠돔"
+    },
+    {
+      "game_id": "20250901003",
+      "game_date": "2025-09-01",
+      "home_team": "한신타이거스",
+      "away_team": "히로시마카프",
+      "home_score": 2,
+      "away_score": 8,
+      "game_status": "completed",
+      "is_extra_innings": false,
+      "total_innings": 9,
+      "is_draw": false,
+      "stadium": "코시엔"
+    }
+  ],
+  "standings_summary": {
+    "central": [
+      {
+        "team_id": "T",
+        "team_abbreviation": "한신",
+        "team_name": "한신타이거스",
+        "league": "Central",
+        "position_rank": 1,
+        "wins": 78,
+        "losses": 54,
+        "draws": 11,
+        "win_percentage": 0.591,
+        "games_behind": 0.0
+      },
+      {
+        "team_id": "C",
+        "team_abbreviation": "카프",
+        "team_name": "히로시마카프",
+        "league": "Central",
+        "position_rank": 2,
+        "wins": 71,
+        "losses": 59,
+        "draws": 13,
+        "win_percentage": 0.546,
+        "games_behind": 6.5
+      },
+      {
+        "team_id": "YB",
+        "team_abbreviation": "DeNA",
+        "team_name": "요코하마DeNA",
+        "league": "Central",
+        "position_rank": 3,
+        "wins": 69,
+        "losses": 62,
+        "draws": 12,
+        "win_percentage": 0.527,
+        "games_behind": 8.5
+      }
+    ],
+    "pacific": [
+      {
+        "team_id": "H",
+        "team_abbreviation": "소프트뱅크",
+        "team_name": "후쿠오카소프트뱅크",
+        "league": "Pacific",
+        "position_rank": 1,
+        "wins": 82,
+        "losses": 51,
+        "draws": 10,
+        "win_percentage": 0.616,
+        "games_behind": 0.0
+      },
+      {
+        "team_id": "M",
+        "team_abbreviation": "롯데",
+        "team_name": "치바롯데",
+        "league": "Pacific",
+        "position_rank": 2,
+        "wins": 74,
+        "losses": 58,
+        "draws": 11,
+        "win_percentage": 0.561,
+        "games_behind": 7.5
+      },
+      {
+        "team_id": "L",
+        "team_abbreviation": "라이온즈",
+        "team_name": "사이타마세이부",
+        "league": "Pacific",
+        "position_rank": 3,
+        "wins": 68,
+        "losses": 63,
+        "draws": 12,
+        "win_percentage": 0.519,
+        "games_behind": 13.0
+      }
+    ]
+  },
+  "last_updated": "2025-09-01T15:30:00",
+  "total_today_games": 6,
+  "generated_at": "2025-09-01T16:00:00"
+}

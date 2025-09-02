@@ -29,6 +29,10 @@ from psycopg2.extras import RealDictCursor, Json
 from dotenv import load_dotenv
 import pytz
 
+# 로컬 모듈 import
+from config import NPB_TEAMS, DATA_SOURCES, CRAWLER_CONFIG
+from utils import clean_text, get_jst_now, normalize_team_name, validate_game_data
+
 load_dotenv()
 
 @dataclass  
@@ -79,12 +83,13 @@ class NPBCrawler:
         self.setup_database()
         self.setup_session()
         self.setup_team_mapping()
+        self.setup_file_logging()
         
     def setup_config(self):
         """기본 설정"""
-        self.base_url = "https://www.nikkansports.com/baseball/professional/score/{year}/pf-score-{date}.html"
+        self.base_url = DATA_SOURCES['nikkansports']['score_pattern']
         self.jst = pytz.timezone('Asia/Tokyo')
-        self.season_year = 2025
+        self.season_year = CRAWLER_CONFIG['validation']['current_season_year']
         
     def setup_database(self):
         """데이터베이스 연결 설정"""
@@ -100,29 +105,25 @@ class NPBCrawler:
         """HTTP 세션 설정"""
         self.session = requests.Session()
         self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+            'User-Agent': CRAWLER_CONFIG['user_agent'],
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language': 'ja,en;q=0.5',
-            'Referer': 'https://www.nikkansports.com/'
+            'Referer': DATA_SOURCES['nikkansports']['base_url']
         })
         
     def setup_team_mapping(self):
         """팀 매핑 설정"""
-        self.team_mapping = {
-            # 모든 가능한 팀명 형태 매핑
-            '読売': 'YOG', 'ジャイアンツ': 'YOG', '巨人': 'YOG', '巨  人': 'YOG',
-            '阪神': 'HAN', 'タイガース': 'HAN', '阪  神': 'HAN', 
-            'DeNA': 'YDB', 'ベイスターズ': 'YDB', '横浜': 'YDB', 'ＤｅＮＡ': 'YDB',
-            '広島': 'HIR', 'カープ': 'HIR', '広  島': 'HIR',
-            '中日': 'CHU', 'ドラゴンズ': 'CHU', '中  日': 'CHU',
-            'ヤクルト': 'YAK', 'スワローズ': 'YAK',
-            'ソフトバンク': 'SOF', 'ホークス': 'SOF', '福岡': 'SOF',
-            'ロッテ': 'LOT', 'マリーンズ': 'LOT', '千葉': 'LOT',
-            '楽天': 'RAK', 'イーグルス': 'RAK', '楽  天': 'RAK',
-            'オリックス': 'ORI', 'バファローズ': 'ORI',
-            '西武': 'SEI', 'ライオンズ': 'SEI', '西  武': 'SEI',
-            '日本ハム': 'NIP', 'ファイターズ': 'NIP', '北海道': 'NIP'
-        }
+        self.team_mapping = {}
+        
+        # NPB_TEAMS에서 팀 매핑 생성
+        for league_teams in NPB_TEAMS.values():
+            for team_data in league_teams.values():
+                abbr = team_data['abbr']
+                # 키워드들을 매핑에 추가
+                for keyword in team_data['keywords']:
+                    self.team_mapping[keyword] = abbr
+                # 팀명들도 매핑에 추가
+                self.team_mapping[team_data['name_jp']] = abbr
         
     def get_db_connection(self):
         """데이터베이스 연결"""
@@ -172,7 +173,7 @@ class NPBCrawler:
         print(f"🔍 Crawling: {date_str}")
         
         try:
-            response = self.session.get(url, timeout=15)
+            response = self.session.get(url, timeout=CRAWLER_CONFIG['request_timeout'])
             
             if response.status_code == 404:
                 print(f"📅 No games on {date_str}")
@@ -385,7 +386,7 @@ class NPBCrawler:
                     print("📊 Updating standings from game results...")
                     
                     # 현재 시즌 순위표 삭제
-                    cur.execute("DELETE FROM standings WHERE season = %s", (self.season_year,))
+                    cur.execute("DELETE FROM standings WHERE season_year = %s", (self.season_year,))
                     
                     # 경기 결과로부터 순위 계산
                     cur.execute("""
@@ -421,13 +422,13 @@ class NPBCrawler:
                             GROUP BY league
                         )
                         INSERT INTO standings (
-                            team_id, season, league, rank, games_played, wins, losses, draws,
+                            team_id, season_year, league, position_rank, games_played, wins, losses, draws,
                             win_percentage, games_behind, runs_scored, runs_allowed, run_differential,
-                            last_updated
+                            updated_at
                         )
                         SELECT 
                             ts.team_id,
-                            %s as season,
+                            %s as season_year,
                             ts.league,
                             ROW_NUMBER() OVER (
                                 PARTITION BY ts.league 
@@ -461,8 +462,46 @@ class NPBCrawler:
             print(f"❌ Standings update failed: {e}")
             return False
     
+    def setup_file_logging(self):
+        """파일 로깅 설정"""
+        import logging
+        from datetime import datetime
+        
+        # 로그 디렉토리 생성
+        log_dir = os.path.join(os.path.dirname(__file__), 'logs')
+        os.makedirs(log_dir, exist_ok=True)
+        
+        # 로그 파일명 (날짜별)
+        log_filename = f"crawler_{datetime.now().strftime('%Y%m%d')}.log"
+        log_file = os.path.join(log_dir, log_filename)
+        
+        # 로거 설정
+        logger = logging.getLogger('NPBCrawler')
+        logger.setLevel(logging.INFO)
+        
+        # 파일 핸들러
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+        
+        # 포맷터
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        file_handler.setFormatter(formatter)
+        
+        # 중복 핸들러 방지
+        if not logger.handlers:
+            logger.addHandler(file_handler)
+        
+        self.logger = logger
+
     def log_crawl_activity(self, status: str, message: str, records_count: int = 0):
         """크롤링 활동 로그"""
+        # 파일 로그
+        if hasattr(self, 'logger'):
+            self.logger.info(f"Status: {status}, Records: {records_count}, Message: {message}")
+        
+        # 데이터베이스 로그
         try:
             with self.get_db_connection() as conn:
                 with conn.cursor() as cur:
@@ -473,8 +512,10 @@ class NPBCrawler:
                         ) VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
                     """, ('NPB_ENHANCED', status, records_count, message))
                     conn.commit()
-        except Exception:
-            pass  # 로그 실패는 무시
+        except Exception as e:
+            if hasattr(self, 'logger'):
+                self.logger.error(f"Failed to log to database: {e}")
+            pass
             
     def run_crawl(self, days_back: int = 7) -> bool:
         """향상된 전체 크롤링 실행"""
@@ -494,7 +535,7 @@ class NPBCrawler:
                 all_games.extend(games)
                 
                 # 요청 간격
-                time.sleep(1)
+                time.sleep(DATA_SOURCES['nikkansports']['rate_limit'])
             
             # 데이터베이스 저장
             save_success = self.save_games_to_db(all_games)

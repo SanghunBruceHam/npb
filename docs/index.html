@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPB Dashboard - 일본 프로야구</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --central-color: #1e40af;
+            --pacific-color: #059669;
+            --npb-blue: #0f172a;
+            --gold: #ffd700;
+            --chart-primary: #3b82f6;
+            --chart-secondary: #10b981;
+            --chart-accent: #f59e0b;
+            --chart-danger: #ef4444;
+        }
+        
+        [data-theme="dark"] {
+            --central-color: #3b82f6;
+            --pacific-color: #10b981;
+            --npb-blue: #1e293b;
+            --gold: #fbbf24;
+        }
+        
+        .central { background: linear-gradient(135deg, var(--central-color), #3b82f6); }
+        .pacific { background: linear-gradient(135deg, var(--pacific-color), #10b981); }
+        .npb-gradient { background: linear-gradient(135deg, var(--npb-blue), #1e293b); }
+        
+        .loading { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .scale-on-hover { transition: transform 0.2s ease-in-out; }
+        .scale-on-hover:hover { transform: scale(1.05); }
+        
+        .magic-pulse { animation: magicPulse 2s infinite; }
+        @keyframes magicPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        
+        .trophy-bounce { animation: trophyBounce 1s ease-in-out infinite alternate; }
+        @keyframes trophyBounce { 0% { transform: translateY(0px); } 100% { transform: translateY(-5px); } }
+        
+        .gradient-text { background: linear-gradient(45deg, var(--gold), #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .glass { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+        
+        .team-card { transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .team-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); transition: left 0.5s; }
+        .team-card:hover::before { left: 100%; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        
+        .nav-item { position: relative; transition: all 0.3s ease; }
+        .nav-item:hover { transform: translateY(-2px); }
+        .nav-item.active::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 80%; height: 2px; background: var(--gold); }
+        
+        .chart-container { position: relative; height: 300px; margin: 1rem 0; }
+        .chart-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .chart-tab { padding: 0.5rem 1rem; border-radius: 0.5rem; background: #f3f4f6; color: #6b7280; cursor: pointer; transition: all 0.2s; }
+        .chart-tab.active { background: var(--chart-primary); color: white; }
+        .chart-tab:hover:not(.active) { background: #e5e7eb; }
+        
+        .swipe-indicator { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; }
+        .swipe-dot { width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; transition: background 0.2s; }
+        .swipe-dot.active { background: var(--chart-primary); }
+        
+        .mobile-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .mobile-scroll::-webkit-scrollbar { display: none; }
+        
+        .progress-ring { transform: rotate(-90deg); }
+        .progress-ring-circle { transition: stroke-dashoffset 0.35s; }
+        
+        .dark-mode-toggle { position: fixed; top: 5rem; right: 1rem; z-index: 60; width: 3rem; height: 3rem; border-radius: 50%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .dark-mode-toggle:hover { transform: scale(1.1); }
+        
+        @media (max-width: 768px) {
+            .chart-container { height: 250px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .mobile-scroll { scroll-snap-type: x mandatory; }
+            .mobile-scroll > * { scroll-snap-align: start; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="npb-gradient text-white shadow-2xl sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="text-3xl trophy-bounce">⚾</div>
+                    <div>
+                        <span class="text-xl font-bold gradient-text">NPB Dashboard</span>
+                        <div class="text-xs text-gray-300">일본 프로야구 통계</div>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <a href="#dashboard" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="hidden md:inline">대시보드</span>
+                    </a>
+                    <a href="#standings" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-trophy"></i>
+                        <span class="hidden md:inline">순위표</span>
+                    </a>
+                    <a href="#teams" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-users"></i>
+                        <span class="hidden md:inline">팀</span>
+                    </a>
+                    <a href="#games" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="hidden md:inline">경기</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dark Mode Toggle -->
+    <button id="dark-mode-toggle" class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon" id="dark-mode-icon"></i>
+    </button>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Loading -->
+        <div id="loading" class="text-center py-16">
+            <div class="inline-block w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full loading"></div>
+            <p class="mt-4 text-xl text-gray-600">데이터 로딩 중...</p>
+            <div class="mt-2 flex justify-center space-x-1">
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                <div class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="space-y-8 hidden fade-in">
+            <!-- Header -->
+            <div class="glass rounded-2xl p-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">NPB Dashboard</h1>
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center space-x-2 text-gray-600 mb-4 md:mb-0">
+                        <i class="fas fa-clock"></i>
+                        <span>마지막 업데이트: <span id="last-update" class="font-semibold">-</span></span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="total-teams">12</div>
+                            <div class="text-sm text-gray-500">팀</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600" id="total-games-played">-</div>
+                            <div class="text-sm text-gray-500">경기</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="current-season">2025</div>
+                            <div class="text-sm text-gray-500">시즌</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Games -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-baseball-ball text-2xl"></i>
+                            <div>
+                                <h2 class="text-2xl font-bold">오늘의 경기</h2>
+                                <p class="text-blue-100">실시간 경기 현황</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/20 rounded-full px-4 py-2">
+                            <span id="today-games-count" class="text-xl font-bold">-</span>
+                            <span class="text-sm ml-1">경기</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="today-games" class="p-8">
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                        <p>경기 정보 로딩 중...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- League Statistics -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Central League -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300">
+                    <div class="central text-white p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-2xl font-bold">센트럴 리그</h3>
+                                <p class="text-blue-100">Central League</p>
+                            </div>
+                            <div class="text-4xl opacity-80">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="central-standings" class="space-y-3">
+                            <div class="animate-pulse bg-gray-200 h-4 rounded"></div>
+                            <div class="animate-pulse bg-gray-200 h-4 rounded w-5/6"></div>
+                            <div class="animate-pulse bg-gray-200 h-4 rounded w-4/6"></div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="chart-tabs">
+                                <div class="chart-tab active" onclick="switchChartType('central', 'wins')">승률</div>
+                                <div class="chart-tab" onclick="switchChartType('central', 'trend')">추세</div>
+                                <div class="chart-tab" onclick="switchChartType('central', 'runs')">득실</div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="central-chart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pacific League -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300">
+                    <div class="pacific text-white p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-2xl font-bold">퍼시픽 리그</h3>
+                                <p class="text-green-100">Pacific League</p>
+                            </div>
+                            <div class="text-4xl opacity-80">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="pacific-standings" class="space-y-3">
+                            <div class="animate-pulse bg-gray-200 h-4 rounded"></div>
+                            <div class="animate-pulse bg-gray-200 h-4 rounded w-5/6"></div>
+                            <div class="animate-pulse bg-gray-200 h-4 rounded w-4/6"></div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="chart-tabs">
+                                <div class="chart-tab active" onclick="switchChartType('pacific', 'wins')">승률</div>
+                                <div class="chart-tab" onclick="switchChartType('pacific', 'trend')">추세</div>
+                                <div class="chart-tab" onclick="switchChartType('pacific', 'runs')">득실</div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="pacific-chart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Performance Analytics -->  
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="px-8 py-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-chart-line text-2xl"></i>
+                            <div>
+                                <h2 class="text-2xl font-bold">리그 성능 분석</h2>
+                                <p class="text-purple-100">시즌 통계 대시보드</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1">
+                            <div class="chart-tab active" onclick="switchAnalytics('overview')">개요</div>
+                            <div class="chart-tab" onclick="switchAnalytics('trends')">동향</div>
+                            <div class="chart-tab" onclick="switchAnalytics('comparison')">비교</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div id="analytics-overview" class="analytics-panel">
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="relative inline-block">
+                                    <svg class="progress-ring" width="120" height="120">
+                                        <circle class="progress-ring-circle" stroke="#e5e7eb" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                                        <circle id="central-progress" class="progress-ring-circle" stroke="var(--central-color)" stroke-width="8" fill="transparent" r="52" cx="60" cy="60" stroke-dasharray="327" stroke-dashoffset="327"/>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold text-blue-600" id="central-avg-wins">-</div>
+                                            <div class="text-xs text-gray-500">평균 승률</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="text-lg font-semibold mt-4">센트럴 리그</h4>
+                            </div>
+                            <div class="text-center">
+                                <div class="relative inline-block">
+                                    <svg class="progress-ring" width="120" height="120">
+                                        <circle class="progress-ring-circle" stroke="#e5e7eb" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                                        <circle id="pacific-progress" class="progress-ring-circle" stroke="var(--pacific-color)" stroke-width="8" fill="transparent" r="52" cx="60" cy="60" stroke-dasharray="327" stroke-dashoffset="327"/>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold text-green-600" id="pacific-avg-wins">-</div>
+                                            <div class="text-xs text-gray-500">평균 승률</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="text-lg font-semibold mt-4">퍼시픽 리그</h4>
+                            </div>
+                            <div class="text-center">
+                                <div class="space-y-4">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg p-4">
+                                        <div class="text-2xl font-bold" id="total-games-season">-</div>
+                                        <div class="text-sm">전체 경기</div>
+                                    </div>
+                                    <div class="bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg p-4">
+                                        <div class="text-2xl font-bold" id="avg-runs-game">-</div>
+                                        <div class="text-sm">경기당 득점</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="analytics-trends" class="analytics-panel hidden">
+                        <div class="chart-container">
+                            <canvas id="trends-chart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div id="analytics-comparison" class="analytics-panel hidden">
+                        <div class="chart-container">
+                            <canvas id="comparison-chart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Standings Section -->
+        <section id="standings" class="space-y-8 hidden fade-in">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">
+                    <i class="fas fa-trophy mr-4"></i>순위표 & 매직넘버
+                </h1>
+                <p class="text-xl text-gray-600">우승까지의 여정</p>
+            </div>
+            
+            <!-- Magic Number Cards -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div id="magic-central" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="central text-white p-6">
+                        <h3 class="text-2xl font-bold flex items-center">
+                            <i class="fas fa-star mr-3"></i>센트럴 리그
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-center text-gray-500">
+                            <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                            <p>매직넘버 계산 중...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="magic-pacific" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="pacific text-white p-6">
+                        <h3 class="text-2xl font-bold flex items-center">
+                            <i class="fas fa-star mr-3"></i>퍼시픽 리그
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="text-center text-gray-500">
+                            <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                            <p>매직넘버 계산 중...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Standings -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="central text-white p-6">
+                        <h3 class="text-xl font-bold">센트럴 리그 전체 순위</h3>
+                    </div>
+                    <div class="p-6" id="central-full-standings">
+                        <div class="text-center text-gray-500">로딩 중...</div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="pacific text-white p-6">
+                        <h3 class="text-xl font-bold">퍼시픽 리그 전체 순위</h3>
+                    </div>
+                    <div class="p-6" id="pacific-full-standings">
+                        <div class="text-center text-gray-500">로딩 중...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Teams Section -->
+        <section id="teams" class="space-y-8 hidden fade-in">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">
+                    <i class="fas fa-users mr-4"></i>NPB 팀
+                </h1>
+                <p class="text-xl text-gray-600" id="teams-summary">일본 프로야구 12개 팀</p>
+            </div>
+
+            <!-- Teams Grid -->
+            <div id="teams-central" class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 central rounded-full flex items-center justify-center text-white mr-4">
+                        <i class="fas fa-crown text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-blue-600">센트럴 리그</h2>
+                </div>
+                <div id="central-teams" class="stats-grid">
+                    <div class="text-center text-gray-500">로딩 중...</div>
+                </div>
+            </div>
+
+            <div id="teams-pacific">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 pacific rounded-full flex items-center justify-center text-white mr-4">
+                        <i class="fas fa-medal text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-green-600">퍼시픽 리그</h2>
+                </div>
+                <div id="pacific-teams" class="stats-grid">
+                    <div class="text-center text-gray-500">로딩 중...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games" class="space-y-8 hidden fade-in">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">
+                    <i class="fas fa-calendar-alt mr-4"></i>최근 경기 결과
+                </h1>
+                <p class="text-xl text-gray-600">지난 7일간의 열전</p>
+            </div>
+            
+            <div id="games-list" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="p-8 text-center text-gray-500">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                    <p>경기 데이터 로딩 중...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error -->
+        <div id="error" class="text-center py-16 text-red-500 hidden">
+            <div class="text-6xl mb-4">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">데이터를 불러올 수 없습니다</h2>
+            <p class="text-gray-600">잠시 후 다시 시도해주세요</p>
+            <button onclick="location.reload()" class="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <i class="fas fa-refresh mr-2"></i>다시 시도
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const DATA_BASE = './data';
+        let currentSection = 'dashboard';
+        let centralChart = null;
+        let pacificChart = null;
+        let trendsChart = null;
+        let comparisonChart = null;
+        let currentChartTypes = { central: 'wins', pacific: 'wins' };
+        let darkMode = false;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNavigation();
+            loadDashboard();
+        });
+
+        function setupNavigation() {
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    showSection(target);
+                    updateActiveNav(this);
+                });
+            });
+        }
+
+        function updateActiveNav(activeLink) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            activeLink.classList.add('active');
+        }
+
+        function showSection(sectionId) {
+            currentSection = sectionId;
+            
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                setTimeout(() => targetSection.classList.add('fade-in'), 50);
+            }
+
+            if (sectionId === 'standings') {
+                loadStandings();
+            } else if (sectionId === 'teams') {
+                loadTeams();
+            } else if (sectionId === 'games') {
+                loadGames();
+            }
+        }
+
+        async function loadJSON(filename) {
+            const response = await fetch(`${DATA_BASE}/${filename}`);
+            if (!response.ok) throw new Error(`Failed to load ${filename}`);
+            return await response.json();
+        }
+
+        async function loadDashboard() {
+            try {
+                const data = await loadJSON('dashboard.json');
+
+                // Update timestamps
+                if (data.last_updated) {
+                    document.getElementById('last-update').textContent = 
+                        new Date(data.last_updated).toLocaleString('ko-KR');
+                }
+
+                // Update stats
+                document.getElementById('today-games-count').textContent = data.total_today_games || 0;
+
+                // Update today's games
+                updateTodayGames(data.today_games || []);
+
+                // Update standings summary and create charts
+                updateStandingsSummary(data.standings_summary || {});
+
+                // Show dashboard
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.querySelector('.nav-item').classList.add('active');
+
+            } catch (error) {
+                console.error('Dashboard load failed:', error);
+                showError();
+            }
+        }
+
+        function updateTodayGames(games) {
+            const container = document.getElementById('today-games');
+            
+            if (games.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">😴</div>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-2">오늘은 경기가 없습니다</h3>
+                        <p class="text-gray-500">다음 경기를 기대해주세요!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const gamesHtml = games.map((game, index) => `
+                <div class="team-card bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300" style="animation-delay: ${index * 0.1}s">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center space-x-2 text-gray-600">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="text-sm font-medium">${game.stadium || '경기장 미정'}</span>
+                        </div>
+                        ${game.is_extra_innings ? `
+                            <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1">
+                                <i class="fas fa-clock"></i>
+                                <span>연장 ${game.total_innings}회</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                                    ${game.away_team}
+                                </div>
+                                <span class="font-bold text-lg ${game.away_score > game.home_score ? 'text-blue-600' : 'text-gray-600'}">${game.away_team}</span>
+                            </div>
+                            <div class="text-3xl font-bold ${game.away_score > game.home_score ? 'text-blue-600' : 'text-gray-400'}">${game.away_score}</div>
+                        </div>
+                        <div class="flex justify-between items-center py-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                                    ${game.home_team}
+                                </div>
+                                <span class="font-bold text-lg ${game.home_score > game.away_score ? 'text-green-600' : 'text-gray-600'}">${game.home_team}</span>
+                            </div>
+                            <div class="text-3xl font-bold ${game.home_score > game.away_score ? 'text-green-600' : 'text-gray-400'}">${game.home_score}</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-100 text-center">
+                        ${game.game_status === 'completed' ? 
+                            (game.is_draw ? 
+                                '<div class="flex items-center justify-center space-x-2 text-gray-600"><i class="fas fa-handshake"></i><span class="font-medium">무승부</span></div>' : 
+                                '<div class="flex items-center justify-center space-x-2 text-green-600"><i class="fas fa-check-circle"></i><span class="font-medium">경기 종료</span></div>'
+                            ) : 
+                            '<div class="flex items-center justify-center space-x-2 text-blue-600"><i class="fas fa-play-circle"></i><span class="font-medium">진행 중</span></div>'
+                        }
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">${gamesHtml}</div>`;
+        }
+
+        function updateStandingsSummary(summary) {
+            updateLeagueTable('central-standings', summary.central || []);
+            updateLeagueTable('pacific-standings', summary.pacific || []);
+            
+            // Create charts
+            setTimeout(() => {
+                createLeagueChart('central-chart', summary.central || [], 'rgba(30, 64, 175, 0.8)');
+                createLeagueChart('pacific-chart', summary.pacific || [], 'rgba(5, 150, 105, 0.8)');
+            }, 500);
+        }
+
+        function updateLeagueTable(containerId, teams) {
+            const container = document.getElementById(containerId);
+            
+            if (teams.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500">데이터 없음</p>';
+                return;
+            }
+
+            const tableHtml = teams.map((team, index) => `
+                <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors" style="animation-delay: ${index * 0.1}s">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full ${index === 0 ? 'bg-yellow-400' : index === 1 ? 'bg-gray-400' : index === 2 ? 'bg-orange-400' : 'bg-gray-200'} flex items-center justify-center text-white font-bold text-sm">
+                            ${team.position_rank}
+                        </div>
+                        <span class="font-bold ${index === 0 ? 'text-yellow-600' : 'text-gray-800'}">${team.team_abbreviation}</span>
+                        ${index === 0 ? '<i class="fas fa-crown text-yellow-500 ml-2"></i>' : ''}
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold">${team.wins}-${team.losses}</div>
+                        <div class="text-sm text-gray-500">${team.win_percentage?.toFixed(3)}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = tableHtml;
+        }
+
+        function createLeagueChart(canvasId, teams, color) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas || teams.length === 0) return;
+
+            const ctx = canvas.getContext('2d');
+            
+            if (canvasId === 'central-chart' && centralChart) {
+                centralChart.destroy();
+            }
+            if (canvasId === 'pacific-chart' && pacificChart) {
+                pacificChart.destroy();
+            }
+
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: teams.map(team => team.team_abbreviation),
+                    datasets: [{
+                        label: '승수',
+                        data: teams.map(team => team.wins),
+                        backgroundColor: color,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { display: false },
+                            ticks: { color: '#6b7280' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#6b7280' }
+                        }
+                    }
+                }
+            });
+
+            if (canvasId === 'central-chart') centralChart = chart;
+            if (canvasId === 'pacific-chart') pacificChart = chart;
+        }
+
+        async function loadStandings() {
+            try {
+                const data = await loadJSON('standings.json');
+                
+                updateMagicCard('magic-central', data.central_league);
+                updateMagicCard('magic-pacific', data.pacific_league);
+                updateFullStandings('central-full-standings', data.central_league?.standings || []);
+                updateFullStandings('pacific-full-standings', data.pacific_league?.standings || []);
+
+            } catch (error) {
+                console.error('Standings load failed:', error);
+            }
+        }
+
+        function updateMagicCard(containerId, data) {
+            const container = document.getElementById(containerId);
+            const leader = data?.standings?.[0];
+            
+            if (!leader) {
+                container.querySelector('.p-8').innerHTML = '<p class="text-center text-gray-500">데이터 없음</p>';
+                return;
+            }
+
+            const contentHtml = `
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center mb-4">
+                        <i class="fas fa-crown text-3xl text-white"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-800">${leader.team_abbreviation}</h4>
+                    <p class="text-gray-600">리그 1위</p>
+                </div>
+
+                ${leader.magic_number ? `
+                    <div class="text-center mb-6">
+                        <div class="inline-block bg-gradient-to-br from-red-500 to-red-600 text-white rounded-2xl p-6 magic-pulse">
+                            <div class="text-4xl font-bold">${leader.magic_number}</div>
+                            <div class="text-sm opacity-90">매직넘버</div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-3">우승까지 ${leader.magic_number}승 남음</p>
+                    </div>
+                ` : leader.clinch_status === 'champion' ? `
+                    <div class="text-center mb-6">
+                        <div class="text-6xl mb-4">🏆</div>
+                        <div class="text-2xl font-bold gradient-text">우승 확정!</div>
+                    </div>
+                ` : ''}
+
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <div class="text-2xl font-bold text-blue-600">${leader.wins}</div>
+                        <div class="text-sm text-gray-600">승</div>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <div class="text-2xl font-bold text-red-600">${leader.losses}</div>
+                        <div class="text-sm text-gray-600">패</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <div class="text-sm text-gray-600">승률</div>
+                    <div class="text-xl font-bold">${leader.win_percentage?.toFixed(3)}</div>
+                </div>
+            `;
+
+            container.querySelector('.p-8').innerHTML = contentHtml;
+        }
+
+        function updateFullStandings(containerId, teams) {
+            const container = document.getElementById(containerId);
+            
+            if (teams.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500">데이터 없음</p>';
+                return;
+            }
+
+            const tableHtml = `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr class="text-xs text-gray-600">
+                                <th class="px-3 py-3 text-left">순위</th>
+                                <th class="px-3 py-3 text-left">팀</th>
+                                <th class="px-3 py-3 text-center">승</th>
+                                <th class="px-3 py-3 text-center">패</th>
+                                <th class="px-3 py-3 text-center">승률</th>
+                                <th class="px-3 py-3 text-center">차</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${teams.map((team, idx) => `
+                                <tr class="border-b hover:bg-gray-50 transition-colors ${idx === 0 ? 'bg-yellow-50' : ''}">
+                                    <td class="px-3 py-3">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-6 h-6 rounded-full ${idx === 0 ? 'bg-yellow-400' : idx === 1 ? 'bg-gray-400' : idx === 2 ? 'bg-orange-400' : 'bg-gray-200'} flex items-center justify-center text-white font-bold text-xs">
+                                                ${team.position_rank}
+                                            </div>
+                                            ${idx === 0 ? '<i class="fas fa-crown text-yellow-500"></i>' : ''}
+                                        </div>
+                                    </td>
+                                    <td class="px-3 py-3 font-medium">${team.team_abbreviation}</td>
+                                    <td class="px-3 py-3 text-center font-bold text-blue-600">${team.wins}</td>
+                                    <td class="px-3 py-3 text-center text-red-600">${team.losses}</td>
+                                    <td class="px-3 py-3 text-center font-medium">${team.win_percentage?.toFixed(3)}</td>
+                                    <td class="px-3 py-3 text-center ${team.games_behind > 0 ? 'text-red-600' : 'text-green-600'}">
+                                        ${team.games_behind > 0 ? '-' + team.games_behind.toFixed(1) : '-'}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = tableHtml;
+        }
+
+        async function loadTeams() {
+            try {
+                const data = await loadJSON('teams.json');
+                
+                document.getElementById('teams-summary').textContent = 
+                    `센트럴 리그 ${data.central_league?.length || 0}팀, 퍼시픽 리그 ${data.pacific_league?.length || 0}팀`;
+                
+                updateTeamCards('central-teams', data.central_league || []);
+                updateTeamCards('pacific-teams', data.pacific_league || []);
+
+            } catch (error) {
+                console.error('Teams load failed:', error);
+            }
+        }
+
+        function updateTeamCards(containerId, teams) {
+            const container = document.getElementById(containerId);
+            
+            if (teams.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500">데이터 없음</p>';
+                return;
+            }
+
+            const cardsHtml = teams.map((team, index) => `
+                <div class="team-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" style="animation-delay: ${index * 0.1}s">
+                    <div class="h-2" style="background: linear-gradient(90deg, ${team.team_color || '#gray'}, ${team.team_color || '#gray'}AA)"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${team.team_abbreviation}</h3>
+                                <p class="text-sm text-gray-600">${team.team_name}</p>
+                            </div>
+                            ${team.position_rank ? `
+                                <div class="text-center">
+                                    <div class="w-12 h-12 rounded-full ${team.position_rank === 1 ? 'bg-yellow-400' : team.position_rank === 2 ? 'bg-gray-400' : team.position_rank === 3 ? 'bg-orange-400' : 'bg-gray-200'} flex items-center justify-center">
+                                        <span class="text-xl font-bold text-white">${team.position_rank}</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">순위</div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        ${team.win_percentage !== null ? `
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 flex items-center"><i class="fas fa-percentage mr-2"></i>승률</span>
+                                    <span class="font-bold text-lg">${team.win_percentage.toFixed(3)}</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-3 text-center">
+                                    <div class="bg-blue-50 rounded-lg p-3">
+                                        <div class="text-xl font-bold text-blue-600">${team.wins}</div>
+                                        <div class="text-xs text-gray-600">승</div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-lg p-3">
+                                        <div class="text-xl font-bold text-red-600">${team.losses}</div>
+                                        <div class="text-xs text-gray-600">패</div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-lg p-3">
+                                        <div class="text-xl font-bold text-gray-600">${team.draws}</div>
+                                        <div class="text-xs text-gray-600">무</div>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-gray-100">
+                                    <div class="text-center">
+                                        <div class="flex items-center justify-center text-blue-600 mb-1">
+                                            <i class="fas fa-home mr-1"></i>
+                                            <span class="text-xs">홈</span>
+                                        </div>
+                                        <span class="text-sm font-medium">${team.home_wins || 0}-${team.home_losses || 0}</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="flex items-center justify-center text-green-600 mb-1">
+                                            <i class="fas fa-plane mr-1"></i>
+                                            <span class="text-xs">원정</span>
+                                        </div>
+                                        <span class="text-sm font-medium">${team.away_wins || 0}-${team.away_losses || 0}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex items-center text-gray-600">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span class="text-sm">${team.stadium_name || '홈 구장 정보 없음'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = cardsHtml;
+        }
+
+        async function loadGames() {
+            try {
+                const data = await loadJSON('games.json');
+                
+                const container = document.getElementById('games-list');
+                
+                if (data.games.length === 0) {
+                    container.innerHTML = `
+                        <div class="p-12 text-center">
+                            <div class="text-6xl mb-4">📭</div>
+                            <h3 class="text-2xl font-bold text-gray-600 mb-2">최근 경기가 없습니다</h3>
+                            <p class="text-gray-500">곧 새로운 경기가 시작됩니다!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const gamesHtml = data.games.map((game, index) => `
+                    <div class="p-6 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-all duration-200" style="animation-delay: ${index * 0.05}s">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
+                            <div class="flex items-center space-x-4">
+                                <div class="text-center min-w-20">
+                                    <div class="text-sm font-medium text-gray-600">
+                                        ${new Date(game.game_date).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        ${new Date(game.game_date).toLocaleDateString('ko-KR', { weekday: 'short' })}
+                                    </div>
+                                </div>
+                                
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-center space-x-6">
+                                        <div class="text-right ${game.away_score > game.home_score ? 'font-bold' : ''}">
+                                            <div class="text-lg font-medium ${game.away_score > game.home_score ? 'text-blue-600' : 'text-gray-600'}">${game.away_team}</div>
+                                        </div>
+                                        
+                                        <div class="text-center px-6">
+                                            <div class="flex items-center space-x-3">
+                                                <span class="text-2xl font-bold ${game.away_score > game.home_score ? 'text-blue-600' : 'text-gray-400'}">${game.away_score}</span>
+                                                <span class="text-gray-400">:</span>
+                                                <span class="text-2xl font-bold ${game.home_score > game.away_score ? 'text-green-600' : 'text-gray-400'}">${game.home_score}</span>
+                                            </div>
+                                            ${game.is_extra_innings ? `
+                                                <div class="text-xs text-yellow-600 mt-1 flex items-center justify-center">
+                                                    <i class="fas fa-clock mr-1"></i>연장 ${game.total_innings}회
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                        
+                                        <div class="text-left ${game.home_score > game.away_score ? 'font-bold' : ''}">
+                                            <div class="text-lg font-medium ${game.home_score > game.away_score ? 'text-green-600' : 'text-gray-600'}">${game.home_team}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between md:justify-end space-x-4 text-sm text-gray-500">
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>${game.stadium || '구장 미정'}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    ${game.game_status === 'completed' ? 
+                                        (game.is_draw ? 
+                                            '<i class="fas fa-handshake text-gray-500 mr-1"></i><span>무승부</span>' : 
+                                            '<i class="fas fa-check-circle text-green-500 mr-1"></i><span>종료</span>'
+                                        ) : 
+                                        '<i class="fas fa-play-circle text-blue-500 mr-1"></i><span>진행중</span>'
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = `
+                    <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold">최근 경기 결과</h2>
+                                <p class="text-purple-100">지난 ${data.period_days}일간의 모든 경기</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold">${data.total_games}</div>
+                                <div class="text-sm text-purple-100">경기</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divide-y divide-gray-100">${gamesHtml}</div>
+                `;
+
+            } catch (error) {
+                console.error('Games load failed:', error);
+                document.getElementById('games-list').innerHTML = 
+                    '<div class="p-8 text-center text-red-500"><i class="fas fa-exclamation-triangle text-3xl mb-4"></i><p>경기 데이터 로딩 실패</p></div>';
+            }
+        }
+
+        function showError() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('error').classList.remove('hidden');
+        }
+        
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            const body = document.body;
+            const icon = document.getElementById('dark-mode-icon');
+            
+            if (darkMode) {
+                body.setAttribute('data-theme', 'dark');
+                body.classList.add('bg-gray-900', 'text-white');
+                body.classList.remove('bg-gradient-to-br', 'from-gray-50', 'to-blue-50');
+                icon.className = 'fas fa-sun';
+            } else {
+                body.removeAttribute('data-theme');
+                body.classList.remove('bg-gray-900', 'text-white');
+                body.classList.add('bg-gradient-to-br', 'from-gray-50', 'to-blue-50');
+                icon.className = 'fas fa-moon';
+            }
+            
+            // Update charts colors if they exist
+            if (centralChart) updateChartForTheme(centralChart);
+            if (pacificChart) updateChartForTheme(pacificChart);
+            if (trendsChart) updateChartForTheme(trendsChart);
+            if (comparisonChart) updateChartForTheme(comparisonChart);
+        }
+        
+        function updateChartForTheme(chart) {
+            const textColor = darkMode ? '#f3f4f6' : '#374151';
+            const gridColor = darkMode ? '#374151' : '#e5e7eb';
+            
+            chart.options.scales.x.ticks.color = textColor;
+            chart.options.scales.y.ticks.color = textColor;
+            chart.options.scales.x.grid.color = gridColor;
+            chart.options.scales.y.grid.color = gridColor;
+            chart.options.plugins.legend.labels.color = textColor;
+            chart.update();
+        }
+        
+        // Chart Type Switching
+        function switchChartType(league, type) {
+            currentChartTypes[league] = type;
+            
+            // Update tab appearance
+            const tabs = document.querySelectorAll(`#${league === 'central' ? 'central' : 'pacific'}-standings .chart-tab`);
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Recreate chart with new type
+            createLeagueChart(league, type);
+        }
+        
+        async function createLeagueChart(league, type = 'wins') {
+            try {
+                const data = await loadJSON('standings.json');
+                const teams = league === 'central' ? data.central_league?.standings : data.pacific_league?.standings;
+                if (!teams) return;
+                
+                const canvas = document.getElementById(`${league}-chart`);
+                const chart = league === 'central' ? centralChart : pacificChart;
+                
+                if (chart) {
+                    chart.destroy();
+                }
+                
+                const ctx = canvas.getContext('2d');
+                let chartData, chartOptions;
+                
+                switch(type) {
+                    case 'wins':
+                        chartData = {
+                            labels: teams.map(t => t.team_abbreviation),
+                            datasets: [{
+                                label: '승수',
+                                data: teams.map(t => t.wins),
+                                backgroundColor: `var(--${league}-color)`,
+                                borderColor: `var(--${league}-color)`,
+                                borderWidth: 2
+                            }]
+                        };
+                        chartOptions = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { beginAtZero: true, ticks: { stepSize: 10 } }
+                            }
+                        };
+                        break;
+                        
+                    case 'trend':
+                        chartData = {
+                            labels: teams.map(t => t.team_abbreviation),
+                            datasets: [
+                                {
+                                    label: '승률',
+                                    data: teams.map(t => (t.win_percentage * 100).toFixed(1)),
+                                    type: 'line',
+                                    borderColor: 'var(--chart-primary)',
+                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                    tension: 0.4
+                                },
+                                {
+                                    label: '게임차',
+                                    data: teams.map(t => t.games_behind),
+                                    backgroundColor: 'var(--chart-secondary)',
+                                    borderColor: 'var(--chart-secondary)'
+                                }
+                            ]
+                        };
+                        chartOptions = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: true } },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        };
+                        break;
+                        
+                    case 'runs':
+                        chartData = {
+                            labels: teams.map(t => t.team_abbreviation),
+                            datasets: [
+                                {
+                                    label: '득점',
+                                    data: teams.map(t => t.runs_scored || 0),
+                                    backgroundColor: 'var(--chart-primary)'
+                                },
+                                {
+                                    label: '실점',
+                                    data: teams.map(t => t.runs_allowed || 0),
+                                    backgroundColor: 'var(--chart-danger)'
+                                }
+                            ]
+                        };
+                        chartOptions = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: true } },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        };
+                        break;
+                }
+                
+                const newChart = new Chart(ctx, {
+                    type: type === 'trend' ? 'bar' : 'bar',
+                    data: chartData,
+                    options: chartOptions
+                });
+                
+                if (league === 'central') centralChart = newChart;
+                else pacificChart = newChart;
+                
+            } catch (error) {
+                console.error(`Failed to create ${league} chart:`, error);
+            }
+        }
+        
+        // Analytics Panel Switching
+        function switchAnalytics(panel) {
+            // Update tab appearance
+            document.querySelectorAll('.chart-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hide all panels
+            document.querySelectorAll('.analytics-panel').forEach(p => p.classList.add('hidden'));
+            
+            // Show selected panel
+            const selectedPanel = document.getElementById(`analytics-${panel}`);
+            selectedPanel.classList.remove('hidden');
+            
+            // Load specific data for panel
+            if (panel === 'trends' && !trendsChart) createTrendsChart();
+            if (panel === 'comparison' && !comparisonChart) createComparisonChart();
+        }
+        
+        async function createTrendsChart() {
+            try {
+                const data = await loadJSON('standings.json');
+                const centralTeams = data.central_league?.standings || [];
+                const pacificTeams = data.pacific_league?.standings || [];
+                
+                const ctx = document.getElementById('trends-chart').getContext('2d');
+                
+                trendsChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1위', '2위', '3위', '4위', '5위', '6위'],
+                        datasets: [
+                            {
+                                label: '센트럴 승률',
+                                data: centralTeams.slice(0, 6).map(t => (t.win_percentage * 100).toFixed(1)),
+                                borderColor: 'var(--central-color)',
+                                backgroundColor: 'rgba(30, 64, 175, 0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: '퍼시픽 승률',
+                                data: pacificTeams.slice(0, 6).map(t => (t.win_percentage * 100).toFixed(1)),
+                                borderColor: 'var(--pacific-color)',
+                                backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: true } },
+                        scales: {
+                            y: { beginAtZero: false, min: 30, max: 70 }
+                        }
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Failed to create trends chart:', error);
+            }
+        }
+        
+        async function createComparisonChart() {
+            try {
+                const data = await loadJSON('standings.json');
+                const centralTeams = data.central_league?.standings || [];
+                const pacificTeams = data.pacific_league?.standings || [];
+                
+                const ctx = document.getElementById('comparison-chart').getContext('2d');
+                
+                comparisonChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['승수', '승률', '득점', '방어', '게임차', '홈경기'],
+                        datasets: [
+                            {
+                                label: '센트럴 리그 평균',
+                                data: [
+                                    centralTeams.reduce((s, t) => s + t.wins, 0) / centralTeams.length,
+                                    (centralTeams.reduce((s, t) => s + t.win_percentage, 0) / centralTeams.length) * 100,
+                                    (centralTeams.reduce((s, t) => s + (t.runs_scored || 0), 0) / centralTeams.length) / 10,
+                                    (centralTeams.reduce((s, t) => s + (t.runs_allowed || 0), 0) / centralTeams.length) / 10,
+                                    centralTeams.reduce((s, t) => s + t.games_behind, 0) / centralTeams.length,
+                                    (centralTeams.reduce((s, t) => s + (t.home_wins || 0), 0) / centralTeams.length) * 2
+                                ],
+                                borderColor: 'var(--central-color)',
+                                backgroundColor: 'rgba(30, 64, 175, 0.2)'
+                            },
+                            {
+                                label: '퍼시픽 리그 평균',
+                                data: [
+                                    pacificTeams.reduce((s, t) => s + t.wins, 0) / pacificTeams.length,
+                                    (pacificTeams.reduce((s, t) => s + t.win_percentage, 0) / pacificTeams.length) * 100,
+                                    (pacificTeams.reduce((s, t) => s + (t.runs_scored || 0), 0) / pacificTeams.length) / 10,
+                                    (pacificTeams.reduce((s, t) => s + (t.runs_allowed || 0), 0) / pacificTeams.length) / 10,
+                                    pacificTeams.reduce((s, t) => s + t.games_behind, 0) / pacificTeams.length,
+                                    (pacificTeams.reduce((s, t) => s + (t.home_wins || 0), 0) / pacificTeams.length) * 2
+                                ],
+                                borderColor: 'var(--pacific-color)',
+                                backgroundColor: 'rgba(5, 150, 105, 0.2)'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: true } },
+                        scales: {
+                            r: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Failed to create comparison chart:', error);
+            }
+        }
+        
+        // Update progress rings
+        function updateProgressRings(centralAvg, pacificAvg) {
+            const centralCircle = document.getElementById('central-progress');
+            const pacificCircle = document.getElementById('pacific-progress');
+            
+            const circumference = 2 * Math.PI * 52;
+            
+            if (centralCircle) {
+                const centralOffset = circumference - (centralAvg * 100 / 100) * circumference;
+                centralCircle.style.strokeDashoffset = centralOffset;
+            }
+            
+            if (pacificCircle) {
+                const pacificOffset = circumference - (pacificAvg * 100 / 100) * circumference;
+                pacificCircle.style.strokeDashoffset = pacificOffset;
+            }
+        }
+        
+        // Initialize enhanced dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add touch support for mobile
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+            
+            // Initialize charts after data loads
+            setTimeout(() => {
+                createLeagueChart('central', 'wins');
+                createLeagueChart('pacific', 'wins');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
