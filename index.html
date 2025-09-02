@@ -159,24 +159,24 @@
 
         <!-- Scenarios -->
         <div id="scenarios" class="tab-content">
-            <h2>残り試合勝敗別最終成績</h2>
+            <h2>経路の数 - 目標勝率達成に必要な勝数</h2>
             <div style="margin-bottom: 20px;">
                 <h3>セントラルリーグ</h3>
                 <div class="scroll-table">
                     <table>
                         <thead>
                             <tr>
-                                <th rowspan="2" class="center" style="vertical-align: middle;">チーム</th>
-                                <th rowspan="2" class="center" style="vertical-align: middle;">現在</th>
-                                <th rowspan="2" class="center" style="vertical-align: middle;">残り</th>
-                                <th colspan="11" class="center">残り試合 勝利数別 最終勝率</th>
-                            </tr>
-                            <tr id="central-scenarios-header">
-                                <!-- 動的으로 생성됨 -->
+                                <th class="center" style="background: #f8f9fa;">勝率</th>
+                                <th class="center" id="central-team-1">チーム1</th>
+                                <th class="center" id="central-team-2">チーム2</th>
+                                <th class="center" id="central-team-3">チーム3</th>
+                                <th class="center" id="central-team-4">チーム4</th>
+                                <th class="center" id="central-team-5">チーム5</th>
+                                <th class="center" id="central-team-6">チーム6</th>
                             </tr>
                         </thead>
                         <tbody id="central-scenarios">
-                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="7" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -512,68 +512,72 @@
 
         function updateScenariosTable(id, teams) {
             const tbody = document.getElementById(id);
-            const headerId = id.replace('-scenarios', '-scenarios-header');
-            const header = document.getElementById(headerId);
+            const league = id.includes('central') ? 'central' : 'pacific';
             
             if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="14" class="loading">データがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="loading">データがありません</td></tr>';
                 return;
             }
 
-            // Get maximum remaining games to determine columns
-            const maxRemaining = Math.max(...teams.map(t => TOTAL_GAMES - t.games_played));
-            
-            // Create header for remaining wins (0 to maxRemaining)
-            let headerCells = '';
-            for (let i = 0; i <= maxRemaining; i++) {
-                headerCells += `<th class="center" style="min-width: 60px;">${i}勝</th>`;
-            }
-            header.innerHTML = headerCells;
-
-            tbody.innerHTML = teams.map(team => {
-                const rankClass = team.position_rank === 1 ? 'rank1' : 
-                                 team.position_rank === 2 ? 'rank2' : 
-                                 team.position_rank === 3 ? 'rank3' : '';
-                
-                const remainingGames = TOTAL_GAMES - team.games_played;
-                const currentWinRate = (team.win_percentage * 100).toFixed(1);
-                
-                // Calculate final win rates for each possible remaining wins
-                let scenarios = '';
-                for (let wins = 0; wins <= maxRemaining; wins++) {
-                    if (wins <= remainingGames) {
-                        const finalWins = team.wins + wins;
-                        const finalLosses = team.losses + (remainingGames - wins);
-                        const finalTotal = finalWins + finalLosses + team.draws;
-                        const finalWinRate = ((finalWins / (finalWins + finalLosses)) * 100);
-                        
-                        // Color coding based on win rate
-                        let cellClass = '';
-                        let cellStyle = '';
-                        if (finalWinRate >= 60) {
-                            cellStyle = 'background: #d4edda; color: #155724;'; // Green
-                        } else if (finalWinRate >= 55) {
-                            cellStyle = 'background: #fff3cd; color: #856404;'; // Yellow
-                        } else if (finalWinRate >= 50) {
-                            cellStyle = 'background: #f8f9fa; color: #495057;'; // Light gray
-                        } else {
-                            cellStyle = 'background: #f8d7da; color: #721c24;'; // Red
-                        }
-                        
-                        scenarios += `<td class="center" style="${cellStyle} font-size: 12px;">${finalWinRate.toFixed(1)}%</td>`;
-                    } else {
-                        scenarios += `<td class="center" style="background: #e9ecef; color: #6c757d;">-</td>`;
-                    }
+            // Update team headers
+            teams.forEach((team, index) => {
+                const teamHeader = document.getElementById(`${league}-team-${index + 1}`);
+                if (teamHeader) {
+                    teamHeader.textContent = `${team.team_abbreviation}(${team.wins}-${team.losses}-${team.draws || 0})`;
                 }
+            });
+
+            // Win rate targets to display (from high to low)
+            const winRateTargets = [0.650, 0.600, 0.550, 0.500, 0.450, 0.400, 0.350];
+            
+            tbody.innerHTML = winRateTargets.map(targetRate => {
+                let row = `<td class="center" style="background: #f8f9fa; font-weight: bold;">${(targetRate * 100).toFixed(0)}%</td>`;
                 
-                return `
-                    <tr class="${rankClass}">
-                        <td style="font-weight: bold;">${team.team_abbreviation}</td>
-                        <td class="center" style="font-size: 12px;">${team.wins}-${team.losses}-${team.draws || 0}<br/>${currentWinRate}%</td>
-                        <td class="center">${remainingGames}</td>
-                        ${scenarios}
-                    </tr>
-                `;
+                teams.forEach(team => {
+                    const remainingGames = TOTAL_GAMES - team.games_played;
+                    const currentWins = team.wins;
+                    const currentLosses = team.losses;
+                    const currentDraws = team.draws || 0;
+                    
+                    // Calculate required wins to achieve target rate
+                    // targetRate = (currentWins + requiredWins) / (currentWins + requiredWins + currentLosses + (remainingGames - requiredWins))
+                    // targetRate = (currentWins + requiredWins) / (TOTAL_GAMES - currentDraws)
+                    const totalGamesMinusDraws = TOTAL_GAMES - currentDraws;
+                    const requiredTotalWins = Math.ceil(targetRate * totalGamesMinusDraws);
+                    const requiredWins = Math.max(0, requiredTotalWins - currentWins);
+                    
+                    let cellContent = '';
+                    let cellStyle = 'text-align: center; padding: 8px 4px; font-size: 12px;';
+                    
+                    if (requiredWins > remainingGames) {
+                        // Impossible to achieve
+                        cellContent = '-';
+                        cellStyle += 'background: #f8d7da; color: #721c24;';
+                    } else if (requiredWins === 0) {
+                        // Already achieved
+                        cellContent = '✓';
+                        cellStyle += 'background: #d4edda; color: #155724; font-weight: bold;';
+                    } else {
+                        // Show required wins
+                        cellContent = `${requiredWins}勝`;
+                        
+                        // Color based on difficulty
+                        const difficultyRatio = requiredWins / remainingGames;
+                        if (difficultyRatio <= 0.3) {
+                            cellStyle += 'background: #d4edda; color: #155724;'; // Easy - Green
+                        } else if (difficultyRatio <= 0.6) {
+                            cellStyle += 'background: #fff3cd; color: #856404;'; // Medium - Yellow  
+                        } else if (difficultyRatio <= 0.8) {
+                            cellStyle += 'background: #ffeaa7; color: #6c5f00;'; // Hard - Orange
+                        } else {
+                            cellStyle += 'background: #f8d7da; color: #721c24;'; // Very hard - Red
+                        }
+                    }
+                    
+                    row += `<td style="${cellStyle}">${cellContent}</td>`;
+                });
+                
+                return `<tr>${row}</tr>`;
             }).join('');
         }
 
