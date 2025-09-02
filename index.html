@@ -310,7 +310,7 @@
             }
 
             const leader = teams[0];
-            const thirdPlace = teams[2];
+            const thirdPlace = teams[2] || {};
             
             tbody.innerHTML = teams.map(team => {
                 const rankClass = team.position_rank === 1 ? 'rank1' : 
@@ -322,21 +322,26 @@
                 let eliminate = '-';
                 
                 if (isRegular) {
-                    // Regular season magic number
-                    if (team.position_rank === 1 && remainingGames > 0) {
+                    // Use existing magic number from data or calculate
+                    if (team.magic_number !== undefined) {
+                        magic = team.magic_number === 0 ? '✓' : team.magic_number;
+                    } else if (team.position_rank === 1 && remainingGames > 0) {
                         const secondPlace = teams[1];
-                        const maxWinsSecond = secondPlace.wins + (TOTAL_GAMES - secondPlace.games_played);
-                        magic = Math.max(0, maxWinsSecond - team.wins + 1);
-                        if (magic === 0) magic = '✓';
+                        if (secondPlace) {
+                            const maxWinsSecond = secondPlace.wins + (TOTAL_GAMES - secondPlace.games_played);
+                            magic = Math.max(0, maxWinsSecond - team.wins + 1);
+                            if (magic === 0) magic = '✓';
+                        }
                     }
                     
-                    // Elimination number
+                    // Calculate elimination
                     if (team.position_rank > 1) {
                         const maxWinsTeam = team.wins + remainingGames;
                         if (maxWinsTeam < leader.wins) {
                             eliminate = 'E';
                         } else {
-                            eliminate = Math.max(0, team.wins - leader.wins + remainingGames + 1);
+                            const eliminationNum = leader.wins - team.wins + 1;
+                            eliminate = eliminationNum > remainingGames ? 'E' : eliminationNum;
                         }
                     }
                 } else {
@@ -347,13 +352,18 @@
                             const maxWinsFourth = fourthPlace.wins + (TOTAL_GAMES - fourthPlace.games_played);
                             magic = Math.max(0, maxWinsFourth - team.wins + 1);
                             if (magic === 0) magic = '✓';
+                        } else {
+                            magic = '✓'; // Already clinched if no 4th place
                         }
                     }
                     
                     if (team.position_rank > 3) {
                         const maxWinsTeam = team.wins + remainingGames;
-                        if (maxWinsTeam < thirdPlace.wins) {
+                        if (thirdPlace.wins && maxWinsTeam < thirdPlace.wins) {
                             eliminate = 'E';
+                        } else if (thirdPlace.wins) {
+                            const eliminationNum = thirdPlace.wins - team.wins + 1;
+                            eliminate = eliminationNum > remainingGames ? 'E' : eliminationNum;
                         }
                     }
                 }
