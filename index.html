@@ -159,43 +159,45 @@
 
         <!-- Scenarios -->
         <div id="scenarios" class="tab-content">
-            <h2>順位確定・進出経路の数</h2>
-            <div class="leagues">
-                <div>
-                    <h3>セントラルリーグ</h3>
+            <h2>残り試合勝敗別最終成績</h2>
+            <div style="margin-bottom: 20px;">
+                <h3>セントラルリーグ</h3>
+                <div class="scroll-table">
                     <table>
                         <thead>
                             <tr>
-                                <th class="center">順位</th>
-                                <th>チーム</th>
-                                <th class="center">優勝確率</th>
-                                <th class="center">プレーオフ確率</th>
-                                <th class="center">可能シナリオ</th>
-                                <th class="center">最高順位</th>
-                                <th class="center">最低順位</th>
+                                <th rowspan="2" class="center" style="vertical-align: middle;">チーム</th>
+                                <th rowspan="2" class="center" style="vertical-align: middle;">現在</th>
+                                <th rowspan="2" class="center" style="vertical-align: middle;">残り</th>
+                                <th colspan="11" class="center">残り試合 勝利数別 最終勝率</th>
+                            </tr>
+                            <tr id="central-scenarios-header">
+                                <!-- 動的으로 생성됨 -->
                             </tr>
                         </thead>
                         <tbody id="central-scenarios">
-                            <tr><td colspan="7" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <div>
-                    <h3>パシフィックリーグ</h3>
+            </div>
+            <div>
+                <h3>パシフィックリーグ</h3>
+                <div class="scroll-table">
                     <table>
                         <thead>
                             <tr>
-                                <th class="center">順位</th>
-                                <th>チーム</th>
-                                <th class="center">優勝確率</th>
-                                <th class="center">プレーオフ確率</th>
-                                <th class="center">可能シナリオ</th>
-                                <th class="center">最高順位</th>
-                                <th class="center">最低順位</th>
+                                <th rowspan="2" class="center" style="vertical-align: middle;">チーム</th>
+                                <th rowspan="2" class="center" style="vertical-align: middle;">現在</th>
+                                <th rowspan="2" class="center" style="vertical-align: middle;">残り</th>
+                                <th colspan="11" class="center">残り試合 勝利数別 最終勝率</th>
+                            </tr>
+                            <tr id="pacific-scenarios-header">
+                                <!-- 動적으로 생성됨 -->
                             </tr>
                         </thead>
                         <tbody id="pacific-scenarios">
-                            <tr><td colspan="7" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -510,10 +512,23 @@
 
         function updateScenariosTable(id, teams) {
             const tbody = document.getElementById(id);
+            const headerId = id.replace('-scenarios', '-scenarios-header');
+            const header = document.getElementById(headerId);
+            
             if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="7" class="loading">データがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="14" class="loading">データがありません</td></tr>';
                 return;
             }
+
+            // Get maximum remaining games to determine columns
+            const maxRemaining = Math.max(...teams.map(t => TOTAL_GAMES - t.games_played));
+            
+            // Create header for remaining wins (0 to maxRemaining)
+            let headerCells = '';
+            for (let i = 0; i <= maxRemaining; i++) {
+                headerCells += `<th class="center" style="min-width: 60px;">${i}勝</th>`;
+            }
+            header.innerHTML = headerCells;
 
             tbody.innerHTML = teams.map(team => {
                 const rankClass = team.position_rank === 1 ? 'rank1' : 
@@ -521,59 +536,42 @@
                                  team.position_rank === 3 ? 'rank3' : '';
                 
                 const remainingGames = TOTAL_GAMES - team.games_played;
+                const currentWinRate = (team.win_percentage * 100).toFixed(1);
                 
-                // Calculate probabilities based on current standings
-                let winProb = 0;
-                let playoffProb = 0;
-                let scenarios = 'N/A';
-                let bestRank = team.position_rank;
-                let worstRank = team.position_rank;
-                
-                if (remainingGames > 0) {
-                    // Simple probability calculation based on current position
-                    if (team.position_rank === 1) {
-                        winProb = team.magic_number <= 3 ? 95 : team.magic_number <= 8 ? 75 : 50;
-                        playoffProb = 99;
-                        scenarios = Math.pow(2, Math.min(remainingGames, 10)).toLocaleString();
-                        bestRank = 1;
-                        worstRank = Math.min(3, teams.length);
-                    } else if (team.position_rank === 2) {
-                        winProb = team.games_behind <= 3 ? 25 : team.games_behind <= 6 ? 15 : 5;
-                        playoffProb = 90;
-                        scenarios = Math.pow(2, Math.min(remainingGames, 8)).toLocaleString();
-                        bestRank = 1;
-                        worstRank = Math.min(4, teams.length);
-                    } else if (team.position_rank === 3) {
-                        winProb = team.games_behind <= 5 ? 10 : 2;
-                        playoffProb = 75;
-                        scenarios = Math.pow(2, Math.min(remainingGames, 6)).toLocaleString();
-                        bestRank = 1;
-                        worstRank = teams.length;
+                // Calculate final win rates for each possible remaining wins
+                let scenarios = '';
+                for (let wins = 0; wins <= maxRemaining; wins++) {
+                    if (wins <= remainingGames) {
+                        const finalWins = team.wins + wins;
+                        const finalLosses = team.losses + (remainingGames - wins);
+                        const finalTotal = finalWins + finalLosses + team.draws;
+                        const finalWinRate = ((finalWins / (finalWins + finalLosses)) * 100);
+                        
+                        // Color coding based on win rate
+                        let cellClass = '';
+                        let cellStyle = '';
+                        if (finalWinRate >= 60) {
+                            cellStyle = 'background: #d4edda; color: #155724;'; // Green
+                        } else if (finalWinRate >= 55) {
+                            cellStyle = 'background: #fff3cd; color: #856404;'; // Yellow
+                        } else if (finalWinRate >= 50) {
+                            cellStyle = 'background: #f8f9fa; color: #495057;'; // Light gray
+                        } else {
+                            cellStyle = 'background: #f8d7da; color: #721c24;'; // Red
+                        }
+                        
+                        scenarios += `<td class="center" style="${cellStyle} font-size: 12px;">${finalWinRate.toFixed(1)}%</td>`;
                     } else {
-                        winProb = 1;
-                        playoffProb = team.position_rank === 4 ? 25 : team.position_rank === 5 ? 5 : 1;
-                        scenarios = Math.pow(2, Math.min(remainingGames, 4)).toLocaleString();
-                        bestRank = Math.max(1, team.position_rank - 2);
-                        worstRank = teams.length;
+                        scenarios += `<td class="center" style="background: #e9ecef; color: #6c757d;">-</td>`;
                     }
-                } else {
-                    // Season finished
-                    winProb = team.position_rank === 1 ? 100 : 0;
-                    playoffProb = team.position_rank <= 3 ? 100 : 0;
-                    scenarios = '1';
-                    bestRank = team.position_rank;
-                    worstRank = team.position_rank;
                 }
                 
                 return `
                     <tr class="${rankClass}">
-                        <td class="center">${team.position_rank}</td>
-                        <td>${team.team_abbreviation}</td>
-                        <td class="center">${winProb}%</td>
-                        <td class="center">${playoffProb}%</td>
-                        <td class="center">${scenarios}</td>
-                        <td class="center">${bestRank}</td>
-                        <td class="center">${worstRank}</td>
+                        <td style="font-weight: bold;">${team.team_abbreviation}</td>
+                        <td class="center" style="font-size: 12px;">${team.wins}-${team.losses}-${team.draws || 0}<br/>${currentWinRate}%</td>
+                        <td class="center">${remainingGames}</td>
+                        ${scenarios}
                     </tr>
                 `;
             }).join('');
