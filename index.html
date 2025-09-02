@@ -11,49 +11,55 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --central-color: #1e40af;
-            --pacific-color: #059669;
-            --npb-blue: #0f172a;
-            --gold: #ffd700;
-            --chart-primary: #3b82f6;
-            --chart-secondary: #10b981;
-            --chart-accent: #f59e0b;
-            --chart-danger: #ef4444;
+            --central-color: #2563eb;
+            --pacific-color: #dc2626;
+            --npb-blue: #1f2937;
+            --primary-text: #111827;
+            --secondary-text: #6b7280;
+            --border-color: #e5e7eb;
+            --bg-white: #ffffff;
+            --bg-gray: #f9fafb;
         }
         
         [data-theme="dark"] {
             --central-color: #3b82f6;
-            --pacific-color: #10b981;
-            --npb-blue: #1e293b;
-            --gold: #fbbf24;
+            --pacific-color: #ef4444;
+            --npb-blue: #374151;
+            --primary-text: #f9fafb;
+            --secondary-text: #d1d5db;
+            --border-color: #374151;
+            --bg-white: #1f2937;
+            --bg-gray: #111827;
         }
         
-        .central { background: linear-gradient(135deg, var(--central-color), #3b82f6); }
-        .pacific { background: linear-gradient(135deg, var(--pacific-color), #10b981); }
-        .npb-gradient { background: linear-gradient(135deg, var(--npb-blue), #1e293b); }
+        .central { background: var(--central-color); }
+        .pacific { background: var(--pacific-color); }
+        .npb-header { background: var(--npb-blue); }
+        .clean-card { background: var(--bg-white); border: 1px solid var(--border-color); }
         
         .loading { animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .scale-on-hover { transition: transform 0.2s ease-in-out; }
-        .scale-on-hover:hover { transform: scale(1.05); }
+        .hover-subtle:hover { background-color: var(--bg-gray); transition: background-color 0.2s; }
         
-        .magic-pulse { animation: magicPulse 2s infinite; }
-        @keyframes magicPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .text-primary { color: var(--primary-text); }
+        .text-secondary { color: var(--secondary-text); }
+        .border-light { border-color: var(--border-color); }
         
-        .trophy-bounce { animation: trophyBounce 1s ease-in-out infinite alternate; }
-        @keyframes trophyBounce { 0% { transform: translateY(0px); } 100% { transform: translateY(-5px); } }
+        .data-table { border-collapse: collapse; width: 100%; }
+        .data-table th, .data-table td { padding: 12px 8px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .data-table th { background: var(--bg-gray); font-weight: 600; font-size: 14px; }
+        .data-table td { font-size: 14px; }
+        .data-table tr:hover { background: var(--bg-gray); }
         
-        .gradient-text { background: linear-gradient(45deg, var(--gold), #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .glass { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
-        
-        .team-card { transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .team-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); transition: left 0.5s; }
-        .team-card:hover::before { left: 100%; }
+        .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .rank-1 { background: #fbbf24; color: white; }
+        .rank-2 { background: #9ca3af; color: white; }
+        .rank-3 { background: #f97316; color: white; }
+        .rank-other { background: var(--bg-gray); color: var(--secondary-text); }
         
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
         
@@ -77,46 +83,39 @@
         .progress-ring { transform: rotate(-90deg); }
         .progress-ring-circle { transition: stroke-dashoffset 0.35s; }
         
-        .dark-mode-toggle { position: fixed; top: 5rem; right: 1rem; z-index: 60; width: 3rem; height: 3rem; border-radius: 50%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-        .dark-mode-toggle:hover { transform: scale(1.1); }
+        .dark-mode-toggle { position: fixed; top: 1rem; right: 1rem; z-index: 60; width: 2.5rem; height: 2.5rem; border-radius: 6px; background: var(--bg-white); border: 1px solid var(--border-color); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+        .dark-mode-toggle:hover { background: var(--bg-gray); }
+        
+        .compact-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
+        .stat-item { text-align: center; padding: 1rem; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-text); }
+        .stat-label { font-size: 0.875rem; color: var(--secondary-text); margin-top: 0.25rem; }
         
         @media (max-width: 768px) {
-            .chart-container { height: 250px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .mobile-scroll { scroll-snap-type: x mandatory; }
-            .mobile-scroll > * { scroll-snap-align: start; }
+            .chart-container { height: 200px; }
+            .compact-stats { grid-template-columns: repeat(2, 1fr); }
+            .data-table { font-size: 12px; }
+            .data-table th, .data-table td { padding: 8px 4px; }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+<body class="bg-white min-h-screen text-primary" style="font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;">
     <!-- Navigation -->
-    <nav class="npb-gradient text-white shadow-2xl sticky top-0 z-50">
+    <nav class="npb-header text-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-14">
                 <div class="flex items-center space-x-3">
-                    <div class="text-3xl trophy-bounce">⚾</div>
+                    <span class="text-lg">⚾</span>
                     <div>
-                        <span class="text-xl font-bold gradient-text">NPB Dashboard</span>
-                        <div class="text-xs text-gray-300">일본 프로야구 통계</div>
+                        <span class="text-lg font-semibold">NPB Dashboard</span>
+                        <div class="text-xs text-gray-300">日本プロ野球</div>
                     </div>
                 </div>
-                <div class="flex space-x-2">
-                    <a href="#dashboard" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span class="hidden md:inline">대시보드</span>
-                    </a>
-                    <a href="#standings" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
-                        <i class="fas fa-trophy"></i>
-                        <span class="hidden md:inline">순위표</span>
-                    </a>
-                    <a href="#teams" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
-                        <i class="fas fa-users"></i>
-                        <span class="hidden md:inline">팀</span>
-                    </a>
-                    <a href="#games" class="nav-item flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span class="hidden md:inline">경기</span>
-                    </a>
+                <div class="flex space-x-1">
+                    <a href="#dashboard" class="nav-item px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">順位表</a>
+                    <a href="#standings" class="nav-item px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">試合</a>
+                    <a href="#teams" class="nav-item px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">チーム</a>
+                    <a href="#games" class="nav-item px-3 py-2 text-sm rounded hover:bg-white/10 transition-colors">結果</a>
                 </div>
             </div>
         </div>
@@ -124,7 +123,7 @@
 
     <!-- Dark Mode Toggle -->
     <button id="dark-mode-toggle" class="dark-mode-toggle" onclick="toggleDarkMode()">
-        <i class="fas fa-moon" id="dark-mode-icon"></i>
+        <i class="fas fa-moon text-sm" id="dark-mode-icon"></i>
     </button>
 
     <div class="container mx-auto px-4 py-8">
@@ -140,118 +139,85 @@
         </div>
 
         <!-- Dashboard Section -->
-        <section id="dashboard" class="space-y-8 hidden fade-in">
+        <section id="dashboard" class="space-y-4 hidden fade-in">
             <!-- Header -->
-            <div class="glass rounded-2xl p-8 text-center">
-                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">NPB Dashboard</h1>
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="flex items-center space-x-2 text-gray-600 mb-4 md:mb-0">
-                        <i class="fas fa-clock"></i>
-                        <span>마지막 업데이트: <span id="last-update" class="font-semibold">-</span></span>
+            <div class="clean-card rounded-lg p-4 border-b-2 border-blue-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-primary mb-1">NPB 順位表 2025</h1>
+                        <div class="text-sm text-secondary">最終更新: <span id="last-update" class="font-medium">-</span></div>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-blue-600" id="total-teams">12</div>
-                            <div class="text-sm text-gray-500">팀</div>
+                    <div class="compact-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-teams">12</div>
+                            <div class="stat-label">チーム</div>
                         </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-green-600" id="total-games-played">-</div>
-                            <div class="text-sm text-gray-500">경기</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-purple-600" id="current-season">2025</div>
-                            <div class="text-sm text-gray-500">시즌</div>
+                        <div class="stat-item">
+                            <div class="stat-value text-blue-600" id="total-games-played">-</div>
+                            <div class="stat-label">試合数</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Today's Games -->
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div class="px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <div class="clean-card rounded-lg overflow-hidden">
+                <div class="px-4 py-3 bg-gray-50 border-b border-light">
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <i class="fas fa-baseball-ball text-2xl"></i>
-                            <div>
-                                <h2 class="text-2xl font-bold">오늘의 경기</h2>
-                                <p class="text-blue-100">실시간 경기 현황</p>
-                            </div>
-                        </div>
-                        <div class="bg-white/20 rounded-full px-4 py-2">
-                            <span id="today-games-count" class="text-xl font-bold">-</span>
-                            <span class="text-sm ml-1">경기</span>
-                        </div>
+                        <h2 class="text-lg font-semibold text-primary">本日の試合</h2>
+                        <span class="text-sm text-secondary">結果: <span id="today-games-count" class="font-medium">-</span>試合</span>
                     </div>
                 </div>
-                <div id="today-games" class="p-8">
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
-                        <p>경기 정보 로딩 중...</p>
+                <div id="today-games" class="p-4">
+                    <div class="text-center py-6 text-secondary">
+                        <div class="text-sm">試合情報を読み込み中...</div>
                     </div>
                 </div>
             </div>
 
             <!-- League Statistics -->
-            <div class="grid md:grid-cols-2 gap-8">
+            <div class="grid md:grid-cols-2 gap-4">
                 <!-- Central League -->
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300">
-                    <div class="central text-white p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-2xl font-bold">센트럴 리그</h3>
-                                <p class="text-blue-100">Central League</p>
-                            </div>
-                            <div class="text-4xl opacity-80">
-                                <i class="fas fa-crown"></i>
-                            </div>
-                        </div>
+                <div class="clean-card rounded-lg overflow-hidden">
+                    <div class="central text-white p-3">
+                        <h3 class="text-lg font-semibold">セントラルリーグ</h3>
                     </div>
-                    <div class="p-6">
-                        <div id="central-standings" class="space-y-3">
-                            <div class="animate-pulse bg-gray-200 h-4 rounded"></div>
-                            <div class="animate-pulse bg-gray-200 h-4 rounded w-5/6"></div>
-                            <div class="animate-pulse bg-gray-200 h-4 rounded w-4/6"></div>
+                    <div class="p-4">
+                        <div id="central-standings" class="space-y-2">
+                            <div class="animate-pulse bg-gray-200 h-3 rounded"></div>
+                            <div class="animate-pulse bg-gray-200 h-3 rounded w-5/6"></div>
+                            <div class="animate-pulse bg-gray-200 h-3 rounded w-4/6"></div>
                         </div>
-                        <div class="mt-6">
-                            <div class="chart-tabs">
-                                <div class="chart-tab active" onclick="switchChartType('central', 'wins')">승률</div>
-                                <div class="chart-tab" onclick="switchChartType('central', 'trend')">추세</div>
-                                <div class="chart-tab" onclick="switchChartType('central', 'runs')">득실</div>
+                        <div class="mt-4">
+                            <div class="chart-tabs mb-2">
+                                <div class="chart-tab active text-xs" onclick="switchChartType('central', 'wins')">勝率</div>
+                                <div class="chart-tab text-xs" onclick="switchChartType('central', 'runs')">得点</div>
                             </div>
-                            <div class="chart-container">
-                                <canvas id="central-chart" width="400" height="200"></canvas>
+                            <div class="chart-container" style="height: 180px;">
+                                <canvas id="central-chart" width="400" height="180"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Pacific League -->
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300">
-                    <div class="pacific text-white p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-2xl font-bold">퍼시픽 리그</h3>
-                                <p class="text-green-100">Pacific League</p>
-                            </div>
-                            <div class="text-4xl opacity-80">
-                                <i class="fas fa-medal"></i>
-                            </div>
-                        </div>
+                <div class="clean-card rounded-lg overflow-hidden">
+                    <div class="pacific text-white p-3">
+                        <h3 class="text-lg font-semibold">パシフィックリーグ</h3>
                     </div>
-                    <div class="p-6">
-                        <div id="pacific-standings" class="space-y-3">
-                            <div class="animate-pulse bg-gray-200 h-4 rounded"></div>
-                            <div class="animate-pulse bg-gray-200 h-4 rounded w-5/6"></div>
-                            <div class="animate-pulse bg-gray-200 h-4 rounded w-4/6"></div>
+                    <div class="p-4">
+                        <div id="pacific-standings" class="space-y-2">
+                            <div class="animate-pulse bg-gray-200 h-3 rounded"></div>
+                            <div class="animate-pulse bg-gray-200 h-3 rounded w-5/6"></div>
+                            <div class="animate-pulse bg-gray-200 h-3 rounded w-4/6"></div>
                         </div>
-                        <div class="mt-6">
-                            <div class="chart-tabs">
-                                <div class="chart-tab active" onclick="switchChartType('pacific', 'wins')">승률</div>
-                                <div class="chart-tab" onclick="switchChartType('pacific', 'trend')">추세</div>
-                                <div class="chart-tab" onclick="switchChartType('pacific', 'runs')">득실</div>
+                        <div class="mt-4">
+                            <div class="chart-tabs mb-2">
+                                <div class="chart-tab active text-xs" onclick="switchChartType('pacific', 'wins')">勝率</div>
+                                <div class="chart-tab text-xs" onclick="switchChartType('pacific', 'runs')">得点</div>
                             </div>
-                            <div class="chart-container">
-                                <canvas id="pacific-chart" width="400" height="200"></canvas>
+                            <div class="chart-container" style="height: 180px;">
+                                <canvas id="pacific-chart" width="400" height="180"></canvas>
                             </div>
                         </div>
                     </div>
