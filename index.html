@@ -512,26 +512,52 @@
 
         function updateScenariosTable(id, teams) {
             const tbody = document.getElementById(id);
+            const headerId = id.replace('-scenarios', '-scenarios-header');
+            const header = document.getElementById(headerId);
             const league = id.includes('central') ? 'central' : 'pacific';
             
             if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="7" class="loading">データがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="20" class="loading">データがありません</td></tr>';
                 return;
             }
 
-            // Update team headers
-            teams.forEach((team, index) => {
-                const teamHeader = document.getElementById(`${league}-team-${index + 1}`);
-                if (teamHeader) {
-                    teamHeader.textContent = `${team.team_abbreviation}(${team.wins}-${team.losses}-${team.draws || 0})`;
-                }
+            // Create KBO-style 4-row header
+            let headerHTML = `
+                <tr>
+                    <td rowspan="4" style="background: #f8f9fa; font-weight: bold; vertical-align: middle; width: 60px;">최종승률</td>`;
+            
+            // Row 1: Team rankings
+            teams.forEach(team => {
+                headerHTML += `<td class="center" style="background: #f0f0f0; font-weight: bold; padding: 4px;">${team.position_rank}위</td>`;
             });
+            headerHTML += `</tr><tr>`;
+            
+            // Row 2: Team names
+            teams.forEach(team => {
+                headerHTML += `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px;">${team.team_abbreviation}</td>`;
+            });
+            headerHTML += `</tr><tr>`;
+            
+            // Row 3: Current records
+            teams.forEach(team => {
+                headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 11px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0}</td>`;
+            });
+            headerHTML += `</tr><tr>`;
+            
+            // Row 4: Remaining games
+            teams.forEach(team => {
+                const remaining = TOTAL_GAMES - team.games_played;
+                headerHTML += `<td class="center" style="background: #f8f9fa; font-size: 11px; padding: 4px;">잔여${remaining}</td>`;
+            });
+            headerHTML += `</tr>`;
+            
+            header.innerHTML = headerHTML;
 
             // Win rate targets to display (from high to low)
-            const winRateTargets = [0.650, 0.600, 0.550, 0.500, 0.450, 0.400, 0.350];
+            const winRateTargets = [0.700, 0.650, 0.600, 0.550, 0.500, 0.450, 0.400, 0.350, 0.300];
             
             tbody.innerHTML = winRateTargets.map(targetRate => {
-                let row = `<td class="center" style="background: #f8f9fa; font-weight: bold;">${(targetRate * 100).toFixed(0)}%</td>`;
+                let row = `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px; font-size: 12px;">${(targetRate * 100).toFixed(0)}%</td>`;
                 
                 teams.forEach(team => {
                     const remainingGames = TOTAL_GAMES - team.games_played;
@@ -539,38 +565,41 @@
                     const currentLosses = team.losses;
                     const currentDraws = team.draws || 0;
                     
-                    // Calculate required wins to achieve target rate
-                    // targetRate = (currentWins + requiredWins) / (currentWins + requiredWins + currentLosses + (remainingGames - requiredWins))
-                    // targetRate = (currentWins + requiredWins) / (TOTAL_GAMES - currentDraws)
+                    // Calculate required remaining record to achieve target rate
                     const totalGamesMinusDraws = TOTAL_GAMES - currentDraws;
                     const requiredTotalWins = Math.ceil(targetRate * totalGamesMinusDraws);
                     const requiredWins = Math.max(0, requiredTotalWins - currentWins);
+                    const requiredLosses = remainingGames - requiredWins;
                     
                     let cellContent = '';
-                    let cellStyle = 'text-align: center; padding: 8px 4px; font-size: 12px;';
+                    let cellStyle = 'text-align: center; padding: 4px; font-size: 10px; min-width: 40px;';
                     
                     if (requiredWins > remainingGames) {
                         // Impossible to achieve
                         cellContent = '-';
-                        cellStyle += 'background: #f8d7da; color: #721c24;';
-                    } else if (requiredWins === 0) {
-                        // Already achieved
-                        cellContent = '✓';
-                        cellStyle += 'background: #d4edda; color: #155724; font-weight: bold;';
-                    } else {
-                        // Show required wins
-                        cellContent = `${requiredWins}勝`;
-                        
-                        // Color based on difficulty
-                        const difficultyRatio = requiredWins / remainingGames;
-                        if (difficultyRatio <= 0.3) {
-                            cellStyle += 'background: #d4edda; color: #155724;'; // Easy - Green
-                        } else if (difficultyRatio <= 0.6) {
-                            cellStyle += 'background: #fff3cd; color: #856404;'; // Medium - Yellow  
-                        } else if (difficultyRatio <= 0.8) {
-                            cellStyle += 'background: #ffeaa7; color: #6c5f00;'; // Hard - Orange
+                        cellStyle += 'background: #ffebee; color: #c62828;';
+                    } else if (requiredWins <= 0) {
+                        // Already achieved or very easy
+                        const finalRate = (currentWins / (TOTAL_GAMES - currentDraws)) * 100;
+                        if (finalRate >= targetRate * 100) {
+                            cellContent = '✓';
+                            cellStyle += 'background: #e8f5e8; color: #2e7d32; font-weight: bold;';
                         } else {
-                            cellStyle += 'background: #f8d7da; color: #721c24;'; // Very hard - Red
+                            cellContent = `${requiredWins}-${requiredLosses}`;
+                            cellStyle += 'background: #e8f5e8; color: #2e7d32;';
+                        }
+                    } else {
+                        // Show required record: wins-losses
+                        cellContent = `${requiredWins}-${requiredLosses}`;
+                        
+                        // Color based on final win rate vs 0.500
+                        const finalRate = (currentWins + requiredWins) / (TOTAL_GAMES - currentDraws);
+                        if (finalRate > 0.500) {
+                            cellStyle += 'background: #e8f5e8; color: #2e7d32;'; // Green - above .500
+                        } else if (finalRate === 0.500) {
+                            cellStyle += 'background: #fff3e0; color: #f57c00;'; // Yellow - exactly .500
+                        } else {
+                            cellStyle += 'background: #ffebee; color: #c62828;'; // Red - below .500
                         }
                     }
                     
