@@ -1,0 +1,24 @@
+{
+  "season_year": 2025,
+  "updated_at": "2025-09-03T00:00:00",
+  "central_league": {
+    "standings": [
+      {"team_id": 1, "team_name": "Hanshin Tigers", "team_abbreviation": "TIG", "position_rank": 1, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 2, "team_name": "Yomiuri Giants", "team_abbreviation": "GIA", "position_rank": 2, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 3, "team_name": "Hiroshima Carp", "team_abbreviation": "CARP", "position_rank": 3, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 4, "team_name": "Chunichi Dragons", "team_abbreviation": "DRA", "position_rank": 4, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 5, "team_name": "Yakult Swallows", "team_abbreviation": "SWA", "position_rank": 5, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 6, "team_name": "Yokohama DeNA BayStars", "team_abbreviation": "DB", "position_rank": 6, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0}
+    ]
+  },
+  "pacific_league": {
+    "standings": [
+      {"team_id": 7, "team_name": "SoftBank Hawks", "team_abbreviation": "H", "position_rank": 1, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 8, "team_name": "Orix Buffaloes", "team_abbreviation": "Bs", "position_rank": 2, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 9, "team_name": "Chiba Lotte Marines", "team_abbreviation": "M", "position_rank": 3, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 10, "team_name": "Rakuten Eagles", "team_abbreviation": "E", "position_rank": 4, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 11, "team_name": "Seibu Lions", "team_abbreviation": "L", "position_rank": 5, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0},
+      {"team_id": 12, "team_name": "Nippon-Ham Fighters", "team_abbreviation": "F", "position_rank": 6, "wins": 0, "losses": 0, "draws": 0, "games_played": 0, "win_percentage": 0.0, "games_behind": 0.0}
+    ]
+  }
+}
