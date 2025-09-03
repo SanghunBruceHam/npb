@@ -15,6 +15,10 @@ def calculate_standings(games_file='data/games.json', teams_file='data/teams.jso
     games = load_json(games_file)
     teams = load_json(teams_file)
     
+    # Filter games from regular season start date (March 28, 2025)
+    season_start = '2025-03-28'
+    games = [g for g in games if g.get('game_date', '') >= season_start]
+    
     team_map = {t['team_id']: t for t in teams}
     
     standings = defaultdict(lambda: {
