@@ -186,10 +186,19 @@ class NPBCrawler:
             games = []
             tables = soup.find_all('table')
             
-            for table in tables:
+            # 디버그: 총 테이블 수
+            debug_info = f"Found {len(tables)} tables"
+            valid_tables = 0
+            
+            for i, table in enumerate(tables):
                 game = self.parse_enhanced_table(table, date_str, soup)
                 if game:
                     games.append(game)
+                    valid_tables += 1
+                    
+            # 디버그 출력 - 6경기 미만일 때만
+            if len(games) < 6:
+                print(f"🔍 Debug {date_str}: {debug_info}, valid: {valid_tables}")
                     
             print(f"✅ Found {len(games)} games on {date_str}")
             return games
@@ -203,29 +212,70 @@ class NPBCrawler:
         try:
             # 디버깅 추가
             rows = table.find_all('tr')
-            if len(rows) < 3:
+            if len(rows) < 2:  # 조건 완화: 2행 이상
+                print(f"    ❌ 테이블 거부: {len(rows)}행 (최소 2행 필요)")
                 return None
                 
-            # 이닝 헤더 확인
+            # 이닝 헤더 확인 - 더 관대한 조건
             header_row = rows[0]
             header_text = header_row.get_text()
-            if not re.search(r'[１２３４５６７８９]', header_text):
+            
+            # 조건 1: 이닝 숫자가 있는지 확인
+            has_innings = bool(re.search(r'[１２３４５６７８９123456789]', header_text))
+            
+            # 조건 2: 또는 야구 관련 용어가 있는지 확인 
+            has_baseball_terms = bool(re.search(r'[回合計RHE投手]', header_text))
+            
+            if not (has_innings or has_baseball_terms):
+                print(f"    ❌ 테이블 거부: 헤더에 이닝/야구용어 없음 '{header_text[:50]}'")
                 return None
                 
-            # 이닝 수 계산
+            # 이닝 수 계산 - 더 관대한 매칭
             header_cells = header_row.find_all(['th', 'td'])
             inning_count = sum(1 for cell in header_cells 
-                             if re.match(r'^[１２３４５６７８９10111213]$', cell.get_text(strip=True)))
+                             if re.match(r'^[１２３４５６７８９1234567891011121314]$', cell.get_text(strip=True)))
             
             is_extra = inning_count > 9
             total_innings = max(inning_count, 9)
             
-            # 팀 데이터 추출
-            team_rows = [row for row in rows[1:] 
-                        if len(row.find_all(['td', 'th'])) >= 10]
+            # 팀 데이터 추출 - 조건을 더욱 완화
+            team_rows = []
+            for row in rows[1:]:
+                cells = row.find_all(['td', 'th'])
+                cell_count = len(cells)
+                
+                # 조건을 단계적으로 완화
+                if cell_count >= 8:  # 기본 조건
+                    team_rows.append(row)
+                elif cell_count >= 6:  # 완화된 조건
+                    # 첫 번째 셀이 팀명처럼 보이는지 확인 - 더 관대하게
+                    first_cell = cells[0].get_text(strip=True)
+                    # 전각문자 처리 및 더 많은 키워드 추가
+                    team_keywords = ['巨人', '阪神', 'DeNA', 'ＤｅＮＡ', '広島', '広  島', '中日', 'ヤクルト', 
+                                   'ソフトバンク', 'ロッテ', '楽天', 'オリックス', '西武', '日本ハム', 'ジャイアンツ',
+                                   'タイガース', 'ベイスターズ', 'カープ', 'ドラゴンズ', 'スワローズ', 'ホークス',
+                                   'マリーンズ', 'イーグルス', 'バファローズ', 'ライオンズ', 'ファイターズ']
+                    if any(team in first_cell for team in team_keywords):
+                        team_rows.append(row)
             
-            if len(team_rows) != 2:
+            # 디버그: 상세 정보
+            if len(team_rows) < 2:
+                all_row_info = []
+                for i, row in enumerate(rows[1:], 1):
+                    cells = row.find_all(['td', 'th'])
+                    first_cell = cells[0].get_text(strip=True) if cells else ""
+                    all_row_info.append(f"행{i}: {len(cells)}셀, '{first_cell}'")
+                
+                print(f"🔍 테이블 거부됨 - 팀행: {len(team_rows)}개")
+                print(f"    전체 행 정보: {all_row_info}")
                 return None
+            
+            # 2개가 아니어도 최소 2개 이상이면 시도
+            if len(team_rows) < 2:
+                return None
+                
+            # 가장 유력한 2개 행 선택 (셀 수가 많은 순)
+            team_rows = sorted(team_rows, key=lambda r: len(r.find_all(['td', 'th'])), reverse=True)[:2]
                 
             away_row, home_row = team_rows[0], team_rows[1]
             

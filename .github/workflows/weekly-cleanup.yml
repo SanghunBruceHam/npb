@@ -1,0 +1,36 @@
+name: NPB Weekly Cleanup
+
+on:
+  schedule:
+    # 매주 일요일 오전 3시 JST (UTC 토요일 18시)
+    - cron: '0 18 * * 6'
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install psycopg2-binary python-dotenv requests beautifulsoup4 pytz
+    
+    - name: Run weekly cleanup
+      run: |
+        python3 scripts/automation.py --cleanup-only
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}

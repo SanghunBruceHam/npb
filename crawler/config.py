@@ -31,7 +31,7 @@ NPB_TEAMS = {
             'name_kr': '요코하마 DeNA 베이스타즈',
             'name_en': 'Yokohama DeNA BayStars',
             'name_jp': '横浜DeNAベイスターズ',
-            'keywords': ['DeNA', 'ベイスターズ', 'BayStars', 'DB'],
+            'keywords': ['DeNA', 'ＤｅＮＡ', 'ベイスターズ', 'BayStars', 'DB'],
             'color': '#0066CC'
         },
         'carp': {

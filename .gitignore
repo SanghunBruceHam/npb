@@ -43,6 +43,7 @@ venv/
 ENV/
 env/
 .env/
+crawler/venv/
 
 # Logs
 logs/
@@ -165,7 +166,11 @@ $RECYCLE.BIN/
 crawler/logs/
 crawler/data/cache/
 
-# Temporary data files (development only)
+# NPB specific data directories  
+data/backups/*.json
+data/raw/
+data/archive/
+data/processed/
 data/temp/
 data/cache/
 

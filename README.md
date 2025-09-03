@@ -6,14 +6,15 @@
 
 ```
 npb/
-├── crawler/         # 데이터 수집 시스템
-│   ├── main.py     # 메인 크롤러
-│   ├── config.py   # 설정 파일
-│   ├── utils.py    # 유틸리티
-│   ├── logs/       # 크롤링 로그
-│   └── venv/       # Python 가상환경
+├── crawler/                # 데이터 수집 시스템
+│   ├── npb_crawler.py     # 메인 크롤러 (결과 + 예정)
+│   ├── config.py          # 설정 파일
+│   ├── utils.py           # 유틸리티
+│   ├── cleanup.py         # 파일 정리
+│   ├── logs/              # 크롤링 로그
+│   └── venv/              # Python 가상환경
 ├── api/            # FastAPI 백엔드
-│   ├── main.py     # API 서버
+│   ├── server.py   # API 서버
 │   ├── models/     # 데이터 모델
 │   ├── routes/     # API 라우트
 │   ├── utils/      # 유틸리티 (매직넘버 등)
@@ -24,7 +25,10 @@ npb/
 │   └── lib/        # 유틸리티
 ├── index.html      # 초미니멀 NPB 대시보드 (GitHub Pages + 로컬)\n│   └── index.html  # 고급 프런트엔드 (차트, 다크모드)\n├── index.html      # GitHub Pages 메인 (고급 차트, 다크모드)\n├── data/           # 정적 JSON 데이터\n├── docs/           # GitHub Pages 백업
 │   ├── index.html  # GitHub Pages 배포용\n│   └── data/       # 정적 JSON 데이터
-├── scripts/        # 유틸리티 스크립트\n│   └── generate_static_data.py # 정적 데이터 생성\n├── .github/workflows/  # GitHub Actions
+├── scripts/                # 자동화 스크립트
+│   ├── automation.py      # 일일 자동 크롤링
+│   └── data_manager.py    # 데이터 관리
+├── .github/workflows/     # GitHub Actions
 │   └── npb-crawler.yml # 자동 크롤링
 ├── run_api.sh      # API 서버 실행
 ├── run_web.sh      # Next.js 실행
@@ -55,8 +59,8 @@ cp .env.example .env
 ```bash
 cd crawler
 source venv/bin/activate
-python main.py --test    # 테스트 (3일)
-python main.py 7         # 7일치 크롤링
+python npb_crawler.py --test    # 테스트 (3일)
+python npb_crawler.py 7         # 7일치 크롤링
 ```
 
 ## 🤖 자동화된 크롤링
@@ -120,13 +124,13 @@ DB_PASSWORD: 비밀번호
 ### 수동 실행
 ```bash
 # 테스트 크롤링 (3일)
-python main.py --test
+python npb_crawler.py --test
 
 # 특정 일수 크롤링
-python main.py 7
+python npb_crawler.py 7
 
 # 전체 시즌 크롤링
-python main.py --season
+python npb_crawler.py --season
 ```
 
 ### 로그 확인
