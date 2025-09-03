@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Providers from '@/components/Providers'
+import Script from 'next/script'
 import Navigation from '@/components/Navigation'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,6 +19,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=G-LFKN46L0P6`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-LFKN46L0P6', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+      </head>
       <body className={inter.className}>
         <Providers>
           <div className="min-h-screen bg-gray-50">
