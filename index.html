@@ -3,45 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPB 順位表</title>
+    <meta name="description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況を詳細に追跡。セントラル・パシフィック両リーグのリアルタイム成績、勝率計算、残り試合分析。">
+    <meta name="keywords" content="プロ野球, NPB, 順位表, マジック, 優勝, プレーオフ, CS, クライマックスシリーズ, セリーグ, パリーグ, 日本シリーズ, 野球速報, 野球結果, 残り試合, 勝率, 巨人, 阪神, 中日, 広島, ヤクルト, 横浜, ソフトバンク, 楽天, 西武, ロッテ, 日ハム, オリックス, 野球ニュース, スポーツ, 2025年">
+    <meta name="author" content="NPB Statistics">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="ja">
+    <link rel="canonical" href="https://sanghunbruceham.github.io/npb/">
+    
+    <title>NPB 2025 順位表・マジックナンバー | 日本プロ野球リアルタイム成績</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="20250902_2341_NPB 대시보드 아이콘_simple_compose_01k45dz9pjetvtptav6rv4m473.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="20250902_2341_NPB 대시보드 아이콘_simple_compose_01k45dz9pjetvtptav6rv4m473.png">
+    <link rel="apple-touch-icon" href="20250902_2341_NPB 대시보드 아이콘_simple_compose_01k45dz9pjetvtptav6rv4m473.png">
+    <link rel="shortcut icon" href="20250902_2341_NPB 대시보드 아이콘_simple_compose_01k45dz9pjetvtptav6rv4m473.png">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sanghunbruceham.github.io/npb/">
+    <meta property="og:title" content="NPB 2025 順位表・マジックナンバー | 日本プロ野球リアルタイム成績">
+    <meta property="og:description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況をリアルタイム追跡">
+    <meta property="og:image" content="https://sanghunbruceham.github.io/npb/images/npb-og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="NPB Statistics">
+    <meta property="og:locale" content="ja_JP">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://sanghunbruceham.github.io/npb/">
+    <meta name="twitter:title" content="NPB 2025 順位表・マジックナンバー">
+    <meta name="twitter:description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況をリアルタイム追跡">
+    <meta name="twitter:image" content="https://sanghunbruceham.github.io/npb/images/npb-og-image.jpg">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "NPB Statistics",
+      "description": "NPB(日本プロ野球)2025年シーズンの順位表とマジックナンバー情報",
+      "url": "https://sanghunbruceham.github.io/npb/",
+      "sport": "Baseball",
+      "foundingDate": "2025",
+      "knowsAbout": [
+        "日本プロ野球",
+        "NPB",
+        "セントラルリーグ",
+        "パシフィックリーグ",
+        "マジックナンバー",
+        "プレーオフ"
+      ],
+      "mainEntity": {
+        "@type": "SportsEvent",
+        "name": "NPB 2025 Regular Season",
+        "startDate": "2025-03-29",
+        "endDate": "2025-10-31",
+        "sport": "Baseball",
+        "organizer": {
+          "@type": "SportsOrganization",
+          "name": "Nippon Professional Baseball"
+        }
+      }
+    }
+    </script>
+    
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: white; color: black; font-size: 14px; line-height: 1.4; }
-        .header { background: #333; color: white; padding: 10px 20px; }
-        h1 { font-size: 18px; margin: 0; font-weight: bold; }
-        .nav { background: #f5f5f5; border-bottom: 2px solid #ddd; }
-        .nav-tabs { display: flex; max-width: 1200px; margin: 0 auto; }
-        .nav-tab { padding: 12px 20px; cursor: pointer; border-right: 1px solid #ddd; font-size: 14px; background: #f5f5f5; }
-        .nav-tab:hover { background: #e9e9e9; }
-        .nav-tab.active { background: white; font-weight: bold; border-bottom: 2px solid #0066cc; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        h2 { font-size: 16px; margin: 15px 0 8px 0; font-weight: bold; }
-        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-        th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; font-size: 13px; white-space: nowrap; }
-        th { background: #f5f5f5; font-weight: bold; }
-        tr:nth-child(even) { background: #f9f9f9; }
-        .leagues { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
-        .center { text-align: center; }
-        .right { text-align: right; }
-        .rank1 { background: #fff3cd; }
-        .rank2 { background: #f0f0f0; }
-        .rank3 { background: #ffeedd; }
-        .win { color: #0066cc; }
-        .loss { color: #cc0000; }
-        .pct { font-weight: bold; }
-        .info { font-size: 12px; color: #666; margin: 10px 0; }
-        .loading { text-align: center; padding: 20px; color: #666; }
-        .magic-number { font-size: 24px; font-weight: bold; color: #0066cc; }
-        .eliminated { color: #cc0000; }
-        .clinched { color: #00aa00; }
-        .scroll-table { overflow-x: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: Arial, sans-serif; 
+            background: white; 
+            color: black; 
+            font-size: 14px; 
+            line-height: 1.4;
+            min-width: 320px;
+        }
+        
+        .header { 
+            background: #333; 
+            color: white; 
+            padding: 10px 20px;
+            text-align: center;
+        }
+        
+        h1 { 
+            font-size: 18px; 
+            margin: 0; 
+            font-weight: bold;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav { 
+            background: #f5f5f5; 
+            border-bottom: 2px solid #ddd;
+            width: 100%;
+        }
+        
+        .nav-tabs { 
+            display: flex; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab { 
+            padding: 12px 20px; 
+            cursor: pointer; 
+            border-right: 1px solid #ddd; 
+            font-size: 14px; 
+            background: #f5f5f5; 
+            border: none; 
+            font-family: inherit;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .nav-tab:hover { 
+            background: #e9e9e9; 
+        }
+        
+        .nav-tab.active { 
+            background: white; 
+            font-weight: bold; 
+            border-bottom: 2px solid #0066cc; 
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .tab-content { 
+            display: none; 
+        }
+        
+        .tab-content.active { 
+            display: block; 
+        }
+        
+        h2 { 
+            font-size: 16px; 
+            margin: 15px 0 8px 0; 
+            font-weight: bold; 
+        }
+        
+        h3 {
+            font-size: 14px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 10px 0; 
+        }
+        
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 6px 8px; 
+            text-align: left; 
+            font-size: 13px; 
+            white-space: nowrap; 
+        }
+        
+        th { 
+            background: #f5f5f5; 
+            font-weight: bold; 
+        }
+        
+        tr:nth-child(even) { 
+            background: #f9f9f9; 
+        }
+        
+        .leagues { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px; 
+            margin: 20px 0; 
+        }
+        
+        .center { 
+            text-align: center; 
+        }
+        
+        .right { 
+            text-align: right; 
+        }
+        
+        .rank1 { 
+            background: #fff3cd; 
+        }
+        
+        .rank2 { 
+            background: #f0f0f0; 
+        }
+        
+        .rank3 { 
+            background: #ffeedd; 
+        }
+        
+        .win { 
+            color: #0066cc; 
+        }
+        
+        .loss { 
+            color: #cc0000; 
+        }
+        
+        .pct { 
+            font-weight: bold; 
+        }
+        
+        .info { 
+            font-size: 12px; 
+            color: #666; 
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .loading { 
+            text-align: center; 
+            padding: 20px; 
+            color: #666; 
+        }
+        
+        .magic-number { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #0066cc; 
+        }
+        
+        .eliminated { 
+            color: #cc0000; 
+        }
+        
+        .clinched { 
+            color: #00aa00; 
+        }
+        
+        .scroll-table { 
+            overflow-x: auto; 
+        }
+        
         @media (max-width: 768px) { 
-            .leagues { grid-template-columns: 1fr; gap: 20px; } 
-            .container { padding: 10px; }
-            table { font-size: 11px; }
-            th, td { padding: 4px 6px; }
-            .nav-tab { padding: 10px 12px; font-size: 12px; }
+            .leagues { 
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+            } 
+            
+            .container { 
+                padding: 10px; 
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            table { 
+                font-size: 11px; 
+            }
+            
+            th, td { 
+                padding: 4px 6px; 
+            }
+            
+            .nav-tab { 
+                padding: 10px 12px; 
+                font-size: 12px; 
+            }
+            
+            .scroll-table {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .scroll-table table {
+                min-width: 600px;
+            }
         }
     </style>
 </head>
@@ -61,11 +316,26 @@
     </div>
 
     <div class="container">
-        <div class="info">最終更新: <span id="last-update">読み込み中...</span></div>
+        <div class="info">
+            最終更新: <span id="last-update">読み込み中...</span> | 
+            総試合数: <span id="total-games">758試合</span> |
+            今日の試合: <span id="today-games">5試合</span>
+        </div>
         
         <!-- Regular Season Magic Numbers -->
         <div id="magic-regular" class="tab-content active">
             <h2>正規シーズン優勝マジックナンバー</h2>
+            
+            <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #495057;">
+                <strong>📊 マジックナンバーとは？</strong><br>
+                <div style="margin-top: 8px; line-height: 1.5;">
+                • <strong>優勝マジック</strong>: 1位チームがあと何勝すれば優勝が確定するかを示す数字<br>
+                • <strong>計算式</strong>: (2位チームの最大可能勝数) - (1位チームの現在勝数) + 1<br>
+                • <strong>実例</strong>: 阪神66勝、巨人54勝(最大86勝) → 86-66+1 = <strong>21</strong> (マジック21)<br>
+                • <strong>✓マーク</strong>: すでに優勝確定 | <strong>-</strong>: 該当なし
+                </div>
+            </div>
+            
             <div class="leagues">
                 <div>
                     <h3>セントラルリーグ</h3>
@@ -76,14 +346,19 @@
                                 <th>チーム</th>
                                 <th class="center">勝</th>
                                 <th class="center">敗</th>
+                                <th class="center">分</th>
                                 <th class="center">勝率</th>
-                                <th class="center">差</th>
+                                <th class="center">ゲーム差</th>
+                                <th class="center">残り試合</th>
+                                <th class="center">最大勝</th>
+                                <th class="center">1位条件</th>
                                 <th class="center">マジック</th>
                                 <th class="center">エリミネート</th>
+                                <th class="center">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="central-magic-regular">
-                            <tr><td colspan="8" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -96,14 +371,19 @@
                                 <th>チーム</th>
                                 <th class="center">勝</th>
                                 <th class="center">敗</th>
+                                <th class="center">分</th>
                                 <th class="center">勝率</th>
-                                <th class="center">差</th>
+                                <th class="center">ゲーム差</th>
+                                <th class="center">残り試合</th>
+                                <th class="center">最大勝</th>
+                                <th class="center">1位条件</th>
                                 <th class="center">マジック</th>
                                 <th class="center">エリミネート</th>
+                                <th class="center">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-regular">
-                            <tr><td colspan="8" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -113,6 +393,16 @@
         <!-- Playoff Magic Numbers -->
         <div id="magic-playoff" class="tab-content">
             <h2>プレーオフ進出マジックナンバー</h2>
+            
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #856404;">
+                <strong>🏆 プレーオフマジックとは？</strong><br>
+                <div style="margin-top: 8px; line-height: 1.5;">
+                • <strong>プレーオフ進出</strong>: 各リーグ上位3位までがプレーオフに進出<br>
+                • <strong>計算式</strong>: (4位チームの最大可能勝数) - (対象チームの現在勝数) + 1<br>
+                • <strong>CS確定条件</strong>: 4位以下のチームが追いつけない勝数に到達<br>
+                • <strong>✓マーク</strong>: プレーオフ進出確定 | <strong>E</strong>: 進出不可能
+                </div>
+            </div>
             <div class="leagues">
                 <div>
                     <h3>セントラルリーグ (上位3チーム)</h3>
@@ -123,14 +413,19 @@
                                 <th>チーム</th>
                                 <th class="center">勝</th>
                                 <th class="center">敗</th>
+                                <th class="center">分</th>
                                 <th class="center">勝率</th>
-                                <th class="center">差</th>
-                                <th class="center">クリンチ</th>
+                                <th class="center">ゲーム差</th>
+                                <th class="center">残り試合</th>
+                                <th class="center">最大勝</th>
+                                <th class="center">3位条件</th>
+                                <th class="center">マジック</th>
                                 <th class="center">エリミネート</th>
+                                <th class="center">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="central-magic-playoff">
-                            <tr><td colspan="8" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -143,14 +438,19 @@
                                 <th>チーム</th>
                                 <th class="center">勝</th>
                                 <th class="center">敗</th>
+                                <th class="center">分</th>
                                 <th class="center">勝率</th>
-                                <th class="center">差</th>
-                                <th class="center">クリンチ</th>
+                                <th class="center">ゲーム差</th>
+                                <th class="center">残り試合</th>
+                                <th class="center">最大勝</th>
+                                <th class="center">3位条件</th>
+                                <th class="center">マジック</th>
                                 <th class="center">エリミネート</th>
+                                <th class="center">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-playoff">
-                            <tr><td colspan="8" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -160,6 +460,16 @@
         <!-- Scenarios -->
         <div id="scenarios" class="tab-content">
             <h2>経路の数 - 目標勝率達成に必要な勝数</h2>
+            
+            <div style="background: #e7f3ff; border: 1px solid #b3d7ff; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #004085;">
+                <strong>📈 勝率別シナリオ分析</strong><br>
+                <div style="margin-top: 8px; line-height: 1.5;">
+                • <strong>目標勝率</strong>: 残り試合を30%〜90%の勝率で進めた場合の最終成績を予測<br>
+                • <strong>必要勝数</strong>: 各勝率を達成するために残り試合で必要な勝利数<br>
+                • <strong>最終勝率</strong>: シーズン終了時点での勝率予想<br>
+                • <strong>活用例</strong>: 3位以内(プレーオフ進出)に必要な勝率を確認
+                </div>
+            </div>
             <div style="margin-bottom: 20px;">
                 <h3>セントラルリーグ</h3>
                 <div class="scroll-table">
@@ -207,8 +517,8 @@
                             <th class="center">差</th>
                             <th class="center">ホーム</th>
                             <th class="center">ホーム率</th>
-                            <th class="center">ビジター</th>
-                            <th class="center">ビジター率</th>
+                            <th class="center">アウェー</th>
+                            <th class="center">アウェー率</th>
                             <th class="center">最高順位</th>
                             <th class="center">最低順位</th>
                         </tr>
@@ -234,8 +544,8 @@
                             <th class="center">差</th>
                             <th class="center">ホーム</th>
                             <th class="center">ホーム率</th>
-                            <th class="center">ビジター</th>
-                            <th class="center">ビジター率</th>
+                            <th class="center">アウェー</th>
+                            <th class="center">アウェー率</th>
                             <th class="center">最高順位</th>
                             <th class="center">最低順位</th>
                         </tr>
@@ -259,7 +569,7 @@
                                 <th>チーム</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">ホーム</th>
-                                <th class="center">ビジター</th>
+                                <th class="center">アウェー</th>
                                 <th class="center">対戦相手</th>
                             </tr>
                         </thead>
@@ -276,7 +586,7 @@
                                 <th>チーム</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">ホーム</th>
-                                <th class="center">ビジター</th>
+                                <th class="center">アウェー</th>
                                 <th class="center">対戦相手</th>
                             </tr>
                         </thead>
@@ -286,59 +596,57 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script>
-        let standingsData = null;
-        const TOTAL_GAMES = 143; // NPB regular season games
+        // ===== グローバル変数 =====
+        let standingsData = null;      // 順位表データ
+        let seasonConfig = null;       // シーズン設定データ  
+        let TOTAL_GAMES = 144;         // 1チーム総試合数（デフォルト値）
 
+        // ===== タブ切り替え機能 =====
         function showTab(tabId) {
+            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
+                tab.setAttribute('aria-hidden', 'true');
             });
             
-            document.getElementById(tabId).classList.add('active');
+            // Reset all nav buttons
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(tabId);
+            selectedTab.classList.add('active');
+            selectedTab.setAttribute('aria-hidden', 'false');
+            
+            // Activate nav button
             event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
         }
 
-        async function loadData() {
-            try {
-                const response = await fetch('./data/standings.json');
-                standingsData = await response.json();
-                
-                document.getElementById('last-update').textContent = 
-                    new Date(standingsData.last_updated).toLocaleString('ja-JP');
-                
-                updateMagicRegular();
-                updateMagicPlayoff();
-                updateScenarios();
-                updateDetailedStandings();
-                updateRemainingGames();
-                
-            } catch (error) {
-                console.error('データ読み込みエラー:', error);
-                showError();
-            }
-        }
 
+        // ===== 正規シーズン優勝マジック更新 =====
         function updateMagicRegular() {
             updateMagicTable('central-magic-regular', standingsData.central_league?.standings || [], true);
             updateMagicTable('pacific-magic-regular', standingsData.pacific_league?.standings || [], true);
         }
 
+        // ===== プレーオフマジック更新 =====
         function updateMagicPlayoff() {
             updateMagicTable('central-magic-playoff', standingsData.central_league?.standings || [], false);
             updateMagicTable('pacific-magic-playoff', standingsData.pacific_league?.standings || [], false);
         }
 
+        // ===== マジックナンバーテーブル更新（共通関数） =====
         function updateMagicTable(id, teams, isRegular) {
             const tbody = document.getElementById(id);
             if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="8" class="loading">データがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="13" class="loading">データがありません</td></tr>';
                 return;
             }
 
@@ -351,23 +659,56 @@
                                  team.position_rank === 3 ? 'rank3' : '';
                 
                 const remainingGames = TOTAL_GAMES - team.games_played;
+                const maxWins = team.wins + remainingGames;
                 let magic = '-';
+                let clinch = '-';
+                let csConfirmed = '-';  // 플레이오프용 CS확정 변수
                 let eliminate = '-';
+                let condition = '-';
                 
                 if (isRegular) {
-                    // Use existing magic number from data or calculate
-                    if (team.magic_number !== undefined) {
-                        magic = team.magic_number === 0 ? '✓' : team.magic_number;
-                    } else if (team.position_rank === 1 && remainingGames > 0) {
+                    // 正規シーズン優勝マジックナンバー計算
+                    if (team.position_rank === 1) {
                         const secondPlace = teams[1];
-                        if (secondPlace) {
-                            const maxWinsSecond = secondPlace.wins + (TOTAL_GAMES - secondPlace.games_played);
-                            magic = Math.max(0, maxWinsSecond - team.wins + 1);
-                            if (magic === 0) magic = '✓';
+                        if (secondPlace && remainingGames > 0) {
+                            // マジックナンバー = （2位チームの最大可能勝数） - （1位チームの現在勝数） + 1
+                            const secondPlaceRemaining = TOTAL_GAMES - secondPlace.games_played;
+                            const secondPlaceMaxWins = secondPlace.wins + secondPlaceRemaining;
+                            const magicNumber = secondPlaceMaxWins - team.wins + 1;
+                            
+                            if (magicNumber <= 0) {
+                                magic = '✓'; // 優勝確定済
+                                clinch = '優勝';
+                                condition = '確定';
+                            } else {
+                                magic = magicNumber;
+                                condition = `${magicNumber}勝必要`;
+                            }
+                        } else if (remainingGames === 0) {
+                            magic = '✓'; // シーズン終了
+                            clinch = '確定';
+                            condition = '確定';
+                        }
+                    } else {
+                        // 2位以下チームの優勝条件: 1位チームが何勝以下で終わる必要があるか
+                        const teamMaxWins = team.wins + remainingGames;
+                        const leaderCurrentWins = leader.wins;
+                        const leaderRemaining = TOTAL_GAMES - leader.games_played;
+                        
+                        if (teamMaxWins <= leaderCurrentWins) {
+                            condition = '不可能';
+                        } else {
+                            // このチームが1位になるために1位チームが最大何勝までに抑える必要があるか
+                            const leaderMaxAllowed = teamMaxWins - 1;
+                            if (leaderMaxAllowed < leaderCurrentWins) {
+                                condition = '不可能';
+                            } else {
+                                condition = `1位${leaderMaxAllowed}勝以下`;
+                            }
                         }
                     }
                     
-                    // Calculate elimination
+                    // 優勝エリミネート計算
                     if (team.position_rank > 1) {
                         const maxWinsTeam = team.wins + remainingGames;
                         if (maxWinsTeam < leader.wins) {
@@ -378,17 +719,44 @@
                         }
                     }
                 } else {
-                    // Playoff magic/elimination (top 3)
+                    // 全チームの最大可能勝数を計算・ソート
+                    const allMaxWins = teams.map(t => ({
+                        team: t.team_abbreviation,
+                        maxWins: t.wins + (TOTAL_GAMES - t.games_played)
+                    })).sort((a, b) => b.maxWins - a.maxWins);
+                    
+                    // 3番目に高い最大可能勝数（プレーオフ3位カットライン）
+                    const thirdHighestMaxWins = allMaxWins[2] ? allMaxWins[2].maxWins : 0;
+                    
+                    // プレーオフマジックナンバー計算（上位3チーム）
                     if (team.playoff_magic !== undefined) {
-                        magic = team.playoff_magic === 0 ? '✓' : team.playoff_magic;
-                    } else if (team.position_rank <= 3 && remainingGames > 0) {
-                        const fourthPlace = teams[3] || {};
-                        if (fourthPlace.wins) {
-                            const maxWinsFourth = fourthPlace.wins + (TOTAL_GAMES - fourthPlace.games_played);
-                            magic = Math.max(0, maxWinsFourth - team.wins + 1);
-                            if (magic === 0) magic = '✓';
+                        clinch = team.playoff_magic === 0 ? '✓' : team.playoff_magic;
+                    } else if (remainingGames > 0) {
+                        const fourthHighestMaxWins = allMaxWins[3] ? allMaxWins[3].maxWins : 0;
+                        if (fourthHighestMaxWins > 0) {
+                            clinch = Math.max(0, fourthHighestMaxWins - team.wins + 1);
+                            if (clinch === 0) clinch = '✓';
                         } else {
-                            magic = '✓'; // Already clinched if no 4th place
+                            clinch = '✓';
+                        }
+                    }
+                    
+                    // 3위 진출 조건 계산 - 3번째로 높은 최대가능 승수 기준
+                    const teamMaxWins = team.wins + remainingGames;
+                    
+                    if (teamMaxWins > thirdHighestMaxWins) {
+                        // 이미 3위권 확정 가능
+                        csConfirmed = 'CS進出';
+                        condition = '確定';
+                    } else if (teamMaxWins === thirdHighestMaxWins) {
+                        // 동률이면 위험하거나 가능
+                        condition = '동率';
+                    } else {
+                        // 3位권 진출을 위한 조건 표시
+                        if (thirdHighestMaxWins > 0) {
+                            condition = `3位권${thirdHighestMaxWins}勝以下`;
+                        } else {
+                            condition = '不可能';
                         }
                     }
                     
@@ -405,26 +773,55 @@
                     }
                 }
                 
-                return `
-                    <tr class="${rankClass}">
-                        <td class="center">${team.position_rank}</td>
-                        <td>${team.team_abbreviation}</td>
-                        <td class="center win">${team.wins}</td>
-                        <td class="center loss">${team.losses}</td>
-                        <td class="center pct">${team.win_percentage.toFixed(3)}</td>
-                        <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
-                        <td class="center ${magic === '✓' ? 'clinched' : 'magic-number'}">${magic}</td>
-                        <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
-                    </tr>
-                `;
+                if (isRegular) {
+                    // 정규시즌: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 1位条件 マジック エリミネート 進出状況
+                    return `
+                        <tr class="${rankClass}">
+                            <td class="center">${team.position_rank}</td>
+                            <td>${team.team_abbreviation}</td>
+                            <td class="center win">${team.wins}</td>
+                            <td class="center loss">${team.losses}</td>
+                            <td class="center">${team.draws || 0}</td>
+                            <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                            <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
+                            <td class="center">${remainingGames}</td>
+                            <td class="center">${maxWins}</td>
+                            <td class="center" style="font-size: 11px;">${condition}</td>
+                            <td class="center ${magic === '✓' ? 'clinched' : 'magic-number'}">${magic}</td>
+                            <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
+                            <td class="center ${clinch !== '-' ? 'clinched' : ''}" style="font-size: 11px;">${clinch}</td>
+                        </tr>
+                    `;
+                } else {
+                    // 플레이오프: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 3位条件 マジック エリミネート 進出状況
+                    return `
+                        <tr class="${rankClass}">
+                            <td class="center">${team.position_rank}</td>
+                            <td>${team.team_abbreviation}</td>
+                            <td class="center win">${team.wins}</td>
+                            <td class="center loss">${team.losses}</td>
+                            <td class="center">${team.draws || 0}</td>
+                            <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                            <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
+                            <td class="center">${remainingGames}</td>
+                            <td class="center">${maxWins}</td>
+                            <td class="center" style="font-size: 11px;">${condition}</td>
+                            <td class="center ${clinch === '✓' ? 'clinched' : 'magic-number'}">${clinch}</td>
+                            <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
+                            <td class="center ${csConfirmed !== '-' ? 'clinched' : ''}" style="font-size: 11px;">${csConfirmed}</td>
+                        </tr>
+                    `;
+                }
             }).join('');
         }
 
+        // ===== 詳細順位表更新 =====
         function updateDetailedStandings() {
             updateDetailedTable('central-detailed', standingsData.central_league?.standings || []);
             updateDetailedTable('pacific-detailed', standingsData.pacific_league?.standings || []);
         }
 
+        // ===== 詳細順位テーブル更新（共通関数） =====
         function updateDetailedTable(id, teams) {
             const tbody = document.getElementById(id);
             if (!teams.length) {
@@ -439,33 +836,46 @@
                 
                 const remainingGames = TOTAL_GAMES - team.games_played;
                 
-                // Simulate home/away splits (実際のデータがない場合の仮データ)
+                // ホーム/アウェイ分割シミュレート（実データなしの場合の仮計算）
+                const homeAdvantage = seasonConfig?.display_config?.home_advantage || 0.55;
                 const homeGames = Math.floor(team.games_played / 2);
                 const awayGames = team.games_played - homeGames;
-                const homeWins = Math.floor(team.wins * 0.55); // Home advantage
+                const homeWins = Math.floor(team.wins * homeAdvantage); // ホームアドバンテージ計算
                 const awayWins = team.wins - homeWins;
                 const homeLosses = homeGames - homeWins;
                 const awayLosses = awayGames - awayWins;
                 const homeWinPct = homeGames > 0 ? (homeWins / homeGames).toFixed(3) : '0.000';
                 const awayWinPct = awayGames > 0 ? (awayWins / awayGames).toFixed(3) : '0.000';
                 
-                // Calculate best/worst possible finish
-                const maxWins = team.wins + remainingGames;
-                const minWins = team.wins;
+                // 最高/最低順位可能性計算
+                const maxWins = team.wins + remainingGames;  // このチームの最大可能勝数
+                const minWins = team.wins;                   // このチームの最小可能勝数（現在勝数）
                 
-                // Simple estimation (実際の計算はより複雑)
+                // 最高順位計算: 他チームが最悪成績で終わった場合
                 let bestRank = 1;
-                let worstRank = 6;
-                
-                teams.forEach((other, idx) => {
+                teams.forEach(other => {
                     if (other.team_id !== team.team_id) {
-                        const otherMax = other.wins + (TOTAL_GAMES - other.games_played);
-                        const otherMin = other.wins;
-                        
-                        if (otherMin > maxWins) bestRank = Math.max(bestRank, idx + 2);
-                        if (otherMax > minWins) worstRank = Math.min(worstRank, idx);
+                        const otherMinWins = other.wins; // 他チームの最小勝数（現在勝数）
+                        if (otherMinWins > maxWins) {
+                            bestRank++; // このチームより上位確定
+                        }
                     }
                 });
+                
+                // 最低順位計算: 他チームが最高成績で終わった場合  
+                let worstRank = 1;
+                teams.forEach(other => {
+                    if (other.team_id !== team.team_id) {
+                        const otherMaxWins = other.wins + (TOTAL_GAMES - other.games_played);
+                        if (otherMaxWins > minWins) {
+                            worstRank++; // このチームより上位可能
+                        }
+                    }
+                });
+                
+                // 順位は1-6位なので制限
+                bestRank = Math.min(bestRank, 6);
+                worstRank = Math.min(worstRank, 6);
                 
                 return `
                     <tr class="${rankClass}">
@@ -489,11 +899,13 @@
             }).join('');
         }
 
+        // ===== 勝率シナリオ分析更新 =====
         function updateScenarios() {
             updateScenariosTable('central-scenarios', standingsData.central_league?.standings || []);
             updateScenariosTable('pacific-scenarios', standingsData.pacific_league?.standings || []);
         }
 
+        // ===== 勝率シナリオテーブル更新（共通関数） =====
         function updateScenariosTable(id, teams) {
             const tbody = document.getElementById(id);
             const headerId = id.replace('-scenarios', '-scenarios-header');
@@ -539,8 +951,8 @@
                 header.innerHTML = headerHTML;
             }
 
-            // Win rate targets to display (from high to low)
-            const winRateTargets = [0.700, 0.650, 0.600, 0.550, 0.500, 0.450, 0.400, 0.350, 0.300];
+            // 表示する勝率ターゲット（高い順から） - 動的設定
+            const winRateTargets = seasonConfig?.scenario_config?.win_rate_targets || [0.700, 0.650, 0.600, 0.550, 0.500, 0.450, 0.400, 0.350, 0.300];
             
             tbody.innerHTML = winRateTargets.map(targetRate => {
                 let row = `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px; font-size: 12px;">${(targetRate * 100).toFixed(0)}%</td>`;
@@ -551,7 +963,7 @@
                     const currentLosses = team.losses;
                     const currentDraws = team.draws || 0;
                     
-                    // Calculate required remaining record to achieve target rate
+                    // 目標勝率達成に必要な残り成績計算
                     const totalGamesMinusDraws = TOTAL_GAMES - currentDraws;
                     const requiredTotalWins = Math.ceil(targetRate * totalGamesMinusDraws);
                     const requiredWins = Math.max(0, requiredTotalWins - currentWins);
@@ -561,11 +973,11 @@
                     let cellStyle = 'text-align: center; padding: 4px; font-size: 10px; min-width: 40px;';
                     
                     if (requiredWins > remainingGames) {
-                        // Impossible to achieve
+                        // 達成不可能
                         cellContent = '-';
                         cellStyle += 'background: #ffebee; color: #c62828;';
                     } else if (requiredWins <= 0) {
-                        // Already achieved or very easy
+                        // 既に達成または容易
                         const finalRate = (currentWins / (TOTAL_GAMES - currentDraws)) * 100;
                         if (finalRate >= targetRate * 100) {
                             cellContent = '✓';
@@ -575,10 +987,10 @@
                             cellStyle += 'background: #e8f5e8; color: #2e7d32;';
                         }
                     } else {
-                        // Show required record: wins-losses
+                        // 必要成績表示: 勝-敗
                         cellContent = `${requiredWins}-${requiredLosses}`;
                         
-                        // Color based on final win rate vs 0.500
+                        // 最終勝率を0.500と比較して色分け
                         const finalRate = (currentWins + requiredWins) / (TOTAL_GAMES - currentDraws);
                         if (finalRate > 0.500) {
                             cellStyle += 'background: #e8f5e8; color: #2e7d32;'; // Green - above .500
@@ -596,11 +1008,13 @@
             }).join('');
         }
 
+        // ===== 残り試合数更新 =====
         function updateRemainingGames() {
             updateRemainingTable('central-remaining', standingsData.central_league?.standings || []);
             updateRemainingTable('pacific-remaining', standingsData.pacific_league?.standings || []);
         }
 
+        // ===== 残り試合テーブル更新（共通関数） =====
         function updateRemainingTable(id, teams) {
             const tbody = document.getElementById(id);
             if (!teams.length) {
@@ -632,13 +1046,135 @@
             }).join('');
         }
 
-        function showError() {
+        // ===== エラー表示機能 =====
+        function showError(errorMsg = 'データ読み込みに失敗しました') {
+            const errorHtml = `<tr><td colspan="15" class="loading">❌ ${errorMsg}</td></tr>`;
             document.querySelectorAll('tbody').forEach(tbody => {
-                tbody.innerHTML = '<tr><td colspan="15" class="loading">データ読み込みに失敗しました</td></tr>';
+                tbody.innerHTML = errorHtml;
             });
+            
+            // 에러 상세 정보 표시
+            const errorDetail = document.createElement('div');
+            errorDetail.style.cssText = 'position: fixed; top: 10px; right: 10px; background: #ffebee; color: #c62828; padding: 10px; border: 1px solid #e57373; border-radius: 4px; z-index: 1000; max-width: 300px;';
+            errorDetail.innerHTML = `
+                <strong>エラー詳細:</strong><br>
+                ${errorMsg}<br>
+                <small>ブラウザのコンソール(F12)で詳細を確認してください</small>
+                <button onclick="this.parentNode.remove()" style="float: right; margin-left: 10px;">×</button>
+            `;
+            document.body.appendChild(errorDetail);
+            
+            // 5秒 후 자동 제거
+            setTimeout(() => {
+                if (errorDetail.parentNode) {
+                    errorDetail.remove();
+                }
+            }, 5000); // 5秒後に自動除去
         }
         
-        document.addEventListener('DOMContentLoaded', loadData);
+        // ===== データパス取得（GitHub Pages対応） =====
+        function getDataPath() {
+            const hostname = window.location.hostname;
+            const isGitHubPages = hostname.endsWith('.github.io') || hostname.includes('github');
+            
+            if (isGitHubPages) {
+                // GitHub Pages: 절대 경로 사용
+                const basePath = window.location.pathname.replace('/index.html', '').replace('/', '');
+                return basePath ? `/${basePath}/data/standings.json` : '/data/standings.json';
+            } else {
+                // 로컬: 상대 경로 사용  
+                return './data/standings.json';
+            }
+        }
+        
+        // ===== データ型正規化処理 =====
+        function normalizeStandingsData(data) {
+            if (!data) return data;
+            
+            // 각 리그의 팀 데이터 정규화
+            ['central_league', 'pacific_league'].forEach(league => {
+                if (data[league]?.standings) {
+                    data[league].standings = data[league].standings.map(team => ({
+                        ...team,
+                        // 문자열을 숫자로 변환
+                        win_percentage: parseFloat(team.win_percentage) || 0,
+                        games_behind: parseFloat(team.games_behind) || 0,
+                        wins: parseInt(team.wins) || 0,
+                        losses: parseInt(team.losses) || 0,
+                        draws: parseInt(team.draws) || 0,
+                        games_played: parseInt(team.games_played) || 0,
+                        runs_scored: parseInt(team.runs_scored) || 0,
+                        runs_allowed: parseInt(team.runs_allowed) || 0,
+                        run_differential: parseInt(team.run_differential) || 0
+                    }));
+                }
+            });
+            
+            return data;
+        }
+        
+        // ===== メインデータ読み込み処理 =====
+        async function loadDataEnhanced() {
+            try {
+                
+                // 순위 데이터 로딩
+                const dataPath = getDataPath();
+                const response = await fetch(dataPath);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${dataPath}`);
+                }
+                
+                const rawData = await response.json();
+                
+                // 시즌 설정 데이터 로딩 (dashboard.json에서)
+                try {
+                    const dashboardPath = dataPath.replace('standings.json', 'dashboard.json');
+                    const dashboardResponse = await fetch(dashboardPath);
+                    if (dashboardResponse.ok) {
+                        seasonConfig = await dashboardResponse.json();
+                        // NPB는 각 팀이 144경기를 하므로, 총 경기수를 팀수로 나누고 2로 나눔
+                        // 또는 하드코딩 대신 데이터에서 추정
+                        if (seasonConfig.season_stats) {
+                            // 실제 데이터에서 최대 경기수 추정
+                            const allTeams = [...(rawData.central_league?.standings || []), ...(rawData.pacific_league?.standings || [])];
+                            const maxGamesPlayed = Math.max(...allTeams.map(t => t.games_played));
+                            // NPB는 일반적으로 144경기, 하지만 데이터에서 추정
+                            TOTAL_GAMES = 144; // NPB標準試合数
+                        }
+                    }
+                } catch (dashboardError) {
+                    // ダッシュボードデータなし、デフォルト値使用
+                }
+                
+                // 데이터 타입 정규화
+                standingsData = normalizeStandingsData(rawData);
+                
+                if (standingsData.updated_at) {
+                    document.getElementById('last-update').textContent = 
+                        new Date(standingsData.updated_at).toLocaleString('ja-JP');
+                }
+                
+                // 실제 통계 데이터 표시
+                if (seasonConfig && seasonConfig.season_stats) {
+                    const stats = seasonConfig.season_stats;
+                    document.getElementById('total-games').textContent = `${stats.total_games}試合`;
+                    document.getElementById('today-games').textContent = `${stats.today_games}試合`;
+                }
+                
+                updateMagicRegular();
+                updateMagicPlayoff();
+                updateScenarios();
+                updateDetailedStandings();
+                updateRemainingGames();
+                
+            } catch (error) {
+                showError(`データ読み込みエラー: ${error.message}`);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadDataEnhanced);
+        window.reloadData = loadDataEnhanced;
     </script>
 </body>
 </html>
