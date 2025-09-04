@@ -914,7 +914,24 @@
                     }
                 });
                 
-                // 順位は1-6位なので制限
+                // CS進出/脱落状況を用いた現実的な範囲補正（簡易）
+                // 4位の最大可能勝数（全チームの最大可能勝数の4番目）
+                const allMaxWins = teams
+                    .map(t => t.wins + (TOTAL_GAMES - t.games_played))
+                    .sort((a, b) => b - a);
+                const fourthHighestMaxWins = allMaxWins[3] ?? 0;
+                const thirdPlace = teams[2];
+                
+                // CS確定なら最低順位は3位以内
+                if (team.wins > fourthHighestMaxWins) {
+                    worstRank = Math.min(worstRank, 3);
+                }
+                // 3位の現在勝数に最大でも届かないなら最高順位は4位以下
+                if (thirdPlace && (team.wins + remainingGames) < thirdPlace.wins) {
+                    bestRank = Math.max(bestRank, 4);
+                }
+
+                // 順位は1-6位に制限
                 bestRank = Math.min(bestRank, 6);
                 worstRank = Math.min(worstRank, 6);
                 
