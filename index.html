@@ -1195,14 +1195,11 @@
                     const dashboardResponse = await fetch(dashboardUrl);
                     if (dashboardResponse.ok) {
                         seasonConfig = await dashboardResponse.json();
-                        // NPB는 각 팀이 144경기를 하므로, 총 경기수를 팀수로 나누고 2로 나눔
-                        // 또는 하드코딩 대신 데이터에서 추정
+                        // NPB 정규시즌은 팀당 143試合. 대시보드가 있더라도 TOTAL_GAMES는 143으로 고정.
                         if (seasonConfig.season_stats) {
-                            // 실제 데이터에서 최대 경기수 추정
                             const allTeams = [...(rawData.central_league?.standings || []), ...(rawData.pacific_league?.standings || [])];
                             const maxGamesPlayed = Math.max(...allTeams.map(t => t.games_played));
-                            // NPB는 일반적으로 144경기, 하지만 데이터에서 추정
-                            TOTAL_GAMES = 144; // NPB標準試合数
+                            TOTAL_GAMES = 143;
                         }
                     }
                 } catch (dashboardError) {
