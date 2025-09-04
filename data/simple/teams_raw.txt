@@ -1,0 +1,15 @@
+# NPB_TEAMS_DATA
+# UPDATED: 2025-09-03T22:18:25.787563
+# FORMAT: TEAM_ID|TEAM_ABBR|TEAM_NAME|LEAGUE
+1|YOG|読売ジャイアンツ|Central
+2|HAN|阪神タイガース|Central
+3|YDB|横浜DeNAベイスターズ|Central
+4|HIR|広島東洋カープ|Central
+5|CHU|中日ドラゴンズ|Central
+6|YAK|東京ヤクルトスワローズ|Central
+7|SOF|福岡ソフトバンクホークス|Pacific
+8|LOT|千葉ロッテマリーンズ|Pacific
+9|RAK|東北楽天ゴールデンイーグルス|Pacific
+10|ORI|オリックスバファローズ|Pacific
+11|SEI|埼玉西武ライオンズ|Pacific
+12|NIP|北海道日本ハムファイターズ|Pacific

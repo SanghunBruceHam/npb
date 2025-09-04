@@ -1,0 +1,74 @@
+[
+  {
+    "team_id": 1,
+    "team_abbreviation": "YOG",
+    "team_name": "読売ジャイアンツ",
+    "league": "Central"
+  },
+  {
+    "team_id": 2,
+    "team_abbreviation": "HAN",
+    "team_name": "阪神タイガース",
+    "league": "Central"
+  },
+  {
+    "team_id": 3,
+    "team_abbreviation": "YDB",
+    "team_name": "横浜DeNAベイスターズ",
+    "league": "Central"
+  },
+  {
+    "team_id": 4,
+    "team_abbreviation": "HIR",
+    "team_name": "広島東洋カープ",
+    "league": "Central"
+  },
+  {
+    "team_id": 5,
+    "team_abbreviation": "CHU",
+    "team_name": "中日ドラゴンズ",
+    "league": "Central"
+  },
+  {
+    "team_id": 6,
+    "team_abbreviation": "YAK",
+    "team_name": "東京ヤクルトスワローズ",
+    "league": "Central"
+  },
+  {
+    "team_id": 7,
+    "team_abbreviation": "SOF",
+    "team_name": "福岡ソフトバンクホークス",
+    "league": "Pacific"
+  },
+  {
+    "team_id": 8,
+    "team_abbreviation": "LOT",
+    "team_name": "千葉ロッテマリーンズ",
+    "league": "Pacific"
+  },
+  {
+    "team_id": 9,
+    "team_abbreviation": "RAK",
+    "team_name": "東北楽天ゴールデンイーグルス",
+    "league": "Pacific"
+  },
+  {
+    "team_id": 10,
+    "team_abbreviation": "ORI",
+    "team_name": "オリックスバファローズ",
+    "league": "Pacific"
+  },
+  {
+    "team_id": 11,
+    "team_abbreviation": "SEI",
+    "team_name": "埼玉西武ライオンズ",
+    "league": "Pacific"
+  },
+  {
+    "team_id": 12,
+    "team_abbreviation": "NIP",
+    "team_name": "北海道日本ハムファイターズ",
+    "league": "Pacific"
+  }
+]
