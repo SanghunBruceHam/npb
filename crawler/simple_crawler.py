@@ -155,30 +155,51 @@ class SimpleCrawler:
                         self.logger.warning(f"⚠️ Could not find totalScore cells")
                         continue
                     
-                    # 숫자만 추출 (한자 숫자도 처리)
+                    # 점수 텍스트 추출
                     away_score_text = away_score_cell.get_text(strip=True)
                     home_score_text = home_score_cell.get_text(strip=True)
-                    
-                    # 한자 숫자를 아라비아 숫자로 변환
-                    def convert_jp_number(text):
-                        jp_to_num = {'０': 0, '１': 1, '２': 2, '３': 3, '４': 4, '５': 5, '６': 6, '７': 7, '８': 8, '９': 9}
-                        if text in jp_to_num:
-                            return jp_to_num[text]
+
+                    # 숫자 파싱 유틸 (풀와이드 숫자 포함). 실패 시 None 반환하여 스킵
+                    def convert_jp_number(text: str):
+                        if text is None:
+                            return None
+                        # 전각 숫자를 반각으로 치환
+                        trans = str.maketrans('０１２３４５６７８９', '0123456789')
+                        t = text.translate(trans)
+                        # 흔한 비숫자 기호 제거 (대쉬, 공백)
+                        t = t.replace('\u2014', '-')\
+                             .replace('\u2013', '-')\
+                             .replace('－', '-')\
+                             .replace('—', '-')\
+                             .strip()
+                        # 명백한 비완료/취소 표시 처리: 숫자가 없으면 None
+                        if not any(ch.isdigit() for ch in t):
+                            return None
+                        # 숫자만 남기기 (예: '10' 그대로, 'X' 등 제거)
+                        cleaned = ''.join(ch for ch in t if ch.isdigit())
+                        if cleaned == '':
+                            return None
                         try:
-                            return int(text)
-                        except:
-                            return 0
-                    
+                            return int(cleaned)
+                        except Exception:
+                            return None
+
                     away_score = convert_jp_number(away_score_text)
                     home_score = convert_jp_number(home_score_text)
+
+                    # 점수 파싱 실패(미진행/중지 등)인 경우 스킵
+                    if away_score is None or home_score is None:
+                        self.logger.info(
+                            f"⏭️  Skipping unparsed/unfinished game: {away_team['abbr']} vs {home_team['abbr']} (away='{away_score_text}', home='{home_score_text}')"
+                        )
+                        continue
                     
                     # 리그 판단 (팀 정보에서)
                     league = away_team['league']
                     
-                    # 0-0 경기는 NPB에서 재경기로 처리되므로 제외
-                    if home_score == 0 and away_score == 0:
-                        self.logger.info(f"⏭️  Skipping 0-0 game: {away_team['abbr']} vs {home_team['abbr']} (postponed/rescheduled)")
-                        continue
+                    # 0-0도 NPB에서는 유효한 무승부로 기록됨 (재경기 아님)
+                    # 과거 로직에서 0-0을 제외해 무승부 집계가 누락되는 문제가 있었음
+                    # 따라서 0-0을 포함하여 is_draw 처리함
                     
                     # 경기 정보
                     game = {
@@ -280,12 +301,28 @@ class SimpleCrawler:
         lines.append(f"# UPDATED: {datetime.now().isoformat()}")
         lines.append("# FORMAT: TEAM_ID|TEAM_ABBR|TEAM_NAME|LEAGUE")
         
-        for team_info in self.teams.values():
+        # 중복 제거: 고정 12팀만 출력 (id 오름차순)
+        canonical = {
+            1: {'id':1,'abbr':'YOG','name':'読売ジャイアンツ','league':'Central'},
+            2: {'id':2,'abbr':'HAN','name':'阪神タイガース','league':'Central'},
+            3: {'id':3,'abbr':'YDB','name':'横浜DeNAベイスターズ','league':'Central'},
+            4: {'id':4,'abbr':'HIR','name':'広島東洋カープ','league':'Central'},
+            5: {'id':5,'abbr':'CHU','name':'中日ドラゴンズ','league':'Central'},
+            6: {'id':6,'abbr':'YAK','name':'東京ヤクルトスワローズ','league':'Central'},
+            7: {'id':7,'abbr':'SOF','name':'福岡ソフトバンクホークス','league':'Pacific'},
+            8: {'id':8,'abbr':'LOT','name':'千葉ロッテマリーンズ','league':'Pacific'},
+            9: {'id':9,'abbr':'RAK','name':'東北楽天ゴールデンイーグルス','league':'Pacific'},
+            10:{'id':10,'abbr':'ORI','name':'オリックスバファローズ','league':'Pacific'},
+            11:{'id':11,'abbr':'SEI','name':'埼玉西武ライオンズ','league':'Pacific'},
+            12:{'id':12,'abbr':'NIP','name':'北海道日本ハムファイターズ','league':'Pacific'},
+        }
+        for team_id in sorted(canonical.keys()):
+            info = canonical[team_id]
             line = "|".join([
-                str(team_info['id']),
-                team_info['abbr'],
-                team_info['name'],
-                team_info['league']
+                str(info['id']),
+                info['abbr'],
+                info['name'],
+                info['league']
             ])
             lines.append(line)
         
@@ -311,13 +348,15 @@ class SimpleCrawler:
         start = datetime.strptime(start_date, "%Y-%m-%d")
         today = datetime.now()
         
+        # 당일 경기(진행중/예정)는 수집 대상에서 제외 (완료 경기만 반영)
+        end_date = today - timedelta(days=1)
         current_date = start
-        total_days = (today - start).days + 1
+        total_days = (end_date - start).days + 1
         
         self.logger.info(f"📅 Crawling {total_days} days from {start_date} to {today.strftime('%Y-%m-%d')}")
         
         day_count = 0
-        while current_date <= today:
+        while current_date <= end_date:
             day_count += 1
             games = self.crawl_date(current_date)
             

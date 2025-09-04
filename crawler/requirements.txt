@@ -1,29 +1,4 @@
-# NPB Dashboard Crawler Requirements
-# Web scraping and HTTP requests
+# NPB Simple Crawler Requirements (DB-free)
 requests>=2.31.0
 beautifulsoup4>=4.12.2
-lxml>=4.9.3
-html5lib>=1.1
-
-# Data processing
-pandas>=2.1.0
-numpy>=1.24.0
-
-# Database connectivity
-psycopg2-binary>=2.9.7
-python-dotenv>=1.0.0
-
-# Utilities
-python-dateutil>=2.8.2
 pytz>=2023.3
-schedule>=1.2.0
-
-# Logging and monitoring
-loguru>=0.7.0
-
-# Testing (for future)
-pytest>=7.4.0
-pytest-mock>=3.11.1
-
-# Data validation
-pydantic>=2.3.0

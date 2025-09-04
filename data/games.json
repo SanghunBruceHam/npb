@@ -6259,6 +6259,20 @@
   },
   {
     "game_date": "2025-07-05",
+    "home_team_id": 1,
+    "home_team_abbr": "YOG",
+    "home_team_name": "読売ジャイアンツ",
+    "away_team_id": 4,
+    "away_team_abbr": "HIR",
+    "away_team_name": "広島東洋カープ",
+    "home_score": 0,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true
+  },
+  {
+    "game_date": "2025-07-05",
     "home_team_id": 3,
     "home_team_abbr": "YDB",
     "home_team_name": "横浜DeNAベイスターズ",
@@ -10036,5 +10050,19 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false
+  },
+  {
+    "game_date": "2025-06-12",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 1,
+    "away_team_abbr": "YOG",
+    "away_team_name": "読売ジャイアンツ",
+    "home_score": 0,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true
   }
 ]

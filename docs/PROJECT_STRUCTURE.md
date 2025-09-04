@@ -22,10 +22,8 @@ npb/
 │   └── 📄 json_to_txt_converter.py# JSON → TXT 시뮬
 │
 ├── 🗂️ crawler/                   # 크롤러(옵션)
-│   ├── 📄 simple_crawler.py      # 간단 크롤러(TXT 저장)
-│   ├── 📄 npb_crawler.py         # 레거시(DB) 통합 크롤러
-│   ├── 📄 config.py, utils.py, requirements.txt, setup.sh
-│   └── 🗂️ venv/
+│   ├── 📄 simple_crawler.py      # 간단 크롤러(TXT 저장, DB-free)
+│   └── 📄 requirements.txt       # 최소 의존성 목록
 │
 ├── 🗂️ database/                  # 레거시(DB)
 │   ├── 📄 create_tables.sql
@@ -55,6 +53,5 @@ npb/
 
 ## 레거시(DB)
 
-- 기본 경로는 무DB입니다. DB 사용이 필요하면 `docs/LEGACY_DB.md` 참고.
-- 레거시(DB) 경로에는 스키마/크롤러 정합성 이슈가 존재하며 추가 정리가 필요합니다.
-
+- 기본 경로는 무DB입니다. 예전 DB 기반 크롤러/스크립트는 저장소에서 제거되었습니다.
+- 과거 경로가 필요하다면 `docs/LEGACY_DB.md`의 안내와 커밋 히스토리를 참고하세요.

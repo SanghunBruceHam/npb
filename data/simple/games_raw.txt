@@ -1,5 +1,5 @@
 # NPB_GAMES_DATA
-# UPDATED: 2025-09-03T22:18:25.786973
+# UPDATED: 2025-09-04T17:48:48.535093
 # FORMAT: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW
 2025-03-28|1|YOG|読売ジャイアンツ|6|YAK|東京ヤクルトスワローズ|6|5|Central|completed|0
 2025-03-28|3|YDB|横浜DeNAベイスターズ|5|CHU|中日ドラゴンズ|5|0|Central|completed|0
@@ -448,6 +448,7 @@
 2025-07-04|12|NIP|北海道日本ハムファイターズ|9|RAK|東北楽天ゴールデンイーグルス|7|1|Pacific|completed|0
 2025-07-04|10|ORI|オリックスバファローズ|8|LOT|千葉ロッテマリーンズ|8|6|Pacific|completed|0
 2025-07-04|7|SOF|福岡ソフトバンクホークス|11|SEI|埼玉西武ライオンズ|0|1|Pacific|completed|0
+2025-07-05|1|YOG|読売ジャイアンツ|4|HIR|広島東洋カープ|0|0|Central|completed|1
 2025-07-05|3|YDB|横浜DeNAベイスターズ|2|HAN|阪神タイガース|0|3|Central|completed|0
 2025-07-05|5|CHU|中日ドラゴンズ|6|YAK|東京ヤクルトスワローズ|4|6|Central|completed|0
 2025-07-05|12|NIP|北海道日本ハムファイターズ|9|RAK|東北楽天ゴールデンイーグルス|12|1|Pacific|completed|0
@@ -718,3 +719,4 @@
 2025-09-03|9|RAK|東北楽天ゴールデンイーグルス|11|SEI|埼玉西武ライオンズ|6|11|Pacific|completed|0
 2025-09-03|8|LOT|千葉ロッテマリーンズ|12|NIP|北海道日本ハムファイターズ|2|1|Pacific|completed|0
 2025-09-03|7|SOF|福岡ソフトバンクホークス|10|ORI|オリックスバファローズ|7|1|Pacific|completed|0
+2025-06-12|7|SOF|福岡ソフトバンクホークス|1|YOG|読売ジャイアンツ|0|0|Central|completed|1
