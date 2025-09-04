@@ -642,6 +642,8 @@
         // ===== グローバル変数 =====
         let standingsData = null;      // 順位表データ
         let seasonConfig = null;       // シーズン設定データ  
+        let gamesData = null;          // 全試合（完了分）データ
+        let homeAwayRemainingByTeam = {}; // { team_id: { home: n, away: n } }
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
         // ===== タブ切り替え機能 =====
@@ -1082,8 +1084,10 @@
 
             tbody.innerHTML = teams.map(team => {
                 const remainingGames = TOTAL_GAMES - team.games_played;
-                const homeRemaining = Math.floor(remainingGames / 2);
-                const awayRemaining = remainingGames - homeRemaining;
+                const fallbackHome = Math.floor(remainingGames / 2);
+                const calc = homeAwayRemainingByTeam[team.team_id] || { home: fallbackHome, away: remainingGames - fallbackHome };
+                const homeRemaining = calc.home;
+                const awayRemaining = calc.away;
                 
                 // 対戦相手の分布（仮データ）
                 const opponents = teams
@@ -1172,6 +1176,48 @@
             return data;
         }
         
+        // ===== Home/Away 잔여 계산 (스케줄 미사용, 리그 총량 보존) =====
+        function computeHomeAwayRemaining() {
+            homeAwayRemainingByTeam = {};
+            if (!standingsData) return;
+
+            const allTeams = [...(standingsData.central_league?.standings || []), ...(standingsData.pacific_league?.standings || [])];
+            const teamIds = allTeams.map(t => t.team_id);
+
+            // 기본값: 0으로 초기화
+            teamIds.forEach(id => { homeAwayRemainingByTeam[id] = { home: 0, away: 0 }; });
+
+            if (!gamesData || !Array.isArray(gamesData)) {
+                // games.json 없으면 updateRemainingTable에서 균등 분배
+                return;
+            }
+
+            // 팀별 소화 홈/원정 집계
+            const homePlayed = {}; const awayPlayed = {};
+            teamIds.forEach(id => { homePlayed[id] = 0; awayPlayed[id] = 0; });
+            gamesData.forEach(g => {
+                if (g.game_status !== 'completed') return;
+                if (homePlayed[g.home_team_id] !== undefined) homePlayed[g.home_team_id]++;
+                if (awayPlayed[g.away_team_id] !== undefined) awayPlayed[g.away_team_id]++;
+            });
+
+            // 12팀 중 6팀은 최종 홈 72, 6팀은 71로 목표 설정 (현재 홈 소화가 많은 팀에게 72)
+            const pairs = teamIds.map(id => ({ id, home: homePlayed[id] }));
+            pairs.sort((a, b) => b.home - a.home || a.id - b.id);
+            const targetHome = {};
+            pairs.forEach((p, idx) => { targetHome[p.id] = idx < 6 ? 72 : 71; });
+
+            // 팀별 잔여 계산
+            allTeams.forEach(t => {
+                const id = t.team_id;
+                const remaining = Math.max(0, TOTAL_GAMES - t.games_played);
+                const th = Math.max(homePlayed[id], targetHome[id]); // 이미 소화 홈보다 작지 않게 보정
+                const hr = Math.max(0, th - homePlayed[id]);
+                const ar = Math.max(0, remaining - hr);
+                homeAwayRemainingByTeam[id] = { home: hr, away: ar };
+            });
+        }
+        
         // ===== メインデータ読み込み処理 =====
         async function loadDataEnhanced() {
             try {
@@ -1206,6 +1252,16 @@
                     // ダッシュボードデータなし、デフォルト値使用
                 }
                 
+                // 경기 데이터 로딩 (home/away 잔여 계산용)
+                try {
+                    const gamesBase = basePath.replace('standings.json', 'games.json');
+                    const gamesUrl = gamesBase + (gamesBase.includes('?') ? '&' : '?') + cacheBust;
+                    const gamesResp = await fetch(gamesUrl);
+                    if (gamesResp.ok) {
+                        gamesData = await gamesResp.json();
+                    }
+                } catch (gamesError) {}
+
                 // 데이터 타입 정규화
                 standingsData = normalizeStandingsData(rawData);
                 
@@ -1221,6 +1277,7 @@
                     document.getElementById('today-games').textContent = `${stats.today_games}試合`;
                 }
                 
+                computeHomeAwayRemaining();
                 updateMagicRegular();
                 updateMagicPlayoff();
                 updateScenarios();
