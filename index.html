@@ -1176,9 +1176,11 @@
         async function loadDataEnhanced() {
             try {
                 
-                // 순위 데이터 로딩
-                const dataPath = getDataPath();
-                const response = await fetch(dataPath);
+                // 순위 데이터 로딩 (cache-busting)
+                const basePath = getDataPath();
+                const cacheBust = `v=${Date.now()}`;
+                const dataUrl = basePath + (basePath.includes('?') ? '&' : '?') + cacheBust;
+                const response = await fetch(dataUrl);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${dataPath}`);
@@ -1186,10 +1188,11 @@
                 
                 const rawData = await response.json();
                 
-                // 시즌 설정 데이터 로딩 (dashboard.json에서)
+                // 시즌 설정 데이터 로딩 (dashboard.json, cache-busting 동일 적용)
                 try {
-                    const dashboardPath = dataPath.replace('standings.json', 'dashboard.json');
-                    const dashboardResponse = await fetch(dashboardPath);
+                    const dashboardBase = basePath.replace('standings.json', 'dashboard.json');
+                    const dashboardUrl = dashboardBase + (dashboardBase.includes('?') ? '&' : '?') + cacheBust;
+                    const dashboardResponse = await fetch(dashboardUrl);
                     if (dashboardResponse.ok) {
                         seasonConfig = await dashboardResponse.json();
                         // NPB는 각 팀이 144경기를 하므로, 총 경기수를 팀수로 나누고 2로 나눔
