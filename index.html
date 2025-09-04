@@ -208,7 +208,8 @@
         
         .leagues { 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            /* Always stack leagues vertically (Central above Pacific) */
+            grid-template-columns: 1fr; 
             gap: 30px; 
             margin: 20px 0; 
         }
@@ -351,12 +352,13 @@
             <h2>正規シーズン優勝マジックナンバー</h2>
             
             <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #495057;">
-                <strong>📊 マジックナンバーとは？</strong><br>
+                <strong>📊 マジック / エリミネーションの定義</strong><br>
                 <div style="margin-top: 8px; line-height: 1.5;">
-                • <strong>優勝マジック</strong>: 1位チームがあと何勝すれば優勝が確定するかを示す数字<br>
-                • <strong>計算式</strong>: (2位チームの最大可能勝数) - (1位チームの現在勝数) + 1<br>
-                • <strong>実例</strong>: 阪神66勝、巨人54勝(最大86勝) → 86-66+1 = <strong>21</strong> (マジック21)<br>
-                • <strong>✓マーク</strong>: すでに優勝確定 | <strong>-</strong>: 該当なし
+                • <strong>総試合数</strong>: NPBは各チーム<strong>143試合</strong><br>
+                • <strong>勝率</strong>: 勝 / (勝 + 敗)（分は勝率に含めない）<br>
+                • <strong>優勝マジック</strong>: (2位の<strong>最大可能勝数</strong>) − (1位の現在勝数) + 1（0以下で✓）<br>
+                • <strong>エリミネート(E)</strong>: 1位勝数 ＞ チーム最大可能勝数, または <code>(143+1) − 1位勝 − チーム敗 ≤ 0</code><br>
+                • <strong>記号</strong>: <strong>✓</strong>＝確定, <strong>E</strong>＝不可能, <strong>-</strong>＝該当なし
                 </div>
             </div>
             
@@ -419,12 +421,11 @@
             <h2>プレーオフ進出マジックナンバー</h2>
             
             <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #856404;">
-                <strong>🏆 プレーオフマジックとは？</strong><br>
+                <strong>🏆 プレーオフ (CS) 進出の判定</strong><br>
                 <div style="margin-top: 8px; line-height: 1.5;">
-                • <strong>プレーオフ進出</strong>: 各リーグ上位3位までがプレーオフに進出<br>
-                • <strong>計算式</strong>: (4位チームの最大可能勝数) - (対象チームの現在勝数) + 1<br>
-                • <strong>CS確定条件</strong>: 4位以下のチームが追いつけない勝数に到達<br>
-                • <strong>✓マーク</strong>: プレーオフ進出確定 | <strong>E</strong>: 進出不可能
+                • <strong>進出枠</strong>: 各リーグ<strong>上位3位</strong>がCS進出<br>
+                • <strong>マジック</strong>: 4位の<strong>最大可能勝数</strong>を基準に、対象チームが到達すべき勝数（0以下で✓）<br>
+                • <strong>エリミネート(E)</strong>: <code>(143+1) − 3位勝 − チーム敗 ≤ 0</code> または チーム最大可能勝数 ＜ 3位勝数
                 </div>
             </div>
             <div class="leagues">
@@ -490,8 +491,8 @@
                 <div style="margin-top: 8px; line-height: 1.5;">
                 • <strong>目標勝率</strong>: 残り試合を30%〜90%の勝率で進めた場合の最終成績を予測<br>
                 • <strong>必要勝数</strong>: 各勝率を達成するために残り試合で必要な勝利数<br>
-                • <strong>最終勝率</strong>: シーズン終了時点での勝率予想<br>
-                • <strong>活用例</strong>: 3位以内(プレーオフ進出)に必要な勝率を確認
+                • <strong>最終勝率</strong>: シーズン終了時点の勝率予想（分は勝率に含めない）<br>
+                • <strong>残り試合</strong>: <code>143 − 現在の試合数</code> を使用
                 </div>
             </div>
             <div style="margin-bottom: 20px;">
@@ -525,6 +526,10 @@
         <!-- Detailed Standings -->
         <div id="standings" class="tab-content">
             <h2>詳細順位表</h2>
+            <div style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #495057;">
+                • <strong>勝率</strong>= 勝 / (勝+敗), <strong>残り</strong>= 143 − 試合, <strong>差</strong>= 首位からのゲーム差<br>
+                • <strong>分</strong>は勝率に含まれません。表示は最新JSONに基づきます。
+            </div>
             <div class="scroll-table">
                 <h3>セントラルリーグ</h3>
                 <table>
@@ -584,6 +589,10 @@
         <!-- Remaining Games -->
         <div id="remaining" class="tab-content">
             <h2>チーム別残り試合数</h2>
+            <div style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #495057;">
+                • <strong>残り試合</strong>= 143 − 現在の試合数（ホーム/アウェー配分は均等近似）<br>
+                • <strong>対戦相手</strong>は簡易推定で、実際の日程と異なる場合があります。
+            </div>
             <div class="leagues">
                 <div>
                     <h3>セントラルリーグ</h3>
@@ -627,7 +636,7 @@
         // ===== グローバル変数 =====
         let standingsData = null;      // 順位表データ
         let seasonConfig = null;       // シーズン設定データ  
-        let TOTAL_GAMES = 144;         // 1チーム総試合数（デフォルト値）
+        let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
         // ===== タブ切り替え機能 =====
         function showTab(tabId) {
@@ -732,14 +741,16 @@
                         }
                     }
                     
-                    // 優勝エリミネート計算
+                    // 優勝エリミネート計算（1位に対する組み合わせ番号）
                     if (team.position_rank > 1) {
-                        const maxWinsTeam = team.wins + remainingGames;
-                        if (maxWinsTeam < leader.wins) {
+                        const teamMaxWins = team.wins + (TOTAL_GAMES - team.games_played); // = TOTAL_GAMES - losses - draws
+                        const alreadyEliminated = leader.wins > teamMaxWins;
+                        if (alreadyEliminated) {
                             eliminate = 'E';
                         } else {
-                            const eliminationNum = leader.wins - team.wins + 1;
-                            eliminate = eliminationNum > remainingGames ? 'E' : eliminationNum;
+                            // MLBの定義に準拠した組み合わせ式: G+1 - 1位勝 - 当該チーム敗
+                            const combo = (TOTAL_GAMES + 1) - leader.wins - team.losses;
+                            eliminate = combo <= 0 ? 'E' : combo;
                         }
                     }
                 } else {
@@ -786,13 +797,15 @@
                     
                     if (team.playoff_elimination !== undefined) {
                         eliminate = team.playoff_elimination;
-                    } else if (team.position_rank > 3) {
-                        const maxWinsTeam = team.wins + remainingGames;
-                        if (thirdPlace.wins && maxWinsTeam < thirdPlace.wins) {
+                    } else if (thirdPlace && thirdPlace.wins !== undefined) {
+                        const teamMaxWins = team.wins + (TOTAL_GAMES - team.games_played);
+                        const alreadyEliminated = teamMaxWins < thirdPlace.wins;
+                        if (alreadyEliminated) {
                             eliminate = 'E';
-                        } else if (thirdPlace.wins) {
-                            const eliminationNum = thirdPlace.wins - team.wins + 1;
-                            eliminate = eliminationNum > remainingGames ? 'E' : eliminationNum;
+                        } else {
+                            // 3位に対する組み合わせ式: G+1 - 3位勝 - 当該チーム敗
+                            const combo = (TOTAL_GAMES + 1) - thirdPlace.wins - team.losses;
+                            eliminate = combo <= 0 ? 'E' : combo;
                         }
                     }
                 }
