@@ -203,30 +203,40 @@ def main():
     success_count = 0
     total_steps = 4
     
+    # 인자 파싱
+    args = sys.argv[1:]
+    skip_crawl = False
+    if '--skip-crawl' in args:
+        skip_crawl = True
+        args = [a for a in args if a != '--skip-crawl']
+    
     # 크롤링 모드 설정
     crawl_mode = "7"  # 기본 7일
-    if len(sys.argv) > 1:
-        if sys.argv[1] == '--full-season':
+    if len(args) > 0:
+        if args[0] == '--full-season':
             crawl_mode = "full-season"
-        elif sys.argv[1] == '--test':
+        elif args[0] == '--test':
             crawl_mode = "3"
-        elif sys.argv[1] == '--quick':
+        elif args[0] == '--quick':
             crawl_mode = "1"
         else:
             try:
-                crawl_mode = str(int(sys.argv[1]))
+                crawl_mode = str(int(args[0]))
             except ValueError:
-                logger.error(f"Invalid argument: {sys.argv[1]}")
+                logger.error(f"Invalid argument: {args[0]}")
                 sys.exit(1)
     
     # Step 1: 웹 크롤링 (TXT 저장)
-    if crawl_mode == "full-season":
-        logger.info("Step 1/4: Full season web crawling (from March 28)")
-    else:
-        logger.info(f"Step 1/4: Web crawling ({crawl_mode} days)")
-    
-    if run_web_crawler(crawl_mode):
+    if skip_crawl:
+        logger.info("Step 1/4: Skipping web crawl (--skip-crawl)")
         success_count += 1
+    else:
+        if crawl_mode == "full-season":
+            logger.info("Step 1/4: Full season web crawling (from March 28)")
+        else:
+            logger.info(f"Step 1/4: Web crawling ({crawl_mode} days)")
+        if run_web_crawler(crawl_mode):
+            success_count += 1
     
     # Step 2: TXT → JSON 변환 (JavaScript 처리)  
     logger.info("Step 2/4: TXT to JSON conversion")

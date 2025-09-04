@@ -6,71 +6,71 @@
 
 ```
 npb/
-├── crawler/                      # 데이터 수집 시스템
-│   ├── npb_crawler.py           # 메인 크롤러 (경기 결과 수집)
-│   ├── config.py                # 크롤링 설정
-│   ├── utils.py                 # 유틸리티 함수
-│   └── venv/                    # Python 가상환경
-├── scripts/                     # 데이터 처리 스크립트  
-│   ├── export_structured_txt.py # DB → 구조화된 TXT
-│   ├── txt_to_json.js          # TXT → JSON 변환
-│   ├── new_pipeline.py         # 통합 파이프라인
-│   └── data_manager.py         # DB 관리
-├── data/                       # 데이터 파일
-│   ├── structured_txt/         # 구조화된 TXT 파일  
+├── index.html                  # 메인 웹사이트 (정적 HTML)
+├── run_html.sh                 # 대시보드 열기
+├── run_new_pipeline.sh         # 신규 파이프라인 실행 (무DB)
+│
+├── data/                       # 서비스용 데이터
+│   ├── simple/                 # TXT 원천 (크롤/시뮬레이션)
+│   ├── games.json              # 경기 결과 JSON
 │   ├── standings.json          # 순위표 JSON
-│   ├── games.json             # 경기 결과 JSON
-│   └── teams.json             # 팀 정보 JSON
-├── index.html                  # 메인 웹사이트
-├── run_new_pipeline.sh        # 파이프라인 실행
-└── run_html.sh               # 웹사이트 실행
+│   ├── teams.json              # 팀 정보 JSON
+│   └── dashboard.json          # 대시보드 요약 JSON
+│
+├── scripts/                    # 데이터 처리 스크립트
+│   ├── new_pipeline.py         # TXT→JSON 통합 파이프라인(기본)
+│   ├── simple_txt_to_json.js   # TXT → JSON 변환기
+│   └── json_to_txt_converter.py# 기존 JSON → TXT 역변환(시뮬)
+│
+├── crawler/                    # 크롤러(옵션)
+│   ├── simple_crawler.py       # 간단 크롤러: TXT 저장
+│   ├── npb_crawler.py          # 레거시(DB) 통합 크롤러
+│   ├── config.py, utils.py, requirements.txt, setup.sh
+│   └── venv/                   # Python 가상환경(선택)
+│
+├── database/                   # 레거시(DB) 스키마/셋업
+│   ├── create_tables.sql
+│   └── setup_db.py
+│
+└── docs/                       # 문서
+    ├── PROJECT_STRUCTURE.md
+    ├── DATA_STRATEGY.md
+    └── LEGACY_DB.md            # 레거시(DB) 사용 가이드
 ```
 
-## 🚀 빠른 시작
+## 🚀 빠른 시작 (무DB 기본)
 
-### 1. 환경 설정
+사전 요구사항: Node.js v16+ (권장 v18+)
+
+1) 데이터 생성/갱신
 ```bash
-cd crawler
-./setup.sh
+# 크롤링 없이 기존 TXT로 바로 변환
+./run_new_pipeline.sh --skip-crawl
+
+# 또는 빠른 크롤(1일) + 변환
+./run_new_pipeline.sh --quick
+# 일반: 최근 N일 크롤
+./run_new_pipeline.sh 7
 ```
 
-### 2. 데이터베이스 설정
+2) 대시보드 열기
 ```bash
-createdb npb_dashboard_dev
+./run_html.sh
 ```
 
-### 3. 환경변수 설정
-```bash
-cp .env.example .env
-# DB 정보를 .env 파일에 입력
-```
+참고: Python 크롤링 의존성(requests, bs4 등)은 `--quick`/일반 크롤에만 필요합니다. `--skip-crawl`은 Node만 있으면 됩니다.
 
-### 4. 데이터 파이프라인 실행
-```bash
-./run_new_pipeline.sh --quick    # 1일 크롤링 (테스트)
-./run_new_pipeline.sh 7         # 7일 크롤링
-./run_new_pipeline.sh 14        # 14일 크롤링  
-```
+## 🔄 데이터 파이프라인 (기본)
 
-### 5. 웹사이트 실행
-```bash
-./run_html.sh                   # 브라우저에서 대시보드 열기
 ```
-
-## 🔄 데이터 파이프라인
-
-**새로운 효율적 파이프라인:**
-```
-크롤링 → DB 저장 → 구조화된 TXT → JavaScript 처리 → JSON → 웹사이트
+크롤링(옵션) → TXT → JavaScript 처리 → JSON → 웹사이트
 ```
 
 ### 단계별 설명
-1. **크롤링**: 니칸스포츠에서 NPB 경기 결과 수집
-2. **DB 저장**: PostgreSQL에 경기 데이터 저장  
-3. **구조화된 TXT**: 파이프(|) 구분자로 데이터 구조화
-4. **JavaScript 처리**: Node.js로 TXT 파싱 및 가공
-5. **JSON 생성**: 웹사이트용 JSON 파일 생성
-6. **웹사이트 표시**: 정적 HTML에서 JSON 로드하여 표시
+1. **크롤링(옵션)**: 니칸스포츠에서 NPB 경기 결과 수집 후 TXT 저장
+2. **TXT 처리**: Node.js로 TXT 파싱 및 가공
+3. **JSON 생성**: 웹사이트용 JSON 파일 생성
+4. **웹사이트 표시**: 정적 HTML에서 JSON 로드하여 표시
 
 ## 📊 수집 데이터
 
@@ -80,15 +80,11 @@ cp .env.example .env
 - **특수 경기**: 연장전, 무승부, 취소 경기
 
 ## 🗄️ 데이터베이스 구조
-
-- **teams**: NPB 12개 팀 정보
-- **games**: 경기 결과 및 상세 정보  
-- **standings**: 시즌별 팀 순위 및 통계
-- **crawl_logs**: 크롤링 활동 로그
+기본 파이프라인은 DB를 사용하지 않습니다. 레거시(DB) 경로가 필요하면 `docs/LEGACY_DB.md`를 참고하세요.
 
 ## 📄 데이터 형식
 
-### 구조화된 TXT
+### 구조화된 TXT 예시
 ```
 1|2|HAN|阪神タイガース|Central|120|68|46|6|0.596|0.0|409|298
 ```
@@ -133,9 +129,6 @@ cp .env.example .env
 
 ### 데이터 확인
 ```bash
-# 최신 TXT 파일
-ls -la data/structured_txt/
-
 # 최신 JSON 파일  
 ls -la data/*.json
 
@@ -165,10 +158,15 @@ tail -f logs/new_pipeline/pipeline_*.log
 
 ## 🌐 웹사이트
 
-- **로컬 실행**: `./run_html.sh`
-- **GitHub Pages**: 자동 배포 지원
-- **모바일 최적화**: 반응형 디자인
-- **다크모드**: 테마 전환 지원
+- 로컬 실행: `./run_html.sh`
+- GitHub Pages: 정적 배포 지원
+- 모바일 최적화: 반응형 디자인
+- 다크모드: 테마 전환 지원
+
+## 🧰 레거시(DB) 경로
+
+- 본 프로젝트는 기본적으로 무DB 파이프라인을 사용합니다.
+- PostgreSQL 기반 레거시 경로를 사용하려면 `docs/LEGACY_DB.md`의 안내에 따라 설정/정합성 수정을 진행하세요.
 
 ## 📝 라이선스
 

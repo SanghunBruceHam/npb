@@ -18,6 +18,7 @@ if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
     echo "  --full-season  전체 시즌 (3월 28일부터, 143경기 최대)"
     echo "  --test         테스트 모드 (3일)"
     echo "  --quick        빠른 모드 (1일)"
+    echo "  --skip-crawl   크롤링 건너뛰고 변환만 수행"
     echo ""
     echo "예시:"
     echo "  $0                # 기본 7일"
@@ -36,12 +37,18 @@ echo ""
 
 # Python 가상환경 체크 및 활성화 (선택사항)
 if [ -d "venv" ]; then
-    echo "🐍 Activating Python virtual environment..."
+    echo "🐍 Activating Python virtual environment (./venv)..."
     source venv/bin/activate
+elif [ -d "crawler/venv" ]; then
+    echo "🐍 Activating Python virtual environment (crawler/venv)..."
+    source crawler/venv/bin/activate
+elif [ -d "crawler_venv" ]; then
+    echo "🐍 Activating Python virtual environment (./crawler_venv)..."
+    source crawler_venv/bin/activate
 fi
 
 # 새 파이프라인 실행
-python3 scripts/new_pipeline.py "$DAYS"
+python3 scripts/new_pipeline.py "$@"
 
 EXIT_CODE=$?
 

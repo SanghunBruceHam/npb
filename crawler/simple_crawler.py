@@ -76,26 +76,32 @@ class SimpleCrawler:
         return None
     
     def convert_db_data_to_txt(self):
-        """기존 DB 데이터를 TXT로 변환 (fallback)"""
-        self.logger.info("📄 Converting existing database data to TXT format...")
+        """기존 JSON → TXT 역변환 (크롤링 불가 시 fallback)"""
+        self.logger.info("📄 Converting existing JSON data to TXT format (fallback)...")
         
         try:
-            # Use existing db_to_simple_txt script
-            db_script = self.project_root / 'scripts' / 'db_to_simple_txt.py'
-            if db_script.exists():
-                result = os.system(f"cd {self.project_root} && python3 {db_script}")
+            # Use existing json_to_txt_converter script
+            json_to_txt = self.project_root / 'scripts' / 'json_to_txt_converter.py'
+            if json_to_txt.exists():
+                result = os.system(f"cd {self.project_root} && python3 {json_to_txt}")
                 if result == 0:
-                    self.logger.info("✅ DB to TXT conversion completed")
+                    self.logger.info("✅ JSON to TXT conversion completed")
                     return True
                 else:
-                    self.logger.error("❌ DB to TXT conversion failed")
+                    self.logger.error("❌ JSON to TXT conversion failed")
                     return False
             else:
-                self.logger.error("❌ DB conversion script not found")
+                # If converter not present, try to proceed with existing TXT files
+                games_txt = self.data_dir / 'games_raw.txt'
+                teams_txt = self.data_dir / 'teams_raw.txt'
+                if games_txt.exists() and teams_txt.exists():
+                    self.logger.info("⚠️ Converter not found, but TXT files already exist. Proceeding.")
+                    return True
+                self.logger.error("❌ JSON to TXT converter not found and TXT files missing")
                 return False
                 
         except Exception as e:
-            self.logger.error(f"❌ DB conversion error: {e}")
+            self.logger.error(f"❌ JSON→TXT conversion error: {e}")
             return False
 
     def crawl_date(self, target_date):
