@@ -766,46 +766,42 @@
                         maxWins: t.wins + (TOTAL_GAMES - t.games_played)
                     })).sort((a, b) => b.maxWins - a.maxWins);
                     
-                    // 3番目に高い最大可能勝数（プレーオフ3位カットライン）
+                    // 3位カットライン（3番目の最大可能勝数）と4位の最大可能勝数
                     const thirdHighestMaxWins = allMaxWins[2] ? allMaxWins[2].maxWins : 0;
+                    const fourthHighestMaxWins = allMaxWins[3] ? allMaxWins[3].maxWins : 0;
                     
-                    // プレーオフマジックナンバー計算（上位3チーム）
+                    // プレーオフマジック（4位の最大可能勝数基準）
                     if (team.playoff_magic !== undefined) {
                         clinch = team.playoff_magic === 0 ? '✓' : team.playoff_magic;
                     } else if (remainingGames > 0) {
-                        const fourthHighestMaxWins = allMaxWins[3] ? allMaxWins[3].maxWins : 0;
                         if (fourthHighestMaxWins > 0) {
-                            clinch = Math.max(0, fourthHighestMaxWins - team.wins + 1);
-                            if (clinch === 0) clinch = '✓';
+                            const need = fourthHighestMaxWins - team.wins + 1;
+                            clinch = need <= 0 ? '✓' : need;
                         } else {
                             clinch = '✓';
                         }
                     }
                     
-                    // 3위 진출 조건 계산 - 3번째로 높은 최대가능 승수 기준
+                    // CS進出確定判定: 現在の勝数が4位の最大可能勝数を上回るか
                     const teamMaxWins = team.wins + remainingGames;
-                    
-                    if (teamMaxWins > thirdHighestMaxWins) {
-                        // 이미 3위권 확정 가능
-                        csConfirmed = 'CS進出';
+                    if (team.wins > fourthHighestMaxWins) {
+                        csConfirmed = 'CS確定';
                         condition = '確定';
-                    } else if (teamMaxWins === thirdHighestMaxWins) {
-                        // 동률이면 위험하거나 가능
-                        condition = '동率';
+                    } else if (team.wins === fourthHighestMaxWins) {
+                        condition = '同率の可能性';
+                    } else if (teamMaxWins < thirdHighestMaxWins) {
+                        // 3位ラインに最大でも届かない場合は厳しい
+                        condition = `3位${thirdHighestMaxWins}勝超必要`;
                     } else {
-                        // 3位권 진출을 위한 조건 표시
-                        if (thirdHighestMaxWins > 0) {
-                            condition = `3位권${thirdHighestMaxWins}勝以下`;
-                        } else {
-                            condition = '不可能';
-                        }
+                        condition = `4位最大${fourthHighestMaxWins}勝`; // 目安情報
                     }
                     
+                    // エリミネーション（3位の現在勝数基準の組み合わせ式）
                     if (team.playoff_elimination !== undefined) {
                         eliminate = team.playoff_elimination;
                     } else if (thirdPlace && thirdPlace.wins !== undefined) {
-                        const teamMaxWins = team.wins + (TOTAL_GAMES - team.games_played);
-                        const alreadyEliminated = teamMaxWins < thirdPlace.wins;
+                        const teamMaxWinsPlayoff = team.wins + (TOTAL_GAMES - team.games_played);
+                        const alreadyEliminated = teamMaxWinsPlayoff < thirdPlace.wins;
                         if (alreadyEliminated) {
                             eliminate = 'E';
                         } else {
