@@ -370,11 +370,11 @@
                             <tr>
                                 <th class="center">順位</th>
                                 <th>チーム</th>
+                                <th class="center">試合</th>
                                 <th class="center">勝</th>
                                 <th class="center">敗</th>
                                 <th class="center">分</th>
                                 <th class="center">勝率</th>
-                                <th class="center">試合</th>
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
@@ -396,11 +396,11 @@
                             <tr>
                                 <th class="center">順位</th>
                                 <th>チーム</th>
+                                <th class="center">試合</th>
                                 <th class="center">勝</th>
                                 <th class="center">敗</th>
                                 <th class="center">分</th>
                                 <th class="center">勝率</th>
-                                <th class="center">試合</th>
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
@@ -818,11 +818,11 @@
                         <tr class="${rankClass}">
                             <td class="center">${team.position_rank}</td>
                             <td>${team.team_abbreviation}</td>
+                            <td class="center">${team.games_played}</td>
                             <td class="center win">${team.wins}</td>
                             <td class="center loss">${team.losses}</td>
                             <td class="center">${team.draws || 0}</td>
                             <td class="center pct">${team.win_percentage.toFixed(3)}</td>
-                            <td class="center">${team.games_played}</td>
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
@@ -838,11 +838,11 @@
                         <tr class="${rankClass}">
                             <td class="center">${team.position_rank}</td>
                             <td>${team.team_abbreviation}</td>
+                            <td class="center">${team.games_played}</td>
                             <td class="center win">${team.wins}</td>
                             <td class="center loss">${team.losses}</td>
                             <td class="center">${team.draws || 0}</td>
                             <td class="center pct">${team.win_percentage.toFixed(3)}</td>
-                            <td class="center">${team.games_played}</td>
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
