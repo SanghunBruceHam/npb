@@ -374,6 +374,7 @@
                                 <th class="center">敗</th>
                                 <th class="center">分</th>
                                 <th class="center">勝率</th>
+                                <th class="center">試合</th>
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
@@ -384,7 +385,7 @@
                             </tr>
                         </thead>
                         <tbody id="central-magic-regular">
-                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -399,6 +400,7 @@
                                 <th class="center">敗</th>
                                 <th class="center">分</th>
                                 <th class="center">勝率</th>
+                                <th class="center">試合</th>
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
@@ -409,7 +411,7 @@
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-regular">
-                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -440,6 +442,7 @@
                                 <th class="center">敗</th>
                                 <th class="center">分</th>
                                 <th class="center">勝率</th>
+                                <th class="center">試合</th>
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
@@ -450,7 +453,7 @@
                             </tr>
                         </thead>
                         <tbody id="central-magic-playoff">
-                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -465,6 +468,7 @@
                                 <th class="center">敗</th>
                                 <th class="center">分</th>
                                 <th class="center">勝率</th>
+                                <th class="center">試合</th>
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
@@ -475,7 +479,7 @@
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-playoff">
-                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -600,6 +604,7 @@
                         <thead>
                             <tr>
                                 <th>チーム</th>
+                                <th class="center">試合</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">ホーム</th>
                                 <th class="center">アウェー</th>
@@ -607,7 +612,7 @@
                             </tr>
                         </thead>
                         <tbody id="central-remaining">
-                            <tr><td colspan="5" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="6" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -617,6 +622,7 @@
                         <thead>
                             <tr>
                                 <th>チーム</th>
+                                <th class="center">試合</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">ホーム</th>
                                 <th class="center">アウェー</th>
@@ -624,7 +630,7 @@
                             </tr>
                         </thead>
                         <tbody id="pacific-remaining">
-                            <tr><td colspan="5" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="6" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -820,6 +826,7 @@
                             <td class="center loss">${team.losses}</td>
                             <td class="center">${team.draws || 0}</td>
                             <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                            <td class="center">${team.games_played}</td>
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
@@ -839,6 +846,7 @@
                             <td class="center loss">${team.losses}</td>
                             <td class="center">${team.draws || 0}</td>
                             <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                            <td class="center">${team.games_played}</td>
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
@@ -972,9 +980,9 @@
                 });
                 headerHTML += `</tr><tr>`;
                 
-                // Row 3: Current records
+                // Row 3: Current records + games played
                 teams.forEach(team => {
-                    headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 11px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0}</td>`;
+                    headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 11px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0} (試合${team.games_played})</td>`;
                 });
                 headerHTML += `</tr><tr>`;
                 
@@ -1055,7 +1063,7 @@
         function updateRemainingTable(id, teams) {
             const tbody = document.getElementById(id);
             if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="5" class="loading">データがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="loading">データがありません</td></tr>';
                 return;
             }
 
@@ -1074,6 +1082,7 @@
                 return `
                     <tr>
                         <td>${team.team_abbreviation}</td>
+                        <td class="center">${team.games_played}</td>
                         <td class="center">${remainingGames}</td>
                         <td class="center">${homeRemaining}</td>
                         <td class="center">${awayRemaining}</td>
