@@ -56,7 +56,7 @@ class SimpleTxtToJson {
     }
 
     /**
-     * 경기 데이터 파싱
+     * 경기 데이터 파싱 (완료/예정 공통)
      */
     parseGames(txtData) {
         const lines = txtData.split('\n');
@@ -75,6 +75,7 @@ class SimpleTxtToJson {
                     away_team_id: parseInt(parts[4]),
                     away_team_abbr: parts[5],
                     away_team_name: parts[6],
+                    // 'NULL' 점수는 NaN -> JSON 직렬화 시 null
                     home_score: parseInt(parts[7]),
                     away_score: parseInt(parts[8]),
                     league: parts[9],
@@ -85,6 +86,14 @@ class SimpleTxtToJson {
         }
         
         return games;
+    }
+
+    /**
+     * 예정 경기 TXT 파싱 (upcoming_games_raw.txt)
+     */
+    parseUpcoming(txtData) {
+        // 형식은 games_raw.txt와 동일하며 점수가 'NULL'이고 status가 'scheduled'
+        return this.parseGames(txtData).filter(g => g.game_status === 'scheduled');
     }
 
     /**
@@ -292,7 +301,7 @@ class SimpleTxtToJson {
             }
         }
 
-        // 2. 경기 데이터 처리
+        // 2. 경기 데이터 처리 (완료 경기)
         console.log('2️⃣ Converting games...');
         const gamesTxt = this.readTxtFile('games_raw.txt');
         let games = null;
@@ -301,6 +310,18 @@ class SimpleTxtToJson {
             if (this.saveJsonFile('games.json', games)) {
                 successCount++;
             }
+        }
+
+        // 2-b. 예정 경기 데이터 처리 (옵션)
+        console.log('2️⃣-β Converting upcoming games (optional)...');
+        const upcomingTxt = this.readTxtFile('upcoming_games_raw.txt');
+        if (upcomingTxt) {
+            const upcoming = this.parseUpcoming(upcomingTxt);
+            if (this.saveJsonFile('upcoming.json', upcoming)) {
+                // optional, no counter impact
+            }
+        } else {
+            // 파일 없으면 조용히 스킵
         }
 
         // 3. 순위표 계산 및 저장

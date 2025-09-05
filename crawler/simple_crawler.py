@@ -36,20 +36,34 @@ class SimpleCrawler:
             # 센트럴리그
             'ジャイアンツ': {'id': 1, 'abbr': 'YOG', 'name': '読売ジャイアンツ', 'league': 'Central'},
             '巨人': {'id': 1, 'abbr': 'YOG', 'name': '読売ジャイアンツ', 'league': 'Central'},
+            '巨': {'id': 1, 'abbr': 'YOG', 'name': '読売ジャイアンツ', 'league': 'Central'},  # NPB 축약형
             '阪神': {'id': 2, 'abbr': 'HAN', 'name': '阪神タイガース', 'league': 'Central'},
+            '神': {'id': 2, 'abbr': 'HAN', 'name': '阪神タイガース', 'league': 'Central'},  # NPB 1문자 표기
+            '阪': {'id': 2, 'abbr': 'HAN', 'name': '阪神タイガース', 'league': 'Central'},  # NPB 축약형
             'ＤｅＮＡ': {'id': 3, 'abbr': 'YDB', 'name': '横浜DeNAベイスターズ', 'league': 'Central'},
             'DeNA': {'id': 3, 'abbr': 'YDB', 'name': '横浜DeNAベイスターズ', 'league': 'Central'},
+            'デ': {'id': 3, 'abbr': 'YDB', 'name': '横浜DeNAベイスターズ', 'league': 'Central'},
+            'Ｄ': {'id': 3, 'abbr': 'YDB', 'name': '横浜DeNAベイスターズ', 'league': 'Central'},  # NPB 축약형
             '中日': {'id': 5, 'abbr': 'CHU', 'name': '中日ドラゴンズ', 'league': 'Central'},
+            '中': {'id': 5, 'abbr': 'CHU', 'name': '中日ドラゴンズ', 'league': 'Central'},  # NPB 축약형
             '広島': {'id': 4, 'abbr': 'HIR', 'name': '広島東洋カープ', 'league': 'Central'},
+            '広': {'id': 4, 'abbr': 'HIR', 'name': '広島東洋カープ', 'league': 'Central'},  # NPB 축약형
             'ヤクルト': {'id': 6, 'abbr': 'YAK', 'name': '東京ヤクルトスワローズ', 'league': 'Central'},
+            'ヤ': {'id': 6, 'abbr': 'YAK', 'name': '東京ヤクルトスワローズ', 'league': 'Central'},  # NPB 축약형
             
             # 퍼시픽리그
             'ソフトバンク': {'id': 7, 'abbr': 'SOF', 'name': '福岡ソフトバンクホークス', 'league': 'Pacific'},
+            'ソ': {'id': 7, 'abbr': 'SOF', 'name': '福岡ソフトバンクホークス', 'league': 'Pacific'},  # NPB 축약형
             'ロッテ': {'id': 8, 'abbr': 'LOT', 'name': '千葉ロッテマリーンズ', 'league': 'Pacific'},
+            'ロ': {'id': 8, 'abbr': 'LOT', 'name': '千葉ロッテマリーンズ', 'league': 'Pacific'},  # NPB 축약형
             '楽天': {'id': 9, 'abbr': 'RAK', 'name': '東北楽天ゴールデンイーグルス', 'league': 'Pacific'},
+            '楽': {'id': 9, 'abbr': 'RAK', 'name': '東北楽天ゴールデンイーグルス', 'league': 'Pacific'},  # NPB 축약형
             'オリックス': {'id': 10, 'abbr': 'ORI', 'name': 'オリックスバファローズ', 'league': 'Pacific'},
+            'オ': {'id': 10, 'abbr': 'ORI', 'name': 'オリックスバファローズ', 'league': 'Pacific'},  # NPB 축약형
             '西武': {'id': 11, 'abbr': 'SEI', 'name': '埼玉西武ライオンズ', 'league': 'Pacific'},
-            '日本ハム': {'id': 12, 'abbr': 'NIP', 'name': '北海道日本ハムファイターズ', 'league': 'Pacific'}
+            '西': {'id': 11, 'abbr': 'SEI', 'name': '埼玉西武ライオンズ', 'league': 'Pacific'},  # NPB 축약형
+            '日本ハム': {'id': 12, 'abbr': 'NIP', 'name': '北海道日本ハムファイターズ', 'league': 'Pacific'},
+            '日': {'id': 12, 'abbr': 'NIP', 'name': '北海道日本ハムファイターズ', 'league': 'Pacific'}  # NPB 축약형
         }
     
     def setup_logging(self):
@@ -119,8 +133,8 @@ class SimpleCrawler:
         try:
             response = requests.get(url, timeout=10)
             response.raise_for_status()
-            
-            soup = BeautifulSoup(response.text, 'html.parser')
+            # Use raw content so BeautifulSoup can detect meta charset correctly
+            soup = BeautifulSoup(response.content, 'html.parser')
             games = []
             
             # scoreTable 클래스의 테이블들에서 경기 결과 파싱
@@ -233,7 +247,7 @@ class SimpleCrawler:
             return []
     
     def save_games_to_txt(self, games, filename="games_raw.txt"):
-        """경기 결과를 TXT 파일로 저장"""
+        """경기 결과를 TXT 파일로 저장 (완료/예정 경기 모두 지원)"""
         if not games:
             return
         
@@ -256,6 +270,10 @@ class SimpleCrawler:
         existing_set = set(existing_games)
         
         for game in games:
+            # 예정 경기의 경우 점수 필드를 NULL로 처리
+            home_score = 'NULL' if game['home_score'] is None else str(game['home_score'])
+            away_score = 'NULL' if game['away_score'] is None else str(game['away_score'])
+            
             # TXT 형식: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW
             line = "|".join([
                 game['date'],
@@ -265,8 +283,8 @@ class SimpleCrawler:
                 str(game['away_team_id']),
                 game['away_team_abbr'],
                 game['away_team_name'],
-                str(game['home_score']),
-                str(game['away_score']),
+                home_score,
+                away_score,
                 game['league'],
                 game['status'],
                 '1' if game['is_draw'] else '0'
@@ -281,9 +299,11 @@ class SimpleCrawler:
             with open(file_path, 'a', encoding='utf-8') as f:
                 if file_path.stat().st_size == 0:
                     # 새 파일인 경우 헤더 추가
-                    f.write("# NPB_GAMES_DATA\n")
+                    data_type = "SCHEDULED_GAMES" if filename == "upcoming_games_raw.txt" else "GAMES"
+                    f.write(f"# NPB_{data_type}_DATA\n")
                     f.write(f"# UPDATED: {datetime.now().isoformat()}\n") 
                     f.write("# FORMAT: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW\n")
+                    f.write("# NOTE: HOME_SCORE and AWAY_SCORE are 'NULL' for scheduled games\n")
                 
                 for line in new_lines:
                     f.write(line + '\n')
@@ -442,6 +462,157 @@ class SimpleCrawler:
         
         return len(all_games)
 
+    def crawl_upcoming_games(self, days_ahead=3):
+        """예정 경기 크롤링 (NPB 공식 사이트에서)"""
+        if not CRAWLING_ENABLED:
+            return []
+            
+        self.logger.info(f"🔍 Crawling upcoming games for next {days_ahead} days...")
+        
+        all_upcoming_games = []
+        today = datetime.now()
+        
+        for i in range(days_ahead):
+            target_date = today + timedelta(days=i)
+            games = self.crawl_upcoming_date(target_date)
+            all_upcoming_games.extend(games)
+            
+            # 요청 간격
+            if i < days_ahead - 1:
+                time.sleep(1)
+        
+        if all_upcoming_games:
+            self.save_games_to_txt(all_upcoming_games, "upcoming_games_raw.txt")
+        
+        self.logger.info(f"📅 Found {len(all_upcoming_games)} upcoming games")
+        return all_upcoming_games
+
+    def crawl_upcoming_date(self, target_date):
+        """특정 날짜의 예정 경기 크롤링 (NPB 공식 사이트)"""
+        if not CRAWLING_ENABLED:
+            return []
+            
+        # NPB 공식 사이트 URL 형식 (일본어)
+        # https://npb.jp/bis/2025/calendar/index_09.html (월별)
+        year = target_date.year
+        month = target_date.month
+        day_num = target_date.day
+        
+        # NPB 월별 캘린더 페이지
+        url = f"https://npb.jp/bis/{year}/calendar/index_{month:02d}.html"
+        
+        self.logger.info(f"🔍 Checking upcoming games: {target_date.strftime('%Y-%m-%d')}")
+        
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            # Use raw bytes so BeautifulSoup can detect UTF-8 from meta
+            soup = BeautifulSoup(response.content, 'html.parser')
+            games = []
+            
+            # NPB 캘린더 테이블에서 특정 날짜 찾기
+            calendar_table = soup.find('table', class_='tetblmain')
+            if not calendar_table:
+                self.logger.warning(f"⚠️ Calendar table not found for {target_date.strftime('%Y-%m-%d')}")
+                return []
+            
+            # 모든 날짜 셀 찾기
+            date_cells = calendar_table.find_all('td', class_='stschedule')
+            
+            for cell in date_cells:
+                # 날짜 확인
+                date_div = cell.find('div', class_='teschedate')
+                if not date_div:
+                    continue
+                    
+                # 날짜 텍스트에서 숫자만 추출 (링크가 있을 수 있음)
+                date_text = date_div.get_text(strip=True)
+                try:
+                    cell_day = int(date_text)
+                except ValueError:
+                    continue
+                
+                if cell_day == day_num:
+                    self.logger.info(f"📅 Found date cell for day {day_num}")
+                    
+                    # 해당 날짜의 경기 정보 추출
+                    game_divs = cell.find_all('div', class_='stvsteam')
+                    self.logger.info(f"📅 Found {len(game_divs)} game div containers")
+                    
+                    for i, game_div in enumerate(game_divs):
+                        game_texts = game_div.find_all('div')
+                        self.logger.info(f"📅 Game div {i}: found {len(game_texts)} game text divs")
+                        
+                        for j, game_text_div in enumerate(game_texts):
+                            game_text = game_text_div.get_text(strip=True)
+                            self.logger.info(f"📅 Game text {j}: '{game_text}'")
+                            
+                            # 경기 시간이 있는 예정 경기만 처리 (18:00, 14:00 등)
+                            if '：' in game_text and ('-' in game_text or 'vs' in game_text):
+                                self.logger.info(f"📅 Processing scheduled game: '{game_text}'")
+                                try:
+                                    # 팀명과 시간 분리 (예: "巨 - ヤ　18：00")
+                                    parts = game_text.split('　')
+                                    if len(parts) >= 2:
+                                        team_part = parts[0].strip()
+                                        time_part = parts[1].strip()
+                                        self.logger.info(f"📅 Team part: '{team_part}', Time part: '{time_part}'")
+                                        
+                                        # 팀명 추출
+                                        if '-' in team_part:
+                                            team_names = team_part.split('-')
+                                        elif 'vs' in team_part:
+                                            team_names = team_part.split('vs')
+                                        else:
+                                            self.logger.warning(f"⚠️ No separator found in team part: {team_part}")
+                                            continue
+                                            
+                                        if len(team_names) >= 2:
+                                            away_team_text = team_names[0].strip()
+                                            home_team_text = team_names[1].strip()
+                                            self.logger.info(f"📅 Away: '{away_team_text}', Home: '{home_team_text}'")
+                                            
+                                            away_team = self.get_team_info(away_team_text)
+                                            home_team = self.get_team_info(home_team_text)
+                                            
+                                            if away_team and home_team:
+                                                # 리그 판단
+                                                league = away_team['league']
+                                                
+                                                game = {
+                                                    'date': target_date.strftime('%Y-%m-%d'),
+                                                    'home_team_id': home_team['id'],
+                                                    'home_team_name': home_team['name'],
+                                                    'home_team_abbr': home_team['abbr'],
+                                                    'away_team_id': away_team['id'],
+                                                    'away_team_name': away_team['name'],
+                                                    'away_team_abbr': away_team['abbr'],
+                                                    'home_score': None,  # 예정 경기는 점수 없음
+                                                    'away_score': None,
+                                                    'league': league,
+                                                    'status': 'scheduled',
+                                                    'is_draw': False,
+                                                    'winner': None,
+                                                    'game_time': time_part
+                                                }
+                                                
+                                                games.append(game)
+                                                self.logger.info(f"📅 Scheduled: {away_team['abbr']} vs {home_team['abbr']} at {time_part}")
+                                            else:
+                                                self.logger.warning(f"⚠️ Team not found: away='{away_team_text}', home='{home_team_text}'")
+                                                
+                                except Exception as e:
+                                    self.logger.warning(f"⚠️ Failed to parse game: {game_text} - {e}")
+                                    continue
+                    
+                    break  # 해당 날짜를 찾았으므로 루프 종료
+            
+            return games
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to crawl upcoming games for {target_date.strftime('%Y-%m-%d')}: {e}")
+            return []
+
 def main():
     import sys
     
@@ -458,6 +629,11 @@ def main():
         elif sys.argv[1] == '--quick':
             games_count = crawler.crawl_multiple_days(1)
             print(f"\n⚡ Quick crawl completed: {games_count} games collected")
+        elif sys.argv[1] == '--upcoming':
+            # 예정 경기 크롤링 (기본 30일)
+            upcoming_games = crawler.crawl_upcoming_games(30)
+            games_count = len(upcoming_games)
+            print(f"\n📅 Upcoming games crawl completed: {games_count} games found")
         else:
             try:
                 days = int(sys.argv[1])
