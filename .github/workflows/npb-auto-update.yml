@@ -82,10 +82,7 @@ jobs:
           git add data/*.json || true
           if ! git diff --cached --quiet; then
             CURRENT_TIME=$(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')
-            git commit -m "🤖 자동 업데이트 - ${CURRENT_TIME}
-
-NPB 데이터 크롤링 및 변환 완료
-JSON (standings,games,upcoming,dashboard) 갱신"
+            git commit -m "🤖 자동 업데이트 - ${CURRENT_TIME} - NPB 데이터 크롤링 및 변환 완료, JSON (standings,games,upcoming,dashboard) 갱신"
             git push
           else
             echo "변경사항 없음"

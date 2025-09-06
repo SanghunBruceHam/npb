@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPB 2025 勝率シナリオ・場合の数</title>
+  <meta name="description" content="NPB 2025 残り試合の勝敗シナリオを全方位で可視化。各チームの残り勝敗組み合わせと最終勝率のケースをマトリクスで確認。">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; color: #222; background: #fff; }
+    .header { background: #333; color: #fff; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .header a { color: #fff; text-decoration: none; font-weight: bold; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .btn { padding: 8px 12px; border: 1px solid #ddd; background: #f7f7f7; cursor: pointer; border-radius: 6px; font-size: 14px; }
+    .btn.active { background: #fff; border-color: #4CAF50; font-weight: 700; }
+    .hint { font-size: 12px; color: #666; margin-top: 6px; }
+    .section-title { font-size: 16px; font-weight: 700; margin: 10px 0; }
+    #scenario-results { display: none; margin-top: 18px; }
+    .team-logo { height: 1.1em; vertical-align: text-bottom; margin-right: 4px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="./">← NPB Dashboard</a>
+    <div>NPB 2025 勝率シナリオ・場合の数</div>
+    <div style="font-size:12px; opacity:0.85;">データ: <span id="last-update">—</span></div>
+  </div>
+
+  <main class="container">
+    <div class="controls">
+      <div>
+        <button id="btn-central" class="btn active" aria-pressed="true">セントラル</button>
+        <button id="btn-pacific" class="btn" aria-pressed="false">パシフィック</button>
+      </div>
+      <div style="flex:1"></div>
+      <button id="btn-detailed" class="btn">詳細シナリオ</button>
+      <button id="btn-matrix" class="btn">マトリクス表示</button>
+    </div>
+    <div class="hint">• 各行は「最終勝率」を表し、列はチーム。各チーム列は「残り成績」(左) と「最終成績」(右) を表示します。</div>
+
+    <div id="scenario-content" class="section" style="margin-top: 12px; display: none;"></div>
+    <div id="scenario-results" class="section"></div>
+  </main>
+
+  <script>
+    // ----- Logger -----
+    const logger = {
+      error: (...args) => console.error('[Scenario]', ...args),
+      info:  (...args) => console.log('[Scenario]', ...args)
+    };
+
+    // ----- Data -----
+    const TOTAL_GAMES = 143; // NPB regular season per team
+
+    // Logos map (same as index.html but embedded here)
+    const TEAM_LOGOS = {
+      YOG: 'assets/npb-logos/svg/yomiuri-giants.svg',
+      HAN: 'assets/npb-logos/svg/hanshin-tigers.svg',
+      CHU: 'assets/npb-logos/svg/chunichi-dragons.svg',
+      HIR: 'assets/npb-logos/svg/hiroshima-toyo-carp.svg',
+      YDB: 'assets/npb-logos/svg/yokohama-dena-baystars.svg',
+      YAK: 'assets/npb-logos/svg/tokyo-yakult-swallows.svg',
+      SOF: 'assets/npb-logos/svg/fukuoka-softbank-hawks.svg',
+      LOT: 'assets/npb-logos/svg/chiba-lotte-marines.svg',
+      SEI: 'assets/npb-logos/svg/saitama-seibu-lions.svg',
+      ORI: 'assets/npb-logos/svg/orix-buffaloes.svg',
+      NIP: 'assets/npb-logos/svg/hokkaido-nippon-ham-fighters.svg',
+      RAK: 'assets/npb-logos/svg/tohoku-rakuten-golden-eagles.svg'
+    };
+
+    // Simple team meta; color kept neutral for consistency
+    const npbTeams = {
+      YOG: { shortName: '巨人',  fullName: '読売ジャイアンツ',     color: '#333' },
+      HAN: { shortName: '阪神',  fullName: '阪神タイガース',       color: '#333' },
+      CHU: { shortName: '中日',  fullName: '中日ドラゴンズ',       color: '#333' },
+      HIR: { shortName: '広島',  fullName: '広島東洋カープ',       color: '#333' },
+      YDB: { shortName: 'DeNA', fullName: '横浜DeNAベイスターズ', color: '#333' },
+      YAK: { shortName: 'ヤク',  fullName: '東京ヤクルトスワローズ', color: '#333' },
+      SOF: { shortName: 'SB',   fullName: '福岡ソフトバンクホークス', color: '#333' },
+      LOT: { shortName: 'ロッテ',fullName: '千葉ロッテマリーンズ',   color: '#333' },
+      SEI: { shortName: '西武', fullName: '埼玉西武ライオンズ',     color: '#333' },
+      ORI: { shortName: 'オリ', fullName: 'オリックスバファローズ', color: '#333' },
+      NIP: { shortName: '日ハム', fullName: '北海道日本ハムファイターズ', color: '#333' },
+      RAK: { shortName: '楽天', fullName: '東北楽天ゴールデンイーグルス', color: '#333' },
+    };
+
+    // Render helper
+    function teamLabel(abbr, name) {
+      const src = TEAM_LOGOS[abbr] || '';
+      const img = src ? `<img class="team-logo" src="${src}" alt="${name || abbr}">` : '';
+      const meta = npbTeams[abbr];
+      const label = meta?.shortName || name || abbr;
+      return `${img}${label}`;
+    }
+
+    let rawStandings = null;       // original JSON
+    let currentStandings = null;   // normalized array for selected league
+
+    async function loadStandings() {
+      const res = await fetch('data/standings.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('standings.json fetch failed');
+      const data = await res.json();
+      rawStandings = data;
+
+      // update last update label
+      if (data.updated_at) {
+        try {
+          const updated = new Date(data.updated_at).toLocaleString('ja-JP', {
+            timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+          });
+          document.getElementById('last-update').textContent = `${updated} JST`;
+        } catch {}
+      }
+    }
+
+    function normalizeLeague(leagueTeams) {
+      // Map NPB standings to the generic structure used by the matrix renderer
+      return (leagueTeams || []).map(t => ({
+        team: t.team_abbreviation,
+        teamName: t.team_name,
+        rank: t.position_rank,
+        displayRank: t.position_rank,
+        wins: t.wins,
+        losses: t.losses,
+        draws: t.draws || 0,
+        games: t.games_played,
+        winRate: t.win_percentage,
+        remainingGames: Math.max(0, TOTAL_GAMES - (t.games_played || (t.wins + t.losses + (t.draws || 0))))
+      })).sort((a,b) => a.rank - b.rank);
+    }
+
+    function pickLeague(which) {
+      try {
+        const cl = rawStandings?.central_league?.standings || [];
+        const pl = rawStandings?.pacific_league?.standings || [];
+        currentStandings = normalizeLeague(which === 'central' ? cl : pl);
+        // Default render: matrix, no auto scroll
+        showScenarioMatrix(false);
+      } catch (e) {
+        logger.error('pickLeague error', e);
+      }
+    }
+
+    // ----- UI bindings -----
+    function bindUI() {
+      const btnCentral = document.getElementById('btn-central');
+      const btnPacific = document.getElementById('btn-pacific');
+      const btnDetailed = document.getElementById('btn-detailed');
+      const btnMatrix = document.getElementById('btn-matrix');
+
+      btnCentral.addEventListener('click', () => {
+        btnCentral.classList.add('active'); btnCentral.setAttribute('aria-pressed','true');
+        btnPacific.classList.remove('active'); btnPacific.setAttribute('aria-pressed','false');
+        pickLeague('central');
+      });
+      btnPacific.addEventListener('click', () => {
+        btnPacific.classList.add('active'); btnPacific.setAttribute('aria-pressed','true');
+        btnCentral.classList.remove('active'); btnCentral.setAttribute('aria-pressed','false');
+        pickLeague('pacific');
+      });
+
+      btnDetailed.addEventListener('click', () => {
+        showDetailedScenarios();
+      });
+      btnMatrix.addEventListener('click', () => {
+        hideScenarioResults();
+        showScenarioMatrix();
+      });
+    }
+
+    // ===== Functions adapted from provided JS =====
+    function showScenarioMatrix(autoScroll = true) {
+      try {
+        if (!currentStandings || currentStandings.length === 0) {
+          alert('順位データを読み込み中です。しばらくしてからお試しください。');
+          return;
+        }
+        const topTeams = currentStandings.slice(0, Math.min(6, currentStandings.length));
+        const matrixHTML = generateScenarioMatrix(topTeams);
+        const scenarioContent = document.getElementById('scenario-content');
+        if (scenarioContent) {
+          scenarioContent.innerHTML = matrixHTML;
+          scenarioContent.style.display = 'block';
+          document.getElementById('scenario-results').style.display = 'none';
+          if (autoScroll) {
+            scenarioContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
+      } catch (error) {
+        logger.error('マトリクス表示中にエラー:', error);
+        alert('シナリオ分析中にエラーが発生しました。');
+      }
+    }
+
+    function showDetailedScenarios() {
+      try {
+        if (!currentStandings || currentStandings.length === 0) {
+          alert('順位データを読み込み中です。しばらくしてからお試しください。');
+          return;
+        }
+        const topTeams = currentStandings.slice(0, Math.min(5, currentStandings.length));
+        const detailedHTML = generateDetailedScenarios(topTeams);
+        const scenarioContent = document.getElementById('scenario-content');
+        const scenarioResults = document.getElementById('scenario-results');
+        if (scenarioContent && scenarioResults) {
+          scenarioContent.innerHTML = detailedHTML;
+          scenarioResults.style.display = 'block';
+          scenarioResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch (error) {
+        logger.error('詳細シナリオ表示中にエラー:', error);
+        alert('シナリオ分析中にエラーが発生しました。');
+      }
+    }
+
+    function hideScenarioResults() {
+      const scenarioResults = document.getElementById('scenario-results');
+      if (scenarioResults) scenarioResults.style.display = 'none';
+    }
+
+    function generateScenarioMatrix(topTeams) {
+      let html = `
+        <div class="scenario-matrix-container" style="
+          overflow-x: auto; overflow-y: auto;
+          border-radius: 12px; border: 1px solid #e0e0e0; 
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          max-height: 80vh; width: 100%; position: relative;">
+          <table class="scenario-matrix-table" style="
+            width: 100%; border-collapse: collapse; font-size: 0.75rem; background: white;
+            min-width: 
+              ${window.innerWidth <= 768 ? '800px' : Math.max(1000, 6 * (75 + 95) + 70 + 140) + 'px'};">
+            <thead style="position: sticky; top: 0; z-index: 100;">
+              <tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+                <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); font-size: 0.7rem;">順位</th>`;
+
+      // Header team columns (rank + name)
+      topTeams.forEach((team, index) => {
+        const isLast = index === topTeams.length - 1;
+        const teamMeta = npbTeams[team.team];
+        const teamColor = teamMeta?.color || '#333';
+        const totalColumnWidth = '140px';
+        const logo = TEAM_LOGOS[team.team] ? `<img class=\"team-logo\" src=\"${TEAM_LOGOS[team.team]}\" alt=\"${teamMeta?.fullName || team.team}\">` : '';
+        html += `<th colspan="2" style="
+          min-width: ${totalColumnWidth}; width: ${totalColumnWidth};
+          padding: 6px 4px 3px 4px; text-align: center; font-weight: 700; 
+          background: linear-gradient(135deg, rgba(233,236,239,0.9) 0%, rgba(248,249,250,0.9) 100%);
+          color: ${teamColor}; ${index === 4 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')}
+          font-size: 0.8rem; white-space: nowrap; line-height: 1.2;">
+            <div style="font-size: 0.85rem; font-weight: 800; color: ${teamColor};">${team.displayRank || team.rank}位 ${logo}${teamMeta?.shortName || team.team}</div>
+          </th>`;
+      });
+
+      // Row 2: current records
+      html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+        <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); font-size: 0.7rem;">成績</th>`;
+      topTeams.forEach((team, index) => {
+        const isLast = index === topTeams.length - 1;
+        html += `<th colspan="2" style="min-width: 140px; width: 140px; padding: 4px; text-align: center; font-weight: 600; background: rgba(255,255,255,0.9); color: #333; ${index === 4 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} font-size: 0.7rem;">${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 (${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3)})</th>`;
+      });
+
+      // Row 3: remaining games
+      html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+        <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); font-size: 0.7rem;">残り</th>`;
+      topTeams.forEach((team, index) => {
+        const isLast = index === topTeams.length - 1;
+        html += `<th colspan="2" style="min-width: 140px; width: 140px; padding: 4px; text-align: center; font-weight: 600; background: rgba(255,255,255,0.9); color: #333; ${index === 4 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} font-size: 0.7rem;">残り: ${team.remainingGames}試合</th>`;
+      });
+
+      // Row 4: column splits
+      html += `</tr><tr style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); color: white;">
+        <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); font-size: 0.7rem;">勝率</th>`;
+      topTeams.forEach((team, index) => {
+        const isLast = index === topTeams.length - 1;
+        html += `
+          <th style="width: 75px; min-width: 75px; font-size: 0.7rem; padding: 4px 2px; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.3); text-align: center; font-weight: 600;">残り成績<br><span style=\"font-size: 0.6rem;\">(勝-敗/勝率)</span></th>
+          <th style="width: 95px; min-width: 95px; font-size: 0.7rem; padding: 4px 2px; background: rgba(255,255,255,0.1); ${index === 4 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} text-align: center; font-weight: 600;">最終成績<br><span style=\"font-size: 0.6rem;\">(勝-敗-分/勝率)</span></th>`;
+      });
+
+      html += `</tr></thead><tbody>`;
+
+      // Build all scenarios
+      const allScenarios = [];
+      topTeams.forEach(team => {
+        for (let wins = team.remainingGames; wins >= 0; wins--) {
+          const losses = team.remainingGames - wins;
+          const finalWins = team.wins + wins;
+          const finalLosses = team.losses + losses;
+          const finalWinRate = finalWins / (finalWins + finalLosses);
+          allScenarios.push({ team: team.team, wins, losses, finalWinRate, remainingWinRate: wins / (wins + losses) || 0 });
+        }
+      });
+
+      // Group by finalWinRate rounded to 3 decimals
+      const winRateGroups = {};
+      allScenarios.forEach(s => {
+        const key = s.finalWinRate.toFixed(3);
+        (winRateGroups[key] ||= []).push(s);
+      });
+
+      Object.keys(winRateGroups).sort((a,b) => parseFloat(b) - parseFloat(a)).forEach(rateKey => {
+        const scenarios = winRateGroups[rateKey];
+        const winRate = parseFloat(rateKey);
+        html += `<tr class="scenario-row">
+          <td style="font-size: 0.8rem; padding: 3px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1); line-height: 1.2;">${winRate.toFixed(3)}</td>`;
+        topTeams.forEach((team, teamIndex) => {
+          const isLast = teamIndex === topTeams.length - 1;
+          const teamScenario = scenarios.find(s => s.team === team.team);
+          if (teamScenario) {
+            const remainingWinRate = teamScenario.wins === 0 && teamScenario.losses > 0 ? 0.0 :
+                                      teamScenario.losses === 0 && teamScenario.wins > 0 ? 1.0 :
+                                      (teamScenario.wins / (teamScenario.wins + teamScenario.losses) || 0);
+            const finalWins = team.wins + teamScenario.wins;
+            const finalLosses = team.losses + teamScenario.losses;
+            const finalDraws = team.draws || 0;
+            const finalBg = getWinRateBackgroundColor(teamScenario.finalWinRate);
+            const finalFg = getWinRateTextColor(teamScenario.finalWinRate);
+            const remainBg = getWinRateBackgroundColor(remainingWinRate);
+            const remainFg = getWinRateTextColor(remainingWinRate);
+
+            html += `<td style="padding: 4px 1px; text-align: center; border: 1px solid #dee2e6; width: 75px; min-width: 75px; line-height: 1.1; background: ${remainBg}; color: ${remainFg};">
+              <div style="font-size: 0.8rem; font-weight: 600;">${teamScenario.wins}勝 ${teamScenario.losses}敗</div>
+              <div style="font-size: 0.7rem;">${remainingWinRate.toFixed(3)}</div>
+            </td>`;
+            html += `<td style="padding: 4px 2px; text-align: center; border: 1px solid #dee2e6; width: 95px; min-width: 95px; line-height: 1.1; white-space: nowrap; background: ${finalBg}; color: ${finalFg}; ${teamIndex === 4 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}">
+              <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}勝 ${finalLosses}敗 ${finalDraws}分</div>
+              <div style="font-size: 0.7rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
+            </td>`;
+          } else {
+            html += `<td style="background: #f8f9fa; border: 1px solid #dee2e6;"></td><td style="background: #f8f9fa; border: 1px solid #dee2e6; ${teamIndex === 4 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}"></td>`;
+          }
+        });
+        html += `</tr>`;
+      });
+
+      html += `</tbody></table></div>`;
+      return html;
+    }
+
+    function generateDetailedScenarios(topTeams) {
+      let html = `
+        <div style="margin-bottom: 15px;">
+          <h5 style="color: #2E7D32; margin-bottom: 10px;">🏆 上位5チーム 詳細シナリオ</h5>
+          <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">上位5チームの全ての残り勝敗組み合わせと最終勝率を一覧表示します。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+      `;
+
+      topTeams.forEach((team, index) => {
+        const colors = ['#e3f2fd', '#e8f5e8', '#fff3e0', '#f3e5f5', '#fce4ec'];
+        const bgColor = colors[index] || '#f8f9fa';
+        const meta = npbTeams[team.team] || {};
+        const logo = TEAM_LOGOS[team.team] ? `<img class=\"team-logo\" src=\"${TEAM_LOGOS[team.team]}\" alt=\"${meta.fullName || team.team}\">` : '';
+        html += `
+          <div style="background: ${bgColor}; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px;">
+            <h6 style="margin: 0 0 10px 0; color: #333; text-align: center;">${team.rank}位 ${logo}${meta.fullName || team.team}</h6>
+            <div style="text-align: center; margin-bottom: 10px; font-size: 0.9rem; color: #666;">
+              現在: ${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 ${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3)}<br>
+              残り: ${team.remainingGames}試合
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+              <thead>
+                <tr style="background: rgba(0,0,0,0.05);">
+                  <th style="padding: 4px; border: 1px solid #ccc;">勝</th>
+                  <th style="padding: 4px; border: 1px solid #ccc;">敗</th>
+                  <th style="padding: 4px; border: 1px solid #ccc;">最終勝率</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        for (let wins = team.remainingGames; wins >= 0; wins--) {
+          const losses = team.remainingGames - wins;
+          const finalWins = team.wins + wins;
+          const finalLosses = team.losses + losses;
+          const finalGames = finalWins + finalLosses + (team.draws || 0);
+          const finalWinRate = finalWins / finalGames;
+          const rowBg = getWinRateColor(finalWinRate);
+          html += `
+            <tr style="background: ${rowBg};">
+              <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">${wins}</td>
+              <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">${losses}</td>
+              <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: 600;">${(finalWinRate * 100).toFixed(1)}%</td>
+            </tr>
+          `;
+        }
+
+        html += `
+              </tbody>
+            </table>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      return html;
+    }
+
+    // Color helpers (from provided JS)
+    function getWinRateColor(winRate) {
+      if (winRate >= 0.700) return '#c8e6c9';
+      if (winRate >= 0.650) return '#dcedc8';
+      if (winRate >= 0.600) return '#f0f4c3';
+      if (winRate >= 0.550) return '#fff9c4';
+      if (winRate >= 0.500) return '#fff3e0';
+      if (winRate >= 0.450) return '#ffccbc';
+      if (winRate >= 0.400) return '#ffcdd2';
+      return '#ffebee';
+    }
+
+    function getWinRateBackgroundColor(winRate) {
+      if (winRate > 0.5) {
+        return 'linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)';
+      } else if (winRate < 0.5) {
+        return 'linear-gradient(135deg, #f44336 0%, #e57373 100%)';
+      } else {
+        return 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)';
+      }
+    }
+
+    function getWinRateTextColor(winRate) {
+      return 'white';
+    }
+
+    // ----- Init -----
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        bindUI();
+        await loadStandings();
+        // default to Central
+        pickLeague('central');
+      } catch (e) {
+        logger.error('初期化エラー:', e);
+        alert('データの読み込みに失敗しました。');
+      }
+    });
+  </script>
+</body>
+</html>
+
