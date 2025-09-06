@@ -720,3 +720,14 @@
 2025-09-03|8|LOT|千葉ロッテマリーンズ|12|NIP|北海道日本ハムファイターズ|2|1|Pacific|completed|0
 2025-09-03|7|SOF|福岡ソフトバンクホークス|10|ORI|オリックスバファローズ|7|1|Pacific|completed|0
 2025-06-12|7|SOF|福岡ソフトバンクホークス|1|YOG|読売ジャイアンツ|0|0|Central|completed|1
+2025-09-05|3|YDB|横浜DeNAベイスターズ|6|YAK|東京ヤクルトスワローズ|7|6|Central|completed|0
+2025-09-05|5|CHU|中日ドラゴンズ|1|YOG|読売ジャイアンツ|1|0|Central|completed|0
+2025-09-05|2|HAN|阪神タイガース|4|HIR|広島東洋カープ|6|1|Central|completed|0
+2025-09-05|11|SEI|埼玉西武ライオンズ|8|LOT|千葉ロッテマリーンズ|5|3|Pacific|completed|0
+2025-09-05|10|ORI|オリックスバファローズ|12|NIP|北海道日本ハムファイターズ|2|0|Pacific|completed|0
+2025-09-05|7|SOF|福岡ソフトバンクホークス|9|RAK|東北楽天ゴールデンイーグルス|11|0|Pacific|completed|0
+2025-09-04|1|YOG|読売ジャイアンツ|6|YAK|東京ヤクルトスワローズ|1|12|Central|completed|0
+2025-09-04|5|CHU|中日ドラゴンズ|2|HAN|阪神タイガース|5|7|Central|completed|0
+2025-09-04|4|HIR|広島東洋カープ|3|YDB|横浜DeNAベイスターズ|0|1|Central|completed|0
+2025-09-04|8|LOT|千葉ロッテマリーンズ|12|NIP|北海道日本ハムファイターズ|2|9|Pacific|completed|0
+2025-09-04|7|SOF|福岡ソフトバンクホークス|10|ORI|オリックスバファローズ|8|0|Pacific|completed|0
