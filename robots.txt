@@ -1,0 +1,55 @@
+User-agent: *
+Allow: /
+Disallow: /crawler/
+Disallow: /venv/
+Disallow: /crawler_venv/
+Disallow: /*.log
+Disallow: /scripts/
+Disallow: /js/txt-to-json-processor.js
+
+# SEO-friendly directives
+Sitemap: https://npb-dashboard.com/sitemap.xml
+
+# Popular crawlers specific settings
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Block known bad bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Archive crawlers
+User-agent: ia_archiver
+Allow: /
+
+# Social media crawlers
+User-agent: facebookexternalhit/
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Cache directives for dynamic content
+User-agent: *
+Request-rate: 1/5s
