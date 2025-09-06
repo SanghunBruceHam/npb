@@ -339,6 +339,7 @@
             align-items: baseline;
             gap: 8px;
         }
+        .today-count { font-size: 12px; color: #666; font-weight: normal; }
         .today-date {
             font-size: 12px;
             color: #666;
@@ -497,10 +498,17 @@
 
     <main role="main">
     <div class="container">
+        <!-- Meta info bar -->
+        <div class="info" id="meta-bar">
+            <span>最終更新: <span id="last-update">—</span></span>
+            <span style="margin: 0 6px; color: #aaa;">·</span>
+            <span>総試合数: <span id="total-games">—試合</span></span>
+        </div>
+
         <!-- Today Schedule (Top of the page) -->
         <section id="today-section" class="today-section">
             <h2>
-                今日の試合
+                今日の試合 <span id="today-count" class="today-count"></span>
                 <span id="today-date" class="today-date"></span>
             </h2>
             <div class="schedule-toggle">
@@ -514,11 +522,7 @@
             </div>
         </section>
 
-        <div class="info">
-            最終更新: <span id="last-update">読み込み中...</span> | 
-            総試合数: <span id="total-games">758試合</span> |
-            今日の試合: <span id="today-games">5試合</span>
-        </div>
+        
         
         <!-- Regular Season Magic Numbers -->
         <div id="magic-regular" class="tab-content active">
@@ -1493,8 +1497,12 @@
                 standingsData = normalizeStandingsData(rawData);
 
                 if (standingsData.updated_at) {
-                    document.getElementById('last-update').textContent = 
-                        new Date(standingsData.updated_at).toLocaleString('ja-JP');
+                    const updated = new Date(standingsData.updated_at).toLocaleString('ja-JP', {
+                        timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                    });
+                    const lastEl = document.getElementById('last-update');
+                    if (lastEl) lastEl.textContent = `${updated} JST`;
                 }
 
                 // Initialize schedule view with Today
@@ -1506,9 +1514,10 @@
                     if (typeof stats.total_games === 'number') {
                         document.getElementById('total-games').textContent = `${stats.total_games}試合`;
                     }
-                    // today_games는 upcoming 기준 계산값이 있을 수 있으므로, 0보다 클 때만 덮어씀
+                    // 오늘 경기 수는 헤더(今日の試合) 옆에만 표기
                     if (typeof stats.today_games === 'number' && stats.today_games > 0) {
-                        document.getElementById('today-games').textContent = `${stats.today_games}試合`;
+                        const tc = document.getElementById('today-count');
+                        if (tc) tc.textContent = `(${stats.today_games}試合)`;
                     }
                 }
                 
@@ -1696,11 +1705,12 @@
         function updateScheduleForDate(dateIso, updateInfoCount = false) {
             const container = document.getElementById('today-games-container');
             const dateLabel = document.getElementById('today-date');
-            dateLabel.textContent = `(${dateIso})`;
+            const displayDate = `(${dateIso.replace(/-/g, '/')})`;
+            dateLabel.textContent = displayDate;
 
             if (!upcomingGamesData || !Array.isArray(upcomingGamesData)) {
                 container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合データがありません</div></div>';
-                if (updateInfoCount) document.getElementById('today-games').textContent = '0試合';
+                if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = '(0試合)'; }
                 return;
             }
 
@@ -1710,7 +1720,7 @@
 
             if (!todayGames.length) {
                 container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合はありません</div></div>';
-                if (updateInfoCount) document.getElementById('today-games').textContent = '0試合';
+                if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = '(0試合)'; }
                 return;
             }
 
@@ -1722,7 +1732,8 @@
             });
 
             if (updateInfoCount) {
-                document.getElementById('today-games').textContent = `${todayGames.length}試合`;
+                const tc = document.getElementById('today-count');
+                if (tc) tc.textContent = `(${todayGames.length}試合)`;
             }
 
             container.innerHTML = todayGames.map(g => {
