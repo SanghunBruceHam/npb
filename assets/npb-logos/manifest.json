@@ -1,0 +1,14 @@
+[
+  {"slug":"yomiuri-giants","jp":"読売ジャイアンツ","file":"svg/yomiuri-giants.svg"},
+  {"slug":"hanshin-tigers","jp":"阪神タイガース","file":"svg/hanshin-tigers.svg"},
+  {"slug":"chunichi-dragons","jp":"中日ドラゴンズ","file":"svg/chunichi-dragons.svg"},
+  {"slug":"hiroshima-toyo-carp","jp":"広島東洋カープ","file":"svg/hiroshima-toyo-carp.svg"},
+  {"slug":"yokohama-dena-baystars","jp":"横浜DeNAベイスターズ","file":"svg/yokohama-dena-baystars.svg"},
+  {"slug":"tokyo-yakult-swallows","jp":"東京ヤクルトスワローズ","file":"svg/tokyo-yakult-swallows.svg"},
+  {"slug":"fukuoka-softbank-hawks","jp":"福岡ソフトバンクホークス","file":"svg/fukuoka-softbank-hawks.svg"},
+  {"slug":"saitama-seibu-lions","jp":"埼玉西武ライオンズ","file":"svg/saitama-seibu-lions.svg"},
+  {"slug":"tohoku-rakuten-golden-eagles","jp":"東北楽天ゴールデンイーグルス","file":"svg/tohoku-rakuten-golden-eagles.svg"},
+  {"slug":"chiba-lotte-marines","jp":"千葉ロッテマリーンズ","file":"svg/chiba-lotte-marines.svg"},
+  {"slug":"orix-buffaloes","jp":"オリックス・バファローズ","file":"svg/orix-buffaloes.svg"},
+  {"slug":"hokkaido-nippon-ham-fighters","jp":"北海道日本ハムファイターズ","file":"svg/hokkaido-nippon-ham-fighters.svg"}
+]

@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況を詳細に追跡。セントラル・パシフィック両リーグのリアルタイム成績、勝率計算、残り試合分析。">
+    <meta name="description" content="【毎日自動更新】NPB(日本プロ野球)2025年シーズンの最新順位表とマジックナンバーをリアルタイムで追跡。セントラル・パシフィック両リーグの詳細成績、勝率分析、プレーオフ進出確率を完全網羅。無料でご利用いただけます。">
     <meta name="keywords" content="プロ野球, NPB, 順位表, マジック, 優勝, プレーオフ, CS, クライマックスシリーズ, セリーグ, パリーグ, 日本シリーズ, 野球速報, 野球結果, 残り試合, 勝率, 巨人, 阪神, 中日, 広島, ヤクルト, 横浜, ソフトバンク, 楽天, 西武, ロッテ, 日ハム, オリックス, 野球ニュース, スポーツ, 2025年">
     <meta name="author" content="NPB Statistics">
     <meta name="robots" content="index, follow">
     <meta name="language" content="ja">
     <link rel="canonical" href="https://npb-dashboard.com/">
+    <link rel="sitemap" type="application/xml" href="https://npb-dashboard.com/sitemap.xml">
+    <meta name="theme-color" content="#333">
+    <meta name="application-name" content="NPB Dashboard">
+    <meta name="msapplication-TileColor" content="#333">
+    <meta name="google-site-verification" content="placeholder-verification-code">
     
-    <title>NPB 2025 順位表・マジックナンバー | 日本プロ野球リアルタイム成績</title>
+    <title>【リアルタイム更新】NPB 2025順位表・マジックナンバー・プレーオフ進出状況 | NPB Dashboard</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="20250902_2341_NPB 대시보드 아이콘_simple_compose_01k45dz9pjetvtptav6rv4m473.png">
@@ -20,20 +25,24 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://npb-dashboard.com/">
-    <meta property="og:title" content="NPB 2025 順位表・マジックナンバー | 日本プロ野球リアルタイム成績">
-    <meta property="og:description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況をリアルタイム追跡">
+    <meta property="og:title" content="【リアルタイム更新】NPB 2025順位表・マジックナンバー・プレーオフ進出状況">
+    <meta property="og:description" content="NPB(日本プロ野球)2025年シーズンの最新順位表とマジックナンバーを毎日自動更新。セリーグ・パリーグ両リーグの詳細成績と勝率分析を完全網羅。">
     <meta property="og:image" content="https://sanghunbruceham.github.io/npb/images/npb-og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="NPB Statistics">
     <meta property="og:locale" content="ja_JP">
+    <meta property="article:publisher" content="https://npb-dashboard.com">
+    <meta property="article:section" content="Sports">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://npb-dashboard.com/">
-    <meta name="twitter:title" content="NPB 2025 順位表・マジックナンバー">
-    <meta name="twitter:description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況をリアルタイム追跡">
+    <meta name="twitter:title" content="【リアルタイム】NPB 2025順位表・マジック">
+    <meta name="twitter:description" content="NPB 2025年シーズンの最新順位表とマジックナンバーを毎日自動更新。無料でご利用いただけます。">
     <meta name="twitter:image" content="https://sanghunbruceham.github.io/npb/images/npb-og-image.jpg">
+    <meta name="twitter:site" content="@npb_dashboard">
+    <meta name="twitter:creator" content="@npb_dashboard">
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LFKN46L0P6"></script>
@@ -48,31 +57,71 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SportsOrganization",
-      "name": "NPB Statistics",
-      "description": "NPB(日本プロ野球)2025年シーズンの順位表とマジックナンバー情報",
-      "url": "https://sanghunbruceham.github.io/npb/",
+      "@type": ["WebApplication", "SportsOrganization"],
+      "name": "NPB Statistics Dashboard",
+      "description": "NPB(日本プロ野球)2025年シーズンの順位表とマジックナンバー情報をリアルタイムで追跡するダッシュボード",
+      "url": "https://npb-dashboard.com/",
+      "applicationCategory": "Sports Statistics",
+      "operatingSystem": "Any",
+      "browserRequirements": "Modern web browser",
       "sport": "Baseball",
       "foundingDate": "2025",
-      "knowsAbout": [
-        "日本プロ野球",
-        "NPB",
-        "セントラルリーグ",
-        "パシフィックリーグ",
-        "マジックナンバー",
-        "プレーオフ"
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "リアルタイム順位表",
+        "マジックナンバー計算",
+        "プレーオフ進出状況",
+        "勝率シナリオ分析",
+        "残り試合数統計"
       ],
-      "mainEntity": {
+      "keywords": "日本プロ野球,NPB,順位表,マジック,優勝,プレーオフ,CS,野球統計",
+      "inLanguage": "ja",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Baseball fans",
+        "geographicArea": {
+          "@type": "Country",
+          "name": "Japan"
+        }
+      },
+      "about": {
         "@type": "SportsEvent",
         "name": "NPB 2025 Regular Season",
         "startDate": "2025-03-29",
         "endDate": "2025-10-31",
         "sport": "Baseball",
+        "location": {
+          "@type": "Country",
+          "name": "Japan"
+        },
         "organizer": {
           "@type": "SportsOrganization",
-          "name": "Nippon Professional Baseball"
-        }
-      }
+          "name": "Nippon Professional Baseball",
+          "url": "https://npb.jp"
+        },
+        "subEvent": [
+          {
+            "@type": "SportsEvent",
+            "name": "セントラル・リーグ",
+            "sport": "Baseball"
+          },
+          {
+            "@type": "SportsEvent", 
+            "name": "パシフィック・リーグ",
+            "sport": "Baseball"
+          }
+        ]
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "NPB Statistics"
+      },
+      "dateModified": "2025-01-01",
+      "isAccessibleForFree": true
     }
     </script>
     
@@ -418,6 +467,14 @@
         .site-footer a:hover { text-decoration: underline; }
         .site-footer { padding-bottom: env(safe-area-inset-bottom); }
         .today-date { color: #444; }
+
+        /* Team logo before name */
+        .team-logo {
+            height: 1.2em;
+            width: auto;
+            vertical-align: text-bottom;
+            margin-right: 0.35em;
+        }
     </style>
 </head>
 <body>
@@ -762,6 +819,29 @@
         let homeAwayRemainingByTeam = {}; // { team_id: { home: n, away: n, opponents: {} } }
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
+        // ===== チームロゴ（略称→ファイルパス） =====
+        const TEAM_LOGOS = {
+            YOG: 'assets/npb-logos/svg/yomiuri-giants.svg',
+            HAN: 'assets/npb-logos/svg/hanshin-tigers.svg',
+            CHU: 'assets/npb-logos/svg/chunichi-dragons.svg',
+            HIR: 'assets/npb-logos/svg/hiroshima-toyo-carp.svg',
+            YDB: 'assets/npb-logos/svg/yokohama-dena-baystars.svg',
+            YAK: 'assets/npb-logos/svg/tokyo-yakult-swallows.svg',
+            SOF: 'assets/npb-logos/svg/fukuoka-softbank-hawks.svg',
+            LOT: 'assets/npb-logos/svg/chiba-lotte-marines.svg',
+            SEI: 'assets/npb-logos/svg/saitama-seibu-lions.svg',
+            ORI: 'assets/npb-logos/svg/orix-buffaloes.svg',
+            NIP: 'assets/npb-logos/svg/hokkaido-nippon-ham-fighters.svg',
+            RAK: 'assets/npb-logos/svg/tohoku-rakuten-golden-eagles.svg'
+        };
+
+        function renderTeamLabel(abbr, name) {
+            const src = TEAM_LOGOS[abbr] || '';
+            const safeName = name || abbr || '';
+            const img = src ? `<img class="team-logo" src="${src}" alt="${safeName}">` : '';
+            return `${img}${safeName}`;
+        }
+
         // ===== タブ切り替え機能 =====
         function showTab(tabId, el) {
             // Hide all tabs
@@ -939,7 +1019,7 @@
                     return `
                         <tr class="${rankClass}">
                             <td class="center">${team.position_rank}</td>
-                            <td>${team.team_abbreviation}</td>
+                            <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                             <td class="center">${team.games_played}</td>
                             <td class="center win">${team.wins}</td>
                             <td class="center loss">${team.losses}</td>
@@ -959,7 +1039,7 @@
                     return `
                         <tr class="${rankClass}">
                             <td class="center">${team.position_rank}</td>
-                            <td>${team.team_abbreviation}</td>
+                            <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                             <td class="center">${team.games_played}</td>
                             <td class="center win">${team.wins}</td>
                             <td class="center loss">${team.losses}</td>
@@ -1060,7 +1140,7 @@
                 return `
                     <tr class="${rankClass}">
                         <td class="center">${team.position_rank}</td>
-                        <td>${team.team_abbreviation}</td>
+                        <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                         <td class="center">${team.games_played}</td>
                         <td class="center win">${team.wins}</td>
                         <td class="center loss">${team.losses}</td>
@@ -1109,9 +1189,9 @@
                 });
                 headerHTML += `</tr><tr>`;
                 
-                // Row 2: Team names
+                // Row 2: Team names with logos
                 teams.forEach(team => {
-                    headerHTML += `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px;">${team.team_abbreviation}</td>`;
+                    headerHTML += `<td class="center" style="background: #f8f9fa; font-weight: bold; padding: 4px;">${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>`;
                 });
                 headerHTML += `</tr><tr>`;
                 
@@ -1231,7 +1311,7 @@
                 
                 return `
                     <tr>
-                        <td>${team.team_abbreviation}</td>
+                        <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                         <td class="center">${team.games_played}</td>
                         <td class="center">${remainingGames}</td>
                         <td class="center">${homeRemaining}</td>
@@ -1659,12 +1739,11 @@
                             <span style="margin-left:auto; font-size:12px; color:#666;">${status}</span>
                         </div>
                         <div class="game-row" style="margin-top:4px;">
-                            <span>${g.away_team_abbr}</span>
+                            <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name)}</span>
                             <span style="color:#888;">@</span>
-                            <span>${g.home_team_abbr}</span>
+                            <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name)}</span>
                         </div>
-                        <div class="game-sub">${g.away_team_name} vs ${g.home_team_name}</div>
-                        ${meta ? `<div class=\"game-sub\" style=\"color:#777;\">${meta}</div>` : ''}
+                        ${meta ? `<div class="game-sub" style="color:#777;">${meta}</div>` : ''}
                     </div>
                 `;
             }).join('');
