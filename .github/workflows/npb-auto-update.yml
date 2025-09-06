@@ -1,0 +1,92 @@
+name: NPB 자동 데이터 크롤링 및 업데이트
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # 한국시간 기준 주요 시간대 (UTC 기준)
+    - cron: '30 7 * * *'  # UTC 07:30 = KST 16:30
+    - cron: '0 8 * * *'   # UTC 08:00 = KST 17:00
+    - cron: '30 8 * * *'  # UTC 08:30 = KST 17:30
+    - cron: '30 10 * * *' # UTC 10:30 = KST 19:30
+    - cron: '0 11 * * *'  # UTC 11:00 = KST 20:00
+    - cron: '30 11 * * *' # UTC 11:30 = KST 20:30
+    - cron: '0 12 * * *'  # UTC 12:00 = KST 21:00
+    - cron: '30 12 * * *' # UTC 12:30 = KST 21:30
+    - cron: '45 12 * * *' # UTC 12:45 = KST 21:45
+    - cron: '0 13 * * *'  # UTC 13:00 = KST 22:00
+    - cron: '15 13 * * *' # UTC 13:15 = KST 22:15
+    - cron: '30 13 * * *' # UTC 13:30 = KST 22:30
+    - cron: '0 14 * * *'  # UTC 14:00 = KST 23:00
+    - cron: '30 14 * * *' # UTC 14:30 = KST 23:30
+  workflow_dispatch:
+    inputs:
+      skip_crawling:
+        description: '크롤링 건너뛰기 (변환만)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false','true']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: npb-auto-update
+  cancel-in-progress: true
+
+jobs:
+  auto-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📁 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 📦 Python 의존성 설치
+        run: |
+          pip install --upgrade pip
+          if [ -f crawler/requirements.txt ]; then
+            pip install -r crawler/requirements.txt
+          else
+            pip install requests beautifulsoup4
+          fi
+
+      - name: 🔄 파이프라인 실행 (크롤링 + 변환)
+        run: |
+          chmod +x ./run_new_pipeline.sh
+          if [ "${{ github.event.inputs.skip_crawling }}" = "true" ]; then
+            ./run_new_pipeline.sh --skip-crawl
+          else
+            # 경기 시간대 수시 업데이트 목적: 최근 3일 기준 빠른 실행
+            ./run_new_pipeline.sh 3
+          fi
+
+      - name: 📝 변경사항 커밋
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "NPB Auto Crawler"
+          git add data/simple/*.txt || true
+          git add data/*.json || true
+          if ! git diff --cached --quiet; then
+            CURRENT_TIME=$(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M')
+            git commit -m "🤖 자동 업데이트 - ${CURRENT_TIME}
+
+NPB 데이터 크롤링 및 변환 완료
+JSON (standings,games,upcoming,dashboard) 갱신"
+            git push
+          else
+            echo "변경사항 없음"
+          fi

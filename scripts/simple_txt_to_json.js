@@ -67,7 +67,7 @@ class SimpleTxtToJson {
             
             const parts = line.split('|');
             if (parts.length >= 12) {
-                games.push({
+                const base = {
                     game_date: parts[0],
                     home_team_id: parseInt(parts[1]),
                     home_team_abbr: parts[2],
@@ -81,7 +81,13 @@ class SimpleTxtToJson {
                     league: parts[9],
                     game_status: parts[10],
                     is_draw: parts[11] === '1'
-                });
+                };
+                // 예정 경기 확장 필드(STADIUM, GAME_TIME)가 있을 경우 처리
+                if (parts.length >= 14) {
+                    base.stadium = parts[12] || '';
+                    base.scheduled_time = parts[13] || '';
+                }
+                games.push(base);
             }
         }
         

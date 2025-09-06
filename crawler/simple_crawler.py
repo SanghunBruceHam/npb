@@ -65,6 +65,22 @@ class SimpleCrawler:
             '日本ハム': {'id': 12, 'abbr': 'NIP', 'name': '北海道日本ハムファイターズ', 'league': 'Pacific'},
             '日': {'id': 12, 'abbr': 'NIP', 'name': '北海道日本ハムファイターズ', 'league': 'Pacific'}  # NPB 축약형
         }
+
+        # 홈팀 기본 구장 매핑 (표시용 추정치)
+        self.default_stadium_by_abbr = {
+            'YOG': '東京ドーム',
+            'HAN': '阪神甲子園球場',
+            'CHU': 'バンテリンドーム ナゴヤ',
+            'YDB': '横浜スタジアム',
+            'HIR': 'MAZDA Zoom-Zoom スタジアム広島',
+            'YAK': '明治神宮野球場',
+            'SOF': '福岡PayPayドーム',
+            'LOT': 'ZOZOマリンスタジアム',
+            'SEI': 'ベルーナドーム',
+            'ORI': '京セラドーム大阪',
+            'NIP': 'エスコンフィールドHOKKAIDO',
+            'RAK': '楽天モバイルパーク宮城',
+        }
     
     def setup_logging(self):
         log_dir = self.project_root / "logs" / "simple_crawler"
@@ -247,13 +263,52 @@ class SimpleCrawler:
             return []
     
     def save_games_to_txt(self, games, filename="games_raw.txt"):
-        """경기 결과를 TXT 파일로 저장 (완료/예정 경기 모두 지원)"""
+        """경기 결과를 TXT 파일로 저장 (완료/예정 경기 모두 지원)
+        upcoming_games_raw.txt의 경우, 구장/경기시간 필드를 끝에 추가하고 전체 파일을 재작성합니다.
+        """
         if not games:
             return
         
         file_path = self.data_dir / filename
-        
-        # 기존 파일 읽기 (중복 방지)
+        is_upcoming = (filename == "upcoming_games_raw.txt")
+
+        # upcoming은 항상 덮어쓰기(형식 통일), 나머지는 append + dedup
+        if is_upcoming:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write("# NPB_SCHEDULED_GAMES_DATA\n")
+                f.write(f"# UPDATED: {datetime.now().isoformat()}\n") 
+                f.write("# FORMAT: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW|STADIUM|GAME_TIME\n")
+                f.write("# NOTE: HOME_SCORE and AWAY_SCORE are 'NULL' for scheduled games. STADIUM/GAME_TIME may be estimates.\n")
+
+                for game in games:
+                    home_score = 'NULL' if game.get('home_score') is None else str(game['home_score'])
+                    away_score = 'NULL' if game.get('away_score') is None else str(game['away_score'])
+                    stadium = game.get('stadium')
+                    if not stadium:
+                        abbr = game.get('home_team_abbr')
+                        stadium = self.default_stadium_by_abbr.get(abbr, '')
+                    game_time = game.get('game_time', '')
+                    line = "|".join([
+                        game['date'],
+                        str(game['home_team_id']),
+                        game['home_team_abbr'],
+                        game['home_team_name'],
+                        str(game['away_team_id']),
+                        game['away_team_abbr'],
+                        game['away_team_name'],
+                        home_score,
+                        away_score,
+                        game['league'],
+                        game.get('status', 'scheduled'),
+                        '1' if game.get('is_draw') else '0',
+                        stadium,
+                        game_time,
+                    ])
+                    f.write(line + '\n')
+            self.logger.info(f"📄 Rewrote {file_path} with {len(games)} scheduled games (stadium/time included)")
+            return
+
+        # 기존 파일 읽기 (중복 방지) - 완료 경기용
         existing_games = []
         if file_path.exists():
             try:
@@ -265,16 +320,11 @@ class SimpleCrawler:
             except Exception as e:
                 self.logger.warning(f"Failed to read existing file: {e}")
         
-        # 새 데이터 추가
         new_lines = []
         existing_set = set(existing_games)
-        
         for game in games:
-            # 예정 경기의 경우 점수 필드를 NULL로 처리
             home_score = 'NULL' if game['home_score'] is None else str(game['home_score'])
             away_score = 'NULL' if game['away_score'] is None else str(game['away_score'])
-            
-            # TXT 형식: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW
             line = "|".join([
                 game['date'],
                 str(game['home_team_id']),
@@ -289,25 +339,18 @@ class SimpleCrawler:
                 game['status'],
                 '1' if game['is_draw'] else '0'
             ])
-            
             if line not in existing_set:
                 new_lines.append(line)
                 existing_set.add(line)
         
         if new_lines:
-            # 파일에 추가
             with open(file_path, 'a', encoding='utf-8') as f:
                 if file_path.stat().st_size == 0:
-                    # 새 파일인 경우 헤더 추가
-                    data_type = "SCHEDULED_GAMES" if filename == "upcoming_games_raw.txt" else "GAMES"
-                    f.write(f"# NPB_{data_type}_DATA\n")
+                    f.write("# NPB_GAMES_DATA\n")
                     f.write(f"# UPDATED: {datetime.now().isoformat()}\n") 
                     f.write("# FORMAT: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW\n")
-                    f.write("# NOTE: HOME_SCORE and AWAY_SCORE are 'NULL' for scheduled games\n")
-                
                 for line in new_lines:
                     f.write(line + '\n')
-            
             self.logger.info(f"📄 Saved {len(new_lines)} new games to {file_path}")
         else:
             self.logger.info("📄 No new games to save")

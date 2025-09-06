@@ -8,7 +8,7 @@
     <meta name="author" content="NPB Statistics">
     <meta name="robots" content="index, follow">
     <meta name="language" content="ja">
-    <link rel="canonical" href="https://sanghunbruceham.github.io/npb/">
+    <link rel="canonical" href="https://npb-dashboard.com/">
     
     <title>NPB 2025 順位表・マジックナンバー | 日本プロ野球リアルタイム成績</title>
     
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="20250902_2341_NPB 대시보드 아이콘_simple_compose_01k45dz9pjetvtptav6rv4m473.png">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sanghunbruceham.github.io/npb/">
+    <meta property="og:url" content="https://npb-dashboard.com/">
     <meta property="og:title" content="NPB 2025 順位表・マジックナンバー | 日本プロ野球リアルタイム成績">
     <meta property="og:description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況をリアルタイム追跡">
     <meta property="og:image" content="https://sanghunbruceham.github.io/npb/images/npb-og-image.jpg">
@@ -30,7 +30,7 @@
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://sanghunbruceham.github.io/npb/">
+    <meta name="twitter:url" content="https://npb-dashboard.com/">
     <meta name="twitter:title" content="NPB 2025 順位表・マジックナンバー">
     <meta name="twitter:description" content="NPB(日本プロ野球)2025年シーズンの順位表、マジックナンバー、プレーオフ進出状況をリアルタイム追跡">
     <meta name="twitter:image" content="https://sanghunbruceham.github.io/npb/images/npb-og-image.jpg">
@@ -248,7 +248,7 @@
         
         .info { 
             font-size: 12px; 
-            color: #666; 
+            color: #333; 
             margin: 10px 0;
             text-align: center;
         }
@@ -256,7 +256,7 @@
         .loading { 
             text-align: center; 
             padding: 20px; 
-            color: #666; 
+            color: #444; 
         }
         
         .magic-number { 
@@ -272,9 +272,84 @@
         .clinched { 
             color: #00aa00; 
         }
-        
+
         .scroll-table { 
             overflow-x: auto; 
+        }
+
+        /* Today schedule */
+        .today-section {
+            background: #fffef8;
+            border: 1px solid #eee0b3;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 16px 0 10px 0;
+        }
+        .today-section h2 {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .today-date {
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .game-card {
+            border: 1px solid #e6e6e6;
+            border-radius: 6px;
+            padding: 8px 10px;
+            background: #fff;
+        }
+        .game-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            font-weight: bold;
+        }
+        .game-sub {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #444;
+        }
+        .league-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 1px solid #bbb;
+            background: #f7f7f7;
+        }
+        .league-central { background: #e8f2ff; border-color: #b7d3ff; }
+        .league-pacific { background: #e9fff0; border-color: #b9efcd; }
+
+        /* Toggle */
+        .schedule-toggle { margin-top: 8px; }
+        .toggle-group {
+            display: inline-flex;
+            border: 1px solid #ddd;
+            border-radius: 999px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        .toggle-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .toggle-btn.active {
+            background: white;
+            color: #000;
+            font-weight: bold;
         }
         
         @media (max-width: 768px) { 
@@ -315,11 +390,34 @@
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
             }
-            
+
             .scroll-table table {
                 min-width: 600px;
             }
+
+            .games-grid { grid-template-columns: 1fr; }
         }
+
+        /* Layout: sticky footer without JS (flex column) */
+        html, body { height: 100%; }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        main { flex: 1 0 auto; }
+        
+        /* Simple site footer (flow layout; pushed to bottom by flex) */
+        .site-footer {
+            margin-top: auto;
+            background: #ffffff; border-top: 1px solid #cfcfcf;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+        }
+        .site-footer .footer-content {
+            max-width: 1200px; margin: 0 auto; padding: 12px 20px;
+            color: #222; font-size: 13px; line-height: 1.5;
+            display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+        }
+        .site-footer a { color: #0066cc; text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
+        .site-footer { padding-bottom: env(safe-area-inset-bottom); }
+        .today-date { color: #444; }
     </style>
 </head>
 <body>
@@ -332,15 +430,33 @@
     
     <div class="nav">
         <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showTab('magic-regular')">正規シーズン優勝マジック</div>
-            <div class="nav-tab" onclick="showTab('magic-playoff')">プレーオフマジック</div>
-            <div class="nav-tab" onclick="showTab('scenarios')">経路の数</div>
-            <div class="nav-tab" onclick="showTab('standings')">チーム順位</div>
-            <div class="nav-tab" onclick="showTab('remaining')">残り試合数</div>
+            <div class="nav-tab active" onclick="showTab('magic-regular', this)">正規シーズン優勝マジック</div>
+            <div class="nav-tab" onclick="showTab('magic-playoff', this)">プレーオフマジック</div>
+            <div class="nav-tab" onclick="showTab('scenarios', this)">経路の数</div>
+            <div class="nav-tab" onclick="showTab('standings', this)">チーム順位</div>
+            <div class="nav-tab" onclick="showTab('remaining', this)">残り試合数</div>
         </div>
     </div>
 
+    <main role="main">
     <div class="container">
+        <!-- Today Schedule (Top of the page) -->
+        <section id="today-section" class="today-section">
+            <h2>
+                今日の試合
+                <span id="today-date" class="today-date"></span>
+            </h2>
+            <div class="schedule-toggle">
+                <div class="toggle-group" role="tablist" aria-label="Schedule Toggle">
+                    <button id="btn-today" class="toggle-btn active" role="tab" aria-selected="true">今日</button>
+                    <button id="btn-tomorrow" class="toggle-btn" role="tab" aria-selected="false">明日</button>
+                </div>
+            </div>
+            <div id="today-games-container" class="games-grid">
+                <div class="game-card"><div class="game-row">読み込み中...</div></div>
+            </div>
+        </section>
+
         <div class="info">
             最終更新: <span id="last-update">読み込み中...</span> | 
             総試合数: <span id="total-games">758試合</span> |
@@ -350,17 +466,6 @@
         <!-- Regular Season Magic Numbers -->
         <div id="magic-regular" class="tab-content active">
             <h2>正規シーズン優勝マジックナンバー</h2>
-            
-            <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #495057;">
-                <strong>📊 マジック / エリミネーションの定義</strong><br>
-                <div style="margin-top: 8px; line-height: 1.5;">
-                • <strong>総試合数</strong>: NPBは各チーム<strong>143試合</strong><br>
-                • <strong>勝率</strong>: 勝 / (勝 + 敗)（分は勝率に含めない）<br>
-                • <strong>優勝マジック</strong>: (2位の<strong>最大可能勝数</strong>) − (1位の現在勝数) + 1（0以下で✓）<br>
-                • <strong>エリミネート(E)</strong>: 1位勝数 ＞ チーム最大可能勝数, または <code>(143+1) − 1位勝 − チーム敗 ≤ 0</code><br>
-                • <strong>記号</strong>: <strong>✓</strong>＝確定, <strong>E</strong>＝不可能, <strong>-</strong>＝該当なし
-                </div>
-            </div>
             
             <div class="leagues">
                 <div>
@@ -416,20 +521,22 @@
                     </table>
                 </div>
             </div>
+            
+            <div class="tab-help tab-help-magic-regular" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #333;">
+                <strong>📊 マジック / エリミネーションの定義</strong><br>
+                <div style="margin-top: 8px; line-height: 1.5;">
+                • <strong>総試合数</strong>: NPBは各チーム<strong>143試合</strong><br>
+                • <strong>勝率</strong>: 勝 / (勝 + 敗)（分は勝率に含めない）<br>
+                • <strong>優勝マジック</strong>: (2位の<strong>最大可能勝数</strong>) − (1位の現在勝数) + 1（0以下で✓）<br>
+                • <strong>エリミネート(E)</strong>: 1位勝数 ＞ チーム最大可能勝数, または <code>(143+1) − 1位勝 − チーム敗 ≤ 0</code><br>
+                • <strong>記号</strong>: <strong>✓</strong>＝確定, <strong>E</strong>＝不可能, <strong>-</strong>＝該当なし
+                </div>
+            </div>
         </div>
 
         <!-- Playoff Magic Numbers -->
         <div id="magic-playoff" class="tab-content">
             <h2>プレーオフ進出マジックナンバー</h2>
-            
-            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #856404;">
-                <strong>🏆 プレーオフ (CS) 進出の判定</strong><br>
-                <div style="margin-top: 8px; line-height: 1.5;">
-                • <strong>進出枠</strong>: 各リーグ<strong>上位3位</strong>がCS進出<br>
-                • <strong>マジック</strong>: 4位の<strong>最大可能勝数</strong>を基準に、対象チームが到達すべき勝数（0以下で✓）<br>
-                • <strong>エリミネート(E)</strong>: <code>(143+1) − 3位勝 − チーム敗 ≤ 0</code> または チーム最大可能勝数 ＜ 3位勝数
-                </div>
-            </div>
             <div class="leagues">
                 <div>
                     <h3>セントラルリーグ (上位3チーム)</h3>
@@ -484,27 +591,25 @@
                     </table>
                 </div>
             </div>
+            <div class="tab-help tab-help-magic-playoff" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #533f03;">
+                <strong>🏆 プレーオフ (CS) 進出の判定</strong><br>
+                <div style="margin-top: 8px; line-height: 1.5;">
+                • <strong>進出枠</strong>: 各リーグ<strong>上位3位</strong>がCS進出<br>
+                • <strong>マジック</strong>: 4位の<strong>最大可能勝数</strong>を基準に、対象チームが到達すべき勝数（0以下で✓）<br>
+                • <strong>エリミネート(E)</strong>: <code>(143+1) − 3位勝 − チーム敗 ≤ 0</code> または チーム最大可能勝数 ＜ 3位勝数
+                </div>
+            </div>
         </div>
 
         <!-- Scenarios -->
         <div id="scenarios" class="tab-content">
             <h2>経路の数 - 目標勝率達成に必要な勝数</h2>
-            
-            <div style="background: #e7f3ff; border: 1px solid #b3d7ff; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #004085;">
-                <strong>📈 勝率別シナリオ分析</strong><br>
-                <div style="margin-top: 8px; line-height: 1.5;">
-                • <strong>目標勝率</strong>: 残り試合を30%〜90%の勝率で進めた場合の最終成績を予測<br>
-                • <strong>必要勝数</strong>: 各勝率を達成するために残り試合で必要な勝利数<br>
-                • <strong>最終勝率</strong>: シーズン終了時点の勝率予想（分は勝率に含めない）<br>
-                • <strong>残り試合</strong>: <code>143 − 現在の試合数</code> を使用
-                </div>
-            </div>
             <div style="margin-bottom: 20px;">
                 <h3>セントラルリーグ</h3>
                 <div class="scroll-table">
                     <table style="font-size: 11px; border-collapse: collapse;">
                         <thead id="central-scenarios-header">
-                            <!-- KBO 스타일 4줄 헤더 -->
+                            <!-- NPB 스타일 4줄 헤더 -->
                         </thead>
                         <tbody id="central-scenarios">
                             <tr><td colspan="20" class="loading">読み込み中...</td></tr>
@@ -517,7 +622,7 @@
                 <div class="scroll-table">
                     <table style="font-size: 11px; border-collapse: collapse;">
                         <thead id="pacific-scenarios-header">
-                            <!-- KBO 스타일 4줄 헤더 -->
+                            <!-- NPB 스타일 4줄 헤더 -->
                         </thead>
                         <tbody id="pacific-scenarios">
                             <tr><td colspan="20" class="loading">読み込み中...</td></tr>
@@ -525,15 +630,20 @@
                     </table>
                 </div>
             </div>
+            <div class="tab-help tab-help-scenarios" style="background: #e7f3ff; border: 1px solid #b3d7ff; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #003566;">
+                <strong>📈 勝率別シナリオ分析</strong><br>
+                <div style="margin-top: 8px; line-height: 1.5;">
+                • <strong>目標勝率</strong>: 残り試合を30%〜90%の勝率で進めた場合の最終成績を予測<br>
+                • <strong>必要勝数</strong>: 各勝率を達成するために残り試合で必要な勝利数<br>
+                • <strong>最終勝率</strong>: シーズン終了時点の勝率予想（分は勝率に含めない）<br>
+                • <strong>残り試合</strong>: <code>143 − 現在の試合数</code> を使用
+                </div>
+            </div>
         </div>
 
         <!-- Detailed Standings -->
         <div id="standings" class="tab-content">
             <h2>詳細順位表</h2>
-            <div style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #495057;">
-                • <strong>勝率</strong>= 勝 / (勝+敗), <strong>残り</strong>= 143 − 試合, <strong>差</strong>= 首位からのゲーム差<br>
-                • <strong>分</strong>は勝率に含まれません。表示は最新JSONに基づきます。
-            </div>
             <div class="scroll-table">
                 <h3>セントラルリーグ</h3>
                 <table>
@@ -588,16 +698,15 @@
                     </tbody>
                 </table>
             </div>
+            <div class="tab-help tab-help-standings" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
+                • <strong>勝率</strong>= 勝 / (勝+敗), <strong>残り</strong>= 143 − 試合, <strong>差</strong>= 首位からのゲーム差<br>
+                • <strong>分</strong>は勝率に含まれません。表示は最新JSONに基づきます。
+            </div>
         </div>
 
         <!-- Remaining Games -->
         <div id="remaining" class="tab-content">
             <h2>チーム別残り試合数</h2>
-            <div style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #495057;">
-                • <strong>残り試合</strong>= 143 − 現在の試合数<br>
-                • <strong>ホーム/アウェー</strong>: 実際のスケジュールデータに基づいて正確に計算<br>
-                • <strong>対戦相手</strong>: 今後予定されている試合の実際の相手チームと回数を表示
-            </div>
             <div class="leagues">
                 <div>
                     <h3>セントラルリーグ</h3>
@@ -634,8 +743,13 @@
                             <tr><td colspan="6" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
-                </div>
             </div>
+            <div class="tab-help tab-help-remaining" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
+                • <strong>残り試合</strong>= 143 − 現在の試合数<br>
+                • <strong>ホーム/アウェー</strong>: 実際のスケジュールデータに基づいて正確に計算<br>
+                • <strong>対戦相手</strong>: 今後予定されている試合の実際の相手チームと回数を表示
+            </div>
+        </div>
         </section>
     </main>
 
@@ -649,7 +763,7 @@
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
         // ===== タブ切り替え機能 =====
-        function showTab(tabId) {
+        function showTab(tabId, el) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -668,8 +782,12 @@
             selectedTab.setAttribute('aria-hidden', 'false');
             
             // Activate nav button
-            event.target.classList.add('active');
-            event.target.setAttribute('aria-selected', 'true');
+            if (el) {
+                el.classList.add('active');
+                el.setAttribute('aria-selected', 'true');
+            }
+
+            // Static footer: no dynamic updates needed
         }
 
 
@@ -979,7 +1097,7 @@
                 return;
             }
 
-            // Create KBO-style 4-row header
+            // Create NPB-style 4-row header
             if (header) {
                 let headerHTML = `
                     <tr>
@@ -1236,7 +1354,7 @@
                 });
             }
         }
-        
+
         // ===== メインデータ読み込み処理 =====
         async function loadDataEnhanced() {
             try {
@@ -1293,17 +1411,25 @@
 
                 // 데이터 타입 정규화
                 standingsData = normalizeStandingsData(rawData);
-                
+
                 if (standingsData.updated_at) {
                     document.getElementById('last-update').textContent = 
                         new Date(standingsData.updated_at).toLocaleString('ja-JP');
                 }
-                
+
+                // Initialize schedule view with Today
+                initScheduleToggle();
+
                 // 실제 통계 데이터 표시
                 if (seasonConfig && seasonConfig.season_stats) {
                     const stats = seasonConfig.season_stats;
-                    document.getElementById('total-games').textContent = `${stats.total_games}試合`;
-                    document.getElementById('today-games').textContent = `${stats.today_games}試合`;
+                    if (typeof stats.total_games === 'number') {
+                        document.getElementById('total-games').textContent = `${stats.total_games}試合`;
+                    }
+                    // today_games는 upcoming 기준 계산값이 있을 수 있으므로, 0보다 클 때만 덮어씀
+                    if (typeof stats.today_games === 'number' && stats.today_games > 0) {
+                        document.getElementById('today-games').textContent = `${stats.today_games}試合`;
+                    }
                 }
                 
                 computeHomeAwayRemaining();
@@ -1320,6 +1446,240 @@
         
         document.addEventListener('DOMContentLoaded', loadDataEnhanced);
         window.reloadData = loadDataEnhanced;
+
+        // ===== 今日/明日の試合描画 =====
+        function formatJSTDateISO(date = new Date()) {
+            // Returns YYYY-MM-DD in Asia/Tokyo
+            return new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit'
+            }).format(date);
+        }
+
+        // (Removed) JS-driven footer logic. Footer is now static HTML-only.
+        function getJSTDate(offsetDays = 0) {
+            // Compute date in JST adding offset days
+            const now = new Date();
+            const ts = now.getTime() + offsetDays * 24 * 60 * 60 * 1000;
+            return new Date(ts);
+        }
+
+        let currentScheduleMode = 'today';
+        function initScheduleToggle() {
+            const btnToday = document.getElementById('btn-today');
+            const btnTomorrow = document.getElementById('btn-tomorrow');
+
+            btnToday?.addEventListener('click', () => setScheduleDate('today'));
+            btnTomorrow?.addEventListener('click', () => setScheduleDate('tomorrow'));
+
+            // Pick smart default: if no games today (or late night), show tomorrow when available
+            const defaultMode = getDefaultScheduleMode();
+            setScheduleDate(defaultMode);
+
+            // Enable swipe/keyboard/scroll gestures to flip day
+            enableScheduleGestures();
+
+            // Auto-refresh upcoming schedule every 5 minutes
+            startScheduleAutoRefresh();
+        }
+
+        function getDefaultScheduleMode() {
+            try {
+                const todayIso = formatJSTDateISO(getJSTDate(0));
+                const tomorrowIso = formatJSTDateISO(getJSTDate(1));
+                const todayGames = (upcomingGamesData || []).filter(g => (g.game_status === 'scheduled' || g.game_status === 'in_progress') && g.game_date === todayIso);
+                const tomorrowGames = (upcomingGamesData || []).filter(g => (g.game_status === 'scheduled' || g.game_status === 'in_progress') && g.game_date === tomorrowIso);
+                const hourJST = parseInt(new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit' }), 10);
+                if ((!todayGames.length && tomorrowGames.length) || hourJST >= 23) return 'tomorrow';
+            } catch (_) {}
+            return 'today';
+        }
+
+        function enableScheduleGestures() {
+            const section = document.getElementById('today-section');
+            if (!section) return;
+
+            // Touch swipe left/right
+            let touchStartX = null;
+            section.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches?.[0]?.clientX ?? null;
+            }, { passive: true });
+            section.addEventListener('touchend', (e) => {
+                if (touchStartX == null) return;
+                const endX = e.changedTouches?.[0]?.clientX ?? touchStartX;
+                const dx = endX - touchStartX;
+                if (dx < -40) setScheduleDate('tomorrow');
+                else if (dx > 40) setScheduleDate('today');
+                touchStartX = null;
+            });
+
+            // Keyboard arrows
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') setScheduleDate('tomorrow');
+                else if (e.key === 'ArrowLeft') setScheduleDate('today');
+            });
+
+            // Mouse/trackpad horizontal scroll flips day
+            section.addEventListener('wheel', (e) => {
+                if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
+                    if (e.deltaX > 0) setScheduleDate('tomorrow');
+                    else setScheduleDate('today');
+                }
+            }, { passive: true });
+        }
+
+        function startScheduleAutoRefresh() {
+            // Refresh data periodically to reflect game status changes
+            setInterval(async () => {
+                try {
+                    const basePath = getDataPath();
+                    const upcomingBase = basePath.replace('standings.json', 'upcoming.json');
+                    const cacheBust = `v=${Date.now()}`;
+                    const upcomingUrl = upcomingBase + (upcomingBase.includes('?') ? '&' : '?') + cacheBust;
+                    const resp = await fetch(upcomingUrl);
+                    if (resp.ok) {
+                        upcomingGamesData = await resp.json();
+                        setScheduleDate(currentScheduleMode); // re-render current mode
+                    }
+                } catch (_) {}
+            }, 5 * 60 * 1000);
+        }
+
+        function setScheduleDate(mode) {
+            const btnToday = document.getElementById('btn-today');
+            const btnTomorrow = document.getElementById('btn-tomorrow');
+
+            btnToday?.classList.toggle('active', mode === 'today');
+            btnTomorrow?.classList.toggle('active', mode === 'tomorrow');
+
+            const offset = mode === 'tomorrow' ? 1 : 0;
+            const targetDate = formatJSTDateISO(getJSTDate(offset));
+            currentScheduleMode = mode;
+            updateScheduleForDate(targetDate, mode === 'today');
+        }
+
+        function tryFormatStartTime(g) {
+            const rawKeys = [
+                'start_time', 'scheduled_time', 'start_time_local', 'first_pitch_time', 'game_time', 'scheduled_start_time'
+            ];
+            let val = undefined;
+            for (const k of rawKeys) {
+                if (g && g[k]) { val = g[k]; break; }
+            }
+            if (!val) return null;
+            try {
+                if (typeof val === 'string' && val.includes('T')) {
+                    const d = new Date(val);
+                    if (!isNaN(d.getTime())) {
+                        return d.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit' });
+                    }
+                }
+                // HH:MM or other plain time strings
+                if (typeof val === 'string') return val;
+            } catch (_) {}
+            return null;
+        }
+
+        const DEFAULT_STADIUM_BY_HOME = {
+            YOG: '東京ドーム',
+            HAN: '阪神甲子園球場',
+            CHU: 'バンテリンドーム ナゴヤ',
+            YDB: '横浜スタジアム',
+            HIR: 'MAZDA Zoom-Zoom スタジアム広島',
+            YAK: '明治神宮野球場',
+            SOF: '福岡PayPayドーム',
+            LOT: 'ZOZOマリンスタジアム',
+            SEI: 'ベルーナドーム',
+            ORI: '京セラドーム大阪',
+            NIP: 'エスコンフィールドHOKKAIDO',
+            RAK: '楽天モバイルパーク宮城'
+        };
+
+        function tryGetVenue(g) {
+            const keys = ['venue', 'stadium', 'ballpark', 'stadium_name', 'venue_name'];
+            for (const k of keys) {
+                if (g && g[k]) return g[k];
+            }
+            // fallback by home team abbreviation
+            if (g?.home_team_abbr && DEFAULT_STADIUM_BY_HOME[g.home_team_abbr]) {
+                return `${DEFAULT_STADIUM_BY_HOME[g.home_team_abbr]} (推定)`;
+            }
+            return null;
+        }
+
+        function inferStartTimeJST(dateIso) {
+            // Basic heuristic: Weekday 18:00, Weekend 14:00 (JST)
+            const d = new Date(`${dateIso}T00:00:00+09:00`);
+            const dow = d.getUTCDay(); // 0 Sun .. 6 Sat (for +09:00 anchor)
+            return (dow === 0 || dow === 6) ? '14:00' : '18:00';
+        }
+
+        function updateScheduleForDate(dateIso, updateInfoCount = false) {
+            const container = document.getElementById('today-games-container');
+            const dateLabel = document.getElementById('today-date');
+            dateLabel.textContent = `(${dateIso})`;
+
+            if (!upcomingGamesData || !Array.isArray(upcomingGamesData)) {
+                container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合データがありません</div></div>';
+                if (updateInfoCount) document.getElementById('today-games').textContent = '0試合';
+                return;
+            }
+
+            const todayGames = upcomingGamesData.filter(g =>
+                (g.game_status === 'scheduled' || g.game_status === 'in_progress') && g.game_date === dateIso
+            );
+
+            if (!todayGames.length) {
+                container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合はありません</div></div>';
+                if (updateInfoCount) document.getElementById('today-games').textContent = '0試合';
+                return;
+            }
+
+            todayGames.sort((a, b) => {
+                if (a.league === b.league) {
+                    return (a.home_team_abbr + a.away_team_abbr).localeCompare(b.home_team_abbr + b.away_team_abbr);
+                }
+                return a.league.localeCompare(b.league);
+            });
+
+            if (updateInfoCount) {
+                document.getElementById('today-games').textContent = `${todayGames.length}試合`;
+            }
+
+            container.innerHTML = todayGames.map(g => {
+                const leagueClass = g.league === 'Central' ? 'league-central' : 'league-pacific';
+                const status = g.game_status === 'in_progress' ? 'LIVE' : '予定';
+                const timeRaw = tryFormatStartTime(g);
+                const timeStr = timeRaw || `${inferStartTimeJST(dateIso)}(推定)`;
+                const venue = tryGetVenue(g);
+                const meta = [timeStr, venue].filter(Boolean).join(' / ');
+                return `
+                    <div class="game-card">
+                        <div class="game-row">
+                            <span class="league-tag ${leagueClass}">${g.league}</span>
+                            <span style="margin-left:auto; font-size:12px; color:#666;">${status}</span>
+                        </div>
+                        <div class="game-row" style="margin-top:4px;">
+                            <span>${g.away_team_abbr}</span>
+                            <span style="color:#888;">@</span>
+                            <span>${g.home_team_abbr}</span>
+                        </div>
+                        <div class="game-sub">${g.away_team_name} vs ${g.home_team_name}</div>
+                        ${meta ? `<div class=\"game-sub\" style=\"color:#777;\">${meta}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // No JS footer init required; footer is static in HTML.
     </script>
+
+    <!-- Site footer (static) -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <span>© 2025 NPB Statistics</span>
+            <span>|</span>
+            <a href="https://npb-dashboard.com" target="_blank" rel="noopener noreferrer">npb-dashboard.com</a>
+        </div>
+    </footer>
 </body>
 </html>
