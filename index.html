@@ -2792,9 +2792,26 @@
                 let statusMessage = '';
                 let gameDisplay = '';
                 
+                // 경기 상태 확인 (새로운 필드들 활용)
+                const gameStatus = g.status || g.game_status || 'scheduled';
+                const inning = g.inning;
+                const inningHalf = g.inning_half;
+                
                 if (hasGameData) {
-                    // 수집된 경기 결과가 있는 경우: 스코어와 승부 결과 표시
-                    statusMessage = '試合終了';
+                    // 수집된 경기 결과가 있는 경우
+                    if (gameStatus === 'in_progress') {
+                        // 진행중인 경기
+                        let inningText = '';
+                        if (inning) {
+                            const halfText = inningHalf === 'top' ? '表' : (inningHalf === 'bottom' ? '裏' : '');
+                            inningText = inning > 9 ? `延長${inning}回${halfText}` : `${inning}回${halfText}`;
+                        }
+                        statusMessage = inningText ? `${inningText} 進行中` : '試合中';
+                    } else if (gameStatus === 'postponed') {
+                        statusMessage = '延期';
+                    } else {
+                        statusMessage = '試合終了';
+                    }
                     
                     const isDraw = g.is_draw || g.home_score === g.away_score;
                     const awayWin = g.away_score > g.home_score;
@@ -2804,7 +2821,12 @@
                     let homeTeamStyle = '';
                     let scoreColor = '#d32f2f';
                     
-                    if (isDraw) {
+                    if (gameStatus === 'in_progress') {
+                        // 진행중인 경기는 오렌지색으로 표시
+                        awayTeamStyle = 'font-weight:bold; color:#ff5722;';
+                        homeTeamStyle = 'font-weight:bold; color:#ff5722;';
+                        scoreColor = '#ff5722';
+                    } else if (isDraw) {
                         awayTeamStyle = 'font-weight:normal;';
                         homeTeamStyle = 'font-weight:normal;';
                         scoreColor = '#888';

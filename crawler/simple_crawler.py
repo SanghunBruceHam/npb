@@ -135,7 +135,7 @@ class SimpleCrawler:
             return False
 
     def crawl_date(self, target_date):
-        """특정 날짜의 경기 결과 크롤링"""
+        """특정 날짜의 경기 결과 크롤링 (실시간 상태 정보 포함)"""
         if not CRAWLING_ENABLED:
             return []  # Skip actual crawling if dependencies unavailable
             
@@ -231,6 +231,9 @@ class SimpleCrawler:
                     # 과거 로직에서 0-0을 제외해 무승부 집계가 누락되는 문제가 있었음
                     # 따라서 0-0을 포함하여 is_draw 처리함
                     
+                    # 실시간 경기 상태 정보 추출
+                    game_status_info = self.extract_game_status(table)
+                    
                     # 경기 정보
                     game = {
                         'date': target_date.strftime('%Y-%m-%d'),
@@ -243,7 +246,10 @@ class SimpleCrawler:
                         'home_score': home_score,
                         'away_score': away_score,
                         'league': league,
-                        'status': 'completed',
+                        'status': game_status_info['status'],
+                        'inning': game_status_info['inning'],
+                        'inning_half': game_status_info['inning_half'],
+                        'game_time': game_status_info['game_time'],
                         'is_draw': home_score == away_score,  # 실제 동점만 무승부
                         'winner': 'home' if home_score > away_score else ('away' if away_score > home_score else 'draw')
                     }
@@ -261,6 +267,61 @@ class SimpleCrawler:
         except Exception as e:
             self.logger.error(f"❌ Failed to crawl {target_date.strftime('%Y-%m-%d')}: {e}")
             return []
+    
+    def extract_game_status(self, table):
+        """경기 상태 정보 추출 (이닝, 진행상황, 시간 등)"""
+        status_info = {
+            'status': 'completed',  # 기본값: 완료
+            'inning': None,
+            'inning_half': None,  # 'top' 또는 'bottom'
+            'game_time': None
+        }
+        
+        try:
+            # 경기 상태를 나타내는 요소들을 찾아서 파싱
+            
+            # 1. 헤더에서 경기 시간이나 상태 정보 찾기
+            header_row = table.find('tr')
+            if header_row:
+                header_text = header_row.get_text(strip=True)
+                
+                # 시간 정보 추출 (예: "18:00 開始" 등)
+                import re
+                time_match = re.search(r'(\d{1,2}):(\d{2})', header_text)
+                if time_match:
+                    status_info['game_time'] = f"{time_match.group(1)}:{time_match.group(2)}"
+            
+            # 2. 경기 진행 상태 확인
+            status_elements = table.find_all(['td', 'th'], class_=['status', 'inning', 'gameStatus'])
+            for elem in status_elements:
+                text = elem.get_text(strip=True)
+                
+                # 진행중 상태 확인
+                if any(keyword in text for keyword in ['進行中', '試合中', 'LIVE', 'プレイボール']):
+                    status_info['status'] = 'in_progress'
+                
+                # 연기/중지 상태 확인
+                elif any(keyword in text for keyword in ['雨天中止', '中止', '延期', 'サスペンデッド']):
+                    status_info['status'] = 'postponed'
+                
+                # 이닝 정보 추출 (예: "7回表", "9回裏", "延長10回")
+                inning_match = re.search(r'(?:延長)?(\d+)回([表裏])?', text)
+                if inning_match:
+                    status_info['inning'] = int(inning_match.group(1))
+                    if inning_match.group(2):
+                        status_info['inning_half'] = 'top' if inning_match.group(2) == '表' else 'bottom'
+            
+            # 3. 스코어보드에서 추가 정보 추출
+            score_cells = table.find_all('td', class_='totalScore')
+            for cell in score_cells:
+                # 현재 진행 중인 스코어인지 확인 (점멸, 색상 등의 클래스)
+                if 'active' in cell.get('class', []) or 'current' in cell.get('class', []):
+                    status_info['status'] = 'in_progress'
+                    
+        except Exception as e:
+            self.logger.warning(f"⚠️ Could not extract game status: {e}")
+            
+        return status_info
     
     def save_games_to_txt(self, games, filename="games_raw.txt"):
         """경기 결과를 TXT 파일로 저장 (완료/예정 경기 모두 지원)
