@@ -2591,8 +2591,21 @@
             const allTodayGames = [...completedTodayGames, ...upcomingTodayGames];
 
             if (!allTodayGames.length) {
-                container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合はありません</div></div>';
-                if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = '(0試合)'; }
+                // 데이터 로딩 상태인지 확인
+                if (!gamesData && !upcomingGamesData) {
+                    container.innerHTML = '<div class="game-card"><div class="game-row" style="color:#888;">📊 データ読み込み中...</div></div>';
+                } else {
+                    // 실제로 경기가 없는 경우
+                    const dayOfWeek = new Date(`${dateIso}T00:00:00+09:00`).getDay();
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Sunday or Saturday
+                    
+                    if (isWeekend) {
+                        container.innerHTML = '<div class="game-card"><div class="game-row" style="color:#666;">⚾ 本日は試合予定がありません</div></div>';
+                    } else {
+                        container.innerHTML = '<div class="game-card"><div class="game-row" style="color:#666;">📅 本日の試合はお休みです</div></div>';
+                    }
+                }
+                if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = ''; }
                 return;
             }
 
@@ -2652,8 +2665,15 @@
                     statusMessage = '試合終了';
                 } else if (isLive) {
                     statusMessage = '試合中';
-                } else {
+                } else if (g.game_status === 'postponed' || g.status === 'postponed') {
+                    statusMessage = '延期';
+                } else if (g.game_status === 'cancelled' || g.status === 'cancelled') {
+                    statusMessage = '中止';
+                } else if (g.game_status === 'scheduled' || g.status === 'scheduled') {
                     statusMessage = '試合前';
+                } else {
+                    // 데이터가 불완전한 경우
+                    statusMessage = '未定';
                 }
 
                 // 경기 표시 형식 결정
