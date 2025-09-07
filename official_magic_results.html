@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NPB 공식 매직넘버 (현실 데이터)</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f5f5f5; font-weight: bold; }
+        .rank1 { background-color: #ffe6e6; font-weight: bold; }
+        .magic { color: #d63384; font-weight: bold; font-size: 16px; }
+        .clinched { color: #198754; font-weight: bold; }
+        h2 { color: #333; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>📊 NPB 공식 매직넘버 (2025-09-06 현실 데이터)</h1>
+    
+    <div id="central-league">
+        <h2>🔵 센트럴 리그</h2>
+        <table id="central-table">
+            <thead>
+                <tr>
+                    <th>순위</th>
+                    <th>팀</th>
+                    <th>경기</th>
+                    <th>승</th>
+                    <th>패</th>
+                    <th>무</th>
+                    <th>승률</th>
+                    <th>잔여</th>
+                    <th>매직넘버</th>
+                    <th>엘리미네이션</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    
+    <div id="pacific-league">
+        <h2>🟠 퍼시픽 리그</h2>
+        <table id="pacific-table">
+            <thead>
+                <tr>
+                    <th>순위</th>
+                    <th>팀</th>
+                    <th>경기</th>
+                    <th>승</th>
+                    <th>패</th>
+                    <th>무</th>
+                    <th>승률</th>
+                    <th>잔여</th>
+                    <th>매직넘버</th>
+                    <th>엘리미네이션</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // ===== 제공받은 공식 매직넘버 계산 로직 =====
+        function calcR(team, season=143) {
+            return season - (team.W + team.L + team.T);
+        }
+        function winPct(team, R) {
+            const denom = team.W + team.L;
+            return denom > 0 ? team.W / denom : 0;
+        }
+        function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+        function round3(x){ return Number(x.toFixed(3)); }
+
+        function sortStandings(teams, season=143) {
+            return [...teams].map(t => {
+                const R = calcR(t, season);
+                return { ...t, R, winPct: winPct(t, R) };
+            }).sort((a,b)=> b.winPct - a.winPct);
+        }
+
+        function officialLeaderMagicTragic(teams, season=143) {
+            const table = sortStandings(teams, season);
+            const leader = table[0];
+            const runner = table[1];
+
+            const R1 = leader.R;
+            const D1 = leader.W + leader.L + R1;
+            const R2 = runner.R;
+            const D2 = runner.W + runner.L + R2;
+
+            // 1위 확정(매직): 동률 허용 기준
+            const K1_official = (runner.W + R2) / D2;
+            const needWins_rhs = K1_official * D1 - leader.W;
+            const x_tieOK = Math.max(0, Math.ceil(needWins_rhs));
+            const x_tieOK_c = clamp(x_tieOK, 0, R1);
+
+            // 1위 탈락(트래직): 동률 허용 기준
+            const K1min_official = (runner.W) / D2;        
+            const lose_rhs = leader.W + R1 - K1min_official * D1;
+            const y_tieOK = Math.max(0, Math.floor(lose_rhs) + 1);
+            const y_tieOK_c = clamp(y_tieOK, 0, R1);
+
+            return {
+                leader: { id: leader.id, W: leader.W, L: leader.L, T: leader.T, R: leader.R, winPct: round3(leader.winPct) },
+                runnerUp: { id: runner.id, W: runner.W, L: runner.L, T: runner.T, R: runner.R, winPct: round3(runner.winPct) },
+                magic: x_tieOK_c,
+                tragic: y_tieOK_c
+            };
+        }
+
+        // ===== 현실 데이터 (2025-09-06) =====
+        const centralLeague = [
+            { id: "HAN", name: "阪神タイガース", W: 76, L: 45, T: 3, games_played: 124 },
+            { id: "YOG", name: "読売ジャイアンツ", W: 59, L: 62, T: 3, games_played: 124 },
+            { id: "YDB", name: "横浜DeNAベイスターズ", W: 57, L: 61, T: 5, games_played: 123 },
+            { id: "HIR", name: "広島東洋カープ", W: 56, L: 64, T: 4, games_played: 124 },
+            { id: "CHU", name: "中日ドラゴンズ", W: 50, L: 69, T: 5, games_played: 124 },
+            { id: "YAK", name: "東京ヤクルトスワローズ", W: 47, L: 73, T: 4, games_played: 124 }
+        ];
+
+        const pacificLeague = [
+            { id: "SOF", name: "福岡ソフトバンクホークス", W: 68, L: 52, T: 4, games_played: 124 },
+            { id: "LOT", name: "千葉ロッテマリーンズ", W: 66, L: 54, T: 4, games_played: 124 },
+            { id: "ORI", name: "オリックス・バファローズ", W: 65, L: 55, T: 4, games_played: 124 },
+            { id: "RAK", name: "東北楽天ゴールデンイーグルス", W: 57, L: 63, T: 4, games_played: 124 },
+            { id: "SEI", name: "埼玉西武ライオンズ", W: 54, L: 66, T: 4, games_played: 124 },
+            { id: "NIP", name: "北海道日本ハムファイターズ", W: 50, L: 70, T: 4, games_played: 124 }
+        ];
+
+        // ===== 테이블 생성 함수 =====
+        function createTable(teams, tableId) {
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            
+            // 승률순 정렬
+            const sortedTeams = teams.sort((a, b) => {
+                const aWinPct = a.W / (a.W + a.L);
+                const bWinPct = b.W / (b.W + b.L);
+                return bWinPct - aWinPct;
+            });
+
+            // 공식 매직넘버 계산
+            const convertedTeams = sortedTeams.map(t => ({ id: t.id, W: t.W, L: t.L, T: t.T }));
+            const magicResult = officialLeaderMagicTragic(convertedTeams, 143);
+
+            let html = '';
+            sortedTeams.forEach((team, idx) => {
+                const rank = idx + 1;
+                const remaining = 143 - team.games_played;
+                const winPct = (team.W / (team.W + team.L)).toFixed(3);
+                const rankClass = rank === 1 ? 'rank1' : '';
+                
+                let magic = '-';
+                let eliminate = '-';
+                let status = '-';
+                
+                if (rank === 1) {
+                    if (magicResult.magic === 0) {
+                        magic = '✓';
+                        status = '우승확정';
+                    } else {
+                        magic = magicResult.magic;
+                        status = `${magic}승 필요`;
+                    }
+                    
+                    if (magicResult.tragic === 0) {
+                        eliminate = 'E';
+                    } else {
+                        eliminate = magicResult.tragic;
+                    }
+                } else {
+                    // 2위 이하 팀들의 우승 탈락 계산 (간단한 계산)
+                    const teamMaxWins = team.W + remaining;
+                    const leaderWins = sortedTeams[0].W;
+                    if (teamMaxWins < leaderWins) {
+                        eliminate = 'E';
+                        status = '우승탈락';
+                    } else {
+                        // MLB 스타일 엘리미네이션 넘버
+                        const combo = (143 + 1) - leaderWins - team.L;
+                        eliminate = combo <= 0 ? 'E' : combo;
+                        if (eliminate === 'E') {
+                            status = '우승탈락';
+                        }
+                    }
+                }
+
+                html += `
+                    <tr class="${rankClass}">
+                        <td>${rank}</td>
+                        <td style="text-align:left;">${team.name}</td>
+                        <td>${team.games_played}</td>
+                        <td>${team.W}</td>
+                        <td>${team.L}</td>
+                        <td>${team.T}</td>
+                        <td>${winPct}</td>
+                        <td>${remaining}</td>
+                        <td class="${magic === '✓' ? 'clinched' : 'magic'}">${magic}</td>
+                        <td class="${eliminate === 'E' ? 'clinched' : ''}">${eliminate}</td>
+                        <td style="font-size:12px;">${status}</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+        }
+
+        // ===== 실행 =====
+        createTable(centralLeague, 'central-table');
+        createTable(pacificLeague, 'pacific-table');
+
+        // ===== 요약 정보 =====
+        document.body.innerHTML += `
+            <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <h3>📋 계산 기준 (공식 모드)</h3>
+                <ul>
+                    <li><strong>시즌 경기수:</strong> 143경기</li>
+                    <li><strong>승률 계산:</strong> 승/(승+패) - 무승부 제외</li>
+                    <li><strong>매직넘버:</strong> (2위 최대승수) - (1위 현재승수) + 1</li>
+                    <li><strong>동률 처리:</strong> 동률 허용 (≥)</li>
+                    <li><strong>계산 방식:</strong> 현재 1위 vs 현재 2위만 비교 (일본 언론 공식 방식)</li>
+                </ul>
+            </div>
+        `;
+    </script>
+</body>
+</html>

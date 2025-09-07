@@ -643,7 +643,7 @@
                             </tr>
                         </thead>
                         <tbody id="central-magic-regular">
-                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -669,7 +669,7 @@
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-regular">
-                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -706,14 +706,13 @@
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
-                                <th class="center">3位条件</th>
                                 <th class="center">マジック</th>
                                 <th class="center">エリミネート</th>
                                 <th class="center">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="central-magic-playoff">
-                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -732,24 +731,26 @@
                                 <th class="center">ゲーム差</th>
                                 <th class="center">残り試合</th>
                                 <th class="center">最大勝</th>
-                                <th class="center">3位条件</th>
                                 <th class="center">マジック</th>
                                 <th class="center">エリミネート</th>
                                 <th class="center">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-playoff">
-                            <tr><td colspan="14" class="loading">読み込み中...</td></tr>
+                            <tr><td colspan="13" class="loading">読み込み中...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="tab-help tab-help-magic-playoff" style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #533f03;">
-                <strong>🏆 プレーオフ (CS) 進出の判定</strong><br>
+                <strong>🏆 クライマックスシリーズ (CS) 進出について</strong><br>
                 <div style="margin-top: 8px; line-height: 1.5;">
-                • <strong>進出枠</strong>: 各リーグ<strong>上位3位</strong>がCS進出<br>
-                • <strong>マジック</strong>: 4位の<strong>最大可能勝数</strong>を基準に、対象チームが到達すべき勝数（0以下で✓）<br>
-                • <strong>エリミネート(E)</strong>: <code>(143+1) − 3位勝 − チーム敗 ≤ 0</code> または チーム最大可能勝数 ＜ 3位勝数
+                • <strong>進出チーム</strong>: 各リーグ（セ・パ）<strong>上位3チーム</strong>がCS進出<br>
+                • <strong>ファーストステージ</strong>: 2位vs3位（3戦2勝制）<br>
+                • <strong>ファイナルステージ</strong>: 1位vsファーストステージ勝者（6戦4勝制、1位に1勝アドバンテージ）<br>
+                • <strong>マジック</strong>: CS進出確定までの必要勝数（✓で確定）<br>
+                • <strong>エリミネート(E)</strong>: CS進出の可能性が消失（数値は残り敗数の許容値）<br>
+                • <strong>進出状況</strong>: ファイナル直行（1位） / ファーストステージ（2位・3位）
                 </div>
             </div>
         </div>
@@ -921,6 +922,210 @@
         let homeAwayRemainingByTeam = {}; // { team_id: { home: n, away: n, opponents: {} } }
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
+        // 기존 데이터 형식을 새 계산 함수용으로 변환하는 헬퍼
+        function convertTeamDataForMagic(teams) {
+            return teams.map(team => ({
+                id: team.team_id || team.team_name,
+                W: team.wins,
+                L: team.losses,
+                T: team.draws || 0
+            }));
+        }
+
+        // ===== NPB 매직/트래직 넘버 계산 공통 유틸 함수들 =====
+        function calcR(team, season=143) {
+            return season - (team.W + team.L + team.T);
+        }
+        function winPct(team, R) { // 현재 승률
+            const denom = team.W + team.L;
+            return denom > 0 ? team.W / denom : 0;
+        }
+        function pMax(team, R) { // 남은 전승
+            const denom = team.W + team.L + R;
+            return denom > 0 ? (team.W + R) / denom : 0;
+        }
+        function pMin(team, R) { // 남은 전패
+            const denom = team.W + team.L + R;
+            return denom > 0 ? (team.W) / denom : 0;
+        }
+        function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+        function round3(x){ return Number(x.toFixed(3)); }
+
+        // ===== NPB 정규시즌 매직/트래직 계산 라이브러리 =====
+        // 현재 순위표(승률 기준 내림차순). 무승부는 분모 제외
+        function sortStandings(teams, season=143) {
+            return [...teams].map(t => {
+                const R = calcR(t, season);
+                return { ...t, R, winPct: winPct(t, R) };
+            }).sort((a,b)=> b.winPct - a.winPct);
+        }
+
+        // 모드 1) 공식 방식: 현재 1위 vs 현재 2위
+        function officialLeaderMagicTragic(teams, season=143) {
+            const table = sortStandings(teams, season);
+            const leader = table[0];
+            const runner = table[1];
+
+            const R1 = leader.R;
+            const D1 = leader.W + leader.L + R1;          // 최종 분모(무승부 제외)
+            const R2 = runner.R;
+            const D2 = runner.W + runner.L + R2;
+
+            // 1위 확정(매직): (W1 + x) / D1  >  (W2 + R2) / D2  (strict) / ≥ (tieOK)
+            const K1_official = (runner.W + R2) / D2;      // 2위의 최대 가능 승률
+            const needWins_rhs = K1_official * D1 - leader.W;
+            const x_strict = Math.max(0, Math.floor(needWins_rhs) + 1);
+            const x_tieOK  = Math.max(0, Math.ceil(needWins_rhs));
+            const x_strict_c = clamp(x_strict, 0, R1);
+            const x_tieOK_c  = clamp(x_tieOK,  0, R1);
+
+            // 1위 탈락(트래직): (W1 + R1 - y) / D1  ≤  (W2) / D2  (strict) / < (tieOK)
+            const K1min_official = (runner.W) / D2;        // 2위의 최소 가능 승률
+            const lose_rhs = leader.W + R1 - K1min_official * D1;
+            const y_strict = Math.max(0, Math.ceil(lose_rhs));
+            const y_tieOK  = Math.max(0, Math.floor(lose_rhs) + 1);
+            const y_strict_c = clamp(y_strict, 0, R1);
+            const y_tieOK_c  = clamp(y_tieOK,  0, R1);
+
+            return {
+                leader: { id: leader.id, W: leader.W, L: leader.L, T: leader.T, R: leader.R, winPct: round3(leader.winPct) },
+                runnerUp: { id: runner.id, W: runner.W, L: runner.L, T: runner.T, R: runner.R, winPct: round3(runner.winPct) },
+                K1_official: round3(K1_official),
+                K1min_official: round3(K1min_official),
+                x_strict: x_strict_c,   // 동률 불허
+                x_tieOK:  x_tieOK_c,    // 동률 허용
+                y_strict: y_strict_c,   // 동률 불허
+                y_tieOK:  y_tieOK_c     // 동률 허용
+            };
+        }
+
+        // 모드 2) 보수 방식: 전 팀 기준(최댓/최솟 승률)
+        function conservativeAllTeamsMagicTragic(teams, season=143) {
+            return teams.map(t => {
+                const Ri = calcR(t, season);
+                const Di = t.W + t.L + Ri;
+
+                // 다른 팀들의 최대 가능 승률의 최댓값 (내가 넘어야 할 기준)
+                let K1_max = 0;
+                // 다른 팀들의 최소 가능 승률의 최댓값 (내가 못 미치면 탈락 보장)
+                let K1_min = 0;
+
+                for (const u of teams) {
+                    if (u.id === t.id) continue;
+                    const Ru = calcR(u, season);
+                    K1_max = Math.max(K1_max, pMax(u, Ru));
+                    K1_min = Math.max(K1_min, pMin(u, Ru));
+                }
+
+                // 매직넘버(1위 확정): (Wi + x)/Di > K1_max (strict) / ≥ (tieOK)
+                const needWins_rhs = K1_max * Di - t.W;
+                const x_strict = Math.max(0, Math.floor(needWins_rhs) + 1);
+                const x_tieOK  = Math.max(0, Math.ceil(needWins_rhs));
+
+                // 트래직넘버(1위 탈락): (Wi + Ri - y)/Di ≤ K1_min (strict) / < (tieOK)
+                const lose_rhs = t.W + Ri - K1_min * Di;
+                const y_strict = Math.max(0, Math.ceil(lose_rhs));
+                const y_tieOK  = Math.max(0, Math.floor(lose_rhs) + 1);
+
+                return {
+                    team: t.id,
+                    W: t.W, L: t.L, T: t.T, R: Ri,
+                    winPct: round3(winPct(t, Ri)),
+                    K1_max: round3(K1_max),
+                    K1_min: round3(K1_min),
+                    x_strict: clamp(x_strict, 0, Ri),
+                    x_tieOK:  clamp(x_tieOK,  0, Ri),
+                    y_strict: clamp(y_strict, 0, Ri),
+                    y_tieOK:  clamp(y_tieOK,  0, Ri)
+                };
+            });
+        }
+
+        // 통합 엔트리 함수
+        function npbRank1MagicTragic(teams, season=143) {
+            const official = officialLeaderMagicTragic(teams, season);     // 현재 1위 전용(2위만 비교)
+            const conservative = conservativeAllTeamsMagicTragic(teams, season); // 전 팀 보수 계산
+            const leaderInfo = sortStandings(teams, season)[0];
+            return {
+                leader: { id: leaderInfo.id, W: leaderInfo.W, L: leaderInfo.L, T: leaderInfo.T, R: leaderInfo.R, winPct: round3(leaderInfo.winPct) },
+                official: { onlyLeader: official },
+                conservative: { rows: conservative }
+            };
+        }
+
+        // ===== NPB 프레이오프(상위 3위) 매직/트래직 계산 라이브러리 =====
+        function pNow(team) { // 현재 승률 (무승부 제외)
+            const denom = team.W + team.L;
+            return denom > 0 ? team.W / denom : 0;
+        }
+
+        function kthLargest(arr, k) {
+            if (!arr.length || k < 1) return 0;
+            const sorted = [...arr].sort((a, b) => b - a);
+            return sorted[k - 1] ?? 0;
+        }
+
+        function kBenchmarksForTeam(i, teams, season, k) {
+            const maxList = [];
+            const minList = [];
+            for (const t of teams) {
+                if (t.id === i.id) continue;
+                const R = calcR(t, season);
+                maxList.push(pMax(t, R));
+                minList.push(pMin(t, R));
+            }
+            return {
+                Kk_max: kthLargest(maxList, k),
+                Kk_min: kthLargest(minList, k)
+            };
+        }
+
+        function magicTragicForK(team, season, k, Kk_max, Kk_min) {
+            const Ri = calcR(team, season);
+            const Di = team.W + team.L + Ri;
+
+            // Magic (확정)
+            const rhsMagic = Kk_max * Di - team.W;
+            const x_strict = Math.max(0, Math.floor(rhsMagic) + 1); // >
+            const x_tieOK  = Math.max(0, Math.ceil(rhsMagic));      // ≥
+
+            // Tragic (탈락)
+            const rhsTr = team.W + Ri - Kk_min * Di;
+            const y_strict = Math.max(0, Math.ceil(rhsTr));         // ≤
+            const y_tieOK  = Math.max(0, Math.floor(rhsTr) + 1);    // <
+
+            return {
+                R: Ri,
+                x_strict: clamp(x_strict, 0, Ri),
+                x_tieOK:  clamp(x_tieOK,  0, Ri),
+                y_strict: clamp(y_strict, 0, Ri),
+                y_tieOK:  clamp(y_tieOK,  0, Ri)
+            };
+        }
+
+        function npbPlayoffMagicTragic(teams, season = 143, ks = [1, 2, 3]) {
+            return teams.map(team => {
+                const Ri = calcR(team, season);
+                const row = {
+                    team: team.id,
+                    W: team.W, L: team.L, T: team.T, R: Ri,
+                    winPct: round3(pNow(team))
+                };
+
+                for (const k of ks) {
+                    const { Kk_max, Kk_min } = kBenchmarksForTeam(team, teams, season, k);
+                    const res = magicTragicForK(team, season, k, Kk_max, Kk_min);
+                    row[`K${k}_max`] = round3(Kk_max);
+                    row[`K${k}_min`] = round3(Kk_min);
+                    row[`x${k}_strict`] = res.x_strict;
+                    row[`x${k}_tieOK`]  = res.x_tieOK;
+                    row[`y${k}_strict`] = res.y_strict;
+                    row[`y${k}_tieOK`]  = res.y_tieOK;
+                }
+                return row;
+            });
+        }
+
         // ===== チームロゴ（略称→ファイルパス） =====
         const TEAM_LOGOS = {
             YOG: 'assets/npb-logos/svg/yomiuri-giants.svg',
@@ -993,6 +1198,21 @@
                 return;
             }
 
+            // 매직넘버 계산을 위한 데이터 준비
+            let magicResults = null;
+            let useConservativeMode = false;
+            let allowTies = true;
+            
+            if (isRegular) {
+                // 정규시즌: 새로운 매직/트래직 계산 로직 사용
+                const convertedTeams = convertTeamDataForMagic(teams);
+                magicResults = npbRank1MagicTragic(convertedTeams, TOTAL_GAMES);
+                
+                // UI 표시 모드 설정 (라디오 버튼에서 읽어옴)
+                useConservativeMode = document.querySelector('input[name="magic-mode"]:checked')?.value === 'conservative' || false;
+                allowTies = document.querySelector('input[name="tie-mode"]:checked')?.value === 'allow' || true;
+            }
+
             const leader = teams[0];
             const thirdPlace = teams[2] || {};
             
@@ -1051,67 +1271,75 @@
                         }
                     }
                     
-                    // 優勝エリミネート計算（1位に対する組み合わせ番号）
-                    if (team.position_rank > 1) {
-                        const teamMaxWins = team.wins + (TOTAL_GAMES - team.games_played); // = TOTAL_GAMES - losses - draws
-                        const alreadyEliminated = leader.wins > teamMaxWins;
-                        if (alreadyEliminated) {
-                            eliminate = 'E';
+                    // 새로운 트래직넘버 계산 (제공받은 로직 사용)
+                    if (team.position_rank === 1) {
+                        // 1위팀은 우승 탈락이 없으므로 엘리미네이션 표시 안함
+                        eliminate = '-';
+                    } else {
+                        // 2위 이하 팀들의 우승 탈락 계산
+                        if (useConservativeMode) {
+                            const teamResult = magicResults.conservative.rows.find(r => r.team === (team.team_id || team.team_name));
+                            if (teamResult) {
+                                const tragicValue = allowTies ? teamResult.y_tieOK : teamResult.y_strict;
+                                eliminate = tragicValue === 0 ? 'E' : (tragicValue >= teamResult.R ? 'E' : tragicValue);
+                            }
                         } else {
-                            // MLBの定義に準拠した組み合わせ式: G+1 - 1位勝 - 当該チーム敗
-                            const combo = (TOTAL_GAMES + 1) - leader.wins - team.losses;
-                            eliminate = combo <= 0 ? 'E' : combo;
+                            // 기존 MLB 스타일 계산 유지 (하위 호환성)
+                            const teamMaxWins = team.wins + remainingGames;
+                            const alreadyEliminated = leader.wins > teamMaxWins;
+                            if (alreadyEliminated) {
+                                eliminate = 'E';
+                            } else {
+                                const combo = (TOTAL_GAMES + 1) - leader.wins - team.losses;
+                                eliminate = combo <= 0 ? 'E' : combo;
+                            }
                         }
                     }
                 } else {
-                    // 全チームの最大可能勝数を計算・ソート
-                    const allMaxWins = teams.map(t => ({
-                        team: t.team_abbreviation,
-                        maxWins: t.wins + (TOTAL_GAMES - t.games_played)
-                    })).sort((a, b) => b.maxWins - a.maxWins);
+                    // 새로운 프레이오프 매직/트래직 계산 로직 사용
+                    const convertedTeams = convertTeamDataForMagic(teams);
+                    const playoffResults = npbPlayoffMagicTragic(convertedTeams, TOTAL_GAMES, [1, 2, 3]);
                     
-                    // 3位カットライン（3番目の最大可能勝数）と4位の最大可能勝数
-                    const thirdHighestMaxWins = allMaxWins[2] ? allMaxWins[2].maxWins : 0;
-                    const fourthHighestMaxWins = allMaxWins[3] ? allMaxWins[3].maxWins : 0;
+                    // 현재 팀의 결과 찾기
+                    const teamResult = playoffResults.find(r => r.team === (team.team_id || team.team_name));
                     
-                    // プレーオフマジック（4位の最大可能勝数基準）
-                    if (team.playoff_magic !== undefined) {
-                        clinch = team.playoff_magic === 0 ? '✓' : team.playoff_magic;
-                    } else if (remainingGames > 0) {
-                        if (fourthHighestMaxWins > 0) {
-                            const need = fourthHighestMaxWins - team.wins + 1;
-                            clinch = need <= 0 ? '✓' : need;
-                        } else {
+                    if (teamResult) {
+                        // 단순하게 계산 결과만 표기
+                        const x3_magic = teamResult.x3_tieOK; // 3위 확정 매직넘버
+                        const x2_magic = teamResult.x2_tieOK; // 2위 확정 매직넘버  
+                        const x1_magic = teamResult.x1_tieOK; // 1위 확정 매직넘버
+                        
+                        // 매직넘버 표시
+                        if (x3_magic === 0) {
                             clinch = '✓';
+                        } else {
+                            clinch = x3_magic;
+                        }
+                        
+                        // クライマックスシリーズ進出状態表示
+                        if (x1_magic === 0) {
+                            csConfirmed = 'ファイナル直行';
+                            condition = 'ファイナル直行';
+                        } else if (x2_magic === 0) {
+                            csConfirmed = 'ファーストステージ';
+                            condition = 'ファーストステージ';
+                        } else if (x3_magic === 0) {
+                            csConfirmed = 'ファーストステージ';
+                            condition = 'ファーストステージ';
+                        } else {
+                            condition = `CS進出まで${x3_magic}勝`;
                         }
                     }
                     
-                    // CS進出確定判定: 現在の勝数が4位の最大可能勝数を上回るか
-                    const teamMaxWins = team.wins + remainingGames;
-                    if (team.wins > fourthHighestMaxWins) {
-                        csConfirmed = 'CS確定';
-                        condition = '確定';
-                    } else if (team.wins === fourthHighestMaxWins) {
-                        condition = '同率の可能性';
-                    } else if (teamMaxWins < thirdHighestMaxWins) {
-                        // 3位ラインに最大でも届かない場合は厳しい
-                        condition = `3位${thirdHighestMaxWins}勝超必要`;
-                    } else {
-                        condition = `4位最大${fourthHighestMaxWins}勝`; // 目安情報
-                    }
+                    // (기존 CS 확정 판정 로직 제거됨 - 새로운 로직이 이미 처리)
                     
-                    // エリミネーション（3位の現在勝数基準の組み合わせ式）
-                    if (team.playoff_elimination !== undefined) {
-                        eliminate = team.playoff_elimination;
-                    } else if (thirdPlace && thirdPlace.wins !== undefined) {
-                        const teamMaxWinsPlayoff = team.wins + (TOTAL_GAMES - team.games_played);
-                        const alreadyEliminated = teamMaxWinsPlayoff < thirdPlace.wins;
-                        if (alreadyEliminated) {
+                    // 엘리미네이션 계산 (단순하게)
+                    if (teamResult) {
+                        const y3_tragic = teamResult.y3_tieOK; // 3위 탈락 트래직넘버
+                        if (y3_tragic === 0) {
                             eliminate = 'E';
                         } else {
-                            // 3位に対する組み合わせ式: G+1 - 3位勝 - 当該チーム敗
-                            const combo = (TOTAL_GAMES + 1) - thirdPlace.wins - team.losses;
-                            eliminate = combo <= 0 ? 'E' : combo;
+                            eliminate = y3_tragic;
                         }
                     }
                 }
@@ -1150,7 +1378,6 @@
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
-                            <td class="center" style="font-size: 11px;">${condition}</td>
                             <td class="center ${clinch === '✓' ? 'clinched' : 'magic-number'}">${clinch}</td>
                             <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
                             <td class="center ${csConfirmed !== '-' ? 'clinched' : ''}" style="font-size: 11px;">${csConfirmed}</td>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NPB 매직넘버 계산 검증</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>NPB 매직넘버 계산 로직 검증</h1>
+    
+    <h2>실제 데이터 (2025-09-06 센트럴리그)</h2>
+    <ul>
+        <li><strong>1위 HAN(한신)</strong>: 76승 45패 3무 (124경기)</li>
+        <li><strong>2위 YOG(거인)</strong>: 59승 62패 3무 (124경기)</li>
+    </ul>
+    
+    <h2>수동 계산</h2>
+    <div id="manual-calc"></div>
+    
+    <h2>제공된 로직으로 계산</h2>
+    <div id="logic-calc"></div>
+
+    <script>
+        // ===== 제공된 매직넘버 계산 로직 =====
+        function calcR(team, season=143) {
+            return season - (team.W + team.L + team.T);
+        }
+        function winPct(team, R) {
+            const denom = team.W + team.L;
+            return denom > 0 ? team.W / denom : 0;
+        }
+        function pMax(team, R) {
+            const denom = team.W + team.L + R;
+            return denom > 0 ? (team.W + R) / denom : 0;
+        }
+        function pMin(team, R) {
+            const denom = team.W + team.L + R;
+            return denom > 0 ? (team.W) / denom : 0;
+        }
+        function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+        function round3(x){ return Number(x.toFixed(3)); }
+
+        function sortStandings(teams, season=143) {
+            return [...teams].map(t => {
+                const R = calcR(t, season);
+                return { ...t, R, winPct: winPct(t, R) };
+            }).sort((a,b)=> b.winPct - a.winPct);
+        }
+
+        function officialLeaderMagicTragic(teams, season=143) {
+            const table = sortStandings(teams, season);
+            const leader = table[0];
+            const runner = table[1];
+
+            const R1 = leader.R;
+            const D1 = leader.W + leader.L + R1;
+            const R2 = runner.R;
+            const D2 = runner.W + runner.L + R2;
+
+            // 1위 확정(매직)
+            const K1_official = (runner.W + R2) / D2;
+            const needWins_rhs = K1_official * D1 - leader.W;
+            const x_strict = Math.max(0, Math.floor(needWins_rhs) + 1);
+            const x_tieOK  = Math.max(0, Math.ceil(needWins_rhs));
+            const x_strict_c = clamp(x_strict, 0, R1);
+            const x_tieOK_c  = clamp(x_tieOK,  0, R1);
+
+            return {
+                leader: { id: leader.id, W: leader.W, L: leader.L, T: leader.T, R: leader.R, winPct: round3(leader.winPct) },
+                runnerUp: { id: runner.id, W: runner.W, L: runner.L, T: runner.T, R: runner.R, winPct: round3(runner.winPct) },
+                K1_official: round3(K1_official),
+                x_strict: x_strict_c,
+                x_tieOK: x_tieOK_c
+            };
+        }
+
+        // ===== 검증 실행 =====
+        const teams = [
+            { id: "HAN", W: 76, L: 45, T: 3 },
+            { id: "YOG", W: 59, L: 62, T: 3 }
+        ];
+
+        // 수동 계산
+        const han_remaining = 143 - (76 + 45 + 3); // 19경기
+        const yog_remaining = 143 - (59 + 62 + 3); // 19경기
+        const yog_max_wins = 59 + 19; // 78승
+        const manual_magic = yog_max_wins - 76 + 1; // = 3
+
+        document.getElementById('manual-calc').innerHTML = `
+            <p><strong>한신 잔여경기:</strong> 143 - (76+45+3) = ${han_remaining}경기</p>
+            <p><strong>거인 잔여경기:</strong> 143 - (59+62+3) = ${yog_remaining}경기</p>
+            <p><strong>거인 최대 가능 승수:</strong> 59 + ${yog_remaining} = ${yog_max_wins}승</p>
+            <p><strong>매직넘버 (공식):</strong> ${yog_max_wins} - 76 + 1 = <strong style="color:blue">${manual_magic}</strong></p>
+        `;
+
+        // 제공된 로직 계산
+        const result = officialLeaderMagicTragic(teams, 143);
+        
+        document.getElementById('logic-calc').innerHTML = `
+            <p><strong>리더:</strong> ${result.leader.id} (${result.leader.W}승 ${result.leader.L}패 ${result.leader.T}무, 잔여 ${result.leader.R}경기)</p>
+            <p><strong>2위:</strong> ${result.runnerUp.id} (${result.runnerUp.W}승 ${result.runnerUp.L}패 ${result.runnerUp.T}무, 잔여 ${result.runnerUp.R}경기)</p>
+            <p><strong>2위 최대 승률:</strong> ${result.K1_official}</p>
+            <p><strong>매직넘버 (동률 불허):</strong> <strong style="color:green">${result.x_strict}</strong></p>
+            <p><strong>매직넘버 (동률 허용):</strong> <strong style="color:green">${result.x_tieOK}</strong></p>
+        `;
+
+        // 검증 결과
+        const isCorrect = manual_magic === result.x_strict;
+        document.body.innerHTML += `
+            <h2>🔍 검증 결과</h2>
+            <p style="font-size: 18px; color: ${isCorrect ? 'green' : 'red'};">
+                <strong>${isCorrect ? '✅ 계산 일치!' : '❌ 계산 불일치!'}</strong>
+            </p>
+            <p>수동 계산: ${manual_magic}</p>
+            <p>로직 계산: ${result.x_strict} (동률불허) / ${result.x_tieOK} (동률허용)</p>
+        `;
+    </script>
+</body>
+</html>
