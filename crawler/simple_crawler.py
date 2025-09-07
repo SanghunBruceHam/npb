@@ -411,8 +411,8 @@ class SimpleCrawler:
         start = datetime.strptime(start_date, "%Y-%m-%d")
         today = datetime.now()
         
-        # 당일 경기(진행중/예정)는 수집 대상에서 제외 (완료 경기만 반영)
-        end_date = today - timedelta(days=1)
+        # 당일 경기도 포함 (완료된 경기는 수집)
+        end_date = today
         current_date = start
         total_days = (end_date - start).days + 1
         
@@ -483,7 +483,7 @@ class SimpleCrawler:
         all_games = []
         today = datetime.now()
         
-        for i in range(1, days + 1):  # 어제부터 시작
+        for i in range(0, days):  # 오늘부터 시작  
             target_date = today - timedelta(days=i)
             games = self.crawl_date(target_date)
             all_games.extend(games)
