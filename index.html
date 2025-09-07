@@ -163,6 +163,33 @@
             text-decoration: none;
         }
         
+        .language-selector {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .lang-btn.active {
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+        }
+        
         h1 { 
             font-size: 18px; 
             margin: 0; 
@@ -738,19 +765,26 @@
 <body>
     <div class="header">
         <div class="header-content">
-            <a href="/npb/" class="site-name">NPB Dashboard</a>
-            <h1>NPB 2025シーズン 順位表・マジックナンバー・CS進出確率</h1>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="/npb/" class="site-name">NPB Dashboard</a>
+                <h1 data-i18n="main-title">NPB 2025シーズン 順位表・マジックナンバー・CS進出確率</h1>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn active" onclick="changeLanguage('ja')" data-lang="ja">🇯🇵 日本語</button>
+                <button class="lang-btn" onclick="changeLanguage('ko')" data-lang="ko">🇰🇷 한국어</button>
+                <button class="lang-btn" onclick="changeLanguage('en')" data-lang="en">🇺🇸 English</button>
+            </div>
         </div>
     </div>
     
     <div class="nav">
         <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showTab('magic-regular', this)">正規シーズン優勝マジック</div>
-            <div class="nav-tab" onclick="showTab('magic-playoff', this)">プレーオフマジック</div>
-            <div class="nav-tab" onclick="showTab('progress', this)">進行状況</div>
-            <div class="nav-tab" onclick="showTab('scenarios', this)">経路の数</div>
-            <div class="nav-tab" onclick="showTab('standings', this)">チーム順位</div>
-            <div class="nav-tab" onclick="showTab('remaining', this)">残り試合数</div>
+            <div class="nav-tab active" onclick="showTab('magic-regular', this)" data-i18n="nav-magic-regular">正規シーズン優勝マジック</div>
+            <div class="nav-tab" onclick="showTab('magic-playoff', this)" data-i18n="nav-magic-playoff">プレーオフマジック</div>
+            <div class="nav-tab" onclick="showTab('progress', this)" data-i18n="nav-progress">進行状況</div>
+            <div class="nav-tab" onclick="showTab('scenarios', this)" data-i18n="nav-scenarios">経路の数</div>
+            <div class="nav-tab" onclick="showTab('standings', this)" data-i18n="nav-standings">チーム順位</div>
+            <div class="nav-tab" onclick="showTab('remaining', this)" data-i18n="nav-remaining">残り試合数</div>
         </div>
     </div>
 
@@ -771,8 +805,8 @@
             </h2>
             <div class="schedule-toggle">
                 <div class="toggle-group" role="tablist" aria-label="Schedule Toggle">
-                    <button id="btn-today" class="toggle-btn active" role="tab" aria-selected="true">今日</button>
-                    <button id="btn-tomorrow" class="toggle-btn" role="tab" aria-selected="false">明日</button>
+                    <button id="btn-today" class="toggle-btn active" role="tab" aria-selected="true" data-i18n="today">今日</button>
+                    <button id="btn-tomorrow" class="toggle-btn" role="tab" aria-selected="false" data-i18n="tomorrow">明日</button>
                 </div>
             </div>
             <div id="today-games-container" class="games-grid">
@@ -784,28 +818,28 @@
         
         <!-- Regular Season Magic Numbers -->
         <div id="magic-regular" class="tab-content active">
-            <h2>2025年正規シーズン優勝マジックナンバー【セリーグ・パリーグ】</h2>
+            <h2 data-i18n="title-regular-magic">2025年正規シーズン優勝マジックナンバー【セリーグ・パリーグ】</h2>
             
             <div class="leagues">
                 <div>
-                    <h3>セントラルリーグ</h3>
+                    <h3 data-i18n="central-league">セントラルリーグ</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th class="center">順位</th>
-                                <th>チーム</th>
-                                <th class="center">試合</th>
-                                <th class="center">勝</th>
-                                <th class="center">敗</th>
-                                <th class="center">分</th>
-                                <th class="center">勝率</th>
-                                <th class="center">ゲーム差</th>
-                                <th class="center">残り試合</th>
-                                <th class="center">最大勝</th>
-                                <th class="center">1位条件</th>
-                                <th class="center">マジック</th>
-                                <th class="center">エリミネート</th>
-                                <th class="center">進出状況</th>
+                                <th class="center" data-i18n="rank">順位</th>
+                                <th data-i18n="team">チーム</th>
+                                <th class="center" data-i18n="games-played">試合</th>
+                                <th class="center" data-i18n="wins">勝</th>
+                                <th class="center" data-i18n="losses">敗</th>
+                                <th class="center" data-i18n="draws">分</th>
+                                <th class="center" data-i18n="win-rate">勝率</th>
+                                <th class="center" data-i18n="games-behind">ゲーム差</th>
+                                <th class="center" data-i18n="remaining-games">残り試合</th>
+                                <th class="center" data-i18n="max-wins">最大勝</th>
+                                <th class="center" data-i18n="first-place-condition">1位条件</th>
+                                <th class="center" data-i18n="magic">マジック</th>
+                                <th class="center" data-i18n="eliminate">エリミネート</th>
+                                <th class="center" data-i18n="playoff-status">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="central-magic-regular">
@@ -814,24 +848,24 @@
                     </table>
                 </div>
                 <div>
-                    <h3>パシフィックリーグ</h3>
+                    <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th class="center">順位</th>
-                                <th>チーム</th>
-                                <th class="center">試合</th>
-                                <th class="center">勝</th>
-                                <th class="center">敗</th>
-                                <th class="center">分</th>
-                                <th class="center">勝率</th>
-                                <th class="center">ゲーム差</th>
-                                <th class="center">残り試合</th>
-                                <th class="center">最大勝</th>
-                                <th class="center">1位条件</th>
-                                <th class="center">マジック</th>
-                                <th class="center">エリミネート</th>
-                                <th class="center">進出状況</th>
+                                <th class="center" data-i18n="rank">順位</th>
+                                <th data-i18n="team">チーム</th>
+                                <th class="center" data-i18n="games-played">試合</th>
+                                <th class="center" data-i18n="wins">勝</th>
+                                <th class="center" data-i18n="losses">敗</th>
+                                <th class="center" data-i18n="draws">分</th>
+                                <th class="center" data-i18n="win-rate">勝率</th>
+                                <th class="center" data-i18n="games-behind">ゲーム差</th>
+                                <th class="center" data-i18n="remaining-games">残り試合</th>
+                                <th class="center" data-i18n="max-wins">最大勝</th>
+                                <th class="center" data-i18n="first-place-condition">1位条件</th>
+                                <th class="center" data-i18n="magic">マジック</th>
+                                <th class="center" data-i18n="eliminate">エリミネート</th>
+                                <th class="center" data-i18n="playoff-status">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-regular">
@@ -855,26 +889,26 @@
 
         <!-- Playoff Magic Numbers -->
         <div id="magic-playoff" class="tab-content">
-            <h2>クライマックスシリーズ(CS)進出マジックナンバー【2025年最新】</h2>
+            <h2 data-i18n="title-playoff-magic">クライマックスシリーズ(CS)進出マジックナンバー【2025年最新】</h2>
             <div class="leagues">
                 <div>
-                    <h3>セントラルリーグ (上位3チーム)</h3>
+                    <h3 data-i18n="central-league-top3">セントラルリーグ (上位3チーム)</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th class="center">順位</th>
-                                <th>チーム</th>
-                                <th class="center">勝</th>
-                                <th class="center">敗</th>
-                                <th class="center">分</th>
-                                <th class="center">勝率</th>
-                                <th class="center">試合</th>
-                                <th class="center">ゲーム差</th>
-                                <th class="center">残り試合</th>
-                                <th class="center">最大勝</th>
-                                <th class="center">マジック</th>
-                                <th class="center">エリミネート</th>
-                                <th class="center">進出状況</th>
+                                <th class="center" data-i18n="rank">順位</th>
+                                <th data-i18n="team">チーム</th>
+                                <th class="center" data-i18n="wins">勝</th>
+                                <th class="center" data-i18n="losses">敗</th>
+                                <th class="center" data-i18n="draws">分</th>
+                                <th class="center" data-i18n="win-rate">勝率</th>
+                                <th class="center" data-i18n="games-played">試合</th>
+                                <th class="center" data-i18n="games-behind">ゲーム差</th>
+                                <th class="center" data-i18n="remaining-games">残り試合</th>
+                                <th class="center" data-i18n="max-wins">最大勝</th>
+                                <th class="center" data-i18n="magic">マジック</th>
+                                <th class="center" data-i18n="eliminate">エリミネート</th>
+                                <th class="center" data-i18n="playoff-status">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="central-magic-playoff">
@@ -883,23 +917,23 @@
                     </table>
                 </div>
                 <div>
-                    <h3>パシフィックリーグ (上位3チーム)</h3>
+                    <h3 data-i18n="pacific-league-top3">パシフィックリーグ (上位3チーム)</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th class="center">順位</th>
-                                <th>チーム</th>
-                                <th class="center">勝</th>
-                                <th class="center">敗</th>
-                                <th class="center">分</th>
-                                <th class="center">勝率</th>
-                                <th class="center">試合</th>
-                                <th class="center">ゲーム差</th>
-                                <th class="center">残り試合</th>
-                                <th class="center">最大勝</th>
-                                <th class="center">マジック</th>
-                                <th class="center">エリミネート</th>
-                                <th class="center">進出状況</th>
+                                <th class="center" data-i18n="rank">順位</th>
+                                <th data-i18n="team">チーム</th>
+                                <th class="center" data-i18n="wins">勝</th>
+                                <th class="center" data-i18n="losses">敗</th>
+                                <th class="center" data-i18n="draws">分</th>
+                                <th class="center" data-i18n="win-rate">勝率</th>
+                                <th class="center" data-i18n="games-played">試合</th>
+                                <th class="center" data-i18n="games-behind">ゲーム差</th>
+                                <th class="center" data-i18n="remaining-games">残り試合</th>
+                                <th class="center" data-i18n="max-wins">最大勝</th>
+                                <th class="center" data-i18n="magic">マジック</th>
+                                <th class="center" data-i18n="eliminate">エリミネート</th>
+                                <th class="center" data-i18n="playoff-status">進出状況</th>
                             </tr>
                         </thead>
                         <tbody id="pacific-magic-playoff">
@@ -923,16 +957,16 @@
 
         <!-- Scenarios -->
         <div id="scenarios" class="tab-content">
-            <h2>経路の数（場合の数）</h2>
+            <h2 data-i18n="title-scenarios">経路の数（場合の数）</h2>
 
             <!-- Central League Scenario Views -->
             <div style="margin-bottom: 20px;">
-                <h3>セントラルリーグ</h3>
+                <h3 data-i18n="central-league">セントラルリーグ</h3>
                 <div class="schedule-toggle" style="margin: 8px 0;">
                     <div class="toggle-group" role="tablist" aria-label="Central Scenario View">
-                        <button id="btn-central-matrix" class="toggle-btn active" role="tab" aria-selected="true">マトリクス</button>
-                        <button id="btn-central-detailed" class="toggle-btn" role="tab" aria-selected="false">詳細</button>
-                        <button id="btn-central-table" class="toggle-btn" role="tab" aria-selected="false">必要勝数表</button>
+                        <button id="btn-central-matrix" class="toggle-btn active" role="tab" aria-selected="true" data-i18n="matrix">マトリクス</button>
+                        <button id="btn-central-detailed" class="toggle-btn" role="tab" aria-selected="false" data-i18n="detailed">詳細</button>
+                        <button id="btn-central-table" class="toggle-btn" role="tab" aria-selected="false" data-i18n="table">必要勝数表</button>
                     </div>
                 </div>
                 <div id="central-scenario-matrix" class="scenario-section" style="display: none;">
@@ -951,12 +985,12 @@
 
             <!-- Pacific League Scenario Views -->
             <div>
-                <h3>パシフィックリーグ</h3>
+                <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
                 <div class="schedule-toggle" style="margin: 8px 0;">
                     <div class="toggle-group" role="tablist" aria-label="Pacific Scenario View">
-                        <button id="btn-pacific-matrix" class="toggle-btn active" role="tab" aria-selected="true">マトリクス</button>
-                        <button id="btn-pacific-detailed" class="toggle-btn" role="tab" aria-selected="false">詳細</button>
-                        <button id="btn-pacific-table" class="toggle-btn" role="tab" aria-selected="false">必要勝数表</button>
+                        <button id="btn-pacific-matrix" class="toggle-btn active" role="tab" aria-selected="true" data-i18n="matrix">マトリクス</button>
+                        <button id="btn-pacific-detailed" class="toggle-btn" role="tab" aria-selected="false" data-i18n="detailed">詳細</button>
+                        <button id="btn-pacific-table" class="toggle-btn" role="tab" aria-selected="false" data-i18n="table">必要勝数表</button>
                     </div>
                 </div>
                 <div id="pacific-scenario-matrix" class="scenario-section" style="display: none;">
@@ -987,9 +1021,9 @@
 
         <!-- Detailed Standings -->
         <div id="standings" class="tab-content">
-            <h2>NPB詳細順位表【勝率・ゲーム差・残り試合数】</h2>
+            <h2 data-i18n="title-detailed-standings">NPB詳細順位表【勝率・ゲーム差・残り試合数】</h2>
             <div class="scroll-table">
-                <h3>セントラルリーグ</h3>
+                <h3 data-i18n="central-league">セントラルリーグ</h3>
                 <table>
                     <thead>
                         <tr>
@@ -1016,7 +1050,7 @@
                 </table>
             </div>
             <div class="scroll-table" style="margin-top: 30px;">
-                <h3>パシフィックリーグ</h3>
+                <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
                 <table>
                     <thead>
                         <tr>
@@ -1050,9 +1084,9 @@
 
         <!-- Remaining Games -->
         <div id="remaining" class="tab-content">
-            <h2>残り試合対戦マトリクス【チーム別対戦予定】</h2>
+            <h2 data-i18n="title-remaining-matrix">残り試合対戦マトリクス【チーム別対戦予定】</h2>
             <div style="margin: 20px 0;">
-                <h3>セントラルリーグ</h3>
+                <h3 data-i18n="central-league">セントラルリーグ</h3>
                 <div class="matrix-container">
                     <div id="central-remaining-matrix" class="remaining-matrix">
                         <div class="loading">読み込み中...</div>
@@ -1060,7 +1094,7 @@
                 </div>
             </div>
             <div style="margin: 20px 0;">
-                <h3>パシフィックリーグ</h3>
+                <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
                 <div class="matrix-container">
                     <div id="pacific-remaining-matrix" class="remaining-matrix">
                         <div class="loading">読み込み中...</div>
@@ -1077,7 +1111,7 @@
 
         <!-- Progress Tab -->
         <div id="progress" class="tab-content">
-            <h2>2025年シーズン進行状況【消化試合数・進捗率】</h2>
+            <h2 data-i18n="title-progress">2025年シーズン進行状況【消化試合数・進捗率】</h2>
             
             <!-- 전체 소화율 섹션 -->
             <div style="margin: 20px 0;">
@@ -1155,6 +1189,334 @@
     </main>
 
     <script>
+        // ===== 다국어 번역 데이터 =====
+        const translations = {
+            ja: {
+                // 메인 헤더
+                'main-title': 'NPB 2025シーズン 順位表・マジックナンバー・CS進出確率',
+                
+                // 네비게이션 탭
+                'nav-magic-regular': '正規シーズン優勝マジック',
+                'nav-magic-playoff': 'プレーオフマジック', 
+                'nav-scenarios': '経路の数',
+                'nav-standings': 'チーム順位',
+                'nav-remaining': '残り試合数',
+                'nav-progress': '進行状況',
+                
+                // 섹션 제목
+                'title-regular-magic': '2025年正規シーズン優勝マジックナンバー【セリーグ・パリーグ】',
+                'title-playoff-magic': 'クライマックスシリーズ(CS)進出マジックナンバー【2025年最新】',
+                'title-detailed-standings': 'NPB詳細順位表【勝率・ゲーム差・残り試合数】',
+                'title-remaining-matrix': '残り試合対戦マトリクス【チーム別対戦予定】',
+                'title-progress': '2025年シーズン進行状況【消化試合数・進捗率】',
+                'title-scenarios': '経路の数（場合の数）',
+                
+                // 리그명
+                'central-league': 'セントラルリーグ',
+                'pacific-league': 'パシフィックリーグ',
+                'central-league-top3': 'セントラルリーグ (上位3チーム)',
+                'pacific-league-top3': 'パシフィックリーグ (上位3チーム)',
+                
+                // 테이블 헤더
+                'rank': '順位',
+                'team': 'チーム',
+                'games-played': '試合',
+                'wins': '勝',
+                'losses': '敗',
+                'draws': '分',
+                'win-rate': '勝率',
+                'games-behind': 'ゲーム差',
+                'remaining-games': '残り試合',
+                'max-wins': '最大勝',
+                'first-place-condition': '1位条件',
+                'magic': 'マジック',
+                'eliminate': 'エリミネート',
+                'playoff-status': '進出状況',
+                'clinch': 'クリンチ',
+                'runs-scored': '得点',
+                'runs-allowed': '失点',
+                'run-differential': '得失点差',
+                
+                // 버튼
+                'today': '今日',
+                'tomorrow': '明日',
+                'matrix': 'マトリクス',
+                'detailed': '詳細',
+                'table': '必要勝数表',
+                
+                // 도움말 및 설명
+                'help-regular-magic': '<strong>🏆 正規シーズン優勝マジックナンバー</strong><br>各チームが優勝を確定するために必要な最少勝利数です。他チームの結果に関係なく、この数だけ勝てば優勝が決定します。「✓」は既に優勝確定済みを示します。',
+                'help-playoff-magic': '<strong>🏆 クライマックスシリーズ (CS) 進出について</strong><br>セリーグ・パリーグともに上位3チームがCS進出。3位以内確定に必要な最少勝利数を表示。順位確定済みは「✓」で表示。',
+                'help-scenarios': '<strong>📊 シナリオ分析について</strong><br>各チームが特定順位になる可能性のある場合の数を表示します。計算は残り試合の全パターンを考慮します。',
+                'help-standings': '<strong>📋 順位表について</strong><br>現在の各チーム成績と順位です。勝率は引き分けを除外して計算されます。',
+                'help-remaining': '<strong>🗓 残り試合について</strong><br>各チーム間の残り対戦数を表示します。数字は残り対戦回数を示します。',
+                'help-progress': '<strong>📈 進行状況について</strong><br>シーズン全体および各チームの消化試合数と進捗率を表示します。',
+                
+                // 상태 메시지
+                'championship-decided': '優勝決定',
+                'playoff-secured': 'CS確定',
+                'eliminated': '圏外確定',
+                'still-possible': '可能性あり',
+                
+                // NPB 팀명 (일본어)
+                'giants': '読売ジャイアンツ',
+                'tigers': '阪神タイガース', 
+                'dragons': '中日ドラゴンズ',
+                'carp': '広島東洋カープ',
+                'swallows': '東京ヤクルトスワローズ',
+                'baystars': '横浜DeNAベイスターズ',
+                'hawks': 'ソフトバンクホークス',
+                'eagles': '東北楽天ゴールデンイーグルス',
+                'lions': '埼玉西武ライオンズ',
+                'marines': '千葉ロッテマリーンズ',
+                'fighters': '北海道日本ハムファイターズ',
+                'buffaloes': 'オリックスバファローズ',
+                
+                // 팀명 줄임말
+                'giants-short': 'ジャイアンツ',
+                'tigers-short': 'タイガース',
+                'dragons-short': 'ドラゴンズ',
+                'carp-short': 'カープ',
+                'swallows-short': 'スワローズ',
+                'baystars-short': 'ベイスターズ',
+                'hawks-short': 'ホークス',
+                'eagles-short': 'イーグルス',
+                'lions-short': 'ライオンズ',
+                'marines-short': 'マリーンズ',
+                'fighters-short': 'ファイターズ',
+                'buffaloes-short': 'バファローズ',
+                
+                // 조건 메시지
+                'wins-needed': '勝必要',
+                'championship-secured': '優勝確定済み',
+                'playoff-advancement-secured': 'CS進出確定',
+                'eliminated-short': 'E',
+                'no-remaining-games': '残り試合なし',
+                
+                // 진행 상황 텍스트
+                'games-completed': '完了',
+                'games-remaining': '残り',
+                'games-unit': '試合',
+                'progress-gap': '試合差'
+            },
+            ko: {
+                // 메인 헤더
+                'main-title': 'NPB 2025시즌 순위표·매직넘버·CS진출확률',
+                
+                // 네비게이션 탭
+                'nav-magic-regular': '정규시즌 우승 매직',
+                'nav-magic-playoff': '플레이오프 매직',
+                'nav-scenarios': '경로의 수',
+                'nav-standings': '팀 순위',
+                'nav-remaining': '남은 경기수',
+                'nav-progress': '진행 상황',
+                
+                // 섹션 제목
+                'title-regular-magic': '2025년 정규시즌 우승 매직넘버【센트럴·퍼시픽 리그】',
+                'title-playoff-magic': '클라이맥스 시리즈(CS) 진출 매직넘버【2025년 최신】',
+                'title-detailed-standings': 'NPB 상세 순위표【승률·게임차·남은경기수】',
+                'title-remaining-matrix': '남은 경기 대전 매트릭스【팀별 대전 예정】',
+                'title-progress': '2025년 시즌 진행 상황【소화경기수·진행률】',
+                'title-scenarios': '경로의 수（경우의 수）',
+                
+                // 리그명
+                'central-league': '센트럴리그',
+                'pacific-league': '퍼시픽리그',
+                'central-league-top3': '센트럴리그 (상위 3팀)',
+                'pacific-league-top3': '퍼시픽리그 (상위 3팀)',
+                
+                // 테이블 헤더
+                'rank': '순위',
+                'team': '팀',
+                'games-played': '경기',
+                'wins': '승',
+                'losses': '패',
+                'draws': '무',
+                'win-rate': '승률',
+                'games-behind': '게임차',
+                'remaining-games': '남은경기',
+                'max-wins': '최대승수',
+                'first-place-condition': '1위조건',
+                'magic': '매직',
+                'eliminate': '엘리미네이트',
+                'playoff-status': '진출상황',
+                'clinch': '클린치',
+                'runs-scored': '득점',
+                'runs-allowed': '실점',
+                'run-differential': '득실점차',
+                
+                // 버튼
+                'today': '오늘',
+                'tomorrow': '내일',
+                'matrix': '매트릭스',
+                'detailed': '상세',
+                'table': '필요승수표',
+                
+                // 도움말 및 설명
+                'help-regular-magic': '<strong>🏆 정규시즌 우승 매직넘버</strong><br>각 팀이 우승을 확정하기 위해 필요한 최소 승리수입니다. 다른 팀의 결과에 관계없이 이 수만큼 승리하면 우승이 결정됩니다. 「✓」는 이미 우승이 확정됨을 나타냅니다.',
+                'help-playoff-magic': '<strong>🏆 클라이맥스 시리즈 (CS) 진출에 대해</strong><br>센트럴·퍼시픽리그 모두 상위 3팀이 CS 진출. 3위 이내 확정에 필요한 최소 승리수를 표시. 순위 확정시 「✓」로 표시.',
+                'help-scenarios': '<strong>📊 시나리오 분석에 대해</strong><br>각 팀이 특정 순위가 될 가능성이 있는 경우의 수를 표시합니다. 계산은 남은 경기의 모든 패턴을 고려합니다.',
+                'help-standings': '<strong>📋 순위표에 대해</strong><br>현재 각 팀의 성적과 순위입니다. 승률은 무승부를 제외하고 계산됩니다.',
+                'help-remaining': '<strong>🗓 남은 경기에 대해</strong><br>각 팀 간의 남은 대전수를 표시합니다. 숫자는 남은 대전 횟수를 나타냅니다.',
+                'help-progress': '<strong>📈 진행 상황에 대해</strong><br>시즌 전체 및 각 팀의 소화 경기수와 진행률을 표시합니다.',
+                
+                // 상태 메시지
+                'championship-decided': '우승 결정',
+                'playoff-secured': 'CS 확정',
+                'eliminated': '권외 확정',
+                'still-possible': '가능성 있음',
+                
+                // NPB 팀명 (한국어)
+                'giants': '요미우리 자이언츠',
+                'tigers': '한신 타이거스',
+                'dragons': '주니치 드래곤스',
+                'carp': '히로시마 도요 카프',
+                'swallows': '도쿄 야쿠르트 스왈로즈',
+                'baystars': '요코하마 DeNA 베이스타스',
+                'hawks': '소프트뱅크 호크스',
+                'eagles': '토호쿠 라쿠텐 골든이글스',
+                'lions': '사이타마 세이부 라이온스',
+                'marines': '치바 롯데 마린스',
+                'fighters': '홋카이도 닛폰햄 파이터스',
+                'buffaloes': '오릭스 버팔로스',
+                
+                // 팀명 줄임말
+                'giants-short': '자이언츠',
+                'tigers-short': '타이거스',
+                'dragons-short': '드래곤스',
+                'carp-short': '카프',
+                'swallows-short': '스왈로즈',
+                'baystars-short': '베이스타스',
+                'hawks-short': '호크스',
+                'eagles-short': '이글스',
+                'lions-short': '라이온스',
+                'marines-short': '마린스',
+                'fighters-short': '파이터스',
+                'buffaloes-short': '버팔로스',
+                
+                // 조건 메시지
+                'wins-needed': '승 필요',
+                'championship-secured': '우승 확정',
+                'playoff-advancement-secured': 'CS 진출 확정',
+                'eliminated-short': 'E',
+                'no-remaining-games': '남은 경기 없음',
+                
+                // 진행 상황 텍스트
+                'games-completed': '완료',
+                'games-remaining': '남은',
+                'games-unit': '경기',
+                'progress-gap': '경기차'
+            },
+            en: {
+                // 메인 헤더
+                'main-title': 'NPB 2025 Season Standings · Magic Numbers · CS Playoff Probability',
+                
+                // 네비게이션 탭
+                'nav-magic-regular': 'Regular Season Magic',
+                'nav-magic-playoff': 'Playoff Magic',
+                'nav-scenarios': 'Path Count',
+                'nav-standings': 'Team Standings',
+                'nav-remaining': 'Remaining Games',
+                'nav-progress': 'Season Progress',
+                
+                // 섹션 제목
+                'title-regular-magic': '2025 Regular Season Championship Magic Numbers【Central・Pacific League】',
+                'title-playoff-magic': 'Climax Series (CS) Advancement Magic Numbers【2025 Latest】',
+                'title-detailed-standings': 'NPB Detailed Standings【Win Rate・Games Behind・Remaining Games】',
+                'title-remaining-matrix': 'Remaining Games Matrix【Team vs Team Schedule】',
+                'title-progress': '2025 Season Progress【Games Played・Progress Rate】',
+                'title-scenarios': 'Path Count (Number of Cases)',
+                
+                // 리그명
+                'central-league': 'Central League',
+                'pacific-league': 'Pacific League',
+                'central-league-top3': 'Central League (Top 3 Teams)',
+                'pacific-league-top3': 'Pacific League (Top 3 Teams)',
+                
+                // 테이블 헤더
+                'rank': 'Rank',
+                'team': 'Team',
+                'games-played': 'GP',
+                'wins': 'W',
+                'losses': 'L',
+                'draws': 'T',
+                'win-rate': 'PCT',
+                'games-behind': 'GB',
+                'remaining-games': 'Remaining',
+                'max-wins': 'Max Wins',
+                'first-place-condition': '1st Place Condition',
+                'magic': 'Magic',
+                'eliminate': 'Eliminate',
+                'playoff-status': 'Playoff Status',
+                'clinch': 'Clinch',
+                'runs-scored': 'RS',
+                'runs-allowed': 'RA',
+                'run-differential': 'Diff',
+                
+                // 버튼
+                'today': 'Today',
+                'tomorrow': 'Tomorrow',
+                'matrix': 'Matrix',
+                'detailed': 'Detailed',
+                'table': 'Win Requirements',
+                
+                // 도움말 및 설명
+                'help-regular-magic': '<strong>🏆 Regular Season Championship Magic Numbers</strong><br>The minimum number of wins each team needs to secure the championship. Regardless of other teams\' results, winning this many games guarantees the championship. \"✓\" indicates championship already secured.',
+                'help-playoff-magic': '<strong>🏆 About Climax Series (CS) Advancement</strong><br>Top 3 teams from both Central and Pacific leagues advance to CS. Shows minimum wins needed to secure top 3 position. \"✓\" indicates position already secured.',
+                'help-scenarios': '<strong>📊 About Scenario Analysis</strong><br>Shows the number of possible cases where each team can finish at specific rankings. Calculations consider all possible patterns of remaining games.',
+                'help-standings': '<strong>📋 About Standings</strong><br>Current performance and rankings of each team. Win percentage is calculated excluding ties.',
+                'help-remaining': '<strong>🗓 About Remaining Games</strong><br>Shows remaining matchups between each team. Numbers indicate remaining games to be played.',
+                'help-progress': '<strong>📈 About Season Progress</strong><br>Shows games played and progress rate for the entire season and each team.',
+                
+                // 상태 메시지
+                'championship-decided': 'Championship Decided',
+                'playoff-secured': 'CS Secured',
+                'eliminated': 'Eliminated',
+                'still-possible': 'Still Possible',
+                
+                // NPB 팀명 (영어)
+                'giants': 'Yomiuri Giants',
+                'tigers': 'Hanshin Tigers',
+                'dragons': 'Chunichi Dragons',
+                'carp': 'Hiroshima Toyo Carp',
+                'swallows': 'Tokyo Yakult Swallows',
+                'baystars': 'Yokohama DeNA BayStars',
+                'hawks': 'SoftBank Hawks',
+                'eagles': 'Tohoku Rakuten Golden Eagles',
+                'lions': 'Saitama Seibu Lions',
+                'marines': 'Chiba Lotte Marines',
+                'fighters': 'Hokkaido Nippon-Ham Fighters',
+                'buffaloes': 'Orix Buffaloes',
+                
+                // 팀명 줄임말
+                'giants-short': 'Giants',
+                'tigers-short': 'Tigers',
+                'dragons-short': 'Dragons',
+                'carp-short': 'Carp',
+                'swallows-short': 'Swallows',
+                'baystars-short': 'BayStars',
+                'hawks-short': 'Hawks',
+                'eagles-short': 'Eagles',
+                'lions-short': 'Lions',
+                'marines-short': 'Marines',
+                'fighters-short': 'Fighters',
+                'buffaloes-short': 'Buffaloes',
+                
+                // 조건 메시지
+                'wins-needed': 'Wins Needed',
+                'championship-secured': 'Championship Secured',
+                'playoff-advancement-secured': 'CS Secured',
+                'eliminated-short': 'E',
+                'no-remaining-games': 'No Games Left',
+                
+                // 진행 상황 텍스트
+                'games-completed': 'Completed',
+                'games-remaining': 'Remaining',
+                'games-unit': 'Games',
+                'progress-gap': 'Games Gap'
+            }
+        };
+
         // ===== グローバル変数 =====
         let standingsData = null;      // 順位表データ
         let seasonConfig = null;       // シーズン設定データ  
@@ -1387,26 +1749,8 @@
             const src = TEAM_LOGOS[abbr] || '';
             let safeName = name || abbr || '';
             
-            // shortName이 true이면 팀명을 짧게 표시
-            if (shortName && safeName) {
-                // 일본어 팀명 축약 처리
-                const shortNames = {
-                    '阪神タイガース': '阪神',
-                    '読売ジャイアンツ': '巨人',
-                    '横浜DeNAベイスターズ': '横浜',
-                    '広島東洋カープ': '広島',
-                    '中日ドラゴンズ': '中日',
-                    '東京ヤクルトスワローズ': 'ヤクルト',
-                    '福岡ソフトバンクホークス': 'ソフトバンク',
-                    '千葉ロッテマリーンズ': 'ロッテ',
-                    '東北楽天ゴールデンイーグルス': '楽天',
-                    'オリックスバファローズ': 'オリックス',
-                    'オリックス・バファローズ': 'オリックス',
-                    '埼玉西武ライオンズ': '西武',
-                    '北海道日本ハムファイターズ': '日本ハム'
-                };
-                safeName = shortNames[safeName] || safeName.substring(0, 6);
-            }
+            // 팀명 번역 적용
+            safeName = translateTeamName(safeName, shortName);
             
             const img = src ? `<img class="team-logo" src="${src}" alt="${safeName}">` : '';
             return `${img}${safeName}`;
@@ -1624,7 +1968,7 @@
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
-                            <td class="center" style="font-size: 12px;">${condition}</td>
+                            <td class="center" style="font-size: 12px;">${translateCondition(condition)}</td>
                             <td class="center ${magic === '✓' ? 'clinched' : 'magic-number'}">${magic}</td>
                             <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
                             <td class="center ${clinch !== '-' ? 'clinched' : ''}" style="font-size: 12px;">${clinch}</td>
@@ -3170,6 +3514,252 @@
             if (pacificTeams.includes(teamAbbr)) return 'Pacific';
             return 'Unknown';
         }
+
+        // ===== 언어 변환 기능 =====
+        let currentLanguage = 'ja';
+        
+        // 현재 언어 초기화 (localStorage에서 읽기)
+        function initLanguage() {
+            const savedLang = localStorage.getItem('npb-language');
+            if (savedLang && translations[savedLang]) {
+                currentLanguage = savedLang;
+            }
+            updateLanguage();
+            updateActiveLanguageButton();
+        }
+        
+        // 언어 변경 함수
+        function changeLanguage(lang) {
+            if (!translations[lang]) return;
+            
+            currentLanguage = lang;
+            localStorage.setItem('npb-language', lang);
+            updateLanguage();
+            updateActiveLanguageButton();
+            
+            // 메타 태그도 업데이트
+            updateMetaTags(lang);
+        }
+        
+        // 텍스트 업데이트 함수
+        function updateLanguage() {
+            // 일반 텍스트 번역
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+            
+            // HTML 콘텐츠 번역 (도움말 등)
+            const htmlElements = document.querySelectorAll('[data-i18n-html]');
+            htmlElements.forEach(element => {
+                const key = element.getAttribute('data-i18n-html');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.innerHTML = translations[currentLanguage][key];
+                }
+            });
+        }
+        
+        // 언어 버튼 활성화 상태 업데이트
+        function updateActiveLanguageButton() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === currentLanguage) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // 메타 태그 업데이트 (SEO용)
+        function updateMetaTags(lang) {
+            const titleMap = {
+                'ja': '【毎日自動更新】NPB 2025順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想 | プロ野球データベース',
+                'ko': '【매일 자동 업데이트】NPB 2025 순위표·매직넘버·클린치·CS진출확률·우승예상 | 프로야구 데이터베이스',
+                'en': '【Daily Auto-Update】NPB 2025 Standings・Magic Numbers・Clinch・CS Playoff Probability・Championship Prediction | Baseball Database'
+            };
+            
+            const descriptionMap = {
+                'ja': '【2025年最新】NPB順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想を毎日自動更新。セリーグ・パリーグ全12球団の勝率分析、残り試合数、プレーオフシナリオまで完全網羅。巨人・阪神・ソフトバンクなど全チーム対応。',
+                'ko': '【2025년 최신】NPB 순위표·매직넘버·클린치·CS진출확률·우승예상을 매일 자동업데이트. 센트럴·퍼시픽리그 전12구단의 승률분석, 남은경기수, 플레이오프 시나리오까지 완전망라. 자이언츠·타이거스·호크스 등 전팀 지원.',
+                'en': '【2025 Latest】Daily auto-update of NPB standings, magic numbers, clinch, CS playoff probability, championship predictions. Complete coverage of all 12 teams from Central & Pacific leagues including win rate analysis, remaining games, playoff scenarios. Giants, Tigers, Hawks and all teams supported.'
+            };
+            
+            // Title 업데이트
+            if (titleMap[lang]) {
+                document.title = titleMap[lang];
+            }
+            
+            // Description 업데이트  
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc && descriptionMap[lang]) {
+                metaDesc.setAttribute('content', descriptionMap[lang]);
+            }
+            
+            // HTML lang 속성 업데이트
+            document.documentElement.setAttribute('lang', lang);
+        }
+        
+        // 동적 콘텐츠 번역 유틸리티 함수
+        function getTranslation(key) {
+            return translations[currentLanguage] && translations[currentLanguage][key] ? 
+                   translations[currentLanguage][key] : key;
+        }
+        
+        // 조건 메시지 번역 함수
+        function translateCondition(condition) {
+            if (!condition) return condition;
+            
+            // 정규표현식을 사용하여 동적 메시지 번역
+            if (condition.includes('勝必要')) {
+                const match = condition.match(/(\d+)勝必要/);
+                if (match) {
+                    return `${match[1]} ${getTranslation('wins-needed')}`;
+                }
+            }
+            
+            if (condition.includes('CS進出まで') && condition.includes('勝')) {
+                const match = condition.match(/CS進出まで(\d+)勝/);
+                if (match) {
+                    return `${match[1]} ${getTranslation('wins-needed')} for CS`;
+                }
+            }
+            
+            // 고정 메시지 번역
+            const conditionMap = {
+                '確定': getTranslation('championship-secured'),
+                '優勝確定済み': getTranslation('championship-secured'),
+                'CS進出確定': getTranslation('playoff-advancement-secured'),
+                'ファイナル直行': currentLanguage === 'ja' ? 'ファイナル直行' : 
+                               currentLanguage === 'ko' ? '파이널 직행' : 'Final Direct',
+                'ファーストステージ': currentLanguage === 'ja' ? 'ファーストステージ' :
+                                   currentLanguage === 'ko' ? '퍼스트 스테이지' : 'First Stage',
+                '不可能': currentLanguage === 'ja' ? '不可能' :
+                         currentLanguage === 'ko' ? '불가능' : 'Impossible'
+            };
+            
+            return conditionMap[condition] || condition;
+        }
+        
+        // 상태 번역 함수
+        function translateStatus(status) {
+            const statusMap = {
+                '優勝決定': getTranslation('championship-decided'),
+                'CS確定': getTranslation('playoff-secured'),
+                '圏外確定': getTranslation('eliminated'),
+                '可能性あり': getTranslation('still-possible')
+            };
+            return statusMap[status] || status;
+        }
+        
+        // 팀명 번역 함수
+        function translateTeamName(teamName, isShort = false) {
+            if (!teamName) return teamName;
+            
+            // 팀명을 키로 변환하는 매핑 테이블
+            const teamKeyMap = {
+                // 일본어 팀명 -> 키
+                '読売ジャイアンツ': 'giants',
+                'ジャイアンツ': 'giants',
+                '阪神タイガース': 'tigers', 
+                'タイガース': 'tigers',
+                '中日ドラゴンズ': 'dragons',
+                'ドラゴンズ': 'dragons',
+                '広島東洋カープ': 'carp',
+                'カープ': 'carp',
+                '東京ヤクルトスワローズ': 'swallows',
+                'スワローズ': 'swallows',
+                '横浜DeNAベイスターズ': 'baystars',
+                'ベイスターズ': 'baystars',
+                'ソフトバンクホークス': 'hawks',
+                'ホークス': 'hawks',
+                '東北楽天ゴールデンイーグルス': 'eagles',
+                'イーグルス': 'eagles',
+                '埼玉西武ライオンズ': 'lions',
+                'ライオンズ': 'lions',
+                '千葉ロッテマリーンズ': 'marines',
+                'マリーンズ': 'marines',
+                '北海道日本ハムファイターズ': 'fighters',
+                'ファイターズ': 'fighters',
+                'オリックスバファローズ': 'buffaloes',
+                'バファローズ': 'buffaloes',
+                
+                // 영어 팀명 -> 키
+                'Giants': 'giants',
+                'Tigers': 'tigers',
+                'Dragons': 'dragons',
+                'Carp': 'carp', 
+                'Swallows': 'swallows',
+                'BayStars': 'baystars',
+                'Hawks': 'hawks',
+                'Eagles': 'eagles',
+                'Lions': 'lions',
+                'Marines': 'marines',
+                'Fighters': 'fighters',
+                'Buffaloes': 'buffaloes'
+            };
+            
+            // 팀명에서 키 찾기
+            let teamKey = teamKeyMap[teamName];
+            if (!teamKey) {
+                // 부분 매칭 시도
+                for (const [name, key] of Object.entries(teamKeyMap)) {
+                    if (teamName.includes(name) || name.includes(teamName)) {
+                        teamKey = key;
+                        break;
+                    }
+                }
+            }
+            
+            if (teamKey) {
+                const suffix = isShort ? '-short' : '';
+                return getTranslation(teamKey + suffix);
+            }
+            
+            return teamName; // 매칭되지 않으면 원래 이름 반환
+        }
+        
+        // 언어 변경시 동적 콘텐츠도 재생성
+        function refreshDynamicContent() {
+            if (standingsData) {
+                // 테이블 데이터 재생성
+                updateAllTables();
+            }
+        }
+        
+        // 모든 테이블 업데이트 함수 (기존 함수들 호출)
+        function updateAllTables() {
+            // 매직넘버 테이블
+            if (standingsData?.central_league?.standings) {
+                updateMagicTable('central-magic-regular', standingsData.central_league.standings, true);
+                updateMagicTable('central-magic-playoff', standingsData.central_league.standings, false);
+            }
+            if (standingsData?.pacific_league?.standings) {
+                updateMagicTable('pacific-magic-regular', standingsData.pacific_league.standings, true);
+                updateMagicTable('pacific-magic-playoff', standingsData.pacific_league.standings, false);
+            }
+            
+            // 상세 순위표
+            if (standingsData?.central_league?.standings) {
+                updateDetailedTable('central-detailed', standingsData.central_league.standings);
+            }
+            if (standingsData?.pacific_league?.standings) {
+                updateDetailedTable('pacific-detailed', standingsData.pacific_league.standings);
+            }
+        }
+        
+        // 기존 changeLanguage 함수 수정
+        const originalChangeLanguage = changeLanguage;
+        changeLanguage = function(lang) {
+            originalChangeLanguage(lang);
+            refreshDynamicContent();
+        }
+        
+        // 페이지 로드시 언어 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            initLanguage();
+        });
 
         // No JS footer init required; footer is static in HTML.
     </script>
