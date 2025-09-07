@@ -369,67 +369,93 @@
         /* Progress Tab Styles */
         .league-progress {
             background: #fff;
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .team-progress-item {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
-            padding: 8px;
-            border-radius: 4px;
-            background: #fafafa;
+            margin-bottom: 8px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            transition: background-color 0.2s ease;
+        }
+        
+        .team-progress-item:hover {
+            background: #e9ecef;
         }
         
         .team-progress-name {
-            width: 100px;
+            width: 120px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        
+        .team-progress-name img {
+            margin-right: 6px;
         }
         
         .team-progress-bar {
             flex: 1;
-            height: 16px;
+            height: 18px;
             background: #e0e0e0;
-            border-radius: 8px;
-            margin: 0 10px;
+            border-radius: 9px;
+            margin: 0 12px;
             overflow: hidden;
+            border: 1px solid #ccc;
         }
         
         .team-progress-fill {
             height: 100%;
             transition: width 0.8s ease;
             border-radius: 8px;
+            background: linear-gradient(90deg, currentColor, currentColor);
         }
         
         .team-progress-text {
-            width: 60px;
+            width: 70px;
             text-align: right;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
         }
         
         .stat-card {
             background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 18px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
         }
         
         .stat-title {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .stat-value {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            color: #333;
+            color: #2e7d32;
+            line-height: 1.2;
         }
         .today-date {
             font-size: 13px;
@@ -721,10 +747,10 @@
         <div class="nav-tabs">
             <div class="nav-tab active" onclick="showTab('magic-regular', this)">正規シーズン優勝マジック</div>
             <div class="nav-tab" onclick="showTab('magic-playoff', this)">プレーオフマジック</div>
+            <div class="nav-tab" onclick="showTab('progress', this)">進行状況</div>
             <div class="nav-tab" onclick="showTab('scenarios', this)">経路の数</div>
             <div class="nav-tab" onclick="showTab('standings', this)">チーム順位</div>
             <div class="nav-tab" onclick="showTab('remaining', this)">残り試合数</div>
-            <div class="nav-tab" onclick="showTab('progress', this)">進行状況</div>
         </div>
     </div>
 
@@ -2310,14 +2336,14 @@
                 
                 html += `
                     <div class="team-progress-item">
-                        <div class="team-progress-name">${renderTeamLabel(team.team_abbreviation, team.team_name, false)}</div>
+                        <div class="team-progress-name">${renderTeamLabel(team.team_abbreviation, team.team_name, true)}</div>
                         <div class="team-progress-bar">
                             <div class="team-progress-fill" style="width: ${progressPercentage}%; background: ${barColor};"></div>
                         </div>
                         <div class="team-progress-text">${progressPercentage.toFixed(1)}%</div>
                     </div>
-                    <div style="font-size: 11px; color: #666; margin: -8px 0 8px 120px;">
-                        ${gamesPlayed}試合完了 (残り${remaining}試合)
+                    <div style="font-size: 12px; color: #555; margin: -6px 0 10px 8px; font-weight: 500;">
+                        完了: ${gamesPlayed}試合 | 残り: ${remaining}試合
                     </div>
                 `;
             });
@@ -2353,8 +2379,8 @@
             const gapEl = document.getElementById('progress-gap');
             
             if (averageEl) averageEl.textContent = `${averageProgress.toFixed(1)}%`;
-            if (highestEl) highestEl.textContent = renderTeamLabel(highestTeam?.team_abbreviation, highestTeam?.team_name, false) || '—';
-            if (lowestEl) lowestEl.textContent = renderTeamLabel(lowestTeam?.team_abbreviation, lowestTeam?.team_name, false) || '—';
+            if (highestEl) highestEl.innerHTML = renderTeamLabel(highestTeam?.team_abbreviation, highestTeam?.team_name, true) || '—';
+            if (lowestEl) lowestEl.innerHTML = renderTeamLabel(lowestTeam?.team_abbreviation, lowestTeam?.team_name, true) || '—';
             if (gapEl) gapEl.textContent = `${progressGap}試合`;
         }
 
