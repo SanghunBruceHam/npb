@@ -1267,6 +1267,9 @@
                 el.setAttribute('aria-selected', 'true');
             }
 
+            // Save current tab to sessionStorage
+            sessionStorage.setItem('npb-current-tab', tabId);
+
             // Static footer: no dynamic updates needed
         }
 
@@ -2402,7 +2405,47 @@
             }
         }
         
-        document.addEventListener('DOMContentLoaded', loadDataEnhanced);
+        // ===== ページ状態の保存と復元 =====
+        function savePageState() {
+            // スクロール位置を保存
+            sessionStorage.setItem('npb-scroll-position', window.scrollY.toString());
+        }
+
+        function restorePageState() {
+            // 保存されたタブがあれば復元
+            const savedTab = sessionStorage.getItem('npb-current-tab');
+            if (savedTab) {
+                const tabElement = document.querySelector(`[data-tab="${savedTab}"]`);
+                if (tabElement) {
+                    showTab(savedTab, tabElement);
+                }
+            }
+
+            // 保存されたスクロール位置があれば復元
+            const savedScrollPosition = sessionStorage.getItem('npb-scroll-position');
+            if (savedScrollPosition) {
+                const scrollPosition = parseInt(savedScrollPosition, 10);
+                // DOMが完全に読み込まれた後にスクロール
+                setTimeout(() => {
+                    window.scrollTo(0, scrollPosition);
+                }, 100);
+            }
+        }
+
+        // スクロール位置を定期的に保存
+        let scrollSaveTimer;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollSaveTimer);
+            scrollSaveTimer = setTimeout(savePageState, 200);
+        });
+
+        // ページ離脱時に状態を保存
+        window.addEventListener('beforeunload', savePageState);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDataEnhanced();
+            restorePageState();
+        });
         window.reloadData = loadDataEnhanced;
 
         // ===== 今日/明日の試合描画 =====
