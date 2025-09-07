@@ -2656,8 +2656,8 @@
                 
                 const timeRaw = tryFormatStartTime(g);
                 const timeStr = timeRaw || `${inferStartTimeJST(dateIso)}(推定)`;
-                const venue = tryGetVenue(g);
-                const meta = [timeStr, venue].filter(Boolean).join(' / ');
+                const venue = tryGetVenue(g) || '';
+                const meta = [timeStr, venue].filter(v => v && v !== 'null' && v !== 'undefined').join(' / ');
                 
                 // 경기 상태 메시지 개선
                 let statusMessage = '';
@@ -2700,17 +2700,20 @@
                         homeTeamStyle = 'font-weight:bold; color:#2e7d32;';
                     }
                     
+                    const awayScore = g.away_score !== null && g.away_score !== undefined ? g.away_score : '?';
+                    const homeScore = g.home_score !== null && g.home_score !== undefined ? g.home_score : '?';
+                    
                     gameDisplay = `
-                        <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
-                        <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${g.away_score}-${g.home_score}</span>
-                        <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
+                        <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr || 'Unknown', g.away_team_name || g.away_team || 'Unknown Team', true)}</span>
+                        <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${awayScore}-${homeScore}</span>
+                        <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr || 'Unknown', g.home_team_name || g.home_team || 'Unknown Team', true)}</span>
                     `;
                 } else {
                     // 예정/진행중 경기: "팀A vs 팀B" 형식
                     gameDisplay = `
-                        <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
+                        <span>${renderTeamLabel(g.away_team_abbr || 'Unknown', g.away_team_name || g.away_team || 'Unknown Team', true)}</span>
                         <span style="color:#888; margin:0 6px; font-weight:normal;">vs</span>
-                        <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
+                        <span>${renderTeamLabel(g.home_team_abbr || 'Unknown', g.home_team_name || g.home_team || 'Unknown Team', true)}</span>
                     `;
                 }
                 
