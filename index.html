@@ -381,6 +381,7 @@
             border-radius: 6px;
             padding: 8px 10px;
             background: #fff;
+            min-width: 0;
         }
         .game-row {
             display: flex;
@@ -388,6 +389,16 @@
             align-items: center;
             gap: 6px;
             font-weight: bold;
+        }
+        .game-row span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
+        }
+        .game-row span:first-child,
+        .game-row span:last-child {
+            max-width: 45%;
         }
         .game-sub {
             margin-top: 4px;
@@ -445,6 +456,16 @@
                 width: 100%;
                 border-right: none;
                 border-bottom: 1px solid #ddd;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-row span:first-child,
+            .game-row span:last-child {
+                max-width: 40%;
+                font-size: 11px;
             }
             
             table { 
@@ -1166,9 +1187,31 @@
             RAK: 'assets/npb-logos/svg/tohoku-rakuten-golden-eagles.svg'
         };
 
-        function renderTeamLabel(abbr, name) {
+        function renderTeamLabel(abbr, name, shortName = false) {
             const src = TEAM_LOGOS[abbr] || '';
-            const safeName = name || abbr || '';
+            let safeName = name || abbr || '';
+            
+            // shortName이 true이면 팀명을 짧게 표시
+            if (shortName && safeName) {
+                // 일본어 팀명 축약 처리
+                const shortNames = {
+                    '阪神タイガース': '阪神',
+                    '読売ジャイアンツ': '巨人',
+                    '横浜DeNAベイスターズ': '横浜',
+                    '広島東洋カープ': '広島',
+                    '中日ドラゴンズ': '中日',
+                    '東京ヤクルトスワローズ': 'ヤクルト',
+                    '福岡ソフトバンクホークス': 'ソフトバンク',
+                    '千葉ロッテマリーンズ': 'ロッテ',
+                    '東北楽天ゴールデンイーグルス': '楽天',
+                    'オリックスバファローズ': 'オリックス',
+                    'オリックス・バファローズ': 'オリックス',
+                    '埼玉西武ライオンズ': '西武',
+                    '北海道日本ハムファイターズ': '日本ハム'
+                };
+                safeName = shortNames[safeName] || safeName.substring(0, 6);
+            }
+            
             const img = src ? `<img class="team-logo" src="${src}" alt="${safeName}">` : '';
             return `${img}${safeName}`;
         }
@@ -2550,9 +2593,9 @@
                             <span style="margin-left:auto; font-size:12px; color:#666;">${status}</span>
                         </div>
                         <div class="game-row" style="margin-top:4px;">
-                            <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name)}</span>
+                            <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name, true)}</span>
                             <span style="color:#888;">@</span>
-                            <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name)}</span>
+                            <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name, true)}</span>
                         </div>
                         ${meta ? `<div class="game-sub" style="color:#777;">${meta}</div>` : ''}
                     </div>
