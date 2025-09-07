@@ -2383,10 +2383,7 @@
                         document.getElementById('total-games').textContent = `${stats.total_games}試合`;
                     }
                     // 오늘 경기 수는 헤더(今日の試合) 옆에만 표기
-                    if (typeof stats.today_games === 'number' && stats.today_games > 0) {
-                        const tc = document.getElementById('today-count');
-                        if (tc) tc.textContent = `(${stats.today_games}試合)`;
-                    }
+                    // dashboard의 today_games는 무시 - 실제 계산값 사용
                 }
                 
                 computeHomeAwayRemaining();
