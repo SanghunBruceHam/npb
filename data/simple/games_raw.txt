@@ -740,3 +740,7 @@
 2025-09-07|5|CHU|中日ドラゴンズ|1|YOG|読売ジャイアンツ|2|6|Central|completed|0
 2025-09-07|10|ORI|オリックスバファローズ|12|NIP|北海道日本ハムファイターズ|3|2|Pacific|completed|0
 2025-09-07|7|SOF|福岡ソフトバンクホークス|9|RAK|東北楽天ゴールデンイーグルス|2|4|Pacific|completed|0
+2025-09-07|3|YDB|横浜DeNAベイスターズ|6|YAK|東京ヤクルトスワローズ|0|0|Central|completed|1
+2025-09-07|5|CHU|中日ドラゴンズ|1|YOG|読売ジャイアンツ|3|6|Central|completed|0
+2025-09-07|2|HAN|阪神タイガース|4|HIR|広島東洋カープ|0|0|Central|completed|1
+2025-09-07|11|SEI|埼玉西武ライオンズ|8|LOT|千葉ロッテマリーンズ|0|0|Pacific|completed|1
