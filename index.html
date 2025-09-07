@@ -2558,7 +2558,7 @@
             updateScheduleForDate(targetDate, mode === 'today');
         }
 
-        function tryFormatStartTime(g) {
+        function tryFormatStartTime(g, upcomingData = null, dateIso = null) {
             const rawKeys = [
                 'start_time', 'scheduled_time', 'start_time_local', 'first_pitch_time', 'game_time', 'scheduled_start_time'
             ];
@@ -2566,6 +2566,25 @@
             for (const k of rawKeys) {
                 if (g && g[k]) { val = g[k]; break; }
             }
+            
+            // 완료된 경기에 시간이 없으면 upcoming 데이터에서 찾기
+            if (!val && upcomingData && dateIso) {
+                const homeId = g.home_team_id;
+                const awayId = g.away_team_id;
+                if (homeId && awayId) {
+                    const upcomingGame = upcomingData.find(ug => {
+                        if (ug.game_date !== dateIso) return false;
+                        const ugHomeId = ug.home_team_id;
+                        const ugAwayId = ug.away_team_id;
+                        return (homeId === ugHomeId && awayId === ugAwayId) || 
+                               (homeId === ugAwayId && awayId === ugHomeId);
+                    });
+                    if (upcomingGame) {
+                        val = upcomingGame.scheduled_time;
+                    }
+                }
+            }
+            
             if (!val) return null;
             try {
                 if (typeof val === 'string' && val.includes('T')) {
@@ -2627,10 +2646,12 @@
                 (g.game_status === 'scheduled' || g.game_status === 'in_progress') && g.game_date === dateIso
             );
             
-            // 완료된 경기 데이터 (games.json에서 가져오기) - 중복 제거
+            // 완료된 경기 데이터 (games.json에서 가져오기) - 중복 제거 및 최종 스코어 선택
             const completedTodayGames = [];
             const completedGameKeys = new Set();
+            const gameGroups = {};
             
+            // 같은 경기끼리 그룹화
             (gamesData || []).forEach(g => {
                 const gameDate = g.date || g.game_date;
                 const isCompleted = gameDate === dateIso && (
@@ -2645,12 +2666,25 @@
                         const teamIds = [homeId, awayId].sort();
                         const key = `${teamIds[0]}-${teamIds[1]}`;
                         
-                        if (!completedGameKeys.has(key)) {
-                            completedGameKeys.add(key);
-                            completedTodayGames.push(g);
+                        if (!gameGroups[key]) {
+                            gameGroups[key] = [];
                         }
+                        gameGroups[key].push(g);
                     }
                 }
+            });
+            
+            // 각 그룹에서 최종 스코어(가장 높은 스코어 합계) 선택
+            Object.keys(gameGroups).forEach(key => {
+                const games = gameGroups[key];
+                const finalGame = games.reduce((latest, current) => {
+                    const latestTotal = (latest.home_score || 0) + (latest.away_score || 0);
+                    const currentTotal = (current.home_score || 0) + (current.away_score || 0);
+                    return currentTotal >= latestTotal ? current : latest;
+                });
+                
+                completedGameKeys.add(key);
+                completedTodayGames.push(finalGame);
             });
 
             // 예정된 경기에서 완료된 경기와 중복되는 것 제거
@@ -2730,7 +2764,7 @@
                     statusColor = '#666';
                 }
                 
-                const timeRaw = tryFormatStartTime(g);
+                const timeRaw = tryFormatStartTime(g, upcomingGamesData, dateIso);
                 const timeStr = timeRaw || `${inferStartTimeJST(dateIso)}(推定)`;
                 const venue = tryGetVenue(g) || '';
                 const meta = [timeStr, venue].filter(v => v && v !== 'null' && v !== 'undefined').join(' / ');
