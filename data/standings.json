@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-07T08:38:21.977Z",
+  "updated_at": "2025-09-07T10:36:31.069Z",
   "central_league": {
     "standings": [
       {
@@ -7,14 +7,14 @@
         "team_abbreviation": "HAN",
         "team_name": "阪神タイガース",
         "league": "Central",
-        "games_played": 126,
-        "wins": 77,
+        "games_played": 127,
+        "wins": 78,
         "losses": 45,
         "draws": 4,
-        "runs_scored": 435,
+        "runs_scored": 436,
         "runs_allowed": 296,
-        "win_percentage": 0.6311475409836066,
-        "run_differential": 139,
+        "win_percentage": 0.6341463414634146,
+        "run_differential": 140,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,39 +32,23 @@
         "win_percentage": 0.5,
         "run_differential": 11,
         "position_rank": 2,
-        "games_behind": 16
+        "games_behind": 16.5
       },
       {
         "team_id": 3,
         "team_abbreviation": "YDB",
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
-        "games_played": 125,
+        "games_played": 126,
         "wins": 57,
         "losses": 62,
-        "draws": 6,
-        "runs_scored": 413,
-        "runs_allowed": 401,
+        "draws": 7,
+        "runs_scored": 414,
+        "runs_allowed": 402,
         "win_percentage": 0.4789915966386555,
         "run_differential": 12,
         "position_rank": 3,
-        "games_behind": 18.5
-      },
-      {
-        "team_id": 4,
-        "team_abbreviation": "HIR",
-        "team_name": "広島東洋カープ",
-        "league": "Central",
-        "games_played": 125,
-        "wins": 54,
-        "losses": 65,
-        "draws": 6,
-        "runs_scored": 384,
-        "runs_allowed": 412,
-        "win_percentage": 0.453781512605042,
-        "run_differential": -28,
-        "position_rank": 4,
-        "games_behind": 21.5
+        "games_behind": 19
       },
       {
         "team_id": 5,
@@ -79,24 +63,40 @@
         "runs_allowed": 401,
         "win_percentage": 0.45161290322580644,
         "run_differential": -44,
+        "position_rank": 4,
+        "games_behind": 22.5
+      },
+      {
+        "team_id": 4,
+        "team_abbreviation": "HIR",
+        "team_name": "広島東洋カープ",
+        "league": "Central",
+        "games_played": 126,
+        "wins": 54,
+        "losses": 66,
+        "draws": 6,
+        "runs_scored": 384,
+        "runs_allowed": 413,
+        "win_percentage": 0.45,
+        "run_differential": -29,
         "position_rank": 5,
-        "games_behind": 22
+        "games_behind": 22.5
       },
       {
         "team_id": 6,
         "team_abbreviation": "YAK",
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
-        "games_played": 121,
+        "games_played": 122,
         "wins": 45,
         "losses": 69,
-        "draws": 7,
-        "runs_scored": 351,
-        "runs_allowed": 478,
+        "draws": 8,
+        "runs_scored": 352,
+        "runs_allowed": 479,
         "win_percentage": 0.39473684210526316,
         "run_differential": -127,
         "position_rank": 6,
-        "games_behind": 28
+        "games_behind": 28.5
       }
     ]
   },
@@ -171,32 +171,32 @@
         "team_abbreviation": "SEI",
         "team_name": "埼玉西武ライオンズ",
         "league": "Pacific",
-        "games_played": 122,
+        "games_played": 123,
         "wins": 56,
-        "losses": 62,
+        "losses": 63,
         "draws": 4,
-        "runs_scored": 328,
-        "runs_allowed": 363,
-        "win_percentage": 0.4745762711864407,
-        "run_differential": -35,
+        "runs_scored": 329,
+        "runs_allowed": 367,
+        "win_percentage": 0.47058823529411764,
+        "run_differential": -38,
         "position_rank": 5,
-        "games_behind": 18
+        "games_behind": 18.5
       },
       {
         "team_id": 8,
         "team_abbreviation": "LOT",
         "team_name": "千葉ロッテマリーンズ",
         "league": "Pacific",
-        "games_played": 121,
-        "wins": 45,
+        "games_played": 122,
+        "wins": 46,
         "losses": 72,
         "draws": 4,
-        "runs_scored": 363,
-        "runs_allowed": 479,
-        "win_percentage": 0.38461538461538464,
-        "run_differential": -116,
+        "runs_scored": 367,
+        "runs_allowed": 480,
+        "win_percentage": 0.3898305084745763,
+        "run_differential": -113,
         "position_rank": 6,
-        "games_behind": 28.5
+        "games_behind": 28
       }
     ]
   }

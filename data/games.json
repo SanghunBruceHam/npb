@@ -10400,5 +10400,47 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 3,
+    "home_team_abbr": "YDB",
+    "home_team_name": "横浜DeNAベイスターズ",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 1,
+    "away_score": 1,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 4,
+    "away_team_abbr": "HIR",
+    "away_team_name": "広島東洋カープ",
+    "home_score": 1,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 11,
+    "home_team_abbr": "SEI",
+    "home_team_name": "埼玉西武ライオンズ",
+    "away_team_id": 8,
+    "away_team_abbr": "LOT",
+    "away_team_name": "千葉ロッテマリーンズ",
+    "home_score": 1,
+    "away_score": 4,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false
   }
 ]
