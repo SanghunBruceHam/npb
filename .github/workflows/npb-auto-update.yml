@@ -183,9 +183,24 @@ jobs:
           echo "========================"
           
           if [ -f "data/games.json" ] && command -v jq >/dev/null 2>&1; then
-            echo "🏆 최근 완료된 경기 (최대 5경기):"
-            jq -r '.[] | select(.status == "completed" or .status == "終了" or .finished == true) | "\(.date) \(.home_team) vs \(.away_team) - \(.home_score):\(.away_score)"' data/games.json 2>/dev/null | tail -5 | while read game; do
-              echo "  📅 $game"
+            # 오늘 날짜 (KST 기준)
+            TODAY=$(TZ='Asia/Seoul' date '+%Y-%m-%d')
+            echo "🏆 오늘($TODAY) 종료된 경기:"
+            
+            TODAY_GAMES=$(jq -r --arg today "$TODAY" '.[] | select(.date == $today and (.status == "completed" or .status == "終了" or .finished == true)) | "\(.home_team) \(.home_score) - \(.away_score) \(.away_team) [\(.status // "종료")]"' data/games.json 2>/dev/null)
+            
+            if [ -n "$TODAY_GAMES" ]; then
+              echo "$TODAY_GAMES" | while read game; do
+                echo "  ⚾ $game"
+              done
+            else
+              echo "  🔍 오늘 종료된 경기가 없습니다"
+            fi
+            
+            echo ""
+            echo "📅 최근 완료된 경기 (최대 3경기):"
+            jq -r '.[] | select(.status == "completed" or .status == "終了" or .finished == true) | "\(.date) \(.home_team) \(.home_score) - \(.away_score) \(.away_team)"' data/games.json 2>/dev/null | tail -3 | while read game; do
+              echo "  📊 $game"
             done
             
             echo ""
