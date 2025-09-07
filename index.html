@@ -365,6 +365,72 @@
             gap: 8px;
         }
         .today-count { font-size: 12px; color: #666; font-weight: normal; }
+        
+        /* Progress Tab Styles */
+        .league-progress {
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .team-progress-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        
+        .team-progress-name {
+            width: 100px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .team-progress-bar {
+            flex: 1;
+            height: 16px;
+            background: #e0e0e0;
+            border-radius: 8px;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+        
+        .team-progress-fill {
+            height: 100%;
+            transition: width 0.8s ease;
+            border-radius: 8px;
+        }
+        
+        .team-progress-text {
+            width: 60px;
+            text-align: right;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-title {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
         .today-date {
             font-size: 13px;
             color: #666;
@@ -658,6 +724,7 @@
             <div class="nav-tab" onclick="showTab('scenarios', this)">経路の数</div>
             <div class="nav-tab" onclick="showTab('standings', this)">チーム順位</div>
             <div class="nav-tab" onclick="showTab('remaining', this)">残り試合数</div>
+            <div class="nav-tab" onclick="showTab('progress', this)">進行状況</div>
         </div>
     </div>
 
@@ -979,6 +1046,83 @@
                 • <strong>数字</strong>: 今後予定されている対戦数<br>
                 • <strong>チーム名</strong>: ロゴ付き日本語名で表示<br>
                 • <strong>合計</strong>: 各チームの残り試合数が右端・下部に表示
+            </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div id="progress" class="tab-content">
+            <h2>シーズン進行状況</h2>
+            
+            <!-- 전체 소화율 섹션 -->
+            <div style="margin: 20px 0;">
+                <h3>🏆 シーズン全体進行率</h3>
+                <div id="season-progress" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <span style="font-size: 18px; font-weight: bold;">全体進行率</span>
+                        <span id="overall-percentage" style="font-size: 24px; font-weight: bold; color: #2e7d32;">—%</span>
+                    </div>
+                    <div id="overall-progress-bar" style="width: 100%; height: 20px; background: #e0e0e0; border-radius: 10px; overflow: hidden;">
+                        <div id="overall-progress-fill" style="height: 100%; background: linear-gradient(90deg, #4caf50, #2e7d32); width: 0%; transition: width 0.5s ease;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; color: #666;">
+                        <span>完了: <span id="completed-games">—</span>試合</span>
+                        <span>残り: <span id="remaining-total">—</span>試合</span>
+                        <span>総試合数: <span id="total-season-games">—</span>試合</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 팀별 진행률 섹션 -->
+            <div style="margin: 20px 0;">
+                <h3>📊 チーム別進行状況</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0;">
+                    
+                    <!-- 센트럴리그 -->
+                    <div>
+                        <h4>セントラルリーグ</h4>
+                        <div id="central-progress" class="league-progress">
+                            <div class="loading">データ読み込み中...</div>
+                        </div>
+                    </div>
+
+                    <!-- 퍼시픽리그 -->
+                    <div>
+                        <h4>パシフィックリーグ</h4>
+                        <div id="pacific-progress" class="league-progress">
+                            <div class="loading">データ読み込み中...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 추가 통계 섹션 -->
+            <div style="margin: 20px 0;">
+                <h3>📈 詳細統計</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="stat-card">
+                        <div class="stat-title">平均消化率</div>
+                        <div class="stat-value" id="average-progress">—%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">最高進行チーム</div>
+                        <div class="stat-value" id="highest-team">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">最低進行チーム</div>
+                        <div class="stat-value" id="lowest-team">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">進行差</div>
+                        <div class="stat-value" id="progress-gap">—試合</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-help" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
+                • <strong>進行率</strong>: 각チームが消化した試合数 / 143試合 × 100%<br>
+                • <strong>全体進行率</strong>: 전チーム平均の進行状況<br>
+                • <strong>残り試合</strong>: 143 - 현재の消化試合数<br>
+                • 데이터は최新の順位表に基づいて자동更新されます
             </div>
         </div>
         </section>
@@ -2104,6 +2248,116 @@
             updateRemainingMatrix('pacific-remaining-matrix', standingsData.pacific_league?.standings || [], 'pacific');
         }
 
+        // ===== シーズン進行状況更新 =====
+        function updateProgress() {
+            updateOverallProgress();
+            updateTeamProgress('central-progress', standingsData.central_league?.standings || []);
+            updateTeamProgress('pacific-progress', standingsData.pacific_league?.standings || []);
+            updateProgressStats();
+        }
+
+        function updateOverallProgress() {
+            const allTeams = [
+                ...(standingsData.central_league?.standings || []),
+                ...(standingsData.pacific_league?.standings || [])
+            ];
+            
+            if (!allTeams.length) return;
+            
+            const totalGamesPlayed = allTeams.reduce((sum, team) => sum + (team.games_played || 0), 0);
+            const totalPossibleGames = allTeams.length * TOTAL_GAMES;
+            const progressPercentage = ((totalGamesPlayed / totalPossibleGames) * 100);
+            
+            const remainingGames = totalPossibleGames - totalGamesPlayed;
+            
+            // UI 업데이트
+            const percentageEl = document.getElementById('overall-percentage');
+            const progressFillEl = document.getElementById('overall-progress-fill');
+            const completedEl = document.getElementById('completed-games');
+            const remainingEl = document.getElementById('remaining-total');
+            const totalEl = document.getElementById('total-season-games');
+            
+            if (percentageEl) percentageEl.textContent = `${progressPercentage.toFixed(1)}%`;
+            if (progressFillEl) progressFillEl.style.width = `${progressPercentage}%`;
+            if (completedEl) completedEl.textContent = totalGamesPlayed.toLocaleString();
+            if (remainingEl) remainingEl.textContent = remainingGames.toLocaleString();
+            if (totalEl) totalEl.textContent = totalPossibleGames.toLocaleString();
+        }
+
+        function updateTeamProgress(containerId, teams) {
+            const container = document.getElementById(containerId);
+            if (!container || !teams.length) return;
+            
+            let html = '';
+            
+            // 팀을 진행률 순으로 정렬
+            const sortedTeams = teams.slice().sort((a, b) => (b.games_played || 0) - (a.games_played || 0));
+            
+            sortedTeams.forEach(team => {
+                const gamesPlayed = team.games_played || 0;
+                const progressPercentage = (gamesPlayed / TOTAL_GAMES) * 100;
+                const remaining = TOTAL_GAMES - gamesPlayed;
+                
+                // 진행률에 따른 색상 결정
+                let barColor = '#4caf50'; // 기본 초록
+                if (progressPercentage < 50) {
+                    barColor = '#ff9800'; // 주황
+                } else if (progressPercentage < 70) {
+                    barColor = '#ffeb3b'; // 노랑
+                } else if (progressPercentage > 90) {
+                    barColor = '#2e7d32'; // 진한 초록
+                }
+                
+                html += `
+                    <div class="team-progress-item">
+                        <div class="team-progress-name">${renderTeamLabel(team.team_abbreviation, team.team_name, false)}</div>
+                        <div class="team-progress-bar">
+                            <div class="team-progress-fill" style="width: ${progressPercentage}%; background: ${barColor};"></div>
+                        </div>
+                        <div class="team-progress-text">${progressPercentage.toFixed(1)}%</div>
+                    </div>
+                    <div style="font-size: 11px; color: #666; margin: -8px 0 8px 120px;">
+                        ${gamesPlayed}試合完了 (残り${remaining}試合)
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateProgressStats() {
+            const allTeams = [
+                ...(standingsData.central_league?.standings || []),
+                ...(standingsData.pacific_league?.standings || [])
+            ];
+            
+            if (!allTeams.length) return;
+            
+            const progressRates = allTeams.map(team => (team.games_played || 0) / TOTAL_GAMES * 100);
+            const averageProgress = progressRates.reduce((sum, rate) => sum + rate, 0) / progressRates.length;
+            
+            const maxProgress = Math.max(...progressRates);
+            const minProgress = Math.min(...progressRates);
+            
+            const highestTeam = allTeams.find(team => (team.games_played || 0) / TOTAL_GAMES * 100 === maxProgress);
+            const lowestTeam = allTeams.find(team => (team.games_played || 0) / TOTAL_GAMES * 100 === minProgress);
+            
+            const maxGames = Math.max(...allTeams.map(team => team.games_played || 0));
+            const minGames = Math.min(...allTeams.map(team => team.games_played || 0));
+            const progressGap = maxGames - minGames;
+            
+            // UI 업데이트
+            const averageEl = document.getElementById('average-progress');
+            const highestEl = document.getElementById('highest-team');
+            const lowestEl = document.getElementById('lowest-team');
+            const gapEl = document.getElementById('progress-gap');
+            
+            if (averageEl) averageEl.textContent = `${averageProgress.toFixed(1)}%`;
+            if (highestEl) highestEl.textContent = renderTeamLabel(highestTeam?.team_abbreviation, highestTeam?.team_name, false) || '—';
+            if (lowestEl) lowestEl.textContent = renderTeamLabel(lowestTeam?.team_abbreviation, lowestTeam?.team_name, false) || '—';
+            if (gapEl) gapEl.textContent = `${progressGap}試合`;
+        }
+
         // ===== 残り試合マトリクス更新（共通関数） =====
         function updateRemainingMatrix(containerId, teams, leagueType) {
             const container = document.getElementById(containerId);
@@ -2392,6 +2646,7 @@
                 updateScenarios();
                 updateDetailedStandings();
                 updateRemainingGames();
+                updateProgress();
                 // Initialize '経路の数' sub-views (matrix/detailed/table) and default to matrix
                 bindScenarioViewToggles();
                 setScenarioView('central','matrix');
