@@ -2646,29 +2646,56 @@
                 const venue = tryGetVenue(g);
                 const meta = [timeStr, venue].filter(Boolean).join(' / ');
                 
-                // 스코어 표시 (완료된 경기만)
-                let scoreDisplay = '';
+                // 팀명과 스코어 표시 
+                let awayTeamDisplay, homeTeamDisplay;
                 if (isCompleted && g.home_score !== undefined && g.away_score !== undefined) {
-                    scoreDisplay = `
-                        <div class="game-row" style="margin-top:6px; padding:4px 8px; background:#f5f5f5; border-radius:4px; font-weight:bold;">
-                            <span style="color:#d32f2f;">${g.away_score} - ${g.home_score}</span>
-                            <span style="margin-left:8px; font-size:12px; color:#666;">(최종 스코어)</span>
-                        </div>
-                    `;
+                    // 승부 결과 판단
+                    const isDraw = g.is_draw || g.home_score === g.away_score;
+                    const awayWin = g.away_score > g.home_score;
+                    const homeWin = g.home_score > g.away_score;
+                    
+                    // 종료된 경기: 팀명 옆에 스코어와 승부 결과 표시
+                    let awayResultIcon = '', homeResultIcon = '';
+                    if (isDraw) {
+                        awayResultIcon = ' <span style="color:#888; font-size:11px;">△</span>';
+                        homeResultIcon = ' <span style="color:#888; font-size:11px;">△</span>';
+                    } else if (awayWin) {
+                        awayResultIcon = ' <span style="color:#2e7d32; font-size:11px; font-weight:bold;">勝</span>';
+                        homeResultIcon = ' <span style="color:#c62828; font-size:11px;">敗</span>';
+                    } else if (homeWin) {
+                        awayResultIcon = ' <span style="color:#c62828; font-size:11px;">敗</span>';
+                        homeResultIcon = ' <span style="color:#2e7d32; font-size:11px; font-weight:bold;">勝</span>';
+                    }
+                    
+                    awayTeamDisplay = `${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)} <span style="color:#d32f2f; font-weight:bold; margin-left:4px;">${g.away_score}</span>${awayResultIcon}`;
+                    homeTeamDisplay = `${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)} <span style="color:#d32f2f; font-weight:bold; margin-left:4px;">${g.home_score}</span>${homeResultIcon}`;
+                } else {
+                    // 예정/진행중 경기: 팀명만 표시
+                    awayTeamDisplay = renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true);
+                    homeTeamDisplay = renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true);
+                }
+
+                // 경기 상태 메시지 개선
+                let statusMessage = '';
+                if (isCompleted) {
+                    statusMessage = '試合終了';
+                } else if (isLive) {
+                    statusMessage = '試合中';
+                } else {
+                    statusMessage = '試合前';
                 }
                 
                 return `
                     <div class="game-card">
                         <div class="game-row">
                             <span class="league-tag ${leagueClass}">${aLeague}</span>
-                            <span style="margin-left:auto; font-size:12px; color:${statusColor}; font-weight:${isCompleted ? 'bold' : 'normal'};">${status}</span>
+                            <span style="margin-left:auto; font-size:12px; color:${statusColor}; font-weight:${isCompleted ? 'bold' : 'normal'};">${statusMessage}</span>
                         </div>
                         <div class="game-row" style="margin-top:4px;">
-                            <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
-                            <span style="color:#888;">@</span>
-                            <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
+                            <span>${awayTeamDisplay}</span>
+                            <span style="color:#888; margin:0 4px;">@</span>
+                            <span>${homeTeamDisplay}</span>
                         </div>
-                        ${scoreDisplay}
                         ${meta ? `<div class="game-sub" style="color:#777;">${meta}</div>` : ''}
                     </div>
                 `;
