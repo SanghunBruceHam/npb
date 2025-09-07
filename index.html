@@ -236,7 +236,8 @@
         table { 
             border-collapse: collapse; 
             width: 100%; 
-            margin: 10px 0; 
+            margin: 10px 0;
+            table-layout: fixed;
         }
         
         th, td { 
@@ -244,8 +245,27 @@
             padding: 6px 8px; 
             text-align: left; 
             font-size: 13px; 
-            white-space: nowrap; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+        
+        /* 컬럼별 고정 폭 설정 */
+        th:nth-child(1), td:nth-child(1) { width: 40px; }     /* 순위 */
+        th:nth-child(2), td:nth-child(2) { width: 120px; }    /* 팀명 */
+        th:nth-child(3), td:nth-child(3) { width: 50px; }     /* 시합/승 */
+        th:nth-child(4), td:nth-child(4) { width: 40px; }     /* 승/패 */
+        th:nth-child(5), td:nth-child(5) { width: 40px; }     /* 패/분 */
+        th:nth-child(6), td:nth-child(6) { width: 40px; }     /* 분/승률 */
+        th:nth-child(7), td:nth-child(7) { width: 60px; }     /* 승률/게임차 */
+        th:nth-child(8), td:nth-child(8) { width: 60px; }     /* 게임차/잔여 */
+        th:nth-child(9), td:nth-child(9) { width: 50px; }     /* 잔여/최대승 */
+        th:nth-child(10), td:nth-child(10) { width: 50px; }   /* 최대승/1위조건 */
+        th:nth-child(11), td:nth-child(11) { width: 60px; }   /* 1위조건/매직 */
+        th:nth-child(12), td:nth-child(12) { width: 50px; }   /* 매직/엘리 */
+        th:nth-child(13), td:nth-child(13) { width: 50px; }   /* 엘리/상태 */
+        th:nth-child(14), td:nth-child(14) { width: 80px; }   /* 상태 */
+        th:nth-child(15), td:nth-child(15) { width: 80px; }   /* 추가 컬럼 */
         
         th { 
             background: #f5f5f5; 
