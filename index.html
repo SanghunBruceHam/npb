@@ -2610,12 +2610,12 @@
             }
 
             allTodayGames.sort((a, b) => {
-                // 완료된 경기를 먼저 표시
-                const aCompleted = a.status === 'completed' || a.status === '終了' || a.finished === true || (a.home_score !== undefined && a.away_score !== undefined);
-                const bCompleted = b.status === 'completed' || b.status === '終了' || b.finished === true || (b.home_score !== undefined && b.away_score !== undefined);
+                // 실제 데이터가 수집된 경기를 먼저 표시
+                const aHasData = a.home_score !== null && a.home_score !== undefined && a.away_score !== null && a.away_score !== undefined;
+                const bHasData = b.home_score !== null && b.home_score !== undefined && b.away_score !== null && b.away_score !== undefined;
                 
-                if (aCompleted && !bCompleted) return -1;
-                if (!aCompleted && bCompleted) return 1;
+                if (aHasData && !bHasData) return -1;
+                if (!aHasData && bHasData) return 1;
                 
                 const aLeague = a.league || (a.home_team_abbr && getTeamLeague(a.home_team_abbr)) || 'Unknown';
                 const bLeague = b.league || (b.home_team_abbr && getTeamLeague(b.home_team_abbr)) || 'Unknown';
@@ -2659,27 +2659,17 @@
                 const venue = tryGetVenue(g) || '';
                 const meta = [timeStr, venue].filter(v => v && v !== 'null' && v !== 'undefined').join(' / ');
                 
-                // 경기 상태 메시지 개선
+                // 실제 경기 데이터가 수집되었는지 확인
+                const hasGameData = g.home_score !== null && g.home_score !== undefined && g.away_score !== null && g.away_score !== undefined;
+                
+                // 경기 상태와 표시 형식을 데이터 존재 여부로 결정
                 let statusMessage = '';
-                if (isCompleted) {
-                    statusMessage = '試合終了';
-                } else if (isLive) {
-                    statusMessage = '試合中';
-                } else if (g.game_status === 'postponed' || g.status === 'postponed') {
-                    statusMessage = '延期';
-                } else if (g.game_status === 'cancelled' || g.status === 'cancelled') {
-                    statusMessage = '中止';
-                } else if (g.game_status === 'scheduled' || g.status === 'scheduled') {
-                    statusMessage = '試合前';
-                } else {
-                    // 데이터가 불완전한 경우
-                    statusMessage = '未定';
-                }
-
-                // 경기 표시 형식 결정
                 let gameDisplay = '';
-                if (isCompleted && g.home_score !== undefined && g.away_score !== undefined) {
-                    // 종료된 경기: "팀A 5-3 팀B" 형식 (승자를 볼드로)
+                
+                if (hasGameData) {
+                    // 수집된 경기 결과가 있는 경우: 스코어와 승부 결과 표시
+                    statusMessage = '試合終了';
+                    
                     const isDraw = g.is_draw || g.home_score === g.away_score;
                     const awayWin = g.away_score > g.home_score;
                     const homeWin = g.home_score > g.away_score;
@@ -2700,20 +2690,27 @@
                         homeTeamStyle = 'font-weight:bold; color:#2e7d32;';
                     }
                     
-                    const awayScore = g.away_score !== null && g.away_score !== undefined ? g.away_score : '?';
-                    const homeScore = g.home_score !== null && g.home_score !== undefined ? g.home_score : '?';
-                    
                     gameDisplay = `
-                        <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr || 'Unknown', g.away_team_name || g.away_team || 'Unknown Team', true)}</span>
-                        <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${awayScore}-${homeScore}</span>
-                        <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr || 'Unknown', g.home_team_name || g.home_team || 'Unknown Team', true)}</span>
+                        <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
+                        <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${g.away_score}-${g.home_score}</span>
+                        <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
                     `;
                 } else {
-                    // 예정/진행중 경기: "팀A vs 팀B" 형식
+                    // 경기 데이터가 수집되지 않은 경우: 단순히 예정으로 표시
+                    if (g.game_status === 'postponed' || g.status === 'postponed') {
+                        statusMessage = '延期';
+                    } else if (g.game_status === 'cancelled' || g.status === 'cancelled') {
+                        statusMessage = '中止';
+                    } else if (isLive) {
+                        statusMessage = '試合中';
+                    } else {
+                        statusMessage = '予定';
+                    }
+                    
                     gameDisplay = `
-                        <span>${renderTeamLabel(g.away_team_abbr || 'Unknown', g.away_team_name || g.away_team || 'Unknown Team', true)}</span>
+                        <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
                         <span style="color:#888; margin:0 6px; font-weight:normal;">vs</span>
-                        <span>${renderTeamLabel(g.home_team_abbr || 'Unknown', g.home_team_name || g.home_team || 'Unknown Team', true)}</span>
+                        <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
                     `;
                 }
                 
