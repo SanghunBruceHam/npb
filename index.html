@@ -2711,6 +2711,13 @@
                 console.log('완료된 경기:', completedTodayGames.map(g => `${g.home_team_abbr} vs ${g.away_team_abbr}`));
                 console.log('예정된 경기:', filteredUpcomingGames.map(g => `${g.home_team_abbr} vs ${g.away_team_abbr}`));
             }
+            
+            // 경기 카운트 표시 강제 업데이트
+            const countElement = document.getElementById('today-count');
+            if (countElement && updateInfoCount) {
+                countElement.textContent = `(${allTodayGames.length}試合)`;
+                console.log('경기 수 카운트 업데이트:', allTodayGames.length);
+            }
 
             if (!allTodayGames.length) {
                 // 데이터 로딩 상태인지 확인
