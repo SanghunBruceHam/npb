@@ -177,8 +177,56 @@ jobs:
             done
           fi
           
+          # 실제 수집된 경기 데이터 내용 표시
           echo ""
-          echo "✨ 데이터 현황 요약 완료"
+          echo "⚾ 수집된 최신 경기 데이터:"
+          echo "========================"
+          
+          if [ -f "data/games.json" ] && command -v jq >/dev/null 2>&1; then
+            echo "🏆 최근 완료된 경기 (최대 5경기):"
+            jq -r '.[] | select(.status == "completed" or .status == "終了" or .finished == true) | "\(.date) \(.home_team) vs \(.away_team) - \(.home_score):\(.away_score)"' data/games.json 2>/dev/null | tail -5 | while read game; do
+              echo "  📅 $game"
+            done
+            
+            echo ""
+            echo "📅 예정된 경기 (최대 3경기):"
+            jq -r '.[] | select(.status != "completed" and .status != "終了" and .finished != true) | "\(.date) \(.time // "시간미정") - \(.home_team) vs \(.away_team)"' data/games.json 2>/dev/null | head -3 | while read game; do
+              echo "  🕐 $game"
+            done
+          else
+            echo "  ❌ 경기 데이터를 읽을 수 없습니다 (games.json 또는 jq 없음)"
+          fi
+          
+          echo ""
+          if [ -f "data/standings.json" ] && command -v jq >/dev/null 2>&1; then
+            echo "📊 현재 순위표 상위 3팀:"
+            echo "  🏆 센트럴리그:"
+            jq -r '.central[0:3][] | "    \(.rank // "?")위 \(.team) (\(.wins // 0)승\(.losses // 0)패 승률\(.win_rate // "?"))"' data/standings.json 2>/dev/null || echo "    ❌ 센트럴리그 데이터 없음"
+            
+            echo "  🏆 퍼시픽리그:"
+            jq -r '.pacific[0:3][] | "    \(.rank // "?")위 \(.team) (\(.wins // 0)승\(.losses // 0)패 승률\(.win_rate // "?"))"' data/standings.json 2>/dev/null || echo "    ❌ 퍼시픽리그 데이터 없음"
+          else
+            echo "📊 순위표 데이터를 읽을 수 없습니다"
+          fi
+          
+          echo ""
+          echo "🔢 전체 데이터 통계:"
+          if [ -f "data/dashboard.json" ] && command -v jq >/dev/null 2>&1; then
+            TOTAL_GAMES=$(jq -r '.stats.total_games // "?"' data/dashboard.json 2>/dev/null)
+            COMPLETED_GAMES=$(jq -r '.stats.completed_games // "?"' data/dashboard.json 2>/dev/null)
+            REMAINING_GAMES=$(jq -r '.stats.remaining_games // "?"' data/dashboard.json 2>/dev/null)
+            LAST_UPDATE=$(jq -r '.last_updated // "?"' data/dashboard.json 2>/dev/null)
+            
+            echo "  📈 전체 경기: ${TOTAL_GAMES}경기"
+            echo "  ✅ 완료된 경기: ${COMPLETED_GAMES}경기" 
+            echo "  ⏳ 남은 경기: ${REMAINING_GAMES}경기"
+            echo "  🕐 마지막 업데이트: ${LAST_UPDATE}"
+          else
+            echo "  ❌ 대시보드 통계를 읽을 수 없습니다"
+          fi
+          
+          echo ""
+          echo "✨ 실제 데이터 내용 표시 완료"
 
       - name: 📝 변경사항 확인 및 커밋
         run: |
