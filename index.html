@@ -2625,25 +2625,42 @@
                 (g.game_status === 'scheduled' || g.game_status === 'in_progress') && g.game_date === dateIso
             );
             
-            // 완료된 경기 데이터 (games.json에서 가져오기)
-            const completedTodayGames = (gamesData || []).filter(g => {
+            // 완료된 경기 데이터 (games.json에서 가져오기) - 중복 제거
+            const completedTodayGames = [];
+            const completedGameKeys = new Set();
+            
+            (gamesData || []).forEach(g => {
                 const gameDate = g.date || g.game_date;
-                return gameDate === dateIso && (
+                const isCompleted = gameDate === dateIso && (
                     g.status === 'completed' || g.status === '終了' || g.finished === true ||
                     (g.home_score !== undefined && g.away_score !== undefined)
                 );
+                
+                if (isCompleted) {
+                    const homeId = g.home_team_id;
+                    const awayId = g.away_team_id;
+                    if (homeId && awayId) {
+                        const teamIds = [homeId, awayId].sort();
+                        const key = `${teamIds[0]}-${teamIds[1]}`;
+                        
+                        if (!completedGameKeys.has(key)) {
+                            completedGameKeys.add(key);
+                            completedTodayGames.push(g);
+                        }
+                    }
+                }
             });
 
-            // 중복 제거: 완료된 경기와 동일한 예정 경기 제거 (홈/어웨이 순서 무관)
-            const gameKey = (g) => {
-                const home = g.home_team_abbr || g.home_team;
-                const away = g.away_team_abbr || g.away_team;
-                const teams = [home, away].sort();
-                return `${teams[0]}-${teams[1]}`;
-            };
-            
-            const completedGameKeys = new Set(completedTodayGames.map(gameKey));
-            const filteredUpcomingGames = upcomingTodayGames.filter(g => !completedGameKeys.has(gameKey(g)));
+            // 예정된 경기에서 완료된 경기와 중복되는 것 제거
+            const filteredUpcomingGames = upcomingTodayGames.filter(g => {
+                const homeId = g.home_team_id;
+                const awayId = g.away_team_id;
+                if (!homeId || !awayId) return true;
+                
+                const teamIds = [homeId, awayId].sort();
+                const key = `${teamIds[0]}-${teamIds[1]}`;
+                return !completedGameKeys.has(key);
+            });
             
             const allTodayGames = [...completedTodayGames, ...filteredUpcomingGames];
 
