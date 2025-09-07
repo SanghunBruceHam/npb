@@ -10442,5 +10442,19 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 3,
+    "home_team_abbr": "YDB",
+    "home_team_name": "横浜DeNAベイスターズ",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 2,
+    "away_score": 2,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true
   }
 ]

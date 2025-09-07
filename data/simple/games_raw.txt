@@ -747,3 +747,4 @@
 2025-09-07|3|YDB|横浜DeNAベイスターズ|6|YAK|東京ヤクルトスワローズ|1|1|Central|completed|1
 2025-09-07|2|HAN|阪神タイガース|4|HIR|広島東洋カープ|1|0|Central|completed|0
 2025-09-07|11|SEI|埼玉西武ライオンズ|8|LOT|千葉ロッテマリーンズ|1|4|Pacific|completed|0
+2025-09-07|3|YDB|横浜DeNAベイスターズ|6|YAK|東京ヤクルトスワローズ|2|2|Central|completed|1
