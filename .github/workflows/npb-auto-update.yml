@@ -63,11 +63,6 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'crawler/requirements.txt'
 
-      - name: 🟢 Node.js 환경 설정
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: 📦 Python 의존성 설치
         run: |
           python -m pip install --upgrade pip setuptools wheel
