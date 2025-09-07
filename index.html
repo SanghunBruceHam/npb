@@ -2588,7 +2588,18 @@
                 );
             });
 
-            const allTodayGames = [...completedTodayGames, ...upcomingTodayGames];
+            // 중복 제거: 완료된 경기와 동일한 예정 경기 제거 (홈/어웨이 순서 무관)
+            const gameKey = (g) => {
+                const home = g.home_team_abbr || g.home_team;
+                const away = g.away_team_abbr || g.away_team;
+                const teams = [home, away].sort();
+                return `${teams[0]}-${teams[1]}`;
+            };
+            
+            const completedGameKeys = new Set(completedTodayGames.map(gameKey));
+            const filteredUpcomingGames = upcomingTodayGames.filter(g => !completedGameKeys.has(gameKey(g)));
+            
+            const allTodayGames = [...completedTodayGames, ...filteredUpcomingGames];
 
             if (!allTodayGames.length) {
                 // 데이터 로딩 상태인지 확인
