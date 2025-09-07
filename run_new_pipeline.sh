@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # NPB 완전 새로운 Pipeline 실행 스크립트
-# PostgreSQL 없는 버전: 웹 크롤링 → TXT → JavaScript → JSON
+# 신규 파이프라인: 웹 크롤링 → TXT → JavaScript → JSON
 
-echo "🚀 Starting NPB NEW Pipeline (PostgreSQL FREE)"
+echo "🚀 Starting NPB NEW Pipeline"
 echo "🔄 Flow: Web Crawling → TXT → JavaScript → JSON"
 echo ""
 

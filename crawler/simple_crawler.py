@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-NPB Simple Crawler - PostgreSQL 없이 직접 TXT 저장
+NPB Simple Crawler - 직접 TXT 저장 방식
 크롤링 → TXT 저장 → JavaScript 처리 → JSON
 """
 
@@ -105,7 +105,7 @@ class SimpleCrawler:
                 return info
         return None
     
-    def convert_db_data_to_txt(self):
+    def convert_existing_data_to_txt(self):
         """기존 JSON → TXT 역변환 (크롤링 불가 시 fallback)"""
         self.logger.info("📄 Converting existing JSON data to TXT format (fallback)...")
         
@@ -400,8 +400,8 @@ class SimpleCrawler:
         
         if not CRAWLING_ENABLED:
             self.logger.info("📄 Web crawling not available, using existing data...")
-            # Use existing database data instead
-            if self.convert_db_data_to_txt():
+            # Use existing data instead
+            if self.convert_existing_data_to_txt():
                 self.save_teams_to_txt()
                 return 1  # Success
             else:
@@ -473,8 +473,8 @@ class SimpleCrawler:
         
         if not CRAWLING_ENABLED:
             self.logger.info("📄 Web crawling not available, using existing data...")
-            # Use existing database data instead
-            if self.convert_db_data_to_txt():
+            # Use existing data instead
+            if self.convert_existing_data_to_txt():
                 self.save_teams_to_txt()
                 return 1  # Success
             else:

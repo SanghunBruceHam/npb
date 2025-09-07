@@ -1,4 +1,4 @@
-# NPB Simple Crawler Requirements (DB-free)
+# NPB Simple Crawler Requirements
 requests>=2.31.0
 beautifulsoup4>=4.12.2
 pytz>=2023.3

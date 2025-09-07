@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-완전 새로운 NPB Pipeline (PostgreSQL 완전 제거)
+완전 새로운 NPB Pipeline
 웹 크롤링 → TXT 저장 → JavaScript 처리 → JSON 저장
 """
 
@@ -133,7 +133,7 @@ def generate_final_summary():
         summary.append("")
         summary.append("🚀 Pipeline 플로우:")
         summary.append("  웹 크롤링 → TXT 저장 → JavaScript 처리 → JSON 저장")
-        summary.append("  📝 PostgreSQL 완전 제거!")
+        summary.append("  📝 간단하고 빠른 파이프라인!")
         summary.append("")
         
         # JSON 데이터 검증
@@ -172,7 +172,7 @@ def generate_final_summary():
         summary.append("  ✅ TXT 형식으로 데이터 저장")
         summary.append("  ✅ JavaScript로 순위 계산")
         summary.append("  ✅ JSON 파일 생성 (index.html 호환)")
-        summary.append("  ✅ PostgreSQL 의존성 완전 제거")
+        summary.append("  ✅ 외부 의존성 최소화")
         summary.append("")
         summary.append("🌐 서비스 준비 완료!")
         summary.append("  실행: ./run_html.sh")
@@ -197,7 +197,7 @@ def main():
     global logger
     logger = setup_logging()
     
-    logger.info("🚀 Starting NPB NEW PIPELINE (PostgreSQL FREE)")
+    logger.info("🚀 Starting NPB NEW PIPELINE")
     logger.info("🔄 Flow: Web Crawling → TXT → JavaScript → JSON")
     
     success_count = 0
@@ -260,7 +260,7 @@ def main():
         logger.info("✅ All pipeline steps completed successfully!")
         logger.info("🌐 Ready for web service!")
         logger.info("🚀 Run: ./run_html.sh")
-        logger.info("💾 PostgreSQL FREE!")
+        logger.info("💾 Simple & Fast!")
         sys.exit(0)
     else:
         logger.error(f"❌ Pipeline failed: {total_steps - success_count} steps failed")

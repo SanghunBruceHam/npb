@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Simple TXT를 JSON으로 변환 (PostgreSQL 없는 버전)
+ * Simple TXT를 JSON으로 변환
  * 순위 계산, 통계 계산도 JavaScript로 직접 처리
  */
 
