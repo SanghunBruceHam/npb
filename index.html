@@ -2685,6 +2685,11 @@
                 
                 completedGameKeys.add(key);
                 completedTodayGames.push(finalGame);
+                
+                // 디버깅용 로그 (임시)
+                if (dateIso === formatJSTDateISO(getJSTDate(0))) {
+                    console.log(`완료된 경기 그룹 ${key}:`, games.length, '개 중복 데이터에서', finalGame.home_team_abbr, 'vs', finalGame.away_team_abbr, '최종 선택');
+                }
             });
 
             // 예정된 경기에서 완료된 경기와 중복되는 것 제거
@@ -2699,6 +2704,13 @@
             });
             
             const allTodayGames = [...completedTodayGames, ...filteredUpcomingGames];
+            
+            // 디버깅용 로그 (임시)
+            if (dateIso === formatJSTDateISO(getJSTDate(0))) {
+                console.log(`오늘 경기 총계: ${allTodayGames.length}개 (완료: ${completedTodayGames.length}, 예정: ${filteredUpcomingGames.length})`);
+                console.log('완료된 경기:', completedTodayGames.map(g => `${g.home_team_abbr} vs ${g.away_team_abbr}`));
+                console.log('예정된 경기:', filteredUpcomingGames.map(g => `${g.home_team_abbr} vs ${g.away_team_abbr}`));
+            }
 
             if (!allTodayGames.length) {
                 // 데이터 로딩 상태인지 확인
