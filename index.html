@@ -2574,56 +2574,115 @@
             const displayDate = `(${dateIso.replace(/-/g, '/')})`;
             dateLabel.textContent = displayDate;
 
-            if (!upcomingGamesData || !Array.isArray(upcomingGamesData)) {
-                container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合データがありません</div></div>';
-                if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = '(0試合)'; }
-                return;
-            }
-
-            const todayGames = upcomingGamesData.filter(g =>
+            // 예정된 경기 데이터
+            const upcomingTodayGames = (upcomingGamesData || []).filter(g =>
                 (g.game_status === 'scheduled' || g.game_status === 'in_progress') && g.game_date === dateIso
             );
+            
+            // 완료된 경기 데이터 (games.json에서 가져오기)
+            const completedTodayGames = (gamesData || []).filter(g => {
+                const gameDate = g.date || g.game_date;
+                return gameDate === dateIso && (
+                    g.status === 'completed' || g.status === '終了' || g.finished === true ||
+                    (g.home_score !== undefined && g.away_score !== undefined)
+                );
+            });
 
-            if (!todayGames.length) {
+            const allTodayGames = [...completedTodayGames, ...upcomingTodayGames];
+
+            if (!allTodayGames.length) {
                 container.innerHTML = '<div class="game-card"><div class="game-row">本日の試合はありません</div></div>';
                 if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = '(0試合)'; }
                 return;
             }
 
-            todayGames.sort((a, b) => {
-                if (a.league === b.league) {
-                    return (a.home_team_abbr + a.away_team_abbr).localeCompare(b.home_team_abbr + b.away_team_abbr);
+            allTodayGames.sort((a, b) => {
+                // 완료된 경기를 먼저 표시
+                const aCompleted = a.status === 'completed' || a.status === '終了' || a.finished === true || (a.home_score !== undefined && a.away_score !== undefined);
+                const bCompleted = b.status === 'completed' || b.status === '終了' || b.finished === true || (b.home_score !== undefined && b.away_score !== undefined);
+                
+                if (aCompleted && !bCompleted) return -1;
+                if (!aCompleted && bCompleted) return 1;
+                
+                const aLeague = a.league || (a.home_team_abbr && getTeamLeague(a.home_team_abbr)) || 'Unknown';
+                const bLeague = b.league || (b.home_team_abbr && getTeamLeague(b.home_team_abbr)) || 'Unknown';
+                
+                if (aLeague === bLeague) {
+                    const aTeams = (a.home_team_abbr || '') + (a.away_team_abbr || '');
+                    const bTeams = (b.home_team_abbr || '') + (b.away_team_abbr || '');
+                    return aTeams.localeCompare(bTeams);
                 }
-                return a.league.localeCompare(b.league);
+                return aLeague.localeCompare(bLeague);
             });
 
             if (updateInfoCount) {
                 const tc = document.getElementById('today-count');
-                if (tc) tc.textContent = `(${todayGames.length}試合)`;
+                if (tc) tc.textContent = `(${allTodayGames.length}試合)`;
             }
 
-            container.innerHTML = todayGames.map(g => {
-                const leagueClass = g.league === 'Central' ? 'league-central' : 'league-pacific';
-                const status = g.game_status === 'in_progress' ? 'LIVE' : '予定';
+            container.innerHTML = allTodayGames.map(g => {
+                const aLeague = g.league || (g.home_team_abbr && getTeamLeague(g.home_team_abbr)) || 'Unknown';
+                const leagueClass = aLeague === 'Central' ? 'league-central' : 'league-pacific';
+                
+                // 경기 상태 판단
+                const isCompleted = g.status === 'completed' || g.status === '終了' || g.finished === true || 
+                                  (g.home_score !== undefined && g.away_score !== undefined);
+                const isLive = g.game_status === 'in_progress';
+                
+                let status, statusColor;
+                if (isCompleted) {
+                    status = '終了';
+                    statusColor = '#d32f2f';
+                } else if (isLive) {
+                    status = 'LIVE';
+                    statusColor = '#ff4444';
+                } else {
+                    status = '予定';
+                    statusColor = '#666';
+                }
+                
                 const timeRaw = tryFormatStartTime(g);
                 const timeStr = timeRaw || `${inferStartTimeJST(dateIso)}(推定)`;
                 const venue = tryGetVenue(g);
                 const meta = [timeStr, venue].filter(Boolean).join(' / ');
+                
+                // 스코어 표시 (완료된 경기만)
+                let scoreDisplay = '';
+                if (isCompleted && g.home_score !== undefined && g.away_score !== undefined) {
+                    scoreDisplay = `
+                        <div class="game-row" style="margin-top:6px; padding:4px 8px; background:#f5f5f5; border-radius:4px; font-weight:bold;">
+                            <span style="color:#d32f2f;">${g.away_score} - ${g.home_score}</span>
+                            <span style="margin-left:8px; font-size:12px; color:#666;">(최종 스코어)</span>
+                        </div>
+                    `;
+                }
+                
                 return `
                     <div class="game-card">
                         <div class="game-row">
-                            <span class="league-tag ${leagueClass}">${g.league}</span>
-                            <span style="margin-left:auto; font-size:12px; color:#666;">${status}</span>
+                            <span class="league-tag ${leagueClass}">${aLeague}</span>
+                            <span style="margin-left:auto; font-size:12px; color:${statusColor}; font-weight:${isCompleted ? 'bold' : 'normal'};">${status}</span>
                         </div>
                         <div class="game-row" style="margin-top:4px;">
-                            <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name, true)}</span>
+                            <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
                             <span style="color:#888;">@</span>
-                            <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name, true)}</span>
+                            <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
                         </div>
+                        ${scoreDisplay}
                         ${meta ? `<div class="game-sub" style="color:#777;">${meta}</div>` : ''}
                     </div>
                 `;
             }).join('');
+        }
+
+        // 팀 약자로 리그 판단하는 헬퍼 함수
+        function getTeamLeague(teamAbbr) {
+            const centralTeams = ['GIA', 'HAN', 'CHU', 'YDB', 'HIR', 'YAK'];
+            const pacificTeams = ['SOF', 'LOT', 'SEI', 'ORI', 'NIP', 'RAK'];
+            
+            if (centralTeams.includes(teamAbbr)) return 'Central';
+            if (pacificTeams.includes(teamAbbr)) return 'Pacific';
+            return 'Unknown';
         }
 
         // No JS footer init required; footer is static in HTML.
