@@ -2290,11 +2290,14 @@
             
             if (!allTeams.length) return;
             
-            const totalGamesPlayed = allTeams.reduce((sum, team) => sum + (team.games_played || 0), 0);
-            const totalPossibleGames = allTeams.length * TOTAL_GAMES;
-            const progressPercentage = ((totalGamesPlayed / totalPossibleGames) * 100);
+            // 실제 시즌 총 경기 수: 각 팀 143경기 × 12팀 ÷ 2 (각 경기는 2팀 참여)
+            const totalSeasonGames = (allTeams.length * TOTAL_GAMES) / 2;  // 858경기
             
-            const remainingGames = totalPossibleGames - totalGamesPlayed;
+            // 현재까지 완료된 경기 수: 모든 팀의 경기 수 합계 ÷ 2
+            const totalGamesPlayed = allTeams.reduce((sum, team) => sum + (team.games_played || 0), 0) / 2;
+            
+            const progressPercentage = (totalGamesPlayed / totalSeasonGames) * 100;
+            const remainingGames = totalSeasonGames - totalGamesPlayed;
             
             // UI 업데이트
             const percentageEl = document.getElementById('overall-percentage');
@@ -2307,7 +2310,7 @@
             if (progressFillEl) progressFillEl.style.width = `${progressPercentage}%`;
             if (completedEl) completedEl.textContent = totalGamesPlayed.toLocaleString();
             if (remainingEl) remainingEl.textContent = remainingGames.toLocaleString();
-            if (totalEl) totalEl.textContent = totalPossibleGames.toLocaleString();
+            if (totalEl) totalEl.textContent = totalSeasonGames.toLocaleString();
         }
 
         function updateTeamProgress(containerId, teams) {
