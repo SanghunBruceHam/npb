@@ -244,12 +244,12 @@
             border: 1px solid #ddd; 
             padding: 4px 6px; 
             text-align: left; 
-            font-size: 12px; 
+            font-size: 13px; 
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1.2;
-            height: 28px;
+            height: 30px;
             vertical-align: middle;
         }
         
@@ -321,7 +321,7 @@
         }
         
         .info { 
-            font-size: 12px; 
+            font-size: 13px; 
             color: #333; 
             margin: 10px 0;
             text-align: center;
@@ -334,7 +334,7 @@
         }
         
         .magic-number { 
-            font-size: 14px; 
+            font-size: 15px; 
             font-weight: bold; 
             color: #0066cc; 
         }
@@ -366,7 +366,7 @@
         }
         .today-count { font-size: 12px; color: #666; font-weight: normal; }
         .today-date {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
             font-weight: normal;
         }
@@ -402,12 +402,12 @@
         }
         .game-sub {
             margin-top: 4px;
-            font-size: 12px;
+            font-size: 13px;
             color: #444;
         }
         .league-tag {
             display: inline-block;
-            font-size: 11px;
+            font-size: 12px;
             padding: 2px 6px;
             border-radius: 10px;
             border: 1px solid #bbb;
@@ -427,7 +427,7 @@
         }
         .toggle-btn {
             padding: 6px 12px;
-            font-size: 12px;
+            font-size: 13px;
             border: none;
             background: transparent;
             cursor: pointer;
@@ -465,11 +465,11 @@
             .game-row span:first-child,
             .game-row span:last-child {
                 max-width: 40%;
-                font-size: 11px;
+                font-size: 12px;
             }
             
             table { 
-                font-size: 11px; 
+                font-size: 12px; 
             }
             
             th, td { 
@@ -478,7 +478,7 @@
             
             .nav-tab { 
                 padding: 10px 12px; 
-                font-size: 12px; 
+                font-size: 13px; 
             }
             
             .scroll-table {
@@ -538,7 +538,7 @@
             display: grid;
             gap: 0;
             background: white;
-            font-size: 12px;
+            font-size: 13px;
             min-width: fit-content;
             margin: 0 auto;
         }
@@ -572,14 +572,14 @@
         .matrix-header-opponent {
             background: #f8f9fa;
             font-weight: bold;
-            padding: 6px 4px;
+            padding: 8px 6px;
             text-align: center;
             white-space: nowrap;
             border-bottom: 2px solid #ddd;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 11px;
-            min-width: 60px;
+            font-size: 13px;
+            min-width: 80px;
         }
         
         .matrix-header-opponent .team-logo {
@@ -590,8 +590,8 @@
 
         .matrix-data-cell {
             font-weight: normal;
-            font-size: 13px;
-            min-width: 60px;
+            font-size: 14px;
+            min-width: 80px;
         }
 
         .matrix-data-cell.zero {
@@ -615,14 +615,14 @@
         .matrix-corner {
             background: #37474f;
             color: white;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: bold;
         }
 
         /* Responsive adjustments for matrix */
         @media (max-width: 768px) {
             .remaining-matrix {
-                font-size: 11px;
+                font-size: 12px;
             }
             
             .matrix-cell {
@@ -844,7 +844,7 @@
                 </div>
                 <div id="central-scenario-detailed" class="scenario-section" style="display: none;"></div>
                 <div id="central-scenario-table-wrapper" class="scroll-table" style="display: none;">
-                    <table style="font-size: 11px; border-collapse: collapse;">
+                    <table style="font-size: 12px; border-collapse: collapse;">
                         <thead id="central-scenarios-header"></thead>
                         <tbody id="central-scenarios">
                             <tr><td colspan="20" class="loading">読み込み中...</td></tr>
@@ -868,7 +868,7 @@
                 </div>
                 <div id="pacific-scenario-detailed" class="scenario-section" style="display: none;"></div>
                 <div id="pacific-scenario-table-wrapper" class="scroll-table" style="display: none;">
-                    <table style="font-size: 11px; border-collapse: collapse;">
+                    <table style="font-size: 12px; border-collapse: collapse;">
                         <thead id="pacific-scenarios-header"></thead>
                         <tbody id="pacific-scenarios">
                             <tr><td colspan="20" class="loading">読み込み中...</td></tr>
@@ -1448,10 +1448,10 @@
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
-                            <td class="center" style="font-size: 11px;">${condition}</td>
+                            <td class="center" style="font-size: 12px;">${condition}</td>
                             <td class="center ${magic === '✓' ? 'clinched' : 'magic-number'}">${magic}</td>
                             <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
-                            <td class="center ${clinch !== '-' ? 'clinched' : ''}" style="font-size: 11px;">${clinch}</td>
+                            <td class="center ${clinch !== '-' ? 'clinched' : ''}" style="font-size: 12px;">${clinch}</td>
                         </tr>
                     `;
                 } else {
@@ -1470,7 +1470,7 @@
                             <td class="center">${maxWins}</td>
                             <td class="center ${clinch === '✓' ? 'clinched' : 'magic-number'}">${clinch}</td>
                             <td class="center ${eliminate === 'E' ? 'eliminated' : ''}">${eliminate}</td>
-                            <td class="center ${csConfirmed !== '-' ? 'clinched' : ''}" style="font-size: 11px;">${csConfirmed}</td>
+                            <td class="center ${csConfirmed !== '-' ? 'clinched' : ''}" style="font-size: 12px;">${csConfirmed}</td>
                         </tr>
                     `;
                 }
@@ -1623,14 +1623,14 @@
                 
                 // Row 3: Current records + games played
                 displayTeams.forEach(team => {
-                    headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 11px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0} (試合${team.games_played})</td>`;
+                    headerHTML += `<td class="center" style="background: #f0f0f0; font-size: 12px; padding: 4px;">${team.wins}-${team.losses}-${team.draws || 0} (試合${team.games_played})</td>`;
                 });
                 headerHTML += `</tr><tr>`;
                 
                 // Row 4: Remaining games
                 displayTeams.forEach(team => {
                     const remaining = TOTAL_GAMES - team.games_played;
-                    headerHTML += `<td class="center" style="background: #f8f9fa; font-size: 11px; padding: 4px;">잔여${remaining}</td>`;
+                    headerHTML += `<td class="center" style="background: #f8f9fa; font-size: 12px; padding: 4px;">잔여${remaining}</td>`;
                 });
                 headerHTML += `</tr>`;
                 
@@ -2112,7 +2112,7 @@
 
             // グリッドのカラム数を設定 (チーム名 + 各チーム + 合計)
             const gridColumns = teamCount + 2;
-            container.style.gridTemplateColumns = `180px repeat(${teamCount}, 60px) 60px`;
+            container.style.gridTemplateColumns = `180px repeat(${teamCount}, 80px) 80px`;
 
             let matrixHTML = '';
 
