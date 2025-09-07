@@ -2646,35 +2646,6 @@
                 const venue = tryGetVenue(g);
                 const meta = [timeStr, venue].filter(Boolean).join(' / ');
                 
-                // 팀명과 스코어 표시 
-                let awayTeamDisplay, homeTeamDisplay;
-                if (isCompleted && g.home_score !== undefined && g.away_score !== undefined) {
-                    // 승부 결과 판단
-                    const isDraw = g.is_draw || g.home_score === g.away_score;
-                    const awayWin = g.away_score > g.home_score;
-                    const homeWin = g.home_score > g.away_score;
-                    
-                    // 종료된 경기: 팀명 옆에 스코어와 승부 결과 표시
-                    let awayResultIcon = '', homeResultIcon = '';
-                    if (isDraw) {
-                        awayResultIcon = ' <span style="color:#888; font-size:11px;">△</span>';
-                        homeResultIcon = ' <span style="color:#888; font-size:11px;">△</span>';
-                    } else if (awayWin) {
-                        awayResultIcon = ' <span style="color:#2e7d32; font-size:11px; font-weight:bold;">勝</span>';
-                        homeResultIcon = ' <span style="color:#c62828; font-size:11px;">敗</span>';
-                    } else if (homeWin) {
-                        awayResultIcon = ' <span style="color:#c62828; font-size:11px;">敗</span>';
-                        homeResultIcon = ' <span style="color:#2e7d32; font-size:11px; font-weight:bold;">勝</span>';
-                    }
-                    
-                    awayTeamDisplay = `${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)} <span style="color:#d32f2f; font-weight:bold; margin-left:4px;">${g.away_score}</span>${awayResultIcon}`;
-                    homeTeamDisplay = `${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)} <span style="color:#d32f2f; font-weight:bold; margin-left:4px;">${g.home_score}</span>${homeResultIcon}`;
-                } else {
-                    // 예정/진행중 경기: 팀명만 표시
-                    awayTeamDisplay = renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true);
-                    homeTeamDisplay = renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true);
-                }
-
                 // 경기 상태 메시지 개선
                 let statusMessage = '';
                 if (isCompleted) {
@@ -2684,6 +2655,44 @@
                 } else {
                     statusMessage = '試合前';
                 }
+
+                // 경기 표시 형식 결정
+                let gameDisplay = '';
+                if (isCompleted && g.home_score !== undefined && g.away_score !== undefined) {
+                    // 종료된 경기: "팀A 5-3 팀B" 형식 (승자를 볼드로)
+                    const isDraw = g.is_draw || g.home_score === g.away_score;
+                    const awayWin = g.away_score > g.home_score;
+                    const homeWin = g.home_score > g.away_score;
+                    
+                    let awayTeamStyle = '';
+                    let homeTeamStyle = '';
+                    let scoreColor = '#d32f2f';
+                    
+                    if (isDraw) {
+                        awayTeamStyle = 'font-weight:normal;';
+                        homeTeamStyle = 'font-weight:normal;';
+                        scoreColor = '#888';
+                    } else if (awayWin) {
+                        awayTeamStyle = 'font-weight:bold; color:#2e7d32;';
+                        homeTeamStyle = 'font-weight:normal; color:#666;';
+                    } else if (homeWin) {
+                        awayTeamStyle = 'font-weight:normal; color:#666;';
+                        homeTeamStyle = 'font-weight:bold; color:#2e7d32;';
+                    }
+                    
+                    gameDisplay = `
+                        <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
+                        <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${g.away_score}-${g.home_score}</span>
+                        <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
+                    `;
+                } else {
+                    // 예정/진행중 경기: "팀A vs 팀B" 형식
+                    gameDisplay = `
+                        <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
+                        <span style="color:#888; margin:0 6px; font-weight:normal;">vs</span>
+                        <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
+                    `;
+                }
                 
                 return `
                     <div class="game-card">
@@ -2692,9 +2701,7 @@
                             <span style="margin-left:auto; font-size:12px; color:${statusColor}; font-weight:${isCompleted ? 'bold' : 'normal'};">${statusMessage}</span>
                         </div>
                         <div class="game-row" style="margin-top:4px;">
-                            <span>${awayTeamDisplay}</span>
-                            <span style="color:#888; margin:0 4px;">@</span>
-                            <span>${homeTeamDisplay}</span>
+                            ${gameDisplay}
                         </div>
                         ${meta ? `<div class="game-sub" style="color:#777;">${meta}</div>` : ''}
                     </div>
