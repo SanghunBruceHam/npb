@@ -2574,8 +2574,10 @@
                         return d.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit' });
                     }
                 }
-                // HH:MM or other plain time strings
-                if (typeof val === 'string') return val;
+                // HH:MM or other plain time strings (전각 콜론을 반각으로 변환)
+                if (typeof val === 'string') {
+                    return val.replace('：', ':');
+                }
             } catch (_) {}
             return null;
         }
