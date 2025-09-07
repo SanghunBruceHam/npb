@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-07T07:31:17.315Z",
+  "updated_at": "2025-09-07T07:32:25.352Z",
   "central_league": {
     "standings": [
       {
@@ -23,16 +23,16 @@
         "team_abbreviation": "YOG",
         "team_name": "読売ジャイアンツ",
         "league": "Central",
-        "games_played": 125,
-        "wins": 60,
+        "games_played": 126,
+        "wins": 61,
         "losses": 62,
         "draws": 3,
-        "runs_scored": 387,
-        "runs_allowed": 383,
-        "win_percentage": 0.4918032786885246,
-        "run_differential": 4,
+        "runs_scored": 393,
+        "runs_allowed": 385,
+        "win_percentage": 0.4959349593495935,
+        "run_differential": 8,
         "position_rank": 2,
-        "games_behind": 17
+        "games_behind": 16.5
       },
       {
         "team_id": 3,
@@ -55,16 +55,16 @@
         "team_abbreviation": "CHU",
         "team_name": "中日ドラゴンズ",
         "league": "Central",
-        "games_played": 124,
+        "games_played": 125,
         "wins": 56,
-        "losses": 66,
+        "losses": 67,
         "draws": 2,
-        "runs_scored": 352,
-        "runs_allowed": 389,
-        "win_percentage": 0.45901639344262296,
-        "run_differential": -37,
+        "runs_scored": 354,
+        "runs_allowed": 395,
+        "win_percentage": 0.45528455284552843,
+        "run_differential": -41,
         "position_rank": 4,
-        "games_behind": 21
+        "games_behind": 21.5
       },
       {
         "team_id": 4,
@@ -107,14 +107,14 @@
         "team_abbreviation": "SOF",
         "team_name": "福岡ソフトバンクホークス",
         "league": "Pacific",
-        "games_played": 123,
+        "games_played": 124,
         "wins": 75,
-        "losses": 44,
+        "losses": 45,
         "draws": 4,
-        "runs_scored": 472,
-        "runs_allowed": 332,
-        "win_percentage": 0.6302521008403361,
-        "run_differential": 140,
+        "runs_scored": 474,
+        "runs_allowed": 336,
+        "win_percentage": 0.625,
+        "run_differential": 138,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -123,14 +123,14 @@
         "team_abbreviation": "NIP",
         "team_name": "北海道日本ハムファイターズ",
         "league": "Pacific",
-        "games_played": 124,
+        "games_played": 125,
         "wins": 72,
-        "losses": 49,
+        "losses": 50,
         "draws": 3,
-        "runs_scored": 466,
-        "runs_allowed": 338,
-        "win_percentage": 0.5950413223140496,
-        "run_differential": 128,
+        "runs_scored": 468,
+        "runs_allowed": 341,
+        "win_percentage": 0.5901639344262295,
+        "run_differential": 127,
         "position_rank": 2,
         "games_behind": 4
       },
@@ -139,16 +139,32 @@
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 121,
-        "wins": 62,
+        "games_played": 122,
+        "wins": 63,
         "losses": 56,
         "draws": 3,
-        "runs_scored": 425,
-        "runs_allowed": 444,
-        "win_percentage": 0.5254237288135594,
-        "run_differential": -19,
+        "runs_scored": 428,
+        "runs_allowed": 446,
+        "win_percentage": 0.5294117647058824,
+        "run_differential": -18,
         "position_rank": 3,
-        "games_behind": 12.5
+        "games_behind": 11.5
+      },
+      {
+        "team_id": 9,
+        "team_abbreviation": "RAK",
+        "team_name": "東北楽天ゴールデンイーグルス",
+        "league": "Pacific",
+        "games_played": 122,
+        "wins": 57,
+        "losses": 63,
+        "draws": 2,
+        "runs_scored": 381,
+        "runs_allowed": 440,
+        "win_percentage": 0.475,
+        "run_differential": -59,
+        "position_rank": 4,
+        "games_behind": 18
       },
       {
         "team_id": 11,
@@ -163,24 +179,8 @@
         "runs_allowed": 363,
         "win_percentage": 0.4745762711864407,
         "run_differential": -35,
-        "position_rank": 4,
-        "games_behind": 18.5
-      },
-      {
-        "team_id": 9,
-        "team_abbreviation": "RAK",
-        "team_name": "東北楽天ゴールデンイーグルス",
-        "league": "Pacific",
-        "games_played": 121,
-        "wins": 56,
-        "losses": 63,
-        "draws": 2,
-        "runs_scored": 377,
-        "runs_allowed": 438,
-        "win_percentage": 0.47058823529411764,
-        "run_differential": -61,
         "position_rank": 5,
-        "games_behind": 19
+        "games_behind": 18
       },
       {
         "team_id": 8,
@@ -196,7 +196,7 @@
         "win_percentage": 0.38461538461538464,
         "run_differential": -116,
         "position_rank": 6,
-        "games_behind": 29
+        "games_behind": 28.5
       }
     ]
   }

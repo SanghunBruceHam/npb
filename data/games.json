@@ -10302,5 +10302,47 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 5,
+    "home_team_abbr": "CHU",
+    "home_team_name": "中日ドラゴンズ",
+    "away_team_id": 1,
+    "away_team_abbr": "YOG",
+    "away_team_name": "読売ジャイアンツ",
+    "home_score": 2,
+    "away_score": 6,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 12,
+    "away_team_abbr": "NIP",
+    "away_team_name": "北海道日本ハムファイターズ",
+    "home_score": 3,
+    "away_score": 2,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false
+  },
+  {
+    "game_date": "2025-09-07",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 9,
+    "away_team_abbr": "RAK",
+    "away_team_name": "東北楽天ゴールデンイーグルス",
+    "home_score": 2,
+    "away_score": 4,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false
   }
 ]
