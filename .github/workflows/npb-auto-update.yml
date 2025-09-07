@@ -93,6 +93,93 @@ jobs:
         timeout-minutes: 20
         continue-on-error: false
 
+      - name: 📊 최종 데이터 현황 확인
+        run: |
+          echo "🔍 NPB 데이터 파이프라인 실행 결과 요약"
+          echo "========================================"
+          
+          # JSON 파일들 확인
+          echo "📄 생성된 JSON 파일들:"
+          if [ -f "data/standings.json" ]; then
+            STANDINGS_SIZE=$(stat -f%z "data/standings.json" 2>/dev/null || stat -c%s "data/standings.json" 2>/dev/null || echo "0")
+            echo "  ✅ standings.json (${STANDINGS_SIZE} bytes)"
+            
+            # 순위표 팀 수 확인
+            if command -v jq >/dev/null 2>&1; then
+              CENTRAL_TEAMS=$(jq -r '.central | length' data/standings.json 2>/dev/null || echo "?")
+              PACIFIC_TEAMS=$(jq -r '.pacific | length' data/standings.json 2>/dev/null || echo "?")
+              echo "     📈 센트럴리그: ${CENTRAL_TEAMS}팀, 퍼시픽리그: ${PACIFIC_TEAMS}팀"
+            fi
+          else
+            echo "  ❌ standings.json 생성 실패"
+          fi
+          
+          if [ -f "data/games.json" ]; then
+            GAMES_SIZE=$(stat -f%z "data/games.json" 2>/dev/null || stat -c%s "data/games.json" 2>/dev/null || echo "0")
+            echo "  ✅ games.json (${GAMES_SIZE} bytes)"
+            
+            # 경기 수 확인
+            if command -v jq >/dev/null 2>&1; then
+              GAMES_COUNT=$(jq '. | length' data/games.json 2>/dev/null || echo "?")
+              echo "     ⚾ 총 경기 수: ${GAMES_COUNT}경기"
+            fi
+          else
+            echo "  ❌ games.json 생성 실패"
+          fi
+          
+          if [ -f "data/upcoming.json" ]; then
+            UPCOMING_SIZE=$(stat -f%z "data/upcoming.json" 2>/dev/null || stat -c%s "data/upcoming.json" 2>/dev/null || echo "0")
+            echo "  ✅ upcoming.json (${UPCOMING_SIZE} bytes)"
+            
+            # 예정 경기 수 확인
+            if command -v jq >/dev/null 2>&1; then
+              UPCOMING_COUNT=$(jq '. | length' data/upcoming.json 2>/dev/null || echo "?")
+              echo "     📅 예정 경기 수: ${UPCOMING_COUNT}경기"
+            fi
+          else
+            echo "  ❌ upcoming.json 생성 실패"
+          fi
+          
+          if [ -f "data/dashboard.json" ]; then
+            DASHBOARD_SIZE=$(stat -f%z "data/dashboard.json" 2>/dev/null || stat -c%s "data/dashboard.json" 2>/dev/null || echo "0")
+            echo "  ✅ dashboard.json (${DASHBOARD_SIZE} bytes)"
+          else
+            echo "  ❌ dashboard.json 생성 실패"
+          fi
+          
+          # 간단한 TXT 파일들 확인
+          echo ""
+          echo "📝 TXT 데이터 파일들:"
+          if [ -d "data/simple" ]; then
+            TXT_COUNT=$(find data/simple -name "*.txt" -type f | wc -l | tr -d ' ')
+            echo "  📁 data/simple/ 디렉토리: ${TXT_COUNT}개 파일"
+            
+            # 최신 파일 몇 개 표시
+            if [ $TXT_COUNT -gt 0 ]; then
+              echo "  📋 최근 생성된 파일들:"
+              find data/simple -name "*.txt" -type f -exec ls -la {} \; | sort -k6,7 | tail -5 | while read line; do
+                echo "     $line"
+              done
+            fi
+          else
+            echo "  ❌ data/simple/ 디렉토리 없음"
+          fi
+          
+          # 로그 파일 확인
+          echo ""
+          echo "📋 생성된 로그:"
+          if [ -d "logs" ]; then
+            find logs -name "*.log" -o -name "*.txt" | sort | while read logfile; do
+              if [ -f "$logfile" ]; then
+                LOG_SIZE=$(stat -f%z "$logfile" 2>/dev/null || stat -c%s "$logfile" 2>/dev/null || echo "0")
+                echo "  📄 $logfile (${LOG_SIZE} bytes)"
+              fi
+            done
+          fi
+          
+          echo ""
+          echo "✨ 데이터 현황 요약 완료"
+
       - name: 📝 변경사항 확인 및 커밋
         run: |
           # Git 사용자 설정
