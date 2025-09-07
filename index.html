@@ -564,18 +564,30 @@
             left: 0;
             z-index: 1;
             border-right: 2px solid #ddd;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
         }
 
         .matrix-header-opponent {
             background: #f8f9fa;
             font-weight: bold;
-            padding: 8px 6px;
+            padding: 8px 4px;
             text-align: center;
             writing-mode: vertical-rl;
             text-orientation: mixed;
             white-space: nowrap;
-            min-height: 100px;
+            min-height: 80px;
             border-bottom: 2px solid #ddd;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 11px;
+        }
+        
+        .matrix-header-opponent .team-logo {
+            height: 1em;
+            width: auto;
+            margin-right: 2px;
         }
 
         .matrix-data-cell {
@@ -2109,8 +2121,8 @@
             // ヘッダー行 - 相手チーム名 (アウェーチーム)
             matrixHTML += '<div class="matrix-cell matrix-corner">ホーム＼アウェー</div>';
             sortedTeams.forEach(team => {
-                const shortName = NPB_TEAM_META[team.team_abbreviation]?.shortName || team.team_abbreviation;
-                matrixHTML += `<div class="matrix-cell matrix-header-opponent">${shortName}</div>`;
+                const teamLabel = renderTeamLabel(team.team_abbreviation, team.team_name, true);
+                matrixHTML += `<div class="matrix-cell matrix-header-opponent">${teamLabel}</div>`;
             });
             matrixHTML += '<div class="matrix-cell matrix-corner">合計</div>';
 
@@ -2132,7 +2144,7 @@
             // データ行
             sortedTeams.forEach(homeTeam => {
                 // チーム名（ホーム）
-                const teamLabel = renderTeamLabel(homeTeam.team_abbreviation, homeTeam.team_name);
+                const teamLabel = renderTeamLabel(homeTeam.team_abbreviation, homeTeam.team_name, true);
                 matrixHTML += `<div class="matrix-cell matrix-header-team">${teamLabel}</div>`;
 
                 let rowTotal = 0;
