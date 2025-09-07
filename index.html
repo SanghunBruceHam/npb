@@ -579,7 +579,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 13px;
-            min-width: 80px;
+            min-width: 100px;
         }
         
         .matrix-header-opponent .team-logo {
@@ -591,7 +591,7 @@
         .matrix-data-cell {
             font-weight: normal;
             font-size: 14px;
-            min-width: 80px;
+            min-width: 100px;
         }
 
         .matrix-data-cell.zero {
@@ -2112,7 +2112,7 @@
 
             // グリッドのカラム数を設定 (チーム名 + 各チーム + 合計)
             const gridColumns = teamCount + 2;
-            container.style.gridTemplateColumns = `180px repeat(${teamCount}, 80px) 80px`;
+            container.style.gridTemplateColumns = `180px repeat(${teamCount}, 100px) 80px`;
 
             let matrixHTML = '';
 
