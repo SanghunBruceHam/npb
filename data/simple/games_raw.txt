@@ -753,3 +753,4 @@
 2025-09-07|3|YDB|横浜DeNAベイスターズ|6|YAK|東京ヤクルトスワローズ|3|2|Central|completed|0
 2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|0|0|Pacific|completed|1
 2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|3|1|Pacific|completed|0
+2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|4|1|Pacific|completed|0
