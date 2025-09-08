@@ -10540,5 +10540,19 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false
+  },
+  {
+    "game_date": "2025-09-08",
+    "home_team_id": 8,
+    "home_team_abbr": "LOT",
+    "home_team_name": "千葉ロッテマリーンズ",
+    "away_team_id": 10,
+    "away_team_abbr": "ORI",
+    "away_team_name": "オリックスバファローズ",
+    "home_score": 4,
+    "away_score": 2,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false
   }
 ]
