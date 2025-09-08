@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-08T07:40:27.561Z",
+  "updated_at": "2025-09-08T08:32:18.185Z",
   "central_league": {
     "standings": [
       {
@@ -139,10 +139,10 @@
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 122,
+        "games_played": 123,
         "wins": 63,
         "losses": 56,
-        "draws": 3,
+        "draws": 4,
         "runs_scored": 428,
         "runs_allowed": 446,
         "win_percentage": 0.5294117647058824,
@@ -187,10 +187,10 @@
         "team_abbreviation": "LOT",
         "team_name": "千葉ロッテマリーンズ",
         "league": "Pacific",
-        "games_played": 123,
+        "games_played": 124,
         "wins": 47,
         "losses": 72,
-        "draws": 4,
+        "draws": 5,
         "runs_scored": 371,
         "runs_allowed": 482,
         "win_percentage": 0.3949579831932773,
