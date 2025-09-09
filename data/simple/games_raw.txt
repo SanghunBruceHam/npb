@@ -1,5 +1,5 @@
 # NPB_GAMES_DATA
-# UPDATED: 2025-09-04T17:48:48.535093
+# UPDATED: 2025-09-08T20:43:39.654087
 # FORMAT: DATE|HOME_ID|HOME_ABBR|HOME_NAME|AWAY_ID|AWAY_ABBR|AWAY_NAME|HOME_SCORE|AWAY_SCORE|LEAGUE|STATUS|IS_DRAW
 2025-03-28|1|YOG|読売ジャイアンツ|6|YAK|東京ヤクルトスワローズ|6|5|Central|completed|0
 2025-03-28|3|YDB|横浜DeNAベイスターズ|5|CHU|中日ドラゴンズ|5|0|Central|completed|0
@@ -753,5 +753,60 @@
 2025-09-07|3|YDB|横浜DeNAベイスターズ|6|YAK|東京ヤクルトスワローズ|3|2|Central|completed|0
 2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|0|0|Pacific|completed|1
 2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|3|1|Pacific|completed|0
+<<<<<<< HEAD
 2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|4|1|Pacific|completed|0
 2025-09-08|8|LOT|千葉ロッテマリーンズ|10|ORI|オリックスバファローズ|4|2|Pacific|completed|0
+=======
+2025-03-28|10|ORI|オリックスバファローズ|3|YDB|横浜DeNAベイスターズ|10|4|Pacific|completed|0
+2025-03-28|2|HAN|阪神タイガース|4|HIR|広島東洋カープ|3|13|Central|completed|0
+2025-03-28|8|LOT|千葉ロッテマリーンズ|3|YDB|横浜DeNAベイスターズ|1|2|Pacific|completed|0
+2025-03-29|11|SEI|埼玉西武ライオンズ|9|RAK|東北楽天ゴールデンイーグルス|7|6|Pacific|completed|0
+2025-03-29|7|SOF|福岡ソフトバンクホークス|2|HAN|阪神タイガース|13|1|Pacific|completed|0
+2025-03-29|8|LOT|千葉ロッテマリーンズ|5|CHU|中日ドラゴンズ|12|3|Pacific|completed|0
+2025-03-29|6|YAK|東京ヤクルトスワローズ|9|RAK|東北楽天ゴールデンイーグルス|0|3|Central|completed|0
+2025-03-29|3|YDB|横浜DeNAベイスターズ|9|RAK|東北楽天ゴールデンイーグルス|11|14|Central|completed|0
+2025-03-30|8|LOT|千葉ロッテマリーンズ|12|NIP|北海道日本ハムファイターズ|15|4|Pacific|completed|0
+2025-03-30|4|HIR|広島東洋カープ|7|SOF|福岡ソフトバンクホークス|9|0|Central|completed|0
+2025-03-31|8|LOT|千葉ロッテマリーンズ|3|YDB|横浜DeNAベイスターズ|13|1|Pacific|completed|0
+2025-03-31|7|SOF|福岡ソフトバンクホークス|1|YOG|読売ジャイアンツ|4|5|Pacific|completed|0
+2025-04-01|1|YOG|読売ジャイアンツ|12|NIP|北海道日本ハムファイターズ|6|8|Central|completed|0
+2025-04-03|8|LOT|千葉ロッテマリーンズ|3|YDB|横浜DeNAベイスターズ|4|15|Pacific|completed|0
+2025-04-03|11|SEI|埼玉西武ライオンズ|6|YAK|東京ヤクルトスワローズ|14|13|Pacific|completed|0
+2025-04-03|10|ORI|オリックスバファローズ|3|YDB|横浜DeNAベイスターズ|12|0|Pacific|completed|0
+2025-04-03|2|HAN|阪神タイガース|12|NIP|北海道日本ハムファイターズ|3|8|Central|completed|0
+2025-04-03|2|HAN|阪神タイガース|4|HIR|広島東洋カープ|15|6|Central|completed|0
+2025-04-04|2|HAN|阪神タイガース|7|SOF|福岡ソフトバンクホークス|1|11|Central|completed|0
+2025-04-05|6|YAK|東京ヤクルトスワローズ|5|CHU|中日ドラゴンズ|0|6|Central|completed|0
+2025-04-05|8|LOT|千葉ロッテマリーンズ|1|YOG|読売ジャイアンツ|6|2|Pacific|completed|0
+2025-04-06|3|YDB|横浜DeNAベイスターズ|2|HAN|阪神タイガース|2|6|Central|completed|0
+2025-04-06|7|SOF|福岡ソフトバンクホークス|4|HIR|広島東洋カープ|10|9|Pacific|completed|0
+2025-04-07|8|LOT|千葉ロッテマリーンズ|4|HIR|広島東洋カープ|2|12|Pacific|completed|0
+2025-04-07|5|CHU|中日ドラゴンズ|6|YAK|東京ヤクルトスワローズ|2|0|Central|completed|0
+2025-04-07|7|SOF|福岡ソフトバンクホークス|12|NIP|北海道日本ハムファイターズ|11|10|Pacific|completed|0
+2025-04-07|10|ORI|オリックスバファローズ|4|HIR|広島東洋カープ|15|14|Pacific|completed|0
+2025-04-07|8|LOT|千葉ロッテマリーンズ|2|HAN|阪神タイガース|3|0|Pacific|completed|0
+2025-04-07|9|RAK|東北楽天ゴールデンイーグルス|7|SOF|福岡ソフトバンクホークス|5|0|Pacific|completed|0
+2025-04-09|4|HIR|広島東洋カープ|2|HAN|阪神タイガース|9|11|Central|completed|0
+2025-04-09|9|RAK|東北楽天ゴールデンイーグルス|3|YDB|横浜DeNAベイスターズ|15|8|Pacific|completed|0
+2025-04-09|10|ORI|オリックスバファローズ|4|HIR|広島東洋カープ|1|6|Pacific|completed|0
+2025-04-09|2|HAN|阪神タイガース|12|NIP|北海道日本ハムファイターズ|9|2|Central|completed|0
+2025-04-09|4|HIR|広島東洋カープ|12|NIP|北海道日本ハムファイターズ|3|12|Central|completed|0
+2025-04-10|10|ORI|オリックスバファローズ|7|SOF|福岡ソフトバンクホークス|10|3|Pacific|completed|0
+2025-04-11|10|ORI|オリックスバファローズ|5|CHU|中日ドラゴンズ|12|13|Pacific|completed|0
+2025-04-11|1|YOG|読売ジャイアンツ|4|HIR|広島東洋カープ|13|12|Central|completed|0
+2025-04-11|12|NIP|北海道日本ハムファイターズ|6|YAK|東京ヤクルトスワローズ|7|12|Pacific|completed|0
+2025-04-11|1|YOG|読売ジャイアンツ|11|SEI|埼玉西武ライオンズ|15|5|Central|completed|0
+2025-04-12|9|RAK|東北楽天ゴールデンイーグルス|2|HAN|阪神タイガース|11|8|Pacific|completed|0
+2025-04-12|2|HAN|阪神タイガース|8|LOT|千葉ロッテマリーンズ|6|12|Central|completed|0
+2025-04-12|12|NIP|北海道日本ハムファイターズ|3|YDB|横浜DeNAベイスターズ|10|1|Pacific|completed|0
+2025-04-12|7|SOF|福岡ソフトバンクホークス|10|ORI|オリックスバファローズ|3|6|Pacific|completed|0
+2025-04-12|4|HIR|広島東洋カープ|9|RAK|東北楽天ゴールデンイーグルス|0|4|Central|completed|0
+2025-04-13|7|SOF|福岡ソフトバンクホークス|8|LOT|千葉ロッテマリーンズ|10|3|Pacific|completed|0
+2025-04-13|4|HIR|広島東洋カープ|8|LOT|千葉ロッテマリーンズ|1|12|Central|completed|0
+2025-04-14|5|CHU|中日ドラゴンズ|12|NIP|北海道日本ハムファイターズ|6|10|Central|completed|0
+2025-04-14|1|YOG|読売ジャイアンツ|9|RAK|東北楽天ゴールデンイーグルス|6|10|Central|completed|0
+2025-04-14|4|HIR|広島東洋カープ|8|LOT|千葉ロッテマリーンズ|9|8|Central|completed|0
+2025-04-14|7|SOF|福岡ソフトバンクホークス|3|YDB|横浜DeNAベイスターズ|0|6|Pacific|completed|0
+2025-04-14|8|LOT|千葉ロッテマリーンズ|5|CHU|中日ドラゴンズ|10|8|Pacific|completed|0
+2025-04-14|11|SEI|埼玉西武ライオンズ|1|YOG|読売ジャイアンツ|13|4|Pacific|completed|0
+>>>>>>> 87f0c99 (Remove real-time game display and console logs)

@@ -1,5 +1,9 @@
 # NPB_TEAMS_DATA
+<<<<<<< HEAD
 # UPDATED: 2025-09-08T23:40:51.077451
+=======
+# UPDATED: 2025-09-08T20:43:39.659723
+>>>>>>> 87f0c99 (Remove real-time game display and console logs)
 # FORMAT: TEAM_ID|TEAM_ABBR|TEAM_NAME|LEAGUE
 1|YOG|読売ジャイアンツ|Central
 2|HAN|阪神タイガース|Central

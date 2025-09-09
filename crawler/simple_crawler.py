@@ -135,16 +135,39 @@ class SimpleCrawler:
             return False
 
     def crawl_date(self, target_date):
-        """특정 날짜의 경기 결과 크롤링 (실시간 상태 정보 포함)"""
+        """특정 날짜의 경기 결과 크롤링"""
         if not CRAWLING_ENABLED:
             return []  # Skip actual crawling if dependencies unavailable
             
+        self.logger.info(f"🔍 Crawling: {target_date.strftime('%Y-%m-%d')}")
+        
+        # 1. NPB 공식 사이트에서 경기 정보 시도
+        games = self.crawl_game_detail(target_date)
+        
+        # 2. NPB에서 정보를 가져오지 못했으면 닛칸스포츠에서 시도
+        if not games:
+            games = self.crawl_from_nikkansports(target_date)
+        
+        # 3. 경기 상태 로그 출력
+        for game in games:
+            if game.get('status') == 'completed':
+                self.logger.info(f"✅ Completed: {game['away_team_abbr']} {game.get('away_score', 0)}-{game.get('home_score', 0)} {game['home_team_abbr']}")
+            elif game.get('status') == 'postponed':
+                self.logger.info(f"⏸️ Postponed: {game['away_team_abbr']} vs {game['home_team_abbr']}")
+            else:
+                self.logger.info(f"📅 Scheduled: {game['away_team_abbr']} vs {game['home_team_abbr']}")
+        
+        self.logger.info(f"✅ Found {len(games)} games on {target_date.strftime('%Y-%m-%d')}")
+        return games
+        
+    def crawl_from_nikkansports(self, target_date):
+        """닛칸스포츠에서 경기 결과 크롤링 (기존 방식)"""
         # URL 형식: https://www.nikkansports.com/baseball/professional/score/2025/pf-score-20250328.html
         date_str = target_date.strftime("%Y%m%d")
         year = target_date.strftime("%Y")
         url = f"https://www.nikkansports.com/baseball/professional/score/{year}/pf-score-{date_str}.html"
         
-        self.logger.info(f"🔍 Crawling: {target_date.strftime('%Y-%m-%d')}")
+        self.logger.info(f"📰 Trying Nikkansports: {target_date.strftime('%Y-%m-%d')}")
         
         try:
             response = requests.get(url, timeout=10)
@@ -227,11 +250,7 @@ class SimpleCrawler:
                     # 리그 판단 (팀 정보에서)
                     league = away_team['league']
                     
-                    # 0-0도 NPB에서는 유효한 무승부로 기록됨 (재경기 아님)
-                    # 과거 로직에서 0-0을 제외해 무승부 집계가 누락되는 문제가 있었음
-                    # 따라서 0-0을 포함하여 is_draw 처리함
-                    
-                    # 실시간 경기 상태 정보 추출
+                    # 경기 상태 정보 추출
                     game_status_info = self.extract_game_status(table)
                     
                     # 경기 정보
@@ -250,31 +269,36 @@ class SimpleCrawler:
                         'inning': game_status_info['inning'],
                         'inning_half': game_status_info['inning_half'],
                         'game_time': game_status_info['game_time'],
+                        'inning_scores': game_status_info.get('inning_scores', []),
                         'is_draw': home_score == away_score,  # 실제 동점만 무승부
                         'winner': 'home' if home_score > away_score else ('away' if away_score > home_score else 'draw')
                     }
                     
                     games.append(game)
-                    self.logger.info(f"✅ Parsed: {away_team['abbr']} {away_score}-{home_score} {home_team['abbr']}")
+                    status_text = f" [{game['status'].upper()}]" if game['status'] != 'completed' else ""
+                    self.logger.info(f"✅ Parsed: {away_team['abbr']} {away_score}-{home_score} {home_team['abbr']}{status_text}")
                     
                 except Exception as e:
                     self.logger.warning(f"⚠️ Failed to parse table: {e}")
                     continue
             
-            self.logger.info(f"✅ Found {len(games)} games on {target_date.strftime('%Y-%m-%d')}")
             return games
             
         except Exception as e:
-            self.logger.error(f"❌ Failed to crawl {target_date.strftime('%Y-%m-%d')}: {e}")
+            self.logger.error(f"❌ Failed to crawl from Nikkansports {target_date.strftime('%Y-%m-%d')}: {e}")
             return []
     
     def extract_game_status(self, table):
         """경기 상태 정보 추출 (이닝, 진행상황, 시간 등)"""
         status_info = {
-            'status': 'completed',  # 기본값: 완료
+            'status': 'scheduled',  # 기본값: 예정 (명확한 완료 표시가 있을 때만 completed로 변경)
             'inning': None,
             'inning_half': None,  # 'top' 또는 'bottom'
-            'game_time': None
+            'game_time': None,
+            'inning_scores': [],  # 이닝별 스코어
+            'current_runners': None,  # 주자 상황
+            'balls_strikes': None,  # 볼카운트
+            'outs': None  # 아웃 카운트
         }
         
         try:
@@ -296,9 +320,10 @@ class SimpleCrawler:
             for elem in status_elements:
                 text = elem.get_text(strip=True)
                 
-                # 진행중 상태 확인
-                if any(keyword in text for keyword in ['進行中', '試合中', 'LIVE', 'プレイボール']):
-                    status_info['status'] = 'in_progress'
+                # 완료 상태만 확인 (다양한 완료 표현 추가)
+                completion_keywords = ['試合終了', '終了', 'ゲーム終了', 'GAME SET', 'FINAL', '最終']
+                if any(keyword in text for keyword in completion_keywords):
+                    status_info['status'] = 'completed'
                 
                 # 연기/중지 상태 확인
                 elif any(keyword in text for keyword in ['雨天中止', '中止', '延期', 'サスペンデッド']):
@@ -314,9 +339,15 @@ class SimpleCrawler:
             # 3. 스코어보드에서 추가 정보 추출
             score_cells = table.find_all('td', class_='totalScore')
             for cell in score_cells:
-                # 현재 진행 중인 스코어인지 확인 (점멸, 색상 등의 클래스)
-                if 'active' in cell.get('class', []) or 'current' in cell.get('class', []):
-                    status_info['status'] = 'in_progress'
+                # 스코어가 확정된 경우만 완료로 처리
+                # 진행중 표시는 무시
+            
+            # 4. 이닝별 스코어 추출
+            inning_cells = table.find_all('td', class_=['inning', 'inningScore'])
+            for cell in inning_cells:
+                score_text = cell.get_text(strip=True)
+                if score_text.isdigit():
+                    status_info['inning_scores'].append(int(score_text))
                     
         except Exception as e:
             self.logger.warning(f"⚠️ Could not extract game status: {e}")
@@ -324,7 +355,7 @@ class SimpleCrawler:
         return status_info
     
     def save_games_to_txt(self, games, filename="games_raw.txt"):
-        """경기 결과를 TXT 파일로 저장 (완료/예정 경기 모두 지원)
+        """경기 결과를 TXT 파일로 저장
         upcoming_games_raw.txt의 경우, 구장/경기시간 필드를 끝에 추가하고 전체 파일을 재작성합니다.
         """
         if not games:
@@ -332,8 +363,7 @@ class SimpleCrawler:
         
         file_path = self.data_dir / filename
         is_upcoming = (filename == "upcoming_games_raw.txt")
-
-        # upcoming은 항상 덮어쓰기(형식 통일), 나머지는 append + dedup
+        # upcoming는 항상 덮어쓰기(최신 상태 유지), 나머지는 append + dedup
         if is_upcoming:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write("# NPB_SCHEDULED_GAMES_DATA\n")
@@ -344,29 +374,33 @@ class SimpleCrawler:
                 for game in games:
                     home_score = 'NULL' if game.get('home_score') is None else str(game['home_score'])
                     away_score = 'NULL' if game.get('away_score') is None else str(game['away_score'])
-                    stadium = game.get('stadium')
-                    if not stadium:
-                        abbr = game.get('home_team_abbr')
-                        stadium = self.default_stadium_by_abbr.get(abbr, '')
-                    game_time = game.get('game_time', '')
-                    line = "|".join([
-                        game['date'],
-                        str(game['home_team_id']),
-                        game['home_team_abbr'],
-                        game['home_team_name'],
-                        str(game['away_team_id']),
-                        game['away_team_abbr'],
-                        game['away_team_name'],
-                        home_score,
-                        away_score,
-                        game['league'],
-                        game.get('status', 'scheduled'),
-                        '1' if game.get('is_draw') else '0',
-                        stadium,
-                        game_time,
-                    ])
+                    
+                    if is_upcoming:
+                        stadium = game.get('stadium')
+                        if not stadium:
+                            abbr = game.get('home_team_abbr')
+                            stadium = self.default_stadium_by_abbr.get(abbr, '')
+                        game_time = game.get('game_time', '')
+                        line = "|".join([
+                            game['date'],
+                            str(game['home_team_id']),
+                            game['home_team_abbr'],
+                            game['home_team_name'],
+                            str(game['away_team_id']),
+                            game['away_team_abbr'],
+                            game['away_team_name'],
+                            home_score,
+                            away_score,
+                            game['league'],
+                            game.get('status', 'scheduled'),
+                            '1' if game.get('is_draw') else '0',
+                            stadium,
+                            game_time,
+                        ])
+                    
                     f.write(line + '\n')
-            self.logger.info(f"📄 Rewrote {file_path} with {len(games)} scheduled games (stadium/time included)")
+                
+                self.logger.info(f"📄 Rewrote {file_path} with {len(games)} scheduled games")
             return
 
         # 기존 파일 읽기 (중복 방지) - 완료 경기용
@@ -397,8 +431,8 @@ class SimpleCrawler:
                 home_score,
                 away_score,
                 game['league'],
-                game['status'],
-                '1' if game['is_draw'] else '0'
+                game.get('status', 'completed'),
+                '1' if game.get('is_draw') else '0'
             ])
             if line not in existing_set:
                 new_lines.append(line)
@@ -566,6 +600,8 @@ class SimpleCrawler:
         
         return len(all_games)
 
+
+
     def crawl_upcoming_games(self, days_ahead=3):
         """예정 경기 크롤링 (NPB 공식 사이트에서)"""
         if not CRAWLING_ENABLED:
@@ -590,6 +626,151 @@ class SimpleCrawler:
         
         self.logger.info(f"📅 Found {len(all_upcoming_games)} upcoming games")
         return all_upcoming_games
+
+    def crawl_game_detail(self, target_date):
+        """특정 날짜의 경기 상세 정보 크롤링 (NPB 공식 사이트)"""
+        if not CRAWLING_ENABLED:
+            return []
+            
+        # NPB 공식 스코어 페이지 형식: https://npb.jp/scores/2025/0908/
+        date_str = target_date.strftime("%m%d")
+        year = target_date.year
+        url = f"https://npb.jp/scores/{year}/{date_str}/"
+        
+        self.logger.info(f"🔍 Checking game details: {target_date.strftime('%Y-%m-%d')}")
+        
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
+            games = []
+            
+            # NPB 스코어 페이지에서 각 경기 링크 찾기
+            game_links = soup.find_all('a', href=lambda x: x and '/scores/' in x and target_date.strftime('%Y') in x)
+            
+            for link in game_links:
+                href = link.get('href')
+                if href and 'detail' not in href:  # 상세 페이지가 아닌 메인 경기 링크만
+                    full_url = f"https://npb.jp{href}" if href.startswith('/') else href
+                    
+                    # 각 경기의 상세 정보 크롤링
+                    game_detail = self.crawl_single_game(full_url, target_date)
+                    if game_detail:
+                        games.append(game_detail)
+                    
+                    # 요청 간격
+                    time.sleep(0.5)
+            
+            return games
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to crawl games for {target_date.strftime('%Y-%m-%d')}: {e}")
+            return []
+
+    def crawl_single_game(self, game_url, target_date):
+        """단일 경기의 상세 정보 크롤링"""
+        try:
+            response = requests.get(game_url, timeout=10)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # 경기 정보 추출
+            game_info = {
+                'date': target_date.strftime('%Y-%m-%d'),
+                'status': 'scheduled',  # 기본값을 scheduled로 설정
+                'inning': None,
+                'inning_half': None,
+                'inning_scores': {'away': [], 'home': []},
+                'current_situation': {}
+            }
+            
+            # 1. 팀 정보 및 최종 스코어 추출
+            score_table = soup.find('table', class_='score-table')
+            if score_table:
+                rows = score_table.find_all('tr')
+                if len(rows) >= 3:  # 헤더 + away + home
+                    away_row = rows[1]
+                    home_row = rows[2]
+                    
+                    # 팀명 추출
+                    away_team_cell = away_row.find('td', class_='team')
+                    home_team_cell = home_row.find('td', class_='team')
+                    
+                    if away_team_cell and home_team_cell:
+                        away_team_text = away_team_cell.get_text(strip=True)
+                        home_team_text = home_team_cell.get_text(strip=True)
+                        
+                        away_team = self.get_team_info(away_team_text)
+                        home_team = self.get_team_info(home_team_text)
+                        
+                        if away_team and home_team:
+                            game_info['away_team_id'] = away_team['id']
+                            game_info['away_team_abbr'] = away_team['abbr']
+                            game_info['away_team_name'] = away_team['name']
+                            game_info['home_team_id'] = home_team['id']
+                            game_info['home_team_abbr'] = home_team['abbr']
+                            game_info['home_team_name'] = home_team['name']
+                            game_info['league'] = away_team['league']
+                            
+                            # 최종 스코어 추출
+                            away_total = away_row.find('td', class_='total')
+                            home_total = home_row.find('td', class_='total')
+                            
+                            if away_total and home_total:
+                                away_score_text = away_total.get_text(strip=True)
+                                home_score_text = home_total.get_text(strip=True)
+                                
+                                # 스코어 데이터는 항상 수집 (진행중이든 완료든)
+                                try:
+                                    game_info['away_score'] = int(away_score_text)
+                                    game_info['home_score'] = int(home_score_text)
+                                    game_info['is_draw'] = game_info['away_score'] == game_info['home_score']
+                                    game_info['winner'] = 'home' if game_info['home_score'] > game_info['away_score'] else ('away' if game_info['away_score'] > game_info['home_score'] else 'draw')
+                                except ValueError:
+                                    self.logger.warning(f"⚠️ Could not parse scores: away='{away_score_text}', home='{home_score_text}'")
+                                    return None
+                            
+                            # 이닝별 스코어 추출
+                            inning_cells_away = away_row.find_all('td', class_='inning')
+                            inning_cells_home = home_row.find_all('td', class_='inning')
+                            
+                            for cell in inning_cells_away:
+                                score_text = cell.get_text(strip=True)
+                                if score_text.isdigit():
+                                    game_info['inning_scores']['away'].append(int(score_text))
+                                elif score_text == 'X':
+                                    game_info['inning_scores']['away'].append(None)  # 하위팀 9회말은 X
+                            
+                            for cell in inning_cells_home:
+                                score_text = cell.get_text(strip=True)
+                                if score_text.isdigit():
+                                    game_info['inning_scores']['home'].append(int(score_text))
+                                elif score_text == 'X':
+                                    game_info['inning_scores']['home'].append(None)
+            
+            # 2. 경기 상태 정보 추출
+            status_section = soup.find('div', class_=['game-status'])
+            if status_section:
+                status_text = status_section.get_text(strip=True)
+                
+                # 경기 완료 상태만 확인 (진행중이면 상태 변경 안함)
+                completion_keywords = ['試合終了', '終了', 'ゲーム終了', 'GAME SET', 'FINAL', '最終', '結果']
+                if any(keyword in status_text for keyword in completion_keywords):
+                    game_info['status'] = 'completed'
+                elif any(keyword in status_text for keyword in ['延期', '中止', '雨天中止']):
+                    game_info['status'] = 'postponed'
+                # 진행중이거나 기타 상태면 기본값(scheduled) 유지
+            
+            # 3. 추가 게임 시간 정보
+            game_time_elem = soup.find(['span', 'div'], class_=['game-time', 'start-time'])
+            if game_time_elem:
+                game_info['game_time'] = game_time_elem.get_text(strip=True)
+            
+            return game_info
+            
+        except Exception as e:
+            self.logger.warning(f"⚠️ Failed to crawl single game: {game_url} - {e}")
+            return None
 
     def crawl_upcoming_date(self, target_date):
         """특정 날짜의 예정 경기 크롤링 (NPB 공식 사이트)"""
@@ -744,7 +925,12 @@ def main():
                 games_count = crawler.crawl_multiple_days(days)
                 print(f"\n✅ Crawl completed: {games_count} games collected")
             except ValueError:
-                print("❌ Invalid argument. Use: days, --full-season, --test, or --quick")
+                print("❌ Invalid argument. Available options:")
+                print("  --full-season    : Crawl entire season")
+                print("  --test           : Test crawl (3 days)")
+                print("  --quick          : Quick crawl (1 day)")
+                print("  --upcoming       : Upcoming games (30 days)")
+                print("  <number>         : Crawl specific number of days")
                 return 1
     else:
         # 기본: 7일
