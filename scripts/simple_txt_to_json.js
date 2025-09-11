@@ -59,12 +59,12 @@ class SimpleTxtToJson {
      * 경기 데이터 파싱 (완료/예정 공통)
      */
     parseGames(txtData) {
+        // Support both old pipe-delimited format and new human-readable format
         const lines = txtData.split('\n');
-        const games = [];
-        
+
+        const parsedPipe = [];
         for (const line of lines) {
             if (line.startsWith('#') || !line.trim()) continue;
-            
             const parts = line.split('|');
             if (parts.length >= 12) {
                 const base = {
@@ -82,15 +82,103 @@ class SimpleTxtToJson {
                     game_status: parts[10],
                     is_draw: parts[11] === '1'
                 };
-                // 예정 경기 확장 필드(STADIUM, GAME_TIME)가 있을 경우 처리
                 if (parts.length >= 14) {
                     base.stadium = parts[12] || '';
                     base.scheduled_time = parts[13] || '';
                 }
-                games.push(base);
+                parsedPipe.push(base);
             }
         }
-        
+
+        // If we parsed any using the pipe format, return them
+        if (parsedPipe.length > 0) return parsedPipe;
+
+        // Fallback: parse the new grouped, human-readable format
+        const games = [];
+        let currentDate = null;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+
+            // Date marker: "# YYYY-MM-DD"
+            const dateMatch = line.match(/^#\s*(\d{4}-\d{2}-\d{2})$/);
+            if (dateMatch) {
+                currentDate = dateMatch[1];
+                continue;
+            }
+
+            // Skip comments and metadata/hints
+            if (line.startsWith('#')) continue;
+
+            // Game line pattern:
+            // AWY 2-4 HOM (League) [DRAW] [SCHEDULED|POSTPONED] @ Venue info
+            const m = line.match(/^([A-Z]{2,3})\s+((\d+)-(\d+)|vs)\s+([A-Z]{2,3})\s+\(([^)]+)\)(?:\s+\[([A-Z]+)\])?(?:\s+@\s*(.*))?$/);
+            if (!m || !currentDate) {
+                continue;
+            }
+
+            const away_abbr = m[1];
+            const scorePart = m[2];
+            const away_score_str = m[3] || null;
+            const home_score_str = m[4] || null;
+            const home_abbr = m[5];
+            const league = m[6];
+            const bracketTag = (m[7] || '').toUpperCase(); // DRAW|SCHEDULED|POSTPONED
+            const venue = m[8] || '';
+
+            // Expect a following metadata line: "# AWAY_ID|HOME_ID|AWAY_NAME|HOME_NAME"
+            let metaAwayId = null, metaHomeId = null, away_name = '', home_name = '';
+            const next = (lines[i + 1] || '').trim();
+            const meta = next.startsWith('#') ? next.replace(/^#\s*/, '') : '';
+            const metaParts = meta.split('|');
+            if (metaParts.length >= 4) {
+                metaAwayId = parseInt(metaParts[0]);
+                metaHomeId = parseInt(metaParts[1]);
+                away_name = metaParts[2] || '';
+                home_name = metaParts[3] || '';
+                // Advance past meta line
+                i += 1;
+            }
+
+            // Determine status and scores
+            let game_status = 'completed';
+            if (bracketTag === 'SCHEDULED') game_status = 'scheduled';
+            else if (bracketTag === 'POSTPONED') game_status = 'postponed';
+
+            let away_score = null, home_score = null;
+            if (scorePart !== 'vs' && away_score_str != null && home_score_str != null) {
+                const a = parseInt(away_score_str);
+                const h = parseInt(home_score_str);
+                if (!Number.isNaN(a) && !Number.isNaN(h)) {
+                    away_score = a;
+                    home_score = h;
+                }
+            } else if (game_status === 'completed') {
+                // If no scores but marked as completed, keep as nulls
+                game_status = 'scheduled';
+            }
+
+            const is_draw = bracketTag === 'DRAW' || (away_score !== null && home_score !== null && away_score === home_score);
+
+            // Build record; prefer IDs/names from meta when available
+            const rec = {
+                game_date: currentDate,
+                home_team_id: metaHomeId ?? null,
+                home_team_abbr: home_abbr,
+                home_team_name: home_name || '',
+                away_team_id: metaAwayId ?? null,
+                away_team_abbr: away_abbr,
+                away_team_name: away_name || '',
+                home_score,
+                away_score,
+                league,
+                game_status,
+                is_draw
+            };
+            if (venue) rec.stadium = venue;
+            games.push(rec);
+        }
+
         return games;
     }
 
