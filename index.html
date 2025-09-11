@@ -2958,7 +2958,7 @@
                 const basePath = getDataPath();
                 const cacheBust = `v=${Date.now()}`;
                 const dataUrl = basePath + (basePath.includes('?') ? '&' : '?') + cacheBust;
-                const response = await fetch(dataUrl);
+                const response = await fetch(dataUrl, { cache: 'no-store' });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${dataPath}`);
@@ -2970,7 +2970,7 @@
                 try {
                     const dashboardBase = basePath.replace('standings.json', 'dashboard.json');
                     const dashboardUrl = dashboardBase + (dashboardBase.includes('?') ? '&' : '?') + cacheBust;
-                    const dashboardResponse = await fetch(dashboardUrl);
+                    const dashboardResponse = await fetch(dashboardUrl, { cache: 'no-store' });
                     if (dashboardResponse.ok) {
                         seasonConfig = await dashboardResponse.json();
                         // NPB 정규시즌은 팀당 143試合. 대시보드가 있더라도 TOTAL_GAMES는 143으로 고정.
@@ -2988,7 +2988,7 @@
                 try {
                     const gamesBase = basePath.replace('standings.json', 'games.json');
                     const gamesUrl = gamesBase + (gamesBase.includes('?') ? '&' : '?') + cacheBust;
-                    const gamesResp = await fetch(gamesUrl);
+                    const gamesResp = await fetch(gamesUrl, { cache: 'no-store' });
                     if (gamesResp.ok) {
                         gamesData = await gamesResp.json();
                     }
@@ -2998,7 +2998,7 @@
                 try {
                     const upcomingBase = basePath.replace('standings.json', 'upcoming.json');
                     const upcomingUrl = upcomingBase + (upcomingBase.includes('?') ? '&' : '?') + cacheBust;
-                    const upcomingResp = await fetch(upcomingUrl);
+                    const upcomingResp = await fetch(upcomingUrl, { cache: 'no-store' });
                     if (upcomingResp.ok) {
                         upcomingGamesData = await upcomingResp.json();
                     }
@@ -3177,7 +3177,7 @@
                     const upcomingBase = basePath.replace('standings.json', 'upcoming.json');
                     const cacheBust = `v=${Date.now()}`;
                     const upcomingUrl = upcomingBase + (upcomingBase.includes('?') ? '&' : '?') + cacheBust;
-                    const resp = await fetch(upcomingUrl);
+                    const resp = await fetch(upcomingUrl, { cache: 'no-store' });
                     if (resp.ok) {
                         upcomingGamesData = await resp.json();
                         setScheduleDate(currentScheduleMode); // re-render current mode
