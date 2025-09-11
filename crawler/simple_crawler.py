@@ -682,8 +682,15 @@ class SimpleCrawler:
                                 meta_line = lines[i + 1]
                                 meta_match = re.match(r'^#\s*(\d+)\|(\d+)\|([^|]+)\|([^|]+)$', meta_line)
                                 if meta_match:
-                                    away_abbr, score_part, home_abbr, league, status_info = game_match.groups()[:5]
-                                    away_score_str, home_score_str = game_match.groups()[2:4]
+                                    gm = game_match.groups()
+                                    away_abbr = gm[0]
+                                    score_part = gm[1]
+                                    away_score_str = gm[2]
+                                    home_score_str = gm[3]
+                                    home_abbr = gm[4]
+                                    league = gm[5]
+                                    status_info = gm[6] if len(gm) > 6 else ''
+
                                     away_id, home_id, away_name, home_name = meta_match.groups()
                                     game_data = {
                                         'date': current_date,
