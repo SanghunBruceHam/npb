@@ -171,7 +171,10 @@ class SimpleCrawler:
         self.logger.info(f"📰 Trying Nikkansports: {target_date.strftime('%Y-%m-%d')}")
         
         try:
-            response = requests.get(url, timeout=10)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+            }
+            response = requests.get(url, timeout=15, headers=headers)
             response.raise_for_status()
             # Use raw content so BeautifulSoup can detect meta charset correctly
             soup = BeautifulSoup(response.content, 'html.parser')
@@ -179,6 +182,13 @@ class SimpleCrawler:
             
             # scoreTable 클래스의 테이블들에서 경기 결과 파싱
             score_tables = soup.find_all('table', class_='scoreTable')
+            # 레이아웃/차단 이슈로 비어 있을 때 한 번 재시도
+            if not score_tables:
+                time.sleep(1)
+                response = requests.get(url, timeout=20, headers=headers)
+                response.raise_for_status()
+                soup = BeautifulSoup(response.content, 'html.parser')
+                score_tables = soup.find_all('table', class_='scoreTable')
             
             for table in score_tables:
                 try:
@@ -630,10 +640,12 @@ class SimpleCrawler:
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     content = f.read()
-                    
-                # 기존이 파이프 형식이면 변환
-                if '|' in content:
-                    for line in content.split('\n'):
+                lines = content.split('\n')
+                # 파이프 형식 여부는 '주석이 아닌' 라인에서 판단 (메타 주석의 | 무시)
+                pipe_mode = any(('|' in ln) and (not ln.strip().startswith('#')) for ln in lines)
+                if pipe_mode:
+                    # 구(파이프) 형식 파싱
+                    for line in lines:
                         if line.startswith('#') or not line.strip():
                             continue
                         parts = line.strip().split('|')
@@ -655,9 +667,8 @@ class SimpleCrawler:
                             game_key = (parts[0], parts[1], parts[4])
                             existing_games[game_key] = game_data
                 else:
-                    # 새 형식 파싱 (날짜별 그룹화)
+                    # 새(가독) 형식 파싱 (날짜별 그룹화)
                     current_date = None
-                    lines = content.split('\n')
                     i = 0
                     while i < len(lines):
                         line = lines[i].strip()
@@ -665,19 +676,15 @@ class SimpleCrawler:
                             current_date = line[2:]
                             i += 1
                             continue
-                        
                         if current_date and line and not line.startswith('#'):
                             game_match = re.match(r'^(\w+)\s+((\d+)-(\d+)|vs)\s+(\w+)\s+\((\w+)\)(.*)$', line)
                             if game_match and i + 1 < len(lines):
                                 meta_line = lines[i + 1]
                                 meta_match = re.match(r'^#\s*(\d+)\|(\d+)\|([^|]+)\|([^|]+)$', meta_line)
-                                
                                 if meta_match:
                                     away_abbr, score_part, home_abbr, league, status_info = game_match.groups()[:5]
                                     away_score_str, home_score_str = game_match.groups()[2:4]
-
                                     away_id, home_id, away_name, home_name = meta_match.groups()
-                                    
                                     game_data = {
                                         'date': current_date,
                                         'home_team_id': int(home_id),
@@ -1062,7 +1069,10 @@ class SimpleCrawler:
         self.logger.info(f"🔍 Checking game details: {target_date.strftime('%Y-%m-%d')}")
         
         try:
-            response = requests.get(url, timeout=10)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+            }
+            response = requests.get(url, timeout=12, headers=headers)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             games = []
@@ -1092,7 +1102,10 @@ class SimpleCrawler:
     def crawl_single_game(self, game_url, target_date):
         """단일 경기의 상세 정보 크롤링"""
         try:
-            response = requests.get(game_url, timeout=10)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+            }
+            response = requests.get(game_url, timeout=12, headers=headers)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             
