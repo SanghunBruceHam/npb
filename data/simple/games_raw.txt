@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-12T17:43:03.976817
+# UPDATED: 2025-09-12T19:39:00.395115
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1864,6 +1864,5 @@ SEI 0-0 NIP (Pacific) [DRAW]
 # 11|12|埼玉西武ライオンズ|北海道日本ハムファイターズ
 LOT 0-0 RAK (Pacific) [DRAW]
 # 8|9|千葉ロッテマリーンズ|東北楽天ゴールデンイーグルス
-YDB 0-0 YAK (Central) [DRAW] @ 明治神宮野球場
+YDB 0-0 YAK (Central) [DRAW]
 # 3|6|横浜DeNAベイスターズ|東京ヤクルトスワローズ
-# 📊 실책(0-0)
