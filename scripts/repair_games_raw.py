@@ -1,92 +1,115 @@
 #!/usr/bin/env python3
 """
-Repair malformed lines in data/simple/games_raw.txt for specific dates.
+Repair data/simple/games_raw.txt
 
-We fix lines like:
-  HIR 4-6 4 (6)
-to normalized form:
-  HIR 4-6 YOG (Central)
+Goals:
+- Fix malformed game lines using meta IDs (home/away abbr, league)
+- Preserve date headers, game line, and meta line
+- Keep inning detail lines ("# 📊 이닝별: ...")
+- Drop hits/errors lines ("# 📊 안타...", "# 📊 실책...")
+- Preserve existing [DRAW]/[SCHEDULED]/[POSTPONED] tags without inventing new ones
 
-by using the following meta line:
-  # AWAY_ID|HOME_ID|AWAY_NAME|HOME_NAME
-
-Usage:
-  python3 scripts/repair_games_raw.py 2025-09-09 2025-09-10 ...
+This script rewrites the file in-place.
 """
 
-import sys
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / 'data' / 'simple' / 'games_raw.txt'
 
-# Minimal ID->abbr and league map
-ID_ABBR = {
-    1:'YOG',2:'HAN',3:'YDB',4:'HIR',5:'CHU',6:'YAK',
-    7:'SOF',8:'LOT',9:'RAK',10:'ORI',11:'SEI',12:'NIP'
+ID_TO_TEAM = {
+    1: {'abbr': 'YOG', 'league': 'Central'},
+    2: {'abbr': 'HAN', 'league': 'Central'},
+    3: {'abbr': 'YDB', 'league': 'Central'},
+    4: {'abbr': 'HIR', 'league': 'Central'},
+    5: {'abbr': 'CHU', 'league': 'Central'},
+    6: {'abbr': 'YAK', 'league': 'Central'},
+    7: {'abbr': 'SOF', 'league': 'Pacific'},
+    8: {'abbr': 'LOT', 'league': 'Pacific'},
+    9: {'abbr': 'RAK', 'league': 'Pacific'},
+    10: {'abbr': 'ORI', 'league': 'Pacific'},
+    11: {'abbr': 'SEI', 'league': 'Pacific'},
+    12: {'abbr': 'NIP', 'league': 'Pacific'},
 }
-ID_LEAGUE = {**{i:'Central' for i in [1,2,3,4,5,6]}, **{i:'Pacific' for i in [7,8,9,10,11,12]}}
 
-def normalize_block(lines, start_idx):
-    i = start_idx + 1
+def sanitize_file():
+    text = RAW.read_text(encoding='utf-8')
+    lines = text.splitlines()
+    out = []
+
+    i = 0
     while i < len(lines):
-        if lines[i].startswith('# 20'):
-            break
-        line = lines[i].rstrip('\n')
-        if not line or line.startswith('#'):
+        line = lines[i]
+        s = line.strip()
+
+        # Keep date headers as-is
+        if s.startswith('# ') and re.match(r'^#\s*\d{4}-\d{2}-\d{2}$', s):
+            out.append(line)
             i += 1
             continue
-        # Expect a meta line next
-        meta = (lines[i+1] if i+1 < len(lines) else '').strip()
-        m = re.match(r'^#\s*(\d+)\|(\d+)\|', meta)
-        if not m:
+
+        # Drop hits/errors lines
+        if s.startswith('# 📊 안타') or s.startswith('# 📊 실책'):
             i += 1
             continue
-        away_id = int(m.group(1)); home_id = int(m.group(2))
-        away_abbr = ID_ABBR.get(away_id, 'UNK')
-        home_abbr = ID_ABBR.get(home_id, 'UNK')
-        league = ID_LEAGUE.get(home_id, 'Central')
 
-        # Case 1: already correct → keep
-        if re.match(r'^[A-Z]{2,3}\s+\d+-\d+\s+[A-Z]{2,3}\s+\([A-Za-z]+\)', line):
-            i += 2
+        # Keep inning detail and any other non-game comment lines as-is
+        if s.startswith('# '):
+            out.append(line)
+            i += 1
             continue
 
-        # Case 2: malformed like "HIR 4-6 4 (6)" (abbr missing)
-        sc = re.match(r'^([A-Z]{2,3})\s+(\d+)-(\d+)\s+\d+\s+\(\d+\)', line)
-        if sc:
-            away_score = sc.group(2)
-            home_score = sc.group(3)
-            fixed = f"{away_abbr} {away_score}-{home_score} {home_abbr} ({league})"
-            lines[i] = fixed + '\n'
-        else:
-            # Try another loose fallback: "AWY A-B HOM? (.*)" without abbrs
-            sc2 = re.match(r'^([A-Z]{2,3})\s+(\d+)-(\d+)\b', line)
-            if sc2:
-                away_score = sc2.group(2)
-                home_score = sc2.group(3)
-                fixed = f"{away_abbr} {away_score}-{home_score} {home_abbr} ({league})"
-                lines[i] = fixed + '\n'
-        i += 2
+        # Attempt to pair a game line with following meta line
+        if s and not s.startswith('#'):
+            next_line = lines[i+1] if i+1 < len(lines) else ''
+            mmeta = re.match(r'^#\s*(\d+)\|(\d+)\|([^|]+)\|([^|]+)\s*$', next_line.strip())
+            # Extract score from the current line if present
+            mscore = re.search(r'(\d+)-(\d+)', s)
+            score_str = None
+            if mscore:
+                score_str = f"{mscore.group(1)}-{mscore.group(2)}"
 
-def main(argv):
-    if not RAW.exists():
-        print(f"File not found: {RAW}")
-        return 1
-    targets = set(argv)
-    with open(RAW, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    # Repair requested dates
-    for idx, line in enumerate(lines):
-        m = re.match(r'^#\s*(\d{4}-\d{2}-\d{2})\s*$', line)
-        if m and m.group(1) in targets:
-            normalize_block(lines, idx)
-    with open(RAW, 'w', encoding='utf-8') as f:
-        f.writelines(lines)
-    print(f"Repaired dates: {', '.join(sorted(targets))}")
-    return 0
+            if mmeta:
+                away_id = int(mmeta.group(1))
+                home_id = int(mmeta.group(2))
+                away_abbr = ID_TO_TEAM.get(away_id, {}).get('abbr', 'UNK')
+                home_abbr = ID_TO_TEAM.get(home_id, {}).get('abbr', 'UNK')
+                league = ID_TO_TEAM.get(home_id, {}).get('league', 'Central')
+
+                # Flags from original line
+                draw_flag = ' [DRAW]' if '[DRAW]' in s else ''
+                status_flag = ''
+                if '[SCHEDULED]' in s:
+                    status_flag = ' [SCHEDULED]'
+                elif '[POSTPONED]' in s:
+                    status_flag = ' [POSTPONED]'
+
+                # Preserve trailing venue/time piece (starting with @ if exists)
+                mtrail = re.search(r'(\s@\s.*)$', s)
+                trail = mtrail.group(1) if mtrail else ''
+
+                # Determine core: score or vs
+                core = score_str if score_str else 'vs'
+
+                fixed = f"{away_abbr} {core} {home_abbr} ({league}){draw_flag}{status_flag}{trail}"
+                out.append(fixed)
+                out.append(next_line)
+                i += 2
+                continue
+
+            # If no meta, keep line as-is
+            out.append(line)
+            i += 1
+            continue
+
+        # Default: passthrough
+        out.append(line)
+        i += 1
+
+    RAW.write_text('\n'.join(out) + '\n', encoding='utf-8')
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sanitize_file()
+    print('✅ Repaired games_raw.txt (removed hits/errors; fixed team abbr/league using IDs).')
 
