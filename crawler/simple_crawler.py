@@ -456,8 +456,14 @@ class SimpleCrawler:
                 away_cells = away_row.find_all('td')
                 home_cells = home_row.find_all('td')
                 
-                # 팀명 셀 다음부터 점수 셀들
-                for i, cell in enumerate(away_cells[1:], 1):
+                # 팀명 다음부터 마지막 3개(R/H/E) 직전까지를 이닝 칼럼으로 간주
+                def inning_cells(cells):
+                    # cells[0]은 팀명, cells[-3:]은 합계(R/H/E)
+                    if len(cells) >= 4:
+                        return cells[1:-3]
+                    return cells[1:]
+
+                for i, cell in enumerate(inning_cells(away_cells), 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
@@ -468,7 +474,7 @@ class SimpleCrawler:
                     elif text == '':
                         break  # 빈 셀이 나오면 종료
                 
-                for i, cell in enumerate(home_cells[1:], 1):
+                for i, cell in enumerate(inning_cells(home_cells), 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
@@ -851,19 +857,7 @@ class SimpleCrawler:
                                     home_score = "X"
                                 innings_str += f"{i+1}회({away_score}-{home_score}) "
                             details.append(innings_str.strip())
-                        
-                        # 안타/실책 정보 
-                        hits_errors = []
-                        if game.get('hits_away') is not None:
-                            hits_errors.append(f"안타({game['away_team_abbr']}:{game['hits_away']}")
-                        if game.get('hits_home') is not None:
-                            hits_errors.append(f"{game['home_team_abbr']}:{game['hits_home']})")
-                        if game.get('errors_away') is not None or game.get('errors_home') is not None:
-                            errors_away = game.get('errors_away', 0)
-                            errors_home = game.get('errors_home', 0) 
-                            hits_errors.append(f"실책({errors_away}-{errors_home})")
-                        if hits_errors:
-                            details.append(" ".join(hits_errors))
+                        # 요청: 안타/실책 라인은 TXT에서 제거 (상세 계산 유지를 원하면 JSON으로 보존 가능)
                         
                         # 날씨/온도 정보
                         weather_info = []
@@ -1006,8 +1000,8 @@ class SimpleCrawler:
             
             current_date += timedelta(days=1)
             
-            # 요청 간격 (서버 부하 방지)
-            time.sleep(1)
+            # 요청 간격 (서버 부하 방지) — 속도 향상
+            time.sleep(0.1)
         
         # 경기 결과 저장
         if all_games:
@@ -1057,9 +1051,9 @@ class SimpleCrawler:
             games = self.crawl_date(target_date)
             all_games.extend(games)
             
-            # 요청 간격
+            # 요청 간격 — 속도 향상
             if i < days:
-                time.sleep(1)
+                time.sleep(0.1)
         
         # 경기 결과 저장
         if all_games:
