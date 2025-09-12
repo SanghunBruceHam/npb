@@ -10343,8 +10343,7 @@
     "away_score": 2,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "横浜スタジアム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-07",
@@ -10358,8 +10357,7 @@
     "away_score": 6,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-07",
@@ -10373,8 +10371,7 @@
     "away_score": 0,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-07",
@@ -10388,8 +10385,7 @@
     "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-07",
@@ -10403,8 +10399,7 @@
     "away_score": 2,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時01分◇京セラドーム大阪"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-07",
@@ -10418,8 +10413,7 @@
     "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-08",
@@ -10433,8 +10427,7 @@
     "away_score": 2,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-09",
@@ -10448,8 +10441,7 @@
     "away_score": 4,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-09",
@@ -10463,8 +10455,7 @@
     "away_score": 2,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "明治神宮野球場"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-09",
@@ -10478,8 +10469,7 @@
     "away_score": 3,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-09",
@@ -10493,8 +10483,7 @@
     "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-09",
@@ -10508,8 +10497,7 @@
     "away_score": 5,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-09",
@@ -10523,8 +10511,7 @@
     "away_score": 7,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-10",
@@ -10538,8 +10525,7 @@
     "away_score": 3,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-10",
@@ -10553,8 +10539,7 @@
     "away_score": 6,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "明治神宮野球場"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-10",
@@ -10568,23 +10553,7 @@
     "away_score": 6,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "阪神甲子園球場"
-  },
-  {
-    "game_date": "2025-09-10",
-    "home_team_id": 9,
-    "home_team_abbr": "RAK",
-    "home_team_name": "東北楽天ゴールデンイーグルス",
-    "away_team_id": 11,
-    "away_team_abbr": "SEI",
-    "away_team_name": "埼玉西武ライオンズ",
-    "home_score": 0,
-    "away_score": 0,
-    "league": "Pacific",
-    "game_status": "completed",
-    "is_draw": true,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク"
+    "is_draw": false
   },
   {
     "game_date": "2025-09-11",
