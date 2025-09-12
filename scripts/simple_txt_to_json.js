@@ -140,7 +140,7 @@ class SimpleTxtToJson {
                 i += 1;
             }
 
-            // Determine status and scores
+            // Determine status and scores (robust against bogus 0-0 lines)
             let game_status = 'completed';
             if (bracketTag === 'SCHEDULED') game_status = 'scheduled';
             else if (bracketTag === 'POSTPONED') game_status = 'postponed';
@@ -154,11 +154,23 @@ class SimpleTxtToJson {
                     home_score = h;
                 }
             } else if (game_status === 'completed') {
-                // If no scores but marked as completed, keep as nulls
+                // If no scores but marked as completed, downgrade to scheduled
                 game_status = 'scheduled';
             }
 
-            const is_draw = bracketTag === 'DRAW' || (away_score !== null && home_score !== null && away_score === home_score);
+            // Treat 0-0 without explicit [DRAW] as not completed (scheduled/placeholder)
+            if (
+                game_status === 'completed' &&
+                away_score === 0 &&
+                home_score === 0 &&
+                bracketTag !== 'DRAW'
+            ) {
+                game_status = 'scheduled';
+                away_score = null;
+                home_score = null;
+            }
+
+            const is_draw = bracketTag === 'DRAW' || (game_status === 'completed' && away_score !== null && home_score !== null && away_score === home_score);
 
             // Build record; prefer IDs/names from meta when available
             const rec = {
@@ -401,7 +413,9 @@ class SimpleTxtToJson {
         let games = null;
         if (gamesTxt) {
             games = this.parseGames(gamesTxt);
-            if (this.saveJsonFile('games.json', games)) {
+            // Keep only completed games in games.json to avoid counting scheduled placeholders
+            const completedGames = Array.isArray(games) ? games.filter(g => g && g.game_status === 'completed') : [];
+            if (this.saveJsonFile('games.json', completedGames)) {
                 successCount++;
             }
         }
