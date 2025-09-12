@@ -34,7 +34,8 @@ data/
 data/
 ├── teams.json         # 팀 정보
 ├── standings.json     # 현재 순위표
-├── games.json        # 최근 30일 경기
+├── games.json        # 완료 경기만 (시즌 진행분)
+├── upcoming.json     # 예정 경기(스케줄)
 └── dashboard.json    # 대시보드 요약
 ```
 
@@ -81,6 +82,11 @@ data/
 - **JSON (기본)**: 정적 파일로 서비스 (index.html에서 직접 로드)
 - **DB (선택)**: PostgreSQL (관계형 쿼리/확장 필요 시)
 
+운영 규칙(Counting)
+- `games.json`에는 완료 경기만 포함합니다. 예정/연기/플레이스홀더는 제외됩니다.
+- 0–0 라인이더라도 `[DRAW]` 표기가 없으면 완료 경기로 보지 않고 예정으로 간주합니다.
+- 무승부는 `[DRAW]` 명시 또는 스코어 동률인 완료 경기에서만 집계됩니다.
+
 ### API 서비스 (웹/앱)
 - **JSON**: 웹서비스용 정제된 데이터
 - **장점**:
@@ -123,19 +129,17 @@ fetch('/data/standings.json')  // 항상 최신 데이터
 SELECT * FROM games WHERE game_date >= '2025-09-01';
 ```
 
-## 운영 명령어
+## 운영 명령어 (무DB 기본)
 
 ```bash
-# 전체 자동화 (권장)
-./scripts/daily_crawler.py
+# 크롤 없이 TXT→JSON 변환만 (가장 빠름)
+./run_new_pipeline.sh --skip-crawl
 
-# 개별 작업
-./scripts/enhanced_data_manager.py --sync     # DB→JSON 동기화
-./scripts/enhanced_data_manager.py --archive # 오래된 데이터 정리
-./scripts/enhanced_data_manager.py --summary # 데이터 현황
+# 빠른 크롤(1일) 후 변환
+./run_new_pipeline.sh --quick
 
-# 데이터 현황 확인
-./scripts/enhanced_data_manager.py --summary
+# 최근 N일 크롤 후 변환
+./run_new_pipeline.sh 7
 ```
 
 이 구조로 **원본 보관**, **운영 효율성**, **서비스 성능**을 모두 확보할 수 있습니다.

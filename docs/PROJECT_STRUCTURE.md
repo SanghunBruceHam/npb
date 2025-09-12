@@ -10,7 +10,8 @@ npb/
 ├── 📄 run_new_pipeline.sh        # 신규 파이프라인 실행 스크립트
 │
 ├── 🗂️ data/                      # 서비스용 데이터
-│   ├── 📄 games.json
+│   ├── 📄 games.json          # 완료 경기만 저장
+│   ├── 📄 upcoming.json       # 예정 경기(스케줄)만 저장
 │   ├── 📄 standings.json
 │   ├── 📄 teams.json
 │   ├── 📄 dashboard.json
@@ -40,6 +41,10 @@ npb/
 ```
 크롤링(옵션) → TXT → JavaScript 처리 → JSON → index.html
 ```
+
+### 데이터 파일 의미
+- `games.json`: 완료된 경기만 수록합니다. 무승부는 `[DRAW]`로 명시된 0–0만 인정합니다.
+- `upcoming.json`: 예정/미진행 경기 전용. UI의 오늘/내일 경기 섹션이 참조합니다.
 
 ## 🤖 실행 명령어
 ```bash

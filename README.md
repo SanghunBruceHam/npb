@@ -12,7 +12,8 @@ npb/
 │
 ├── data/                       # 서비스용 데이터
 │   ├── simple/                 # TXT 원천 (크롤/시뮬레이션)
-│   ├── games.json              # 경기 결과 JSON
+│   ├── games.json              # 경기 결과 JSON (완료 경기만)
+│   ├── upcoming.json           # 예정 경기 JSON (스케줄 전용)
 │   ├── standings.json          # 순위표 JSON
 │   ├── teams.json              # 팀 정보 JSON
 │   └── dashboard.json          # 대시보드 요약 JSON
@@ -71,9 +72,25 @@ npb/
 3. **JSON 생성**: 웹사이트용 JSON 파일 생성
 4. **웹사이트 표시**: 정적 HTML에서 JSON 로드하여 표시
 
+### 데이터 규칙(Counting & 정합성)
+- `data/games.json`: 완료된 경기만 포함합니다. 예정/연기/플레이스홀더는 제외됩니다.
+- `data/upcoming.json`: 예정 경기를 별도로 보관합니다(스케줄 전용).
+- 0–0 라인이더라도 `[DRAW]` 표기가 없으면 완료 경기가 아닌 플레이스홀더로 간주합니다(= 예정). `[DRAW]`가 명시된 0–0만 무승부로 기록됩니다.
+- 순위·승패·경기수 계산은 오직 `games.json`(완료 경기)만을 기반으로 합니다.
+- 정합성 검증: 각 팀은 `games_played = wins + losses + draws`가 성립합니다.
+
+재생성 방법
+```bash
+# 크롤 없이 규칙 반영하여 즉시 재생성
+./run_new_pipeline.sh --skip-crawl
+
+# 필요 시 1일 크롤 후 재생성
+./run_new_pipeline.sh --quick
+```
+
 ## 📊 수집 데이터
 
-- **경기 결과**: 일별 NPB 경기 결과 (850+ 경기 수집)
+- **경기 결과**: 일별 NPB 완료 경기 결과(시즌 진행분)
 - **순위표**: 경기 결과 기반 실시간 순위 계산
 - **팀 통계**: 득점, 실점, 승률, 게임차
 - **특수 경기**: 연장전, 무승부, 취소 경기
