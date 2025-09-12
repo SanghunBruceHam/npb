@@ -300,13 +300,21 @@ class SimpleCrawler:
                         # 더 정확한 완료 상태 판단
                         status = self.determine_completion_status(table, game_status_info)
 
-                    # 무승부 판정: "경기 종료" 상태에서만 동점일 경우
-                    is_draw = (status == 'completed' and home_score == away_score and home_score is not None)
-                    
                     # 상세 경기 정보 수집 (완료된 경기는 더 많은 정보 수집)
                     detailed_info = {}
                     if status == 'completed':
                         detailed_info = self.extract_detailed_game_info(table, away_team, home_team)
+
+                    # 무승부 판정(보수): 완료 && 동점 && (페이지에 '引き分け' 포함 또는 9이닝 이상 진행 흔적)
+                    is_draw = False
+                    if status == 'completed' and home_score is not None and away_score is not None and home_score == away_score:
+                        page_text = table.get_text(' ', strip=True)
+                        text_says_draw = ('引き分け' in page_text) or ('引分' in page_text)
+                        innings_home = detailed_info.get('inning_scores_home') or []
+                        innings_away = detailed_info.get('inning_scores_away') or []
+                        innings_len = max(len(innings_home), len(innings_away))
+                        innings_enough = innings_len >= 9
+                        is_draw = bool(text_says_draw or innings_enough)
                     
                     # 경기 정보 (확장된 필드)
                     game = {
@@ -415,33 +423,17 @@ class SimpleCrawler:
         return status_info
     
     def determine_completion_status(self, table, game_status_info):
-        """더 정확한 경기 완료 상태 판단"""
+        """완료/취소를 텍스트 키워드로만 보수적으로 판정"""
         try:
-            # 1. 기본 상태가 이미 completed면 그대로 반환
-            if game_status_info['status'] == 'completed':
+            if game_status_info.get('status') == 'completed':
                 return 'completed'
-            
-            # 2. 9회말 스코어가 X로 표시되어 있으면 완료 (홈팀이 앞서고 있을 때)
-            score_rows = table.find_all('tr')
-            if len(score_rows) >= 3:
-                home_row = score_rows[2]  # 홈팀 행
-                inning_cells = home_row.find_all('td')
-                # 9번째 이닝(9회말) 셀 확인
-                if len(inning_cells) > 9:
-                    ninth_inning = inning_cells[9].get_text(strip=True)
-                    if ninth_inning == 'X':
-                        return 'completed'
-            
-            # 3. 연장전까지 진행된 경우 (10회 이상 스코어 존재)
-            if len(inning_cells) > 10:
-                for cell in inning_cells[10:]:  # 10회부터
-                    text = cell.get_text(strip=True)
-                    if text and text.isdigit():
-                        return 'completed'
-            
-            # 4. 기본값으로 scheduled 반환 (진행중이 아닌 경우)
+
+            text = table.get_text(" ", strip=True)
+            if any(k in text for k in ['試合終了', 'ゲームセット', '引き分け']):
+                return 'completed'
+            if any(k in text for k in ['雨天中止', '中止', '延期', 'サスペンデッド', 'ノーゲーム']):
+                return 'postponed'
             return 'scheduled'
-            
         except Exception as e:
             self.logger.warning(f"⚠️ Error determining completion status: {e}")
             return 'scheduled'
