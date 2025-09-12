@@ -82,6 +82,23 @@ class SimpleCrawler:
             'NIP': 'エスコンフィールドHOKKAIDO',
             'RAK': '楽天モバイルパーク宮城',
         }
+        # Canonical ID→Team mapping for validation/repair
+        self.id_to_team = {
+            1: {'abbr': 'YOG', 'league': 'Central'},
+            2: {'abbr': 'HAN', 'league': 'Central'},
+            3: {'abbr': 'YDB', 'league': 'Central'},
+            4: {'abbr': 'HIR', 'league': 'Central'},
+            5: {'abbr': 'CHU', 'league': 'Central'},
+            6: {'abbr': 'YAK', 'league': 'Central'},
+            7: {'abbr': 'SOF', 'league': 'Pacific'},
+            8: {'abbr': 'LOT', 'league': 'Pacific'},
+            9: {'abbr': 'RAK', 'league': 'Pacific'},
+            10: {'abbr': 'ORI', 'league': 'Pacific'},
+            11: {'abbr': 'SEI', 'league': 'Pacific'},
+            12: {'abbr': 'NIP', 'league': 'Pacific'},
+        }
+        self.valid_abbrs = {v['abbr'] for v in self.id_to_team.values()}
+        self.valid_leagues = {'Central', 'Pacific'}
     
     def setup_logging(self):
         log_dir = self.project_root / "logs" / "simple_crawler"
@@ -585,6 +602,21 @@ class SimpleCrawler:
     
     def is_game_data_better(self, new_game, existing_game):
         """새 게임 데이터가 기존 데이터보다 더 완전한지 판단"""
+        # 0) 기존 데이터가 명백히 잘못된 경우(약어/리그) 새 데이터 우선
+        def is_valid_game(g):
+            return (
+                isinstance(g.get('home_team_abbr'), str) and g['home_team_abbr'] in self.valid_abbrs and
+                isinstance(g.get('away_team_abbr'), str) and g['away_team_abbr'] in self.valid_abbrs and
+                g.get('league') in self.valid_leagues
+            )
+
+        existing_valid = is_valid_game(existing_game)
+        new_valid = is_valid_game(new_game)
+        if new_valid and not existing_valid:
+            return True
+        if existing_valid and not new_valid:
+            return False
+
         # 1. 완료된 경기가 미완료 경기보다 우선
         new_status = new_game.get('status', 'scheduled')
         existing_status = existing_game.get('status', 'scheduled')
@@ -606,10 +638,13 @@ class SimpleCrawler:
             return False
         
         # 3. 더 많은 정보가 있는 경기 우선 (이닝 정보, 경기 시간 등)
-        new_info_count = sum(1 for key in ['inning', 'game_time', 'inning_scores'] 
-                           if new_game.get(key) is not None)
-        existing_info_count = sum(1 for key in ['inning', 'game_time', 'inning_scores'] 
-                                if existing_game.get(key) is not None)
+        info_keys = [
+            'inning', 'game_time', 'inning_scores_home', 'inning_scores_away',
+            'hits_home', 'hits_away', 'errors_home', 'errors_away',
+            'stadium', 'game_duration', 'attendance', 'weather'
+        ]
+        new_info_count = sum(1 for key in info_keys if new_game.get(key) is not None)
+        existing_info_count = sum(1 for key in info_keys if existing_game.get(key) is not None)
         
         return new_info_count > existing_info_count
     
@@ -692,12 +727,23 @@ class SimpleCrawler:
                                     status_info = gm[6] if len(gm) > 6 else ''
 
                                     away_id, home_id, away_name, home_name = meta_match.groups()
+                                    away_id_i = int(away_id)
+                                    home_id_i = int(home_id)
+
+                                    # Repair invalid abbr/league using IDs
+                                    if home_abbr not in self.valid_abbrs and home_id_i in self.id_to_team:
+                                        home_abbr = self.id_to_team[home_id_i]['abbr']
+                                    if away_abbr not in self.valid_abbrs and away_id_i in self.id_to_team:
+                                        away_abbr = self.id_to_team[away_id_i]['abbr']
+                                    if league not in self.valid_leagues and home_id_i in self.id_to_team:
+                                        league = self.id_to_team[home_id_i]['league']
+
                                     game_data = {
                                         'date': current_date,
-                                        'home_team_id': int(home_id),
+                                        'home_team_id': home_id_i,
                                         'home_team_abbr': home_abbr,
                                         'home_team_name': home_name,
-                                        'away_team_id': int(away_id),
+                                        'away_team_id': away_id_i,
                                         'away_team_abbr': away_abbr,
                                         'away_team_name': away_name,
                                         'home_score': int(home_score_str) if home_score_str else None,
