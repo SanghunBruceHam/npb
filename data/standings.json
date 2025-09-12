@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-12T08:28:38.496Z",
+  "updated_at": "2025-09-12T08:43:09.874Z",
   "central_league": {
     "standings": [
       {
@@ -39,10 +39,10 @@
         "team_abbreviation": "YDB",
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
-        "games_played": 130,
+        "games_played": 131,
         "wins": 58,
         "losses": 62,
-        "draws": 10,
+        "draws": 11,
         "runs_scored": 416,
         "runs_allowed": 403,
         "win_percentage": 0.48333333333333334,
@@ -87,10 +87,10 @@
         "team_abbreviation": "YAK",
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
-        "games_played": 129,
+        "games_played": 130,
         "wins": 45,
         "losses": 70,
-        "draws": 14,
+        "draws": 15,
         "runs_scored": 353,
         "runs_allowed": 481,
         "win_percentage": 0.391304347826087,

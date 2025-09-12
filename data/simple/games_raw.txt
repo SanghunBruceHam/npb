@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-12T17:28:37.284557
+# UPDATED: 2025-09-12T17:43:03.976817
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1858,12 +1858,12 @@ SOF 1-9 1 (9)
 # 7|8|福岡ソフトバンクホークス|千葉ロッテマリーンズ
 
 # 2025-09-12
-CHU 0-0 HIR (Central) [DRAW] @ ◇開始18時00分◇マツダスタジアム
+CHU 0-0 HIR (Central) [DRAW]
 # 5|4|中日ドラゴンズ|広島東洋カープ
-# 📊 실책(0-0)
-SEI 0-0 NIP (Pacific) [DRAW] @ エスコンフィールドHOKKAIDO
+SEI 0-0 NIP (Pacific) [DRAW]
 # 11|12|埼玉西武ライオンズ|北海道日本ハムファイターズ
-# 📊 실책(0-0)
-LOT 0-0 RAK (Pacific) [DRAW] @ ◇開始18時00分◇楽天モバイルパーク
+LOT 0-0 RAK (Pacific) [DRAW]
 # 8|9|千葉ロッテマリーンズ|東北楽天ゴールデンイーグルス
+YDB 0-0 YAK (Central) [DRAW] @ 明治神宮野球場
+# 3|6|横浜DeNAベイスターズ|東京ヤクルトスワローズ
 # 📊 실책(0-0)

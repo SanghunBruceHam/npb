@@ -10791,8 +10791,7 @@
     "away_score": 0,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": true,
-    "stadium": "◇開始18時00分◇マツダスタジアム"
+    "is_draw": true
   },
   {
     "game_date": "2025-09-12",
@@ -10806,8 +10805,7 @@
     "away_score": 0,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": true,
-    "stadium": "エスコンフィールドHOKKAIDO"
+    "is_draw": true
   },
   {
     "game_date": "2025-09-12",
@@ -10821,7 +10819,21 @@
     "away_score": 0,
     "league": "Pacific",
     "game_status": "completed",
+    "is_draw": true
+  },
+  {
+    "game_date": "2025-09-12",
+    "home_team_id": 6,
+    "home_team_abbr": "YAK",
+    "home_team_name": "東京ヤクルトスワローズ",
+    "away_team_id": 3,
+    "away_team_abbr": "YDB",
+    "away_team_name": "横浜DeNAベイスターズ",
+    "home_score": 0,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク"
+    "stadium": "明治神宮野球場"
   }
 ]
