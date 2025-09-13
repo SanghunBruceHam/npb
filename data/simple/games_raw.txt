@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-13T17:25:33.318564
+# UPDATED: 2025-09-13T17:38:52.583573
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1886,5 +1886,5 @@ SEI 2-4 NIP (Pacific)
 # 11|12|埼玉西武ライオンズ|北海道日本ハムファイターズ
 LOT 6-2 RAK (Pacific)
 # 8|9|千葉ロッテマリーンズ|東北楽天ゴールデンイーグルス
-SOF 0-0 ORI (Pacific) [SCHEDULED]
+SOF 0-0 ORI (Pacific)
 # 7|10|福岡ソフトバンクホークス|オリックスバファローズ
