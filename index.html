@@ -982,21 +982,12 @@
                     <div class="toggle-group" role="tablist" aria-label="Central Scenario View">
                         <button id="btn-central-matrix" class="toggle-btn active" role="tab" aria-selected="true" data-i18n="matrix">マトリクス</button>
                         <button id="btn-central-detailed" class="toggle-btn" role="tab" aria-selected="false" data-i18n="detailed">詳細</button>
-                        <button id="btn-central-table" class="toggle-btn" role="tab" aria-selected="false" data-i18n="table">必要勝数表</button>
                     </div>
                 </div>
                 <div id="central-scenario-matrix" class="scenario-section" style="display: none;">
                     <div id="central-scenario-content"></div>
                 </div>
                 <div id="central-scenario-detailed" class="scenario-section" style="display: none;"></div>
-                <div id="central-scenario-table-wrapper" class="scroll-table" style="display: none;">
-                    <table style="font-size: 12px; border-collapse: collapse;">
-                        <thead id="central-scenarios-header"></thead>
-                        <tbody id="central-scenarios">
-                            <tr><td colspan="20" class="loading">読み込み中...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
             <!-- Pacific League Scenario Views -->
@@ -1006,21 +997,12 @@
                     <div class="toggle-group" role="tablist" aria-label="Pacific Scenario View">
                         <button id="btn-pacific-matrix" class="toggle-btn active" role="tab" aria-selected="true" data-i18n="matrix">マトリクス</button>
                         <button id="btn-pacific-detailed" class="toggle-btn" role="tab" aria-selected="false" data-i18n="detailed">詳細</button>
-                        <button id="btn-pacific-table" class="toggle-btn" role="tab" aria-selected="false" data-i18n="table">必要勝数表</button>
                     </div>
                 </div>
                 <div id="pacific-scenario-matrix" class="scenario-section" style="display: none;">
                     <div id="pacific-scenario-content"></div>
                 </div>
                 <div id="pacific-scenario-detailed" class="scenario-section" style="display: none;"></div>
-                <div id="pacific-scenario-table-wrapper" class="scroll-table" style="display: none;">
-                    <table style="font-size: 12px; border-collapse: collapse;">
-                        <thead id="pacific-scenarios-header"></thead>
-                        <tbody id="pacific-scenarios">
-                            <tr><td colspan="20" class="loading">読み込み中...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
             <div class="tab-help tab-help-scenarios" style="background: #e7f3ff; border: 1px solid #b3d7ff; border-radius: 4px; padding: 12px; margin: 15px 0; font-size: 13px; color: #003566;">
@@ -1028,7 +1010,6 @@
                 <div style="margin-top: 8px; line-height: 1.5;">
                 • <strong>マトリクス</strong>: 残り勝敗ごとの最終勝率を横断比較<br>
                 • <strong>詳細</strong>: 上位チームの全残り勝敗組み合わせを一覧<br>
-                • <strong>必要勝数表</strong>: 目標勝率を達成するための必要勝数（従来の表）<br>
                 • <strong>赤い仕切り線</strong>: <u>3位ライン</u>（CS進出枠の境界）<br>
                 • <strong>表示対象</strong>: <u>3位進出の可能性が残るチームのみ</u>を表示（3位進出脱落が確定したチームは自動的に非表示）
                 </div>
@@ -1258,7 +1239,6 @@
                 'tomorrow': '明日',
                 'matrix': 'マトリクス',
                 'detailed': '詳細',
-                'table': '必要勝数表',
                 
                 // 도움말 및 설명
                 'help-regular-magic': '<strong>🏆 正規シーズン優勝マジックナンバー</strong><br>各チームが優勝を確定するために必要な最少勝利数です。他チームの結果に関係なく、この数だけ勝てば優勝が決定します。「✓」は既に優勝確定済みを示します。',
@@ -1980,7 +1960,7 @@
                             <td class="center win">${team.wins}</td>
                             <td class="center loss">${team.losses}</td>
                             <td class="center">${team.draws || 0}</td>
-                            <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                            <td class="center pct">0.${team.win_percentage.toFixed(3).split('.')[1]}</td>
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
@@ -2000,7 +1980,7 @@
                             <td class="center win">${team.wins}</td>
                             <td class="center loss">${team.losses}</td>
                             <td class="center">${team.draws || 0}</td>
-                            <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                            <td class="center pct">0.${team.win_percentage.toFixed(3).split('.')[1]}</td>
                             <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                             <td class="center">${remainingGames}</td>
                             <td class="center">${maxWins}</td>
@@ -2042,8 +2022,8 @@
                 const awayWins = team.wins - homeWins;
                 const homeLosses = homeGames - homeWins;
                 const awayLosses = awayGames - awayWins;
-                const homeWinPct = homeGames > 0 ? (homeWins / homeGames).toFixed(3) : '0.000';
-                const awayWinPct = awayGames > 0 ? (awayWins / awayGames).toFixed(3) : '0.000';
+                const homeWinPct = homeGames > 0 ? '0.' + (homeWins / homeGames).toFixed(3).split('.')[1] : '0.000';
+                const awayWinPct = awayGames > 0 ? '0.' + (awayWins / awayGames).toFixed(3).split('.')[1] : '0.000';
                 
                 // 最高/最低順位可能性計算
                 const maxWins = team.wins + remainingGames;  // このチームの最大可能勝数
@@ -2100,7 +2080,7 @@
                         <td class="center win">${team.wins}</td>
                         <td class="center loss">${team.losses}</td>
                         <td class="center">${team.draws || 0}</td>
-                        <td class="center pct">${team.win_percentage.toFixed(3)}</td>
+                        <td class="center pct">0.${team.win_percentage.toFixed(3).split('.')[1]}</td>
                         <td class="center">${remainingGames}</td>
                         <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
                         <td class="center">${homeWins}-${homeLosses}</td>
@@ -2116,21 +2096,15 @@
 
         // ===== 勝率シナリオ分析更新 =====
         function updateScenarios() {
-            updateScenariosTable('central-scenarios', standingsData.central_league?.standings || []);
-            updateScenariosTable('pacific-scenarios', standingsData.pacific_league?.standings || []);
+            // Table references have been removed, only update matrix and detailed views
+            renderScenarioMatrixFor('central');
+            renderScenarioMatrixFor('pacific');
         }
 
         // ===== 勝率シナリオテーブル更新（共通関数） =====
         function updateScenariosTable(id, teams) {
-            const tbody = document.getElementById(id);
-            const headerId = id.replace('-scenarios', '-scenarios-header');
-            const header = document.getElementById(headerId);
-            const league = id.includes('central') ? 'central' : 'pacific';
-            
-            if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="20" class="loading">データがありません</td></tr>';
-                return;
-            }
+            // This function is no longer needed since we removed the table view
+            return;
 
             // Filter: show only teams still able to reach 3位 (CS)
             let displayTeams = teams;
@@ -2267,23 +2241,18 @@
             const prefix = league === 'central' ? 'central' : 'pacific';
             const btnMatrix = document.getElementById(`btn-${prefix}-matrix`);
             const btnDetailed = document.getElementById(`btn-${prefix}-detailed`);
-            const btnTable = document.getElementById(`btn-${prefix}-table`);
             const elMatrix = document.getElementById(`${prefix}-scenario-matrix`);
             const elDetailed = document.getElementById(`${prefix}-scenario-detailed`);
-            const elTable = document.getElementById(`${prefix}-scenario-table-wrapper`);
 
             // Toggle buttons
             btnMatrix?.classList.toggle('active', view === 'matrix');
             btnMatrix?.setAttribute('aria-selected', String(view === 'matrix'));
             btnDetailed?.classList.toggle('active', view === 'detailed');
             btnDetailed?.setAttribute('aria-selected', String(view === 'detailed'));
-            btnTable?.classList.toggle('active', view === 'table');
-            btnTable?.setAttribute('aria-selected', String(view === 'table'));
 
             // Toggle sections
             if (elMatrix) elMatrix.style.display = (view === 'matrix') ? 'block' : 'none';
             if (elDetailed) elDetailed.style.display = (view === 'detailed') ? 'block' : 'none';
-            if (elTable) elTable.style.display = (view === 'table') ? 'block' : 'none';
 
             // Render when needed
             if (view === 'matrix') {
@@ -2316,7 +2285,7 @@
                 const thirdWins = teams[2]?.wins || 0;
                 contenders = teams.filter(t => (t.wins + t.remainingGames) >= thirdWins);
             }
-            const top = contenders.slice(0, Math.min(5, contenders.length));
+            const top = contenders.slice(0, Math.min(6, contenders.length));
             const html = generateDetailedScenarios(top);
             const targetId = league === 'central' ? 'central-scenario-detailed' : 'pacific-scenario-detailed';
             const container = document.getElementById(targetId);
@@ -2327,11 +2296,9 @@
             // Central
             document.getElementById('btn-central-matrix')?.addEventListener('click', () => setScenarioView('central','matrix'));
             document.getElementById('btn-central-detailed')?.addEventListener('click', () => setScenarioView('central','detailed'));
-            document.getElementById('btn-central-table')?.addEventListener('click', () => setScenarioView('central','table'));
             // Pacific
             document.getElementById('btn-pacific-matrix')?.addEventListener('click', () => setScenarioView('pacific','matrix'));
             document.getElementById('btn-pacific-detailed')?.addEventListener('click', () => setScenarioView('pacific','detailed'));
-            document.getElementById('btn-pacific-table')?.addEventListener('click', () => setScenarioView('pacific','table'));
         }
 
         function generateScenarioMatrix(topTeams) {
@@ -2339,7 +2306,7 @@
                 <div class="scenario-matrix-container" style="
                     overflow-x: auto; overflow-y: auto; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                     max-height: 80vh; width: 100%; position: relative;">
-                    <table class="scenario-matrix-table" style="width: 100%; border-collapse: collapse; font-size: 0.75rem; background: white; min-width: ${window.innerWidth <= 768 ? '800px' : Math.max(1000, 6 * (75 + 95) + 70 + 140) + 'px'};">
+                    <table class="scenario-matrix-table" style="width: 100%; border-collapse: collapse; font-size: 0.75rem; background: white; min-width: ${window.innerWidth <= 768 ? '700px' : Math.max(900, 6 * (70 + 85) + 70 + 140) + 'px'};">
                         <thead style="position: sticky; top: 0; z-index: 100;">
                           <tr style="background: #1E88E5; color: white;">
                             <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: #1E88E5; font-size: 0.7rem;">勝率</th>`;
@@ -2361,7 +2328,7 @@
                 <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: #1E88E5; font-size: 0.7rem;">成績</th>`;
             topTeams.forEach((team, index) => {
                 const isLast = index === topTeams.length - 1;
-                html += `<th colspan="2" style="min-width: 140px; width: 140px; padding: 4px; text-align: center; font-weight: 600; background: rgba(255,255,255,0.9); color: #333; ${index === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} font-size: 0.7rem;">${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 (${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3)})</th>`;
+                html += `<th colspan="2" style="min-width: 140px; width: 140px; padding: 4px; text-align: center; font-weight: 600; background: rgba(255,255,255,0.9); color: #333; ${index === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} font-size: 0.7rem;">${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 (0.${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3).split('.')[1]})</th>`;
             });
 
             // Remaining row
@@ -2378,8 +2345,8 @@
             topTeams.forEach((team, index) => {
                 const isLast = index === topTeams.length - 1;
                 html += `
-                    <th style="width: 75px; min-width: 75px; font-size: 0.7rem; padding: 4px 2px; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.3); text-align: center; font-weight: 600;">残り成績<br><span style=\"font-size: 0.6rem;\">(勝-敗/勝率)</span></th>
-                    <th style="width: 95px; min-width: 95px; font-size: 0.7rem; padding: 4px 2px; background: rgba(255,255,255,0.1); ${index === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} text-align: center; font-weight: 600;">最終成績<br><span style=\"font-size: 0.6rem;\">(勝-敗-分/勝率)</span></th>`;
+                    <th style="width: 70px; min-width: 70px; font-size: 0.7rem; padding: 2px 1px; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.3); text-align: center; font-weight: 600;">残り成績<br><span style=\"font-size: 0.6rem;\">(勝-敗/勝率)</span></th>
+                    <th style="width: 85px; min-width: 85px; font-size: 0.7rem; padding: 2px 1px; background: rgba(255,255,255,0.1); ${index === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} text-align: center; font-weight: 600;">最終成績<br><span style=\"font-size: 0.6rem;\">(勝-敗-分/勝率)</span></th>`;
             });
 
             html += `</tr></thead><tbody>`;
@@ -2405,7 +2372,7 @@
                 const scenarios = winRateGroups[rateKey];
                 const winRate = parseFloat(rateKey);
                 html += `<tr class="scenario-row">
-                    <td style="font-size: 0.8rem; padding: 3px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1); line-height: 1.2;">${winRate.toFixed(3)}</td>`;
+                    <td style="font-size: 0.8rem; padding: 3px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1); line-height: 1.2;">0.${winRate.toFixed(3).split('.')[1]}</td>`;
                 topTeams.forEach((team, teamIndex) => {
                     const isLast = teamIndex === topTeams.length - 1;
                     const teamScenario = scenarios.find(s => s.team === team.team);
@@ -2421,13 +2388,13 @@
                         const remainBg = getWinRateBackgroundColor(remainingWinRate);
                         const remainFg = getWinRateTextColor(remainingWinRate);
 
-                        html += `<td style="padding: 4px 1px; text-align: center; border: 1px solid #dee2e6; width: 75px; min-width: 75px; line-height: 1.1; background: ${remainBg}; color: ${remainFg};">
+                        html += `<td style="padding: 2px 0px; text-align: center; border: 1px solid #dee2e6; width: 70px; min-width: 70px; line-height: 1.1; background: ${remainBg}; color: ${remainFg};">
                             <div style="font-size: 0.8rem; font-weight: 600;">${teamScenario.wins}勝 ${teamScenario.losses}敗</div>
-                            <div style="font-size: 0.7rem;">${remainingWinRate.toFixed(3)}</div>
+                            <div style="font-size: 0.7rem;">${remainingWinRate === 1.0 ? '1.000' : '0.' + remainingWinRate.toFixed(3).split('.')[1]}</div>
                         </td>`;
-                        html += `<td style="padding: 4px 2px; text-align: center; border: 1px solid #dee2e6; width: 95px; min-width: 95px; line-height: 1.1; white-space: nowrap; background: ${finalBg}; color: ${finalFg}; ${teamIndex === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}"> 
+                        html += `<td style="padding: 2px 1px; text-align: center; border: 1px solid #dee2e6; width: 85px; min-width: 85px; line-height: 1.1; white-space: nowrap; background: ${finalBg}; color: ${finalFg}; ${teamIndex === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}"> 
                             <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}勝 ${finalLosses}敗 ${finalDraws}分</div>
-                            <div style="font-size: 0.7rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
+                            <div style="font-size: 0.7rem;">0.${teamScenario.finalWinRate.toFixed(3).split('.')[1]}</div>
                         </td>`;
                     } else {
                         html += `<td style="background: #f8f9fa; border: 1px solid #dee2e6;"></td><td style="background: #f8f9fa; border: 1px solid #dee2e6; ${teamIndex === 2 ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}"></td>`;
@@ -2447,7 +2414,7 @@
                 <div class="scenario-matrix-container" style="
                     overflow-x: auto; overflow-y: auto; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                     max-height: 80vh; width: 100%; position: relative;">
-                    <table class="scenario-matrix-table" style="width: 100%; border-collapse: collapse; font-size: 0.75rem; background: white; min-width: ${window.innerWidth <= 768 ? '800px' : Math.max(1000, 6 * (75 + 95) + 70 + 140) + 'px'};">
+                    <table class="scenario-matrix-table" style="width: 100%; border-collapse: collapse; font-size: 0.75rem; background: white; min-width: ${window.innerWidth <= 768 ? '700px' : Math.max(900, 6 * (70 + 85) + 70 + 140) + 'px'};">
                         <thead style="position: sticky; top: 0; z-index: 100;">
                           <tr style="background: #1E88E5; color: white;">
                             <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: #1E88E5; font-size: 0.7rem;">勝率</th>`;
@@ -2469,7 +2436,7 @@
                 <th style="position: sticky; left: 0; z-index: 110; min-width: 70px; width: 70px; padding: 4px 6px; text-align: center; font-weight: 600; border-right: 2px solid rgba(255,255,255,0.4); background: #1E88E5; font-size: 0.7rem;">成績</th>`;
             topTeams.forEach((team, index) => {
                 const isLast = index === topTeams.length - 1;
-                html += `<th colspan="2" style="min-width: 140px; width: 140px; padding: 4px; text-align: center; font-weight: 600; background: rgba(255,255,255,0.9); color: #333; ${index === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} font-size: 0.7rem;">${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 (${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3)})</th>`;
+                html += `<th colspan="2" style="min-width: 140px; width: 140px; padding: 4px; text-align: center; font-weight: 600; background: rgba(255,255,255,0.9); color: #333; ${index === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} font-size: 0.7rem;">${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 (0.${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3).split('.')[1]})</th>`;
             });
 
             // Remaining row
@@ -2486,8 +2453,8 @@
             topTeams.forEach((team, index) => {
                 const isLast = index === topTeams.length - 1;
                 html += `
-                    <th style="width: 75px; min-width: 75px; font-size: 0.7rem; padding: 4px 2px; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.3); text-align: center; font-weight: 600;">残り成績<br><span style=\"font-size: 0.6rem;\">(勝-敗/勝率)</span></th>
-                    <th style="width: 95px; min-width: 95px; font-size: 0.7rem; padding: 4px 2px; background: rgba(255,255,255,0.1); ${index === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} text-align: center; font-weight: 600;">最終成績<br><span style=\"font-size: 0.6rem;\">(勝-敗-分/勝率)</span></th>`;
+                    <th style="width: 70px; min-width: 70px; font-size: 0.7rem; padding: 2px 1px; background: rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.3); text-align: center; font-weight: 600;">残り成績<br><span style=\"font-size: 0.6rem;\">(勝-敗/勝率)</span></th>
+                    <th style="width: 85px; min-width: 85px; font-size: 0.7rem; padding: 2px 1px; background: rgba(255,255,255,0.1); ${index === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid rgba(255,255,255,0.5);' : '')} text-align: center; font-weight: 600;">最終成績<br><span style=\"font-size: 0.6rem;\">(勝-敗-分/勝率)</span></th>`;
             });
 
             html += `</tr></thead><tbody>`;
@@ -2513,7 +2480,7 @@
                 const scenarios = winRateGroups[rateKey];
                 const winRate = parseFloat(rateKey);
                 html += `<tr class="scenario-row">
-                    <td style="font-size: 0.8rem; padding: 3px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1); line-height: 1.2;">${winRate.toFixed(3)}</td>`;
+                    <td style="font-size: 0.8rem; padding: 3px 2px; font-weight: 700; background: white; color: #2E7D32; border: 1px solid #dee2e6; text-align: center; position: sticky; left: 0; z-index: 5; width: 60px; box-shadow: 2px 0 4px rgba(0,0,0,0.1); line-height: 1.2;">0.${winRate.toFixed(3).split('.')[1]}</td>`;
                 topTeams.forEach((team, teamIndex) => {
                     const isLast = teamIndex === topTeams.length - 1;
                     const teamScenario = scenarios.find(s => s.team === team.team);
@@ -2529,13 +2496,13 @@
                         const remainBg = getWinRateBackgroundColor(remainingWinRate);
                         const remainFg = getWinRateTextColor(remainingWinRate);
 
-                        html += `<td style="padding: 4px 1px; text-align: center; border: 1px solid #dee2e6; width: 75px; min-width: 75px; line-height: 1.1; background: ${remainBg}; color: ${remainFg};">
+                        html += `<td style="padding: 2px 0px; text-align: center; border: 1px solid #dee2e6; width: 70px; min-width: 70px; line-height: 1.1; background: ${remainBg}; color: ${remainFg};">
                             <div style="font-size: 0.8rem; font-weight: 600;">${teamScenario.wins}勝 ${teamScenario.losses}敗</div>
-                            <div style="font-size: 0.7rem;">${remainingWinRate.toFixed(3)}</div>
+                            <div style="font-size: 0.7rem;">${remainingWinRate === 1.0 ? '1.000' : '0.' + remainingWinRate.toFixed(3).split('.')[1]}</div>
                         </td>`;
-                        html += `<td style="padding: 4px 2px; text-align: center; border: 1px solid #dee2e6; width: 95px; min-width: 95px; line-height: 1.1; white-space: nowrap; background: ${finalBg}; color: ${finalFg}; ${teamIndex === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}">
+                        html += `<td style="padding: 2px 1px; text-align: center; border: 1px solid #dee2e6; width: 85px; min-width: 85px; line-height: 1.1; white-space: nowrap; background: ${finalBg}; color: ${finalFg}; ${teamIndex === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}">
                             <div style="font-size: 0.8rem; font-weight: 600;">${finalWins}勝 ${finalLosses}敗 ${finalDraws}分</div>
-                            <div style="font-size: 0.7rem;">${teamScenario.finalWinRate.toFixed(3)}</div>
+                            <div style="font-size: 0.7rem;">0.${teamScenario.finalWinRate.toFixed(3).split('.')[1]}</div>
                         </td>`;
                     } else {
                         html += `<td style="background: #f8f9fa; border: 1px solid #dee2e6;"></td><td style="background: #f8f9fa; border: 1px solid #dee2e6; ${teamIndex === cutoffIndex ? 'border-right: 4px solid #FF6B35;' : (!isLast ? 'border-right: 2px solid #dee2e6;' : '')}"></td>`;
@@ -2551,8 +2518,8 @@
         function generateDetailedScenarios(topTeams) {
             let html = `
                 <div style="margin-bottom: 15px;">
-                    <h5 style="color: #2E7D32; margin-bottom: 10px;">🏆 上位5チーム 詳細シナリオ</h5>
-                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">上位5チームの全ての残り勝敗組み合わせと最終勝率を一覧表示します。</p>
+                    <h5 style="color: #2E7D32; margin-bottom: 10px;">🏆 上位6チーム 詳細シナリオ</h5>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">上位6チームの残り試合の全勝敗パターンと、それぞれの最終成績・勝率を表示します。</p>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">`;
 
@@ -2563,17 +2530,18 @@
                 const logo = TEAM_LOGOS[team.team] ? `<img class=\"team-logo\" src=\"${TEAM_LOGOS[team.team]}\" alt=\"${meta.fullName || team.team}\">` : '';
                 html += `
                     <div style="background: ${bgColor}; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px;">
-                        <h6 style="margin: 0 0 10px 0; color: #333; text-align: center;">${team.rank}位 ${logo}${meta.fullName || team.team}</h6>
+                        <h6 style="margin: 0 0 10px 0; color: #333; text-align: center; font-size: 1.1rem; font-weight: bold;">${team.rank}位 ${logo}${meta.fullName || team.team}</h6>
                         <div style="text-align: center; margin-bottom: 10px; font-size: 0.9rem; color: #666;">
-                            現在: ${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 ${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3)}<br>
+                            現在: ${team.wins}勝 ${team.losses}敗 ${team.draws || 0}分 0.${(team.winRate ?? (team.wins/(team.wins+team.losses))).toFixed(3).split('.')[1]}<br>
                             残り: ${team.remainingGames}試合
                         </div>
                         <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
                             <thead>
                                 <tr style="background: rgba(0,0,0,0.05);">
-                                    <th style="padding: 4px; border: 1px solid #ccc;">勝</th>
-                                    <th style="padding: 4px; border: 1px solid #ccc;">敗</th>
-                                    <th style="padding: 4px; border: 1px solid #ccc;">最終勝率</th>
+                                    <th style="padding: 2px; border: 1px solid #ccc; width: 25px; text-align: center;">勝</th>
+                                    <th style="padding: 2px; border: 1px solid #ccc; width: 25px; text-align: center;">敗</th>
+                                    <th style="padding: 2px; border: 1px solid #ccc; width: 80px; text-align: center;">最終成績</th>
+                                    <th style="padding: 2px; border: 1px solid #ccc; width: 50px; text-align: center;">最終勝率</th>
                                 </tr>
                             </thead>
                             <tbody>`;
@@ -2587,9 +2555,10 @@
                     const rowBg = getWinRateColor(finalWinRate);
                     html += `
                         <tr style="background: ${rowBg};">
-                            <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">${wins}</td>
-                            <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">${losses}</td>
-                            <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: 600;">${(finalWinRate * 100).toFixed(1)}%</td>
+                            <td style="padding: 2px; border: 1px solid #ccc; text-align: center; width: 25px;">${wins}</td>
+                            <td style="padding: 2px; border: 1px solid #ccc; text-align: center; width: 25px;">${losses}</td>
+                            <td style="padding: 2px; border: 1px solid #ccc; text-align: center; width: 80px; font-size: 0.75rem;">${finalWins}-${finalLosses}-${team.draws || 0}</td>
+                            <td style="padding: 2px; border: 1px solid #ccc; text-align: center; font-weight: 600; width: 50px;">0.${(finalWinRate).toFixed(3).split('.')[1]}</td>
                         </tr>`;
                 }
 
