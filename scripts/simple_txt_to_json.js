@@ -188,6 +188,38 @@ class SimpleTxtToJson {
                 is_draw
             };
             if (venue) rec.stadium = venue;
+
+            // Try to parse final inning from following detail comment lines (e.g., "# 📊 이닝별: 1회(...)")
+            // We only annotate for completed games
+            if (rec.game_status === 'completed') {
+                let scanIdx = i + 1; // start scanning after the meta line we already advanced past
+                let finalInning = null;
+                while (scanIdx < lines.length) {
+                    const nxt = lines[scanIdx].trim();
+                    if (!nxt) { scanIdx++; continue; }
+                    // Stop if we reached a new date section or another game line
+                    if (/^#\s*\d{4}-\d{2}-\d{2}$/.test(nxt)) break;
+                    if (!nxt.startsWith('#')) break; // only look at comment detail lines
+
+                    // Detail stats line emitted by crawler
+                    if (nxt.includes('📊') && (nxt.includes('이닝별') || nxt.toLowerCase().includes('inning'))) {
+                        // Extract the last occurrence of "<number>회"
+                        const matches = Array.from(nxt.matchAll(/(\d+)회/g));
+                        if (matches && matches.length > 0) {
+                            const last = matches[matches.length - 1];
+                            const num = parseInt(last[1], 10);
+                            if (!Number.isNaN(num)) {
+                                finalInning = num;
+                                break;
+                            }
+                        }
+                    }
+                    scanIdx++;
+                }
+                if (finalInning != null) {
+                    rec.final_inning = finalInning;
+                }
+            }
             games.push(rec);
         }
 

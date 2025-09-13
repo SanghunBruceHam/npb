@@ -3450,10 +3450,14 @@
                         homeTeamStyle = 'font-weight:bold; color:#2e7d32;';
                     }
                     
+                    const inningBadge = (g.final_inning && Number.isFinite(g.final_inning))
+                        ? `<span style="color:#555; font-size:11px; margin-left:6px;">(${g.final_inning}回)</span>`
+                        : '';
                     gameDisplay = `
                         <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
                         <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${g.away_score}-${g.home_score}</span>
                         <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
+                        ${inningBadge}
                     `;
                 } else {
                     // 완료되지 않은 경기: 예정 또는 특수 상태로 표시
