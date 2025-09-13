@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-13T00:47:10.720877
+# UPDATED: 2025-09-13T16:38:37.039844
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1875,3 +1875,13 @@ LOT 3-6 RAK (Pacific) @ ◇開始18時00分◇楽天モバイルパーク
 YDB 10-2 YAK (Central) @ 明治神宮野球場
 # 3|6|横浜DeNAベイスターズ|東京ヤクルトスワローズ
 # 📊 이닝별: 1회(2-0) 2회(0-0) 3회(2-0) 4회(0-0) 5회(0-0) 6회(1-0) 7회(0-0)
+
+# 2025-09-13
+HAN 10-6 YOG (Central) [SCHEDULED]
+# 2|1|阪神タイガース|読売ジャイアンツ
+CHU 0-5 HIR (Central) [SCHEDULED]
+# 5|4|中日ドラゴンズ|広島東洋カープ
+SEI 2-4 NIP (Pacific) [SCHEDULED]
+# 11|12|埼玉西武ライオンズ|北海道日本ハムファイターズ
+LOT 6-2 RAK (Pacific) [SCHEDULED]
+# 8|9|千葉ロッテマリーンズ|東北楽天ゴールデンイーグルス
