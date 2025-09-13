@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-13T18:52:54.177257
+# UPDATED: 2025-09-13T19:36:36.605103
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1891,5 +1891,5 @@ LOT 6-4 RAK (Pacific) @ ◇開始14時20分◇楽天モバイルパーク
 # 📊 이닝별: 1회(0-2) 2회(0-0) 3회(0-0) 4회(6-0) 5회(0-0) 6회(0-0) 7회(0-0)
 SOF 0-0 ORI (Pacific)
 # 7|10|福岡ソフトバンクホークス|オリックスバファローズ
-YDB 0-0 YAK (Central) [SCHEDULED]
+YDB 0-0 YAK (Central)
 # 3|6|横浜DeNAベイスターズ|東京ヤクルトスワローズ
