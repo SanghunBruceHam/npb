@@ -15,6 +15,18 @@ except ImportError:
     requests = None
     BeautifulSoup = None
 
+# Optional Selenium support (dynamic pages)
+try:
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options as ChromeOptions
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from webdriver_manager.chrome import ChromeDriverManager
+    SELENIUM_AVAILABLE = True
+except Exception:
+    SELENIUM_AVAILABLE = False
+
 import json
 import os
 from datetime import datetime, timedelta
@@ -99,6 +111,9 @@ class SimpleCrawler:
         }
         self.valid_abbrs = {v['abbr'] for v in self.id_to_team.values()}
         self.valid_leagues = {'Central', 'Pacific'}
+        # Selenium driver holder
+        self._driver = None
+        self.use_selenium = (os.environ.get('USE_SELENIUM') == '1') and SELENIUM_AVAILABLE
     
     def setup_logging(self):
         log_dir = self.project_root / "logs" / "simple_crawler"
@@ -115,6 +130,57 @@ class SimpleCrawler:
             ]
         )
         self.logger = logging.getLogger('simple_crawler')
+
+    # ===== Selenium helpers =====
+    def ensure_driver(self):
+        if not SELENIUM_AVAILABLE:
+            return None
+        if self._driver is not None:
+            return self._driver
+        try:
+            from selenium.webdriver.chrome.service import Service as ChromeService
+            options = ChromeOptions()
+            options.add_argument('--headless=new')
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-dev-shm-usage')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--window-size=1280,800')
+            service = ChromeService(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+            self._driver = driver
+            self.logger.info('🧭 Selenium Chrome driver initialized')
+            return driver
+        except Exception as e:
+            self.logger.warning(f"⚠️ Selenium init failed: {e}")
+            return None
+
+    def fetch_soup(self, url, wait_css=None, timeout=15):
+        """Fetch URL and return BeautifulSoup; try requests first, fallback to Selenium when configured/needed."""
+        # Try requests
+        try:
+            headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'}
+            resp = requests.get(url, timeout=timeout, headers=headers)
+            if resp.status_code == 200 and resp.content:
+                return BeautifulSoup(resp.content, 'html.parser')
+            self.logger.info(f"ℹ️ requests returned {resp.status_code} for {url}, considering Selenium fallback")
+        except Exception as e:
+            self.logger.info(f"ℹ️ requests failed for {url}: {e}")
+
+        # Fallback to Selenium when available/desired
+        if not SELENIUM_AVAILABLE:
+            return None
+        driver = self.ensure_driver()
+        if driver is None:
+            return None
+        try:
+            driver.get(url)
+            if wait_css:
+                WebDriverWait(driver, timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, wait_css)))
+            html = driver.page_source
+            return BeautifulSoup(html, 'html.parser')
+        except Exception as e:
+            self.logger.warning(f"⚠️ Selenium fetch failed: {e}")
+            return None
     
     def get_team_info(self, team_name):
         """팀명으로 팀 정보 찾기"""
@@ -467,23 +533,27 @@ class SimpleCrawler:
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
-                    if text == 'X':
+                    # 전각 숫자/대쉬/공백 처리
+                    t = text.translate(str.maketrans('０１２３４５６７８９', '0123456789')).replace('\u2014','-').replace('－','-').replace('—','-')
+                    if t == 'X':
                         away_innings.append(None)  # 9회말은 X 처리
-                    elif text.isdigit():
-                        away_innings.append(int(text))
-                    elif text == '':
-                        break  # 빈 셀이 나오면 종료
+                    elif t.isdigit():
+                        away_innings.append(int(t))
+                    else:
+                        # 완료 경기에서 빈칸/대쉬는 0으로 간주
+                        away_innings.append(0)
                 
                 for i, cell in enumerate(inning_cells(home_cells), 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
-                    if text == 'X':
+                    t = text.translate(str.maketrans('０１２３４５６７８９', '0123456789')).replace('\u2014','-').replace('－','-').replace('—','-')
+                    if t == 'X':
                         home_innings.append(None)
-                    elif text.isdigit():
-                        home_innings.append(int(text))
-                    elif text == '':
-                        break
+                    elif t.isdigit():
+                        home_innings.append(int(t))
+                    else:
+                        home_innings.append(0)
                 
                 detailed_info['inning_scores_away'] = away_innings
                 detailed_info['inning_scores_home'] = home_innings
@@ -1108,12 +1178,7 @@ class SimpleCrawler:
         self.logger.info(f"🔍 Checking game details: {target_date.strftime('%Y-%m-%d')}")
         
         try:
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
-            }
-            response = requests.get(url, timeout=12, headers=headers)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.content, 'html.parser')
+            soup = self.fetch_soup(url, wait_css='table') or BeautifulSoup(b'', 'html.parser')
             games = []
             
             # NPB 스코어 페이지에서 각 경기 링크 찾기
@@ -1144,9 +1209,7 @@ class SimpleCrawler:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
             }
-            response = requests.get(game_url, timeout=12, headers=headers)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.content, 'html.parser')
+            soup = self.fetch_soup(game_url, wait_css='table')
             
             # 경기 정보 추출
             game_info = {
