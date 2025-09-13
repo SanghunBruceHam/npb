@@ -136,19 +136,24 @@
             box-sizing: border-box;
         }
         
-        body { 
-            font-family: Arial, sans-serif; 
-            background: white; 
-            color: black; 
-            font-size: 14px; 
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: black;
+            font-size: 14px;
             line-height: 1.4;
             min-width: 320px;
+            margin: 0;
+            padding: 0;
         }
         
-        .header { 
-            background: #333; 
-            color: white; 
+        .header {
+            background: #333;
+            color: white;
             padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .header-content {
@@ -199,10 +204,13 @@
             font-weight: bold;
         }
         
-        .nav { 
-            background: #f5f5f5; 
+        .nav {
+            background: #f5f5f5;
             border-bottom: 2px solid #ddd;
             width: 100%;
+            position: sticky;
+            top: 46px; /* Adjust based on header height */
+            z-index: 999;
         }
         
         .nav-tabs { 
@@ -237,10 +245,11 @@
             border-bottom: 2px solid #0066cc; 
         }
         
-        .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
+            padding-top: 10px;
             width: 100%;
         }
         
@@ -564,20 +573,24 @@
             font-weight: bold;
         }
         
-        @media (max-width: 768px) { 
-            .leagues { 
-                grid-template-columns: 1fr; 
-                gap: 20px; 
-            } 
-            
-            .container { 
-                padding: 10px; 
+        @media (max-width: 768px) {
+            .leagues {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
-            
+
+            .container {
+                padding: 10px;
+            }
+
             .nav-tabs {
                 flex-direction: column;
             }
-            
+
+            .nav {
+                top: 39px; /* Adjust for mobile header height */
+            }
+
             .nav-tab {
                 width: 100%;
                 border-right: none;
@@ -1787,6 +1800,15 @@
 
             // Update URL hash
             window.location.hash = tabId;
+
+            // Refresh AdSense ads when tab changes
+            if (typeof adsbygoogle !== 'undefined') {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch(e) {
+                    console.log('AdSense refresh error:', e);
+                }
+            }
 
             // Static footer: no dynamic updates needed
         }
