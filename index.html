@@ -1886,7 +1886,17 @@
                     if (activeTab) {
                         const ads = activeTab.querySelectorAll('.adsbygoogle');
                         ads.forEach(ad => {
-                            if (!ad.dataset.adsbygoogleStatus && ad.offsetWidth > 0) {
+                            // Check if ad is visible and has proper dimensions
+                            if (!ad.dataset.adsbygoogleStatus &&
+                                ad.offsetWidth > 0 &&
+                                ad.offsetHeight > 0 &&
+                                ad.getBoundingClientRect().width > 0) {
+                                // Force minimum width for ad container
+                                const container = ad.closest('div');
+                                if (container && container.offsetWidth < 320) {
+                                    container.style.minWidth = '320px';
+                                }
+                                ad.style.minWidth = '300px';
                                 (adsbygoogle = window.adsbygoogle || []).push({});
                             }
                         });
@@ -1894,10 +1904,48 @@
                 } catch(e) {
                     console.log('AdSense refresh error:', e);
                 }
-            }, 200);
+            }, 300);
 
 
             // Static footer: no dynamic updates needed
+        }
+
+        // Safe ad initialization function
+        function initializeAdsAfterLoad() {
+            try {
+                // Initialize ads outside of tabs first
+                const outsideAds = document.querySelectorAll('.adsbygoogle:not(.tab-content .adsbygoogle)');
+                outsideAds.forEach(ad => {
+                    if (!ad.dataset.adsbygoogleStatus) {
+                        const container = ad.closest('div');
+                        if (container && container.offsetWidth < 320) {
+                            container.style.minWidth = '320px';
+                        }
+                        ad.style.minWidth = '300px';
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    }
+                });
+
+                // Initialize ads in active tab only
+                const activeTab = document.querySelector('.tab-content.active');
+                if (activeTab) {
+                    const tabAds = activeTab.querySelectorAll('.adsbygoogle');
+                    tabAds.forEach(ad => {
+                        if (!ad.dataset.adsbygoogleStatus &&
+                            ad.offsetWidth > 0 &&
+                            ad.offsetHeight > 0) {
+                            const container = ad.closest('div');
+                            if (container && container.offsetWidth < 320) {
+                                container.style.minWidth = '320px';
+                            }
+                            ad.style.minWidth = '300px';
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        }
+                    });
+                }
+            } catch(e) {
+                console.log('AdSense initialization error:', e);
+            }
         }
 
 
@@ -3192,6 +3240,11 @@
 
             loadDataEnhanced();
             restorePageState();
+
+            // Initialize ads safely after page load
+            setTimeout(() => {
+                initializeAdsAfterLoad();
+            }, 500);
         });
         window.reloadData = loadDataEnhanced;
 
