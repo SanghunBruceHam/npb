@@ -884,7 +884,7 @@
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-5508768187151867"
-                         data-ad-slot="1234567890"
+                         data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                 </div>
@@ -964,7 +964,7 @@
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-5508768187151867"
-                         data-ad-slot="9876543210"
+                         data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                 </div>
@@ -1032,7 +1032,7 @@
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5508768187151867"
-                     data-ad-slot="2222111100"
+                     data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
             </div>
@@ -1099,7 +1099,7 @@
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5508768187151867"
-                     data-ad-slot="5555666677"
+                     data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
             </div>
@@ -1154,7 +1154,7 @@
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-5508768187151867"
-                     data-ad-slot="3333444455"
+                     data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
             </div>
@@ -1216,7 +1216,7 @@
                         <ins class="adsbygoogle"
                              style="display:block"
                              data-ad-client="ca-pub-5508768187151867"
-                             data-ad-slot="7777888899"
+                             data-ad-slot="4067267701"
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                     </div>
@@ -1867,14 +1867,23 @@
             // Update URL hash
             window.location.hash = tabId;
 
-            // Refresh AdSense ads when tab changes
-            if (typeof adsbygoogle !== 'undefined') {
+            // Refresh AdSense ads when tab changes - only for visible ads
+            setTimeout(() => {
                 try {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    // Only initialize ads in the currently active tab
+                    const activeTab = document.querySelector('.tab-content.active');
+                    if (activeTab) {
+                        const ads = activeTab.querySelectorAll('.adsbygoogle');
+                        ads.forEach(ad => {
+                            if (!ad.dataset.adsbygoogleStatus && ad.offsetWidth > 0) {
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            }
+                        });
+                    }
                 } catch(e) {
                     console.log('AdSense refresh error:', e);
                 }
-            }
+            }, 200);
 
 
             // Static footer: no dynamic updates needed
