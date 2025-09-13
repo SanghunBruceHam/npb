@@ -1810,34 +1810,6 @@
                 }
             }
 
-            // Scroll to show content including ads
-            setTimeout(() => {
-                // Find the ad element above the tabs
-                const adElement = document.querySelector('.adsbygoogle');
-                if (adElement) {
-                    // Calculate position to show ad and content
-                    const header = document.querySelector('.header');
-                    const nav = document.querySelector('.nav');
-                    const headerHeight = header ? header.offsetHeight : 0;
-                    const navHeight = nav ? nav.offsetHeight : 0;
-                    const totalFixedHeight = headerHeight + navHeight;
-
-                    const adRect = adElement.getBoundingClientRect();
-                    const scrollY = window.pageYOffset;
-                    const targetPosition = Math.max(0, scrollY + adRect.top - totalFixedHeight - 10);
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    // Fallback: scroll to top
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }
-            }, 150);
 
             // Static footer: no dynamic updates needed
         }
