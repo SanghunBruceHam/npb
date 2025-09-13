@@ -10762,5 +10762,21 @@
     "is_draw": false,
     "stadium": "◇開始14時20分◇楽天モバイルパーク",
     "final_inning": 7
+  },
+  {
+    "game_date": "2025-09-13",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 7,
+    "away_team_abbr": "SOF",
+    "away_team_name": "福岡ソフトバンクホークス",
+    "home_score": 1,
+    "away_score": 2,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時01分◇京セラドーム大阪",
+    "final_inning": 7
   }
 ]
