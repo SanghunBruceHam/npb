@@ -3493,7 +3493,8 @@
 
         // 팀 약자로 리그 판단하는 헬퍼 함수
         function getTeamLeague(teamAbbr) {
-            const centralTeams = ['GIA', 'HAN', 'CHU', 'YDB', 'HIR', 'YAK'];
+            // Use canonical abbreviations (YOG, HAN, CHU, YDB, HIR, YAK)
+            const centralTeams = ['YOG', 'HAN', 'CHU', 'YDB', 'HIR', 'YAK'];
             const pacificTeams = ['SOF', 'LOT', 'SEI', 'ORI', 'NIP', 'RAK'];
             
             if (centralTeams.includes(teamAbbr)) return 'Central';
