@@ -784,7 +784,7 @@
     
     <div class="nav">
         <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showTab('magic-regular', this)" data-i18n="nav-magic-regular">正規シーズン優勝マジック</div>
+            <div class="nav-tab" onclick="showTab('magic-regular', this)" data-i18n="nav-magic-regular">正規シーズン優勝マジック</div>
             <div class="nav-tab" onclick="showTab('magic-playoff', this)" data-i18n="nav-magic-playoff">プレーオフマジック</div>
             <div class="nav-tab" onclick="showTab('progress', this)" data-i18n="nav-progress">進行状況</div>
             <div class="nav-tab" onclick="showTab('scenarios', this)" data-i18n="nav-scenarios">経路の数</div>
@@ -1759,26 +1759,34 @@
                 tab.classList.remove('active');
                 tab.setAttribute('aria-hidden', 'true');
             });
-            
+
             // Reset all nav buttons
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
                 tab.setAttribute('aria-selected', 'false');
             });
-            
+
             // Show selected tab
             const selectedTab = document.getElementById(tabId);
             selectedTab.classList.add('active');
             selectedTab.setAttribute('aria-hidden', 'false');
-            
+
             // Activate nav button
             if (el) {
                 el.classList.add('active');
                 el.setAttribute('aria-selected', 'true');
+            } else {
+                // If no element provided, find and activate the correct nav button
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    if (tab.getAttribute('onclick') && tab.getAttribute('onclick').includes(`'${tabId}'`)) {
+                        tab.classList.add('active');
+                        tab.setAttribute('aria-selected', 'true');
+                    }
+                });
             }
 
-            // Save current tab to sessionStorage
-            sessionStorage.setItem('npb-current-tab', tabId);
+            // Update URL hash
+            window.location.hash = tabId;
 
             // Static footer: no dynamic updates needed
         }
@@ -3052,7 +3060,27 @@
         // ページ離脱時に状態を保存
         window.addEventListener('beforeunload', savePageState);
 
+        // Handle browser back/forward buttons
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.slice(1);
+            const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining'];
+            if (hash && validTabs.includes(hash)) {
+                showTab(hash);
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Restore tab from URL hash
+            const hash = window.location.hash.slice(1); // Remove #
+            const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining'];
+
+            if (hash && validTabs.includes(hash)) {
+                showTab(hash);
+            } else {
+                // Default to first tab
+                showTab('magic-regular');
+            }
+
             loadDataEnhanced();
             restorePageState();
         });
