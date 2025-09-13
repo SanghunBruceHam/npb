@@ -1,9 +1,9 @@
 {
-  "generated_at": "2025-09-13T08:38:54.836Z",
+  "generated_at": "2025-09-13T09:52:55.640Z",
   "season_stats": {
-    "total_games": 794,
-    "today_games": 5,
-    "week_games": 37
+    "total_games": 795,
+    "today_games": 6,
+    "week_games": 38
   },
   "highlights": {
     "high_scoring_games": [
@@ -14,6 +14,14 @@
         "home_score": 12,
         "away_score": 10,
         "total_score": 22
+      },
+      {
+        "game_date": "2025-09-13",
+        "home_team": "YOG",
+        "away_team": "HAN",
+        "home_score": 11,
+        "away_score": 10,
+        "total_score": 21
       },
       {
         "game_date": "2025-04-09",
@@ -37,14 +45,6 @@
         "away_team": "ORI",
         "home_score": 5,
         "away_score": 13,
-        "total_score": 18
-      },
-      {
-        "game_date": "2025-06-19",
-        "home_team": "HIR",
-        "away_team": "SOF",
-        "home_score": 2,
-        "away_score": 16,
         "total_score": 18
       }
     ]

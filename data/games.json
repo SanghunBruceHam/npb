@@ -7991,8 +7991,7 @@
     "away_score": 3,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-08-03",
@@ -8006,8 +8005,7 @@
     "away_score": 1,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "明治神宮野球場"
+    "is_draw": false
   },
   {
     "game_date": "2025-08-03",
@@ -8021,8 +8019,7 @@
     "away_score": 1,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム"
+    "is_draw": false
   },
   {
     "game_date": "2025-08-03",
@@ -8036,8 +8033,7 @@
     "away_score": 2,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-08-03",
@@ -8051,8 +8047,7 @@
     "away_score": 9,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時01分◇京セラドーム大阪"
+    "is_draw": false
   },
   {
     "game_date": "2025-08-03",
@@ -8066,8 +8061,7 @@
     "away_score": 1,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム"
+    "is_draw": false
   },
   {
     "game_date": "2025-08-05",
@@ -10704,11 +10698,12 @@
     "away_team_id": 2,
     "away_team_abbr": "HAN",
     "away_team_name": "阪神タイガース",
-    "home_score": 6,
+    "home_score": 11,
     "away_score": 10,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": false
+    "is_draw": false,
+    "stadium": "◇開始14時00分◇東京ドーム"
   },
   {
     "game_date": "2025-09-13",
@@ -10733,11 +10728,12 @@
     "away_team_id": 11,
     "away_team_abbr": "SEI",
     "away_team_name": "埼玉西武ライオンズ",
-    "home_score": 4,
-    "away_score": 2,
+    "home_score": 5,
+    "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false
+    "is_draw": false,
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-13",
@@ -10747,10 +10743,11 @@
     "away_team_id": 8,
     "away_team_abbr": "LOT",
     "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": 2,
+    "home_score": 4,
     "away_score": 6,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false
+    "is_draw": false,
+    "stadium": "◇開始14時20分◇楽天モバイルパーク"
   }
 ]
