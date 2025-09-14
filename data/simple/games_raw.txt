@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-14T17:40:04.367047
+# UPDATED: 2025-09-14T18:12:15.549666
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1975,5 +1975,5 @@ YOG 0-0 YDB (Central)
 # 1|3|読売ジャイアンツ|横浜DeNAベイスターズ
 CHU 0-0 HAN (Central)
 # 5|2|中日ドラゴンズ|阪神タイガース
-YAK 0-0 HIR (Central) [SCHEDULED]
+YAK 0-0 HIR (Central)
 # 6|4|東京ヤクルトスワローズ|広島東洋カープ
