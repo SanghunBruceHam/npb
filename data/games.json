@@ -11609,9 +11609,7 @@
     "away_score": 3,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "is_draw": false
   },
   {
     "game_date": "2025-09-14",
@@ -11625,9 +11623,7 @@
     "away_score": 1,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "is_draw": false
   },
   {
     "game_date": "2025-09-14",
@@ -11641,8 +11637,6 @@
     "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始13時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "is_draw": false
   }
 ]
