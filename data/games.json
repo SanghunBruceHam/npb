@@ -11609,7 +11609,9 @@
     "away_score": 3,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false
+    "is_draw": false,
+    "stadium": "エスコンフィールドHOKKAIDO",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-14",
@@ -11623,7 +11625,9 @@
     "away_score": 1,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false
+    "is_draw": false,
+    "stadium": "◇開始13時00分◇楽天モバイルパーク",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-14",
@@ -11637,6 +11641,40 @@
     "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": false
+    "is_draw": false,
+    "stadium": "◇開始13時00分◇京セラドーム大阪",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-14",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 5,
+    "away_team_abbr": "CHU",
+    "away_team_name": "中日ドラゴンズ",
+    "home_score": 0,
+    "away_score": 1,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-14",
+    "home_team_id": 4,
+    "home_team_abbr": "HIR",
+    "home_team_name": "広島東洋カープ",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 6,
+    "away_score": 8,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時00分◇マツダスタジアム",
+    "final_inning": 9
   }
 ]

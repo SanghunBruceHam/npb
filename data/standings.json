@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-14T11:35:05.254Z",
+  "updated_at": "2025-09-14T12:43:54.515Z",
   "central_league": {
     "standings": [
       {
@@ -7,14 +7,14 @@
         "team_abbreviation": "HAN",
         "team_name": "阪神タイガース",
         "league": "Central",
-        "games_played": 137,
+        "games_played": 138,
         "wins": 83,
-        "losses": 50,
+        "losses": 51,
         "draws": 4,
         "runs_scored": 516,
-        "runs_allowed": 365,
-        "win_percentage": 0.6240601503759399,
-        "run_differential": 151,
+        "runs_allowed": 366,
+        "win_percentage": 0.6194029850746269,
+        "run_differential": 150,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5111111111111111,
         "run_differential": 34,
         "position_rank": 2,
-        "games_behind": 15
+        "games_behind": 14.5
       },
       {
         "team_id": 1,
@@ -48,21 +48,21 @@
         "win_percentage": 0.4962962962962963,
         "run_differential": 9,
         "position_rank": 3,
-        "games_behind": 17
+        "games_behind": 16.5
       },
       {
         "team_id": 4,
         "team_abbreviation": "HIR",
         "team_name": "広島東洋カープ",
         "league": "Central",
-        "games_played": 141,
+        "games_played": 142,
         "wins": 66,
-        "losses": 70,
+        "losses": 71,
         "draws": 5,
-        "runs_scored": 510,
-        "runs_allowed": 481,
-        "win_percentage": 0.4852941176470588,
-        "run_differential": 29,
+        "runs_scored": 516,
+        "runs_allowed": 489,
+        "win_percentage": 0.48175182481751827,
+        "run_differential": 27,
         "position_rank": 4,
         "games_behind": 18.5
       },
@@ -71,32 +71,32 @@
         "team_abbreviation": "CHU",
         "team_name": "中日ドラゴンズ",
         "league": "Central",
-        "games_played": 138,
-        "wins": 60,
+        "games_played": 139,
+        "wins": 61,
         "losses": 76,
         "draws": 2,
-        "runs_scored": 419,
+        "runs_scored": 420,
         "runs_allowed": 484,
-        "win_percentage": 0.4411764705882353,
-        "run_differential": -65,
+        "win_percentage": 0.44525547445255476,
+        "run_differential": -64,
         "position_rank": 5,
-        "games_behind": 24.5
+        "games_behind": 23.5
       },
       {
         "team_id": 6,
         "team_abbreviation": "YAK",
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
-        "games_played": 141,
-        "wins": 53,
+        "games_played": 142,
+        "wins": 54,
         "losses": 80,
         "draws": 8,
-        "runs_scored": 454,
-        "runs_allowed": 594,
-        "win_percentage": 0.39849624060150374,
-        "run_differential": -140,
+        "runs_scored": 462,
+        "runs_allowed": 600,
+        "win_percentage": 0.40298507462686567,
+        "run_differential": -138,
         "position_rank": 6,
-        "games_behind": 30
+        "games_behind": 29
       }
     ]
   },
