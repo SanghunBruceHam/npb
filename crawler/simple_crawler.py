@@ -512,24 +512,36 @@ class SimpleCrawler:
             # 1. 이닝별 득점 추출
             score_rows = table.find_all('tr')
             if len(score_rows) >= 3:
+                header_row = score_rows[0]
                 away_row = score_rows[1]  # 원정팀
                 home_row = score_rows[2]  # 홈팀
                 
                 away_innings = []
                 home_innings = []
+
+                # Find the index of the total score column ('R' or '計')
+                total_col_idx = -1
+                header_cells = header_row.find_all(['th', 'td'])
+                for i, cell in enumerate(header_cells):
+                    text = cell.get_text(strip=True)
+                    if text == 'R' or text == '計':
+                        total_col_idx = i
+                        break
                 
-                # 이닝별 점수 추출 (1회~9회 + 연장)
                 away_cells = away_row.find_all('td')
                 home_cells = home_row.find_all('td')
-                
-                # 팀명 다음부터 마지막 3개(R/H/E) 직전까지를 이닝 칼럼으로 간주
-                def inning_cells(cells):
-                    # cells[0]은 팀명, cells[-3:]은 합계(R/H/E)
-                    if len(cells) >= 4:
-                        return cells[1:-3]
-                    return cells[1:]
 
-                for i, cell in enumerate(inning_cells(away_cells), 1):
+                # Slice inning cells based on the location of the 'R' column
+                # It starts after the team name (index 0)
+                if total_col_idx != -1:
+                    inning_cells_away = away_cells[1:total_col_idx]
+                    inning_cells_home = home_cells[1:total_col_idx]
+                else:
+                    # Fallback to old logic if 'R' is not found
+                    inning_cells_away = away_cells[1:-3] if len(away_cells) > 4 else away_cells[1:]
+                    inning_cells_home = home_cells[1:-3] if len(home_cells) > 4 else home_cells[1:]
+
+                for i, cell in enumerate(inning_cells_away, 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
@@ -543,7 +555,7 @@ class SimpleCrawler:
                         # 완료 경기에서 빈칸/대쉬는 0으로 간주
                         away_innings.append(0)
                 
-                for i, cell in enumerate(inning_cells(home_cells), 1):
+                for i, cell in enumerate(inning_cells_home, 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
@@ -705,10 +717,17 @@ class SimpleCrawler:
         elif existing_has_scores and not new_has_scores:
             return False
         
-        # 3. 더 많은 정보가 있는 경기 우선 (이닝 정보, 경기 시간 등)
+        # 3. 이닝 정보가 더 많은 데이터를 우선
+        new_innings_len = len(new_game.get('inning_scores_home') or [])
+        existing_innings_len = len(existing_game.get('inning_scores_home') or [])
+        if new_innings_len > existing_innings_len:
+            return True
+        if existing_innings_len > new_innings_len:
+            return False
+
+        # 4. 더 많은 정보가 있는 경기 우선 (기존 로직)
         info_keys = [
-            'inning', 'game_time', 'inning_scores_home', 'inning_scores_away',
-            'hits_home', 'hits_away', 'errors_home', 'errors_away',
+            'inning', 'game_time', 'hits_home', 'hits_away', 'errors_home', 'errors_away',
             'stadium', 'game_duration', 'attendance', 'weather'
         ]
         new_info_count = sum(1 for key in info_keys if new_game.get(key) is not None)
