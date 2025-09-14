@@ -853,9 +853,7 @@
                  data-ad-slot="7298546648"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            
         </div>
 
         <!-- Regular Season Magic Numbers -->
@@ -1878,123 +1876,41 @@
             // Update URL hash
             window.location.hash = tabId;
 
-            // Refresh AdSense ads when tab changes - remove hidden ads first
+            // Refresh AdSense ads in the newly visible tab
             setTimeout(() => {
                 try {
                     const activeTab = document.querySelector('.tab-content.active');
                     if (activeTab) {
-                        // SOLUTION: Remove hidden ads before initialization
                         const ads = activeTab.querySelectorAll('.adsbygoogle');
                         ads.forEach(ad => {
-                            const computedStyle = window.getComputedStyle(ad);
-                            const parentComputedStyle = window.getComputedStyle(ad.parentElement);
-
-                            // Remove if hidden
-                            if (computedStyle.display === 'none' ||
-                                parentComputedStyle.display === 'none' ||
-                                ad.offsetWidth === 0 ||
-                                ad.offsetHeight === 0) {
-                                console.log('Removing hidden tab ad element');
-                                ad.remove();
-                                return;
-                            }
-
-                            // Initialize only visible ads with proper delay
-                            if (!ad.dataset.adsbygoogleStatus &&
-                                ad.offsetWidth > 0 &&
-                                ad.offsetHeight > 0) {
-
-                                // Force container width to 100%
-                                const container = ad.closest('div');
-                                if (container) {
-                                    container.style.width = '100%';
-                                    container.style.minWidth = '320px';
-                                }
-
-                                ad.style.minWidth = '300px';
-
-                                // Additional delay for tab switching
-                                setTimeout(() => {
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                }, 500);
-                            }
-                        });
-                    }
-                } catch(e) {
-                    console.log('AdSense refresh error:', e);
-                }
-            }, 300);
-
-
-            // Static footer: no dynamic updates needed
-        }
-
-        // Safe ad initialization function - removes hidden ads before loading
-        function initializeAdsAfterLoad() {
-            try {
-                // SOLUTION 1: Remove all hidden ad elements before loading (from web search)
-                document.querySelectorAll('.adsbygoogle').forEach(ad => {
-                    const computedStyle = window.getComputedStyle(ad);
-                    const parentComputedStyle = window.getComputedStyle(ad.parentElement);
-
-                    // Remove ads that are hidden via CSS
-                    if (computedStyle.display === 'none' ||
-                        parentComputedStyle.display === 'none' ||
-                        ad.offsetWidth === 0 ||
-                        ad.offsetHeight === 0) {
-                        console.log('Removing hidden ad element to prevent availableWidth=0 error');
-                        ad.remove();
-                        return;
-                    }
-                });
-
-                // SOLUTION 2: Initialize visible ads with setTimeout (from web search)
-                setTimeout(() => {
-                    // Initialize ads outside of tabs first
-                    const outsideAds = document.querySelectorAll('.adsbygoogle:not(.tab-content .adsbygoogle)');
-                    outsideAds.forEach(ad => {
-                        if (!ad.dataset.adsbygoogleStatus &&
-                            ad.offsetWidth > 0 &&
-                            ad.offsetHeight > 0) {
-
-                            // Force container width to 100% (from web search)
-                            const container = ad.closest('div');
-                            if (container) {
-                                container.style.width = '100%';
-                                container.style.minWidth = '320px';
-                            }
-
-                            ad.style.minWidth = '300px';
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        }
-                    });
-
-                    // Initialize ads in active tab only
-                    const activeTab = document.querySelector('.tab-content.active');
-                    if (activeTab) {
-                        const tabAds = activeTab.querySelectorAll('.adsbygoogle');
-                        tabAds.forEach(ad => {
-                            if (!ad.dataset.adsbygoogleStatus &&
-                                ad.offsetWidth > 0 &&
-                                ad.offsetHeight > 0 &&
-                                window.getComputedStyle(ad).display !== 'none') {
-
-                                // Force container width to 100%
-                                const container = ad.closest('div');
-                                if (container) {
-                                    container.style.width = '100%';
-                                    container.style.minWidth = '320px';
-                                }
-
-                                ad.style.minWidth = '300px';
+                            // If the ad is visible and not already filled, request it.
+                            // AdSense is smart enough not to reload an already loaded ad.
+                            if (ad.offsetParent !== null && ad.getAttribute('data-ad-status') !== 'filled') {
                                 (adsbygoogle = window.adsbygoogle || []).push({});
                             }
                         });
                     }
-                }, 1000); // 1 second delay as recommended from web search
+                } catch (e) {
+                    console.error('AdSense refresh error in showTab:', e);
+                }
+            }, 100); // Small delay to ensure tab is visible
+        }
 
-            } catch(e) {
-                console.log('AdSense initialization error:', e);
+        // Safe ad initialization function
+        function initializeAdsAfterLoad() {
+            try {
+                // Initialize all visible ads on the page, giving priority to the active tab
+                // This single loop is simpler and more robust.
+                setTimeout(() => {
+                    document.querySelectorAll('.adsbygoogle').forEach(ad => {
+                        // Check if the ad is inside a visible container
+                        if (ad.offsetParent !== null && ad.getAttribute('data-ad-status') !== 'filled') {
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        }
+                    });
+                }, 200); // A small delay to ensure the DOM is fully ready for ad rendering
+            } catch (e) {
+                console.error('AdSense initialization error:', e);
             }
         }
 
@@ -3969,9 +3885,7 @@
          data-ad-slot="7298546648"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    
     </div>
 
     <!-- Site footer (static) -->
