@@ -1051,13 +1051,9 @@ class SimpleCrawler:
         self.logger.info(f"🚀 Starting full NPB season crawl from {start_date}...")
         
         if not CRAWLING_ENABLED:
-            self.logger.info("📄 Web crawling not available, using existing data...")
-            # Use existing data instead
-            if self.convert_existing_data_to_txt():
-                self.save_teams_to_txt()
-                return 1  # Success
-            else:
-                return 0
+            self.logger.error("❌ Web crawling dependencies (requests, beautifulsoup4) are not installed. Cannot crawl.")
+            self.logger.error("Please install them using: pip install -r crawler/requirements.txt")
+            return 0 # Indicate failure
         
         all_games = []
         start = datetime.strptime(start_date, "%Y-%m-%d")
@@ -1120,17 +1116,13 @@ class SimpleCrawler:
         return len(all_games)
 
     def crawl_multiple_days(self, days=7):
-        """여러 날짜 크롤링 (또는 기존 데이터 변환)"""
+        """여러 날짜 크롤링"""
         self.logger.info(f"🚀 Starting simple crawl for last {days} days...")
         
         if not CRAWLING_ENABLED:
-            self.logger.info("📄 Web crawling not available, using existing data...")
-            # Use existing data instead
-            if self.convert_existing_data_to_txt():
-                self.save_teams_to_txt()
-                return 1  # Success
-            else:
-                return 0
+            self.logger.error("❌ Web crawling dependencies (requests, beautifulsoup4) are not installed. Cannot crawl.")
+            self.logger.error("Please install them using: pip install -r crawler/requirements.txt")
+            return 0 # Indicate failure
         
         all_games = []
         today = datetime.now()
