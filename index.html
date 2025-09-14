@@ -1958,10 +1958,10 @@
             const thirdPlace = teams[2] || {};
             
             tbody.innerHTML = teams.map(team => {
-                const rankClass = team.position_rank === 1 ? 'rank1' : 
-                                 team.position_rank === 2 ? 'rank2' : 
+                const rankClass = team.position_rank === 1 ? 'rank1' :
+                                 team.position_rank === 2 ? 'rank2' :
                                  team.position_rank === 3 ? 'rank3' : '';
-                
+
                 const remainingGames = TOTAL_GAMES - team.games_played;
                 const maxWins = team.wins + remainingGames;
                 let magic = '-';
@@ -2086,10 +2086,10 @@
                 }
                 
                 if (isRegular) {
-                    // 정규시즌: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 1位条件 マジック エリミネート 進出状況
-                    const firstPlaceStyle = team.position_rank === 1 ? 'style="border: 3px solid #FF0000; background-color: rgba(255, 0, 0, 0.1);"' : '';
+                    // 정규시즌: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 1位条件 マジック エリミネート 進출状況
+                    const firstPlaceBorder = team.position_rank === 1 ? 'style="border: 3px solid #FF0000;"' : '';
                     return `
-                        <tr class="${rankClass}" ${firstPlaceStyle}>
+                        <tr class="${rankClass}" ${firstPlaceBorder}>
                             <td class="center">${team.position_rank}</td>
                             <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                             <td class="center">${team.games_played}</td>
@@ -2108,9 +2108,18 @@
                     `;
                 } else {
                     // 플레이오프: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 3위条件 マジック エリミネート 進出状況
-                    const playoffStyle = team.position_rank <= 3 ? 'style="border: 3px solid #FF0000; background-color: rgba(255, 0, 0, 0.1);"' : '';
+                    let playoffBorder = '';
+                    // 1-3위 그룹 박스를 위한 테두리 설정
+                    if (team.position_rank === 1) {
+                        playoffBorder = 'style="border: 3px solid #FF0000; border-bottom: none;"'; // 첫 번째 행: 위,좌,우 테두리
+                    } else if (team.position_rank === 2) {
+                        playoffBorder = 'style="border-left: 3px solid #FF0000; border-right: 3px solid #FF0000;"'; // 중간 행: 좌,우 테두리
+                    } else if (team.position_rank === 3) {
+                        playoffBorder = 'style="border: 3px solid #FF0000; border-top: none;"'; // 마지막 행: 아래,좌,우 테두리
+                    }
+
                     return `
-                        <tr class="${rankClass}" ${playoffStyle}>
+                        <tr class="${rankClass}" ${playoffBorder}>
                             <td class="center">${team.position_rank}</td>
                             <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                             <td class="center">${team.games_played}</td>
