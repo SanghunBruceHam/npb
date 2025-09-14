@@ -1883,9 +1883,16 @@
                     if (activeTab) {
                         const ads = activeTab.querySelectorAll('.adsbygoogle');
                         ads.forEach(ad => {
-                            // If the ad is visible and not already filled, request it.
-                            // AdSense is smart enough not to reload an already loaded ad.
-                            if (ad.offsetParent !== null && ad.getAttribute('data-ad-status') !== 'filled') {
+                            // If the ad slot is empty (no iframe) and it's visible
+                            if (ad.offsetParent !== null && ad.innerHTML.trim() === '') {
+                                // Clear any previous state attributes
+                                ad.removeAttribute('data-ad-status');
+                                ad.removeAttribute('data-adsbygoogle-status');
+                                ad.removeAttribute('style'); // Reset style in case AdSense added display:none
+                                ad.style.display = 'block';
+                                ad.style.minWidth = '300px';
+                                
+                                // Re-initialize the ad
                                 (adsbygoogle = window.adsbygoogle || []).push({});
                             }
                         });
@@ -1893,22 +1900,19 @@
                 } catch (e) {
                     console.error('AdSense refresh error in showTab:', e);
                 }
-            }, 100); // Small delay to ensure tab is visible
+            }, 150); // Increased delay slightly
         }
 
         // Safe ad initialization function
         function initializeAdsAfterLoad() {
             try {
-                // Initialize all visible ads on the page, giving priority to the active tab
-                // This single loop is simpler and more robust.
                 setTimeout(() => {
                     document.querySelectorAll('.adsbygoogle').forEach(ad => {
-                        // Check if the ad is inside a visible container
-                        if (ad.offsetParent !== null && ad.getAttribute('data-ad-status') !== 'filled') {
+                        if (ad.offsetParent !== null && ad.innerHTML.trim() === '') {
                             (adsbygoogle = window.adsbygoogle || []).push({});
                         }
                     });
-                }, 200); // A small delay to ensure the DOM is fully ready for ad rendering
+                }, 250); 
             } catch (e) {
                 console.error('AdSense initialization error:', e);
             }
@@ -2083,8 +2087,9 @@
                 
                 if (isRegular) {
                     // 정규시즌: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 1位条件 マジック エリミネート 進出状況
+                    const firstPlaceStyle = team.position_rank === 1 ? 'style="border: 3px solid #FF0000; background-color: rgba(255, 0, 0, 0.1);"' : '';
                     return `
-                        <tr class="${rankClass}">
+                        <tr class="${rankClass}" ${firstPlaceStyle}>
                             <td class="center">${team.position_rank}</td>
                             <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                             <td class="center">${team.games_played}</td>
@@ -2102,9 +2107,10 @@
                         </tr>
                     `;
                 } else {
-                    // 플레이오프: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 3位条件 マジック エリミネート 進出状況
+                    // 플레이오프: 順位 チーム 勝 敗 分 勝率 ゲーム差 残り試合 最大勝 3위条件 マジック エリミネート 進出状況
+                    const playoffStyle = team.position_rank <= 3 ? 'style="border: 3px solid #FF0000; background-color: rgba(255, 0, 0, 0.1);"' : '';
                     return `
-                        <tr class="${rankClass}">
+                        <tr class="${rankClass}" ${playoffStyle}>
                             <td class="center">${team.position_rank}</td>
                             <td>${renderTeamLabel(team.team_abbreviation, team.team_name)}</td>
                             <td class="center">${team.games_played}</td>
