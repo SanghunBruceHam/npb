@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-15T11:35:31.757Z",
+  "updated_at": "2025-09-15T12:53:17.325Z",
   "central_league": {
     "standings": [
       {
@@ -23,32 +23,32 @@
         "team_abbreviation": "YDB",
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
-        "games_played": 142,
-        "wins": 70,
+        "games_played": 143,
+        "wins": 71,
         "losses": 66,
         "draws": 6,
-        "runs_scored": 525,
+        "runs_scored": 528,
         "runs_allowed": 489,
-        "win_percentage": 0.5147058823529411,
-        "run_differential": 36,
+        "win_percentage": 0.5182481751824818,
+        "run_differential": 39,
         "position_rank": 2,
-        "games_behind": 14.5
+        "games_behind": 14
       },
       {
         "team_id": 1,
         "team_abbreviation": "YOG",
         "team_name": "読売ジャイアンツ",
         "league": "Central",
-        "games_played": 139,
+        "games_played": 140,
         "wins": 67,
-        "losses": 69,
+        "losses": 70,
         "draws": 3,
         "runs_scored": 489,
-        "runs_allowed": 482,
-        "win_percentage": 0.49264705882352944,
-        "run_differential": 7,
+        "runs_allowed": 485,
+        "win_percentage": 0.48905109489051096,
+        "run_differential": 4,
         "position_rank": 3,
-        "games_behind": 17.5
+        "games_behind": 18
       },
       {
         "team_id": 4,
