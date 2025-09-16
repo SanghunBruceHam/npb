@@ -1,51 +1,51 @@
 {
-  "generated_at": "2025-09-16T03:20:51.782Z",
+  "generated_at": "2025-09-16T07:39:45.855Z",
   "season_stats": {
-    "total_games": 779,
+    "total_games": 12,
     "today_games": 0,
-    "week_games": 36
+    "week_games": 12
   },
   "highlights": {
     "high_scoring_games": [
       {
-        "game_date": "2025-08-21",
-        "home_team": "LOT",
-        "away_team": "RAK",
+        "game_date": "2025-09-15",
+        "home_team": "NIP",
+        "away_team": "SEI",
         "home_score": 12,
-        "away_score": 10,
-        "total_score": 22
+        "away_score": 5,
+        "total_score": 17
       },
       {
-        "game_date": "2025-09-13",
-        "home_team": "YOG",
-        "away_team": "HAN",
-        "home_score": 11,
-        "away_score": 10,
-        "total_score": 21
-      },
-      {
-        "game_date": "2025-04-09",
-        "home_team": "ORI",
-        "away_team": "SOF",
-        "home_score": 9,
-        "away_score": 10,
-        "total_score": 19
-      },
-      {
-        "game_date": "2025-06-22",
+        "game_date": "2025-09-14",
         "home_team": "YDB",
-        "away_team": "LOT",
+        "away_team": "YOG",
         "home_score": 9,
-        "away_score": 10,
-        "total_score": 19
+        "away_score": 7,
+        "total_score": 16
       },
       {
-        "game_date": "2025-05-25",
-        "home_team": "SOF",
-        "away_team": "ORI",
+        "game_date": "2025-09-14",
+        "home_team": "HIR",
+        "away_team": "YAK",
+        "home_score": 6,
+        "away_score": 8,
+        "total_score": 14
+      },
+      {
+        "game_date": "2025-09-15",
+        "home_team": "RAK",
+        "away_team": "LOT",
         "home_score": 5,
-        "away_score": 13,
-        "total_score": 18
+        "away_score": 4,
+        "total_score": 9
+      },
+      {
+        "game_date": "2025-09-15",
+        "home_team": "HAN",
+        "away_team": "CHU",
+        "home_score": 6,
+        "away_score": 2,
+        "total_score": 8
       }
     ]
   }
