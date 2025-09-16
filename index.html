@@ -8,7 +8,11 @@
     <meta name="author" content="NPB Statistics">
     <meta name="robots" content="index, follow">
     <meta name="language" content="ja">
-    <link rel="canonical" href="https://npb-dashboard.com/">
+    <link id="canonical-link" rel="canonical" href="https://npb-dashboard.com/">
+    <link rel="alternate" hreflang="ja" data-hreflang="ja" href="https://npb-dashboard.com/">
+    <link rel="alternate" hreflang="ko" data-hreflang="ko" href="https://npb-dashboard.com/?lang=ko">
+    <link rel="alternate" hreflang="en" data-hreflang="en" href="https://npb-dashboard.com/?lang=en">
+    <link rel="alternate" hreflang="x-default" data-hreflang="x-default" href="https://npb-dashboard.com/">
     <link rel="sitemap" type="application/xml" href="https://npb-dashboard.com/sitemap.xml">
     <meta name="theme-color" content="#333">
     <meta name="application-name" content="NPB Dashboard">
@@ -486,7 +490,8 @@
         
         .team-progress-item {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 6px;
             margin-bottom: 8px;
             padding: 12px;
             border-radius: 8px;
@@ -494,46 +499,81 @@
             border: 1px solid #e9ecef;
             transition: background-color 0.2s ease;
         }
-        
+
         .team-progress-item:hover {
             background: #e9ecef;
         }
-        
+
+        .team-progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
         .team-progress-name {
-            width: 120px;
             font-weight: 600;
             font-size: 14px;
             color: #333;
             display: flex;
             align-items: center;
-        }
-        
-        .team-progress-name img {
-            margin-right: 6px;
-        }
-        
-        .team-progress-bar {
+            gap: 6px;
             flex: 1;
+        }
+
+        .team-progress-bar {
+            width: 100%;
             height: 18px;
             background: #e0e0e0;
             border-radius: 9px;
-            margin: 0 12px;
             overflow: hidden;
             border: 1px solid #ccc;
         }
-        
+
         .team-progress-fill {
             height: 100%;
             transition: width 0.8s ease;
             border-radius: 8px;
             background: linear-gradient(90deg, currentColor, currentColor);
         }
-        
+
         .team-progress-text {
-            width: 70px;
-            text-align: right;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
+            color: #333;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .team-progress-summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            font-size: 13px;
+            color: #444;
+            background: #f1f3f5;
+            border-radius: 12px;
+            padding: 6px 10px;
+        }
+
+        .team-progress-summary span {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .team-progress-summary .summary-completed {
+            text-align: left;
+            color: #2e7d32;
+        }
+
+        .team-progress-summary .summary-remaining {
+            text-align: center;
+            color: #ff6f00;
+        }
+
+        .team-progress-summary .summary-total {
+            text-align: right;
             color: #333;
         }
         
@@ -2425,18 +2465,18 @@
 
         // ====== シナリオ・マトリクス（場合の数）機能 ======
         const NPB_TEAM_META = {
-            YOG: { shortName: '巨人',  fullName: '読売ジャイアンツ',     color: '#333' },
-            HAN: { shortName: '阪神',  fullName: '阪神タイガース',       color: '#333' },
-            CHU: { shortName: '中日',  fullName: '中日ドラゴンズ',       color: '#333' },
-            HIR: { shortName: '広島',  fullName: '広島東洋カープ',       color: '#333' },
-            YDB: { shortName: 'DeNA', fullName: '横浜DeNAベイスターズ', color: '#333' },
-            YAK: { shortName: 'ヤク',  fullName: '東京ヤクルトスワローズ', color: '#333' },
-            SOF: { shortName: 'SB',   fullName: '福岡ソフトバンクホークス', color: '#333' },
-            LOT: { shortName: 'ロッテ',fullName: '千葉ロッテマリーンズ',   color: '#333' },
-            SEI: { shortName: '西武', fullName: '埼玉西武ライオンズ',     color: '#333' },
-            ORI: { shortName: 'オリ', fullName: 'オリックスバファローズ', color: '#333' },
-            NIP: { shortName: '日ハム', fullName: '北海道日本ハムファイターズ', color: '#333' },
-            RAK: { shortName: '楽天', fullName: '東北楽天ゴールデンイーグルス', color: '#333' },
+            YOG: { shortName: '巨人',  fullName: '読売ジャイアンツ',     color: '#FF6600' },
+            HAN: { shortName: '阪神',  fullName: '阪神タイガース',       color: '#F6B300' },
+            CHU: { shortName: '中日',  fullName: '中日ドラゴンズ',       color: '#0067C0' },
+            HIR: { shortName: '広島',  fullName: '広島東洋カープ',       color: '#C70025' },
+            YDB: { shortName: 'DeNA', fullName: '横浜DeNAベイスターズ', color: '#0056B8' },
+            YAK: { shortName: 'ヤク',  fullName: '東京ヤクルトスワローズ', color: '#1B9132' },
+            SOF: { shortName: 'SB',   fullName: '福岡ソフトバンクホークス', color: '#FFCA08' },
+            LOT: { shortName: 'ロッテ',fullName: '千葉ロッテマリーンズ',   color: '#1D1D1B' },
+            SEI: { shortName: '西武', fullName: '埼玉西武ライオンズ',     color: '#003E91' },
+            ORI: { shortName: 'オリ', fullName: 'オリックスバファローズ', color: '#002E5D' },
+            NIP: { shortName: '日ハム', fullName: '北海道日本ハムファイターズ', color: '#0077C8' },
+            RAK: { shortName: '楽天', fullName: '東北楽天ゴールデンイーグルス', color: '#7F001C' },
         };
 
         function getLeagueScenarioTeams(league) {
@@ -2874,27 +2914,33 @@
                 const gamesPlayed = team.games_played || 0;
                 const progressPercentage = (gamesPlayed / TOTAL_GAMES) * 100;
                 const remaining = TOTAL_GAMES - gamesPlayed;
-                
-                // 진행률에 따른 색상 결정
-                let barColor = '#4caf50'; // 기본 초록
-                if (progressPercentage < 50) {
-                    barColor = '#ff9800'; // 주황
-                } else if (progressPercentage < 70) {
-                    barColor = '#ffeb3b'; // 노랑
-                } else if (progressPercentage > 90) {
-                    barColor = '#2e7d32'; // 진한 초록
+
+                const teamMeta = NPB_TEAM_META[team.team_abbreviation] || {};
+                let barColor = teamMeta.color || '#4caf50';
+                if (!teamMeta.color) {
+                    if (progressPercentage < 50) {
+                        barColor = '#ff9800';
+                    } else if (progressPercentage < 70) {
+                        barColor = '#ffeb3b';
+                    } else if (progressPercentage > 90) {
+                        barColor = '#2e7d32';
+                    }
                 }
                 
                 html += `
                     <div class="team-progress-item">
-                        <div class="team-progress-name">${renderTeamLabel(team.team_abbreviation, team.team_name, true)}</div>
+                        <div class="team-progress-header">
+                            <div class="team-progress-name" style="color: ${barColor};">${renderTeamLabel(team.team_abbreviation, team.team_name, true)}</div>
+                            <div class="team-progress-text" style="color: ${barColor};">${progressPercentage.toFixed(1)}%</div>
+                        </div>
                         <div class="team-progress-bar">
                             <div class="team-progress-fill" style="width: ${progressPercentage}%; background: ${barColor};"></div>
                         </div>
-                        <div class="team-progress-text">${progressPercentage.toFixed(1)}%</div>
-                    </div>
-                    <div style="font-size: 13px; color: #333; margin: 2px 0 15px 8px; font-weight: 600; background: #f0f0f0; padding: 6px 12px; border-radius: 15px; display: inline-block;">
-                        完了 <span style="color: #2e7d32; font-weight: 700;">${gamesPlayed}</span>試合 • 残り <span style="color: #ff5722; font-weight: 700;">${remaining}</span>試合
+                        <div class="team-progress-summary">
+                            <span class="summary-completed">完了: ${gamesPlayed.toLocaleString()}試合</span>
+                            <span class="summary-remaining">残り: ${remaining.toLocaleString()}試合</span>
+                            <span class="summary-total">総試合数: ${TOTAL_GAMES.toLocaleString()}試合</span>
+                        </div>
                     </div>
                 `;
             });
@@ -3779,16 +3825,70 @@
         }
 
         // ===== 언어 변환 기능 =====
+        const SUPPORTED_LANGUAGES = ['ja', 'ko', 'en'];
+        const LANGUAGE_URL_MAP = {
+            'ja': 'https://npb-dashboard.com/',
+            'ko': 'https://npb-dashboard.com/?lang=ko',
+            'en': 'https://npb-dashboard.com/?lang=en',
+            'x-default': 'https://npb-dashboard.com/'
+        };
         let currentLanguage = 'ja';
-        
+
+        function getLanguageFromUrl() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const langParam = params.get('lang');
+                if (langParam && SUPPORTED_LANGUAGES.includes(langParam)) {
+                    return langParam;
+                }
+            } catch (err) {
+                console.error('Failed to parse language from URL', err);
+            }
+            return null;
+        }
+
+        function syncUrlWithLanguage(lang) {
+            try {
+                const url = new URL(window.location.href);
+                if (lang === 'ja') {
+                    url.searchParams.delete('lang');
+                } else {
+                    url.searchParams.set('lang', lang);
+                }
+                window.history.replaceState({}, '', url);
+            } catch (err) {
+                console.error('Failed to sync URL with language', err);
+            }
+        }
+
+        function updateLanguageLinks(lang) {
+            const canonicalEl = document.getElementById('canonical-link');
+            const canonicalHref = LANGUAGE_URL_MAP[lang] || LANGUAGE_URL_MAP['ja'];
+            if (canonicalEl) {
+                canonicalEl.setAttribute('href', canonicalHref);
+            }
+            document.querySelectorAll('link[data-hreflang]').forEach(link => {
+                const code = link.getAttribute('data-hreflang');
+                if (LANGUAGE_URL_MAP[code]) {
+                    link.setAttribute('href', LANGUAGE_URL_MAP[code]);
+                }
+            });
+        }
+
         // 현재 언어 초기화 (localStorage에서 읽기)
         function initLanguage() {
+            const urlLang = getLanguageFromUrl();
             const savedLang = localStorage.getItem('npb-language');
-            if (savedLang && translations[savedLang]) {
+            if (urlLang && translations[urlLang]) {
+                currentLanguage = urlLang;
+            } else if (savedLang && translations[savedLang]) {
                 currentLanguage = savedLang;
             }
+            localStorage.setItem('npb-language', currentLanguage);
             updateLanguage();
             updateActiveLanguageButton();
+            updateMetaTags(currentLanguage);
+            syncUrlWithLanguage(currentLanguage);
         }
         
         // 언어 변경 함수
@@ -3802,6 +3902,7 @@
             
             // 메타 태그도 업데이트
             updateMetaTags(lang);
+            syncUrlWithLanguage(lang);
         }
         
         // 텍스트 업데이트 함수
@@ -3848,10 +3949,23 @@
                 'ko': '【2025년 최신】NPB 순위표·매직넘버·클린치·CS진출확률·우승예상을 매일 자동업데이트. 센트럴·퍼시픽리그 전12구단의 승률분석, 남은경기수, 플레이오프 시나리오까지 완전망라. 자이언츠·타이거스·호크스 등 전팀 지원.',
                 'en': '【2025 Latest】Daily auto-update of NPB standings, magic numbers, clinch, CS playoff probability, championship predictions. Complete coverage of all 12 teams from Central & Pacific leagues including win rate analysis, remaining games, playoff scenarios. Giants, Tigers, Hawks and all teams supported.'
             };
+            const ogLocaleMap = {
+                'ja': 'ja_JP',
+                'ko': 'ko_KR',
+                'en': 'en_US'
+            };
             
             // Title 업데이트
             if (titleMap[lang]) {
                 document.title = titleMap[lang];
+            }
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle && titleMap[lang]) {
+                ogTitle.setAttribute('content', titleMap[lang]);
+            }
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twitterTitle && titleMap[lang]) {
+                twitterTitle.setAttribute('content', titleMap[lang]);
             }
             
             // Description 업데이트  
@@ -3859,9 +3973,26 @@
             if (metaDesc && descriptionMap[lang]) {
                 metaDesc.setAttribute('content', descriptionMap[lang]);
             }
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc && descriptionMap[lang]) {
+                ogDesc.setAttribute('content', descriptionMap[lang]);
+            }
+            const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twitterDesc && descriptionMap[lang]) {
+                twitterDesc.setAttribute('content', descriptionMap[lang]);
+            }
+            const ogLocale = document.querySelector('meta[property="og:locale"]');
+            if (ogLocale) {
+                ogLocale.setAttribute('content', ogLocaleMap[lang] || ogLocaleMap['ja']);
+            }
             
             // HTML lang 속성 업데이트
             document.documentElement.setAttribute('lang', lang);
+            const languageMeta = document.querySelector('meta[name="language"]');
+            if (languageMeta) {
+                languageMeta.setAttribute('content', lang);
+            }
+            updateLanguageLinks(lang);
         }
         
         // 동적 콘텐츠 번역 유틸리티 함수
