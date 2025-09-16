@@ -9,6 +9,10 @@ npb/
 ├── 📄 run_html.sh                # HTML 실행 스크립트
 ├── 📄 run_new_pipeline.sh        # 신규 파이프라인 실행 스크립트
 │
+├── 🗂️ legacy/                   # 레거시 테스트/디버그 자료 보관
+│   ├── 🗂️ html/                  # 과거 실험용 HTML (매직넘버/시나리오 등)
+│   └── 🗂️ python/                # 크롤러 구조 분석용 스크립트 (debug_*)
+│
 ├── 🗂️ data/                      # 서비스용 데이터
 │   ├── 📄 games.json              # 완료 경기 JSON
 │   ├── 📄 upcoming.json           # 예정 경기 JSON
