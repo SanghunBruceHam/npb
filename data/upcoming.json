@@ -1,901 +1,5 @@
 [
   {
-    "game_date": "2025-09-05",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-05",
-    "home_team_id": 1,
-    "home_team_abbr": "YOG",
-    "home_team_name": "読売ジャイアンツ",
-    "away_team_id": 5,
-    "away_team_abbr": "CHU",
-    "away_team_name": "中日ドラゴンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-05",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-05",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 11,
-    "away_team_abbr": "SEI",
-    "away_team_name": "埼玉西武ライオンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-05",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-05",
-    "home_team_id": 9,
-    "home_team_abbr": "RAK",
-    "home_team_name": "東北楽天ゴールデンイーグルス",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-06",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-06",
-    "home_team_id": 1,
-    "home_team_abbr": "YOG",
-    "home_team_name": "読売ジャイアンツ",
-    "away_team_id": 5,
-    "away_team_abbr": "CHU",
-    "away_team_name": "中日ドラゴンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-06",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-06",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 11,
-    "away_team_abbr": "SEI",
-    "away_team_name": "埼玉西武ライオンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "17：00"
-  },
-  {
-    "game_date": "2025-09-06",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-06",
-    "home_team_id": 9,
-    "home_team_abbr": "RAK",
-    "home_team_name": "東北楽天ゴールデンイーグルス",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-07",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-07",
-    "home_team_id": 1,
-    "home_team_abbr": "YOG",
-    "home_team_name": "読売ジャイアンツ",
-    "away_team_id": 5,
-    "away_team_abbr": "CHU",
-    "away_team_name": "中日ドラゴンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "13：30"
-  },
-  {
-    "game_date": "2025-09-07",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-07",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 11,
-    "away_team_abbr": "SEI",
-    "away_team_name": "埼玉西武ライオンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-07",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "13：00"
-  },
-  {
-    "game_date": "2025-09-07",
-    "home_team_id": 9,
-    "home_team_abbr": "RAK",
-    "home_team_name": "東北楽天ゴールデンイーグルス",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "13：00"
-  },
-  {
-    "game_date": "2025-09-08",
-    "home_team_id": 10,
-    "home_team_abbr": "ORI",
-    "home_team_name": "オリックスバファローズ",
-    "away_team_id": 8,
-    "away_team_abbr": "LOT",
-    "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-09",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 1,
-    "away_team_abbr": "YOG",
-    "away_team_name": "読売ジャイアンツ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-09",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 6,
-    "away_team_abbr": "YAK",
-    "away_team_name": "東京ヤクルトスワローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-09",
-    "home_team_id": 3,
-    "home_team_abbr": "YDB",
-    "home_team_name": "横浜DeNAベイスターズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-09",
-    "home_team_id": 7,
-    "home_team_abbr": "SOF",
-    "home_team_name": "福岡ソフトバンクホークス",
-    "away_team_id": 12,
-    "away_team_abbr": "NIP",
-    "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-09",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-09",
-    "home_team_id": 10,
-    "home_team_abbr": "ORI",
-    "home_team_name": "オリックスバファローズ",
-    "away_team_id": 8,
-    "away_team_abbr": "LOT",
-    "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-10",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 1,
-    "away_team_abbr": "YOG",
-    "away_team_name": "読売ジャイアンツ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-10",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 6,
-    "away_team_abbr": "YAK",
-    "away_team_name": "東京ヤクルトスワローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-10",
-    "home_team_id": 3,
-    "home_team_abbr": "YDB",
-    "home_team_name": "横浜DeNAベイスターズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-10",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-11",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 1,
-    "away_team_abbr": "YOG",
-    "away_team_name": "読売ジャイアンツ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-11",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 6,
-    "away_team_abbr": "YAK",
-    "away_team_name": "東京ヤクルトスワローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-11",
-    "home_team_id": 3,
-    "home_team_abbr": "YDB",
-    "home_team_name": "横浜DeNAベイスターズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-11",
-    "home_team_id": 10,
-    "home_team_abbr": "ORI",
-    "home_team_name": "オリックスバファローズ",
-    "away_team_id": 12,
-    "away_team_abbr": "NIP",
-    "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-11",
-    "home_team_id": 7,
-    "home_team_abbr": "SOF",
-    "home_team_name": "福岡ソフトバンクホークス",
-    "away_team_id": 8,
-    "away_team_abbr": "LOT",
-    "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-12",
-    "home_team_id": 3,
-    "home_team_abbr": "YDB",
-    "home_team_name": "横浜DeNAベイスターズ",
-    "away_team_id": 6,
-    "away_team_abbr": "YAK",
-    "away_team_name": "東京ヤクルトスワローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-12",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 4,
-    "away_team_abbr": "HIR",
-    "away_team_name": "広島東洋カープ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-12",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 12,
-    "away_team_abbr": "NIP",
-    "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-12",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-13",
-    "home_team_id": 2,
-    "home_team_abbr": "HAN",
-    "home_team_name": "阪神タイガース",
-    "away_team_id": 1,
-    "away_team_abbr": "YOG",
-    "away_team_name": "読売ジャイアンツ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-13",
-    "home_team_id": 3,
-    "home_team_abbr": "YDB",
-    "home_team_name": "横浜DeNAベイスターズ",
-    "away_team_id": 6,
-    "away_team_abbr": "YAK",
-    "away_team_name": "東京ヤクルトスワローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：20"
-  },
-  {
-    "game_date": "2025-09-13",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 4,
-    "away_team_abbr": "HIR",
-    "away_team_name": "広島東洋カープ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-13",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 12,
-    "away_team_abbr": "NIP",
-    "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-13",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-13",
-    "home_team_id": 7,
-    "home_team_abbr": "SOF",
-    "home_team_name": "福岡ソフトバンクホークス",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-14",
-    "home_team_id": 1,
-    "home_team_abbr": "YOG",
-    "home_team_name": "読売ジャイアンツ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-14",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-14",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 4,
-    "away_team_abbr": "HIR",
-    "away_team_name": "広島東洋カープ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-14",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 12,
-    "away_team_abbr": "NIP",
-    "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-14",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "13：00"
-  },
-  {
-    "game_date": "2025-09-14",
-    "home_team_id": 7,
-    "home_team_abbr": "SOF",
-    "home_team_name": "福岡ソフトバンクホークス",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "13：00"
-  },
-  {
-    "game_date": "2025-09-15",
-    "home_team_id": 1,
-    "home_team_abbr": "YOG",
-    "home_team_name": "読売ジャイアンツ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-15",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-15",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 4,
-    "away_team_abbr": "HIR",
-    "away_team_name": "広島東洋カープ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-09-15",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 12,
-    "away_team_abbr": "NIP",
-    "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "13：00"
-  },
-  {
-    "game_date": "2025-09-15",
-    "home_team_id": 8,
-    "home_team_abbr": "LOT",
-    "home_team_name": "千葉ロッテマリーンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "13：00"
-  },
-  {
-    "game_date": "2025-09-15",
-    "home_team_id": 7,
-    "home_team_abbr": "SOF",
-    "home_team_name": "福岡ソフトバンクホークス",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "14：00"
-  },
-  {
     "game_date": "2025-09-16",
     "home_team_id": 8,
     "home_team_abbr": "LOT",
@@ -908,8 +12,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "ZOZOマリンスタジアム 18：00"
   },
   {
     "game_date": "2025-09-17",
@@ -924,8 +27,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
+    "stadium": "東京ドーム 18：00"
   },
   {
     "game_date": "2025-09-17",
@@ -940,8 +42,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "横浜スタジアム 18：00"
   },
   {
     "game_date": "2025-09-17",
@@ -956,8 +57,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "scheduled_time": "18：00"
+    "stadium": "阪神甲子園球場 18：00"
   },
   {
     "game_date": "2025-09-17",
@@ -972,8 +72,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
+    "stadium": "エスコンフィールドHOKKAIDO 18：00"
   },
   {
     "game_date": "2025-09-17",
@@ -988,8 +87,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "ZOZOマリンスタジアム 18：00"
   },
   {
     "game_date": "2025-09-17",
@@ -1004,8 +102,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
+    "stadium": "ベルーナドーム 18：00"
   },
   {
     "game_date": "2025-09-18",
@@ -1020,8 +117,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
+    "stadium": "東京ドーム 18：00"
   },
   {
     "game_date": "2025-09-18",
@@ -1036,8 +132,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "横浜スタジアム 18：00"
   },
   {
     "game_date": "2025-09-18",
@@ -1052,8 +147,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "scheduled_time": "18：00"
+    "stadium": "阪神甲子園球場 18：00"
   },
   {
     "game_date": "2025-09-18",
@@ -1068,8 +162,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "18：00"
+    "stadium": "京セラドーム大阪 18：00"
   },
   {
     "game_date": "2025-09-18",
@@ -1084,8 +177,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "18：00"
+    "stadium": "楽天モバイルパーク宮城 18：00"
   },
   {
     "game_date": "2025-09-18",
@@ -1100,8 +192,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
+    "stadium": "エスコンフィールドHOKKAIDO 18：00"
   },
   {
     "game_date": "2025-09-19",
@@ -1116,8 +207,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島 18：00"
   },
   {
     "game_date": "2025-09-19",
@@ -1132,8 +222,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
+    "stadium": "明治神宮野球場 18：00"
   },
   {
     "game_date": "2025-09-19",
@@ -1148,8 +237,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "横浜スタジアム 18：00"
   },
   {
     "game_date": "2025-09-19",
@@ -1164,8 +252,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
+    "stadium": "ベルーナドーム 18：00"
   },
   {
     "game_date": "2025-09-20",
@@ -1180,8 +267,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "14：00"
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島 14：00"
   },
   {
     "game_date": "2025-09-20",
@@ -1196,8 +282,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "14：00"
+    "stadium": "明治神宮野球場 14：00"
   },
   {
     "game_date": "2025-09-20",
@@ -1212,8 +297,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "14：00"
+    "stadium": "横浜スタジアム 14：00"
   },
   {
     "game_date": "2025-09-20",
@@ -1228,8 +312,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "14：00"
+    "stadium": "ZOZOマリンスタジアム 14：00"
   },
   {
     "game_date": "2025-09-20",
@@ -1244,8 +327,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "14：00"
+    "stadium": "ベルーナドーム 14：00"
   },
   {
     "game_date": "2025-09-20",
@@ -1260,8 +342,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "14：00"
+    "stadium": "京セラドーム大阪 14：00"
   },
   {
     "game_date": "2025-09-21",
@@ -1276,8 +357,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "scheduled_time": "18：00"
+    "stadium": "阪神甲子園球場 18：00"
   },
   {
     "game_date": "2025-09-21",
@@ -1292,8 +372,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島 18：00"
   },
   {
     "game_date": "2025-09-21",
@@ -1308,8 +387,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "13：30"
+    "stadium": "東京ドーム 13：30"
   },
   {
     "game_date": "2025-09-21",
@@ -1324,8 +402,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "14：00"
+    "stadium": "ZOZOマリンスタジアム 14：00"
   },
   {
     "game_date": "2025-09-21",
@@ -1340,8 +417,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "13：00"
+    "stadium": "ベルーナドーム 13：00"
   },
   {
     "game_date": "2025-09-21",
@@ -1356,8 +432,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "14：00"
+    "stadium": "京セラドーム大阪 14：00"
   },
   {
     "game_date": "2025-09-22",
@@ -1372,8 +447,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "scheduled_time": "18：00"
+    "stadium": "阪神甲子園球場 18：00"
   },
   {
     "game_date": "2025-09-22",
@@ -1388,8 +462,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "14：00"
+    "stadium": "ZOZOマリンスタジアム 14：00"
   },
   {
     "game_date": "2025-09-22",
@@ -1404,8 +477,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "18：00"
+    "stadium": "京セラドーム大阪 18：00"
   },
   {
     "game_date": "2025-09-23",
@@ -1420,8 +492,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
+    "stadium": "バンテリンドーム ナゴヤ 18：00"
   },
   {
     "game_date": "2025-09-23",
@@ -1436,8 +507,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "scheduled_time": "14：00"
+    "stadium": "阪神甲子園球場 14：00"
   },
   {
     "game_date": "2025-09-23",
@@ -1452,8 +522,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
+    "stadium": "東京ドーム 18：00"
   },
   {
     "game_date": "2025-09-23",
@@ -1468,8 +537,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "14：00"
+    "stadium": "楽天モバイルパーク宮城 14：00"
   },
   {
     "game_date": "2025-09-23",
@@ -1484,8 +552,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
+    "stadium": "ベルーナドーム 18：00"
   },
   {
     "game_date": "2025-09-23",
@@ -1500,8 +567,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "14：00"
+    "stadium": "京セラドーム大阪 14：00"
   },
   {
     "game_date": "2025-09-24",
@@ -1516,8 +582,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
+    "stadium": "福岡PayPayドーム 18：00"
   },
   {
     "game_date": "2025-09-24",
@@ -1532,8 +597,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
+    "stadium": "ベルーナドーム 18：00"
   },
   {
     "game_date": "2025-09-25",
@@ -1548,8 +612,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
+    "stadium": "福岡PayPayドーム 18：00"
   },
   {
     "game_date": "2025-09-25",
@@ -1564,8 +627,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
+    "stadium": "エスコンフィールドHOKKAIDO 18：00"
   },
   {
     "game_date": "2025-09-25",
@@ -1580,8 +642,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "ZOZOマリンスタジアム 18：00"
   },
   {
     "game_date": "2025-09-26",
@@ -1596,8 +657,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島 18：00"
   },
   {
     "game_date": "2025-09-26",
@@ -1612,8 +672,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
+    "stadium": "東京ドーム 18：00"
   },
   {
     "game_date": "2025-09-26",
@@ -1628,8 +687,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
+    "stadium": "バンテリンドーム ナゴヤ 18：00"
   },
   {
     "game_date": "2025-09-26",
@@ -1644,8 +702,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
+    "stadium": "福岡PayPayドーム 18：00"
   },
   {
     "game_date": "2025-09-26",
@@ -1660,8 +717,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
+    "stadium": "エスコンフィールドHOKKAIDO 18：00"
   },
   {
     "game_date": "2025-09-27",
@@ -1676,8 +732,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島",
-    "scheduled_time": "18：00"
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島 18：00"
   },
   {
     "game_date": "2025-09-27",
@@ -1692,8 +747,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "14：00"
+    "stadium": "東京ドーム 14：00"
   },
   {
     "game_date": "2025-09-27",
@@ -1708,8 +762,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "14：00"
+    "stadium": "バンテリンドーム ナゴヤ 14：00"
   },
   {
     "game_date": "2025-09-27",
@@ -1724,8 +777,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "18：00"
+    "stadium": "福岡PayPayドーム 18：00"
   },
   {
     "game_date": "2025-09-27",
@@ -1740,8 +792,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
+    "stadium": "エスコンフィールドHOKKAIDO 18：00"
   },
   {
     "game_date": "2025-09-27",
@@ -1756,8 +807,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "18：00"
+    "stadium": "楽天モバイルパーク宮城 18：00"
   },
   {
     "game_date": "2025-09-28",
@@ -1772,8 +822,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "scheduled_time": "18：00"
+    "stadium": "東京ドーム 18：00"
   },
   {
     "game_date": "2025-09-28",
@@ -1788,8 +837,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "横浜スタジアム 18：00"
   },
   {
     "game_date": "2025-09-28",
@@ -1804,8 +852,7 @@
     "league": "Central",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "14：00"
+    "stadium": "バンテリンドーム ナゴヤ 14：00"
   },
   {
     "game_date": "2025-09-28",
@@ -1820,8 +867,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "scheduled_time": "14：00"
+    "stadium": "福岡PayPayドーム 14：00"
   },
   {
     "game_date": "2025-09-28",
@@ -1836,8 +882,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "17：00"
+    "stadium": "エスコンフィールドHOKKAIDO 17：00"
   },
   {
     "game_date": "2025-09-28",
@@ -1852,8 +897,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "14：00"
+    "stadium": "楽天モバイルパーク宮城 14：00"
   },
   {
     "game_date": "2025-09-29",
@@ -1868,8 +912,7 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "scheduled_time": "18：00"
+    "stadium": "ZOZOマリンスタジアム 18：00"
   },
   {
     "game_date": "2025-09-29",
@@ -1884,231 +927,6 @@
     "league": "Pacific",
     "game_status": "scheduled",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-30",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 1,
-    "away_team_abbr": "YOG",
-    "away_team_name": "読売ジャイアンツ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-30",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-30",
-    "home_team_id": 9,
-    "home_team_abbr": "RAK",
-    "home_team_name": "東北楽天ゴールデンイーグルス",
-    "away_team_id": 8,
-    "away_team_abbr": "LOT",
-    "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-09-30",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-01",
-    "home_team_id": 5,
-    "home_team_abbr": "CHU",
-    "home_team_name": "中日ドラゴンズ",
-    "away_team_id": 1,
-    "away_team_abbr": "YOG",
-    "away_team_name": "読売ジャイアンツ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-01",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 3,
-    "away_team_abbr": "YDB",
-    "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-01",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-02",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-02",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 10,
-    "away_team_abbr": "ORI",
-    "away_team_name": "オリックスバファローズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-03",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 4,
-    "away_team_abbr": "HIR",
-    "away_team_name": "広島東洋カープ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-03",
-    "home_team_id": 10,
-    "home_team_abbr": "ORI",
-    "home_team_name": "オリックスバファローズ",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "scheduled_time": "18：00"
-  },
-  {
-    "game_date": "2025-10-04",
-    "home_team_id": 6,
-    "home_team_abbr": "YAK",
-    "home_team_name": "東京ヤクルトスワローズ",
-    "away_team_id": 4,
-    "away_team_abbr": "HIR",
-    "away_team_name": "広島東洋カープ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "scheduled_time": "13：30"
-  },
-  {
-    "game_date": "2025-10-04",
-    "home_team_id": 11,
-    "home_team_abbr": "SEI",
-    "home_team_name": "埼玉西武ライオンズ",
-    "away_team_id": 9,
-    "away_team_abbr": "RAK",
-    "away_team_name": "東北楽天ゴールデンイーグルス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "scheduled_time": "14：00"
-  },
-  {
-    "game_date": "2025-10-04",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 8,
-    "away_team_abbr": "LOT",
-    "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "scheduled_time": "14：00"
+    "stadium": "楽天モバイルパーク宮城 18：00"
   }
 ]
