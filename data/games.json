@@ -1,7 +1,5 @@
 [
   {
-<<<<<<< HEAD
-=======
     "game_date": "2025-03-28",
     "home_team_id": 1,
     "home_team_abbr": "YOG",
@@ -12274,7 +12272,6 @@
     "final_inning": 9
   },
   {
->>>>>>> 8e160d8 (Update NPB data and crawler improvements)
     "game_date": "2025-09-14",
     "home_team_id": 3,
     "home_team_abbr": "YDB",
