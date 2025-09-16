@@ -342,51 +342,57 @@
         /* 상세 순위 테이블 고정 폭 */
         .detailed-table {
             table-layout: fixed;
-            min-width: 1080px;
+            min-width: 1020px;
         }
 
         .detailed-table th:nth-child(1),
-        .detailed-table td:nth-child(1) { width: 36px; }
+        .detailed-table td:nth-child(1) { width: 32px; }
         .detailed-table th:nth-child(2),
         .detailed-table td:nth-child(2) {
-            width: 210px;
+            width: 175px;
             white-space: nowrap;
             overflow: visible;
             text-overflow: initial;
         }
         .detailed-table th:nth-child(3),
-        .detailed-table td:nth-child(3) { width: 52px; }
+        .detailed-table td:nth-child(3) { width: 46px; }
         .detailed-table th:nth-child(4),
-        .detailed-table td:nth-child(4) { width: 44px; }
+        .detailed-table td:nth-child(4) { width: 40px; }
         .detailed-table th:nth-child(5),
-        .detailed-table td:nth-child(5) { width: 44px; }
+        .detailed-table td:nth-child(5) { width: 40px; }
         .detailed-table th:nth-child(6),
-        .detailed-table td:nth-child(6) { width: 44px; }
+        .detailed-table td:nth-child(6) { width: 40px; }
         .detailed-table th:nth-child(7),
-        .detailed-table td:nth-child(7) { width: 68px; }
+        .detailed-table td:nth-child(7) { width: 60px; }
         .detailed-table th:nth-child(8),
-        .detailed-table td:nth-child(8) { width: 68px; }
+        .detailed-table td:nth-child(8) { width: 58px; }
         .detailed-table th:nth-child(9),
-        .detailed-table td:nth-child(9) { width: 68px; }
+        .detailed-table td:nth-child(9) { width: 58px; }
         .detailed-table th:nth-child(10),
-        .detailed-table td:nth-child(10) { width: 80px; }
+        .detailed-table td:nth-child(10) { width: 60px; }
         .detailed-table th:nth-child(11),
-        .detailed-table td:nth-child(11) { width: 70px; }
+        .detailed-table td:nth-child(11) { width: 64px; }
         .detailed-table th:nth-child(12),
-        .detailed-table td:nth-child(12) { width: 72px; }
+        .detailed-table td:nth-child(12) { width: 64px; }
         .detailed-table th:nth-child(13),
-        .detailed-table td:nth-child(13) { width: 72px; }
+        .detailed-table td:nth-child(13) { width: 58px; }
         .detailed-table th:nth-child(14),
-        .detailed-table td:nth-child(14) { width: 72px; }
+        .detailed-table td:nth-child(14) { width: 64px; }
         .detailed-table th:nth-child(15),
-        .detailed-table td:nth-child(15) { width: 60px; }
+        .detailed-table td:nth-child(15) { width: 58px; }
         .detailed-table th:nth-child(16),
-        .detailed-table td:nth-child(16) { width: 60px; }
+        .detailed-table td:nth-child(16) { width: 52px; }
+        .detailed-table th:nth-child(17),
+        .detailed-table td:nth-child(17) { width: 52px; }
 
         th { 
             background: #f5f5f5; 
             font-weight: bold;
-            padding: 6px 4px;
+            padding: 5px 3px;
+        }
+
+        .detailed-table td {
+            padding: 5px 3px;
         }
         
         tr:nth-child(even) { 
@@ -575,6 +581,21 @@
         .team-progress-summary .summary-total {
             text-align: right;
             color: #333;
+        }
+
+        .streak-win {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+
+        .streak-loss {
+            color: #c62828;
+            font-weight: 700;
+        }
+
+        .streak-draw {
+            color: #555;
+            font-weight: 600;
         }
         
         .stat-card {
@@ -1196,6 +1217,7 @@
                             <th class="center">勝率</th>
                             <th class="center">残り</th>
                             <th class="center">差</th>
+                            <th class="center">連勝/連敗</th>
                             <th class="center">直近10</th>
                             <th class="center">ホーム</th>
                             <th class="center">ホーム率</th>
@@ -1206,7 +1228,7 @@
                         </tr>
                     </thead>
                     <tbody id="central-detailed">
-                        <tr><td colspan="16" class="loading">読み込み中...</td></tr>
+                        <tr><td colspan="17" class="loading">読み込み中...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1235,6 +1257,7 @@
                             <th class="center">勝率</th>
                             <th class="center">残り</th>
                             <th class="center">差</th>
+                            <th class="center">連勝/連敗</th>
                             <th class="center">直近10</th>
                             <th class="center">ホーム</th>
                             <th class="center">ホーム率</th>
@@ -1245,7 +1268,7 @@
                         </tr>
                     </thead>
                     <tbody id="pacific-detailed">
-                        <tr><td colspan="16" class="loading">読み込み中...</td></tr>
+                        <tr><td colspan="17" class="loading">読み込み中...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -2259,7 +2282,7 @@
         function updateDetailedTable(id, teams) {
             const tbody = document.getElementById(id);
             if (!teams.length) {
-                tbody.innerHTML = '<tr><td colspan="15" class="loading">データがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="17" class="loading">データがありません</td></tr>';
                 return;
             }
 
@@ -2271,6 +2294,19 @@
                 const remainingGames = TOTAL_GAMES - team.games_played;
                 const lastTenInfo = lastTenRecordsByTeam[String(team.team_id)] || null;
                 const lastTenDisplay = (lastTenInfo && lastTenInfo.games > 0) ? lastTenInfo.record : '—';
+                const streakInfo = lastTenInfo?.streak || { type: 'none', count: 0 };
+                let streakDisplay = '—';
+                let streakClass = '';
+                if (streakInfo.type === 'win' && streakInfo.count > 0) {
+                    streakDisplay = `${streakInfo.count}連勝`;
+                    streakClass = 'streak-win';
+                } else if (streakInfo.type === 'loss' && streakInfo.count > 0) {
+                    streakDisplay = `${streakInfo.count}連敗`;
+                    streakClass = 'streak-loss';
+                } else if (streakInfo.type === 'draw' && streakInfo.count > 0) {
+                    streakDisplay = `${streakInfo.count}分`;
+                    streakClass = 'streak-draw';
+                }
                 
                 // ホーム/アウェイ分割シミュレート（実データなしの場合の仮計算）
                 const homeAdvantage = seasonConfig?.display_config?.home_advantage || 0.55;
@@ -2341,6 +2377,7 @@
                         <td class="center pct">0.${team.win_percentage.toFixed(3).split('.')[1]}</td>
                         <td class="center">${remainingGames}</td>
                         <td class="center">${team.games_behind > 0 ? team.games_behind.toFixed(1) : '-'}</td>
+                        <td class="center${streakClass ? ' ' + streakClass : ''}">${streakDisplay}</td>
                         <td class="center">${lastTenDisplay}</td>
                         <td class="center">${homeWins}-${homeLosses}</td>
                         <td class="center">${homeWinPct}</td>
@@ -3184,6 +3221,39 @@
             }
         }
 
+        function calculateCurrentStreak(entries) {
+            if (!Array.isArray(entries) || !entries.length) {
+                return { type: 'none', count: 0 };
+            }
+
+            const latestResult = entries[entries.length - 1]?.result;
+            if (latestResult === 'W' || latestResult === 'L') {
+                let count = 0;
+                for (let i = entries.length - 1; i >= 0; i--) {
+                    if (entries[i].result === latestResult) {
+                        count++;
+                    } else {
+                        break;
+                    }
+                }
+                return { type: latestResult === 'W' ? 'win' : 'loss', count };
+            }
+
+            if (latestResult === 'D') {
+                let draws = 0;
+                for (let i = entries.length - 1; i >= 0; i--) {
+                    if (entries[i].result === 'D') {
+                        draws++;
+                    } else {
+                        break;
+                    }
+                }
+                return { type: 'draw', count: draws };
+            }
+
+            return { type: 'none', count: 0 };
+        }
+
         function computeLastTenRecords() {
             lastTenRecordsByTeam = {};
             if (!Array.isArray(gamesData) || !gamesData.length) return;
@@ -3242,7 +3312,8 @@
                     else draws++;
                 });
                 const record = `${wins} - ${losses} - ${draws}`;
-                lastTenRecordsByTeam[teamId] = { record, wins, losses, draws, games: recent.length };
+                const streak = calculateCurrentStreak(entries);
+                lastTenRecordsByTeam[teamId] = { record, wins, losses, draws, games: recent.length, streak };
             });
         }
 
@@ -3939,13 +4010,13 @@
         // 메타 태그 업데이트 (SEO용)
         function updateMetaTags(lang) {
             const titleMap = {
-                'ja': '【毎日自動更新】NPB 2025順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想 | プロ野球データベース',
+                'ja': 'NPB 2025順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想 | プロ野球データベース',
                 'ko': '【매일 자동 업데이트】NPB 2025 순위표·매직넘버·클린치·CS진출확률·우승예상 | 프로야구 데이터베이스',
                 'en': '【Daily Auto-Update】NPB 2025 Standings・Magic Numbers・Clinch・CS Playoff Probability・Championship Prediction | Baseball Database'
             };
             
             const descriptionMap = {
-                'ja': '【2025年最新】NPB順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想を毎日自動更新。セリーグ・パリーグ全12球団の勝率分析、残り試合数、プレーオフシナリオまで完全網羅。巨人・阪神・ソフトバンクなど全チーム対応。',
+                'ja': '【2025年最新】NPB順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想。セリーグ・パリーグ全12球団の勝率分析、残り試合数、プレーオフシナリオまで完全網羅。巨人・阪神・ソフトバンクなど全チーム対応。',
                 'ko': '【2025년 최신】NPB 순위표·매직넘버·클린치·CS진출확률·우승예상을 매일 자동업데이트. 센트럴·퍼시픽리그 전12구단의 승률분석, 남은경기수, 플레이오프 시나리오까지 완전망라. 자이언츠·타이거스·호크스 등 전팀 지원.',
                 'en': '【2025 Latest】Daily auto-update of NPB standings, magic numbers, clinch, CS playoff probability, championship predictions. Complete coverage of all 12 teams from Central & Pacific leagues including win rate analysis, remaining games, playoff scenarios. Giants, Tigers, Hawks and all teams supported.'
             };
