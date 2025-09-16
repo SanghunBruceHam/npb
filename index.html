@@ -3568,9 +3568,8 @@
                 
                 if (gameStatus === 'completed' && hasGameData) {
                     // 완료된 경기만 결과 표시
-                    statusMessage = '試合終了';
-                    
                     const isDraw = g.is_draw || g.home_score === g.away_score;
+                    statusMessage = isDraw ? '引き分け' : '試合終了';
                     const awayWin = g.away_score > g.home_score;
                     const homeWin = g.home_score > g.away_score;
                     
@@ -3591,13 +3590,14 @@
                     }
                     
                     const inningBadge = (g.final_inning && Number.isFinite(g.final_inning))
-                        ? `<span style="color:#555; font-size:11px; margin-left:6px;">(${g.final_inning}回)</span>`
+                        ? `<span style=\"color:#555; font-size:11px; margin-left:6px;\">(${g.final_inning}回)</span>`
                         : '';
+                    const drawBadge = isDraw ? `<span style=\"color:#555; font-size:11px; margin-left:6px;\">引き分け</span>` : '';
                     gameDisplay = `
                         <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
                         <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${g.away_score}-${g.home_score}</span>
                         <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
-                        ${inningBadge}
+                        ${ inningBadge }${ drawBadge }
                     `;
                 } else {
                     // 완료되지 않은 경기: 예정 또는 특수 상태로 표시

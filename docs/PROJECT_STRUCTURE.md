@@ -23,7 +23,8 @@ npb/
 │   └── 📄 json_to_txt_converter.py# JSON → TXT 시뮬
 │
 ├── 🗂️ crawler/                   # 크롤러(옵션)
-│   ├── 📄 simple_crawler.py      # 간단 크롤러(TXT 저장, DB-free)
+│   ├── 📄 min_results_crawler.py # 최소 결과 크롤러(단일 경로, 기본 사용)
+│   ├── 📄 simple_crawler.py      # 확장형 크롤러(레거시/디버그 용)
 │   └── 📄 requirements.txt       # 최소 의존성 목록
 │
 ├── 🗂️ database/                  # 레거시(DB)
@@ -49,8 +50,9 @@ npb/
 ## 🤖 실행 명령어
 ```bash
 # (기본) TXT→JSON 파이프라인
-./run_new_pipeline.sh --skip-crawl   # 크롤링 없이 변환만
-./run_new_pipeline.sh --quick        # 1일 크롤 + 변환
+./run_new_pipeline.sh --skip-crawl         # 크롤링 없이 변환만
+./run_new_pipeline.sh --quick              # 1일 크롤 + 변환 (기본: 최소 크롤러 사용)
+./run_new_pipeline.sh --quick --legacy-crawler  # 기존 simple_crawler 사용
 
 # 대시보드 열기
 ./run_html.sh

@@ -12,6 +12,99 @@ class SimpleTxtToJson {
         this.projectRoot = path.resolve(__dirname, '..');
         this.simpleDir = path.join(this.projectRoot, 'data', 'simple');
         this.outputDir = path.join(this.projectRoot, 'data');
+        this.idToAbbr = {}; // filled after teams are loaded
+        // Canonical ID->team mapping as a fallback when teams_raw.txt is missing
+        this.CANONICAL_TEAMS = {
+            1:  { abbr: 'YOG', name: '読売ジャイアンツ',          league: 'Central' },
+            2:  { abbr: 'HAN', name: '阪神タイガース',            league: 'Central' },
+            3:  { abbr: 'YDB', name: '横浜DeNAベイスターズ',      league: 'Central' },
+            4:  { abbr: 'HIR', name: '広島東洋カープ',            league: 'Central' },
+            5:  { abbr: 'CHU', name: '中日ドラゴンズ',            league: 'Central' },
+            6:  { abbr: 'YAK', name: '東京ヤクルトスワローズ',    league: 'Central' },
+            7:  { abbr: 'SOF', name: '福岡ソフトバンクホークス',  league: 'Pacific' },
+            8:  { abbr: 'LOT', name: '千葉ロッテマリーンズ',      league: 'Pacific' },
+            9:  { abbr: 'RAK', name: '東北楽天ゴールデンイーグルス',league: 'Pacific' },
+            10: { abbr: 'ORI', name: 'オリックスバファローズ',    league: 'Pacific' },
+            11: { abbr: 'SEI', name: '埼玉西武ライオンズ',        league: 'Pacific' },
+            12: { abbr: 'NIP', name: '北海道日本ハムファイターズ',league: 'Pacific' },
+        };
+        this.CANONICAL_BY_ABBR = {};
+        Object.entries(this.CANONICAL_TEAMS).forEach(([id, info]) => {
+            this.CANONICAL_BY_ABBR[info.abbr] = {
+                id: parseInt(id, 10),
+                abbr: info.abbr,
+                name: info.name,
+                league: info.league
+            };
+        });
+        const JA_SHORT_LABELS = {
+            YOG: '巨人',
+            HAN: '阪神',
+            YDB: 'ＤｅＮＡ',
+            HIR: '広島',
+            CHU: '中日',
+            YAK: 'ヤクルト',
+            SOF: 'ソフトバンク',
+            LOT: 'ロッテ',
+            RAK: '楽天',
+            ORI: 'オリックス',
+            SEI: '西武',
+            NIP: '日本ハム'
+        };
+        this.JA_LABEL_TO_TEAM = {};
+        Object.entries(JA_SHORT_LABELS).forEach(([abbr, label]) => {
+            const info = this.CANONICAL_BY_ABBR[abbr];
+            if (info) {
+                this.JA_LABEL_TO_TEAM[label] = info;
+            }
+        });
+    }
+
+    /**
+     * De-duplicate games conservatively by key.
+     * Key includes date + team IDs + scores (+final_inning when present) to preserve doubleheaders.
+     */
+    dedupeGames(games) {
+        if (!Array.isArray(games)) return [];
+        const map = new Map();
+        for (const g of games) {
+            // Only consider completed games for win/loss counting
+            const a = g.away_score ?? '';
+            const h = g.home_score ?? '';
+            const fi = g.final_inning ?? '';
+            const key = [g.game_date, g.home_team_id, g.away_team_id, h, a, fi].join('|');
+            if (!map.has(key)) map.set(key, g);
+        }
+        return Array.from(map.values());
+    }
+
+    /**
+     * Extra safeguard: de-duplicate ignoring home/away orientation.
+     * Normalizes key by sorted team IDs, and scores aligned to that order.
+     * This protects against mirrored duplicates accidentally written with swapped sides.
+     * Note: Still differentiates by final_inning to avoid collapsing different games.
+     */
+    dedupeGamesSymmetric(games) {
+        if (!Array.isArray(games)) return [];
+        const map = new Map();
+        for (const g of games) {
+            const idA = Number(g.home_team_id);
+            const idB = Number(g.away_team_id);
+            const minId = Math.min(idA, idB);
+            const maxId = Math.max(idA, idB);
+            let sLo, sHi;
+            if (idA <= idB) {
+                sLo = g.home_score;
+                sHi = g.away_score;
+            } else {
+                sLo = g.away_score;
+                sHi = g.home_score;
+            }
+            const fi = g.final_inning ?? '';
+            const key = [g.game_date, minId, maxId, sLo, sHi, fi].join('|');
+            if (!map.has(key)) map.set(key, g);
+        }
+        return Array.from(map.values());
     }
 
     /**
@@ -110,34 +203,51 @@ class SimpleTxtToJson {
             // Skip comments and metadata/hints
             if (line.startsWith('#')) continue;
 
-            // Game line pattern:
-            // AWY 2-4 HOM (League) [DRAW] [SCHEDULED|POSTPONED] @ Venue info
-            const m = line.match(/^([A-Z]{2,3})\s+((\d+)-(\d+)|vs)\s+([A-Z]{2,3})\s+\(([^)]+)\)(?:\s+\[([A-Z]+)\])?(?:\s+@\s*(.*))?$/);
+            // Game line pattern (Japanese labels allowed):
+            // LabelAway 2-4 LabelHome (League) [DRAW] [SCHEDULED|POSTPONED] @ Venue info
+            const m = line.match(/^(.+?)\s+((\d+)-(\d+)|vs)\s+(.+?)\s+\(([^)]+)\)(?:\s+\[([A-Z]+)\])?(?:\s+@\s*(.*))?$/);
             if (!m || !currentDate) {
                 continue;
             }
 
-            const away_abbr = m[1];
+            const away_label = m[1];
             const scorePart = m[2];
             const away_score_str = m[3] || null;
             const home_score_str = m[4] || null;
-            const home_abbr = m[5];
+            const home_label = m[5];
             const league = m[6];
             const bracketTag = (m[7] || '').toUpperCase(); // DRAW|SCHEDULED|POSTPONED
             const venue = m[8] || '';
 
-            // Expect a following metadata line: "# AWAY_ID|HOME_ID|AWAY_NAME|HOME_NAME"
+            // Expect an optional metadata line: "# AWAY_ID|HOME_ID|AWAY_NAME|HOME_NAME"
             let metaAwayId = null, metaHomeId = null, away_name = '', home_name = '';
             const next = (lines[i + 1] || '').trim();
-            const meta = next.startsWith('#') ? next.replace(/^#\s*/, '') : '';
-            const metaParts = meta.split('|');
-            if (metaParts.length >= 4) {
-                metaAwayId = parseInt(metaParts[0]);
-                metaHomeId = parseInt(metaParts[1]);
-                away_name = metaParts[2] || '';
-                home_name = metaParts[3] || '';
-                // Advance past meta line
-                i += 1;
+            if (next.startsWith('#')) {
+                const meta = next.replace(/^#\s*/, '');
+                const metaParts = meta.split('|');
+                if (metaParts.length >= 4 && /^\d+$/.test(metaParts[0]) && /^\d+$/.test(metaParts[1])) {
+                    metaAwayId = parseInt(metaParts[0]);
+                    metaHomeId = parseInt(metaParts[1]);
+                    away_name = metaParts[2] || '';
+                    home_name = metaParts[3] || '';
+                    // Advance past meta line
+                    i += 1;
+                }
+            }
+
+            const awayTeamInfo = this.JA_LABEL_TO_TEAM[away_label] || null;
+            const homeTeamInfo = this.JA_LABEL_TO_TEAM[home_label] || null;
+            if (awayTeamInfo && metaAwayId === null) {
+                metaAwayId = awayTeamInfo.id;
+            }
+            if (homeTeamInfo && metaHomeId === null) {
+                metaHomeId = homeTeamInfo.id;
+            }
+            if (!away_name && awayTeamInfo) {
+                away_name = awayTeamInfo.name;
+            }
+            if (!home_name && homeTeamInfo) {
+                home_name = homeTeamInfo.name;
             }
 
             // Determine status and scores (robust against bogus 0-0 lines)
@@ -176,11 +286,11 @@ class SimpleTxtToJson {
             const rec = {
                 game_date: currentDate,
                 home_team_id: metaHomeId ?? null,
-                home_team_abbr: home_abbr,
-                home_team_name: home_name || '',
+                home_team_abbr: (metaHomeId != null ? this.idToAbbr[metaHomeId] : '') || (homeTeamInfo ? homeTeamInfo.abbr : ''),
+                home_team_name: home_name || (homeTeamInfo ? homeTeamInfo.name : home_label),
                 away_team_id: metaAwayId ?? null,
-                away_team_abbr: away_abbr,
-                away_team_name: away_name || '',
+                away_team_abbr: (metaAwayId != null ? this.idToAbbr[metaAwayId] : '') || (awayTeamInfo ? awayTeamInfo.abbr : ''),
+                away_team_name: away_name || (awayTeamInfo ? awayTeamInfo.name : away_label),
                 home_score,
                 away_score,
                 league,
@@ -434,9 +544,24 @@ class SimpleTxtToJson {
         let teams = null;
         if (teamsTxt) {
             teams = this.parseTeams(teamsTxt);
-            if (this.saveJsonFile('teams.json', teams)) {
-                successCount++;
-            }
+        } else {
+            // Fallback: build from canonical mapping
+            teams = Object.keys(this.CANONICAL_TEAMS).map(id => ({
+                team_id: parseInt(id, 10),
+                team_abbreviation: this.CANONICAL_TEAMS[id].abbr,
+                team_name: this.CANONICAL_TEAMS[id].name,
+                league: this.CANONICAL_TEAMS[id].league,
+            }));
+            // Keep order by ID
+            teams.sort((a,b)=>a.team_id-b.team_id);
+        }
+        // Build ID→abbr map for later game parsing
+        this.idToAbbr = {};
+        if (Array.isArray(teams)) {
+            teams.forEach(t => { if (t && t.team_id != null) this.idToAbbr[t.team_id] = t.team_abbreviation; });
+        }
+        if (this.saveJsonFile('teams.json', teams)) {
+            successCount++;
         }
 
         // 2. 경기 데이터 처리 (완료 경기)
@@ -446,7 +571,10 @@ class SimpleTxtToJson {
         if (gamesTxt) {
             games = this.parseGames(gamesTxt);
             // Keep only completed games in games.json to avoid counting scheduled placeholders
-            const completedGames = Array.isArray(games) ? games.filter(g => g && g.game_status === 'completed') : [];
+            let completedGames = Array.isArray(games) ? games.filter(g => g && g.game_status === 'completed') : [];
+            // De-duplicate (strict key), then symmetric de-dup to catch mirrored entries
+            completedGames = this.dedupeGames(completedGames);
+            completedGames = this.dedupeGamesSymmetric(completedGames);
             if (this.saveJsonFile('games.json', completedGames)) {
                 successCount++;
             }
@@ -467,14 +595,19 @@ class SimpleTxtToJson {
         // 3. 순위표 계산 및 저장
         console.log('3️⃣ Calculating standings...');
         if (teams && games) {
-            const standings = this.calculateStandings(teams, games);
+            // Ensure standings use the same deduped, completed set used for games.json
+            let completedGamesForStandings = this.dedupeGames(
+                games.filter(g => g && g.game_status === 'completed')
+            );
+            completedGamesForStandings = this.dedupeGamesSymmetric(completedGamesForStandings);
+            const standings = this.calculateStandings(teams, completedGamesForStandings);
             if (this.saveJsonFile('standings.json', standings)) {
                 successCount++;
             }
 
             // 4. 대시보드 생성
             console.log('4️⃣ Generating dashboard...');
-            const dashboard = this.generateDashboard(games, standings);
+            const dashboard = this.generateDashboard(completedGamesForStandings, standings);
             if (this.saveJsonFile('dashboard.json', dashboard)) {
                 successCount++;
             }

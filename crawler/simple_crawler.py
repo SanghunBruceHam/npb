@@ -94,6 +94,21 @@ class SimpleCrawler:
             'NIP': 'エスコンフィールドHOKKAIDO',
             'RAK': '楽天モバイルパーク宮城',
         }
+        # Preferred Japanese short labels by team abbr
+        self.abbr_to_ja_short = {
+            'YOG': '巨人',
+            'HAN': '阪神',
+            'YDB': 'ＤｅＮＡ',
+            'HIR': '広島',
+            'CHU': '中日',
+            'YAK': 'ヤクルト',
+            'SOF': 'ソフトバンク',
+            'LOT': 'ロッテ',
+            'RAK': '楽天',
+            'ORI': 'オリックス',
+            'SEI': '西武',
+            'NIP': '日本ハム',
+        }
         # Canonical ID→Team mapping for validation/repair
         self.id_to_team = {
             1: {'abbr': 'YOG', 'league': 'Central'},
@@ -262,6 +277,36 @@ class SimpleCrawler:
             # Use raw content so BeautifulSoup can detect meta charset correctly
             soup = BeautifulSoup(response.content, 'html.parser')
             games = []
+            # Keep track of parsed games to prevent duplicates while preferring richer entries
+            strict_games = {}
+            symmetric_map = {}
+
+            def build_symmetric_key(game):
+                """Return an orientation-agnostic key for duplicate detection."""
+                date = game.get('date')
+                home_id = int(game.get('home_team_id'))
+                away_id = int(game.get('away_team_id'))
+                min_id, max_id = sorted([home_id, away_id])
+
+                def score_token(val):
+                    if isinstance(val, int):
+                        return f"{val:02d}"
+                    if val is None:
+                        return 'NA'
+                    try:
+                        return f"{int(val):02d}"
+                    except Exception:
+                        return str(val)
+
+                score_signature = tuple(sorted([
+                    score_token(game.get('home_score')),
+                    score_token(game.get('away_score'))
+                ]))
+
+                status = game.get('status')
+                final_inning = game.get('final_inning')
+                game_time = game.get('game_time')
+                return (date, min_id, max_id, score_signature, status, final_inning, game_time)
             
             # scoreTable 클래스의 테이블들에서 경기 결과 파싱
             score_tables = soup.find_all('table', class_='scoreTable')
@@ -334,33 +379,42 @@ class SimpleCrawler:
                     away_score = convert_jp_number(away_score_text)
                     home_score = convert_jp_number(home_score_text)
 
-                    # 점수 파싱 실패(미진행/중지 등)인 경우 스킵
-                    if away_score is None or home_score is None:
+                    # 경기 상태 정보 추출을 먼저 수행해 중도 취소 등을 감지
+                    game_status_info = self.extract_game_status(table)
+                    status = game_status_info['status']
+
+                    if status != 'postponed':
+                        score_tokens = f"{away_score_text} {home_score_text}"
+                        postponed_markers = ['中止', '雨天', '降雨', 'ノーゲーム', 'ノーコンテスト', '打切', '打ち切り', '延期', 'サスペンデッド']
+                        if any(marker in score_tokens for marker in postponed_markers):
+                            status = 'postponed'
+                            game_status_info['status'] = 'postponed'
+
+                    # 진행 중인 경기는 저장하지 않음
+                    if status == 'inprogress':
+                        self.logger.info(f"⏭️ Skipping in-progress game: {away_team['abbr']} vs {home_team['abbr']}")
+                        continue
+
+                    if status == 'postponed':
+                        away_score = None
+                        home_score = None
+                    elif away_score is None or home_score is None:
                         self.logger.info(
                             f"⏭️  Skipping unparsed/unfinished game: {away_team['abbr']} vs {home_team['abbr']} (away='{away_score_text}', home='{home_score_text}')"
                         )
                         continue
-                    
+
                     # 리그 판단: 교류전 확인 후 분류
                     home_league = home_team['league']
                     away_league = away_team['league']
-                    
+
                     if home_league == away_league:
                         # 같은 리그 내 경기
                         league = home_league
                     else:
                         # 교류전: 홈팀 리그로 분류
                         league = home_league
-                    
-                    # 경기 상태 정보 추출
-                    game_status_info = self.extract_game_status(table)
-                    status = game_status_info['status']
 
-                    # 진행 중인 경기는 스킵 (진행중/완료/예정만 처리)
-                    if status == 'inprogress':
-                        self.logger.info(f"⏭️ Skipping in-progress game: {away_team['abbr']} vs {home_team['abbr']}")
-                        continue
-                    
                     # 점수가 있으면서 상태가 불분명할 때만 추가 확인
                     if home_score is not None and away_score is not None and status == 'scheduled':
                         # 더 정확한 완료 상태 판단
@@ -371,17 +425,31 @@ class SimpleCrawler:
                     if status == 'completed':
                         detailed_info = self.extract_detailed_game_info(table, away_team, home_team)
 
-                    # 무승부 판정(보수): 완료 && 동점 && (페이지에 '引き分け' 포함 또는 9이닝 이상 진행 흔적)
+                    # 무승부 판정(강화): 완료 && 동점 → 무승부로 간주
+                    # 키워드 보강(로그용): 引き分け/引分/規定により引き分け など
                     is_draw = False
-                    if status == 'completed' and home_score is not None and away_score is not None and home_score == away_score:
-                        page_text = table.get_text(' ', strip=True)
-                        text_says_draw = ('引き分け' in page_text) or ('引分' in page_text)
+                    final_inning = None
+                    if status == 'completed' and home_score is not None and away_score is not None:
                         innings_home = detailed_info.get('inning_scores_home') or []
                         innings_away = detailed_info.get('inning_scores_away') or []
-                        innings_len = max(len(innings_home), len(innings_away))
-                        innings_enough = innings_len >= 9
-                        is_draw = bool(text_says_draw or innings_enough)
-                    
+                        final_inning = max(len(innings_home), len(innings_away)) if (innings_home or innings_away) else None
+                        if home_score == away_score:
+                            is_draw = True
+                            page_text = table.get_text(' ', strip=True)
+                            if any(k in page_text for k in ['引き分け', '引分', '規定により引き分け']):
+                                self.logger.info("🤝 Draw detected by keyword")
+                            elif final_inning is not None:
+                                self.logger.info(f"🤝 Draw detected by equal score @ {final_inning}回")
+
+                    winner = None
+                    if home_score is not None and away_score is not None:
+                        if home_score > away_score:
+                            winner = 'home'
+                        elif away_score > home_score:
+                            winner = 'away'
+                        else:
+                            winner = 'draw'
+
                     # 경기 정보 (확장된 필드)
                     game = {
                         'date': target_date.strftime('%Y-%m-%d'),
@@ -399,7 +467,7 @@ class SimpleCrawler:
                         'inning_half': game_status_info.get('inning_half'),
                         'game_time': game_status_info.get('game_time'),
                         'is_draw': is_draw,
-                        'winner': 'home' if home_score > away_score else ('away' if away_score > home_score else 'draw'),
+                        'winner': winner,
                         # 확장 필드들
                         'stadium': detailed_info.get('stadium'),
                         'game_duration': detailed_info.get('game_duration'),
@@ -415,17 +483,44 @@ class SimpleCrawler:
                         'save_pitcher': detailed_info.get('save_pitcher'),
                         'home_runs': detailed_info.get('home_runs', []),
                         'weather': detailed_info.get('weather'),
-                        'temperature': detailed_info.get('temperature')
+                        'temperature': detailed_info.get('temperature'),
+                        'final_inning': final_inning
                     }
-                    
-                    games.append(game)
+
+                    strict_key = (game['date'], game['home_team_id'], game['away_team_id'])
+                    symmetric_key = build_symmetric_key(game)
+
+                    existing_game = strict_games.get(strict_key)
+                    if existing_game:
+                        if self.is_game_data_better(game, existing_game):
+                            strict_games[strict_key] = game
+                            self.logger.info(f"🔄 Updated duplicate game with richer data: {away_team['abbr']} vs {home_team['abbr']}")
+                        else:
+                            self.logger.info(f"⏭️ Duplicate game skipped (existing data richer): {away_team['abbr']} vs {home_team['abbr']}")
+                        continue
+
+                    mirrored_key = symmetric_map.get(symmetric_key)
+                    if mirrored_key is not None:
+                        existing_game = strict_games.get(mirrored_key)
+                        if existing_game and self.is_game_data_better(game, existing_game):
+                            strict_games[mirrored_key] = game
+                            self.logger.info(f"🔄 Replaced mirrored duplicate with richer data: {away_team['abbr']} vs {home_team['abbr']}")
+                        else:
+                            self.logger.info(f"⏭️ Mirrored duplicate skipped: {away_team['abbr']} vs {home_team['abbr']}")
+                        continue
+
+                    strict_games[strict_key] = game
+                    symmetric_map[symmetric_key] = strict_key
+
+                    score_log = f"{away_score}-{home_score}" if (home_score is not None and away_score is not None) else "--"
                     status_text = f" [{game['status'].upper()}]" if game['status'] != 'completed' else ""
-                    self.logger.info(f"✅ Parsed: {away_team['abbr']} {away_score}-{home_score} {home_team['abbr']}{status_text}")
+                    self.logger.info(f"✅ Parsed: {away_team['abbr']} {score_log} {home_team['abbr']}{status_text}")
                     
                 except Exception as e:
                     self.logger.warning(f"⚠️ Failed to parse table: {e}")
                     continue
             
+            games = list(strict_games.values())
             return games
             
         except Exception as e:
@@ -449,6 +544,19 @@ class SimpleCrawler:
                 if '試合中止' in header_text:
                     status_info['status'] = 'postponed'
                     return status_info
+                draw_keywords = ['引き分け', '引分', '規定により引き分け']
+                cold_keywords = ['降雨コールド', 'コールドゲーム', '降雨コール']
+                if any(k in header_text for k in draw_keywords + cold_keywords):
+                    status_info['status'] = 'completed'
+                    inning_match = re.search(r'(?:延長)?(\d+)回', header_text)
+                    if inning_match:
+                        try:
+                            status_info['inning'] = int(inning_match.group(1))
+                        except Exception:
+                            pass
+                    half_match = re.search(r'(表|裏)', header_text)
+                    if half_match:
+                        status_info['inning_half'] = 'top' if half_match.group(1) == '表' else 'bottom'
                 if '試合終了' in header_text:
                     status_info['status'] = 'completed'
 
@@ -475,12 +583,12 @@ class SimpleCrawler:
                     return status_info
 
                 # 완료 상태 키워드
-                completion_keywords = ['試合終了', '終了', 'ゲーム終了', 'GAME SET', 'FINAL', '最終']
+                completion_keywords = ['試合終了', '終了', 'ゲーム終了', 'GAME SET', 'FINAL', '最終', '引き分け', '引分', '規定により引き分け']
                 if any(keyword in text for keyword in completion_keywords):
                     status_info['status'] = 'completed'
                 
-                # 연기/중지 상태 키워드
-                elif any(keyword in text for keyword in ['雨天中止', '中止', '延期', 'サスペンデッド']):
+                # 연기/중지/노게임 상태 키워드 강화
+                elif any(keyword in text for keyword in ['雨天中止', '中止', '延期', 'サスペンデッド', 'ノーゲーム', 'ノーコンテスト', '打切', '打ち切り']):
                     status_info['status'] = 'postponed'
 
         except Exception as e:
@@ -495,9 +603,9 @@ class SimpleCrawler:
                 return 'completed'
 
             text = table.get_text(" ", strip=True)
-            if any(k in text for k in ['試合終了', 'ゲームセット', '引き分け']):
+            if any(k in text for k in ['試合終了', 'ゲームセット', '引き分け', 'コールド']):
                 return 'completed'
-            if any(k in text for k in ['雨天中止', '中止', '延期', 'サスペンデッド', 'ノーゲーム']):
+            if any(k in text for k in ['雨天中止', '中止', '延期', 'サスペンデッド', 'ノーゲーム', 'ノーコンテスト', '打切', '打ち切り']):
                 return 'postponed'
             return 'scheduled'
         except Exception as e:
@@ -855,6 +963,15 @@ class SimpleCrawler:
             else:
                 self.logger.warning(f"⚠️ Invalid game data skipped: {game.get('away_team_abbr', 'UNK')} vs {game.get('home_team_abbr', 'UNK')} on {game.get('date', 'UNK')}")
         
+        # REWRITE_DATES 모드: 새 게임이 포함된 날짜의 기존 레코드를 모두 제거
+        try:
+            rewrite_flag = os.environ.get('REWRITE_DATES', '').upper()
+        except Exception:
+            rewrite_flag = ''
+        target_dates = {g['date'] for g in validated_games}
+        if rewrite_flag in ('AUTO', 'ALL', '1', 'TRUE', 'YES') and target_dates:
+            existing_games = {k: v for k, v in existing_games.items() if v.get('date') not in target_dates}
+
         # 중복 제거 및 병합
         for game in validated_games:
             game_key = (game['date'], str(game['home_team_id']), str(game['away_team_id']))
@@ -889,6 +1006,9 @@ class SimpleCrawler:
                 f.write(f"\n# {date}\n")
                 
                 for game in games_by_date[date]:
+                    # 팀 레이블(일본어 짧은 표기) 준비
+                    away_label = self.abbr_to_ja_short.get(game['away_team_abbr'], (game.get('away_team_name') or '')[:2] or game['away_team_abbr'])
+                    home_label = self.abbr_to_ja_short.get(game['home_team_abbr'], (game.get('home_team_name') or '')[:2] or game['home_team_abbr'])
                     # 스코어 표시
                     if game['home_score'] is not None and game['away_score'] is not None:
                         score = f"{game['away_score']}-{game['home_score']}"
@@ -905,61 +1025,47 @@ class SimpleCrawler:
                     elif game.get('status') == 'postponed':
                         status_mark = " [POSTPONED]"
                     
-                    # 게임 라인 작성: AWY 0-0 HOM (League) [DRAW] @ Stadium 
-                    game_line = f"{game['away_team_abbr']} {score} {game['home_team_abbr']} ({game['league']}){draw_mark}{status_mark}"
+                    # 게임 라인 작성: 日本ハム 0-0 阪神 (League) [DRAW] @ Stadium 
+                    game_line = f"{away_label} {score} {home_label} ({game['league']}){draw_mark}{status_mark}"
                     
-                    # 완료된 경기는 추가 정보 표시
-                    if game.get('status') == 'completed':
-                        additional_info = []
-                        if game.get('stadium'):
-                            additional_info.append(f"@ {game['stadium']}")
-                        if game.get('game_duration'):
-                            additional_info.append(f"⏱️{game['game_duration']}")
-                        if game.get('attendance'):
-                            additional_info.append(f"👥{game['attendance']:,}명")
-                        if additional_info:
-                            game_line += " " + " ".join(additional_info)
-                    
-                    # 기본 메타데이터 주석
-                    meta_line = f"# {game['away_team_id']}|{game['home_team_id']}|{game['away_team_name']}|{game['home_team_name']}"
+                    stadium = game.get('stadium') or self.default_stadium_by_abbr.get(game.get('home_team_abbr'), '')
+                    info_tokens = []
+                    if stadium:
+                        info_tokens.append(f"@ {stadium}")
+                    # 경기 시간/소요 시간/관중 정보는 존재 시 덧붙임
+                    if game.get('game_time') and game.get('status') != 'completed':
+                        info_tokens.append(game['game_time'])
+                    if game.get('game_duration'):
+                        info_tokens.append(f"⏱️{game['game_duration']}")
+                    if game.get('attendance'):
+                        try:
+                            info_tokens.append(f"👥{int(game['attendance']):,}명")
+                        except Exception:
+                            info_tokens.append(f"👥{game['attendance']}")
+                    if info_tokens:
+                        game_line += " " + " ".join(info_tokens)
                     
                     f.write(f"{game_line}\n")
-                    f.write(f"{meta_line}\n")
                     
-                    # 완료된 경기의 상세 정보 (이닝별 득점, 안타/실책 등)
-                    if game.get('status') == 'completed':
-                        details = []
-                        
-                        # 이닝별 득점 정보
-                        if game.get('inning_scores_away') and game.get('inning_scores_home'):
-                            away_innings = game['inning_scores_away']
-                            home_innings = game['inning_scores_home'] 
-                            max_innings = max(len(away_innings), len(home_innings))
-                            
-                            innings_str = "이닝별: "
-                            for i in range(max_innings):
-                                away_score = away_innings[i] if i < len(away_innings) else "X"
-                                home_score = home_innings[i] if i < len(home_innings) else "X"
+                    inning_line = None
+                    away_innings = game.get('inning_scores_away') or []
+                    home_innings = game.get('inning_scores_home') or []
+                    if away_innings or home_innings:
+                        max_innings = max(len(away_innings), len(home_innings))
+                        if max_innings > 0:
+                            parts = []
+                            for idx in range(max_innings):
+                                away_score = away_innings[idx] if idx < len(away_innings) else "X"
+                                home_score = home_innings[idx] if idx < len(home_innings) else "X"
                                 if away_score is None:
                                     away_score = "X"
                                 if home_score is None:
                                     home_score = "X"
-                                innings_str += f"{i+1}회({away_score}-{home_score}) "
-                            details.append(innings_str.strip())
-                        # 요청: 안타/실책 라인은 TXT에서 제거 (상세 계산 유지를 원하면 JSON으로 보존 가능)
-                        
-                        # 날씨/온도 정보
-                        weather_info = []
-                        if game.get('weather'):
-                            weather_info.append(game['weather'])
-                        if game.get('temperature'):
-                            weather_info.append(f"{game['temperature']}℃")
-                        if weather_info:
-                            details.append("날씨: " + " ".join(weather_info))
-                        
-                        # 상세 정보가 있으면 추가 라인 작성
-                        for detail in details:
-                            f.write(f"# 📊 {detail}\n")
+                                parts.append(f"{idx + 1}회({away_score}-{home_score})")
+                            inning_line = "이닝별: " + " ".join(parts)
+                    
+                    if inning_line:
+                        f.write(f"# 📊 {inning_line}\n")
         
         total_games = sum(len(games) for games in games_by_date.values())
         self.logger.info(f"📄 Saved {total_games} games grouped by {len(games_by_date)} dates to {file_path}")
@@ -986,6 +1092,9 @@ class SimpleCrawler:
                 f.write(f"\n# {date}\n")
                 
                 for game in games_by_date[date]:
+                    # 팀 레이블(일본어 짧은 표기) 준비
+                    away_label = self.abbr_to_ja_short.get(game['away_team_abbr'], (game.get('away_team_name') or '')[:2] or game['away_team_abbr'])
+                    home_label = self.abbr_to_ja_short.get(game['home_team_abbr'], (game.get('home_team_name') or '')[:2] or game['home_team_abbr'])
                     # 구장 정보 가져오기
                     stadium = game.get('stadium')
                     if not stadium:
@@ -995,8 +1104,8 @@ class SimpleCrawler:
                     # 경기 시간
                     game_time = game.get('game_time', '시간미정')
                     
-                    # 예정 경기 라인: YAK vs YOG (Central) [SCHEDULED] @ 明治神宮野球場 18:00
-                    game_line = f"{game['away_team_abbr']} vs {game['home_team_abbr']} ({game['league']}) [SCHEDULED] @ {stadium} {game_time}"
+                    # 예정 경기 라인: ヤクルト vs 巨人 (Central) [SCHEDULED] @ 明治神宮野球場 18:00
+                    game_line = f"{away_label} vs {home_label} ({game['league']}) [SCHEDULED] @ {stadium} {game_time}"
                     
                     # 메타데이터 주석 - 어웨이팀이 먼저
                     meta_line = f"# {game['away_team_id']}|{game['home_team_id']}|{game['away_team_name']}|{game['home_team_name']}"
@@ -1009,6 +1118,13 @@ class SimpleCrawler:
     
     def save_teams_to_txt(self):
         """팀 정보를 TXT 파일로 저장"""
+        # Skip writing unless explicitly enabled
+        try:
+            if str(os.environ.get('WRITE_TEAMS_TXT', '')).lower() not in ('1','true','yes'):
+                self.logger.info("⏭️ Skipping teams_raw.txt write (WRITE_TEAMS_TXT not set)")
+                return
+        except Exception:
+            return
         file_path = self.data_dir / "teams_raw.txt"
         
         lines = []
@@ -1309,12 +1425,12 @@ class SimpleCrawler:
             status_section = soup.find('div', class_=['game-status'])
             if status_section:
                 status_text = status_section.get_text(strip=True)
-                
+
                 # 경기 완료 상태만 확인 (진행중이면 상태 변경 안함)
                 completion_keywords = ['試合終了', '終了', 'ゲーム終了', 'GAME SET', 'FINAL', '最終', '結果']
-                if any(keyword in text for keyword in completion_keywords):
+                if any(keyword in status_text for keyword in completion_keywords):
                     game_info['status'] = 'completed'
-                elif any(keyword in text for keyword in ['延期', '中止', '雨天中止']):
+                elif any(keyword in status_text for keyword in ['延期', '中止', '雨天中止']):
                     game_info['status'] = 'postponed'
                 # 진행중이거나 기타 상태면 기본값(scheduled) 유지
             
@@ -1484,6 +1600,17 @@ def main():
             upcoming_games = crawler.crawl_upcoming_games(30)
             games_count = len(upcoming_games)
             print(f"\n📅 Upcoming games crawl completed: {games_count} games found")
+        elif sys.argv[1] == '--date' and len(sys.argv) > 2:
+            try:
+                target_date = datetime.strptime(sys.argv[2], '%Y-%m-%d')
+                games = crawler.crawl_date(target_date)
+                if games:
+                    crawler.save_games_to_txt(games)
+                games_count = len(games)
+                print(f"\n✅ Crawl for date {sys.argv[2]} completed: {games_count} games collected")
+            except ValueError:
+                print("❌ Invalid date format. Please use YYYY-MM-DD.")
+                return 1
         else:
             try:
                 days = int(sys.argv[1])

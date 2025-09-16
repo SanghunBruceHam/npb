@@ -31,38 +31,48 @@ def setup_logging():
     )
     return logging.getLogger('new_pipeline')
 
-def run_web_crawler(mode="7"):
-    """웹 크롤링 실행 (TXT 직접 저장)"""
+def run_web_crawler(mode="7", use_legacy=False):
+    """웹 크롤링 실행 (TXT 직접 저장)
+    기본: 최소 경로(min_results_crawler.py) 사용
+    --legacy-crawler 옵션으로 기존 simple_crawler 사용 가능
+    """
     if mode == "full-season":
         logger.info("🕷️ Starting FULL SEASON web crawling (from March 28)...")
         timeout = 1800  # 30분 (전체 시즌)
     else:
         logger.info(f"🕷️ Starting web crawling for {mode} days...")
         timeout = 300   # 5분 (일반)
-    
+
     try:
-        crawler_path = project_root / 'crawler' / 'simple_crawler.py'
-        
+        if use_legacy:
+            crawler_path = project_root / 'crawler' / 'simple_crawler.py'
+        else:
+            crawler_path = project_root / 'crawler' / 'min_results_crawler.py'
+
         if mode == "full-season":
             cmd = ['python3', str(crawler_path), '--full-season']
         else:
+            # min crawler supports bare integer argument too
             cmd = ['python3', str(crawler_path), str(mode)]
-        
+
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
             timeout=timeout
         )
-        
+
         if result.returncode == 0:
             logger.info("✅ Web crawling completed successfully")
-            logger.info(f"Crawler output: {result.stdout}")
+            if result.stdout:
+                logger.info(f"Crawler output: {result.stdout}")
+            if result.stderr:
+                logger.info(f"Crawler stderr: {result.stderr}")
             return True
         else:
             logger.error(f"❌ Web crawling failed: {result.stderr}")
             return False
-            
+
     except Exception as e:
         logger.error(f"❌ Web crawling error: {e}")
         return False
@@ -209,6 +219,11 @@ def main():
     if '--skip-crawl' in args:
         skip_crawl = True
         args = [a for a in args if a != '--skip-crawl']
+
+    use_legacy = False
+    if '--legacy-crawler' in args:
+        use_legacy = True
+        args = [a for a in args if a != '--legacy-crawler']
     
     # 크롤링 모드 설정
     crawl_mode = "7"  # 기본 7일
@@ -235,7 +250,7 @@ def main():
             logger.info("Step 1/4: Full season web crawling (from March 28)")
         else:
             logger.info(f"Step 1/4: Web crawling ({crawl_mode} days)")
-        if run_web_crawler(crawl_mode):
+        if run_web_crawler(crawl_mode, use_legacy=use_legacy):
             success_count += 1
     
     # Step 2: TXT → JSON 변환 (JavaScript 처리)  
