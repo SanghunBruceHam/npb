@@ -1,51 +1,51 @@
 {
-  "generated_at": "2025-09-16T02:24:16.723Z",
+  "generated_at": "2025-09-16T02:40:49.304Z",
   "season_stats": {
-    "total_games": 839,
+    "total_games": 12,
     "today_games": 0,
-    "week_games": 36
+    "week_games": 12
   },
   "highlights": {
     "high_scoring_games": [
       {
-        "game_date": "2025-04-07",
-        "home_team": "ORI",
-        "away_team": "NIP",
-        "home_score": 15,
-        "away_score": 14,
-        "total_score": 29
-      },
-      {
-        "game_date": "2025-03-31",
-        "home_team": "ORI",
-        "away_team": "YDB",
-        "home_score": 13,
-        "away_score": 15,
-        "total_score": 28
-      },
-      {
-        "game_date": "2025-04-06",
-        "home_team": "YAK",
-        "away_team": "LOT",
-        "home_score": 14,
-        "away_score": 12,
-        "total_score": 26
-      },
-      {
-        "game_date": "2025-04-09",
-        "home_team": "LOT",
-        "away_team": "SOF",
-        "home_score": 15,
-        "away_score": 11,
-        "total_score": 26
-      },
-      {
-        "game_date": "2025-04-11",
-        "home_team": "SOF",
-        "away_team": "NIP",
+        "game_date": "2025-09-15",
+        "home_team": "NIP",
+        "away_team": "SEI",
         "home_score": 12,
-        "away_score": 14,
-        "total_score": 26
+        "away_score": 5,
+        "total_score": 17
+      },
+      {
+        "game_date": "2025-09-14",
+        "home_team": "YDB",
+        "away_team": "YOG",
+        "home_score": 9,
+        "away_score": 7,
+        "total_score": 16
+      },
+      {
+        "game_date": "2025-09-14",
+        "home_team": "HIR",
+        "away_team": "YAK",
+        "home_score": 6,
+        "away_score": 8,
+        "total_score": 14
+      },
+      {
+        "game_date": "2025-09-15",
+        "home_team": "RAK",
+        "away_team": "LOT",
+        "home_score": 5,
+        "away_score": 4,
+        "total_score": 9
+      },
+      {
+        "game_date": "2025-09-15",
+        "home_team": "HAN",
+        "away_team": "CHU",
+        "home_score": 6,
+        "away_score": 2,
+        "total_score": 8
       }
     ]
   }
