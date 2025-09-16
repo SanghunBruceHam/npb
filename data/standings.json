@@ -1,12 +1,36 @@
 {
+<<<<<<< HEAD
   "updated_at": "2025-09-16T02:40:49.244Z",
   "central_league": {
     "standings": [
       {
+=======
+  "updated_at": "2025-09-16T03:16:00.374Z",
+  "central_league": {
+    "standings": [
+      {
+        "team_id": 2,
+        "team_abbreviation": "HAN",
+        "team_name": "阪神タイガース",
+        "league": "Central",
+        "games_played": 132,
+        "wins": 80,
+        "losses": 49,
+        "draws": 3,
+        "runs_scored": 456,
+        "runs_allowed": 319,
+        "win_percentage": 0.6201550387596899,
+        "run_differential": 137,
+        "position_rank": 1,
+        "games_behind": 0
+      },
+      {
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
         "team_id": 3,
         "team_abbreviation": "YDB",
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 2,
         "losses": 0,
@@ -17,12 +41,25 @@
         "run_differential": 5,
         "position_rank": 1,
         "games_behind": 0
+=======
+        "games_played": 132,
+        "wins": 64,
+        "losses": 63,
+        "draws": 5,
+        "runs_scored": 453,
+        "runs_allowed": 417,
+        "win_percentage": 0.5039370078740157,
+        "run_differential": 36,
+        "position_rank": 2,
+        "games_behind": 15
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       },
       {
         "team_id": 2,
         "team_abbreviation": "HAN",
         "team_name": "阪神タイガース",
         "league": "Central",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 1,
         "losses": 1,
@@ -33,12 +70,25 @@
         "run_differential": 3,
         "position_rank": 2,
         "games_behind": 1
+=======
+        "games_played": 132,
+        "wins": 64,
+        "losses": 65,
+        "draws": 3,
+        "runs_scored": 423,
+        "runs_allowed": 418,
+        "win_percentage": 0.49612403100775193,
+        "run_differential": 5,
+        "position_rank": 3,
+        "games_behind": 16
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       },
       {
         "team_id": 4,
         "team_abbreviation": "HIR",
         "team_name": "広島東洋カープ",
         "league": "Central",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 1,
         "losses": 1,
@@ -49,12 +99,25 @@
         "run_differential": 2,
         "position_rank": 3,
         "games_behind": 1
+=======
+        "games_played": 132,
+        "wins": 58,
+        "losses": 69,
+        "draws": 5,
+        "runs_scored": 420,
+        "runs_allowed": 436,
+        "win_percentage": 0.4566929133858268,
+        "run_differential": -16,
+        "position_rank": 4,
+        "games_behind": 21
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       },
       {
         "team_id": 5,
         "team_abbreviation": "CHU",
         "team_name": "中日ドラゴンズ",
         "league": "Central",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 1,
         "losses": 1,
@@ -65,12 +128,25 @@
         "run_differential": -3,
         "position_rank": 4,
         "games_behind": 1
+=======
+        "games_played": 132,
+        "wins": 58,
+        "losses": 72,
+        "draws": 2,
+        "runs_scored": 371,
+        "runs_allowed": 427,
+        "win_percentage": 0.4461538461538462,
+        "run_differential": -56,
+        "position_rank": 5,
+        "games_behind": 22.5
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       },
       {
         "team_id": 6,
         "team_abbreviation": "YAK",
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 1,
         "losses": 1,
@@ -97,6 +173,18 @@
         "run_differential": -5,
         "position_rank": 6,
         "games_behind": 2
+=======
+        "games_played": 128,
+        "wins": 48,
+        "losses": 74,
+        "draws": 6,
+        "runs_scored": 379,
+        "runs_allowed": 522,
+        "win_percentage": 0.39344262295081966,
+        "run_differential": -143,
+        "position_rank": 6,
+        "games_behind": 28.5
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       }
     ]
   },
@@ -107,6 +195,7 @@
         "team_abbreviation": "SOF",
         "team_name": "福岡ソフトバンクホークス",
         "league": "Pacific",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 2,
         "losses": 0,
@@ -115,6 +204,16 @@
         "runs_allowed": 3,
         "win_percentage": 1,
         "run_differential": 6,
+=======
+        "games_played": 129,
+        "wins": 78,
+        "losses": 47,
+        "draws": 4,
+        "runs_scored": 490,
+        "runs_allowed": 356,
+        "win_percentage": 0.624,
+        "run_differential": 134,
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
         "position_rank": 1,
         "games_behind": 0
       },
@@ -139,6 +238,7 @@
         "team_abbreviation": "NIP",
         "team_name": "北海道日本ハムファイターズ",
         "league": "Pacific",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 2,
         "losses": 0,
@@ -149,12 +249,73 @@
         "run_differential": 8,
         "position_rank": 3,
         "games_behind": 0
+=======
+        "games_played": 131,
+        "wins": 77,
+        "losses": 51,
+        "draws": 3,
+        "runs_scored": 509,
+        "runs_allowed": 368,
+        "win_percentage": 0.6015625,
+        "run_differential": 141,
+        "position_rank": 2,
+        "games_behind": 2.5
+      },
+      {
+        "team_id": 10,
+        "team_abbreviation": "ORI",
+        "team_name": "オリックスバファローズ",
+        "league": "Pacific",
+        "games_played": 128,
+        "wins": 64,
+        "losses": 61,
+        "draws": 3,
+        "runs_scored": 445,
+        "runs_allowed": 474,
+        "win_percentage": 0.512,
+        "run_differential": -29,
+        "position_rank": 3,
+        "games_behind": 14
+      },
+      {
+        "team_id": 9,
+        "team_abbreviation": "RAK",
+        "team_name": "東北楽天ゴールデンイーグルス",
+        "league": "Pacific",
+        "games_played": 127,
+        "wins": 61,
+        "losses": 64,
+        "draws": 2,
+        "runs_scored": 407,
+        "runs_allowed": 459,
+        "win_percentage": 0.488,
+        "run_differential": -52,
+        "position_rank": 4,
+        "games_behind": 17
+      },
+      {
+        "team_id": 11,
+        "team_abbreviation": "SEI",
+        "team_name": "埼玉西武ライオンズ",
+        "league": "Pacific",
+        "games_played": 127,
+        "wins": 57,
+        "losses": 67,
+        "draws": 3,
+        "runs_scored": 354,
+        "runs_allowed": 397,
+        "win_percentage": 0.4596774193548387,
+        "run_differential": -43,
+        "position_rank": 5,
+        "games_behind": 20.5
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       },
       {
         "team_id": 8,
         "team_abbreviation": "LOT",
         "team_name": "千葉ロッテマリーンズ",
         "league": "Pacific",
+<<<<<<< HEAD
         "games_played": 2,
         "wins": 0,
         "losses": 2,
@@ -197,6 +358,18 @@
         "run_differential": -8,
         "position_rank": 6,
         "games_behind": 2
+=======
+        "games_played": 128,
+        "wins": 49,
+        "losses": 76,
+        "draws": 3,
+        "runs_scored": 397,
+        "runs_allowed": 511,
+        "win_percentage": 0.392,
+        "run_differential": -114,
+        "position_rank": 6,
+        "games_behind": 29
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       }
     ]
   }

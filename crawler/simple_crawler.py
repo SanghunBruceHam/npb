@@ -649,31 +649,31 @@ class SimpleCrawler:
                     inning_cells_away = away_cells[1:-3] if len(away_cells) > 4 else away_cells[1:]
                     inning_cells_home = home_cells[1:-3] if len(home_cells) > 4 else home_cells[1:]
 
+                def parse_inning_cell(raw_text):
+                    """Convert inning cell text (including walk-off markers like '1X') to an int/None."""
+                    t = raw_text.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+                    t = t.replace('\u2014', '-').replace('－', '-').replace('—', '-')
+                    t = t.replace('Ｘ', 'X').replace('ｘ', 'X').replace('x', 'X').strip()
+
+                    digits = ''.join(ch for ch in t if ch.isdigit())
+                    if digits:
+                        return int(digits)
+                    if 'X' in t:
+                        return None
+                    # 완료 경기에서 비어 있거나 기호만 있는 칸은 0으로 취급
+                    return 0
+
                 for i, cell in enumerate(inning_cells_away, 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
-                    # 전각 숫자/대쉬/공백 처리
-                    t = text.translate(str.maketrans('０１２３４５６７８９', '0123456789')).replace('\u2014','-').replace('－','-').replace('—','-')
-                    if t == 'X':
-                        away_innings.append(None)  # 9회말은 X 처리
-                    elif t.isdigit():
-                        away_innings.append(int(t))
-                    else:
-                        # 완료 경기에서 빈칸/대쉬는 0으로 간주
-                        away_innings.append(0)
+                    away_innings.append(parse_inning_cell(text))
                 
                 for i, cell in enumerate(inning_cells_home, 1):
                     if i > 15:  # 최대 15회까지만
                         break
                     text = cell.get_text(strip=True)
-                    t = text.translate(str.maketrans('０１２３４５６７８９', '0123456789')).replace('\u2014','-').replace('－','-').replace('—','-')
-                    if t == 'X':
-                        home_innings.append(None)
-                    elif t.isdigit():
-                        home_innings.append(int(t))
-                    else:
-                        home_innings.append(0)
+                    home_innings.append(parse_inning_cell(text))
                 
                 detailed_info['inning_scores_away'] = away_innings
                 detailed_info['inning_scores_home'] = home_innings

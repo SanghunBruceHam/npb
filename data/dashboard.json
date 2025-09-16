@@ -1,13 +1,20 @@
 {
+<<<<<<< HEAD
   "generated_at": "2025-09-16T02:40:49.304Z",
   "season_stats": {
     "total_games": 12,
+=======
+  "generated_at": "2025-09-16T03:16:00.380Z",
+  "season_stats": {
+    "total_games": 779,
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
     "today_games": 0,
     "week_games": 12
   },
   "highlights": {
     "high_scoring_games": [
       {
+<<<<<<< HEAD
         "game_date": "2025-09-15",
         "home_team": "NIP",
         "away_team": "SEI",
@@ -46,6 +53,46 @@
         "home_score": 6,
         "away_score": 2,
         "total_score": 8
+=======
+        "game_date": "2025-08-21",
+        "home_team": "LOT",
+        "away_team": "RAK",
+        "home_score": 12,
+        "away_score": 10,
+        "total_score": 22
+      },
+      {
+        "game_date": "2025-09-13",
+        "home_team": "YOG",
+        "away_team": "HAN",
+        "home_score": 11,
+        "away_score": 10,
+        "total_score": 21
+      },
+      {
+        "game_date": "2025-04-09",
+        "home_team": "ORI",
+        "away_team": "SOF",
+        "home_score": 9,
+        "away_score": 10,
+        "total_score": 19
+      },
+      {
+        "game_date": "2025-06-22",
+        "home_team": "YDB",
+        "away_team": "LOT",
+        "home_score": 9,
+        "away_score": 10,
+        "total_score": 19
+      },
+      {
+        "game_date": "2025-05-25",
+        "home_team": "SOF",
+        "away_team": "ORI",
+        "home_score": 5,
+        "away_score": 13,
+        "total_score": 18
+>>>>>>> 8e160d8 (Update NPB data and crawler improvements)
       }
     ]
   }
