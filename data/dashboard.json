@@ -1,9 +1,9 @@
 {
-  "generated_at": "2025-09-16T11:34:11.364Z",
+  "generated_at": "2025-09-16T12:51:39.318Z",
   "season_stats": {
-    "total_games": 12,
-    "today_games": 0,
-    "week_games": 12
+    "total_games": 13,
+    "today_games": 1,
+    "week_games": 13
   },
   "highlights": {
     "high_scoring_games": [
@@ -32,20 +32,20 @@
         "total_score": 14
       },
       {
+        "game_date": "2025-09-16",
+        "home_team": "ORI",
+        "away_team": "LOT",
+        "home_score": 7,
+        "away_score": 3,
+        "total_score": 10
+      },
+      {
         "game_date": "2025-09-15",
         "home_team": "RAK",
         "away_team": "LOT",
         "home_score": 5,
         "away_score": 4,
         "total_score": 9
-      },
-      {
-        "game_date": "2025-09-15",
-        "home_team": "HAN",
-        "away_team": "CHU",
-        "home_score": 6,
-        "away_score": 2,
-        "total_score": 8
       }
     ]
   }

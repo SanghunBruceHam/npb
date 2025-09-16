@@ -190,5 +190,21 @@
     "is_draw": false,
     "stadium": "◇開始14時00分◇京セラドーム大阪",
     "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-16",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 8,
+    "away_team_abbr": "LOT",
+    "away_team_name": "千葉ロッテマリーンズ",
+    "home_score": 7,
+    "away_score": 3,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時01分◇京セラドーム大阪",
+    "final_inning": 9
   }
 ]

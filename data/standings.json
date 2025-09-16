@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-16T11:34:11.305Z",
+  "updated_at": "2025-09-16T12:51:39.256Z",
   "central_league": {
     "standings": [
       {
@@ -151,36 +151,36 @@
         "games_behind": 0
       },
       {
-        "team_id": 8,
-        "team_abbreviation": "LOT",
-        "team_name": "千葉ロッテマリーンズ",
-        "league": "Pacific",
-        "games_played": 2,
-        "wins": 0,
-        "losses": 2,
-        "draws": 0,
-        "runs_scored": 5,
-        "runs_allowed": 10,
-        "win_percentage": 0,
-        "run_differential": -5,
-        "position_rank": 4,
-        "games_behind": 2
-      },
-      {
         "team_id": 10,
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 2,
-        "wins": 0,
+        "games_played": 3,
+        "wins": 1,
         "losses": 2,
         "draws": 0,
-        "runs_scored": 3,
-        "runs_allowed": 9,
+        "runs_scored": 10,
+        "runs_allowed": 12,
+        "win_percentage": 0.3333333333333333,
+        "run_differential": -2,
+        "position_rank": 4,
+        "games_behind": 1.5
+      },
+      {
+        "team_id": 8,
+        "team_abbreviation": "LOT",
+        "team_name": "千葉ロッテマリーンズ",
+        "league": "Pacific",
+        "games_played": 3,
+        "wins": 0,
+        "losses": 3,
+        "draws": 0,
+        "runs_scored": 8,
+        "runs_allowed": 17,
         "win_percentage": 0,
-        "run_differential": -6,
+        "run_differential": -9,
         "position_rank": 5,
-        "games_behind": 2
+        "games_behind": 2.5
       },
       {
         "team_id": 11,
