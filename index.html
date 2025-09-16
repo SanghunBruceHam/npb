@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="2025年シーズン最新のNPB順位表。セ・パ両リーグの勝率・ゲーム差・残り試合・優勝マジックナンバー・CS進出状況をリアルタイム更新。">
-    <meta name="keywords" content="NPB, NPB 順位表, プロ野球, マジックナンバー, 勝率, ゲーム差, CS進出, リアルタイム">
+    <meta name="keywords" content="NPB, NPB 順位表, プロ野球, マジックナンバー, 勝率, ゲーム差, CS進出, ポストシーズン, リアルタイム">
     <meta name="author" content="NPB Statistics">
     <meta name="robots" content="index, follow">
     <meta name="language" content="ja">
@@ -939,7 +939,7 @@
     <div class="nav">
         <div class="nav-tabs">
             <div class="nav-tab" onclick="showTab('magic-regular', this)" data-i18n="nav-magic-regular">正規シーズン優勝マジック</div>
-            <div class="nav-tab" onclick="showTab('magic-playoff', this)" data-i18n="nav-magic-playoff">プレーオフマジック</div>
+            <div class="nav-tab" onclick="showTab('magic-playoff', this)" data-i18n="nav-magic-playoff">ポストシーズンマジック</div>
             <div class="nav-tab" onclick="showTab('progress', this)" data-i18n="nav-progress">進行状況</div>
             <div class="nav-tab" onclick="showTab('scenarios', this)" data-i18n="nav-scenarios">経路の数</div>
             <div class="nav-tab" onclick="showTab('standings', this)" data-i18n="nav-standings">チーム順位</div>
@@ -1414,7 +1414,7 @@
                 
                 // 네비게이션 탭
                 'nav-magic-regular': '優勝マジック',
-                'nav-magic-playoff': 'プレーオフマジック', 
+                'nav-magic-playoff': 'ポストシーズンマジック', 
                 'nav-scenarios': '経路の数',
                 'nav-standings': 'チーム順位',
                 'nav-remaining': '残り試合数',
@@ -2058,7 +2058,7 @@
             updateMagicTable('pacific-magic-regular', standingsData.pacific_league?.standings || [], true);
         }
 
-        // ===== プレーオフマジック更新 =====
+        // ===== ポストシーズンマジック更新 =====
         function updateMagicPlayoff() {
             updateMagicTable('central-magic-playoff', standingsData.central_league?.standings || [], false);
             updateMagicTable('pacific-magic-playoff', standingsData.pacific_league?.standings || [], false);
@@ -4016,7 +4016,7 @@
             };
             
             const descriptionMap = {
-                'ja': '【2025年最新】NPB順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想。セリーグ・パリーグ全12球団の勝率分析、残り試合数、プレーオフシナリオまで完全網羅。巨人・阪神・ソフトバンクなど全チーム対応。',
+                'ja': '【2025年最新】NPB順位表・マジックナンバー・クリンチ・CS進出確率・優勝予想。セリーグ・パリーグ全12球団の勝率分析、残り試合数、ポストシーズンシナリオまで完全網羅。巨人・阪神・ソフトバンクなど全チーム対応。',
                 'ko': '【2025년 최신】NPB 순위표·매직넘버·클린치·CS진출확률·우승예상을 매일 자동업데이트. 센트럴·퍼시픽리그 전12구단의 승률분석, 남은경기수, 플레이오프 시나리오까지 완전망라. 자이언츠·타이거스·호크스 등 전팀 지원.',
                 'en': '【2025 Latest】Daily auto-update of NPB standings, magic numbers, clinch, CS playoff probability, championship predictions. Complete coverage of all 12 teams from Central & Pacific leagues including win rate analysis, remaining games, playoff scenarios. Giants, Tigers, Hawks and all teams supported.'
             };
