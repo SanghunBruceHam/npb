@@ -315,6 +315,7 @@
         
         .tab-content {
             display: none;
+            scroll-margin-top: calc(var(--header-height) + var(--nav-height) + 20px);
         }
 
         .tab-content.active {
@@ -2057,6 +2058,9 @@
 
             // Show selected tab
             const selectedTab = document.getElementById(tabId);
+            if (!selectedTab) {
+                return;
+            }
             selectedTab.classList.add('active');
             selectedTab.setAttribute('aria-hidden', 'false');
 
@@ -2074,8 +2078,26 @@
                 });
             }
 
-            // Update URL hash
-            window.location.hash = tabId;
+            // Update URL hash without triggering default jump
+            const hash = `#${tabId}`;
+            if (window.history && window.history.replaceState) {
+                window.history.replaceState(null, '', hash);
+            } else {
+                window.location.hash = tabId;
+            }
+
+            // Ensure newly shown tab content is aligned below the fixed header
+            requestAnimationFrame(() => {
+                try {
+                    selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } catch (err) {
+                    const rootStyles = getComputedStyle(document.documentElement);
+                    const headerHeight = parseInt(rootStyles.getPropertyValue('--header-height')) || 0;
+                    const navHeight = parseInt(rootStyles.getPropertyValue('--nav-height')) || 0;
+                    const offset = Math.max((selectedTab.getBoundingClientRect().top + window.scrollY) - headerHeight - navHeight - 20, 0);
+                    window.scrollTo({ top: offset, behavior: 'smooth' });
+                }
+            });
 
             // Refresh AdSense ads in the newly visible tab
             setTimeout(() => {
