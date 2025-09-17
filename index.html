@@ -501,6 +501,10 @@
             margin: 10px 0;
             text-align: center;
         }
+
+        #meta-bar {
+            display: none;
+        }
         
         .loading { 
             text-align: center; 
@@ -3784,7 +3788,7 @@
                     return currentTotal >= latestTotal ? current : latest;
                 });
                 
-                completedGameKeys.add(key);
+                completedGameKeys.add(`${dateIso}-${key}`);
                 completedTodayGames.push(finalGame);
                 
             });
@@ -3799,8 +3803,8 @@
                 if (!homeId || !awayId) return true;
                 
                 const teamIds = [homeId, awayId].sort();
-                const key = `${teamIds[0]}-${teamIds[1]}`;
-                
+                const key = `${dateIso}-${teamIds[0]}-${teamIds[1]}`;
+
                 // 예정 경기는 완료된 경기와 중복 시 제외
                 return !completedGameKeys.has(key);
             });
