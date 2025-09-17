@@ -2088,15 +2088,7 @@
 
             // Ensure newly shown tab content is aligned below the fixed header
             requestAnimationFrame(() => {
-                try {
-                    selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } catch (err) {
-                    const rootStyles = getComputedStyle(document.documentElement);
-                    const headerHeight = parseInt(rootStyles.getPropertyValue('--header-height')) || 0;
-                    const navHeight = parseInt(rootStyles.getPropertyValue('--nav-height')) || 0;
-                    const offset = Math.max((selectedTab.getBoundingClientRect().top + window.scrollY) - headerHeight - navHeight - 20, 0);
-                    window.scrollTo({ top: offset, behavior: 'smooth' });
-                }
+                selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
 
             // Refresh AdSense ads in the newly visible tab
