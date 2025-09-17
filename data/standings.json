@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-17T13:24:55.170Z",
+  "updated_at": "2025-09-17T13:35:22.944Z",
   "central_league": {
     "standings": [
       {
@@ -7,14 +7,14 @@
         "team_abbreviation": "HAN",
         "team_name": "阪神タイガース",
         "league": "Central",
-        "games_played": 132,
-        "wins": 80,
+        "games_played": 133,
+        "wins": 81,
         "losses": 49,
         "draws": 3,
-        "runs_scored": 456,
-        "runs_allowed": 319,
-        "win_percentage": 0.6201550387596899,
-        "run_differential": 137,
+        "runs_scored": 462,
+        "runs_allowed": 320,
+        "win_percentage": 0.6230769230769231,
+        "run_differential": 142,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5078125,
         "run_differential": 37,
         "position_rank": 2,
-        "games_behind": 14.5
+        "games_behind": 15
       },
       {
         "team_id": 1,
@@ -48,23 +48,23 @@
         "win_percentage": 0.5,
         "run_differential": 7,
         "position_rank": 3,
-        "games_behind": 15.5
+        "games_behind": 16
       },
       {
         "team_id": 4,
         "team_abbreviation": "HIR",
         "team_name": "広島東洋カープ",
         "league": "Central",
-        "games_played": 132,
+        "games_played": 133,
         "wins": 58,
-        "losses": 69,
+        "losses": 70,
         "draws": 5,
-        "runs_scored": 420,
-        "runs_allowed": 436,
-        "win_percentage": 0.4566929133858268,
-        "run_differential": -16,
+        "runs_scored": 421,
+        "runs_allowed": 442,
+        "win_percentage": 0.453125,
+        "run_differential": -21,
         "position_rank": 4,
-        "games_behind": 21
+        "games_behind": 22
       },
       {
         "team_id": 5,
@@ -80,7 +80,7 @@
         "win_percentage": 0.44274809160305345,
         "run_differential": -57,
         "position_rank": 5,
-        "games_behind": 23
+        "games_behind": 23.5
       },
       {
         "team_id": 6,
@@ -96,7 +96,7 @@
         "win_percentage": 0.3902439024390244,
         "run_differential": -145,
         "position_rank": 6,
-        "games_behind": 29
+        "games_behind": 29.5
       }
     ]
   },
