@@ -908,49 +908,90 @@ class SimpleCrawler:
                             continue
                         if current_date and line and not line.startswith('#'):
                             game_match = re.match(r'^(.+?)\s+((\d+)-(\d+)|vs)\s+(.+?)\s+\(([^)]+)\)(.*)$', line)
-                            if game_match and i + 1 < len(lines):
-                                meta_line = lines[i + 1]
-                                meta_match = re.match(r'^#\s*(\d+)\|(\d+)\|([^|]+)\|([^|]+)$', meta_line)
-                                if meta_match:
-                                    gm = game_match.groups()
-                                    away_abbr = gm[0].strip()
-                                    score_part = gm[1]
-                                    away_score_str = gm[2]
-                                    home_score_str = gm[3]
-                                    home_abbr = gm[4].strip()
-                                    league = gm[5].strip()
-                                    status_info = gm[6].strip() if len(gm) > 6 and gm[6] else ''
+                            if game_match:
+                                gm = game_match.groups()
+                                away_label = gm[0].strip()
+                                score_part = gm[1]
+                                away_score_str = gm[2]
+                                home_score_str = gm[3]
+                                home_label = gm[4].strip()
+                                league = gm[5].strip()
+                                status_info = gm[6].strip() if len(gm) > 6 and gm[6] else ''
 
+                                meta_line = lines[i + 1].strip() if i + 1 < len(lines) else ''
+                                meta_match = re.match(r'^#\s*(\d+)\|(\d+)\|([^|]+)\|([^|]+)$', meta_line)
+
+                                away_id_i = home_id_i = None
+                                away_abbr = home_abbr = ''
+                                away_name = home_name = ''
+
+                                def lookup_team(label: str):
+                                    if not label:
+                                        return None
+                                    info = self.teams.get(label)
+                                    if info:
+                                        return info
+                                    normalized = label.replace('　', '').replace(' ', '')
+                                    return self.teams.get(normalized)
+
+                                if meta_match:
                                     away_id, home_id, away_name, home_name = meta_match.groups()
                                     away_id_i = int(away_id)
                                     home_id_i = int(home_id)
+                                    away_abbr = self.id_to_team.get(away_id_i, {}).get('abbr', '')
+                                    home_abbr = self.id_to_team.get(home_id_i, {}).get('abbr', '')
+                                    if not away_name:
+                                        away_info = lookup_team(away_label)
+                                        away_name = away_info['name'] if away_info else away_label
+                                    if not home_name:
+                                        home_info = lookup_team(home_label)
+                                        home_name = home_info['name'] if home_info else home_label
+                                else:
+                                    away_info = lookup_team(away_label)
+                                    home_info = lookup_team(home_label)
+                                    if away_info and home_info:
+                                        away_id_i = away_info['id']
+                                        home_id_i = home_info['id']
+                                        away_abbr = away_info['abbr']
+                                        home_abbr = home_info['abbr']
+                                        away_name = away_info['name']
+                                        home_name = home_info['name']
+                                        if league not in self.valid_leagues:
+                                            league = home_info['league']
+                                    else:
+                                        self.logger.warning(f"Failed to parse existing game line without metadata: {line}")
+                                        i += 1
+                                        continue
 
-                                    # Repair invalid abbr/league using IDs
-                                    if home_abbr not in self.valid_abbrs and home_id_i in self.id_to_team:
-                                        home_abbr = self.id_to_team[home_id_i]['abbr']
-                                    if away_abbr not in self.valid_abbrs and away_id_i in self.id_to_team:
-                                        away_abbr = self.id_to_team[away_id_i]['abbr']
-                                    if league not in self.valid_leagues and home_id_i in self.id_to_team:
-                                        league = self.id_to_team[home_id_i]['league']
+                                game_data = {
+                                    'date': current_date,
+                                    'home_team_id': home_id_i,
+                                    'home_team_abbr': home_abbr,
+                                    'home_team_name': home_name,
+                                    'away_team_id': away_id_i,
+                                    'away_team_abbr': away_abbr,
+                                    'away_team_name': away_name,
+                                    'home_score': int(home_score_str) if home_score_str else None,
+                                    'away_score': int(away_score_str) if away_score_str else None,
+                                    'league': league,
+                                    'status': 'completed' if score_part != 'vs' else 'scheduled',
+                                    'is_draw': '[DRAW]' in (status_info or '')
+                                }
+                                game_key = (current_date, str(home_id_i), str(away_id_i))
+                                existing_games[game_key] = game_data
 
-                                    game_data = {
-                                        'date': current_date,
-                                        'home_team_id': home_id_i,
-                                        'home_team_abbr': home_abbr,
-                                        'home_team_name': home_name,
-                                        'away_team_id': away_id_i,
-                                        'away_team_abbr': away_abbr,
-                                        'away_team_name': away_name,
-                                        'home_score': int(home_score_str) if home_score_str else None,
-                                        'away_score': int(away_score_str) if away_score_str else None,
-                                        'league': league,
-                                        'status': 'completed' if score_part != 'vs' else 'scheduled',
-                                        'is_draw': '[DRAW]' in (status_info or '')
-                                    }
-                                    game_key = (current_date, home_id, away_id)
-                                    existing_games[game_key] = game_data
-                                    i += 2
-                                    continue
+                                # Skip detail lines (meta or inning stats)
+                                next_index = i + 1
+                                while next_index < len(lines):
+                                    next_line = lines[next_index].strip()
+                                    if next_line.startswith('# 202'):
+                                        break
+                                    if next_line.startswith('#'):
+                                        next_index += 1
+                                        continue
+                                    break
+                                i = next_index
+                                continue
                         i += 1
             except Exception as e:
                 self.logger.warning(f"Failed to read existing file: {e}")
