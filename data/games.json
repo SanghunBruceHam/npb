@@ -12,8 +12,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時19分◇東京ドーム",
-    "final_inning": 10
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-03-28",
@@ -28,8 +27,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-03-28",
@@ -44,8 +42,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-03-28",
@@ -60,8 +57,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-03-28",
@@ -76,8 +72,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時31分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-03-28",
@@ -92,8 +87,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時30分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-03-29",
@@ -108,8 +102,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-03-29",
@@ -124,8 +117,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-03-29",
@@ -140,8 +132,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-03-29",
@@ -156,8 +147,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-03-29",
@@ -172,8 +162,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇京セラドーム大阪",
-    "final_inning": 10
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-03-29",
@@ -188,8 +177,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇みずほペイペイドーム",
-    "final_inning": 10
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-03-30",
@@ -204,8 +192,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-03-30",
@@ -220,8 +207,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-03-30",
@@ -236,8 +222,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時31分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-03-30",
@@ -252,8 +237,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-03-30",
@@ -268,8 +252,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-03-30",
@@ -284,8 +267,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-01",
@@ -300,8 +282,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時15分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-01",
@@ -316,8 +297,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時06分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-01",
@@ -332,8 +312,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-02",
@@ -348,8 +327,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-02",
@@ -364,8 +342,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-02",
@@ -380,8 +357,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 12
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-02",
@@ -396,8 +372,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-02",
@@ -412,8 +387,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-03",
@@ -428,8 +402,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-03",
@@ -444,8 +417,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-03",
@@ -460,8 +432,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-03",
@@ -476,8 +447,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時04分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-03",
@@ -492,8 +462,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-04",
@@ -508,8 +477,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-04",
@@ -524,8 +492,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "明治神宮野球場",
-    "final_inning": 12
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-04",
@@ -540,8 +507,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-04",
@@ -556,8 +522,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-04",
@@ -572,8 +537,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-04",
@@ -588,8 +552,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-05",
@@ -604,8 +567,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-05",
@@ -620,8 +582,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-05",
@@ -636,8 +597,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇マツダスタジアム",
-    "final_inning": 11
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-05",
@@ -652,8 +612,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-05",
@@ -668,8 +627,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-05",
@@ -684,8 +642,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時02分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-06",
@@ -700,8 +657,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-06",
@@ -716,8 +672,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-06",
@@ -732,8 +687,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-06",
@@ -748,8 +702,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-06",
@@ -764,8 +717,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-06",
@@ -780,8 +732,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-08",
@@ -796,8 +747,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "横浜スタジアム",
-    "final_inning": 12
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-08",
@@ -812,8 +762,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "final_inning": 12
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-08",
@@ -828,8 +777,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-08",
@@ -844,8 +792,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-08",
@@ -860,8 +807,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-08",
@@ -876,8 +822,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-09",
@@ -892,8 +837,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-09",
@@ -908,8 +852,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-09",
@@ -924,8 +867,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-09",
@@ -940,8 +882,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-09",
@@ -956,8 +897,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-09",
@@ -972,8 +912,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-10",
@@ -988,8 +927,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 11
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-10",
@@ -1004,8 +942,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-10",
@@ -1020,8 +957,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 12
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-11",
@@ -1036,8 +972,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-11",
@@ -1052,8 +987,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-11",
@@ -1068,8 +1002,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 12
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-11",
@@ -1084,8 +1017,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-11",
@@ -1100,8 +1032,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 10
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-12",
@@ -1116,8 +1047,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-12",
@@ -1132,8 +1062,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-12",
@@ -1148,8 +1077,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-12",
@@ -1164,8 +1092,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-12",
@@ -1180,8 +1107,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-12",
@@ -1196,8 +1122,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-13",
@@ -1212,8 +1137,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-13",
@@ -1228,8 +1152,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-13",
@@ -1244,8 +1167,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-15",
@@ -1260,8 +1182,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-15",
@@ -1276,8 +1197,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-15",
@@ -1292,8 +1212,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-15",
@@ -1308,8 +1227,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-15",
@@ -1324,8 +1242,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-15",
@@ -1340,8 +1257,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 10
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-16",
@@ -1356,8 +1272,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-16",
@@ -1372,8 +1287,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-16",
@@ -1388,8 +1302,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-16",
@@ -1404,8 +1317,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-16",
@@ -1420,8 +1332,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-17",
@@ -1436,8 +1347,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-17",
@@ -1452,8 +1362,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 11
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-17",
@@ -1468,8 +1377,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-17",
@@ -1484,8 +1392,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-18",
@@ -1500,8 +1407,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-18",
@@ -1516,8 +1422,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-18",
@@ -1532,8 +1437,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-18",
@@ -1548,8 +1452,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-18",
@@ -1564,8 +1467,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-19",
@@ -1580,8 +1482,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-19",
@@ -1596,8 +1497,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-19",
@@ -1612,8 +1512,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-19",
@@ -1628,8 +1527,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始16時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-19",
@@ -1644,8 +1542,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-19",
@@ -1660,8 +1557,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-20",
@@ -1676,8 +1572,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-20",
@@ -1692,8 +1587,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-20",
@@ -1708,8 +1602,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-20",
@@ -1724,8 +1617,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-20",
@@ -1740,8 +1632,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-20",
@@ -1756,8 +1647,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-22",
@@ -1772,8 +1662,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-22",
@@ -1788,8 +1677,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-22",
@@ -1804,8 +1692,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-22",
@@ -1820,8 +1707,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 10
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-22",
@@ -1836,8 +1722,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 12
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-23",
@@ -1852,8 +1737,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-23",
@@ -1868,8 +1752,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 10
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-23",
@@ -1884,8 +1767,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-04-23",
@@ -1900,8 +1782,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-23",
@@ -1916,8 +1797,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-04-23",
@@ -1932,8 +1812,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-24",
@@ -1948,8 +1827,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-25",
@@ -1964,8 +1842,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-25",
@@ -1980,8 +1857,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-25",
@@ -1996,8 +1872,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-25",
@@ -2012,8 +1887,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-25",
@@ -2028,8 +1902,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-25",
@@ -2044,8 +1917,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-26",
@@ -2060,8 +1932,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-26",
@@ -2076,8 +1947,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-26",
@@ -2092,8 +1962,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-26",
@@ -2108,8 +1977,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-26",
@@ -2124,8 +1992,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-26",
@@ -2140,8 +2007,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-27",
@@ -2156,8 +2022,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-04-27",
@@ -2172,8 +2037,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-27",
@@ -2188,8 +2052,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-04-27",
@@ -2204,8 +2067,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-04-27",
@@ -2220,8 +2082,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 11
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-04-27",
@@ -2236,8 +2097,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-29",
@@ -2252,8 +2112,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇東京ドーム",
-    "final_inning": 12
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-29",
@@ -2268,8 +2127,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-29",
@@ -2284,8 +2142,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-29",
@@ -2300,8 +2157,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-29",
@@ -2316,8 +2172,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-29",
@@ -2332,8 +2187,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 10
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-04-30",
@@ -2348,8 +2202,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-04-30",
@@ -2364,8 +2217,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-04-30",
@@ -2380,8 +2232,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇バンテリンドーム",
-    "final_inning": 11
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-04-30",
@@ -2396,8 +2247,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-04-30",
@@ -2412,8 +2262,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-04-30",
@@ -2428,8 +2277,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-01",
@@ -2444,8 +2292,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 12
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-01",
@@ -2460,8 +2307,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-01",
@@ -2476,8 +2322,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-01",
@@ -2492,8 +2337,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-01",
@@ -2508,8 +2352,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-02",
@@ -2524,8 +2367,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-02",
@@ -2540,8 +2382,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-02",
@@ -2556,8 +2397,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-03",
@@ -2572,8 +2412,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-03",
@@ -2588,8 +2427,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-03",
@@ -2604,8 +2442,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-03",
@@ -2620,8 +2457,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-03",
@@ -2636,8 +2472,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-03",
@@ -2652,8 +2487,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-04",
@@ -2668,8 +2502,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-04",
@@ -2684,8 +2517,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-04",
@@ -2700,8 +2532,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-04",
@@ -2716,8 +2547,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-04",
@@ -2732,8 +2562,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-04",
@@ -2748,8 +2577,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-05",
@@ -2764,8 +2592,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-05",
@@ -2780,8 +2607,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-05",
@@ -2796,8 +2622,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-05",
@@ -2812,8 +2637,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-05",
@@ -2828,8 +2652,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-05",
@@ -2844,8 +2667,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-06",
@@ -2860,8 +2682,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-06",
@@ -2876,8 +2697,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-06",
@@ -2892,8 +2712,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-06",
@@ -2908,8 +2727,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-07",
@@ -2924,8 +2742,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-07",
@@ -2940,8 +2757,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-07",
@@ -2956,8 +2772,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-07",
@@ -2972,8 +2787,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-07",
@@ -2988,8 +2802,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-07",
@@ -3004,8 +2817,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 12
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-09",
@@ -3020,8 +2832,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-09",
@@ -3036,8 +2847,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 10
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-09",
@@ -3052,8 +2862,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-09",
@@ -3068,8 +2877,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-09",
@@ -3084,8 +2892,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-10",
@@ -3100,8 +2907,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-10",
@@ -3116,8 +2922,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-10",
@@ -3132,8 +2937,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-10",
@@ -3148,8 +2952,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-10",
@@ -3164,8 +2967,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-10",
@@ -3180,8 +2982,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-11",
@@ -3196,8 +2997,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-11",
@@ -3212,8 +3012,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-11",
@@ -3228,8 +3027,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-11",
@@ -3244,8 +3042,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-11",
@@ -3260,8 +3057,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-11",
@@ -3276,8 +3072,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-13",
@@ -3292,8 +3087,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "横浜スタジアム",
-    "final_inning": 12
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-13",
@@ -3308,8 +3102,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-13",
@@ -3324,8 +3117,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 12
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-13",
@@ -3340,8 +3132,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-13",
@@ -3356,8 +3147,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-13",
@@ -3372,8 +3162,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-14",
@@ -3388,8 +3177,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-14",
@@ -3404,8 +3192,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-14",
@@ -3420,8 +3207,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-14",
@@ -3436,8 +3222,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-14",
@@ -3452,8 +3237,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-15",
@@ -3468,8 +3252,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-15",
@@ -3484,8 +3267,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-15",
@@ -3500,8 +3282,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-15",
@@ -3516,8 +3297,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-15",
@@ -3532,8 +3312,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-16",
@@ -3548,8 +3327,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-16",
@@ -3564,8 +3342,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-16",
@@ -3580,8 +3357,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-16",
@@ -3596,8 +3372,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-16",
@@ -3612,8 +3387,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-16",
@@ -3628,8 +3402,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-17",
@@ -3644,8 +3417,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-17",
@@ -3660,8 +3432,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-17",
@@ -3676,8 +3447,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-17",
@@ -3692,8 +3462,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-17",
@@ -3708,8 +3477,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-18",
@@ -3724,8 +3492,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-18",
@@ -3740,8 +3507,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-18",
@@ -3756,8 +3522,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-18",
@@ -3772,8 +3537,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-18",
@@ -3788,8 +3552,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 12
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-18",
@@ -3804,8 +3567,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇みずほペイペイドーム",
-    "final_inning": 12
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-20",
@@ -3820,8 +3582,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-20",
@@ -3836,8 +3597,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-20",
@@ -3852,8 +3612,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-20",
@@ -3868,8 +3627,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-20",
@@ -3884,8 +3642,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時05分◇きたぎんボールパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-20",
@@ -3900,8 +3657,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-21",
@@ -3916,8 +3672,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-21",
@@ -3932,8 +3687,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-21",
@@ -3948,8 +3702,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-21",
@@ -3964,8 +3717,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-22",
@@ -3980,8 +3732,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-22",
@@ -3996,8 +3747,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 11
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-22",
@@ -4012,8 +3762,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 12
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-22",
@@ -4028,8 +3777,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 11
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-22",
@@ -4044,8 +3792,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-22",
@@ -4060,8 +3807,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-05-23",
@@ -4076,8 +3822,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-23",
@@ -4092,8 +3837,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 11
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-23",
@@ -4108,8 +3852,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-23",
@@ -4124,8 +3867,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-23",
@@ -4140,8 +3882,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-24",
@@ -4156,8 +3897,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-24",
@@ -4172,8 +3912,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-24",
@@ -4188,8 +3927,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-24",
@@ -4204,8 +3942,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-25",
@@ -4220,8 +3957,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-25",
@@ -4236,8 +3972,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時31分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-25",
@@ -4252,8 +3987,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時31分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-25",
@@ -4268,8 +4002,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 12
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-25",
@@ -4284,8 +4017,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-25",
@@ -4300,8 +4032,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-27",
@@ -4316,8 +4047,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-27",
@@ -4332,8 +4062,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-27",
@@ -4348,8 +4077,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 11
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-27",
@@ -4364,8 +4092,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-27",
@@ -4380,8 +4107,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-27",
@@ -4396,8 +4122,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-28",
@@ -4412,8 +4137,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-05-28",
@@ -4428,8 +4152,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-28",
@@ -4444,8 +4167,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-28",
@@ -4460,8 +4182,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-28",
@@ -4476,8 +4197,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-05-28",
@@ -4492,8 +4212,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-05-29",
@@ -4508,8 +4227,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-05-29",
@@ -4524,8 +4242,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-05-29",
@@ -4540,8 +4257,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-05-30",
@@ -4556,8 +4272,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-30",
@@ -4572,8 +4287,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-30",
@@ -4588,8 +4302,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-30",
@@ -4604,8 +4317,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-30",
@@ -4620,8 +4332,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-05-31",
@@ -4636,8 +4347,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-05-31",
@@ -4652,8 +4362,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-05-31",
@@ -4668,8 +4377,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-05-31",
@@ -4684,8 +4392,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-05-31",
@@ -4700,8 +4407,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "final_inning": 11
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-01",
@@ -4716,8 +4422,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-01",
@@ -4732,8 +4437,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-01",
@@ -4748,8 +4452,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-01",
@@ -4764,8 +4467,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-01",
@@ -4780,8 +4482,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時02分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-01",
@@ -4796,8 +4497,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-03",
@@ -4812,8 +4512,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-03",
@@ -4828,8 +4527,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始19時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-03",
@@ -4844,8 +4542,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 11
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-03",
@@ -4860,8 +4557,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時04分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-03",
@@ -4876,8 +4572,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-04",
@@ -4892,8 +4587,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-04",
@@ -4908,8 +4602,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-04",
@@ -4924,8 +4617,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-04",
@@ -4940,8 +4632,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-04",
@@ -4956,8 +4647,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時03分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-04",
@@ -4972,8 +4662,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-05",
@@ -4988,8 +4677,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-05",
@@ -5004,8 +4692,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-05",
@@ -5020,8 +4707,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-05",
@@ -5036,8 +4722,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 10
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-05",
@@ -5052,8 +4737,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-05",
@@ -5068,8 +4752,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-06",
@@ -5084,8 +4767,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-06",
@@ -5100,8 +4782,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-06",
@@ -5116,8 +4797,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-06",
@@ -5132,8 +4812,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-06",
@@ -5148,8 +4827,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 10
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-06",
@@ -5164,8 +4842,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-07",
@@ -5180,8 +4857,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-07",
@@ -5196,8 +4872,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-07",
@@ -5212,8 +4887,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-07",
@@ -5228,8 +4902,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-07",
@@ -5244,8 +4917,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-07",
@@ -5260,8 +4932,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-08",
@@ -5276,8 +4947,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-08",
@@ -5292,8 +4962,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-08",
@@ -5308,8 +4977,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 10
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-08",
@@ -5324,8 +4992,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-08",
@@ -5340,8 +5007,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-08",
@@ -5356,8 +5022,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-10",
@@ -5372,8 +5037,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-10",
@@ -5388,8 +5052,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇きらやかスタジアム",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-10",
@@ -5404,8 +5067,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-10",
@@ -5420,8 +5082,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-10",
@@ -5436,8 +5097,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-10",
@@ -5452,8 +5112,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-11",
@@ -5468,8 +5127,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-11",
@@ -5484,8 +5142,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-11",
@@ -5500,8 +5157,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-11",
@@ -5516,8 +5172,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 12
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-11",
@@ -5532,8 +5187,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-11",
@@ -5548,8 +5202,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-12",
@@ -5564,8 +5217,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-12",
@@ -5580,8 +5232,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-12",
@@ -5596,8 +5247,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-12",
@@ -5612,8 +5262,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-12",
@@ -5628,8 +5277,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-12",
@@ -5644,8 +5292,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 12
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-13",
@@ -5660,8 +5307,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-13",
@@ -5676,8 +5322,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-13",
@@ -5692,8 +5337,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-13",
@@ -5708,8 +5352,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-13",
@@ -5724,8 +5367,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-13",
@@ -5740,8 +5382,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-14",
@@ -5756,8 +5397,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-14",
@@ -5772,8 +5412,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇楽天モバイルパーク",
-    "final_inning": 10
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-14",
@@ -5788,8 +5427,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-14",
@@ -5804,8 +5442,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-14",
@@ -5820,8 +5457,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 11
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-14",
@@ -5836,8 +5472,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-15",
@@ -5852,8 +5487,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 10
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-06-15",
@@ -5868,8 +5502,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 12
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-06-15",
@@ -5884,8 +5517,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-15",
@@ -5900,8 +5532,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-15",
@@ -5916,8 +5547,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-15",
@@ -5932,8 +5562,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-06-17",
@@ -5948,8 +5577,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-17",
@@ -5964,8 +5592,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "明治神宮野球場",
-    "final_inning": 12
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-17",
@@ -5980,8 +5607,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-17",
@@ -5996,8 +5622,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-17",
@@ -6012,8 +5637,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-17",
@@ -6028,8 +5652,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-18",
@@ -6044,8 +5667,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-18",
@@ -6060,8 +5682,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-18",
@@ -6076,8 +5697,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-18",
@@ -6092,8 +5712,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-18",
@@ -6108,8 +5727,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-18",
@@ -6124,8 +5742,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-19",
@@ -6140,8 +5757,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-19",
@@ -6156,8 +5772,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-19",
@@ -6172,8 +5787,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-19",
@@ -6188,8 +5802,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-19",
@@ -6204,8 +5817,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-19",
@@ -6220,8 +5832,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-20",
@@ -6236,8 +5847,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-20",
@@ -6252,8 +5862,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-20",
@@ -6268,8 +5877,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-20",
@@ -6284,8 +5892,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-20",
@@ -6300,8 +5907,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 10
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-20",
@@ -6316,8 +5922,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-21",
@@ -6332,8 +5937,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-21",
@@ -6348,8 +5952,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-21",
@@ -6364,8 +5967,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-21",
@@ -6380,8 +5982,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-21",
@@ -6396,8 +5997,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-21",
@@ -6412,8 +6012,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-22",
@@ -6428,8 +6027,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-22",
@@ -6444,8 +6042,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-22",
@@ -6460,8 +6057,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-06-22",
@@ -6476,8 +6072,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-22",
@@ -6492,8 +6087,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-06-22",
@@ -6508,8 +6102,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-06-24",
@@ -6524,8 +6117,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-27",
@@ -6540,8 +6132,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-27",
@@ -6556,8 +6147,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-27",
@@ -6572,8 +6162,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-27",
@@ -6588,8 +6177,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-27",
@@ -6604,8 +6192,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-27",
@@ -6620,8 +6207,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-28",
@@ -6636,8 +6222,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-28",
@@ -6652,8 +6237,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-28",
@@ -6668,8 +6252,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時03分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-28",
@@ -6684,8 +6267,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-28",
@@ -6700,8 +6282,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-28",
@@ -6716,8 +6297,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-06-29",
@@ -6732,8 +6312,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-06-29",
@@ -6748,8 +6327,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-06-29",
@@ -6764,8 +6342,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-06-29",
@@ -6780,8 +6357,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-06-29",
@@ -6796,8 +6372,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-06-29",
@@ -6812,8 +6387,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-01",
@@ -6828,8 +6402,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-01",
@@ -6844,8 +6417,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-01",
@@ -6860,8 +6432,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 12
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-01",
@@ -6876,8 +6447,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-01",
@@ -6892,8 +6462,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-01",
@@ -6908,8 +6477,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-02",
@@ -6924,8 +6492,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-02",
@@ -6940,8 +6507,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-02",
@@ -6956,8 +6522,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-02",
@@ -6972,8 +6537,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-02",
@@ -6988,8 +6552,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-02",
@@ -7004,8 +6567,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-03",
@@ -7020,8 +6582,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-03",
@@ -7036,8 +6597,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-03",
@@ -7052,8 +6612,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-03",
@@ -7068,8 +6627,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-04",
@@ -7084,8 +6642,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-04",
@@ -7100,8 +6657,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-04",
@@ -7116,8 +6672,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-04",
@@ -7132,8 +6687,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-04",
@@ -7148,8 +6702,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-04",
@@ -7164,8 +6717,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-05",
@@ -7180,8 +6732,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 12
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-05",
@@ -7196,8 +6747,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-05",
@@ -7212,8 +6762,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 12
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-05",
@@ -7228,8 +6777,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-05",
@@ -7244,8 +6792,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-05",
@@ -7260,8 +6807,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-06",
@@ -7276,8 +6822,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-06",
@@ -7292,8 +6837,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-06",
@@ -7308,8 +6852,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-06",
@@ -7324,8 +6867,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-06",
@@ -7340,8 +6882,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-06",
@@ -7356,8 +6897,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-08",
@@ -7372,8 +6912,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-08",
@@ -7388,8 +6927,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-08",
@@ -7404,8 +6942,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-08",
@@ -7420,8 +6957,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-08",
@@ -7436,8 +6972,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 11
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-08",
@@ -7452,8 +6987,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-09",
@@ -7468,8 +7002,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-09",
@@ -7484,8 +7017,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "明治神宮野球場",
-    "final_inning": 12
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-09",
@@ -7500,8 +7032,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時30分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-09",
@@ -7516,8 +7047,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-09",
@@ -7532,8 +7062,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-09",
@@ -7548,8 +7077,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-10",
@@ -7564,8 +7092,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-10",
@@ -7580,8 +7107,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-10",
@@ -7596,8 +7122,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-11",
@@ -7612,8 +7137,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 11
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-11",
@@ -7628,8 +7152,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-11",
@@ -7644,8 +7167,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-11",
@@ -7660,8 +7182,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-11",
@@ -7676,8 +7197,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-11",
@@ -7692,8 +7212,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 12
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-12",
@@ -7708,8 +7227,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-12",
@@ -7724,8 +7242,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-12",
@@ -7740,8 +7257,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-12",
@@ -7756,8 +7272,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-12",
@@ -7772,8 +7287,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始16時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-12",
@@ -7788,8 +7302,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-13",
@@ -7804,8 +7317,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-13",
@@ -7820,8 +7332,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時31分◇バンテリンドーム",
-    "final_inning": 10
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-13",
@@ -7836,8 +7347,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-13",
@@ -7852,8 +7362,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-13",
@@ -7868,8 +7377,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-13",
@@ -7884,8 +7392,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-14",
@@ -7900,8 +7407,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-15",
@@ -7916,8 +7422,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 11
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-15",
@@ -7932,8 +7437,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-15",
@@ -7948,8 +7452,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 10
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-15",
@@ -7964,8 +7467,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-16",
@@ -7980,8 +7482,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-16",
@@ -7996,8 +7497,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-16",
@@ -8012,8 +7512,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-16",
@@ -8028,8 +7527,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-16",
@@ -8044,8 +7542,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-17",
@@ -8060,8 +7557,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-17",
@@ -8076,8 +7572,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-17",
@@ -8092,8 +7587,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-17",
@@ -8108,8 +7602,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "福岡PayPayドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-18",
@@ -8124,8 +7617,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 10
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-19",
@@ -8140,8 +7632,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 11
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-19",
@@ -8156,8 +7647,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-19",
@@ -8172,8 +7662,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-19",
@@ -8188,8 +7677,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-19",
@@ -8204,8 +7692,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-19",
@@ -8220,8 +7707,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-20",
@@ -8236,8 +7722,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-20",
@@ -8252,8 +7737,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-20",
@@ -8268,8 +7752,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 10
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-20",
@@ -8284,8 +7767,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-20",
@@ -8300,8 +7782,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-20",
@@ -8316,8 +7797,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-21",
@@ -8332,8 +7812,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-07-21",
@@ -8348,8 +7827,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-21",
@@ -8364,8 +7842,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-21",
@@ -8380,8 +7857,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-21",
@@ -8396,8 +7872,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-07-21",
@@ -8412,8 +7887,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-26",
@@ -8428,8 +7902,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-26",
@@ -8444,8 +7917,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-26",
@@ -8460,8 +7932,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-26",
@@ -8476,8 +7947,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-26",
@@ -8492,8 +7962,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-26",
@@ -8508,8 +7977,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-27",
@@ -8524,8 +7992,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-07-27",
@@ -8540,8 +8007,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-27",
@@ -8556,8 +8022,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-07-27",
@@ -8572,8 +8037,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 11
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-27",
@@ -8588,8 +8052,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-07-27",
@@ -8604,8 +8067,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-07-29",
@@ -8620,8 +8082,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-29",
@@ -8636,8 +8097,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-29",
@@ -8652,8 +8112,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-29",
@@ -8668,8 +8127,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-29",
@@ -8684,8 +8142,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-29",
@@ -8700,8 +8157,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 10
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-30",
@@ -8716,8 +8172,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-30",
@@ -8732,8 +8187,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-30",
@@ -8748,8 +8202,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-30",
@@ -8764,8 +8217,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-30",
@@ -8780,8 +8232,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-30",
@@ -8796,8 +8247,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-07-31",
@@ -8812,8 +8262,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-07-31",
@@ -8828,8 +8277,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 10
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-07-31",
@@ -8844,8 +8292,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-07-31",
@@ -8860,8 +8307,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-07-31",
@@ -8876,8 +8322,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時30分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-07-31",
@@ -8892,8 +8337,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-01",
@@ -8908,8 +8352,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-01",
@@ -8924,8 +8367,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-01",
@@ -8940,8 +8382,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-01",
@@ -8956,8 +8397,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-01",
@@ -8972,8 +8412,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時16分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-01",
@@ -8988,8 +8427,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-02",
@@ -9004,8 +8442,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始15時02分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-02",
@@ -9020,8 +8457,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-02",
@@ -9036,8 +8472,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-02",
@@ -9052,8 +8487,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 12
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-02",
@@ -9068,8 +8502,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時03分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-02",
@@ -9084,8 +8517,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-03",
@@ -9100,8 +8532,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-03",
@@ -9116,8 +8547,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-03",
@@ -9132,8 +8562,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-03",
@@ -9148,8 +8577,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-03",
@@ -9164,8 +8592,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-03",
@@ -9180,8 +8607,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-05",
@@ -9196,8 +8622,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-05",
@@ -9212,8 +8637,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-05",
@@ -9228,8 +8652,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-05",
@@ -9244,8 +8667,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-05",
@@ -9260,8 +8682,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 11
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-05",
@@ -9276,8 +8697,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-06",
@@ -9292,8 +8712,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-06",
@@ -9308,8 +8727,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-06",
@@ -9324,8 +8742,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 10
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-06",
@@ -9340,8 +8757,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-06",
@@ -9356,8 +8772,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時15分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-06",
@@ -9372,8 +8787,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-07",
@@ -9388,8 +8802,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-07",
@@ -9404,8 +8817,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-07",
@@ -9420,8 +8832,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-07",
@@ -9436,8 +8847,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-07",
@@ -9452,8 +8862,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-07",
@@ -9468,8 +8877,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-08",
@@ -9484,8 +8892,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-08",
@@ -9500,8 +8907,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 11
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-08",
@@ -9516,8 +8922,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 12
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-09",
@@ -9532,8 +8937,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-09",
@@ -9548,8 +8952,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-09",
@@ -9564,8 +8967,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-09",
@@ -9580,8 +8982,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-09",
@@ -9596,8 +8997,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-09",
@@ -9612,8 +9012,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-10",
@@ -9628,8 +9027,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-10",
@@ -9644,8 +9042,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-10",
@@ -9660,8 +9057,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-10",
@@ -9676,8 +9072,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-11",
@@ -9692,8 +9087,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-11",
@@ -9708,8 +9102,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-11",
@@ -9724,8 +9117,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 10
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-11",
@@ -9740,8 +9132,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 10
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-11",
@@ -9756,8 +9147,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-12",
@@ -9772,8 +9162,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-12",
@@ -9788,8 +9177,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-12",
@@ -9804,8 +9192,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-13",
@@ -9820,8 +9207,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-13",
@@ -9836,8 +9222,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-13",
@@ -9852,8 +9237,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-13",
@@ -9868,8 +9252,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-13",
@@ -9884,8 +9267,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-13",
@@ -9900,8 +9282,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-14",
@@ -9916,8 +9297,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-14",
@@ -9932,8 +9312,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-14",
@@ -9948,8 +9327,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-15",
@@ -9964,8 +9342,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-15",
@@ -9980,8 +9357,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 10
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-15",
@@ -9996,8 +9372,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-15",
@@ -10012,8 +9387,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-15",
@@ -10028,8 +9402,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-15",
@@ -10044,8 +9417,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-16",
@@ -10060,8 +9432,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時04分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-16",
@@ -10076,8 +9447,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時02分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-16",
@@ -10092,8 +9462,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-16",
@@ -10108,8 +9477,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-16",
@@ -10124,8 +9492,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-16",
@@ -10140,8 +9507,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-17",
@@ -10156,8 +9522,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-17",
@@ -10172,8 +9537,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 12
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-17",
@@ -10188,8 +9552,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-17",
@@ -10204,8 +9567,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-17",
@@ -10220,8 +9582,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇京セラドーム大阪",
-    "final_inning": 12
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-17",
@@ -10236,8 +9597,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-19",
@@ -10252,8 +9612,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-19",
@@ -10268,8 +9627,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-19",
@@ -10284,8 +9642,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-19",
@@ -10300,8 +9657,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-19",
@@ -10316,8 +9672,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 10
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-19",
@@ -10332,8 +9687,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-20",
@@ -10348,8 +9702,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-20",
@@ -10364,8 +9717,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-20",
@@ -10380,8 +9732,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-20",
@@ -10396,8 +9747,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-20",
@@ -10412,8 +9762,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-20",
@@ -10428,8 +9777,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-08-21",
@@ -10444,8 +9792,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-21",
@@ -10460,8 +9807,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-21",
@@ -10476,8 +9822,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-21",
@@ -10492,8 +9837,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-22",
@@ -10508,8 +9852,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-22",
@@ -10524,8 +9867,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 10
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-22",
@@ -10540,8 +9882,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 11
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-22",
@@ -10556,8 +9897,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-22",
@@ -10572,8 +9912,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-22",
@@ -10588,8 +9927,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-23",
@@ -10604,8 +9942,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-23",
@@ -10620,8 +9957,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "明治神宮野球場",
-    "final_inning": 12
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-23",
@@ -10636,8 +9972,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-23",
@@ -10652,8 +9987,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-23",
@@ -10668,8 +10002,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-23",
@@ -10684,8 +10017,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-24",
@@ -10700,8 +10032,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-08-24",
@@ -10716,8 +10047,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-24",
@@ -10732,8 +10062,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-24",
@@ -10748,8 +10077,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 10
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-24",
@@ -10764,8 +10092,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始16時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-24",
@@ -10780,8 +10107,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-26",
@@ -10796,8 +10122,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-26",
@@ -10812,8 +10137,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-26",
@@ -10828,8 +10152,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-26",
@@ -10844,8 +10167,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-26",
@@ -10860,8 +10182,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": true,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 12
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-26",
@@ -10876,8 +10197,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 12
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-27",
@@ -10892,8 +10212,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-27",
@@ -10908,8 +10227,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-27",
@@ -10924,8 +10242,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始19時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-27",
@@ -10940,8 +10257,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-08-27",
@@ -10956,8 +10272,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-27",
@@ -10972,8 +10287,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-08-28",
@@ -10988,8 +10302,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-28",
@@ -11004,8 +10317,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-08-28",
@@ -11020,8 +10332,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時02分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-08-29",
@@ -11036,8 +10347,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-29",
@@ -11052,8 +10362,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-29",
@@ -11068,8 +10377,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-29",
@@ -11084,8 +10392,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-29",
@@ -11100,8 +10407,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-29",
@@ -11116,8 +10422,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-30",
@@ -11132,8 +10437,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-30",
@@ -11148,8 +10452,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 11
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-30",
@@ -11164,8 +10467,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-30",
@@ -11180,8 +10482,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-30",
@@ -11196,8 +10497,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-30",
@@ -11212,8 +10512,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-08-31",
@@ -11228,8 +10527,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-08-31",
@@ -11244,8 +10542,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-08-31",
@@ -11260,8 +10557,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-08-31",
@@ -11276,8 +10572,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 11
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-08-31",
@@ -11292,8 +10587,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-08-31",
@@ -11308,8 +10602,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-02",
@@ -11324,8 +10617,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-02",
@@ -11340,8 +10632,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-02",
@@ -11356,8 +10647,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-09-02",
@@ -11372,8 +10662,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-02",
@@ -11388,8 +10677,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-02",
@@ -11404,8 +10692,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-03",
@@ -11420,8 +10707,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-03",
@@ -11436,8 +10722,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-03",
@@ -11452,8 +10737,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-09-03",
@@ -11468,8 +10752,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-03",
@@ -11484,8 +10767,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-03",
@@ -11500,8 +10782,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-04",
@@ -11516,8 +10797,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-04",
@@ -11532,8 +10812,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-04",
@@ -11548,8 +10827,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-09-04",
@@ -11564,8 +10842,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-04",
@@ -11580,8 +10857,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-05",
@@ -11596,8 +10872,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-09-05",
@@ -11612,8 +10887,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-05",
@@ -11628,8 +10902,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-05",
@@ -11644,8 +10917,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-09-05",
@@ -11660,8 +10932,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始19時30分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-09-05",
@@ -11676,8 +10947,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-06",
@@ -11692,8 +10962,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-09-06",
@@ -11708,8 +10977,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-06",
@@ -11724,8 +10992,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-06",
@@ -11740,8 +11007,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始17時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-09-06",
@@ -11756,8 +11022,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-09-06",
@@ -11772,8 +11037,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-07",
@@ -11788,8 +11052,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-09-07",
@@ -11804,8 +11067,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-07",
@@ -11820,8 +11082,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-07",
@@ -11836,8 +11097,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-09-07",
@@ -11852,8 +11112,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-09-07",
@@ -11868,8 +11127,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-08",
@@ -11884,8 +11142,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-09",
@@ -11900,8 +11157,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-09",
@@ -11916,8 +11172,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-09",
@@ -11932,8 +11187,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-09",
@@ -11948,8 +11202,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-09",
@@ -11964,8 +11217,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 11
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-09",
@@ -11980,8 +11232,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-10",
@@ -11996,8 +11247,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-10",
@@ -12012,8 +11262,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-10",
@@ -12028,8 +11277,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-11",
@@ -12044,8 +11292,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-11",
@@ -12060,8 +11307,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-11",
@@ -12076,8 +11322,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-11",
@@ -12092,8 +11337,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-11",
@@ -12108,8 +11352,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム",
-    "final_inning": 9
+    "stadium": "ZOZOマリンスタジアム"
   },
   {
     "game_date": "2025-09-12",
@@ -12124,8 +11367,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-12",
@@ -12140,8 +11382,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-09-12",
@@ -12156,8 +11397,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-12",
@@ -12172,8 +11412,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-13",
@@ -12188,8 +11427,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇東京ドーム",
-    "final_inning": 9
+    "stadium": "東京ドーム"
   },
   {
     "game_date": "2025-09-13",
@@ -12204,8 +11442,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-13",
@@ -12220,8 +11457,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-09-13",
@@ -12236,8 +11472,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 11
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-13",
@@ -12252,8 +11487,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時20分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-13",
@@ -12268,8 +11502,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-09-14",
@@ -12284,8 +11517,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 9
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-09-14",
@@ -12300,8 +11532,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-09-14",
@@ -12316,8 +11547,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-09-14",
@@ -12332,8 +11562,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-14",
@@ -12348,8 +11577,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-14",
@@ -12364,8 +11592,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   },
   {
     "game_date": "2025-09-15",
