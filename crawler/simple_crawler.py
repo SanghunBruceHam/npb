@@ -907,19 +907,19 @@ class SimpleCrawler:
                             i += 1
                             continue
                         if current_date and line and not line.startswith('#'):
-                            game_match = re.match(r'^(\w+)\s+((\d+)-(\d+)|vs)\s+(\w+)\s+\((\w+)\)(.*)$', line)
+                            game_match = re.match(r'^(.+?)\s+((\d+)-(\d+)|vs)\s+(.+?)\s+\(([^)]+)\)(.*)$', line)
                             if game_match and i + 1 < len(lines):
                                 meta_line = lines[i + 1]
                                 meta_match = re.match(r'^#\s*(\d+)\|(\d+)\|([^|]+)\|([^|]+)$', meta_line)
                                 if meta_match:
                                     gm = game_match.groups()
-                                    away_abbr = gm[0]
+                                    away_abbr = gm[0].strip()
                                     score_part = gm[1]
                                     away_score_str = gm[2]
                                     home_score_str = gm[3]
-                                    home_abbr = gm[4]
-                                    league = gm[5]
-                                    status_info = gm[6] if len(gm) > 6 else ''
+                                    home_abbr = gm[4].strip()
+                                    league = gm[5].strip()
+                                    status_info = gm[6].strip() if len(gm) > 6 and gm[6] else ''
 
                                     away_id, home_id, away_name, home_name = meta_match.groups()
                                     away_id_i = int(away_id)
