@@ -1,9 +1,9 @@
 {
-  "generated_at": "2025-09-17T11:34:24.785Z",
+  "generated_at": "2025-09-17T12:51:50.679Z",
   "season_stats": {
-    "total_games": 780,
-    "today_games": 0,
-    "week_games": 31
+    "total_games": 785,
+    "today_games": 5,
+    "week_games": 36
   },
   "highlights": {
     "high_scoring_games": [
@@ -40,12 +40,12 @@
         "total_score": 19
       },
       {
-        "game_date": "2025-05-25",
+        "game_date": "2025-09-17",
         "home_team": "SOF",
-        "away_team": "ORI",
-        "home_score": 5,
-        "away_score": 13,
-        "total_score": 18
+        "away_team": "SEI",
+        "home_score": 11,
+        "away_score": 8,
+        "total_score": 19
       }
     ]
   }
