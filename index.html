@@ -519,17 +519,28 @@
             table-layout: fixed;
         }
         
-        th, td { 
-            border: 1px solid #ddd; 
-            padding: 4px 6px; 
-            text-align: left; 
-            font-size: 13px; 
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px 6px;
+            text-align: center;
+            font-size: 13px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1.2;
             height: 30px;
             vertical-align: middle;
+        }
+
+        /* 헤더는 좌측 정렬 */
+        th {
+            text-align: left;
+        }
+
+        /* 좌측 헤더 컬럼 (팀명)도 좌측 정렬 */
+        .magic-table td:nth-child(2),
+        .detailed-table td:nth-child(2) {
+            text-align: left;
         }
 
         /* 마법/플레이오프 테이블 컬럼 폭 */
@@ -545,7 +556,6 @@
             width: 172px;
             white-space: nowrap;
             overflow: visible;
-            text-align: left;
         }
         .magic-table th:nth-child(3),
         .magic-table td:nth-child(3) { width: 44px; }
@@ -1123,11 +1133,9 @@
         .matrix-cell {
             background: white;
             padding: 6px;
-            text-align: center;
             border: 1px solid #e0e0e0;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
 
         .matrix-header-team {
@@ -1150,7 +1158,7 @@
             background: #f8f9fa;
             font-weight: bold;
             padding: 8px 6px;
-            text-align: center;
+            text-align: left;
             white-space: nowrap;
             border-bottom: 2px solid #ddd;
             overflow: hidden;
@@ -1168,7 +1176,7 @@
         .matrix-data-cell {
             font-weight: normal;
             font-size: 14px;
-            min-width: 100px;
+            width: 100%;
         }
 
         .matrix-data-cell.zero {
@@ -1594,10 +1602,11 @@
                 </div>
             </div>
             <div class="tab-help tab-help-remaining" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
-                • <strong>縦軸(左側)</strong>: ホームチーム、<strong>横軸(上部)</strong>: アウェーチーム<br>
-                • <strong>数字</strong>: 今後予定されている対戦数<br>
+                • <strong>縦軸(左側)</strong>: チーム、<strong>横軸(上部)</strong>: 全12チーム（同リーグ＋交流戦）<br>
+                • <strong>数字</strong>: 各チーム間の残り対戦数（ホーム+アウェー）<br>
                 • <strong>チーム名</strong>: ロゴ付き日本語名で表示<br>
-                • <strong>合計</strong>: 各チームの残り試合数が右端・下部に表示
+                • <strong>右端・下部の数字</strong>: 各チームの残り試合数合計<br>
+                • <strong>背景色</strong>: オレンジ色は交流戦を表示
             </div>
         </div>
 
@@ -3490,84 +3499,141 @@
                 return;
             }
 
-            // チーム順序を順位順にソート
-            const sortedTeams = [...teams].sort((a, b) => a.rank - b.rank);
-            const teamCount = sortedTeams.length;
+            // 両リーグの全チームを取得
+            const allTeams = [
+                ...(standingsData.central_league?.standings || []),
+                ...(standingsData.pacific_league?.standings || [])
+            ];
 
-            // グリッドのカラム数を設定 (チーム名 + 各チーム + 合計)
-            const gridColumns = teamCount + 2;
-            container.style.gridTemplateColumns = `180px repeat(${teamCount}, 100px) 80px`;
+            // 現在のリーグのチームを順位順にソート
+            const sortedCurrentLeagueTeams = [...teams].sort((a, b) => a.rank - b.rank);
+
+            // 相手チーム（全12チーム）を準備 - 現在のリーグ優先、次に他リーグ
+            // leagueType이 'central' 또는 'pacific'인지 확인하고 league 필드와 매칭
+            const currentLeague = leagueType === 'central' ? 'Central' : 'Pacific';
+            const sameLeagueTeams = allTeams.filter(t => t.league === currentLeague).sort((a, b) => a.rank - b.rank);
+            const otherLeagueTeams = allTeams.filter(t => t.league !== currentLeague).sort((a, b) => a.rank - b.rank);
+            const opponentTeams = [...sameLeagueTeams, ...otherLeagueTeams];
+
+            // グリッドのカラム数を設定 (チーム名 + 全12チーム + 合計)
+            container.style.gridTemplateColumns = `180px repeat(12, 70px) 80px`;
 
             let matrixHTML = '';
 
-            // ヘッダー行 - 相手チーム名 (アウェーチーム)
-            matrixHTML += '<div class="matrix-cell matrix-corner">ホーム＼アウェー</div>';
-            sortedTeams.forEach(team => {
-                const teamLabel = renderTeamLabel(team.team_abbreviation, team.team_name, true);
-                matrixHTML += `<div class="matrix-cell matrix-header-opponent">${teamLabel}</div>`;
-            });
-            matrixHTML += '<div class="matrix-cell matrix-corner">合計</div>';
+            // ヘッダー行 - 相手チーム名 (全12チーム)
+            matrixHTML += '<div class="matrix-cell matrix-corner" style="font-weight: bold; font-size: 12px; display: flex; justify-content: center;">vs 相手チーム</div>';
+            opponentTeams.forEach(team => {
+                const isInterleague = team.league !== currentLeague;
+                const teamAbbr = team.team_abbreviation;
 
-            // 残り試合マトリクスデータを構築
+                // 일본어 축약형 매핑
+                const japaneseNames = {
+                    'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                    'SOF': 'ソフトバンク', 'NIP': '日本ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+                };
+
+                const teamLogo = TEAM_LOGOS[teamAbbr] ?
+                    `<img class="team-logo" src="${TEAM_LOGOS[teamAbbr]}" alt="${teamAbbr}" style="width: 16px; height: 16px; margin-bottom: 2px;" loading="lazy">` : '';
+
+                const japaneseShort = japaneseNames[teamAbbr] || teamAbbr;
+                const bgStyle = isInterleague ? 'background: #fff3e0;' : '';
+
+                matrixHTML += `<div class="matrix-cell matrix-header-opponent" style="${bgStyle} font-size: 10px; padding: 2px;">
+                    ${teamLogo}<br>
+                    <span style="font-weight: bold;">${japaneseShort}</span>
+                </div>`;
+            });
+            matrixHTML += '<div class="matrix-cell matrix-corner" style="font-weight: bold; font-size: 12px; display: flex; justify-content: center;">合計</div>';
+
+            // 残り試合マトリクスデータを構築 (홈+원정 모든 경기)
             const matrixData = {};
             if (upcomingGamesData && Array.isArray(upcomingGamesData)) {
                 upcomingGamesData.forEach(game => {
                     if (game.game_status !== 'scheduled') return;
-                    
+
                     const homeAbbr = game.home_team_abbr;
                     const awayAbbr = game.away_team_abbr;
-                    
+
+                    // 홈팀 관점에서 원정팀과의 경기
                     if (!matrixData[homeAbbr]) matrixData[homeAbbr] = {};
                     if (!matrixData[homeAbbr][awayAbbr]) matrixData[homeAbbr][awayAbbr] = 0;
                     matrixData[homeAbbr][awayAbbr]++;
+
+                    // 원정팀 관점에서 홈팀과의 경기 (같은 경기를 양방향으로 카운트)
+                    if (!matrixData[awayAbbr]) matrixData[awayAbbr] = {};
+                    if (!matrixData[awayAbbr][homeAbbr]) matrixData[awayAbbr][homeAbbr] = 0;
+                    matrixData[awayAbbr][homeAbbr]++;
                 });
             }
 
             // データ行
-            sortedTeams.forEach(homeTeam => {
-                // チーム名（ホーム）
-                const teamLabel = renderTeamLabel(homeTeam.team_abbreviation, homeTeam.team_name, true);
-                matrixHTML += `<div class="matrix-cell matrix-header-team">${teamLabel}</div>`;
+            sortedCurrentLeagueTeams.forEach(homeTeam => {
+                // チーム名（왼쪽）
+                const teamAbbr = homeTeam.team_abbreviation;
+
+                // 일본어 축약형 매핑
+                const japaneseNames = {
+                    'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                    'SOF': 'ソフトバンク', 'NIP': '日本ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+                };
+
+                const teamLogo = TEAM_LOGOS[teamAbbr] ?
+                    `<img class="team-logo" src="${TEAM_LOGOS[teamAbbr]}" alt="${teamAbbr}" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 4px;" loading="lazy">` : '';
+
+                const japaneseShort = japaneseNames[teamAbbr] || teamAbbr;
+
+                matrixHTML += `<div class="matrix-cell matrix-header-team" style="font-size: 12px; padding: 4px; display: flex; align-items: center;">
+                    ${teamLogo}<span style="font-weight: bold;">${japaneseShort}</span>
+                </div>`;
 
                 let rowTotal = 0;
 
-                // 各相手チームとの対戦数
-                sortedTeams.forEach(awayTeam => {
+                // 全12チームとの対戦数
+                opponentTeams.forEach(awayTeam => {
                     if (homeTeam.team_abbreviation === awayTeam.team_abbreviation) {
                         // 自チーム
-                        matrixHTML += '<div class="matrix-cell matrix-data-cell" style="background: #f5f5f5; color: #999;">-</div>';
+                        matrixHTML += '<div class="matrix-cell matrix-data-cell" style="background: #f5f5f5; color: #999; font-weight: bold; display: flex; justify-content: center;">-</div>';
                     } else {
-                        // 残り試合数を取得
+                        // 残り試合数を取得 (홈+원정 모든 경기)
                         const remainingGames = matrixData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation] || 0;
-                        
+
+                        const isInterleague = homeTeam.league !== awayTeam.league;
                         const cellClass = remainingGames > 0 ? 'has-games' : 'zero';
-                        matrixHTML += `<div class="matrix-cell matrix-data-cell ${cellClass}">${remainingGames}</div>`;
+                        const cellStyle = isInterleague ? 'background: #fff8e1;' : '';
+
+                        matrixHTML += `<div class="matrix-cell matrix-data-cell ${cellClass}" style="${cellStyle} font-weight: bold; display: flex; justify-content: center;">${remainingGames}</div>`;
                         rowTotal += remainingGames;
                     }
                 });
 
-                // 行の合計（ホーム試合数）
-                matrixHTML += `<div class="matrix-cell matrix-total-cell">${rowTotal}</div>`;
+                // 행의 합계 - 매트릭스 행 데이터의 합계
+                matrixHTML += `<div class="matrix-cell matrix-total-cell" style="font-weight: bold; color: #1976d2; justify-content: center;">${rowTotal}</div>`;
             });
 
-            // 最終行: 各列の合計（アウェー試合数）
-            matrixHTML += '<div class="matrix-cell matrix-corner">合計</div>';
-            sortedTeams.forEach(awayTeam => {
+            // 最終行: 各列の合計（아웨이 경기수）
+            matrixHTML += '<div class="matrix-cell matrix-corner" style="font-weight: bold; font-size: 12px; display: flex; justify-content: center;">合計</div>';
+            opponentTeams.forEach(awayTeam => {
                 let columnTotal = 0;
-                sortedTeams.forEach(homeTeam => {
+                sortedCurrentLeagueTeams.forEach(homeTeam => {
                     if (homeTeam.team_abbreviation !== awayTeam.team_abbreviation) {
                         columnTotal += matrixData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation] || 0;
                     }
                 });
-                matrixHTML += `<div class="matrix-cell matrix-total-cell">${columnTotal}</div>`;
+                const isInterleague = awayTeam.league !== currentLeague;
+                const bgStyle = isInterleague ? 'background: #fff3e0;' : '';
+                matrixHTML += `<div class="matrix-cell matrix-total-cell" style="${bgStyle} font-weight: bold; color: #1976d2; justify-content: center;">${columnTotal}</div>`;
             });
-            
-            // 総合計
+
+            // 총합계 - 실제 행 합계들의 총합
             let grandTotal = 0;
-            sortedTeams.forEach(team => {
-                grandTotal += TOTAL_GAMES - team.games_played;
+            sortedCurrentLeagueTeams.forEach(homeTeam => {
+                opponentTeams.forEach(awayTeam => {
+                    if (homeTeam.team_abbreviation !== awayTeam.team_abbreviation) {
+                        grandTotal += matrixData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation] || 0;
+                    }
+                });
             });
-            matrixHTML += `<div class="matrix-cell matrix-corner" style="font-weight: bold;">${Math.floor(grandTotal/2)}</div>`;
+            matrixHTML += `<div class="matrix-cell matrix-corner" style="font-weight: bold; color: white; font-size: 14px; display: flex; justify-content: center;">${grandTotal}</div>`;
 
             container.innerHTML = matrixHTML;
         }
