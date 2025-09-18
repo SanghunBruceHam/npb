@@ -2569,66 +2569,145 @@
                 selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
 
-            // Refresh AdSense ads in the newly visible tab
-            // AdSense 자동 초기화 비활성화 - 에러 방지
-            console.log('탭 전환 시 AdSense 자동 초기화를 건너뜁니다.');
+            // Refresh AdSense ads in the newly visible tab - 강제 초기화
+            setTimeout(() => {
+                try {
+                    const activeTab = document.querySelector('.tab-content.active');
+                    if (activeTab) {
+                        const ads = activeTab.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+
+                        if (ads.length > 0) {
+                            console.log(`탭 전환: ${ads.length}개 광고 강제 초기화`);
+
+                            ads.forEach((ad, index) => {
+                                // 조건 체크 없이 바로 초기화
+                                setTimeout(() => {
+                                    try {
+                                        // 스타일 강제 설정
+                                        ad.style.display = 'block';
+                                        ad.style.minWidth = '300px';
+                                        ad.style.width = '100%';
+
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                        console.log(`탭 전환 광고 ${index + 1} 강제 초기화 완료`);
+                                    } catch (adError) {
+                                        console.warn(`탭 전환 광고 ${index + 1} 실패:`, adError.message);
+                                        // 실패 시 재시도
+                                        setTimeout(() => {
+                                            try {
+                                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                                console.log(`탭 전환 광고 ${index + 1} 재시도 성공`);
+                                            } catch (e) {
+                                                console.error(`탭 전환 광고 ${index + 1} 재시도 실패`);
+                                            }
+                                        }, 300);
+                                    }
+                                }, 150 * index); // 150ms 간격
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.error('탭 전환 AdSense 오류:', e);
+                }
+            }, 300); // 300ms 후 빠르게 시작
         }
 
-        // 안전한 광고 초기화 - 완전히 비활성화
+        // 강제 광고 초기화 - 무조건 표시
         function initializeAdsAfterLoad() {
-            console.log('AdSense 자동 초기화를 비활성화했습니다.');
-            // AdSense 에러를 방지하기 위해 자동 초기화 비활성화
-            return;
+            console.log('강제 AdSense 초기화를 시작합니다...');
+
+            setTimeout(() => {
+                try {
+                    // 모든 탭의 모든 광고 초기화
+                    const ads = document.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+                    console.log(`전체 초기화할 광고 수: ${ads.length}`);
+
+                    ads.forEach((ad, index) => {
+                        // 조건 없이 강제 초기화
+                        setTimeout(() => {
+                            try {
+                                // 스타일 강제 설정
+                                ad.style.display = 'block';
+                                ad.style.minWidth = '300px';
+                                ad.style.width = '100%';
+                                ad.style.height = 'auto';
+
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                console.log(`광고 ${index + 1} 강제 초기화 완료`);
+                            } catch (adError) {
+                                console.warn(`광고 ${index + 1} 실패:`, adError.message);
+                                // 실패해도 다시 시도
+                                setTimeout(() => {
+                                    try {
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                        console.log(`광고 ${index + 1} 재시도 성공`);
+                                    } catch (e) {
+                                        console.error(`광고 ${index + 1} 재시도 실패:`, e.message);
+                                    }
+                                }, 500);
+                            }
+                        }, 100 * index); // 100ms 간격으로 빠르게
+                    });
+                } catch (e) {
+                    console.error('AdSense 강제 초기화 오류:', e);
+                }
+            }, 500); // 0.5초 후 빠르게 시작
         }
 
-        // 수동 광고 초기화 (필요시에만 호출)
+        // 수동 광고 초기화 - 강제 모드
         function manuallyInitializeAds() {
-            console.log('수동 광고 초기화를 시도합니다...');
+            console.log('🚀 강제 광고 초기화를 시작합니다!');
 
             try {
-                const activeTab = document.querySelector('.tab-content.active');
-                if (!activeTab) {
-                    console.log('활성 탭을 찾을 수 없습니다.');
-                    return;
-                }
+                // 모든 탭의 모든 광고 찾기
+                const allAds = document.querySelectorAll('.adsbygoogle');
+                console.log(`전체 광고 요소: ${allAds.length}개`);
 
-                const ads = activeTab.querySelectorAll('.adsbygoogle[data-ad-client]:not([data-adsbygoogle-status])');
-                console.log(`초기화 대상 광고 수: ${ads.length}`);
+                const unloadedAds = Array.from(allAds).filter(ad => !ad.hasAttribute('data-adsbygoogle-status'));
+                console.log(`미로딩 광고: ${unloadedAds.length}개`);
 
-                ads.forEach((ad, index) => {
-                    const container = ad.parentElement;
-                    if (!container) return;
+                unloadedAds.forEach((ad, index) => {
+                    setTimeout(() => {
+                        try {
+                            // 강제 스타일 적용
+                            ad.style.display = 'block !important';
+                            ad.style.minWidth = '320px !important';
+                            ad.style.width = '100% !important';
+                            ad.style.visibility = 'visible';
 
-                    // 매우 엄격한 조건 체크
-                    const rect = container.getBoundingClientRect();
-                    const hasValidSize = rect.width >= 350 && rect.height >= 50;
-                    const isFullyVisible = rect.top >= 0 && rect.left >= 0;
-                    const isEmpty = ad.innerHTML.trim() === '';
+                            console.log(`🎯 광고 ${index + 1} 강제 로딩 시도...`);
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            console.log(`✅ 광고 ${index + 1} 강제 로딩 성공!`);
 
-                    console.log(`광고 ${index + 1}: 크기=${rect.width}x${rect.height}, 보임=${isFullyVisible}, 빈슬롯=${isEmpty}`);
+                        } catch (adError) {
+                            console.warn(`⚠️ 광고 ${index + 1} 1차 실패:`, adError.message);
 
-                    if (hasValidSize && isFullyVisible && isEmpty) {
-                        // 여러 번 체크한 후 초기화
-                        setTimeout(() => {
-                            const finalRect = container.getBoundingClientRect();
-                            if (finalRect.width >= 350 && ad.innerHTML.trim() === '') {
+                            // 1차 실패 시 재시도
+                            setTimeout(() => {
                                 try {
-                                    console.log(`광고 ${index + 1} 초기화 중...`);
                                     (adsbygoogle = window.adsbygoogle || []).push({});
-                                    console.log(`광고 ${index + 1} 초기화 완료`);
-                                } catch (adError) {
-                                    console.warn(`광고 ${index + 1} 초기화 실패:`, adError.message);
+                                    console.log(`🔄 광고 ${index + 1} 재시도 성공!`);
+                                } catch (e2) {
+                                    console.error(`❌ 광고 ${index + 1} 최종 실패:`, e2.message);
+
+                                    // 2차 실패 시 한번 더 재시도
+                                    setTimeout(() => {
+                                        try {
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                            console.log(`🎊 광고 ${index + 1} 3차 시도 성공!`);
+                                        } catch (e3) {
+                                            console.error(`💀 광고 ${index + 1} 모든 시도 실패`);
+                                        }
+                                    }, 1000);
                                 }
-                            } else {
-                                console.log(`광고 ${index + 1} 최종 검증 실패 - 크기: ${finalRect.width}`);
-                            }
-                        }, 500);
-                    } else {
-                        console.log(`광고 ${index + 1} 조건 불충족`);
-                    }
+                            }, 500);
+                        }
+                    }, index * 100); // 100ms 간격
                 });
+
+                console.log(`🔥 ${unloadedAds.length}개 광고 강제 초기화 명령 실행됨!`);
             } catch (e) {
-                console.error('AdSense 수동 초기화 오류:', e);
+                console.error('AdSense 강제 초기화 치명적 오류:', e);
             }
         }
 
