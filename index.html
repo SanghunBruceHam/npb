@@ -627,6 +627,114 @@
         .detailed-table td {
             padding: 5px 3px;
         }
+
+        /* 전체 경기 테이블 스타일 */
+        .games-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .games-table th,
+        .games-table td {
+            padding: 8px 6px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .games-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .games-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .games-table .win-team {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .games-table .draw-game {
+            color: #666;
+            font-style: italic;
+        }
+
+        .games-table .extended-inning {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .games-table .weekend-game {
+            background-color: #fff3cd !important;
+        }
+
+        .games-table .weekend-game:hover {
+            background-color: #ffeaa7 !important;
+        }
+
+        .games-table .team-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .games-table .team-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 전체 경기 테이블 컬럼 폭 최적화 */
+        .games-table {
+            table-layout: fixed;
+        }
+
+        .games-table th:nth-child(1),
+        .games-table td:nth-child(1) {
+            width: 90px; /* 날짜・요일: "9/17 (火)" */
+        }
+
+        .games-table th:nth-child(2),
+        .games-table td:nth-child(2) {
+            width: 40px; /* 리그: "セ", "パ" */
+        }
+
+        .games-table th:nth-child(3),
+        .games-table td:nth-child(3) {
+            width: 160px; /* 어웨이팀: 로고 + 팀명 */
+        }
+
+        .games-table th:nth-child(4),
+        .games-table td:nth-child(4) {
+            width: 70px; /* 스코어: "10 - 5" 또는 "3 - 3 (引分)" */
+        }
+
+        .games-table th:nth-child(5),
+        .games-table td:nth-child(5) {
+            width: 160px; /* 홈팀: 로고 + 팀명 */
+        }
+
+        .games-table th:nth-child(6),
+        .games-table td:nth-child(6) {
+            width: 50px; /* 시간: "18:00", "14:00" */
+        }
+
+        .games-table th:nth-child(7),
+        .games-table td:nth-child(7) {
+            width: 100px; /* 구장: "東京ドーム", "甲子園" */
+        }
+
+        .games-table th:nth-child(8),
+        .games-table td:nth-child(8) {
+            width: 50px; /* 이닝: "9回", "12回" */
+        }
         
         tr:nth-child(even) { 
             background: #f9f9f9; 
@@ -1132,6 +1240,7 @@
             <div class="nav-tab" onclick="showTab('scenarios', this)" data-i18n="nav-scenarios">経路の数</div>
             <div class="nav-tab" onclick="showTab('standings', this)" data-i18n="nav-standings">チーム順位</div>
             <div class="nav-tab" onclick="showTab('remaining', this)" data-i18n="nav-remaining">残り試合数</div>
+            <div class="nav-tab" onclick="showTab('all-games', this)" data-i18n="nav-all-games">全試合結果</div>
         </div>
     </div>
     <div id="game-ticker" class="game-ticker">
@@ -1569,6 +1678,170 @@
                 • 데이터は최新の順位表に基づいて자동更新されます
             </div>
         </div>
+
+        <!-- All Games Tab -->
+        <div id="all-games" class="tab-content">
+            <h2 data-i18n="title-all-games">全試合結果【日付別経過】</h2>
+
+            <div style="margin: 20px 0;">
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <h3>📅 試合結果一覧</h3>
+                    <p style="margin: 0 0 15px 0; color: #666; font-size: 14px;">日付順に全ての試合結果を表示します。リーグ別に色分けされています。</p>
+
+                    <!-- Advanced Filters -->
+                    <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <!-- Team Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">チーム:</label>
+                            <select id="team-filter" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">全チーム</option>
+                                <optgroup label="セントラルリーグ">
+                                    <option value="YOG">読売ジャイアンツ</option>
+                                    <option value="HAN">阪神タイガース</option>
+                                    <option value="YDB">横浜DeNAベイスターズ</option>
+                                    <option value="HIR">広島東洋カープ</option>
+                                    <option value="CHU">中日ドラゴンズ</option>
+                                    <option value="YAK">東京ヤクルトスワローズ</option>
+                                </optgroup>
+                                <optgroup label="パシフィックリーグ">
+                                    <option value="SOF">福岡ソフトバンクホークス</option>
+                                    <option value="NIP">北海道日本ハムファイターズ</option>
+                                    <option value="ORI">オリックスバファローズ</option>
+                                    <option value="RAK">東北楽天ゴールデンイーグルス</option>
+                                    <option value="SEI">埼玉西武ライオンズ</option>
+                                    <option value="LOT">千葉ロッテマリーンズ</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <!-- Month Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">月:</label>
+                            <select id="month-filter" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">全月</option>
+                                <option value="3">3月</option>
+                                <option value="4">4月</option>
+                                <option value="5">5月</option>
+                                <option value="6">6月</option>
+                                <option value="7">7月</option>
+                                <option value="8">8月</option>
+                                <option value="9">9月</option>
+                                <option value="10">10月</option>
+                                <option value="11">11月</option>
+                            </select>
+                        </div>
+
+                        <!-- League Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">リーグ:</label>
+                            <select id="league-filter" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">全リーグ</option>
+                                <option value="Central">セントラルリーグ</option>
+                                <option value="Pacific">パシフィックリーグ</option>
+                            </select>
+                        </div>
+
+                        <!-- Inning Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">イニング:</label>
+                            <select id="inning-filter" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">全イニング</option>
+                                <option value="9">9回戦</option>
+                                <option value="extra">延長戦 (10回以上)</option>
+                            </select>
+                        </div>
+
+                        <!-- Stadium Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">球場:</label>
+                            <select id="stadium-filter" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">全球場</option>
+                                <option value="東京ドーム">東京ドーム</option>
+                                <option value="明治神宮野球場">神宮球場</option>
+                                <option value="横浜スタジアム">横浜スタジアム</option>
+                                <option value="阪神甲子園球場">甲子園</option>
+                                <option value="マツダスタジアム">マツダスタジアム</option>
+                                <option value="バンテリンドーム">バンテリンドーム</option>
+                                <option value="京セラドーム大阪">京セラドーム</option>
+                                <option value="みずほペイペイドーム">PayPayドーム</option>
+                                <option value="楽天モバイルパーク">楽天モバイル</option>
+                                <option value="ベルーナドーム">ベルーナドーム</option>
+                                <option value="ZOZOマリンスタジアム">ZOZOマリン</option>
+                                <option value="エスコンフィールドHOKKAIDO">エスコン</option>
+                            </select>
+                        </div>
+
+                        <!-- Time Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">開始時間:</label>
+                            <select id="time-filter" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">全時間</option>
+                                <option value="day">デーゲーム (〜15:59)</option>
+                                <option value="night">ナイトゲーム (16:00〜)</option>
+                                <option value="13">13時台</option>
+                                <option value="14">14時台</option>
+                                <option value="17">17時台</option>
+                                <option value="18">18時台</option>
+                            </select>
+                        </div>
+
+                        <!-- Date Range Filter -->
+                        <div>
+                            <label style="font-weight: bold; display: block; margin-bottom: 5px;">期間:</label>
+                            <div style="display: flex; gap: 5px; align-items: center;">
+                                <input type="date" id="date-from" style="flex: 1; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <span>〜</span>
+                                <input type="date" id="date-to" style="flex: 1; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Button -->
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button onclick="resetAllFilters()" style="padding: 8px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">全フィルターリセット</button>
+                    </div>
+                </div>
+
+                <!-- All Games Combined Table -->
+                <div>
+                    <h4 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 5px;">
+                        🏆 全試合結果
+                    </h4>
+                    <div class="scroll-table">
+                        <table id="all-games-table" class="games-table">
+                            <thead>
+                                <tr>
+                                    <th>日付・曜日</th>
+                                    <th>リーグ</th>
+                                    <th>アウェイ</th>
+                                    <th>スコア</th>
+                                    <th>ホーム</th>
+                                    <th>時間</th>
+                                    <th>球場</th>
+                                    <th>イニング</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-games-body">
+                                <tr><td colspan="8" class="loading">読み込み中...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Results Summary -->
+            <div id="filter-summary" style="background: #e3f2fd; border: 1px solid #1976d2; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 13px; color: #1565c0; display: none;">
+                <strong>🔍 フィルター結果:</strong> <span id="filter-result-text"></span>
+            </div>
+
+            <div class="tab-help" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
+                • <strong>高度フィルター</strong>: チーム、月、リーグ、イニング別の検索が可能<br>
+                • <strong>日付順表示</strong>: 最新の試合から古い試合順に表示<br>
+                • <strong>リーグ別色分け</strong>: セ・リーグ(緑)、パ・リーグ(青)で区分<br>
+                • <strong>延長戦表示</strong>: 9回を超えた試合は延長イニング数を表示<br>
+                • <strong>週末強調</strong>: 土日の試合は背景色で強調表示
+            </div>
+        </div>
         </section>
     </main>
 
@@ -1586,6 +1859,7 @@
                 'nav-standings': 'チーム順位',
                 'nav-remaining': '残り試合数',
                 'nav-progress': '進行状況',
+                'nav-all-games': '全試合結果',
                 
                 // 섹션 제목
                 'title-regular-magic': '2025年正規シーズン優勝マジックナンバー【セリーグ・パリーグ】',
@@ -1594,6 +1868,7 @@
                 'title-remaining-matrix': '残り試合対戦マトリクス【チーム別対戦予定】',
                 'title-progress': '2025年シーズン進行状況【消化試合数・進捗率】',
                 'title-scenarios': '経路の数（場合の数）',
+                'title-all-games': '全試合結果【日付別経過】',
                 
                 // 리그명
                 'central-league': 'セントラルリーグ',
@@ -1693,6 +1968,7 @@
                 'nav-standings': '팀 순위',
                 'nav-remaining': '남은 경기수',
                 'nav-progress': '진행 상황',
+                'nav-all-games': '전체 경기 결과',
                 
                 // 섹션 제목
                 'title-regular-magic': '2025년 정규시즌 우승 매직넘버【센트럴·퍼시픽 리그】',
@@ -1701,6 +1977,7 @@
                 'title-remaining-matrix': '남은 경기 대전 매트릭스【팀별 대전 예정】',
                 'title-progress': '2025년 시즌 진행 상황【소화경기수·진행률】',
                 'title-scenarios': '경로의 수（경우의 수）',
+                'title-all-games': '전체 경기 결과【날짜별 경과】',
                 
                 // 리그명
                 'central-league': '센트럴리그',
@@ -1801,6 +2078,7 @@
                 'nav-standings': 'Team Standings',
                 'nav-remaining': 'Remaining Games',
                 'nav-progress': 'Season Progress',
+                'nav-all-games': 'All Game Results',
                 
                 // 섹션 제목
                 'title-regular-magic': '2025 Regular Season Championship Magic Numbers【Central・Pacific League】',
@@ -1809,6 +2087,7 @@
                 'title-remaining-matrix': 'Remaining Games Matrix【Team vs Team Schedule】',
                 'title-progress': '2025 Season Progress【Games Played・Progress Rate】',
                 'title-scenarios': 'Path Count (Number of Cases)',
+                'title-all-games': 'All Game Results【Date-wise Progress】',
                 
                 // 리그명
                 'central-league': 'Central League',
@@ -3502,6 +3781,376 @@
             });
         }
 
+        // ===== 전체 경기 결과 표시 =====
+        function updateAllGames() {
+            if (!gamesData || !gamesData.length) {
+                document.getElementById('all-games-body').innerHTML = '<tr><td colspan="7">データがありません</td></tr>';
+                return;
+            }
+
+            // 경기를 날짜별로 정렬 (최신순)
+            const sortedGames = [...gamesData].sort((a, b) => new Date(b.game_date) - new Date(a.game_date));
+
+            // 통합 테이블 렌더링
+            renderGamesTable('all-games-body', sortedGames);
+        }
+
+        function renderGamesTable(containerId, games) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            // 모든 필터 적용
+            const selectedTeam = document.getElementById('team-filter')?.value || '';
+            const selectedMonth = document.getElementById('month-filter')?.value || '';
+            const selectedLeague = document.getElementById('league-filter')?.value || '';
+            const selectedInning = document.getElementById('inning-filter')?.value || '';
+            const selectedStadium = document.getElementById('stadium-filter')?.value || '';
+            const selectedTime = document.getElementById('time-filter')?.value || '';
+            const dateFrom = document.getElementById('date-from')?.value || '';
+            const dateTo = document.getElementById('date-to')?.value || '';
+
+            let filteredGames = games;
+
+            // 팀 필터
+            if (selectedTeam) {
+                filteredGames = filteredGames.filter(game =>
+                    game.away_team_abbr === selectedTeam || game.home_team_abbr === selectedTeam
+                );
+            }
+
+            // 월 필터
+            if (selectedMonth) {
+                filteredGames = filteredGames.filter(game => {
+                    const gameMonth = new Date(game.game_date).getMonth() + 1; // 0-based month to 1-based
+                    return gameMonth === parseInt(selectedMonth);
+                });
+            }
+
+            // 리그 필터
+            if (selectedLeague) {
+                filteredGames = filteredGames.filter(game => game.league === selectedLeague);
+            }
+
+            // 이닝 필터
+            if (selectedInning) {
+                if (selectedInning === '9') {
+                    filteredGames = filteredGames.filter(game => (game.final_inning || 9) === 9);
+                } else if (selectedInning === 'extra') {
+                    filteredGames = filteredGames.filter(game => (game.final_inning || 9) > 9);
+                }
+            }
+
+            // 경기장 필터
+            if (selectedStadium) {
+                filteredGames = filteredGames.filter(game => {
+                    // stadium 필드에서 경기장 이름 추출
+                    let stadium = game.stadium || '';
+                    stadium = stadium.replace(/◇開始\d{1,2}時\d{1,2}分◇/, '').trim();
+                    return stadium.includes(selectedStadium);
+                });
+            }
+
+            // 시간 필터
+            if (selectedTime) {
+                filteredGames = filteredGames.filter(game => {
+                    // stadium 필드에서 시간 추출
+                    let gameTime = '';
+                    const rawStadium = game.stadium || '';
+                    const timeMatch = rawStadium.match(/◇開始(\d{1,2})時(\d{1,2})分◇/);
+
+                    if (timeMatch) {
+                        const hour = parseInt(timeMatch[1]);
+                        const minute = parseInt(timeMatch[2]);
+                        gameTime = `${hour}:${minute.toString().padStart(2, '0')}`;
+
+                        if (selectedTime === 'day') {
+                            return hour < 16;
+                        } else if (selectedTime === 'night') {
+                            return hour >= 16;
+                        } else {
+                            return hour === parseInt(selectedTime);
+                        }
+                    } else {
+                        // 시간 정보가 없으면 요일로 추정
+                        const gameDate = new Date(game.game_date);
+                        const dayOfWeek = gameDate.getDay();
+                        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+                        if (selectedTime === 'day') {
+                            return isWeekend; // 주말은 주로 데이게임
+                        } else if (selectedTime === 'night') {
+                            return !isWeekend; // 평일은 주로 나이트게임
+                        } else if (selectedTime === '14') {
+                            return isWeekend;
+                        } else if (selectedTime === '18') {
+                            return !isWeekend;
+                        }
+                    }
+                    return true;
+                });
+            }
+
+            // 날짜 범위 필터
+            if (dateFrom || dateTo) {
+                filteredGames = filteredGames.filter(game => {
+                    const gameDate = game.game_date;
+                    if (dateFrom && gameDate < dateFrom) return false;
+                    if (dateTo && gameDate > dateTo) return false;
+                    return true;
+                });
+            }
+
+            // 필터 결과 요약 표시
+            updateFilterSummary(filteredGames, games);
+
+            if (!filteredGames.length) {
+                container.innerHTML = '<tr><td colspan="7">データがありません</td></tr>';
+                return;
+            }
+
+            const html = filteredGames.map(game => {
+                const gameDate = new Date(game.game_date);
+                const dateDisplay = gameDate.toLocaleDateString('ja-JP', {
+                    month: 'numeric',
+                    day: 'numeric'
+                });
+
+                // 요일 표시 및 주말 체크
+                const dayOfWeek = gameDate.toLocaleDateString('ja-JP', { weekday: 'short' });
+                const isWeekend = gameDate.getDay() === 0 || gameDate.getDay() === 6; // 일요일(0) 또는 토요일(6)
+                const weekendClass = isWeekend ? 'weekend-game' : '';
+
+                // 팀 로고 가져오기
+                const awayLogo = TEAM_LOGOS[game.away_team_abbr] ?
+                    `<img class="team-logo" src="${TEAM_LOGOS[game.away_team_abbr]}" alt="${game.away_team_abbr}" loading="lazy">` : '';
+                const homeLogo = TEAM_LOGOS[game.home_team_abbr] ?
+                    `<img class="team-logo" src="${TEAM_LOGOS[game.home_team_abbr]}" alt="${game.home_team_abbr}" loading="lazy">` : '';
+
+                // 승리 팀 표시를 위한 클래스
+                const awayWin = game.away_score > game.home_score;
+                const homeWin = game.home_score > game.away_score;
+                const isDraw = game.is_draw || (game.away_score === game.home_score);
+
+                // 점수 표시
+                const scoreDisplay = isDraw ?
+                    `<span class="draw-game">${game.away_score} - ${game.home_score} (引分)</span>` :
+                    `${game.away_score} - ${game.home_score}`;
+
+                // 이닝 표시 (연장전 강조)
+                const finalInning = game.final_inning || 9;
+                const inningDisplay = finalInning > 9 ?
+                    `<span class="extended-inning">${finalInning}回</span>` :
+                    `${finalInning}回`;
+
+                // 경기 시간과 구장명 분리
+                let rawStadium = game.stadium || '';
+                let gameTime = '';
+                let stadium = '';
+
+                // 시간 정보 추출 (◇開始18時19分◇ 형태)
+                const timeMatch = rawStadium.match(/◇開始(\d{1,2}時\d{1,2}分)◇/);
+                if (timeMatch) {
+                    gameTime = timeMatch[1].replace('時', ':').replace('分', '');
+                    stadium = rawStadium.replace(/◇開始\d{1,2}時\d{1,2}分◇/, '').trim();
+                } else {
+                    // 다른 시간 형태 처리 (18:00, 14:00 등)
+                    const timeMatch2 = rawStadium.match(/(\d{1,2}:\d{2})/);
+                    if (timeMatch2) {
+                        gameTime = timeMatch2[1];
+                        stadium = rawStadium.replace(/\d{1,2}:\d{2}/, '').trim();
+                    } else {
+                        stadium = rawStadium;
+
+                        // 시간 정보가 없을 때 기본 시간 추정
+                        // game_time 필드 체크
+                        if (game.game_time) {
+                            gameTime = game.game_time;
+                        } else if (game.time) {
+                            gameTime = game.time;
+                        } else {
+                            // 주말 여부에 따라 기본 시간 설정
+                            const gameDate = new Date(game.game_date);
+                            const dayOfWeek = gameDate.getDay();
+                            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                // 주말(토/일) - 오후 경기
+                                gameTime = '14:00';
+                            } else {
+                                // 평일 - 저녁 경기
+                                gameTime = '18:00';
+                            }
+                        }
+                    }
+                }
+
+                // 구장명 간소화
+                stadium = stadium
+                    .replace('スタジアム', '')
+                    .replace('球場', '')
+                    .replace('ドーム', '')
+                    .replace('MAZDA Zoom-Zoom ', '')
+                    .replace('PayPay', '')
+                    .trim();
+
+                // 리그 표시
+                const leagueDisplay = game.league === 'Central' ?
+                    '<span style="color: #2e7d32; font-weight: bold;">セ</span>' :
+                    '<span style="color: #1976d2; font-weight: bold;">パ</span>';
+
+                // 경기 시간 표시 (통일된 스타일)
+                const timeDisplay = gameTime ?
+                    `<span style="font-size: 12px; color: #666;">${gameTime}</span>` :
+                    '<span style="font-size: 12px; color: #999;">-</span>';
+
+                return `
+                    <tr class="${weekendClass}">
+                        <td style="text-align: center;">
+                            <span>${dateDisplay}</span>
+                            <span style="margin-left: 4px; font-size: 12px; color: ${isWeekend ? '#d32f2f' : '#666'}; font-weight: ${isWeekend ? 'bold' : 'normal'};">(${dayOfWeek})</span>
+                        </td>
+                        <td style="text-align: center;">${leagueDisplay}</td>
+                        <td class="${awayWin ? 'win-team' : ''}">
+                            <div class="team-info">
+                                ${awayLogo}
+                                <span>${game.away_team_name}</span>
+                            </div>
+                        </td>
+                        <td>${scoreDisplay}</td>
+                        <td class="${homeWin ? 'win-team' : ''}">
+                            <div class="team-info">
+                                ${homeLogo}
+                                <span>${game.home_team_name}</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">${timeDisplay}</td>
+                        <td style="font-size: 12px; text-align: center;">${stadium}</td>
+                        <td style="text-align: center;">${inningDisplay}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
+
+            // 필터 요약 업데이트
+            updateFilterSummary(games.length, filteredGames.length);
+        }
+
+        // ===== 게임 필터 기능 =====
+        function resetAllFilters() {
+            document.getElementById('team-filter').value = '';
+            document.getElementById('month-filter').value = '';
+            document.getElementById('league-filter').value = '';
+            document.getElementById('inning-filter').value = '';
+            document.getElementById('stadium-filter').value = '';
+            document.getElementById('time-filter').value = '';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
+            updateAllGames(); // 모든 필터 리셋 후 다시 렌더링
+        }
+
+        // 구버전 호환성을 위한 함수
+        function resetGameFilter() {
+            resetAllFilters();
+        }
+
+        // 모든 필터 이벤트 리스너 설정
+        function setupGameFilters() {
+            const filters = ['team-filter', 'month-filter', 'league-filter', 'inning-filter',
+                           'stadium-filter', 'time-filter'];
+
+            filters.forEach(filterId => {
+                const filter = document.getElementById(filterId);
+                if (filter) {
+                    filter.addEventListener('change', () => {
+                        updateAllGames(); // 필터 변경 시 다시 렌더링
+                    });
+                }
+            });
+
+            // 날짜 필터 이벤트 리스너
+            ['date-from', 'date-to'].forEach(dateId => {
+                const dateInput = document.getElementById(dateId);
+                if (dateInput) {
+                    dateInput.addEventListener('change', () => {
+                        updateAllGames(); // 날짜 변경 시 다시 렌더링
+                    });
+                }
+            });
+        }
+
+        // 필터 결과 요약 표시 함수
+        function updateFilterSummary(totalGames, filteredGames) {
+            const summaryElement = document.getElementById('filter-summary');
+            if (!summaryElement) return;
+
+            const selectedTeam = document.getElementById('team-filter')?.value || '';
+            const selectedMonth = document.getElementById('month-filter')?.value || '';
+            const selectedLeague = document.getElementById('league-filter')?.value || '';
+            const selectedInning = document.getElementById('inning-filter')?.value || '';
+            const selectedStadium = document.getElementById('stadium-filter')?.value || '';
+            const selectedTime = document.getElementById('time-filter')?.value || '';
+            const dateFrom = document.getElementById('date-from')?.value || '';
+            const dateTo = document.getElementById('date-to')?.value || '';
+
+            // 활성화된 필터들 수집
+            const activeFilters = [];
+
+            if (selectedTeam) {
+                const teamOption = document.querySelector(`#team-filter option[value="${selectedTeam}"]`);
+                activeFilters.push(`チーム: ${teamOption ? teamOption.textContent : selectedTeam}`);
+            }
+
+            if (selectedMonth) {
+                activeFilters.push(`月: ${selectedMonth}月`);
+            }
+
+            if (selectedLeague) {
+                const leagueText = selectedLeague === 'Central' ? 'セントラルリーグ' : 'パシフィックリーグ';
+                activeFilters.push(`リーグ: ${leagueText}`);
+            }
+
+            if (selectedInning) {
+                const inningText = selectedInning === '9' ? '9回戦' : '延長戦';
+                activeFilters.push(`イニング: ${inningText}`);
+            }
+
+            if (selectedStadium) {
+                const stadiumOption = document.querySelector(`#stadium-filter option[value="${selectedStadium}"]`);
+                activeFilters.push(`球場: ${stadiumOption ? stadiumOption.textContent : selectedStadium}`);
+            }
+
+            if (selectedTime) {
+                const timeOption = document.querySelector(`#time-filter option[value="${selectedTime}"]`);
+                activeFilters.push(`時間: ${timeOption ? timeOption.textContent : selectedTime}`);
+            }
+
+            if (dateFrom || dateTo) {
+                if (dateFrom && dateTo) {
+                    activeFilters.push(`期間: ${dateFrom} 〜 ${dateTo}`);
+                } else if (dateFrom) {
+                    activeFilters.push(`期間: ${dateFrom} 以降`);
+                } else {
+                    activeFilters.push(`期間: ${dateTo} まで`);
+                }
+            }
+
+            // 요약 텍스트 생성
+            let summaryText = '';
+
+            if (activeFilters.length === 0) {
+                summaryText = `全経試合を表示中 (${filteredGames}試合)`;
+            } else {
+                const filterText = activeFilters.join(' | ');
+                summaryText = `フィルター適用: ${filterText} → ${filteredGames}/${totalGames}試合`;
+            }
+
+            summaryElement.innerHTML = `
+                <div style="background: #f5f5f5; padding: 8px 12px; border-radius: 4px; font-size: 13px; color: #555;">
+                    <i class="fas fa-filter" style="margin-right: 6px;"></i>
+                    ${summaryText}
+                </div>
+            `;
+        }
+
         // ===== メインデータ読み込み処理 =====
         async function loadDataEnhanced() {
             try {
@@ -3587,6 +4236,8 @@
                 updateDetailedStandings();
                 updateRemainingGames();
                 updateProgress();
+                updateAllGames();
+                setupGameFilters();
                 // Initialize '経路の数' sub-views (matrix/detailed/table) and default to matrix
                 bindScenarioViewToggles();
                 setScenarioView('central','matrix');
