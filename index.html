@@ -1237,6 +1237,29 @@
                 padding: 6px;
             }
         }
+
+        /* AdSense 개선 스타일 */
+        .adsbygoogle {
+            min-width: 320px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            display: block !important;
+            min-height: 50px !important;
+        }
+
+        /* AdSense 컨테이너 개선 */
+        div[style*="min-width: 320px"] {
+            min-width: 320px !important;
+            width: 100% !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+        }
+
+        /* 탭 컨테이너 최소 크기 보장 */
+        .tab-content {
+            min-width: 320px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -1606,9 +1629,6 @@
                      data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </div>
 
             <div style="margin: 20px 0;">
@@ -1698,9 +1718,6 @@
                      data-ad-slot="4892271471"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </div>
 
             <!-- 팀별 진행률 섹션 -->
@@ -2553,46 +2570,70 @@
             });
 
             // Refresh AdSense ads in the newly visible tab
-            setTimeout(() => {
-                try {
-                    const activeTab = document.querySelector('.tab-content.active');
-                    if (activeTab) {
-                        const ads = activeTab.querySelectorAll('.adsbygoogle');
-                        ads.forEach(ad => {
-                            // If the ad slot is empty (no iframe) and it's visible
-                            if (ad.offsetParent !== null && ad.innerHTML.trim() === '') {
-                                // Clear any previous state attributes
-                                ad.removeAttribute('data-ad-status');
-                                ad.removeAttribute('data-adsbygoogle-status');
-                                ad.removeAttribute('style'); // Reset style in case AdSense added display:none
-                                ad.style.display = 'block';
-                                ad.style.minWidth = '300px';
-                                
-                                // Re-initialize the ad
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error('AdSense refresh error in showTab:', e);
-                }
-            }, 150); // Increased delay slightly
+            // AdSense 자동 초기화 비활성화 - 에러 방지
+            console.log('탭 전환 시 AdSense 자동 초기화를 건너뜁니다.');
         }
 
-        // Safe ad initialization function
+        // 안전한 광고 초기화 - 완전히 비활성화
         function initializeAdsAfterLoad() {
+            console.log('AdSense 자동 초기화를 비활성화했습니다.');
+            // AdSense 에러를 방지하기 위해 자동 초기화 비활성화
+            return;
+        }
+
+        // 수동 광고 초기화 (필요시에만 호출)
+        function manuallyInitializeAds() {
+            console.log('수동 광고 초기화를 시도합니다...');
+
             try {
-                setTimeout(() => {
-                    document.querySelectorAll('.adsbygoogle').forEach(ad => {
-                        if (ad.offsetParent !== null && ad.innerHTML.trim() === '') {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        }
-                    });
-                }, 250); 
+                const activeTab = document.querySelector('.tab-content.active');
+                if (!activeTab) {
+                    console.log('활성 탭을 찾을 수 없습니다.');
+                    return;
+                }
+
+                const ads = activeTab.querySelectorAll('.adsbygoogle[data-ad-client]:not([data-adsbygoogle-status])');
+                console.log(`초기화 대상 광고 수: ${ads.length}`);
+
+                ads.forEach((ad, index) => {
+                    const container = ad.parentElement;
+                    if (!container) return;
+
+                    // 매우 엄격한 조건 체크
+                    const rect = container.getBoundingClientRect();
+                    const hasValidSize = rect.width >= 350 && rect.height >= 50;
+                    const isFullyVisible = rect.top >= 0 && rect.left >= 0;
+                    const isEmpty = ad.innerHTML.trim() === '';
+
+                    console.log(`광고 ${index + 1}: 크기=${rect.width}x${rect.height}, 보임=${isFullyVisible}, 빈슬롯=${isEmpty}`);
+
+                    if (hasValidSize && isFullyVisible && isEmpty) {
+                        // 여러 번 체크한 후 초기화
+                        setTimeout(() => {
+                            const finalRect = container.getBoundingClientRect();
+                            if (finalRect.width >= 350 && ad.innerHTML.trim() === '') {
+                                try {
+                                    console.log(`광고 ${index + 1} 초기화 중...`);
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                    console.log(`광고 ${index + 1} 초기화 완료`);
+                                } catch (adError) {
+                                    console.warn(`광고 ${index + 1} 초기화 실패:`, adError.message);
+                                }
+                            } else {
+                                console.log(`광고 ${index + 1} 최종 검증 실패 - 크기: ${finalRect.width}`);
+                            }
+                        }, 500);
+                    } else {
+                        console.log(`광고 ${index + 1} 조건 불충족`);
+                    }
+                });
             } catch (e) {
-                console.error('AdSense initialization error:', e);
+                console.error('AdSense 수동 초기화 오류:', e);
             }
         }
+
+        // 전역 함수로 노출 (개발자 도구에서 사용 가능)
+        window.loadAds = manuallyInitializeAds;
 
 
         // ===== 正規シーズン優勝マジック更新 =====
