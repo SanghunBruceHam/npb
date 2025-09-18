@@ -598,15 +598,15 @@
             text-overflow: initial;
         }
         .detailed-table th:nth-child(3),
-        .detailed-table td:nth-child(3) { width: 46px; }
+        .detailed-table td:nth-child(3) { width: 40px; }
         .detailed-table th:nth-child(4),
-        .detailed-table td:nth-child(4) { width: 40px; }
+        .detailed-table td:nth-child(4) { width: 35px; }
         .detailed-table th:nth-child(5),
-        .detailed-table td:nth-child(5) { width: 40px; }
+        .detailed-table td:nth-child(5) { width: 35px; }
         .detailed-table th:nth-child(6),
-        .detailed-table td:nth-child(6) { width: 40px; }
+        .detailed-table td:nth-child(6) { width: 35px; }
         .detailed-table th:nth-child(7),
-        .detailed-table td:nth-child(7) { width: 60px; }
+        .detailed-table td:nth-child(7) { width: 55px; }
         .detailed-table th:nth-child(8),
         .detailed-table td:nth-child(8) { width: 58px; }
         .detailed-table th:nth-child(9),
@@ -627,6 +627,19 @@
         .detailed-table td:nth-child(16) { width: 52px; }
         .detailed-table th:nth-child(17),
         .detailed-table td:nth-child(17) { width: 52px; }
+        .detailed-table th:nth-child(18),
+        .detailed-table td:nth-child(18) { width: 52px; }
+        .detailed-table th:nth-child(19),
+        .detailed-table td:nth-child(19) { width: 65px; }
+
+        /* ホーム/アウェー関連 컬럼 패딩 축소 */
+        .detailed-table th:nth-child(16),
+        .detailed-table th:nth-child(17),
+        .detailed-table th:nth-child(18),
+        .detailed-table th:nth-child(19) {
+            padding: 2px 1px;
+            font-size: 12px;
+        }
 
         th { 
             background: #f5f5f5; 
@@ -827,6 +840,7 @@
 
         .row-eliminated td {
             background: transparent;
+            color: #999 !important;
         }
 
         .scroll-table { 
@@ -1247,6 +1261,7 @@
             <div class="nav-tab" onclick="showTab('progress', this)" data-i18n="nav-progress">進行状況</div>
             <div class="nav-tab" onclick="showTab('scenarios', this)" data-i18n="nav-scenarios">経路の数</div>
             <div class="nav-tab" onclick="showTab('standings', this)" data-i18n="nav-standings">チーム順位</div>
+            <div class="nav-tab" onclick="showTab('h2h-records', this)" data-i18n="nav-h2h-records">対戦成績</div>
             <div class="nav-tab" onclick="showTab('remaining', this)" data-i18n="nav-remaining">残り試合数</div>
             <div class="nav-tab" onclick="showTab('all-games', this)" data-i18n="nav-all-games">全試合結果</div>
         </div>
@@ -1571,6 +1586,48 @@
             </div>
         </div>
 
+        <!-- Head-to-Head Records -->
+        <div id="h2h-records" class="tab-content">
+            <h2 data-i18n="title-h2h-matrix">対戦成績マトリクス【チーム別対戦成績】</h2>
+            <div style="margin: 20px 0;">
+                <h3 data-i18n="central-league">セントラルリーグ</h3>
+                <div class="matrix-container">
+                    <div id="central-h2h-matrix" class="remaining-matrix">
+                        <div class="loading">読み込み中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AdSense Ad Between Leagues - H2H Records -->
+            <div style="margin: 20px 0; text-align: center; min-width: 320px;">
+                <ins class="adsbygoogle"
+                     style="display:block; min-width: 300px;"
+                     data-ad-client="ca-pub-5508768187151867"
+                     data-ad-slot="4067267701"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
+                <div class="matrix-container">
+                    <div id="pacific-h2h-matrix" class="remaining-matrix">
+                        <div class="loading">読み込み中...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-help tab-help-h2h" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
+                • <strong>縦軸(左側)</strong>: チーム、<strong>横軸(上部)</strong>: 全12チーム（同リーグ＋交流戦）<br>
+                • <strong>勝-敗</strong>: 各チーム間の対戦成績（勝利数-敗北数）<br>
+                • <strong>チーム名</strong>: ロゴ付き日本語名で表示<br>
+                • <strong>右端・下部の数字</strong>: 各チームの総勝利数<br>
+                • <strong>背景色</strong>: オレンジ色は交流戦を表示
+            </div>
+        </div>
+
         <!-- Remaining Games -->
         <div id="remaining" class="tab-content">
             <h2 data-i18n="title-remaining-matrix">残り試合対戦マトリクス【チーム別対戦予定】</h2>
@@ -1633,6 +1690,18 @@
                 </div>
             </div>
 
+            <!-- AdSense Ad Between Progress Sections -->
+            <div style="margin: 20px 0; text-align: center; min-width: 320px;">
+                <ins class="adsbygoogle"
+                     style="display:block; min-width: 300px;"
+                     data-ad-client="ca-pub-4892271471799448"
+                     data-ad-slot="4892271471"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
 
             <!-- 팀별 진행률 섹션 -->
             <div style="margin: 20px 0;">
@@ -1866,6 +1935,7 @@
                 'nav-magic-playoff': 'ポストシーズンマジック', 
                 'nav-scenarios': '経路の数',
                 'nav-standings': 'チーム順位',
+                'nav-h2h-records': '対戦成績',
                 'nav-remaining': '残り試合数',
                 'nav-progress': '進行状況',
                 'nav-all-games': '全試合結果',
@@ -1874,6 +1944,7 @@
                 'title-regular-magic': '2025年正規シーズン優勝マジックナンバー【セリーグ・パリーグ】',
                 'title-playoff-magic': 'クライマックスシリーズ(CS)進出マジックナンバー【2025年最新】',
                 'title-detailed-standings': 'NPB詳細順位表【勝率・ゲーム差・残り試合数】',
+                'title-h2h-matrix': '対戦成績マトリクス【チーム別対戦成績】',
                 'title-remaining-matrix': '残り試合対戦マトリクス【チーム別対戦予定】',
                 'title-progress': '2025年シーズン進行状況【消化試合数・進捗率】',
                 'title-scenarios': '経路の数（場合の数）',
@@ -1975,6 +2046,7 @@
                 'nav-magic-playoff': '플레이오프 매직',
                 'nav-scenarios': '경로의 수',
                 'nav-standings': '팀 순위',
+                'nav-h2h-records': '대전성적',
                 'nav-remaining': '남은 경기수',
                 'nav-progress': '진행 상황',
                 'nav-all-games': '전체 경기 결과',
@@ -1983,6 +2055,7 @@
                 'title-regular-magic': '2025년 정규시즌 우승 매직넘버【센트럴·퍼시픽 리그】',
                 'title-playoff-magic': '클라이맥스 시리즈(CS) 진출 매직넘버【2025년 최신】',
                 'title-detailed-standings': 'NPB 상세 순위표【승률·게임차·남은경기수】',
+                'title-h2h-matrix': '대전성적 매트릭스【팀별 대전성적】',
                 'title-remaining-matrix': '남은 경기 대전 매트릭스【팀별 대전 예정】',
                 'title-progress': '2025년 시즌 진행 상황【소화경기수·진행률】',
                 'title-scenarios': '경로의 수（경우의 수）',
@@ -2085,6 +2158,7 @@
                 'nav-magic-playoff': 'Playoff Magic',
                 'nav-scenarios': 'Path Count',
                 'nav-standings': 'Team Standings',
+                'nav-h2h-records': 'Head-to-Head',
                 'nav-remaining': 'Remaining Games',
                 'nav-progress': 'Season Progress',
                 'nav-all-games': 'All Game Results',
@@ -2093,6 +2167,7 @@
                 'title-regular-magic': '2025 Regular Season Championship Magic Numbers【Central・Pacific League】',
                 'title-playoff-magic': 'Climax Series (CS) Advancement Magic Numbers【2025 Latest】',
                 'title-detailed-standings': 'NPB Detailed Standings【Win Rate・Games Behind・Remaining Games】',
+                'title-h2h-matrix': 'Head-to-Head Records Matrix【Team vs Team Records】',
                 'title-remaining-matrix': 'Remaining Games Matrix【Team vs Team Schedule】',
                 'title-progress': '2025 Season Progress【Games Played・Progress Rate】',
                 'title-scenarios': 'Path Count (Number of Cases)',
@@ -2595,20 +2670,32 @@
                             condition = '確定';
                         }
                     } else {
-                        // 2位以下チームの優勝条件: 1位チームが何勝以下で終わる必要があるか
+                        // 2位以下チームの優勝条件計算
                         const teamMaxWins = team.wins + remainingGames;
                         const leaderCurrentWins = leader.wins;
                         const leaderRemaining = TOTAL_GAMES - leader.games_played;
-                        
+
                         if (teamMaxWins <= leaderCurrentWins) {
                             condition = '不可能';
+                            magic = '-';
                         } else {
                             // このチームが1位になるために1位チームが最大何勝までに抑える必要があるか
                             const leaderMaxAllowed = teamMaxWins - 1;
                             if (leaderMaxAllowed < leaderCurrentWins) {
                                 condition = '不可能';
+                                magic = '-';
                             } else {
                                 condition = `1位${leaderMaxAllowed}勝以下`;
+
+                                // 2位以下 팀의 매직넘버 계산: 이 팀이 우승하기 위해 필요한 승수
+                                const winsNeededForTitle = leaderMaxAllowed - team.wins + 1;
+                                if (winsNeededForTitle <= 0) {
+                                    magic = '✓';
+                                } else if (winsNeededForTitle > remainingGames) {
+                                    magic = '-'; // 남은 경기로는 불가능
+                                } else {
+                                    magic = winsNeededForTitle;
+                                }
                             }
                         }
                     }
@@ -3372,6 +3459,240 @@
             updateRemainingMatrix('pacific-remaining-matrix', standingsData.pacific_league?.standings || [], 'pacific');
         }
 
+        // ===== 対戦成績更新 =====
+        function updateH2HRecords() {
+            // 캐시 초기화 (새로운 데이터로 다시 계산하기 위해)
+            cachedH2HData = null;
+
+            updateH2HMatrix('central-h2h-matrix', standingsData.central_league?.standings || [], 'central');
+            updateH2HMatrix('pacific-h2h-matrix', standingsData.pacific_league?.standings || [], 'pacific');
+        }
+
+        // ===== 실제 경기 결과에서 대전성적 계산 (캐시된 결과 사용) =====
+        let cachedH2HData = null;
+
+        function calculateH2HRecords() {
+            // 이미 계산된 결과가 있으면 캐시된 결과 반환
+            if (cachedH2HData) {
+                return cachedH2HData;
+            }
+
+            const h2hData = {};
+
+            // 모든 팀에 대해 초기화 (리그 필터링 없이)
+            const allTeamCodes = ['YOG', 'YAK', 'YDB', 'HAN', 'HIR', 'CHU', 'SOF', 'NIP', 'SEI', 'RAK', 'ORI', 'LOT'];
+
+            allTeamCodes.forEach(teamCode => {
+                h2hData[teamCode] = {};
+                allTeamCodes.forEach(opponentCode => {
+                    if (teamCode !== opponentCode) {
+                        h2hData[teamCode][opponentCode] = {
+                            wins: 0,
+                            losses: 0,
+                            draws: 0
+                        };
+                    }
+                });
+            });
+
+            // 팀명 매핑 (일본어 → 영어 약자)
+            const teamNameMap = {
+                '巨人': 'YOG', 'ヤクルト': 'YAK', 'ＤｅＮＡ': 'YDB', '阪神': 'HAN', '広島': 'HIR', '中日': 'CHU',
+                'ソフトバンク': 'SOF', '日本ハム': 'NIP', '西武': 'SEI', '楽天': 'RAK', 'オリックス': 'ORI', 'ロッテ': 'LOT'
+            };
+
+            // gamesRawData가 있다면 실제 경기 결과 파싱
+            if (window.gamesRawData) {
+                const gameLines = window.gamesRawData.split('\n');
+                let totalParsedGames = 0;
+
+                gameLines.forEach(line => {
+                    line = line.trim();
+
+                    // 연기 경기는 건너뛰기
+                    if (line.includes('[POSTPONED]')) {
+                        return;
+                    }
+
+                    // 주석이나 빈 줄은 건너뛰기
+                    if (line.startsWith('#') || line === '') {
+                        return;
+                    }
+
+                    // 경기 결과 라인인지 확인 (팀명 스코어-스코어 팀명 형식)
+                    const gameMatch = line.match(/^(.+?)\s+(\d+)-(\d+)\s+(.+?)\s+\(.*?\)/);
+                    if (gameMatch) {
+                        const [, team1Name, score1, score2, team2Name] = gameMatch;
+
+                        const team1Code = teamNameMap[team1Name.trim()];
+                        const team2Code = teamNameMap[team2Name.trim()];
+
+                        if (team1Code && team2Code && h2hData[team1Code] && h2hData[team2Code]) {
+                            const team1Score = parseInt(score1);
+                            const team2Score = parseInt(score2);
+
+                            totalParsedGames++;
+
+                            if (team1Score > team2Score) {
+                                // team1 승리
+                                h2hData[team1Code][team2Code].wins++;
+                                h2hData[team2Code][team1Code].losses++;
+                            } else if (team2Score > team1Score) {
+                                // team2 승리
+                                h2hData[team1Code][team2Code].losses++;
+                                h2hData[team2Code][team1Code].wins++;
+                            } else {
+                                // 무승부
+                                h2hData[team1Code][team2Code].draws++;
+                                h2hData[team2Code][team1Code].draws++;
+                            }
+                        }
+                    }
+                });
+
+            }
+
+            // 계산된 결과를 캐시에 저장
+            cachedH2HData = h2hData;
+            return h2hData;
+        }
+
+        // ===== 対戦成績マトリクス更新（共通関数） =====
+        function updateH2HMatrix(containerId, teams, leagueType) {
+            const container = document.getElementById(containerId);
+            if (!teams.length) {
+                container.innerHTML = '<div class="loading">データがありません</div>';
+                return;
+            }
+
+            // 両リーグの全チームを取得
+            const allTeams = [
+                ...(standingsData.central_league?.standings || []),
+                ...(standingsData.pacific_league?.standings || [])
+            ];
+
+            // 現在のリーグのチームを順位順にソート
+            const sortedCurrentLeagueTeams = [...teams].sort((a, b) => a.rank - b.rank);
+
+            // 相手チーム（全12チーム）を準備
+            const currentLeague = leagueType === 'central' ? 'Central' : 'Pacific';
+            const sameLeagueTeams = allTeams.filter(t => t.league === currentLeague).sort((a, b) => a.rank - b.rank);
+            const otherLeagueTeams = allTeams.filter(t => t.league !== currentLeague).sort((a, b) => a.rank - b.rank);
+            const opponentTeams = [...sameLeagueTeams, ...otherLeagueTeams];
+
+            // グリッドのカラム数を設定 (チーム名 + 全12チーム + 合計)
+            container.style.gridTemplateColumns = `180px repeat(12, 70px) 80px`;
+
+            let matrixHTML = '';
+
+            // ヘッダー行 - 相手チーム名 (全12チーム)
+            matrixHTML += '<div class="matrix-cell matrix-corner" style="font-weight: bold; font-size: 12px; display: flex; justify-content: center;">vs 相手チーム</div>';
+            opponentTeams.forEach(team => {
+                const isInterleague = team.league !== currentLeague;
+                const teamAbbr = team.team_abbreviation;
+
+                // 일본어 축약형 매핑
+                const japaneseNames = {
+                    'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                    'SOF': 'ソフトバンク', 'NIP': '日本ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+                };
+
+                const teamLogo = TEAM_LOGOS[teamAbbr] ? `<img class="team-logo" src="${TEAM_LOGOS[teamAbbr]}" alt="${teamAbbr}" loading="lazy">` : '';
+                const japaneseShort = japaneseNames[teamAbbr] || teamAbbr;
+                const bgStyle = isInterleague ? 'background: #fff3e0;' : '';
+
+                matrixHTML += `<div class="matrix-cell matrix-header-opponent" style="${bgStyle} font-size: 12px; padding: 4px;">
+                    ${teamLogo}<br>
+                    <span style="font-weight: bold;">${japaneseShort}</span>
+                </div>`;
+            });
+            matrixHTML += '<div class="matrix-cell matrix-corner" style="font-weight: bold; font-size: 12px; display: flex; justify-content: center;">合計</div>';
+
+            // 실제 경기 결과에서 대전성적 계산
+            const h2hData = calculateH2HRecords();
+
+            // 각 팀 행 생성
+            sortedCurrentLeagueTeams.forEach(homeTeam => {
+                let rowTotalWins = 0;
+                let rowTotalLosses = 0;
+                let rowTotalDraws = 0;
+
+                // 팀명 표시
+                const teamLogo = TEAM_LOGOS[homeTeam.team_abbreviation] ? `<img class="team-logo" src="${TEAM_LOGOS[homeTeam.team_abbreviation]}" alt="${homeTeam.team_name}" loading="lazy">` : '';
+                const japaneseNames = {
+                    'YOG': '読売ジャイアンツ', 'YAK': '東京ヤクルトスワローズ', 'YDB': '横浜DeNAベイスターズ',
+                    'HAN': '阪神タイガース', 'HIR': '広島東洋カープ', 'CHU': '中日ドラゴンズ',
+                    'SOF': 'ソフトバンクホークス', 'NIP': '北海道日本ハム', 'SEI': '埼玉西武ライオンズ',
+                    'RAK': '東北楽天', 'ORI': 'オリックス', 'LOT': '千葉ロッテマリーンズ'
+                };
+
+                const japaneseShort = japaneseNames[homeTeam.team_abbreviation] || homeTeam.team_name;
+
+                matrixHTML += `<div class="matrix-cell matrix-header-team" style="font-size: 12px; padding: 4px; display: flex; align-items: center;">
+                    ${teamLogo}<span style="font-weight: bold;">${japaneseShort}</span>
+                </div>`;
+
+                // 각 상대팀과의 성적 표시
+                opponentTeams.forEach(awayTeam => {
+                    if (homeTeam.team_abbreviation === awayTeam.team_abbreviation) {
+                        // 자팀
+                        matrixHTML += '<div class="matrix-cell matrix-data-cell" style="background: #f5f5f5; color: #999; font-weight: bold; display: flex; justify-content: center;">-</div>';
+                    } else {
+                        // 대전성적 표시 (승-패-무)
+                        const record = h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation] || {wins: 0, losses: 0, draws: 0};
+                        const isInterleague = homeTeam.league !== awayTeam.league;
+                        const cellStyle = isInterleague ? 'background: #fff8e1;' : '';
+
+                        matrixHTML += `<div class="matrix-cell matrix-data-cell" style="${cellStyle} font-weight: bold; display: flex; justify-content: center; font-size: 12px;">${record.wins} - ${record.losses} - ${record.draws}</div>`;
+                        rowTotalWins += record.wins;
+                        rowTotalLosses += record.losses;
+                        rowTotalDraws += record.draws;
+                    }
+                });
+
+                // 행의 총 경기수
+                const rowTotalGames = rowTotalWins + rowTotalLosses + rowTotalDraws;
+                matrixHTML += `<div class="matrix-cell matrix-total-cell" style="font-weight: bold; color: #1976d2; display: flex; justify-content: center; font-size: 12px;">${rowTotalGames}</div>`;
+            });
+
+            // 최종행: 각 열의 합계 (상대팀별 총 성적)
+            matrixHTML += '<div class="matrix-cell matrix-corner" style="font-weight: bold; font-size: 12px; display: flex; justify-content: center;">合計</div>';
+            opponentTeams.forEach(awayTeam => {
+                let columnTotalWins = 0;
+                let columnTotalLosses = 0;
+                let columnTotalDraws = 0;
+                sortedCurrentLeagueTeams.forEach(homeTeam => {
+                    if (homeTeam.team_abbreviation !== awayTeam.team_abbreviation) {
+                        columnTotalWins += h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation]?.wins || 0;
+                        columnTotalLosses += h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation]?.losses || 0;
+                        columnTotalDraws += h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation]?.draws || 0;
+                    }
+                });
+                const isInterleague = awayTeam.league !== currentLeague;
+                const bgStyle = isInterleague ? 'background: #fff3e0;' : '';
+                const columnTotalGames = columnTotalWins + columnTotalLosses + columnTotalDraws;
+                matrixHTML += `<div class="matrix-cell matrix-total-cell" style="${bgStyle} font-weight: bold; color: #1976d2; display: flex; justify-content: center; font-size: 12px;">${columnTotalGames}</div>`;
+            });
+
+            // 총합계 (전체 승-패-무)
+            let grandTotalWins = 0;
+            let grandTotalLosses = 0;
+            let grandTotalDraws = 0;
+            sortedCurrentLeagueTeams.forEach(homeTeam => {
+                opponentTeams.forEach(awayTeam => {
+                    if (homeTeam.team_abbreviation !== awayTeam.team_abbreviation) {
+                        grandTotalWins += h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation]?.wins || 0;
+                        grandTotalLosses += h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation]?.losses || 0;
+                        grandTotalDraws += h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation]?.draws || 0;
+                    }
+                });
+            });
+            const grandTotalGames = grandTotalWins + grandTotalLosses + grandTotalDraws;
+            matrixHTML += `<div class="matrix-cell matrix-corner" style="font-weight: bold; color: white; font-size: 14px; display: flex; justify-content: center;">${grandTotalGames}</div>`;
+
+            container.innerHTML = matrixHTML;
+        }
+
         // ===== シーズン進行状況更新 =====
         function updateProgress() {
             updateOverallProgress();
@@ -3538,7 +3859,7 @@
                 const japaneseShort = japaneseNames[teamAbbr] || teamAbbr;
                 const bgStyle = isInterleague ? 'background: #fff3e0;' : '';
 
-                matrixHTML += `<div class="matrix-cell matrix-header-opponent" style="${bgStyle} font-size: 10px; padding: 2px;">
+                matrixHTML += `<div class="matrix-cell matrix-header-opponent" style="${bgStyle} font-size: 12px; padding: 4px;">
                     ${teamLogo}<br>
                     <span style="font-weight: bold;">${japaneseShort}</span>
                 </div>`;
@@ -4232,7 +4553,19 @@
                 }
                 
                 const rawData = await response.json();
-                
+
+                // 경기 결과 텍스트 파일 로딩
+                try {
+                    const gamesRawPath = './data/simple/games_raw.txt';
+                    const gamesRawUrl = gamesRawPath + '?' + cacheBust;
+                    const gamesRawResponse = await fetch(gamesRawUrl, { cache: 'no-store' });
+                    if (gamesRawResponse.ok) {
+                        window.gamesRawData = await gamesRawResponse.text();
+                    }
+                } catch (gamesRawError) {
+                    console.warn('games_raw.txt 로드 실패:', gamesRawError);
+                }
+
                 // 시즌 설정 데이터 로딩 (dashboard.json, cache-busting 동일 적용)
                 try {
                     const dashboardBase = basePath.replace('standings.json', 'dashboard.json');
@@ -4300,6 +4633,7 @@
                 updateMagicPlayoff();
                 updateScenarios();
                 updateDetailedStandings();
+                updateH2HRecords();
                 updateRemainingGames();
                 updateProgress();
                 updateAllGames();
