@@ -8,21 +8,10 @@ on:
       - '*.sh'
       - '.github/workflows/npb-auto-update.yml'
   schedule:
-    # 🕰️ 한국시간 기준 주요 시간대 (UTC 기준)
-    - cron: '30 7 * * *'  # UTC 07:30 = KST 16:30
-    - cron: '0 8 * * *'   # UTC 08:00 = KST 17:00
-    - cron: '30 8 * * *'  # UTC 08:30 = KST 17:30
-    - cron: '30 10 * * *' # UTC 10:30 = KST 19:30
-    - cron: '0 11 * * *'  # UTC 11:00 = KST 20:00
-    - cron: '30 11 * * *' # UTC 11:30 = KST 20:30
-    - cron: '0 12 * * *'  # UTC 12:00 = KST 21:00
-    - cron: '30 12 * * *' # UTC 12:30 = KST 21:30
-    - cron: '45 12 * * *' # UTC 12:45 = KST 21:45
-    - cron: '0 13 * * *'  # UTC 13:00 = KST 22:00
-    - cron: '15 13 * * *' # UTC 13:15 = KST 22:15
-    - cron: '30 13 * * *' # UTC 13:30 = KST 22:30
-    - cron: '0 14 * * *'  # UTC 14:00 = KST 23:00
-    - cron: '30 14 * * *' # UTC 14:30 = KST 23:30
+    # 🕰️ 한국시간 기준 주요 시간대만 (UTC 기준) - 경기 시간 후 위주
+    - cron: '0 12 * * *'  # UTC 12:00 = KST 21:00 (저녁 경기 후)
+    - cron: '30 13 * * *' # UTC 13:30 = KST 22:30 (경기 종료 후)
+    - cron: '0 15 * * *'  # UTC 15:00 = KST 24:00 (하루 마무리)
   workflow_dispatch:
     inputs:
       skip_crawling:
@@ -82,8 +71,8 @@ jobs:
             echo "⏭️ 크롤링 건너뛰고 변환만 실행"
             ./run_new_pipeline.sh --skip-crawl
           else
-            echo "🏃‍♂️ 전체 파이프라인 실행 (최근 3일 데이터)"
-            ./run_new_pipeline.sh 3
+            echo "🏃‍♂️ 전체 파이프라인 실행 (최근 1일 데이터)"
+            ./run_new_pipeline.sh 1
           fi
         timeout-minutes: 20
         continue-on-error: false

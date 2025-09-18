@@ -33,8 +33,8 @@ def setup_logging():
 
 def run_web_crawler(mode="7", use_legacy=False):
     """웹 크롤링 실행 (TXT 직접 저장)
-    기본: 최소 경로(min_results_crawler.py) 사용
-    --legacy-crawler 옵션으로 기존 simple_crawler 사용 가능
+    기본: 이닝별 정보 포함(simple_crawler.py) 사용
+    --legacy-crawler 옵션으로 min_results_crawler 사용 가능
     """
     if mode == "full-season":
         logger.info("🕷️ Starting FULL SEASON web crawling (from March 28)...")
@@ -45,15 +45,16 @@ def run_web_crawler(mode="7", use_legacy=False):
 
     try:
         if use_legacy:
-            crawler_path = project_root / 'crawler' / 'simple_crawler.py'
-        else:
             crawler_path = project_root / 'crawler' / 'min_results_crawler.py'
+        else:
+            # 기본으로 이닝별 정보를 포함하는 simple_crawler 사용
+            crawler_path = project_root / 'crawler' / 'simple_crawler.py'
 
         if mode == "full-season":
             cmd = ['python3', str(crawler_path), '--full-season']
         else:
-            # min crawler supports bare integer argument too
-            cmd = ['python3', str(crawler_path), str(mode)]
+            # 최근 데이터만 수집하여 기존 데이터 보호
+            cmd = ['python3', str(crawler_path), '--days', str(mode)]
 
         result = subprocess.run(
             cmd,

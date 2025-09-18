@@ -1,9 +1,17 @@
 {
+<<<<<<< HEAD
   "generated_at": "2025-09-17T14:38:26.209Z",
   "season_stats": {
     "total_games": 786,
     "today_games": 6,
     "week_games": 37
+=======
+  "generated_at": "2025-09-18T02:16:09.333Z",
+  "season_stats": {
+    "total_games": 786,
+    "today_games": 0,
+    "week_games": 34
+>>>>>>> 4e52243 (게임 티커 기능 개선 - 경기간 구분선, 이닝 표시, 날짜 표시 개선)
   },
   "highlights": {
     "high_scoring_games": [

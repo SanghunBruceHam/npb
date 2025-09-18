@@ -304,6 +304,184 @@
         .nav-tab + .nav-tab {
             border-left: 1px solid #ddd;
         }
+
+        .game-ticker {
+            position: fixed;
+            top: calc(var(--header-height) + var(--nav-height));
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            height: 40px;
+            z-index: 998;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .game-ticker {
+            height: 44px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            position: fixed;
+            top: calc(var(--header-height) + var(--nav-height));
+            left: 0;
+            right: 0;
+            z-index: 998;
+            display: flex;
+            justify-content: center;
+        }
+
+        .ticker-content {
+            display: flex;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .ticker-date-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            background-color: #f8f9fa;
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+
+        .ticker-date-nav {
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            user-select: none;
+            color: #0066cc; /* Highlight navigation buttons */
+        }
+
+        .ticker-date {
+            font-weight: bold;
+            font-size: 13px;
+            color: #333;
+            white-space: nowrap;
+            text-align: center;
+            line-height: 1.2;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .ticker-games-container {
+            flex: 1;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ticker-games-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ticker-games {
+            display: inline-flex;
+            gap: 15px;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .ticker-game {
+            position: relative;
+        }
+        .ticker-game:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .ticker-games.scrolling {
+            animation: scroll-left 30s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .ticker-games-container:hover .ticker-games.scrolling {
+            animation-play-state: paused;
+        }
+            padding: 2px 10px 0 10px; /* Ensure games are not cut off */
+            height: 100%;
+            align-items: flex-start;
+            justify-content: center;
+            min-width: min-content;
+        }
+
+        .ticker-game {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 2px;
+            flex-shrink: 0; /* Prevent games from shrinking */
+            padding: 0 8px;
+            border-right: 1px solid #e0e0e0;
+            min-height: 36px;
+        }
+        .ticker-game:last-child {
+            border-right: none;
+        }
+
+        .ticker-team {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .ticker-team-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .ticker-score {
+            font-weight: bold;
+            font-size: 13px;
+            margin: 0 2px;
+        }
+        
+        .ticker-status {
+            font-size: 11px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .ticker-team-logo {
+            height: 18px;
+            width: 18px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin: 0 1px;
+        }
+        .ticker-team.winner .ticker-team-name {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        .ticker-team.winner .ticker-score {
+            color: #2e7d32;
+            font-weight: bold;
+        }
         
         .container {
             max-width: 1200px;
@@ -539,20 +717,6 @@
             overflow-x: auto; 
         }
 
-        /* Today schedule */
-        .today-section {
-            background: #fffef8;
-            border: 1px solid #eee0b3;
-            border-radius: 6px;
-            padding: 12px;
-            margin: 16px 0 10px 0;
-        }
-        .today-section h2 {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-        }
-        .today-count { font-size: 12px; color: #666; font-weight: normal; }
         
         /* Progress Tab Styles */
         .league-progress {
@@ -696,49 +860,6 @@
             color: #2e7d32;
             line-height: 1.2;
         }
-        .today-date {
-            font-size: 13px;
-            color: #666;
-            font-weight: normal;
-        }
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .game-card {
-            border: 1px solid #e6e6e6;
-            border-radius: 4px;
-            padding: 6px 8px;
-            background: #fff;
-            min-width: 0;
-            margin-bottom: 4px;
-        }
-        .game-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 6px;
-            font-weight: bold;
-            line-height: 1.2;
-        }
-        .game-row span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex-shrink: 1;
-        }
-        .game-row span:first-child,
-        .game-row span:last-child {
-            max-width: 45%;
-        }
-        .game-sub {
-            margin-top: 2px;
-            font-size: 11px;
-            color: #666;
-            line-height: 1.1;
-        }
         .league-tag {
             display: inline-block;
             font-size: 12px;
@@ -847,7 +968,7 @@
         /* Layout: sticky footer without JS (flex column) */
         html, body { height: 100%; }
         body { display: flex; flex-direction: column; min-height: 100vh; }
-        main { flex: 1 0 auto; padding-top: calc(var(--header-height) + var(--nav-height) + 30px); }
+        main { flex: 1 0 auto; padding-top: calc(var(--header-height) + var(--nav-height) + 40px); }
         
         /* Simple site footer (flow layout; pushed to bottom by flex) */
         .site-footer {
@@ -1015,6 +1136,18 @@
             <div class="nav-tab" onclick="showTab('remaining', this)" data-i18n="nav-remaining">残り試合数</div>
         </div>
     </div>
+    <div id="game-ticker" class="game-ticker">
+        <div class="ticker-content">
+            <div class="ticker-games-container">
+                <div id="ticker-games" class="ticker-games"></div>
+            </div>
+            <div class="ticker-date-controls">
+                <span id="ticker-prev-day" class="ticker-date-nav">&lt;</span>
+                <span id="ticker-date" class="ticker-date" onclick="goToToday()"></span>
+                <span id="ticker-next-day" class="ticker-date-nav">&gt;</span>
+            </div>
+        </div>
+    </div>
 
     <main role="main">
     <div class="container">
@@ -1025,20 +1158,6 @@
             <span>総試合数: <span id="total-games">—試合</span></span>
         </div>
 
-        <!-- Today Schedule (Top of the page) -->
-        <section id="today-section" class="today-section">
-            <h2>今日の試合 <span id="today-count" class="today-count"></span>
-                <span id="today-date" class="today-date"></span></h2>
-            <div class="schedule-toggle">
-                <div class="toggle-group" role="tablist" aria-label="Schedule Toggle">
-                    <button id="btn-today" class="toggle-btn active" role="tab" aria-selected="true" data-i18n="today">今日</button>
-                    <button id="btn-tomorrow" class="toggle-btn" role="tab" aria-selected="false" data-i18n="tomorrow">明日</button>
-                </div>
-            </div>
-            <div id="today-games-container" class="games-grid">
-                <div class="game-card"><div class="game-row">読み込み中...</div></div>
-            </div>
-        </section>
 
         
         
@@ -3470,8 +3589,6 @@
                     if (lastEl) lastEl.textContent = `${updated} JST`;
                 }
 
-                // Initialize schedule view with Today
-                initScheduleToggle();
 
                 // 실제 통계 데이터 표시
                 if (seasonConfig && seasonConfig.season_stats) {
@@ -3583,392 +3700,6 @@
             const now = new Date();
             const ts = now.getTime() + offsetDays * 24 * 60 * 60 * 1000;
             return new Date(ts);
-        }
-
-        let currentScheduleMode = 'today';
-        function initScheduleToggle() {
-            const btnToday = document.getElementById('btn-today');
-            const btnTomorrow = document.getElementById('btn-tomorrow');
-
-            btnToday?.addEventListener('click', () => setScheduleDate('today'));
-            btnTomorrow?.addEventListener('click', () => setScheduleDate('tomorrow'));
-
-            // Pick smart default: if no games today (or late night), show tomorrow when available
-            const defaultMode = getDefaultScheduleMode();
-            setScheduleDate(defaultMode);
-
-            // Enable swipe/keyboard/scroll gestures to flip day
-            enableScheduleGestures();
-
-            // Auto-refresh upcoming schedule every 5 minutes
-            startScheduleAutoRefresh();
-        }
-
-        function getDefaultScheduleMode() {
-            try {
-                const todayIso = formatJSTDateISO(getJSTDate(0));
-                const tomorrowIso = formatJSTDateISO(getJSTDate(1));
-                const todayGames = (upcomingGamesData || []).filter(g => g.game_status === 'scheduled' && g.game_date === todayIso);
-                const tomorrowGames = (upcomingGamesData || []).filter(g => g.game_status === 'scheduled' && g.game_date === tomorrowIso);
-                const hourJST = parseInt(new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit' }), 10);
-                if ((!todayGames.length && tomorrowGames.length) || hourJST >= 23) return 'tomorrow';
-            } catch (_) {}
-            return 'today';
-        }
-
-        function enableScheduleGestures() {
-            const section = document.getElementById('today-section');
-            if (!section) return;
-
-            // Touch swipe left/right
-            let touchStartX = null;
-            section.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches?.[0]?.clientX ?? null;
-            }, { passive: true });
-            section.addEventListener('touchend', (e) => {
-                if (touchStartX == null) return;
-                const endX = e.changedTouches?.[0]?.clientX ?? touchStartX;
-                const dx = endX - touchStartX;
-                if (dx < -40) setScheduleDate('tomorrow');
-                else if (dx > 40) setScheduleDate('today');
-                touchStartX = null;
-            });
-
-            // Keyboard arrows
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight') setScheduleDate('tomorrow');
-                else if (e.key === 'ArrowLeft') setScheduleDate('today');
-            });
-
-            // Mouse/trackpad horizontal scroll flips day
-            section.addEventListener('wheel', (e) => {
-                if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
-                    if (e.deltaX > 0) setScheduleDate('tomorrow');
-                    else setScheduleDate('today');
-                }
-            }, { passive: true });
-        }
-
-        function startScheduleAutoRefresh() {
-            // Refresh data periodically to reflect game status changes
-            setInterval(async () => {
-                try {
-                    const basePath = getDataPath();
-                    const upcomingBase = basePath.replace('standings.json', 'upcoming.json');
-                    const cacheBust = `v=${Date.now()}`;
-                    const upcomingUrl = upcomingBase + (upcomingBase.includes('?') ? '&' : '?') + cacheBust;
-                    const resp = await fetch(upcomingUrl, { cache: 'no-store' });
-                    if (resp.ok) {
-                        upcomingGamesData = await resp.json();
-                        setScheduleDate(currentScheduleMode); // re-render current mode
-                    }
-                } catch (_) {}
-            }, 5 * 60 * 1000);
-        }
-
-        function setScheduleDate(mode) {
-            const btnToday = document.getElementById('btn-today');
-            const btnTomorrow = document.getElementById('btn-tomorrow');
-
-            btnToday?.classList.toggle('active', mode === 'today');
-            btnTomorrow?.classList.toggle('active', mode === 'tomorrow');
-
-            const offset = mode === 'tomorrow' ? 1 : 0;
-            const targetDate = formatJSTDateISO(getJSTDate(offset));
-            currentScheduleMode = mode;
-            updateScheduleForDate(targetDate, mode === 'today');
-        }
-
-        function tryFormatStartTime(g, upcomingData = null, dateIso = null) {
-            const rawKeys = [
-                'start_time', 'scheduled_time', 'start_time_local', 'first_pitch_time', 'game_time', 'scheduled_start_time'
-            ];
-            let val = undefined;
-            for (const k of rawKeys) {
-                if (g && g[k]) { val = g[k]; break; }
-            }
-            
-            // 완료된 경기에 시간이 없으면 upcoming 데이터에서 찾기
-            if (!val && upcomingData && dateIso) {
-                const homeId = g.home_team_id;
-                const awayId = g.away_team_id;
-                if (homeId && awayId) {
-                    const upcomingGame = upcomingData.find(ug => {
-                        if (ug.game_date !== dateIso) return false;
-                        const ugHomeId = ug.home_team_id;
-                        const ugAwayId = ug.away_team_id;
-                        return (homeId === ugHomeId && awayId === ugAwayId) || 
-                               (homeId === ugAwayId && awayId === ugHomeId);
-                    });
-                    if (upcomingGame) {
-                        val = upcomingGame.scheduled_time;
-                    }
-                }
-            }
-            
-            if (!val) return null;
-            try {
-                if (typeof val === 'string' && val.includes('T')) {
-                    const d = new Date(val);
-                    if (!isNaN(d.getTime())) {
-                        return d.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit' });
-                    }
-                }
-                // HH:MM or other plain time strings (전각 콜론을 반각으로 변환)
-                if (typeof val === 'string') {
-                    return val.replace('：', ':');
-                }
-            } catch (_) {}
-            return null;
-        }
-
-        const DEFAULT_STADIUM_BY_HOME = {
-            YOG: '東京ドーム',
-            HAN: '阪神甲子園球場',
-            CHU: 'バンテリンドーム ナゴヤ',
-            YDB: '横浜スタジアム',
-            HIR: 'MAZDA Zoom-Zoom スタジアム広島',
-            YAK: '明治神宮野球場',
-            SOF: '福岡PayPayドーム',
-            LOT: 'ZOZOマリンスタジアム',
-            SEI: 'ベルーナドーム',
-            ORI: '京セラドーム大阪',
-            NIP: 'エスコンフィールドHOKKAIDO',
-            RAK: '楽天モバイルパーク宮城'
-        };
-
-        function tryGetVenue(g) {
-            const keys = ['venue', 'stadium', 'ballpark', 'stadium_name', 'venue_name'];
-            for (const k of keys) {
-                if (g && g[k]) return g[k];
-            }
-            // fallback by home team abbreviation
-            if (g?.home_team_abbr && DEFAULT_STADIUM_BY_HOME[g.home_team_abbr]) {
-                return `${DEFAULT_STADIUM_BY_HOME[g.home_team_abbr]} (推定)`;
-            }
-            return null;
-        }
-
-        function inferStartTimeJST(dateIso) {
-            // Basic heuristic: Weekday 18:00, Weekend 14:00 (JST)
-            const d = new Date(`${dateIso}T00:00:00+09:00`);
-            const dow = d.getUTCDay(); // 0 Sun .. 6 Sat (for +09:00 anchor)
-            return (dow === 0 || dow === 6) ? '14:00' : '18:00';
-        }
-
-        function updateScheduleForDate(dateIso, updateInfoCount = false) {
-            const container = document.getElementById('today-games-container');
-            const dateLabel = document.getElementById('today-date');
-            const displayDate = `(${dateIso.replace(/-/g, '/')})`;
-            dateLabel.textContent = displayDate;
-
-            // 예정된 경기 데이터
-            const upcomingTodayGames = (upcomingGamesData || []).filter(g =>
-                g.game_status === 'scheduled' && g.game_date === dateIso
-            );
-            
-            // 완료된 경기 데이터 (games.json에서 가져오기) - 중복 제거 및 최종 스코어 선택
-            const completedTodayGames = [];
-            const completedGameKeys = new Set();
-            const gameGroups = {};
-            
-            // 같은 경기끼리 그룹화
-            (gamesData || []).forEach(g => {
-                const gameDate = g.date || g.game_date;
-                const gameStatus = g.status || g.game_status || 'scheduled';
-                const isCompleted = gameDate === dateIso && gameStatus === 'completed';
-                
-                if (isCompleted) {
-                    const homeId = g.home_team_id;
-                    const awayId = g.away_team_id;
-                    if (homeId && awayId) {
-                        const teamIds = [homeId, awayId].sort();
-                        const key = `${teamIds[0]}-${teamIds[1]}`;
-                        
-                        if (!gameGroups[key]) {
-                            gameGroups[key] = [];
-                        }
-                        gameGroups[key].push(g);
-                    }
-                }
-            });
-            
-            // 각 그룹에서 최종 스코어(가장 높은 스코어 합계) 선택
-            Object.keys(gameGroups).forEach(key => {
-                const games = gameGroups[key];
-                const finalGame = games.reduce((latest, current) => {
-                    const latestTotal = (latest.home_score || 0) + (latest.away_score || 0);
-                    const currentTotal = (current.home_score || 0) + (current.away_score || 0);
-                    return currentTotal >= latestTotal ? current : latest;
-                });
-                
-                completedGameKeys.add(`${dateIso}-${key}`);
-                completedTodayGames.push(finalGame);
-                
-            });
-
-            // 완료된 경기 필터링
-            const filteredCompletedGames = completedTodayGames;
-            
-            // 예정된 경기에서 완료된 경기와 중복되는 것 제거
-            const filteredUpcomingGames = upcomingTodayGames.filter(g => {
-                const homeId = g.home_team_id;
-                const awayId = g.away_team_id;
-                if (!homeId || !awayId) return true;
-                
-                const teamIds = [homeId, awayId].sort();
-                const key = `${dateIso}-${teamIds[0]}-${teamIds[1]}`;
-
-                // 예정 경기는 완료된 경기와 중복 시 제외
-                return !completedGameKeys.has(key);
-            });
-            
-            const allTodayGames = [...filteredCompletedGames, ...filteredUpcomingGames];
-            
-            
-            // 경기 카운트 표시 강제 업데이트
-            const countElement = document.getElementById('today-count');
-            if (countElement && updateInfoCount) {
-                countElement.textContent = `(${allTodayGames.length}試合)`;
-            }
-
-            if (!allTodayGames.length) {
-                // 데이터 로딩 상태인지 확인
-                if (!gamesData && !upcomingGamesData) {
-                    container.innerHTML = '<div class="game-card"><div class="game-row" style="color:#888;">📊 データ読み込み中...</div></div>';
-                } else {
-                    // 실제로 경기가 없는 경우
-                    const dayOfWeek = new Date(`${dateIso}T00:00:00+09:00`).getDay();
-                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Sunday or Saturday
-                    
-                    if (isWeekend) {
-                        container.innerHTML = '<div class="game-card"><div class="game-row" style="color:#666;">⚾ 本日は試合予定がありません</div></div>';
-                    } else {
-                        container.innerHTML = '<div class="game-card"><div class="game-row" style="color:#666;">📅 本日の試合はお休みです</div></div>';
-                    }
-                }
-                if (updateInfoCount) { const tc = document.getElementById('today-count'); if (tc) tc.textContent = ''; }
-                return;
-            }
-
-            allTodayGames.sort((a, b) => {
-                // 실제 데이터가 수집된 경기를 먼저 표시
-                const aHasData = a.home_score !== null && a.home_score !== undefined && a.away_score !== null && a.away_score !== undefined;
-                const bHasData = b.home_score !== null && b.home_score !== undefined && b.away_score !== null && b.away_score !== undefined;
-                
-                if (aHasData && !bHasData) return -1;
-                if (!aHasData && bHasData) return 1;
-                
-                const aLeague = a.league || (a.home_team_abbr && getTeamLeague(a.home_team_abbr)) || 'Unknown';
-                const bLeague = b.league || (b.home_team_abbr && getTeamLeague(b.home_team_abbr)) || 'Unknown';
-                
-                if (aLeague === bLeague) {
-                    const aTeams = (a.home_team_abbr || '') + (a.away_team_abbr || '');
-                    const bTeams = (b.home_team_abbr || '') + (b.away_team_abbr || '');
-                    return aTeams.localeCompare(bTeams);
-                }
-                return aLeague.localeCompare(bLeague);
-            });
-
-            if (updateInfoCount) {
-                const tc = document.getElementById('today-count');
-                if (tc) tc.textContent = `(${allTodayGames.length}試合)`;
-            }
-
-            container.innerHTML = allTodayGames.map(g => {
-                const aLeague = g.league || (g.home_team_abbr && getTeamLeague(g.home_team_abbr)) || 'Unknown';
-                const leagueClass = aLeague === 'Central' ? 'league-central' : 'league-pacific';
-                
-                // 경기 상태 판단 (status 필드만 사용)
-                const gameStatus = g.status || g.game_status || 'scheduled';
-                
-                let status, statusColor;
-                if (gameStatus === 'completed') {
-                    status = '終了';
-                    statusColor = '#d32f2f';
-                } else if (gameStatus === 'postponed') {
-                    status = '延期';
-                    statusColor = '#f57c00';
-                } else {
-                    status = '予定';
-                    statusColor = '#666';
-                }
-                
-                const timeRaw = tryFormatStartTime(g, upcomingGamesData, dateIso);
-                const timeStr = timeRaw || `${inferStartTimeJST(dateIso)}(推定)`;
-                const venue = tryGetVenue(g) || '';
-                const meta = [timeStr, venue].filter(v => v && v !== 'null' && v !== 'undefined').join(' / ');
-                
-                // 실제 경기 데이터가 수집되었는지 확인
-                const hasGameData = g.home_score !== null && g.home_score !== undefined && g.away_score !== null && g.away_score !== undefined;
-                
-                // 경기 표시 형식 결정
-                let statusMessage = '';
-                let gameDisplay = '';
-                
-                if (gameStatus === 'completed' && hasGameData) {
-                    // 완료된 경기만 결과 표시
-                    const isDraw = g.is_draw || g.home_score === g.away_score;
-                    statusMessage = isDraw ? '引き分け' : '試合終了';
-                    const awayWin = g.away_score > g.home_score;
-                    const homeWin = g.home_score > g.away_score;
-                    
-                    let awayTeamStyle = '';
-                    let homeTeamStyle = '';
-                    let scoreColor = '#d32f2f';
-                    
-                    if (isDraw) {
-                        awayTeamStyle = 'font-weight:normal;';
-                        homeTeamStyle = 'font-weight:normal;';
-                        scoreColor = '#888';
-                    } else if (awayWin) {
-                        awayTeamStyle = 'font-weight:bold; color:#2e7d32;';
-                        homeTeamStyle = 'font-weight:normal; color:#666;';
-                    } else if (homeWin) {
-                        awayTeamStyle = 'font-weight:normal; color:#666;';
-                        homeTeamStyle = 'font-weight:bold; color:#2e7d32;';
-                    }
-                    
-                    const inningBadge = (g.final_inning && Number.isFinite(g.final_inning))
-                        ? `<span style=\"color:#555; font-size:11px; margin-left:6px;\">(${g.final_inning}回)</span>`
-                        : '';
-                    const drawBadge = isDraw ? `<span style=\"color:#555; font-size:11px; margin-left:6px;\">引き分け</span>` : '';
-                    gameDisplay = `
-                        <span style="${awayTeamStyle}">${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
-                        <span style="color:${scoreColor}; font-weight:bold; margin:0 6px;">${g.away_score}-${g.home_score}</span>
-                        <span style="${homeTeamStyle}">${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
-                        ${ inningBadge }${ drawBadge }
-                    `;
-                } else {
-                    // 완료되지 않은 경기: 예정 또는 특수 상태로 표시
-                    if (gameStatus === 'postponed') {
-                        statusMessage = '延期';
-                    } else if (gameStatus === 'cancelled') {
-                        statusMessage = '中止';
-                    } else {
-                        statusMessage = '予定';
-                    }
-                    
-                    gameDisplay = `
-                        <span>${renderTeamLabel(g.away_team_abbr, g.away_team_name || g.away_team, true)}</span>
-                        <span style="color:#888; margin:0 6px; font-weight:normal;">vs</span>
-                        <span>${renderTeamLabel(g.home_team_abbr, g.home_team_name || g.home_team, true)}</span>
-                    `;
-                }
-                
-                return `
-                    <div class="game-card">
-                        <div class="game-row">
-                            <span class="league-tag ${leagueClass}">${aLeague}</span>
-                            <span style="margin-left:auto; font-size:11px; color:${statusColor}; font-weight:${gameStatus === 'completed' ? 'bold' : 'normal'};">${statusMessage}</span>
-                        </div>
-                        <div class="game-row" style="margin-top:2px;">
-                            ${gameDisplay}
-                        </div>
-                        ${meta ? `<div class="game-sub" style="color:#777;">${meta}</div>` : ''}
-                    </div>
-                `;
-            }).join('');
         }
 
         // 팀 약자로 리그 판단하는 헬퍼 함수
@@ -4336,5 +4067,309 @@
             <a href="https://npb-dashboard.com" target="_blank" rel="noopener noreferrer">npb-dashboard.com</a>
         </div>
     </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const gameTicker = document.getElementById('game-ticker');
+        if (!gameTicker) return;
+
+        const prevDayBtn = document.getElementById('ticker-prev-day');
+        const nextDayBtn = document.getElementById('ticker-next-day');
+        const dateDisplay = document.getElementById('ticker-date');
+        const gamesContainer = document.getElementById('ticker-games');
+
+        let currentDate = new Date();
+        let allGames = [];
+        let teamData = {};
+
+        async function fetchGameData() {
+            try {
+                const [gamesResponse, upcomingResponse, teamsResponse] = await Promise.all([
+                    fetch('./data/games.json'),
+                    fetch('./data/upcoming.json'),
+                    fetch('./data/teams.json')
+                ]);
+                const games = await gamesResponse.json();
+                const upcoming = await upcomingResponse.json();
+                const teams = await teamsResponse.json();
+                
+                allGames = [...games, ...upcoming];
+                
+                // Create a team map for easy lookup
+                if (teams.central_league) {
+                    teams.central_league.forEach(team => {
+                        teamData[team.team_id] = team;
+                    });
+                }
+                if (teams.pacific_league) {
+                    teams.pacific_league.forEach(team => {
+                        teamData[team.team_id] = team;
+                    });
+                }
+
+                updateTicker();
+            } catch (error) {
+                console.error('Error fetching game data:', error);
+                gamesContainer.innerHTML = '<span>Error loading games.</span>';
+            }
+        }
+
+        function formatDate(date) {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+
+            const isToday = date.toDateString() === today.toDateString();
+            const isYesterday = date.toDateString() === yesterday.toDateString();
+            const isTomorrow = date.toDateString() === tomorrow.toDateString();
+
+            const dateOptions = { month: 'long', day: 'numeric', timeZone: 'Asia/Tokyo' };
+            const dayOptions = { weekday: 'short', timeZone: 'Asia/Tokyo' };
+            const dateStr = date.toLocaleDateString('ja-JP', dateOptions);
+            const dayStr = date.toLocaleDateString('ja-JP', dayOptions);
+
+            if (isToday) {
+                return `${dateStr}<br><span style="font-size: 11px; color: #0066cc;">今日 (${dayStr})</span>`;
+            } else if (isYesterday) {
+                return `${dateStr}<br><span style="font-size: 11px; color: #666;">昨日 (${dayStr})</span>`;
+            } else if (isTomorrow) {
+                return `${dateStr}<br><span style="font-size: 11px; color: #666;">明日 (${dayStr})</span>`;
+            }
+
+            return `${dateStr}<br><span style="font-size: 11px; color: #666;">${dayStr}</span>`;
+        }
+
+        function getGamesForDate(date) {
+            const dateString = date.toISOString().split('T')[0];
+            const gamesForDate = allGames.filter(game => (game.date === dateString || game.game_date === dateString));
+
+            // Group games by team matchup
+            const gamesByMatchup = new Map();
+
+            gamesForDate.forEach(game => {
+                // Create normalized key regardless of home/away order
+                const teams = [game.home_team_abbr, game.away_team_abbr].sort();
+                const key = `${teams[0]}-${teams[1]}`;
+                const status = game.status || game.game_status || 'scheduled';
+
+                if (!gamesByMatchup.has(key)) {
+                    gamesByMatchup.set(key, []);
+                }
+                gamesByMatchup.get(key).push({ ...game, resolved_status: status });
+            });
+
+            // For each matchup, prefer completed games over scheduled ones
+            const uniqueGames = [];
+            gamesByMatchup.forEach(games => {
+                // Sort by status priority: completed > postponed > scheduled
+                games.sort((a, b) => {
+                    const statusPriority = { 'completed': 0, 'postponed': 1, 'scheduled': 2 };
+                    return (statusPriority[a.resolved_status] || 2) - (statusPriority[b.resolved_status] || 2);
+                });
+
+                // Take the highest priority game
+                uniqueGames.push(games[0]);
+            });
+
+            return uniqueGames;
+        }
+
+        function getTeamShortName(teamId) {
+            return teamData[teamId]?.team_abbreviation || teamId;
+        }
+
+        function getTeamLogo(teamId) {
+            const abbr = getTeamShortName(teamId);
+            const src = TEAM_LOGOS[abbr] || '';
+            return src ? `<img class="ticker-team-logo" src="${src}" alt="${abbr}">` : '';
+        }
+
+        function renderGames(games) {
+            if (games.length === 0) {
+                gamesContainer.innerHTML = '<span style="color: #666; font-size: 13px;">本日の試合はありません</span>';
+                return;
+            }
+
+            // Sort games: completed games first, then scheduled games
+            games.sort((a, b) => {
+                const statusA = a.status || a.game_status || 'scheduled';
+                const statusB = b.status || b.game_status || 'scheduled';
+
+                // Completed games come first
+                if (statusA === 'completed' && statusB !== 'completed') return -1;
+                if (statusA !== 'completed' && statusB === 'completed') return 1;
+
+                // Within same status, sort by league (Central first, then Pacific)
+                const leagueA = a.league || 'Unknown';
+                const leagueB = b.league || 'Unknown';
+                return leagueA.localeCompare(leagueB);
+            });
+
+            const html = games.map(game => {
+                // Use team abbreviations directly since they're always available
+                const homeTeamAbbr = game.home_team_abbr;
+                const awayTeamAbbr = game.away_team_abbr;
+
+                // Convert to Japanese short names (first 2-3 characters)
+                const teamShortNames = {
+                    'YOG': '巨人',
+                    'HAN': '阪神',
+                    'CHU': '中日',
+                    'HIR': '広島',
+                    'YDB': '横浜',
+                    'YAK': 'ヤクルト',
+                    'SOF': 'ソフトバンク',
+                    'LOT': 'ロッテ',
+                    'SEI': '西武',
+                    'ORI': 'オリックス',
+                    'NIP': '日ハム',
+                    'RAK': '楽天'
+                };
+
+                const homeTeamName = teamShortNames[homeTeamAbbr] || homeTeamAbbr;
+                const awayTeamName = teamShortNames[awayTeamAbbr] || awayTeamAbbr;
+                const homeScore = game.home_score;
+                const awayScore = game.away_score;
+                const status = game.status || game.game_status || 'scheduled';
+
+                // Extract time and venue from stadium field
+                let gameTime = '';
+                let venue = game.stadium || '';
+
+                // Parse time from stadium field if it contains time (e.g., "東京ドーム 18：00")
+                // Only for scheduled games (upcoming.json has time, games.json doesn't)
+                if (status === 'scheduled' && venue && venue.includes(' ')) {
+                    const parts = venue.split(' ');
+                    if (parts[parts.length - 1].includes('：')) {
+                        gameTime = parts.pop();
+                        venue = parts.join(' ');
+                    }
+                }
+
+                // Get team logo directly using abbreviation
+                const homeTeamLogo = TEAM_LOGOS[homeTeamAbbr] ?
+                    `<img class="ticker-team-logo" src="${TEAM_LOGOS[homeTeamAbbr]}" alt="${homeTeamName}">` : '';
+                const awayTeamLogo = TEAM_LOGOS[awayTeamAbbr] ?
+                    `<img class="ticker-team-logo" src="${TEAM_LOGOS[awayTeamAbbr]}" alt="${awayTeamName}">` : '';
+
+                if (status === 'completed') {
+                    const isDraw = game.is_draw || (homeScore === awayScore);
+                    const awayWin = awayScore > homeScore;
+                    const homeWin = homeScore > awayScore;
+
+                    return `
+                        <div class="ticker-game">
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <div class="ticker-team${awayWin ? ' winner' : ''}">
+                                    ${awayTeamLogo}
+                                    <span class="ticker-team-name">${awayTeamName}</span>
+                                    <span class="ticker-score">${awayScore}</span>
+                                </div>
+                                <span style="margin: 0 2px; color: #999;">-</span>
+                                <div class="ticker-team${homeWin ? ' winner' : ''}">
+                                    <span class="ticker-score">${homeScore}</span>
+                                    <span class="ticker-team-name">${homeTeamName}</span>
+                                    ${homeTeamLogo}
+                                </div>
+                                <div class="ticker-status" style="margin-left: 8px; color: ${isDraw ? '#666' : '#d32f2f'}; font-weight: bold; text-align: center; display: flex; flex-direction: column; justify-content: center; line-height: 1;">
+                                    <div>${isDraw ? '引分' : '終了'}</div>
+                                    <div style="font-size: 11px; color: #666; font-weight: normal; margin-top: -2px;">${game.innings || '9'}回</div>
+                                </div>
+                            </div>
+                            <div class="ticker-venue" style="display: flex; justify-content: center; font-size: 10px; color: #888; margin-top: 1px;">
+                                ${venue ? `<span>${venue.replace('スタジアム', '').replace('球場', '').replace('ドーム', '').replace('MAZDA Zoom-Zoom ', '').replace('PayPay', '').trim()}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                } else if (status === 'postponed') {
+                    return `
+                        <div class="ticker-game">
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <div class="ticker-team">
+                                    ${awayTeamLogo}
+                                    <span class="ticker-team-name">${awayTeamName}</span>
+                                </div>
+                                <span style="margin: 0 2px;">vs</span>
+                                <div class="ticker-team">
+                                    <span class="ticker-team-name">${homeTeamName}</span>
+                                    ${homeTeamLogo}
+                                </div>
+                                <span class="ticker-status" style="margin-left: 8px; color: #f57c00; font-weight: bold;">延期</span>
+                            </div>
+                            <div class="ticker-venue" style="display: flex; justify-content: center; font-size: 10px; color: #888; margin-top: 1px;">
+                                ${venue ? `<span>${venue.replace('スタジアム', '').replace('球場', '').replace('ドーム', '').replace('MAZDA Zoom-Zoom ', '').replace('PayPay', '').trim()}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Scheduled game
+                    return `
+                        <div class="ticker-game">
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <div class="ticker-team">
+                                    ${awayTeamLogo}
+                                    <span class="ticker-team-name">${awayTeamName}</span>
+                                </div>
+                                <span style="margin: 0 2px;">vs</span>
+                                <div class="ticker-team">
+                                    <span class="ticker-team-name">${homeTeamName}</span>
+                                    ${homeTeamLogo}
+                                </div>
+                            </div>
+                            <div class="ticker-venue" style="display: flex; justify-content: center; font-size: 11px; color: #666; margin-top: 1px;">
+                                ${gameTime ? `<span style="color: #0066cc; font-weight: bold; margin-right: 3px; font-size: 11px;">${gameTime}</span>` : ''}
+                                ${venue ? `<span>${venue.replace('スタジアム', '').replace('球場', '').trim()}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+            }).join('');
+
+            gamesContainer.innerHTML = html;
+        }
+
+        function updateTicker() {
+            dateDisplay.innerHTML = formatDate(currentDate);
+            const games = getGamesForDate(currentDate);
+            renderGames(games);
+
+            // Check if content overflows and apply scrolling animation
+            setTimeout(() => {
+                const container = document.querySelector('.ticker-games-container');
+                const content = document.querySelector('.ticker-games');
+
+                if (container && content) {
+                    const containerWidth = container.clientWidth;
+                    const contentWidth = content.scrollWidth;
+
+                    if (contentWidth > containerWidth) {
+                        content.classList.add('scrolling');
+                    } else {
+                        content.classList.remove('scrolling');
+                    }
+                }
+            }, 100);
+        }
+
+        window.goToToday = function() {
+            currentDate = new Date();
+            updateTicker();
+        }
+
+        prevDayBtn.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() - 1);
+            updateTicker();
+        });
+
+        nextDayBtn.addEventListener('click', () => {
+            currentDate.setDate(currentDate.getDate() + 1);
+            updateTicker();
+        });
+
+        fetchGameData();
+    });
+    </script>
 </body>
 </html>
