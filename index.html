@@ -3641,9 +3641,28 @@
                         // 대전성적 표시 (승-패-무)
                         const record = h2hData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation] || {wins: 0, losses: 0, draws: 0};
                         const isInterleague = homeTeam.league !== awayTeam.league;
-                        const cellStyle = isInterleague ? 'background: #fff8e1;' : '';
 
-                        matrixHTML += `<div class="matrix-cell matrix-data-cell" style="${cellStyle} font-weight: bold; display: flex; justify-content: center; font-size: 12px;">${record.wins} - ${record.losses} - ${record.draws}</div>`;
+                        // 성적에 따른 배경색 결정
+                        let bgColor = '';
+                        const totalGames = record.wins + record.losses + record.draws;
+
+                        if (totalGames > 0) {
+                            if (record.wins > record.losses) {
+                                // 우세 (승 > 패) - 녹색 계열
+                                bgColor = isInterleague ? 'background: #e8f5e8;' : 'background: #f0f8f0;';
+                            } else if (record.wins < record.losses) {
+                                // 열세 (승 < 패) - 빨간색 계열
+                                bgColor = isInterleague ? 'background: #fdeaea;' : 'background: #fdf2f2;';
+                            } else {
+                                // 동률 - 기본색
+                                bgColor = isInterleague ? 'background: #fff8e1;' : '';
+                            }
+                        } else {
+                            // 경기 없음 - 기본색
+                            bgColor = isInterleague ? 'background: #fff8e1;' : '';
+                        }
+
+                        matrixHTML += `<div class="matrix-cell matrix-data-cell" style="${bgColor} font-weight: bold; display: flex; justify-content: center; font-size: 12px;">${record.wins} - ${record.losses} - ${record.draws}</div>`;
                         rowTotalWins += record.wins;
                         rowTotalLosses += record.losses;
                         rowTotalDraws += record.draws;
