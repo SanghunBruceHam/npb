@@ -1,9 +1,5 @@
 # NPB GAMES DATA
-<<<<<<< HEAD
 # UPDATED: 2025-09-17T23:38:24.282177
-=======
-# UPDATED: 2025-09-18T11:15:38.445769
->>>>>>> 4e52243 (게임 티커 기능 개선 - 경기간 구분선, 이닝 표시, 날짜 표시 개선)
 # FORMAT: Date-grouped games with readable format
 #
 
