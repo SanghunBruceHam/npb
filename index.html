@@ -5239,8 +5239,12 @@
                     }
                 });
 
-                // 행의 합계 - 매트릭스 행 데이터의 합계
-                matrixHTML += `<div class="matrix-cell matrix-total-cell" style="font-weight: bold; color: #1976d2; justify-content: center;">${rowTotal}</div>`;
+                // 행의 합계 - 실제 남은 경기 수 (스탠딩 기반)
+                const trueRemaining = Math.max(0, TOTAL_GAMES - (homeTeam.games_played || (homeTeam.wins + homeTeam.losses + (homeTeam.draws || 0))));
+                const needsNote = rowTotal !== trueRemaining;
+                const noteHtml = needsNote ? `<div style="font-size: 10px; color: #555;">予定:${rowTotal}</div>` : '';
+
+                matrixHTML += `<div class="matrix-cell matrix-total-cell" style="font-weight: bold; color: #1976d2; justify-content: center; line-height: 1.1;">${trueRemaining}${noteHtml}</div>`;
             });
 
             // 最終行: 各列の合計（아웨이 경기수）
@@ -5258,15 +5262,10 @@
             });
 
             // 총합계 - 실제 행 합계들의 총합
-            let grandTotal = 0;
-            sortedCurrentLeagueTeams.forEach(homeTeam => {
-                opponentTeams.forEach(awayTeam => {
-                    if (homeTeam.team_abbreviation !== awayTeam.team_abbreviation) {
-                        grandTotal += matrixData[homeTeam.team_abbreviation]?.[awayTeam.team_abbreviation] || 0;
-                    }
-                });
-            });
-            matrixHTML += `<div class="matrix-cell matrix-corner" style="font-weight: bold; color: white; font-size: 14px; display: flex; justify-content: center;">${grandTotal}</div>`;
+            const grandTotal = sortedCurrentLeagueTeams.reduce((sum, homeTeam) => {
+                return sum + Math.max(0, TOTAL_GAMES - (homeTeam.games_played || (homeTeam.wins + homeTeam.losses + (homeTeam.draws || 0))));
+            }, 0);
+            matrixHTML += `<div class="matrix-cell matrix-corner" style="font-weight: bold; color: white; font-size: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1;">${grandTotal}</div>`;
 
             container.innerHTML = matrixHTML;
         }

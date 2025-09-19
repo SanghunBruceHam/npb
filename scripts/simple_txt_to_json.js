@@ -341,7 +341,21 @@ class SimpleTxtToJson {
      */
     parseUpcoming(txtData) {
         // 형식은 games_raw.txt와 동일하며 점수가 'NULL'이고 status가 'scheduled'
-        return this.parseGames(txtData).filter(g => g.game_status === 'scheduled');
+        const upcoming = this.parseGames(txtData).filter(g => g.game_status === 'scheduled');
+
+        // 오늘(Asia/Tokyo 기준) 이전 날짜는 잔여 경기에서 제외한다.
+        const formatter = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Tokyo',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+        const todayStr = formatter.format(new Date());
+
+        return upcoming.filter(game => {
+            if (!game.game_date) return true;
+            return game.game_date >= todayStr;
+        });
     }
 
     /**

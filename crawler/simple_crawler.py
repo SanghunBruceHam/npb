@@ -1248,7 +1248,13 @@ class SimpleCrawler:
         # 경기 결과 저장
         if all_games:
             self.save_games_to_txt(all_games)
-        
+
+        # 예정 경기 업데이트 (기본 30일)
+        try:
+            self.crawl_upcoming_games(30)
+        except Exception as e:
+            self.logger.warning(f"⚠️ Upcoming games crawl skipped: {e}")
+
         # 팀 정보 저장
         self.save_teams_to_txt()
         
@@ -1296,7 +1302,13 @@ class SimpleCrawler:
         # 경기 결과 저장
         if all_games:
             self.save_games_to_txt(all_games)
-        
+
+        # 예정 경기도 최신화 (기본 30일)
+        try:
+            self.crawl_upcoming_games(30)
+        except Exception as e:
+            self.logger.warning(f"⚠️ Upcoming games crawl skipped: {e}")
+
         # 팀 정보 저장
         self.save_teams_to_txt()
         
