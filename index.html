@@ -377,6 +377,13 @@
             color: #0066cc; /* Highlight navigation buttons */
         }
 
+        .ticker-date-nav.disabled {
+            color: #b0b0b0;
+            cursor: not-allowed;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
         .ticker-date {
             font-weight: bold;
             font-size: 13px;
@@ -9174,6 +9181,27 @@
         let currentDate = new Date();
         let allGames = [];
         let teamData = {};
+        const dateKeyFormatter = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Tokyo',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+        let minDateKey = null;
+        let maxDateKey = null;
+
+        const getDateKey = date => dateKeyFormatter.format(date);
+        const parseDateKey = key => new Date(`${key}T12:00:00+09:00`);
+
+        function clampCurrentDate() {
+            if (!minDateKey || !maxDateKey) return;
+            const key = getDateKey(currentDate);
+            if (key < minDateKey) {
+                currentDate = parseDateKey(minDateKey);
+            } else if (key > maxDateKey) {
+                currentDate = parseDateKey(maxDateKey);
+            }
+        }
 
         async function fetchGameData() {
             try {
@@ -9187,7 +9215,25 @@
                 const teams = await teamsResponse.json();
                 
                 allGames = [...games, ...upcoming];
-                
+
+                const dateKeys = [...new Set(allGames
+                    .map(game => game.date || game.game_date)
+                    .filter(Boolean)
+                )].sort();
+
+                if (dateKeys.length) {
+                    minDateKey = dateKeys[0];
+                    maxDateKey = dateKeys[dateKeys.length - 1];
+
+                    const currentKey = getDateKey(currentDate);
+                    if (currentKey < minDateKey || currentKey > maxDateKey) {
+                        currentDate = parseDateKey(currentKey < minDateKey ? minDateKey : maxDateKey);
+                    }
+                } else {
+                    minDateKey = null;
+                    maxDateKey = null;
+                }
+
                 // Create a team map for easy lookup
                 if (teams.central_league) {
                     teams.central_league.forEach(team => {
@@ -9424,9 +9470,19 @@
         }
 
         function updateTicker() {
+            clampCurrentDate();
             dateDisplay.innerHTML = formatDate(currentDate);
             const games = getGamesForDate(currentDate);
             renderGames(games);
+
+            const currentKey = getDateKey(currentDate);
+            const hasPrev = !minDateKey || currentKey > minDateKey;
+            const hasNext = !maxDateKey || currentKey < maxDateKey;
+
+            prevDayBtn.classList.toggle('disabled', !hasPrev);
+            nextDayBtn.classList.toggle('disabled', !hasNext);
+            prevDayBtn.setAttribute('aria-disabled', (!hasPrev).toString());
+            nextDayBtn.setAttribute('aria-disabled', (!hasNext).toString());
 
             // Check if content overflows and apply scrolling animation
             setTimeout(() => {
@@ -9448,16 +9504,21 @@
 
         window.goToToday = function() {
             currentDate = new Date();
+            clampCurrentDate();
             updateTicker();
         }
 
         prevDayBtn.addEventListener('click', () => {
+            if (minDateKey && getDateKey(currentDate) <= minDateKey) return;
             currentDate.setDate(currentDate.getDate() - 1);
+            clampCurrentDate();
             updateTicker();
         });
 
         nextDayBtn.addEventListener('click', () => {
+            if (maxDateKey && getDateKey(currentDate) >= maxDateKey) return;
             currentDate.setDate(currentDate.getDate() + 1);
+            clampCurrentDate();
             updateTicker();
         });
 
