@@ -6567,7 +6567,7 @@
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'right';
                 ctx.fillText(
-                    title.includes('승률') ? `${(value * 100).toFixed(0)}%` :
+                    title.includes('승률') ? `${value.toFixed(3)}` :
                     title.includes('승수') ? `${Math.round(value)}승` :
                     title.includes('게임차') ? `${value.toFixed(1)}G` :
                     `${Math.round(value)}위`,
@@ -7003,7 +7003,7 @@
                 ctx.fillStyle = '#666';
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'right';
-                ctx.fillText((winRate * 100).toFixed(0) + '%', margin.left - 10, y + 4);
+                ctx.fillText(winRate.toFixed(3), margin.left - 10, y + 4);
             }
 
             // X축 레이블
