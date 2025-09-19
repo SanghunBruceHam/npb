@@ -1413,6 +1413,214 @@
             font-weight: 600;
             white-space: nowrap;
         }
+
+        .floating-actions {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1200;
+            pointer-events: none;
+        }
+
+        .floating-actions::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .floating-action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            padding: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 12px 24px rgba(30, 60, 114, 0.35);
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            pointer-events: auto;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating-action-button[data-variant="accent"] {
+            background: linear-gradient(135deg, #00695c, #1ba39c);
+            box-shadow: 0 12px 26px rgba(0, 105, 92, 0.32);
+        }
+
+        .floating-action-button:hover,
+        .floating-action-button:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(30, 60, 114, 0.45);
+            filter: brightness(1.08);
+        }
+
+        .floating-action-button[data-variant="accent"]:hover,
+        .floating-action-button[data-variant="accent"]:focus-visible {
+            box-shadow: 0 16px 32px rgba(0, 105, 92, 0.45);
+        }
+
+        .floating-action-button:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.9);
+            outline-offset: 2px;
+        }
+
+        .floating-action-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .floating-action-text {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .floating-action-feedback {
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+            margin-bottom: 10px;
+            background: rgba(33, 33, 33, 0.9);
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .floating-action-feedback.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating-action-button.is-hidden {
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+        }
+
+        .floating-share-menu {
+            position: absolute;
+            right: 70px;
+            bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 210px;
+            padding: 10px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid rgba(30, 60, 114, 0.15);
+            box-shadow: 0 18px 44px rgba(15, 23, 42, 0.22);
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            backdrop-filter: blur(12px);
+        }
+
+        .floating-share-menu::before {
+            content: '';
+            position: absolute;
+            right: -8px;
+            bottom: 22px;
+            width: 16px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.97);
+            border-left: 1px solid rgba(30, 60, 114, 0.12);
+            border-bottom: 1px solid rgba(30, 60, 114, 0.12);
+            transform: rotate(45deg);
+            border-radius: 2px;
+        }
+
+        .floating-share-menu.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .floating-share-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(248, 250, 252, 0.8);
+            color: #1f2937;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .floating-share-option:hover,
+        .floating-share-option:focus-visible {
+            background: rgba(21, 101, 192, 0.12);
+            color: #0d47a1;
+            transform: translateX(2px);
+            outline: none;
+        }
+
+        .floating-share-option-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .floating-share-option-text {
+            flex: 1;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            .floating-actions {
+                right: 12px;
+                bottom: 12px;
+                gap: 8px;
+            }
+
+            .floating-action-button {
+                width: 48px;
+                height: 48px;
+                font-size: 17px;
+                box-shadow: 0 4px 14px rgba(25, 118, 210, 0.3);
+            }
+
+            .floating-action-icon {
+                font-size: 18px;
+            }
+
+            .floating-share-menu {
+                right: 60px;
+                bottom: 4px;
+                min-width: 190px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1509,6 +1717,9 @@
                          data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <div>
@@ -1590,6 +1801,9 @@
                          data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <div>
@@ -1659,6 +1873,9 @@
                      data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
             </div>
 
             <!-- Pacific League Scenario Views -->
@@ -1729,6 +1946,9 @@
                      data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
             </div>
 
             <div class="scroll-table" style="margin-top: 30px;">
@@ -1786,6 +2006,9 @@
                      data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
             </div>
 
             <div style="margin: 20px 0;">
@@ -1826,6 +2049,9 @@
                      data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
             </div>
 
             <div style="margin: 20px 0;">
@@ -1877,6 +2103,9 @@
                      data-ad-slot="4067267701"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
             </div>
 
             <!-- Team progress section -->
@@ -1966,6 +2195,9 @@
                          data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <!-- 게임차 변화 차트 -->
@@ -1995,6 +2227,9 @@
                          data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
             </div>
 
             <div style="margin: 20px 0;">
@@ -2026,6 +2261,9 @@
                          data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <!-- 게임차 변화 차트 -->
@@ -2188,6 +2426,9 @@
                          data-ad-slot="4067267701"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <!-- Filter Results Summary - 표 바로 위로 이동 -->
@@ -2233,6 +2474,40 @@
         </div>
         </section>
     </main>
+
+    <div class="floating-actions" role="region" aria-label="Quick actions">
+        <button type="button" class="floating-action-button is-hidden" id="scrollTopButton" tabindex="-1">
+            <span class="floating-action-icon" aria-hidden="true">⬆</span>
+            <span class="floating-action-text" data-i18n="action-go-top">トップへ</span>
+        </button>
+        <button type="button" class="floating-action-button" id="shareButton" data-variant="accent" aria-haspopup="true" aria-expanded="false" aria-controls="shareMenu">
+            <span class="floating-action-icon" aria-hidden="true">🔗</span>
+            <span class="floating-action-text" data-i18n="action-share">SNS共有</span>
+        </button>
+        <div class="floating-share-menu" id="shareMenu" role="menu" aria-hidden="true" aria-label="SNS 공유 옵션">
+            <button type="button" class="floating-share-option" data-share-action="copy" role="menuitem">
+                <span class="floating-share-option-icon" aria-hidden="true">📋</span>
+                <span class="floating-share-option-text" data-i18n="action-share-copy">링크 복사</span>
+            </button>
+            <button type="button" class="floating-share-option" data-share-action="line" role="menuitem">
+                <span class="floating-share-option-icon" aria-hidden="true">💬</span>
+                <span class="floating-share-option-text" data-i18n="action-share-line">LINE 공유</span>
+            </button>
+            <button type="button" class="floating-share-option" data-share-action="threads" role="menuitem">
+                <span class="floating-share-option-icon" aria-hidden="true">🧵</span>
+                <span class="floating-share-option-text" data-i18n="action-share-threads">Threads 공유</span>
+            </button>
+            <button type="button" class="floating-share-option" data-share-action="facebook" role="menuitem">
+                <span class="floating-share-option-icon" aria-hidden="true">📘</span>
+                <span class="floating-share-option-text" data-i18n="action-share-facebook">Facebook 공유</span>
+            </button>
+            <button type="button" class="floating-share-option" data-share-action="x" role="menuitem">
+                <span class="floating-share-option-icon" aria-hidden="true">𝕏</span>
+                <span class="floating-share-option-text" data-i18n="action-share-x">X 공유</span>
+            </button>
+        </div>
+        <div class="floating-action-feedback" id="floatingActionFeedback" aria-live="polite"></div>
+    </div>
 
     <script>
         // ===== Multi-language translation data =====
@@ -2300,6 +2575,20 @@
                 'tomorrow': '明日',
                 'matrix': 'マトリクス',
                 'detailed': '詳細',
+                'action-go-top': 'トップへ',
+                'action-share': 'SNS共有',
+                'action-share-message': 'NPB 2025順位表ダッシュボードをチェック！',
+                'action-share-success': '共有メニューを開きました',
+                'action-share-copied': 'リンクをコピーしました',
+                'action-share-error': '共有に失敗しました。もう一度お試しください。',
+                'action-quick-actions': 'クイックアクション',
+                'action-share-opened': '共有ページを開きました',
+                'action-share-menu': 'SNS共有オプション',
+                'action-share-copy': 'リンクをコピー',
+                'action-share-line': 'LINEで共有',
+                'action-share-threads': 'Threadsで共有',
+                'action-share-facebook': 'Facebookで共有',
+                'action-share-x': 'Xで共有',
                 
                 // Help and descriptions
                 'help-regular-magic': '<strong>🏆 正規シーズン優勝マジックナンバー</strong><br>各チームが優勝を確定するために必要な最少勝利数です。他チームの結果に関係なく、この数だけ勝てば優勝が決定します。「✓」は既に優勝確定済みを示します。',
@@ -2429,6 +2718,20 @@
                 'matrix': '매트릭스',
                 'detailed': '상세',
                 'table': '필요승수표',
+                'action-go-top': '맨 위로',
+                'action-share': 'SNS 공유',
+                'action-share-message': 'NPB 2025 순위표 대시보드를 확인하세요!',
+                'action-share-success': '공유 메뉴를 열었습니다',
+                'action-share-copied': '링크를 복사했습니다',
+                'action-share-error': '공유에 실패했습니다. 다시 시도해주세요.',
+                'action-quick-actions': '빠른 실행 메뉴',
+                'action-share-opened': '공유 페이지를 열었습니다',
+                'action-share-menu': 'SNS 공유 옵션',
+                'action-share-copy': '링크 복사',
+                'action-share-line': 'LINE 공유',
+                'action-share-threads': 'Threads 공유',
+                'action-share-facebook': 'Facebook 공유',
+                'action-share-x': 'X 공유',
                 
                 // Help and descriptions
                 'help-regular-magic': '<strong>🏆 정규시즌 우승 매직넘버</strong><br>각 팀이 우승을 확정하기 위해 필요한 최소 승리수입니다. 다른 팀의 결과에 관계없이 이 수만큼 승리하면 우승이 결정됩니다. 「✓」는 이미 우승이 확정됨을 나타냅니다.',
@@ -2558,6 +2861,20 @@
                 'matrix': 'Matrix',
                 'detailed': 'Detailed',
                 'table': 'Win Requirements',
+                'action-go-top': 'Back to Top',
+                'action-share': 'Share',
+                'action-share-message': 'Check out the NPB 2025 standings dashboard!',
+                'action-share-success': 'Share dialog opened',
+                'action-share-copied': 'Link copied to clipboard',
+                'action-share-error': 'Unable to share. Please try again.',
+                'action-quick-actions': 'Quick actions',
+                'action-share-opened': 'Opened share page',
+                'action-share-menu': 'Share options',
+                'action-share-copy': 'Copy link',
+                'action-share-line': 'Share on LINE',
+                'action-share-threads': 'Share on Threads',
+                'action-share-facebook': 'Share on Facebook',
+                'action-share-x': 'Share on X',
                 
                 // Help and descriptions
                 'help-regular-magic': '<strong>🏆 Regular Season Championship Magic Numbers</strong><br>The minimum number of wins each team needs to secure the championship. Regardless of other teams\' results, winning this many games guarantees the championship. \"✓\" indicates championship already secured.',
@@ -8981,6 +9298,8 @@
                     element.innerHTML = translations[currentLanguage][key];
                 }
             });
+
+            applyFloatingActionTranslations();
         }
         
         // 언어 버튼 활성화 상태 업데이트
@@ -9057,7 +9376,252 @@
             return translations[currentLanguage] && translations[currentLanguage][key] ? 
                    translations[currentLanguage][key] : key;
         }
-        
+
+        function applyFloatingActionTranslations() {
+            const container = document.querySelector('.floating-actions');
+            if (container) {
+                container.setAttribute('aria-label', getTranslation('action-quick-actions'));
+            }
+
+            const topButton = document.getElementById('scrollTopButton');
+            if (topButton) {
+                topButton.setAttribute('aria-label', getTranslation('action-go-top'));
+            }
+
+            const shareButton = document.getElementById('shareButton');
+            const shareMenu = document.getElementById('shareMenu');
+            if (shareMenu) {
+                shareMenu.setAttribute('aria-label', getTranslation('action-share-menu'));
+            }
+            if (shareButton) {
+                shareButton.setAttribute('aria-label', getTranslation('action-share'));
+                if (shareMenu) {
+                    const expanded = shareMenu.classList.contains('is-visible');
+                    shareButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                }
+            }
+        }
+
+        function initFloatingActions() {
+            const container = document.querySelector('.floating-actions');
+            if (!container) {
+                return;
+            }
+
+            const topButton = document.getElementById('scrollTopButton');
+            const shareButton = document.getElementById('shareButton');
+            const shareMenu = document.getElementById('shareMenu');
+            const feedbackEl = document.getElementById('floatingActionFeedback');
+            let feedbackTimeoutId = null;
+            const SCROLL_THRESHOLD = 240;
+            let shareMenuVisible = shareMenu ? shareMenu.classList.contains('is-visible') : false;
+
+            function updateTopButtonVisibility() {
+                if (!topButton) return;
+                const shouldShow = window.scrollY > SCROLL_THRESHOLD;
+                if (shouldShow) {
+                    topButton.classList.remove('is-hidden');
+                    topButton.tabIndex = 0;
+                } else {
+                    topButton.classList.add('is-hidden');
+                    topButton.tabIndex = -1;
+                }
+            }
+
+            function showFeedback(messageKey) {
+                if (!feedbackEl) return;
+                feedbackEl.textContent = getTranslation(messageKey);
+                feedbackEl.classList.add('visible');
+                if (feedbackTimeoutId) {
+                    clearTimeout(feedbackTimeoutId);
+                }
+                feedbackTimeoutId = setTimeout(() => {
+                    feedbackEl.classList.remove('visible');
+                }, 2400);
+            }
+
+            async function copyLinkToClipboard(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    return;
+                }
+
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'fixed';
+                textarea.style.top = '-1000px';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+
+                let succeeded = false;
+                try {
+                    succeeded = document.execCommand('copy');
+                } catch (err) {
+                    succeeded = false;
+                }
+
+                document.body.removeChild(textarea);
+
+                if (!succeeded) {
+                    throw new Error('Copy command was rejected');
+                }
+            }
+
+            function handleShareMenuOutside(event) {
+                if (!shareMenuVisible) return;
+                if (shareMenu && shareMenu.contains(event.target)) return;
+                if (shareButton && shareButton.contains(event.target)) return;
+                closeShareMenu({ returnFocus: false });
+            }
+
+            function handleShareMenuKeydown(event) {
+                if (!shareMenuVisible) return;
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    closeShareMenu({ returnFocus: true });
+                }
+            }
+
+            function openShareMenu({ focusFirstOption = true } = {}) {
+                if (!shareMenu || !shareButton) return;
+                if (shareMenuVisible) return;
+
+                shareMenu.classList.add('is-visible');
+                shareMenu.setAttribute('aria-hidden', 'false');
+                shareButton.setAttribute('aria-expanded', 'true');
+                shareMenuVisible = true;
+
+                document.addEventListener('click', handleShareMenuOutside);
+                document.addEventListener('keydown', handleShareMenuKeydown, true);
+
+                if (focusFirstOption) {
+                    const firstOption = shareMenu.querySelector('.floating-share-option');
+                    if (firstOption) {
+                        setTimeout(() => firstOption.focus(), 0);
+                    }
+                }
+            }
+
+            function closeShareMenu({ returnFocus = true } = {}) {
+                if (!shareMenu || !shareButton) return;
+                if (!shareMenuVisible) return;
+
+                shareMenu.classList.remove('is-visible');
+                shareMenu.setAttribute('aria-hidden', 'true');
+                shareButton.setAttribute('aria-expanded', 'false');
+                shareMenuVisible = false;
+
+                document.removeEventListener('click', handleShareMenuOutside);
+                document.removeEventListener('keydown', handleShareMenuKeydown, true);
+
+                if (returnFocus) {
+                    shareButton.focus();
+                }
+            }
+
+            function openShareTarget(url) {
+                const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+                if (!newWindow) {
+                    window.location.href = url;
+                }
+            }
+
+            function buildShareUrl(action, url, text) {
+                const combined = `${text} ${url}`.trim();
+                switch (action) {
+                    case 'line':
+                        return `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}`;
+                    case 'threads':
+                        return `https://www.threads.net/intent/post?text=${encodeURIComponent(combined)}`;
+                    case 'facebook':
+                        return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    case 'x':
+                        return `https://x.com/intent/post?text=${encodeURIComponent(combined)}`;
+                    default:
+                        return url;
+                }
+            }
+
+            if (shareMenu) {
+                const shareOptions = Array.from(shareMenu.querySelectorAll('[data-share-action]'));
+                shareOptions.forEach(option => {
+                    option.addEventListener('click', async event => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const action = option.getAttribute('data-share-action');
+                        const pageUrl = window.location.href;
+                        const shareText = getTranslation('action-share-message');
+
+                        try {
+                            if (action === 'copy') {
+                                await copyLinkToClipboard(pageUrl);
+                                showFeedback('action-share-copied');
+                            } else {
+                                const targetUrl = buildShareUrl(action, pageUrl, shareText);
+                                openShareTarget(targetUrl);
+                                showFeedback('action-share-opened');
+                            }
+                        } catch (err) {
+                            console.error('Share action failed', err);
+                            showFeedback('action-share-error');
+                        } finally {
+                            closeShareMenu({ returnFocus: true });
+                        }
+                    });
+                });
+            }
+
+            if (shareButton) {
+                shareButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const focusFirstOption = event.detail === 0;
+                    if (shareMenuVisible) {
+                        closeShareMenu({ returnFocus: true });
+                    } else {
+                        openShareMenu({ focusFirstOption });
+                    }
+                });
+
+                shareButton.addEventListener('keydown', event => {
+                    if (event.key === 'ArrowDown') {
+                        event.preventDefault();
+                        if (!shareMenuVisible) {
+                            openShareMenu({ focusFirstOption: true });
+                        } else if (shareMenu) {
+                            const firstOption = shareMenu.querySelector('.floating-share-option');
+                            firstOption?.focus();
+                        }
+                    } else if (event.key === 'Escape' && shareMenuVisible) {
+                        event.preventDefault();
+                        closeShareMenu({ returnFocus: true });
+                    }
+                });
+            }
+
+            function handleWindowScroll() {
+                updateTopButtonVisibility();
+                if (shareMenuVisible) {
+                    closeShareMenu({ returnFocus: false });
+                }
+            }
+
+            updateTopButtonVisibility();
+            window.addEventListener('scroll', handleWindowScroll, { passive: true });
+
+            if (topButton) {
+                topButton.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            applyFloatingActionTranslations();
+        }
+
         // 조건 메시지 번역 함수
         function translateCondition(condition) {
             if (!condition) return condition;
@@ -9210,6 +9774,7 @@
         // 페이지 로드시 언어 초기화
         document.addEventListener('DOMContentLoaded', function() {
             initLanguage();
+            initFloatingActions();
         });
 
 
