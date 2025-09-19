@@ -1838,7 +1838,7 @@
             <div style="margin: 20px 0; text-align: center; min-width: 320px;">
                 <ins class="adsbygoogle"
                      style="display:block; min-width: 300px;"
-                     data-ad-client="ca-pub-4892271471799448"
+                     data-ad-client="ca-pub-5508768187151867"
                      data-ad-slot="4892271471"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
@@ -2853,8 +2853,15 @@
                     if (tab.getAttribute('onclick') && tab.getAttribute('onclick').includes(`'${tabId}'`)) {
                         tab.classList.add('active');
                         tab.setAttribute('aria-selected', 'true');
+                        el = tab;
                     }
                 });
+            }
+
+            try {
+                sessionStorage.setItem('npb-current-tab', tabId);
+            } catch (storageError) {
+                // Ignore storage errors (private mode, etc.)
             }
 
             // Update URL hash without triggering default jump
@@ -8866,7 +8873,7 @@
             // 保存されたタブがあれば復元
             const savedTab = sessionStorage.getItem('npb-current-tab');
             if (savedTab) {
-                const tabElement = document.querySelector(`[data-tab="${savedTab}"]`);
+                const tabElement = document.querySelector(`.nav-tab[onclick*="'${savedTab}'"]`);
                 if (tabElement) {
                     showTab(savedTab, tabElement);
                 }
@@ -8903,12 +8910,16 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Restore tab from URL hash
+            // Restore tab from URL hash or saved session state
             const hash = window.location.hash.slice(1); // Remove #
             const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining'];
+            const savedTab = sessionStorage.getItem('npb-current-tab');
 
             if (hash && validTabs.includes(hash)) {
                 showTab(hash);
+            } else if (savedTab && validTabs.includes(savedTab)) {
+                const tabElement = document.querySelector(`.nav-tab[onclick*="'${savedTab}'"]`);
+                showTab(savedTab, tabElement || null);
             } else {
                 // Default to first tab
                 showTab('magic-regular');
