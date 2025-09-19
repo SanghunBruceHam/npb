@@ -57,7 +57,10 @@
       gtag('js', new Date());
       gtag('config', 'G-LFKN46L0P6');
     </script>
-    
+
+    <!-- Preload AdSense for faster loading -->
+    <link rel="preload" as="script" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous">
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
 
@@ -2840,7 +2843,7 @@
                 (adsbygoogle = window.adsbygoogle || []).push({});
             } catch (adError) {
                 if (attempt < MAX_AD_ATTEMPTS) {
-                    setTimeout(() => initializeAdSlot(ad, attempt + 1), 600 + attempt * 200);
+                    setTimeout(() => initializeAdSlot(ad, attempt + 1), 100 + attempt * 50);
                 }
             }
         }
@@ -2901,36 +2904,36 @@
                 selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
 
-            // 탭 전환 후 활성 탭 광고 초기화
-            setTimeout(() => {
+            // 탭 전환 후 활성 탭 광고 즉시 초기화
+            requestAnimationFrame(() => {
                 const activeTab = document.querySelector('.tab-content.active');
                 if (!activeTab) return;
 
                 const ads = activeTab.querySelectorAll('.adsbygoogle');
                 ads.forEach((ad, index) => {
-                    setTimeout(() => initializeAdSlot(ad), index * 150);
+                    setTimeout(() => initializeAdSlot(ad), index * 50);
                 });
-            }, 300);
+            });
         }
 
         // 개선된 광고 초기화 - 중복 방지 및 너비 문제 해결
         function initializeAdsAfterLoad() {
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 const activeTab = document.querySelector('.tab-content.active');
                 if (!activeTab) return;
 
                 const ads = activeTab.querySelectorAll('.adsbygoogle');
                 ads.forEach((ad, index) => {
-                    setTimeout(() => initializeAdSlot(ad), index * 150);
+                    setTimeout(() => initializeAdSlot(ad), index * 50);
                 });
-            }, 600);
+            });
         }
 
         // 수동 광고 초기화 - 강제 모드
         function manuallyInitializeAds() {
             const allAds = document.querySelectorAll('.adsbygoogle');
             allAds.forEach((ad, index) => {
-                setTimeout(() => initializeAdSlot(ad), index * 100);
+                setTimeout(() => initializeAdSlot(ad), index * 25);
             });
         }
 
@@ -8790,10 +8793,10 @@
             loadDataEnhanced();
             restorePageState();
 
-            // Initialize ads safely after page load
-            setTimeout(() => {
+            // Initialize ads immediately after page load
+            requestAnimationFrame(() => {
                 initializeAdsAfterLoad();
-            }, 500);
+            });
         });
         window.reloadData = loadDataEnhanced;
 
