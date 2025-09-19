@@ -2815,89 +2815,128 @@
                 selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
 
-            // Refresh AdSense ads in the newly visible tab - 강제 초기화
+            // 개선된 탭 전환 광고 초기화
             setTimeout(() => {
                 try {
                     const activeTab = document.querySelector('.tab-content.active');
-                    if (activeTab) {
-                        const ads = activeTab.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+                    if (!activeTab) return;
 
-                        if (ads.length > 0) {
-                            console.log(`탭 전환: ${ads.length}개 광고 강제 초기화`);
+                    const ads = activeTab.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+                    console.log(`탭 전환: 활성탭에 ${ads.length}개 미로딩 광고 발견`);
 
-                            ads.forEach((ad, index) => {
-                                // 조건 체크 없이 바로 초기화
-                                setTimeout(() => {
-                                    try {
-                                        // 스타일 강제 설정
-                                        ad.style.display = 'block';
-                                        ad.style.minWidth = '300px';
-                                        ad.style.width = '100%';
+                    if (ads.length === 0) return;
 
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                        console.log(`탭 전환 광고 ${index + 1} 강제 초기화 완료`);
-                                    } catch (adError) {
-                                        console.warn(`탭 전환 광고 ${index + 1} 실패:`, adError.message);
-                                        // 실패 시 재시도
-                                        setTimeout(() => {
-                                            try {
-                                                (adsbygoogle = window.adsbygoogle || []).push({});
-                                                console.log(`탭 전환 광고 ${index + 1} 재시도 성공`);
-                                            } catch (e) {
-                                                console.error(`탭 전환 광고 ${index + 1} 재시도 실패`);
-                                            }
-                                        }, 300);
-                                    }
-                                }, 150 * index); // 150ms 간격
-                            });
-                        }
-                    }
+                    ads.forEach((ad, index) => {
+                        setTimeout(() => {
+                            try {
+                                // 너비 문제 해결을 위한 개선된 스타일 설정
+                                ad.style.display = 'block';
+                                ad.style.minWidth = '320px';
+                                ad.style.width = '100%';
+                                ad.style.maxWidth = '100%';
+                                ad.style.visibility = 'visible';
+
+                                // 부모 컨테이너 너비도 확보
+                                const parent = ad.parentElement;
+                                if (parent) {
+                                    parent.style.minWidth = '320px';
+                                    parent.style.width = '100%';
+                                }
+
+                                console.log(`탭 전환 광고 ${index + 1} 초기화 중...`);
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                console.log(`✅ 탭 전환 광고 ${index + 1} 성공`);
+                            } catch (adError) {
+                                console.warn(`⚠️ 탭 전환 광고 ${index + 1} 실패:`, adError.message);
+
+                                // 중복 초기화나 너비 문제가 아닌 경우만 재시도
+                                if (!adError.message.includes('availableWidth=0') &&
+                                    !adError.message.includes('already have ads')) {
+                                    setTimeout(() => {
+                                        try {
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                            console.log(`🔄 탭 전환 광고 ${index + 1} 재시도 성공`);
+                                        } catch (e) {
+                                            console.error(`❌ 탭 전환 광고 ${index + 1} 재시도 실패:`, e.message);
+                                        }
+                                    }, 500);
+                                }
+                            }
+                        }, 300 * index); // 300ms 간격으로 충분한 대기
+                    });
                 } catch (e) {
                     console.error('탭 전환 AdSense 오류:', e);
                 }
-            }, 300); // 300ms 후 빠르게 시작
+            }, 500); // 500ms 후 시작
         }
 
-        // 강제 광고 초기화 - 무조건 표시
+        // 개선된 광고 초기화 - 중복 방지 및 너비 문제 해결
         function initializeAdsAfterLoad() {
-            console.log('강제 AdSense 초기화를 시작합니다...');
+            console.log('개선된 AdSense 초기화를 시작합니다...');
 
             setTimeout(() => {
                 try {
-                    // 모든 탭의 모든 광고 초기화
-                    const ads = document.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
-                    console.log(`전체 초기화할 광고 수: ${ads.length}`);
+                    // 현재 활성 탭의 미로딩 광고만 초기화
+                    const activeTab = document.querySelector('.tab-content.active');
+                    if (!activeTab) return;
+
+                    const ads = activeTab.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+                    console.log(`활성 탭의 미로딩 광고 수: ${ads.length}`);
+
+                    if (ads.length === 0) {
+                        console.log('활성 탭에 초기화할 광고가 없습니다.');
+                        return;
+                    }
 
                     ads.forEach((ad, index) => {
-                        // 조건 없이 강제 초기화
                         setTimeout(() => {
                             try {
-                                // 스타일 강제 설정
-                                ad.style.display = 'block';
-                                ad.style.minWidth = '300px';
-                                ad.style.width = '100%';
-                                ad.style.height = 'auto';
+                                // 부모 컨테이너가 보이는지 확인
+                                const container = ad.closest('.tab-content');
+                                if (!container || container.style.display === 'none') {
+                                    console.log(`광고 ${index + 1} 건너뛰기: 숨겨진 탭`);
+                                    return;
+                                }
 
+                                // 너비 확보를 위한 스타일 설정
+                                ad.style.display = 'block';
+                                ad.style.minWidth = '320px';
+                                ad.style.width = '100%';
+                                ad.style.maxWidth = '100%';
+                                ad.style.height = 'auto';
+                                ad.style.visibility = 'visible';
+
+                                // 부모 컨테이너도 너비 확보
+                                const parent = ad.parentElement;
+                                if (parent) {
+                                    parent.style.minWidth = '320px';
+                                    parent.style.width = '100%';
+                                }
+
+                                console.log(`광고 ${index + 1} 초기화 시도...`);
                                 (adsbygoogle = window.adsbygoogle || []).push({});
-                                console.log(`광고 ${index + 1} 강제 초기화 완료`);
+                                console.log(`✅ 광고 ${index + 1} 초기화 성공`);
                             } catch (adError) {
-                                console.warn(`광고 ${index + 1} 실패:`, adError.message);
-                                // 실패해도 다시 시도
-                                setTimeout(() => {
-                                    try {
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                        console.log(`광고 ${index + 1} 재시도 성공`);
-                                    } catch (e) {
-                                        console.error(`광고 ${index + 1} 재시도 실패:`, e.message);
-                                    }
-                                }, 500);
+                                console.warn(`⚠️ 광고 ${index + 1} 실패:`, adError.message);
+
+                                // 너비 관련 에러가 아닌 경우만 재시도
+                                if (!adError.message.includes('availableWidth=0')) {
+                                    setTimeout(() => {
+                                        try {
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                            console.log(`🔄 광고 ${index + 1} 재시도 성공`);
+                                        } catch (e) {
+                                            console.error(`❌ 광고 ${index + 1} 재시도 실패:`, e.message);
+                                        }
+                                    }, 1000);
+                                }
                             }
-                        }, 100 * index); // 100ms 간격으로 빠르게
+                        }, 200 * index); // 200ms 간격으로 여유있게
                     });
                 } catch (e) {
-                    console.error('AdSense 강제 초기화 오류:', e);
+                    console.error('AdSense 초기화 오류:', e);
                 }
-            }, 500); // 0.5초 후 빠르게 시작
+            }, 1000); // 1초 후 시작하여 DOM 완전 로딩 대기
         }
 
         // 수동 광고 초기화 - 강제 모드
