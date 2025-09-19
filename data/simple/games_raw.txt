@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-19T17:36:10.873229
+# UPDATED: 2025-09-19T17:46:47.206111
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1125,4 +1125,4 @@
 広島 0-0 巨人 (Central) @ 東京ドーム
 ヤクルト 0-0 中日 (Central) @ バンテリンドーム ナゴヤ
 西武 0-0 楽天 (Pacific) @ 楽天モバイルパーク宮城
-ＤｅＮＡ 0-0 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
+ＤｅＮＡ 0-0 阪神 (Central) @ 阪神甲子園球場
