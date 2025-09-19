@@ -71,7 +71,11 @@ def run_web_crawler(mode="7", use_legacy=False):
                 logger.info(f"Crawler stderr: {result.stderr}")
             return True
         else:
-            logger.error(f"❌ Web crawling failed: {result.stderr}")
+            logger.error(f"❌ Web crawling failed (exit {result.returncode})")
+            if result.stdout:
+                logger.error(f"Crawler stdout: {result.stdout}")
+            if result.stderr:
+                logger.error(f"Crawler stderr: {result.stderr}")
             return False
 
     except Exception as e:

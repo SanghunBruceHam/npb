@@ -1210,7 +1210,7 @@ class SimpleCrawler:
         if not CRAWLING_ENABLED:
             self.logger.error("❌ Web crawling dependencies (requests, beautifulsoup4) are not installed. Cannot crawl.")
             self.logger.error("Please install them using: pip install -r crawler/requirements.txt")
-            return 0 # Indicate failure
+            return -1  # Indicate failure
         
         all_games = []
         start = datetime.strptime(start_date, "%Y-%m-%d")
@@ -1279,7 +1279,7 @@ class SimpleCrawler:
         if not CRAWLING_ENABLED:
             self.logger.error("❌ Web crawling dependencies (requests, beautifulsoup4) are not installed. Cannot crawl.")
             self.logger.error("Please install them using: pip install -r crawler/requirements.txt")
-            return 0 # Indicate failure
+            return -1  # Indicate failure
         
         all_games = []
         today = datetime.now()
@@ -1669,8 +1669,18 @@ def main():
         # 기본: 7일
         games_count = crawler.crawl_multiple_days(7)
         print(f"\n✅ Default crawl completed: {games_count} games collected")
-    
-    return 0 if games_count > 0 else 1
+
+    if games_count is None:
+        return 1
+
+    if isinstance(games_count, int) and games_count < 0:
+        return 1
+
+    if games_count == 0:
+        print("\nℹ️ No games were collected for the requested window. Keeping existing data.")
+        return 0
+
+    return 0
 
 if __name__ == "__main__":
     exit(main())
