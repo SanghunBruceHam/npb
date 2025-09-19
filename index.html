@@ -4040,7 +4040,7 @@
                     text: (() => {
                         switch (type) {
                             case 'ranking': return '順位';
-                            case 'winrate': return '勝率 (%)';
+                            case 'winrate': return '勝率';
                             case 'gamesBehind': return 'ゲーム差';
                             case 'wins': return '勝数';
                             default: return '';
@@ -4054,7 +4054,7 @@
                             case 'ranking':
                                 return value + '位';
                             case 'winrate':
-                                return value + '%';
+                                return value.toFixed(3);
                             case 'gamesBehind':
                                 return value;
                             case 'wins':
@@ -4146,7 +4146,7 @@
                                 case 'ranking':
                                     return value + '位';
                                 case 'winrate':
-                                    return value + '%';
+                                    return value.toFixed(3);
                                 case 'gamesBehind':
                                     return value + 'ゲーム差';
                                 case 'wins':
