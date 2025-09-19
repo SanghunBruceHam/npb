@@ -197,7 +197,7 @@
         .header {
             background: #333;
             color: white;
-            padding: 0 var(--content-padding);
+            padding: 0;
             height: var(--header-height);
             position: fixed;
             top: 0;
@@ -209,6 +209,7 @@
         .header-content {
             max-width: var(--max-width);
             margin: 0 auto;
+            padding: 0 var(--content-padding);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1121,7 +1122,7 @@
                 top: 39px; /* Adjust for mobile header height */
             }
 
-            .header {
+            .header-content {
                 padding: 0 var(--content-padding);
             }
 
