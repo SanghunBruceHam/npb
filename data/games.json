@@ -11878,5 +11878,21 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "福岡PayPayドーム"
+  },
+  {
+    "game_date": "2025-09-19",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 3,
+    "away_team_abbr": "YDB",
+    "away_team_name": "横浜DeNAベイスターズ",
+    "home_score": 4,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   }
 ]
