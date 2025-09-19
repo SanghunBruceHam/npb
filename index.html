@@ -1171,7 +1171,7 @@
             display: grid;
             gap: 0;
             background: white;
-            font-size: 13px;
+            font-size: 14px;
             min-width: fit-content;
             margin: 0 auto;
         }
@@ -2089,6 +2089,11 @@
                     </div>
                 </div>
 
+                <!-- Filter Results Summary - 표 바로 위로 이동 -->
+                <div id="filter-summary" style="background: #e3f2fd; border: 1px solid #1976d2; border-radius: 4px; padding: 10px; margin: 15px 0; font-size: 13px; color: #1565c0;">
+                    <strong>📊 表示結果:</strong> <span id="filter-result-text">読み込み中...</span>
+                </div>
+
                 <!-- All Games Combined Table -->
                 <div>
                     <h4 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 5px;">
@@ -2114,11 +2119,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-
-            <!-- Filter Results Summary -->
-            <div id="filter-summary" style="background: #e3f2fd; border: 1px solid #1976d2; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 13px; color: #1565c0; display: none;">
-                <strong>🔍 フィルター結果:</strong> <span id="filter-result-text"></span>
             </div>
 
             <div class="tab-help" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
@@ -8589,18 +8589,19 @@
             let summaryText = '';
 
             if (activeFilters.length === 0) {
-                summaryText = `全経試合を表示中 (${filteredGames}試合)`;
+                summaryText = `全試合を表示中 <strong>${filteredGames}試合</strong>`;
             } else {
                 const filterText = activeFilters.join(' | ');
-                summaryText = `フィルター適用: ${filterText} → ${filteredGames}/${totalGames}試合`;
+                summaryText = `フィルター適用: ${filterText} → <strong>${filteredGames}/${totalGames}試合</strong>`;
             }
 
-            summaryElement.innerHTML = `
-                <div style="background: #f5f5f5; padding: 8px 12px; border-radius: 4px; font-size: 13px; color: #555;">
-                    <i class="fas fa-filter" style="margin-right: 6px;"></i>
-                    ${summaryText}
-                </div>
-            `;
+            const resultTextElement = document.getElementById('filter-result-text');
+            if (resultTextElement) {
+                resultTextElement.innerHTML = summaryText;
+            }
+
+            // Summary element를 항상 표시
+            summaryElement.style.display = 'block';
         }
 
         // ===== メインデータ読み込み処理 =====
