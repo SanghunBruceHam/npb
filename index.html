@@ -579,12 +579,12 @@
             text-align: left;
         }
 
-        /* 좌측 헤더 컬럼 (팀명)도 좌측 정렬 */
+        /* Left header column (team name) left-align */
         .magic-table td:nth-child(2) {
             text-align: left;
         }
 
-        /* チーム順位 テーブルの팀명 헤더만 중앙 정렬, 데이터는 좌측 정렬 */
+        /* Team standings table: center-align team name header, left-align data */
         .detailed-table th:nth-child(2) {
             text-align: center;
         }
@@ -721,7 +721,7 @@
             padding: 5px 3px;
         }
 
-        /* 전체 경기 테이블 스타일 */
+        /* All games table style */
         .games-table {
             width: 100%;
             border-collapse: collapse;
@@ -784,7 +784,7 @@
             justify-content: center;
         }
 
-        /* 전체 경기 테이블 컬럼 폭 최적화 */
+        /* All games table column width optimization */
         .games-table {
             table-layout: fixed;
         }
@@ -801,7 +801,7 @@
 
         .games-table th:nth-child(3),
         .games-table td:nth-child(3) {
-            width: 160px; /* 어웨이팀: 로고 + 팀명 */
+            width: 160px; /* Away team: logo + team name */
         }
 
         .games-table th:nth-child(4),
@@ -811,7 +811,7 @@
 
         .games-table th:nth-child(5),
         .games-table td:nth-child(5) {
-            width: 160px; /* 홈팀: 로고 + 팀명 */
+            width: 160px; /* Home team: logo + team name */
         }
 
         .games-table th:nth-child(6),
@@ -1331,7 +1331,7 @@
             width: 100%;
         }
 
-        /* NPB 차트 레전드 스타일 */
+        /* NPB chart legend style */
         .npb-chart-legend {
             display: flex;
             flex-wrap: wrap;
@@ -1852,7 +1852,7 @@
                      data-full-width-responsive="true"></ins>
             </div>
 
-            <!-- 팀별 진행률 섹션 -->
+            <!-- Team progress section -->
             <div style="margin: 20px 0;">
                 <h3>📊 チーム別進行状況</h3>
                 <div class="grid-3col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; align-items: start;">
@@ -1899,9 +1899,9 @@
             </div>
 
             <div class="tab-help" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
-                • <strong>進行率</strong>: 각チームが消化した試合数 / 143試合 × 100%<br>
-                • <strong>全体進行率</strong>: 전チーム平均の進行状況<br>
-                • <strong>残り試合</strong>: 143 - 현재の消化試合数<br>
+                • <strong data-i18n="progress-rate">進行率</strong>: <span data-i18n="progress-rate-desc">各チームが消化した試合数 / 143試合 × 100%</span><br>
+                • <strong data-i18n="overall-progress">全体進行率</strong>: <span data-i18n="overall-progress-desc">全チーム平均の進行状況</span><br>
+                • <strong data-i18n="remaining-games-label">残り試合</strong>: <span data-i18n="remaining-calc">143 - 現在の消化試合数</span><br>
                 • 데이터は최新の順位表に基づいて자동更新されます
             </div>
         </div>
@@ -2208,13 +2208,13 @@
     </main>
 
     <script>
-        // ===== 다국어 번역 데이터 =====
+        // ===== Multi-language translation data =====
         const translations = {
             ja: {
-                // 메인 헤더
+                // Main header
                 'main-title': 'NPB 2025シーズン 順位表・マジックナンバー・CS進出確率',
                 
-                // 네비게이션 탭
+                // Navigation tabs
                 'nav-magic-regular': '優勝マジック',
                 'nav-magic-playoff': 'ポストシーズンマジック', 
                 'nav-scenarios': '経路の数',
@@ -2225,7 +2225,7 @@
                 'nav-progress': '進行状況',
                 'nav-all-games': '全試合結果',
                 
-                // 섹션 제목
+                // Section titles
                 'title-regular-magic': '2025年正規シーズン優勝マジックナンバー【セリーグ・パリーグ】',
                 'title-playoff-magic': 'クライマックスシリーズ(CS)進出マジックナンバー【2025年最新】',
                 'title-detailed-standings': 'NPB詳細順位表【勝率・ゲーム差・残り試合数】',
@@ -2236,19 +2236,19 @@
                 'title-scenarios': '経路の数（場合の数）',
                 'title-all-games': '全試合結果【日付別経過】',
 
-                // 차트 제목
+                // Chart titles
                 'chart-ranking-changes': 'シーズン順位変動チャート',
                 'chart-winrate-changes': 'シーズン勝率変化チャート',
                 'chart-gamesbehind-changes': 'シーズンゲーム差変化チャート',
                 'chart-wins-changes': 'シーズン勝数変化チャート',
 
-                // 리그명
+                // League names
                 'central-league': 'セントラルリーグ',
                 'pacific-league': 'パシフィックリーグ',
                 'central-league-top3': 'セントラルリーグ (上位3チーム)',
                 'pacific-league-top3': 'パシフィックリーグ (上位3チーム)',
                 
-                // 테이블 헤더
+                // Table headers
                 'rank': '順位',
                 'team': 'チーム',
                 'games-played': '試合',
@@ -2268,13 +2268,13 @@
                 'runs-allowed': '失点',
                 'run-differential': '得失点差',
                 
-                // 버튼
+                // Buttons
                 'today': '今日',
                 'tomorrow': '明日',
                 'matrix': 'マトリクス',
                 'detailed': '詳細',
                 
-                // 도움말 및 설명
+                // Help and descriptions
                 'help-regular-magic': '<strong>🏆 正規シーズン優勝マジックナンバー</strong><br>各チームが優勝を確定するために必要な最少勝利数です。他チームの結果に関係なく、この数だけ勝てば優勝が決定します。「✓」は既に優勝確定済みを示します。',
                 'help-playoff-magic': '<strong>🏆 クライマックスシリーズ (CS) 進出について</strong><br>セリーグ・パリーグともに上位3チームがCS進出。3位以内確定に必要な最少勝利数を表示。順位確定済みは「✓」で表示。',
                 'help-scenarios': '<strong>📊 シナリオ分析について</strong><br>各チームが特定順位になる可能性のある場合の数を表示します。計算は残り試合の全パターンを考慮します。',
@@ -2282,13 +2282,13 @@
                 'help-remaining': '<strong>🗓 残り試合について</strong><br>各チーム間の残り対戦数を表示します。数字は残り対戦回数を示します。',
                 'help-progress': '<strong>📈 進行状況について</strong><br>シーズン全体および各チームの消化試合数と進捗率を表示します。',
                 
-                // 상태 메시지
+                // Status messages
                 'championship-decided': '優勝決定',
                 'playoff-secured': 'CS確定',
                 'eliminated': '圏外確定',
                 'still-possible': '可能性あり',
                 
-                // NPB 팀명 (일본어)
+                // NPB team names (Japanese)
                 'giants': '読売ジャイアンツ',
                 'tigers': '阪神タイガース', 
                 'dragons': '中日ドラゴンズ',
@@ -2302,7 +2302,7 @@
                 'fighters': '北海道日本ハムファイターズ',
                 'buffaloes': 'オリックスバファローズ',
                 
-                // 팀명 줄임말
+                // Team short names
                 'giants-short': 'ジャイアンツ',
                 'tigers-short': 'タイガース',
                 'dragons-short': 'ドラゴンズ',
@@ -2323,17 +2323,26 @@
                 'eliminated-short': 'E',
                 'no-remaining-games': '残り試合なし',
                 
-                // 진행 상황 텍스트
+                // Progress status text
                 'games-completed': '完了',
                 'games-remaining': '残り',
                 'games-unit': '試合',
-                'progress-gap': '試合差'
+                'progress-gap': '試合差',
+
+                // Progress related
+                'progress-rate': '進行率',
+                'progress-rate-desc': '各チームが消化した試合数 / 143試合 × 100%',
+                'overall-progress': '全体進行率',
+                'overall-progress-desc': '全チーム平均の進行状況',
+                'remaining-games-label': '残り試合',
+                'remaining-calc': '143 - 現在の消化試合数',
+                'data-auto-update': 'データは最新の順位表に基づいて自動更新されます'
             },
             ko: {
-                // 메인 헤더
+                // Main header
                 'main-title': 'NPB 2025시즌 순위표·매직넘버·CS진출확률',
                 
-                // 네비게이션 탭
+                // Navigation tabs
                 'nav-magic-regular': '정규시즌 우승 매직',
                 'nav-magic-playoff': '플레이오프 매직',
                 'nav-scenarios': '경로의 수',
@@ -2344,7 +2353,7 @@
                 'nav-progress': '진행 상황',
                 'nav-all-games': '전체 경기 결과',
                 
-                // 섹션 제목
+                // Section titles
                 'title-regular-magic': '2025년 정규시즌 우승 매직넘버【센트럴·퍼시픽 리그】',
                 'title-playoff-magic': '클라이맥스 시리즈(CS) 진출 매직넘버【2025년 최신】',
                 'title-detailed-standings': 'NPB 상세 순위표【승률·게임차·남은경기수】',
@@ -2355,19 +2364,19 @@
                 'title-scenarios': '경로의 수（경우의 수）',
                 'title-all-games': '전체 경기 결과【날짜별 경과】',
 
-                // 차트 제목
+                // Chart titles
                 'chart-ranking-changes': '시즌 순위 변동 차트',
                 'chart-winrate-changes': '시즌 승률 변화 차트',
                 'chart-gamesbehind-changes': '시즌 게임차 변화 차트',
                 'chart-wins-changes': '시즌 승수 변화 차트',
 
-                // 리그명
+                // League names
                 'central-league': '센트럴리그',
                 'pacific-league': '퍼시픽리그',
                 'central-league-top3': '센트럴리그 (상위 3팀)',
                 'pacific-league-top3': '퍼시픽리그 (상위 3팀)',
                 
-                // 테이블 헤더
+                // Table headers
                 'rank': '순위',
                 'team': '팀',
                 'games-played': '경기',
@@ -2387,14 +2396,14 @@
                 'runs-allowed': '실점',
                 'run-differential': '득실점차',
                 
-                // 버튼
+                // Buttons
                 'today': '오늘',
                 'tomorrow': '내일',
                 'matrix': '매트릭스',
                 'detailed': '상세',
                 'table': '필요승수표',
                 
-                // 도움말 및 설명
+                // Help and descriptions
                 'help-regular-magic': '<strong>🏆 정규시즌 우승 매직넘버</strong><br>각 팀이 우승을 확정하기 위해 필요한 최소 승리수입니다. 다른 팀의 결과에 관계없이 이 수만큼 승리하면 우승이 결정됩니다. 「✓」는 이미 우승이 확정됨을 나타냅니다.',
                 'help-playoff-magic': '<strong>🏆 클라이맥스 시리즈 (CS) 진출에 대해</strong><br>센트럴·퍼시픽리그 모두 상위 3팀이 CS 진출. 3위 이내 확정에 필요한 최소 승리수를 표시. 순위 확정시 「✓」로 표시.',
                 'help-scenarios': '<strong>📊 시나리오 분석에 대해</strong><br>각 팀이 특정 순위가 될 가능성이 있는 경우의 수를 표시합니다. 계산은 남은 경기의 모든 패턴을 고려합니다.',
@@ -2402,13 +2411,13 @@
                 'help-remaining': '<strong>🗓 남은 경기에 대해</strong><br>각 팀 간의 남은 대전수를 표시합니다. 숫자는 남은 대전 횟수를 나타냅니다.',
                 'help-progress': '<strong>📈 진행 상황에 대해</strong><br>시즌 전체 및 각 팀의 소화 경기수와 진행률을 표시합니다.',
                 
-                // 상태 메시지
+                // Status messages
                 'championship-decided': '우승 결정',
                 'playoff-secured': 'CS 확정',
                 'eliminated': '권외 확정',
                 'still-possible': '가능성 있음',
                 
-                // NPB 팀명 (한국어)
+                // NPB team names (Korean)
                 'giants': '요미우리 자이언츠',
                 'tigers': '한신 타이거스',
                 'dragons': '주니치 드래곤스',
@@ -2422,7 +2431,7 @@
                 'fighters': '홋카이도 닛폰햄 파이터스',
                 'buffaloes': '오릭스 버팔로스',
                 
-                // 팀명 줄임말
+                // Team short names
                 'giants-short': '자이언츠',
                 'tigers-short': '타이거스',
                 'dragons-short': '드래곤스',
@@ -2443,17 +2452,26 @@
                 'eliminated-short': 'E',
                 'no-remaining-games': '남은 경기 없음',
                 
-                // 진행 상황 텍스트
+                // Progress status text
                 'games-completed': '완료',
                 'games-remaining': '남은',
                 'games-unit': '경기',
-                'progress-gap': '경기차'
+                'progress-gap': '경기차',
+
+                // Progress related
+                'progress-rate': '진행률',
+                'progress-rate-desc': '각 팀이 소화한 경기수 / 143경기 × 100%',
+                'overall-progress': '전체진행률',
+                'overall-progress-desc': '전 팀 평균의 진행상황',
+                'remaining-games-label': '남은 경기',
+                'remaining-calc': '143 - 현재의 소화경기수',
+                'data-auto-update': '데이터는 최신의 순위표에 기반하여 자동업데이트됩니다'
             },
             en: {
-                // 메인 헤더
+                // Main header
                 'main-title': 'NPB 2025 Season Standings · Magic Numbers · CS Playoff Probability',
                 
-                // 네비게이션 탭
+                // Navigation tabs
                 'nav-magic-regular': 'Regular Season Magic',
                 'nav-magic-playoff': 'Playoff Magic',
                 'nav-scenarios': 'Path Count',
@@ -2464,7 +2482,7 @@
                 'nav-progress': 'Season Progress',
                 'nav-all-games': 'All Game Results',
                 
-                // 섹션 제목
+                // Section titles
                 'title-regular-magic': '2025 Regular Season Championship Magic Numbers【Central・Pacific League】',
                 'title-playoff-magic': 'Climax Series (CS) Advancement Magic Numbers【2025 Latest】',
                 'title-detailed-standings': 'NPB Detailed Standings【Win Rate・Games Behind・Remaining Games】',
@@ -2475,19 +2493,19 @@
                 'title-scenarios': 'Path Count (Number of Cases)',
                 'title-all-games': 'All Game Results【Date-wise Progress】',
 
-                // 차트 제목
+                // Chart titles
                 'chart-ranking-changes': 'Season Ranking Changes Chart',
                 'chart-winrate-changes': 'Season Win Rate Changes Chart',
                 'chart-gamesbehind-changes': 'Season Games Behind Changes Chart',
                 'chart-wins-changes': 'Season Wins Changes Chart',
 
-                // 리그명
+                // League names
                 'central-league': 'Central League',
                 'pacific-league': 'Pacific League',
                 'central-league-top3': 'Central League (Top 3 Teams)',
                 'pacific-league-top3': 'Pacific League (Top 3 Teams)',
                 
-                // 테이블 헤더
+                // Table headers
                 'rank': 'Rank',
                 'team': 'Team',
                 'games-played': 'GP',
@@ -2507,14 +2525,14 @@
                 'runs-allowed': 'RA',
                 'run-differential': 'Diff',
                 
-                // 버튼
+                // Buttons
                 'today': 'Today',
                 'tomorrow': 'Tomorrow',
                 'matrix': 'Matrix',
                 'detailed': 'Detailed',
                 'table': 'Win Requirements',
                 
-                // 도움말 및 설명
+                // Help and descriptions
                 'help-regular-magic': '<strong>🏆 Regular Season Championship Magic Numbers</strong><br>The minimum number of wins each team needs to secure the championship. Regardless of other teams\' results, winning this many games guarantees the championship. \"✓\" indicates championship already secured.',
                 'help-playoff-magic': '<strong>🏆 About Climax Series (CS) Advancement</strong><br>Top 3 teams from both Central and Pacific leagues advance to CS. Shows minimum wins needed to secure top 3 position. \"✓\" indicates position already secured.',
                 'help-scenarios': '<strong>📊 About Scenario Analysis</strong><br>Shows the number of possible cases where each team can finish at specific rankings. Calculations consider all possible patterns of remaining games.',
@@ -2522,13 +2540,13 @@
                 'help-remaining': '<strong>🗓 About Remaining Games</strong><br>Shows remaining matchups between each team. Numbers indicate remaining games to be played.',
                 'help-progress': '<strong>📈 About Season Progress</strong><br>Shows games played and progress rate for the entire season and each team.',
                 
-                // 상태 메시지
+                // Status messages
                 'championship-decided': 'Championship Decided',
                 'playoff-secured': 'CS Secured',
                 'eliminated': 'Eliminated',
                 'still-possible': 'Still Possible',
                 
-                // NPB 팀명 (영어)
+                // NPB team names (English)
                 'giants': 'Yomiuri Giants',
                 'tigers': 'Hanshin Tigers',
                 'dragons': 'Chunichi Dragons',
@@ -2542,7 +2560,7 @@
                 'fighters': 'Hokkaido Nippon-Ham Fighters',
                 'buffaloes': 'Orix Buffaloes',
                 
-                // 팀명 줄임말
+                // Team short names
                 'giants-short': 'Giants',
                 'tigers-short': 'Tigers',
                 'dragons-short': 'Dragons',
@@ -2563,11 +2581,20 @@
                 'eliminated-short': 'E',
                 'no-remaining-games': 'No Games Left',
                 
-                // 진행 상황 텍스트
+                // Progress status text
                 'games-completed': 'Completed',
                 'games-remaining': 'Remaining',
                 'games-unit': 'Games',
-                'progress-gap': 'Games Gap'
+                'progress-gap': 'Games Gap',
+
+                // Progress related
+                'progress-rate': 'Progress Rate',
+                'progress-rate-desc': 'Games played by each team / 143 games × 100%',
+                'overall-progress': 'Overall Progress',
+                'overall-progress-desc': 'Average progress of all teams',
+                'remaining-games-label': 'Remaining Games',
+                'remaining-calc': '143 - Current games played',
+                'data-auto-update': 'Data is automatically updated based on the latest standings'
             }
         };
 
@@ -2580,7 +2607,7 @@
         let homeAwayRemainingByTeam = {}; // { team_id: { home: n, away: n, opponents: {} } }
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
-        // 기존 데이터 형식을 새 계산 함수용으로 변환하는 헬퍼
+        // Helper to convert existing data format for new calculation functions
         function convertTeamDataForMagic(teams) {
             return teams.map(team => ({
                 id: team.team_id || team.team_name,
@@ -2609,8 +2636,8 @@
         function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
         function round3(x){ return Number(x.toFixed(3)); }
 
-        // ===== NPB 정규시즌 매직/트래직 계산 라이브러리 =====
-        // 현재 순위표(승률 기준 내림차순). 무승부는 분모 제외
+        // ===== NPB regular season magic/tragic calculation library =====
+        // Current standings (sorted by win rate in descending order). Ties excluded from denominator
         function sortStandings(teams, season=143) {
             return [...teams].map(t => {
                 const R = calcR(t, season);
@@ -5757,7 +5784,7 @@
                 const teams = Object.keys(seasonData[league]);
                 if (teams.length === 0) return;
 
-                // 차트 제목 개선
+                // Chart titles 개선
                 const leagueName = league === 'central' ? 'セントラルリーグ' : 'パシフィックリーグ';
 
                 // 순위 변동 차트
