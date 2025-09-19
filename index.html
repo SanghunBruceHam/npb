@@ -575,44 +575,65 @@
             text-align: left;
         }
 
-        /* 마법/플레이오프 테이블 컬럼 폭 */
-        .magic-table {
-            table-layout: fixed;
-            min-width: 940px;
-        }
+        .magic-table { table-layout: fixed; min-width: 1100px; }
 
-        .magic-table th:nth-child(1),
-        .magic-table td:nth-child(1) { width: 32px; }
-.magic-table th:nth-child(2),
-.magic-table td:nth-child(2) {
-    width: 165px;
-    white-space: nowrap;
-    overflow: visible;
-}
-.magic-table th:nth-child(3),
-.magic-table td:nth-child(3) { width: 40px; }
-.magic-table th:nth-child(4),
-.magic-table td:nth-child(4) { width: 38px; }
-.magic-table th:nth-child(5),
-.magic-table td:nth-child(5) { width: 38px; }
-.magic-table th:nth-child(6),
-.magic-table td:nth-child(6) { width: 38px; }
-.magic-table th:nth-child(7),
-.magic-table td:nth-child(7) { width: 54px; }
-        .magic-table th:nth-child(8),
-        .magic-table td:nth-child(8) { width: 54px; }
-        .magic-table th:nth-child(9),
-        .magic-table td:nth-child(9) { width: 58px; }
-        .magic-table th:nth-child(10),
-        .magic-table td:nth-child(10) { width: 58px; }
-        .magic-table th:nth-child(11),
-        .magic-table td:nth-child(11) { width: 58px; }
-.magic-table th:nth-child(12),
-.magic-table td:nth-child(12) { width: 65px; }
-.magic-table th:nth-child(13),
-.magic-table td:nth-child(13) { width: 116px; }
-.magic-table th:nth-child(14),
-.magic-table td:nth-child(14) { width: 102px; }
+        /* 優勝マジック 탭 컬럼 최적화 */
+        #magic-regular th:nth-child(1),
+        #magic-regular td:nth-child(1) { width: 40px !important; }  /* 順位 */
+        #magic-regular th:nth-child(2),
+        #magic-regular td:nth-child(2) { width: 180px !important; }  /* チーム */
+        #magic-regular th:nth-child(3),
+        #magic-regular td:nth-child(3) { width: 45px !important; }  /* 試合 */
+        #magic-regular th:nth-child(4),
+        #magic-regular td:nth-child(4) { width: 35px !important; }  /* 勝 */
+        #magic-regular th:nth-child(5),
+        #magic-regular td:nth-child(5) { width: 35px !important; }  /* 敗 */
+        #magic-regular th:nth-child(6),
+        #magic-regular td:nth-child(6) { width: 35px !important; }  /* 分 */
+        #magic-regular th:nth-child(7),
+        #magic-regular td:nth-child(7) { width: 45px !important; }  /* 勝率 */
+        #magic-regular th:nth-child(8),
+        #magic-regular td:nth-child(8) { width: 65px !important; }  /* ゲーム差 */
+        #magic-regular th:nth-child(9),
+        #magic-regular td:nth-child(9) { width: 65px !important; }  /* 残り試合 */
+        #magic-regular th:nth-child(10),
+        #magic-regular td:nth-child(10) { width: 55px !important; }  /* 最大勝 */
+        #magic-regular th:nth-child(11),
+        #magic-regular td:nth-child(11) { width: 70px !important; }  /* 1位条件 */
+        #magic-regular th:nth-child(12),
+        #magic-regular td:nth-child(12) { width: 70px !important; }  /* マジック */
+        #magic-regular th:nth-child(13),
+        #magic-regular td:nth-child(13) { width: 85px !important; }  /* エリミネート */
+        #magic-regular th:nth-child(14),
+        #magic-regular td:nth-child(14) { width: 100px !important; }  /* 進出状況 */
+
+        /* ポストシーズンマジック 탭 컬럼 최적화 */
+        #magic-playoff th:nth-child(1),
+        #magic-playoff td:nth-child(1) { width: 40px !important; }  /* 順位 */
+        #magic-playoff th:nth-child(2),
+        #magic-playoff td:nth-child(2) { width: 180px !important; }  /* チーム */
+        #magic-playoff th:nth-child(3),
+        #magic-playoff td:nth-child(3) { width: 35px !important; }  /* 勝 */
+        #magic-playoff th:nth-child(4),
+        #magic-playoff td:nth-child(4) { width: 35px !important; }  /* 敗 */
+        #magic-playoff th:nth-child(5),
+        #magic-playoff td:nth-child(5) { width: 35px !important; }  /* 分 */
+        #magic-playoff th:nth-child(6),
+        #magic-playoff td:nth-child(6) { width: 45px !important; }  /* 勝率 */
+        #magic-playoff th:nth-child(7),
+        #magic-playoff td:nth-child(7) { width: 45px !important; }  /* 試合 */
+        #magic-playoff th:nth-child(8),
+        #magic-playoff td:nth-child(8) { width: 65px !important; }  /* ゲーム差 */
+        #magic-playoff th:nth-child(9),
+        #magic-playoff td:nth-child(9) { width: 65px !important; }  /* 残り試合 */
+        #magic-playoff th:nth-child(10),
+        #magic-playoff td:nth-child(10) { width: 55px !important; }  /* 最大勝 */
+        #magic-playoff th:nth-child(11),
+        #magic-playoff td:nth-child(11) { width: 70px !important; }  /* マジック */
+        #magic-playoff th:nth-child(12),
+        #magic-playoff td:nth-child(12) { width: 85px !important; }  /* エリミネート */
+        #magic-playoff th:nth-child(13),
+        #magic-playoff td:nth-child(13) { width: 100px !important; }  /* 進出状況 */
 
         /* 상세 순위 테이블 고정 폭 */
         .detailed-table {
