@@ -1354,7 +1354,7 @@
     <div class="header">
         <div class="header-content">
             <div class="header-left">
-                <a href="https://npb-dashboard.com" class="site-name" target="_blank" rel="noopener noreferrer">NPB Dashboard</a>
+                <a href="https://npb-dashboard.com" class="site-name">NPB Dashboard</a>
                 <h1 data-i18n="main-title">NPB 2025シーズン 順位表・マジックナンバー・CS進出確率</h1>
             </div>
             <div class="language-selector">
@@ -1888,6 +1888,16 @@
                     </div>
                 </div>
 
+                <!-- AdSense Ad Before ゲーム差変化チャート -->
+                <div style="margin: 20px 0; text-align: center; min-width: 320px;">
+                    <ins class="adsbygoogle"
+                         style="display:block; min-width: 300px;"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="4067267701"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
+
                 <!-- 게임차 변화 차트 -->
                 <div style="margin: 30px 0;">
                     <h4 data-i18n="chart-gamesbehind-changes">シーズンゲーム差変化チャート</h4>
@@ -1907,12 +1917,22 @@
                 </div>
             </div>
 
-            <!-- AdSense Ad Between Leagues - Season Analysis -->
+            <!-- AdSense Ad Between Central and Pacific Leagues - Season Analysis -->
             <div style="margin: 20px 0; text-align: center; min-width: 320px;">
                 <ins class="adsbygoogle"
                      style="display:block; min-width: 300px;"
                      data-ad-client="ca-pub-5508768187151867"
                      data-ad-slot="4067267701"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+
+            <!-- Additional AdSense Ad Between Leagues -->
+            <div style="margin: 20px 0; text-align: center; min-width: 320px;">
+                <ins class="adsbygoogle"
+                     style="display:block; min-width: 300px;"
+                     data-ad-client="ca-pub-5508768187151867"
+                     data-ad-slot="7298546648"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
             </div>
@@ -2087,6 +2107,16 @@
                     <div style="margin-top: 15px; text-align: center;">
                         <button onclick="resetAllFilters()" style="padding: 8px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">全フィルターリセット</button>
                     </div>
+                </div>
+
+                <!-- AdSense Ad After Filter Section -->
+                <div style="margin: 20px 0; text-align: center; min-width: 320px;">
+                    <ins class="adsbygoogle"
+                         style="display:block; min-width: 300px;"
+                         data-ad-client="ca-pub-5508768187151867"
+                         data-ad-slot="4067267701"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
                 </div>
 
                 <!-- Filter Results Summary - 표 바로 위로 이동 -->
@@ -4415,13 +4445,9 @@
 
         function renderScenarioMatrixFor(league) {
             const teams = getLeagueScenarioTeams(league);
-            // Show only teams still in contention for 3rd place (CS)
+            // Show all teams (6 teams total)
             let contenders = teams;
-            if (teams.length >= 3) {
-                const thirdWins = teams[2]?.wins || 0;
-                contenders = teams.filter(t => (t.wins + t.remainingGames) >= thirdWins);
-            }
-            const top = contenders.slice(0, Math.min(6, contenders.length));
+            const top = contenders;
             const html = generateScenarioMatrixV2(top);
             const targetId = league === 'central' ? 'central-scenario-content' : 'pacific-scenario-content';
             const container = document.getElementById(targetId);
@@ -4430,13 +4456,9 @@
 
         function renderDetailedScenariosFor(league) {
             const teams = getLeagueScenarioTeams(league);
-            // Show only teams still in contention for 3rd place (CS)
+            // Show all teams (6 teams total)
             let contenders = teams;
-            if (teams.length >= 3) {
-                const thirdWins = teams[2]?.wins || 0;
-                contenders = teams.filter(t => (t.wins + t.remainingGames) >= thirdWins);
-            }
-            const top = contenders.slice(0, Math.min(6, contenders.length));
+            const top = contenders;
             const html = generateDetailedScenarios(top);
             const targetId = league === 'central' ? 'central-scenario-detailed' : 'pacific-scenario-detailed';
             const container = document.getElementById(targetId);
