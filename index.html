@@ -563,7 +563,14 @@
         }
 
         /* 좌측 헤더 컬럼 (팀명)도 좌측 정렬 */
-        .magic-table td:nth-child(2),
+        .magic-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        /* チーム順位 テーブルの팀명 헤더만 중앙 정렬, 데이터는 좌측 정렬 */
+        .detailed-table th:nth-child(2) {
+            text-align: center;
+        }
         .detailed-table td:nth-child(2) {
             text-align: left;
         }
@@ -599,9 +606,9 @@
         .magic-table th:nth-child(10),
         .magic-table td:nth-child(10) { width: 58px; }
         .magic-table th:nth-child(11),
-        .magic-table td:nth-child(11) { width: 68px; }
+        .magic-table td:nth-child(11) { width: 58px; }
 .magic-table th:nth-child(12),
-.magic-table td:nth-child(12) { width: 55px; }
+.magic-table td:nth-child(12) { width: 65px; }
 .magic-table th:nth-child(13),
 .magic-table td:nth-child(13) { width: 116px; }
 .magic-table th:nth-child(14),
@@ -617,7 +624,7 @@
         .detailed-table td:nth-child(1) { width: 32px; }
         .detailed-table th:nth-child(2),
         .detailed-table td:nth-child(2) {
-            width: 175px;
+            width: 165px;
             white-space: nowrap;
             overflow: visible;
             text-overflow: initial;
@@ -637,25 +644,25 @@
         .detailed-table th:nth-child(9),
         .detailed-table td:nth-child(9) { width: 58px; }
         .detailed-table th:nth-child(10),
-        .detailed-table td:nth-child(10) { width: 60px; }
+        .detailed-table td:nth-child(10) { width: 55px; }
         .detailed-table th:nth-child(11),
-        .detailed-table td:nth-child(11) { width: 64px; }
+        .detailed-table td:nth-child(11) { width: 60px; }
         .detailed-table th:nth-child(12),
-        .detailed-table td:nth-child(12) { width: 64px; }
+        .detailed-table td:nth-child(12) { width: 60px; }
         .detailed-table th:nth-child(13),
-        .detailed-table td:nth-child(13) { width: 58px; }
+        .detailed-table td:nth-child(13) { width: 55px; }
         .detailed-table th:nth-child(14),
-        .detailed-table td:nth-child(14) { width: 64px; }
+        .detailed-table td:nth-child(14) { width: 60px; }
         .detailed-table th:nth-child(15),
-        .detailed-table td:nth-child(15) { width: 58px; }
+        .detailed-table td:nth-child(15) { width: 55px; }
         .detailed-table th:nth-child(16),
-        .detailed-table td:nth-child(16) { width: 52px; }
+        .detailed-table td:nth-child(16) { width: 58px; }
         .detailed-table th:nth-child(17),
-        .detailed-table td:nth-child(17) { width: 52px; }
+        .detailed-table td:nth-child(17) { width: 58px; }
         .detailed-table th:nth-child(18),
-        .detailed-table td:nth-child(18) { width: 52px; }
+        .detailed-table td:nth-child(18) { width: 58px; }
         .detailed-table th:nth-child(19),
-        .detailed-table td:nth-child(19) { width: 65px; }
+        .detailed-table td:nth-child(19) { width: 68px; }
 
         /* ホーム/アウェー関連 컬럼 패딩 축소 */
         .detailed-table th:nth-child(16),
