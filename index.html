@@ -173,6 +173,8 @@
             --header-height: 64px;
             --nav-height: 50px;
             --ticker-height: 44px;
+            --max-width: 1200px;
+            --content-padding: 20px;
         }
 
         * {
@@ -195,7 +197,7 @@
         .header {
             background: #333;
             color: white;
-            padding: 0 20px;
+            padding: 0 var(--content-padding);
             height: var(--header-height);
             position: fixed;
             top: 0;
@@ -205,13 +207,13 @@
         }
 
         .header-content {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
             height: 100%;
-            gap: 20px;
+            gap: var(--content-padding);
         }
 
         .site-name {
@@ -285,13 +287,14 @@
             align-items: center;
         }
 
-        .nav-tabs { 
-            display: flex; 
-            max-width: 1200px; 
+        .nav-tabs {
+            display: flex;
+            max-width: var(--max-width);
             margin: 0 auto;
             justify-content: center;
             flex-wrap: wrap;
             width: 100%;
+            padding: 0 var(--content-padding);
         }
 
         .nav-tab {
@@ -371,9 +374,10 @@
         .ticker-content {
             display: flex;
             align-items: center;
-            max-width: 1200px;
+            max-width: var(--max-width);
             width: 100%;
-            padding: 0 10px;
+            margin: 0 auto;
+            padding: 0 var(--content-padding);
         }
 
         .ticker-date-controls {
@@ -524,9 +528,9 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 20px;
+            padding: var(--content-padding);
             padding-top: 10px;
             width: 100%;
         }
@@ -592,115 +596,115 @@
             text-align: left;
         }
 
-        .magic-table { table-layout: fixed; min-width: 1100px; }
+        .magic-table { table-layout: fixed; width: 100%; }
 
-        /* 優勝マジック 탭 컬럼 최적화 */
+        /* 優勝マジック 탭 컬럼 최적화 - 1200px 기준 */
         #magic-regular th:nth-child(1),
-        #magic-regular td:nth-child(1) { width: 40px !important; }  /* 順位 */
+        #magic-regular td:nth-child(1) { width: 45px !important; }  /* 順位 */
         #magic-regular th:nth-child(2),
-        #magic-regular td:nth-child(2) { width: 180px !important; }  /* チーム */
+        #magic-regular td:nth-child(2) { width: 230px !important; }  /* チーム */
         #magic-regular th:nth-child(3),
-        #magic-regular td:nth-child(3) { width: 45px !important; }  /* 試合 */
+        #magic-regular td:nth-child(3) { width: 50px !important; }  /* 試合 */
         #magic-regular th:nth-child(4),
-        #magic-regular td:nth-child(4) { width: 35px !important; }  /* 勝 */
+        #magic-regular td:nth-child(4) { width: 40px !important; }  /* 勝 */
         #magic-regular th:nth-child(5),
-        #magic-regular td:nth-child(5) { width: 35px !important; }  /* 敗 */
+        #magic-regular td:nth-child(5) { width: 40px !important; }  /* 敗 */
         #magic-regular th:nth-child(6),
-        #magic-regular td:nth-child(6) { width: 35px !important; }  /* 分 */
+        #magic-regular td:nth-child(6) { width: 40px !important; }  /* 分 */
         #magic-regular th:nth-child(7),
-        #magic-regular td:nth-child(7) { width: 45px !important; }  /* 勝率 */
+        #magic-regular td:nth-child(7) { width: 55px !important; }  /* 勝率 */
         #magic-regular th:nth-child(8),
-        #magic-regular td:nth-child(8) { width: 65px !important; }  /* ゲーム差 */
+        #magic-regular td:nth-child(8) { width: 75px !important; }  /* ゲーム差 */
         #magic-regular th:nth-child(9),
-        #magic-regular td:nth-child(9) { width: 65px !important; }  /* 残り試合 */
+        #magic-regular td:nth-child(9) { width: 75px !important; }  /* 残り試合 */
         #magic-regular th:nth-child(10),
-        #magic-regular td:nth-child(10) { width: 55px !important; }  /* 最大勝 */
+        #magic-regular td:nth-child(10) { width: 65px !important; }  /* 最大勝 */
         #magic-regular th:nth-child(11),
-        #magic-regular td:nth-child(11) { width: 70px !important; }  /* 1位条件 */
+        #magic-regular td:nth-child(11) { width: 90px !important; }  /* 1位条件 */
         #magic-regular th:nth-child(12),
-        #magic-regular td:nth-child(12) { width: 70px !important; }  /* マジック */
+        #magic-regular td:nth-child(12) { width: 90px !important; }  /* マジック */
         #magic-regular th:nth-child(13),
-        #magic-regular td:nth-child(13) { width: 85px !important; }  /* エリミネート */
+        #magic-regular td:nth-child(13) { width: 105px !important; }  /* エリミネート */
         #magic-regular th:nth-child(14),
-        #magic-regular td:nth-child(14) { width: 100px !important; }  /* 進出状況 */
+        #magic-regular td:nth-child(14) { width: 120px !important; }  /* 進出状況 */
 
-        /* ポストシーズンマジック 탭 컬럼 최적화 */
+        /* ポストシーズンマジック 탭 컬럼 최적화 - 1200px 기준 */
         #magic-playoff th:nth-child(1),
-        #magic-playoff td:nth-child(1) { width: 40px !important; }  /* 順位 */
+        #magic-playoff td:nth-child(1) { width: 45px !important; }  /* 順位 */
         #magic-playoff th:nth-child(2),
-        #magic-playoff td:nth-child(2) { width: 180px !important; }  /* チーム */
+        #magic-playoff td:nth-child(2) { width: 260px !important; }  /* チーム */
         #magic-playoff th:nth-child(3),
-        #magic-playoff td:nth-child(3) { width: 35px !important; }  /* 勝 */
+        #magic-playoff td:nth-child(3) { width: 45px !important; }  /* 勝 */
         #magic-playoff th:nth-child(4),
-        #magic-playoff td:nth-child(4) { width: 35px !important; }  /* 敗 */
+        #magic-playoff td:nth-child(4) { width: 45px !important; }  /* 敗 */
         #magic-playoff th:nth-child(5),
-        #magic-playoff td:nth-child(5) { width: 35px !important; }  /* 分 */
+        #magic-playoff td:nth-child(5) { width: 45px !important; }  /* 分 */
         #magic-playoff th:nth-child(6),
-        #magic-playoff td:nth-child(6) { width: 45px !important; }  /* 勝率 */
+        #magic-playoff td:nth-child(6) { width: 60px !important; }  /* 勝率 */
         #magic-playoff th:nth-child(7),
-        #magic-playoff td:nth-child(7) { width: 45px !important; }  /* 試合 */
+        #magic-playoff td:nth-child(7) { width: 60px !important; }  /* 試合 */
         #magic-playoff th:nth-child(8),
-        #magic-playoff td:nth-child(8) { width: 65px !important; }  /* ゲーム差 */
+        #magic-playoff td:nth-child(8) { width: 80px !important; }  /* ゲーム差 */
         #magic-playoff th:nth-child(9),
-        #magic-playoff td:nth-child(9) { width: 65px !important; }  /* 残り試合 */
+        #magic-playoff td:nth-child(9) { width: 80px !important; }  /* 残り試合 */
         #magic-playoff th:nth-child(10),
-        #magic-playoff td:nth-child(10) { width: 55px !important; }  /* 最大勝 */
+        #magic-playoff td:nth-child(10) { width: 70px !important; }  /* 最大勝 */
         #magic-playoff th:nth-child(11),
-        #magic-playoff td:nth-child(11) { width: 70px !important; }  /* マジック */
+        #magic-playoff td:nth-child(11) { width: 95px !important; }  /* マジック */
         #magic-playoff th:nth-child(12),
-        #magic-playoff td:nth-child(12) { width: 85px !important; }  /* エリミネート */
+        #magic-playoff td:nth-child(12) { width: 110px !important; }  /* エリミネート */
         #magic-playoff th:nth-child(13),
-        #magic-playoff td:nth-child(13) { width: 100px !important; }  /* 進出状況 */
+        #magic-playoff td:nth-child(13) { width: 125px !important; }  /* 進出状況 */
 
         /* 상세 순위 테이블 고정 폭 */
         .detailed-table {
             table-layout: fixed;
-            min-width: 1020px;
+            width: 100%;
         }
 
         .detailed-table th:nth-child(1),
-        .detailed-table td:nth-child(1) { width: 32px; }
+        .detailed-table td:nth-child(1) { width: 45px; }
         .detailed-table th:nth-child(2),
         .detailed-table td:nth-child(2) {
-            width: 165px;
+            width: 200px;
             white-space: nowrap;
             overflow: visible;
             text-overflow: initial;
         }
         .detailed-table th:nth-child(3),
-        .detailed-table td:nth-child(3) { width: 40px; }
+        .detailed-table td:nth-child(3) { width: 45px; }
         .detailed-table th:nth-child(4),
-        .detailed-table td:nth-child(4) { width: 35px; }
+        .detailed-table td:nth-child(4) { width: 40px; }
         .detailed-table th:nth-child(5),
-        .detailed-table td:nth-child(5) { width: 35px; }
+        .detailed-table td:nth-child(5) { width: 40px; }
         .detailed-table th:nth-child(6),
-        .detailed-table td:nth-child(6) { width: 35px; }
+        .detailed-table td:nth-child(6) { width: 40px; }
         .detailed-table th:nth-child(7),
-        .detailed-table td:nth-child(7) { width: 55px; }
+        .detailed-table td:nth-child(7) { width: 65px; }
         .detailed-table th:nth-child(8),
-        .detailed-table td:nth-child(8) { width: 58px; }
+        .detailed-table td:nth-child(8) { width: 68px; }
         .detailed-table th:nth-child(9),
-        .detailed-table td:nth-child(9) { width: 58px; }
+        .detailed-table td:nth-child(9) { width: 68px; }
         .detailed-table th:nth-child(10),
-        .detailed-table td:nth-child(10) { width: 55px; }
+        .detailed-table td:nth-child(10) { width: 65px; }
         .detailed-table th:nth-child(11),
-        .detailed-table td:nth-child(11) { width: 60px; }
+        .detailed-table td:nth-child(11) { width: 70px; }
         .detailed-table th:nth-child(12),
-        .detailed-table td:nth-child(12) { width: 60px; }
+        .detailed-table td:nth-child(12) { width: 70px; }
         .detailed-table th:nth-child(13),
-        .detailed-table td:nth-child(13) { width: 55px; }
+        .detailed-table td:nth-child(13) { width: 65px; }
         .detailed-table th:nth-child(14),
-        .detailed-table td:nth-child(14) { width: 60px; }
+        .detailed-table td:nth-child(14) { width: 70px; }
         .detailed-table th:nth-child(15),
-        .detailed-table td:nth-child(15) { width: 55px; }
+        .detailed-table td:nth-child(15) { width: 65px; }
         .detailed-table th:nth-child(16),
-        .detailed-table td:nth-child(16) { width: 58px; }
+        .detailed-table td:nth-child(16) { width: 68px; }
         .detailed-table th:nth-child(17),
-        .detailed-table td:nth-child(17) { width: 58px; }
+        .detailed-table td:nth-child(17) { width: 68px; }
         .detailed-table th:nth-child(18),
-        .detailed-table td:nth-child(18) { width: 58px; }
+        .detailed-table td:nth-child(18) { width: 68px; }
         .detailed-table th:nth-child(19),
-        .detailed-table td:nth-child(19) { width: 68px; }
+        .detailed-table td:nth-child(19) { width: 78px; }
 
         /* ホーム/アウェー関連 컬럼 패딩 축소 */
         .detailed-table th:nth-child(16),
@@ -789,44 +793,45 @@
             table-layout: fixed;
         }
 
+        /* 전체 게임 테이블 컬럼 폭 - 1200px 기준 확장 */
         .games-table th:nth-child(1),
         .games-table td:nth-child(1) {
-            width: 90px; /* 날짜・요일: "9/17 (火)" */
+            width: 120px; /* 날짜・요일: "9/17 (火)" */
         }
 
         .games-table th:nth-child(2),
         .games-table td:nth-child(2) {
-            width: 40px; /* 리그: "セ", "パ" */
+            width: 60px; /* 리그: "セ", "パ" */
         }
 
         .games-table th:nth-child(3),
         .games-table td:nth-child(3) {
-            width: 160px; /* Away team: logo + team name */
+            width: 200px; /* Away team: logo + team name */
         }
 
         .games-table th:nth-child(4),
         .games-table td:nth-child(4) {
-            width: 70px; /* 스코어: "10 - 5" 또는 "3 - 3 (引分)" */
+            width: 100px; /* 스코어: "10 - 5" 또는 "3 - 3 (引分)" */
         }
 
         .games-table th:nth-child(5),
         .games-table td:nth-child(5) {
-            width: 160px; /* Home team: logo + team name */
+            width: 200px; /* Home team: logo + team name */
         }
 
         .games-table th:nth-child(6),
         .games-table td:nth-child(6) {
-            width: 50px; /* 시간: "18:00", "14:00" */
+            width: 80px; /* 시간: "18:00", "14:00" */
         }
 
         .games-table th:nth-child(7),
         .games-table td:nth-child(7) {
-            width: 100px; /* 구장: "東京ドーム", "甲子園" */
+            width: 150px; /* 구장: "東京ドーム", "甲子園" */
         }
 
         .games-table th:nth-child(8),
         .games-table td:nth-child(8) {
-            width: 50px; /* 이닝: "9回", "12回" */
+            width: 70px; /* 이닝: "9回", "12回" */
         }
         
         tr:nth-child(even) { 
@@ -1094,21 +1099,34 @@
         }
         
         @media (max-width: 768px) {
+            :root {
+                --content-padding: 10px;
+            }
+
             .leagues {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
 
             .container {
-                padding: 10px;
+                padding: var(--content-padding);
             }
 
             .nav-tabs {
                 flex-direction: column;
+                padding: 0 var(--content-padding);
             }
 
             .nav {
                 top: 39px; /* Adjust for mobile header height */
+            }
+
+            .header {
+                padding: 0 var(--content-padding);
+            }
+
+            .ticker-content {
+                padding: 0 var(--content-padding);
             }
 
             /* Progress tab mobile layout */
@@ -1159,7 +1177,7 @@
             }
 
             .scroll-table table {
-                min-width: 600px;
+                min-width: 800px;
             }
 
             .games-grid { grid-template-columns: 1fr; }
@@ -1177,9 +1195,17 @@
             box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
         }
         .site-footer .footer-content {
-            max-width: 1200px; margin: 0 auto; padding: 12px 20px;
-            color: #222; font-size: 13px; line-height: 1.5;
-            display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 12px var(--content-padding);
+            color: #222;
+            font-size: 13px;
+            line-height: 1.5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .site-footer a { color: #0066cc; text-decoration: none; }
         .site-footer a:hover { text-decoration: underline; }
