@@ -12574,21 +12574,5 @@
     "is_draw": false,
     "stadium": "◇開始18時00分◇みずほペイペイドーム",
     "final_inning": 9
-  },
-  {
-    "game_date": "2025-09-17",
-    "home_team_id": 4,
-    "home_team_abbr": "HIR",
-    "home_team_name": "広島東洋カープ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": 1,
-    "away_score": 6,
-    "league": "Central",
-    "game_status": "completed",
-    "is_draw": false,
-    "stadium": "◇開始19時10分◇マツダスタジアム",
-    "final_inning": 9
   }
 ]

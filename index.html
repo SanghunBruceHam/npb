@@ -60,6 +60,24 @@
     
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
+
+    <!-- ApexCharts 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+    <script>
+        // ApexCharts 로드 확인
+        function checkApexChartsLoad() {
+            if (typeof ApexCharts !== 'undefined') {
+                console.log('ApexCharts 로드 완료');
+                return true;
+            }
+            console.warn('ApexCharts 로드 실패');
+            return false;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkApexChartsLoad, 100);
+        });
+    </script>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -1260,6 +1278,62 @@
             min-width: 320px;
             width: 100%;
         }
+
+        /* NPB 차트 레전드 스타일 */
+        .npb-chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .legend-item:hover {
+            background: #f8fafc;
+            border-color: #cbd5e0;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 0 1px #e2e8f0;
+        }
+
+        .legend-team-logo {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .legend-text {
+            color: #2d3748;
+            font-weight: 600;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -1286,6 +1360,7 @@
             <div class="nav-tab" onclick="showTab('standings', this)" data-i18n="nav-standings">チーム順位</div>
             <div class="nav-tab" onclick="showTab('h2h-records', this)" data-i18n="nav-h2h-records">対戦成績</div>
             <div class="nav-tab" onclick="showTab('remaining', this)" data-i18n="nav-remaining">残り試合数</div>
+            <div class="nav-tab" onclick="showTab('season-analysis', this)" data-i18n="nav-season-analysis">シーズン分析</div>
             <div class="nav-tab" onclick="showTab('all-games', this)" data-i18n="nav-all-games">全試合結果</div>
         </div>
     </div>
@@ -1774,6 +1849,109 @@
             </div>
         </div>
 
+        <!-- Season Analysis Tab -->
+        <div id="season-analysis" class="tab-content">
+            <h2 data-i18n="title-season-analysis">シーズン分析【順位・勝率・ゲーム差・勝数変動】</h2>
+
+            <div style="margin: 20px 0;">
+                <h3 data-i18n="central-league">セントラルリーグ</h3>
+
+                <!-- 순위 변동 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-ranking-changes">シーズン順位変動チャート</h4>
+                    <div id="central-ranking-legend"></div>
+                    <div id="central-ranking-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="central-ranking-canvas"></div>
+                    </div>
+                </div>
+
+                <!-- 승률 변화 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-winrate-changes">シーズン勝率変化チャート</h4>
+                    <div id="central-winrate-legend"></div>
+                    <div id="central-winrate-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="central-winrate-canvas"></div>
+                    </div>
+                </div>
+
+                <!-- 게임차 변화 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-gamesbehind-changes">シーズンゲーム差変化チャート</h4>
+                    <div id="central-gamesbehind-legend"></div>
+                    <div id="central-gamesbehind-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="central-gamesbehind-canvas"></div>
+                    </div>
+                </div>
+
+                <!-- 승수 변화 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-wins-changes">シーズン勝数変化チャート</h4>
+                    <div id="central-wins-legend"></div>
+                    <div id="central-wins-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="central-wins-canvas"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AdSense Ad Between Leagues - Season Analysis -->
+            <div style="margin: 20px 0; text-align: center; min-width: 320px;">
+                <ins class="adsbygoogle"
+                     style="display:block; min-width: 300px;"
+                     data-ad-client="ca-pub-5508768187151867"
+                     data-ad-slot="4067267701"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
+
+                <!-- 순위 변동 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-ranking-changes">シーズン順位変動チャート</h4>
+                    <div id="pacific-ranking-legend"></div>
+                    <div id="pacific-ranking-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="pacific-ranking-canvas"></div>
+                    </div>
+                </div>
+
+                <!-- 승률 변화 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-winrate-changes">シーズン勝率変化チャート</h4>
+                    <div id="pacific-winrate-legend"></div>
+                    <div id="pacific-winrate-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="pacific-winrate-canvas"></div>
+                    </div>
+                </div>
+
+                <!-- 게임차 변화 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-gamesbehind-changes">シーズンゲーム差変化チャート</h4>
+                    <div id="pacific-gamesbehind-legend"></div>
+                    <div id="pacific-gamesbehind-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="pacific-gamesbehind-canvas"></div>
+                    </div>
+                </div>
+
+                <!-- 승수 변화 차트 -->
+                <div style="margin: 30px 0;">
+                    <h4 data-i18n="chart-wins-changes">シーズン勝数変化チャート</h4>
+                    <div id="pacific-wins-legend"></div>
+                    <div id="pacific-wins-chart" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; margin: 20px 0; position: relative; background: linear-gradient(to bottom, #ffffff, #f7fafc); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+                        <div id="pacific-wins-canvas"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-help tab-help-season-analysis" style="background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; margin: 10px 0; font-size: 12px; color: #333;">
+                • <strong>順位変動</strong>: 시즌 전체 순위 변화 추이<br>
+                • <strong>勝率変化</strong>: 각 팀의 시즌 승률 변동<br>
+                • <strong>ゲーム差変化</strong>: 1위팀과의 게임차 변화<br>
+                • <strong>勝数変化</strong>: 누적 승수 증가 추이<br>
+                • <strong>차트 범례</strong>: 각 팀별 색상으로 구분 표시
+            </div>
+        </div>
+
         <!-- All Games Tab -->
         <div id="all-games" class="tab-content">
             <h2 data-i18n="title-all-games">全試合結果【日付別経過】</h2>
@@ -1954,6 +2132,7 @@
                 'nav-standings': 'チーム順位',
                 'nav-h2h-records': '対戦成績',
                 'nav-remaining': '残り試合数',
+                'nav-season-analysis': 'シーズン分析',
                 'nav-progress': '進行状況',
                 'nav-all-games': '全試合結果',
                 
@@ -1963,10 +2142,17 @@
                 'title-detailed-standings': 'NPB詳細順位表【勝率・ゲーム差・残り試合数】',
                 'title-h2h-matrix': '対戦成績マトリクス【チーム別対戦成績】',
                 'title-remaining-matrix': '残り試合対戦マトリクス【チーム別対戦予定】',
+                'title-season-analysis': 'シーズン分析【順位・勝率・ゲーム差・勝数変動】',
                 'title-progress': '2025年シーズン進行状況【消化試合数・進捗率】',
                 'title-scenarios': '経路の数（場合の数）',
                 'title-all-games': '全試合結果【日付別経過】',
-                
+
+                // 차트 제목
+                'chart-ranking-changes': 'シーズン順位変動チャート',
+                'chart-winrate-changes': 'シーズン勝率変化チャート',
+                'chart-gamesbehind-changes': 'シーズンゲーム差変化チャート',
+                'chart-wins-changes': 'シーズン勝数変化チャート',
+
                 // 리그명
                 'central-league': 'セントラルリーグ',
                 'pacific-league': 'パシフィックリーグ',
@@ -2065,6 +2251,7 @@
                 'nav-standings': '팀 순위',
                 'nav-h2h-records': '대전성적',
                 'nav-remaining': '남은 경기수',
+                'nav-season-analysis': '시즌 분석',
                 'nav-progress': '진행 상황',
                 'nav-all-games': '전체 경기 결과',
                 
@@ -2074,10 +2261,17 @@
                 'title-detailed-standings': 'NPB 상세 순위표【승률·게임차·남은경기수】',
                 'title-h2h-matrix': '대전성적 매트릭스【팀별 대전성적】',
                 'title-remaining-matrix': '남은 경기 대전 매트릭스【팀별 대전 예정】',
+                'title-season-analysis': '시즌 분석【순위·승률·게임차·승수 변동】',
                 'title-progress': '2025년 시즌 진행 상황【소화경기수·진행률】',
                 'title-scenarios': '경로의 수（경우의 수）',
                 'title-all-games': '전체 경기 결과【날짜별 경과】',
-                
+
+                // 차트 제목
+                'chart-ranking-changes': '시즌 순위 변동 차트',
+                'chart-winrate-changes': '시즌 승률 변화 차트',
+                'chart-gamesbehind-changes': '시즌 게임차 변화 차트',
+                'chart-wins-changes': '시즌 승수 변화 차트',
+
                 // 리그명
                 'central-league': '센트럴리그',
                 'pacific-league': '퍼시픽리그',
@@ -2177,6 +2371,7 @@
                 'nav-standings': 'Team Standings',
                 'nav-h2h-records': 'Head-to-Head',
                 'nav-remaining': 'Remaining Games',
+                'nav-season-analysis': 'Season Analysis',
                 'nav-progress': 'Season Progress',
                 'nav-all-games': 'All Game Results',
                 
@@ -2186,10 +2381,17 @@
                 'title-detailed-standings': 'NPB Detailed Standings【Win Rate・Games Behind・Remaining Games】',
                 'title-h2h-matrix': 'Head-to-Head Records Matrix【Team vs Team Records】',
                 'title-remaining-matrix': 'Remaining Games Matrix【Team vs Team Schedule】',
+                'title-season-analysis': 'Season Analysis【Ranking・Win Rate・Games Behind・Wins Changes】',
                 'title-progress': '2025 Season Progress【Games Played・Progress Rate】',
                 'title-scenarios': 'Path Count (Number of Cases)',
                 'title-all-games': 'All Game Results【Date-wise Progress】',
-                
+
+                // 차트 제목
+                'chart-ranking-changes': 'Season Ranking Changes Chart',
+                'chart-winrate-changes': 'Season Win Rate Changes Chart',
+                'chart-gamesbehind-changes': 'Season Games Behind Changes Chart',
+                'chart-wins-changes': 'Season Wins Changes Chart',
+
                 // 리그명
                 'central-league': 'Central League',
                 'pacific-league': 'Pacific League',
@@ -3196,6 +3398,965 @@
             RAK: { shortName: '楽天', fullName: '東北楽天ゴールデンイーグルス', color: '#7F001C' },
         };
 
+        // NPB 차트 상태 관리
+        let npbChartInstances = {
+            central: {
+                ranking: null,
+                winrate: null,
+                gamesBehind: null,
+                wins: null
+            },
+            pacific: {
+                ranking: null,
+                winrate: null,
+                gamesBehind: null,
+                wins: null
+            }
+        };
+
+        // NPB 실제 데이터 로딩 함수 (KBO 스타일)
+        function loadRealNPBData() {
+            console.log('=== loadRealNPBData 시작 ===');
+            console.log('gamesData:', gamesData);
+
+            if (!gamesData || !gamesData.length) {
+                console.log('gamesData가 없거나 비어있음');
+                return null;
+            }
+
+            console.log('첫 번째 게임 데이터 샘플:', gamesData[0]);
+            console.log('총 게임 수:', gamesData.length);
+
+            const sortedGames = [...gamesData].sort((a, b) => {
+                const dateA = new Date(a.game_date_jst || a.game_date || a.date || a.played_date);
+                const dateB = new Date(b.game_date_jst || b.game_date || b.date || b.played_date);
+                return dateA - dateB;
+            });
+
+            console.log('정렬된 게임 수:', sortedGames.length);
+
+            const teamStats = {};
+            const dates = [];
+            let currentDate = null;
+
+            Object.keys(NPB_TEAM_META).forEach(teamCode => {
+                teamStats[teamCode] = {
+                    games: [],
+                    wins: 0,
+                    losses: 0,
+                    draws: 0,
+                    dailyData: []
+                };
+            });
+
+            sortedGames.forEach(game => {
+                const gameDate = new Date(game.game_date_jst || game.game_date || game.date || game.played_date);
+                const dateStr = gameDate.toISOString().split('T')[0];
+
+                if (currentDate !== dateStr) {
+                    currentDate = dateStr;
+                    if (!dates.includes(dateStr)) {
+                        dates.push(dateStr);
+
+                        Object.keys(teamStats).forEach(teamCode => {
+                            const team = teamStats[teamCode];
+                            const gamesPlayed = team.wins + team.losses + team.draws;
+                            const winRate = gamesPlayed > 0 ? team.wins / gamesPlayed : 0;
+
+                            team.dailyData.push({
+                                date: dateStr,
+                                wins: team.wins,
+                                losses: team.losses,
+                                draws: team.draws,
+                                winRate: winRate,
+                                gamesPlayed: gamesPlayed
+                            });
+                        });
+                    }
+                }
+
+                const homeTeam = game.home_team_abbr || game.home_team;
+                const awayTeam = game.away_team_abbr || game.away_team;
+                const homeScore = parseInt(game.home_team_score || game.home_score) || 0;
+                const awayScore = parseInt(game.away_team_score || game.away_score) || 0;
+
+                // 첫 번째 게임의 경우 상세 로깅
+                if (sortedGames.indexOf(game) === 0) {
+                    console.log('첫 번째 게임 상세 정보:');
+                    console.log('- 홈팀:', homeTeam, '점수:', homeScore);
+                    console.log('- 원정팀:', awayTeam, '점수:', awayScore);
+                    console.log('- 날짜:', dateStr);
+                    console.log('- 원본 게임 객체:', game);
+                }
+
+                if (teamStats[homeTeam] && teamStats[awayTeam]) {
+                    if (homeScore > awayScore) {
+                        teamStats[homeTeam].wins++;
+                        teamStats[awayTeam].losses++;
+                    } else if (awayScore > homeScore) {
+                        teamStats[awayTeam].wins++;
+                        teamStats[homeTeam].losses++;
+                    } else {
+                        teamStats[homeTeam].draws++;
+                        teamStats[awayTeam].draws++;
+                    }
+                } else {
+                    if (sortedGames.indexOf(game) < 10) { // 처음 10개 게임만 로깅
+                        console.warn('팀 코드 불일치:', {homeTeam, awayTeam, availableTeams: Object.keys(teamStats)});
+                    }
+                }
+            });
+
+            console.log('최종 팀 통계:', teamStats);
+            console.log('총 날짜 수:', dates.length);
+            console.log('날짜 범위:', dates[0], '~', dates[dates.length - 1]);
+
+            return { teamStats, dates };
+        }
+
+        // NPB 순위 계산 함수
+        function calculateNPBRankings(teamStats, date) {
+            const teams = Object.keys(teamStats).map(teamCode => {
+                const stats = teamStats[teamCode];
+                const dayData = stats.dailyData.find(d => d.date === date) || { wins: 0, losses: 0, draws: 0, winRate: 0 };
+
+                return {
+                    teamCode,
+                    wins: dayData.wins,
+                    losses: dayData.losses,
+                    draws: dayData.draws,
+                    winRate: dayData.winRate,
+                    gamesPlayed: dayData.gamesPlayed
+                };
+            });
+
+            // 리그별로 분리하고 순위 계산
+            const leagues = { central: [], pacific: [] };
+
+            teams.forEach(team => {
+                const meta = NPB_TEAM_META[team.teamCode];
+                if (!meta) return;
+
+                // 리그 판별 (NPB_TEAM_META 기반)
+                const centralTeams = ['YOG', 'HAN', 'CHU', 'HIR', 'YDB', 'YAK'];
+                const pacificTeams = ['SOF', 'LOT', 'SEI', 'ORI', 'NIP', 'RAK'];
+
+                let league;
+                if (centralTeams.includes(team.teamCode)) {
+                    league = 'central';
+                } else if (pacificTeams.includes(team.teamCode)) {
+                    league = 'pacific';
+                } else {
+                    console.warn('알 수 없는 팀 코드:', team.teamCode);
+                    league = 'central'; // 기본값
+                }
+                leagues[league].push(team);
+            });
+
+            // 각 리그별로 순위 계산 (승률 우선, 승수 차순)
+            Object.keys(leagues).forEach(league => {
+                leagues[league].sort((a, b) => {
+                    if (b.winRate !== a.winRate) return b.winRate - a.winRate;
+                    return b.wins - a.wins;
+                });
+
+                leagues[league].forEach((team, index) => {
+                    team.rank = index + 1;
+                });
+            });
+
+            return leagues;
+        }
+
+        // 커스텀 HTML 레전드 생성 함수 (팀 로고 포함)
+        function createCustomHTMLLegend(chartElement, teams, chartInstance) {
+            const chartContainer = chartElement.parentElement;
+
+            // 기존 커스텀 레전드 제거
+            const existingLegend = chartContainer.querySelector('.custom-chart-legend');
+            if (existingLegend) {
+                existingLegend.remove();
+            }
+
+            // 커스텀 레전드 컨테이너 생성
+            const legendContainer = document.createElement('div');
+            legendContainer.className = 'custom-chart-legend';
+            legendContainer.style.cssText = `
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                margin: 10px 0;
+                padding: 10px;
+                flex-wrap: wrap;
+            `;
+
+            // 토글 버튼 컨테이너
+            const controlContainer = document.createElement('div');
+            controlContainer.style.cssText = `
+                margin-right: 15px;
+                border-right: 1px solid #e2e8f0;
+                padding-right: 15px;
+            `;
+
+            // 토글 버튼
+            const toggleBtn = document.createElement('button');
+            toggleBtn.textContent = 'すべて非表示';
+            toggleBtn.style.cssText = `
+                padding: 5px 10px;
+                font-size: 11px;
+                background: #3182ce;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                color: white;
+                font-weight: 600;
+                transition: all 0.2s ease;
+            `;
+
+            // 버튼 호버 효과
+            toggleBtn.addEventListener('mouseenter', function() {
+                this.style.background = '#2c5aa0';
+            });
+            toggleBtn.addEventListener('mouseleave', function() {
+                this.style.background = '#3182ce';
+            });
+
+            controlContainer.appendChild(toggleBtn);
+            legendContainer.appendChild(controlContainer);
+
+            // 팀 아이템들을 저장할 배열
+            const legendItems = [];
+
+            // 각 팀별 레전드 아이템 생성
+            teams.forEach((team, index) => {
+                const meta = NPB_TEAM_META[team.teamCode];
+                if (!meta) return;
+
+                const logoPath = TEAM_LOGOS[team.teamCode] || '';
+
+                // 레전드 아이템 컨테이너
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 10px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    font-size: 12px;
+                    font-weight: 600;
+                    border-radius: 4px;
+                `;
+
+                // 팀 색상 인디케이터
+                const colorIndicator = document.createElement('div');
+                colorIndicator.style.cssText = `
+                    width: 12px;
+                    height: 12px;
+                    background-color: ${meta.color};
+                    border-radius: 50%;
+                    flex-shrink: 0;
+                    border: 2px solid white;
+                    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+                `;
+
+                // 팀 로고
+                const logoImg = document.createElement('img');
+                if (logoPath) {
+                    logoImg.src = logoPath;
+                    logoImg.alt = meta.shortName;
+                    logoImg.style.cssText = `
+                        width: 16px;
+                        height: 16px;
+                        object-fit: contain;
+                        flex-shrink: 0;
+                    `;
+                    logoImg.onerror = function() {
+                        this.style.display = 'none';
+                    };
+                }
+
+                // 팀 이름
+                const teamName = document.createElement('span');
+                teamName.textContent = meta.shortName;
+                teamName.style.cssText = `
+                    color: #2d3748;
+                    font-weight: 600;
+                    white-space: nowrap;
+                `;
+
+                // 요소들 조립
+                legendItem.appendChild(colorIndicator);
+                if (logoPath) {
+                    legendItem.appendChild(logoImg);
+                }
+                legendItem.appendChild(teamName);
+
+                // 클릭 이벤트 (시리즈 토글)
+                legendItem.addEventListener('click', function() {
+                    try {
+                        chartInstance.toggleSeries(meta.shortName);
+
+                        // 시각적 피드백
+                        const isHidden = this.style.opacity === '0.4';
+                        this.style.opacity = isHidden ? '1' : '0.4';
+                        this.style.textDecoration = isHidden ? 'none' : 'line-through';
+                    } catch (error) {
+                        console.warn('시리즈 토글 실패:', error);
+                    }
+                });
+
+                // 호버 효과
+                legendItem.addEventListener('mouseenter', function() {
+                    if (this.style.opacity !== '0.4') {
+                        this.style.background = 'rgba(248, 250, 252, 0.8)';
+                    }
+                });
+
+                legendItem.addEventListener('mouseleave', function() {
+                    if (this.style.opacity !== '0.4') {
+                        this.style.background = 'transparent';
+                    }
+                });
+
+                legendContainer.appendChild(legendItem);
+                legendItems.push({element: legendItem, teamName: meta.shortName});
+            });
+
+            // 토글 버튼 상태 추적
+            let allVisible = true;
+
+            // 토글 버튼 클릭 이벤트
+            toggleBtn.addEventListener('click', function() {
+                if (allVisible) {
+                    // 전체 해제
+                    legendItems.forEach(item => {
+                        try {
+                            chartInstance.hideSeries(item.teamName);
+                            item.element.style.opacity = '0.4';
+                            item.element.style.textDecoration = 'line-through';
+                        } catch (error) {
+                            console.warn('전체해제 실패:', error);
+                        }
+                    });
+                    this.textContent = 'すべて表示';
+                    this.style.background = '#38a169';
+                    allVisible = false;
+                } else {
+                    // 전체 선택
+                    legendItems.forEach(item => {
+                        try {
+                            chartInstance.showSeries(item.teamName);
+                            item.element.style.opacity = '1';
+                            item.element.style.textDecoration = 'none';
+                        } catch (error) {
+                            console.warn('전체선택 실패:', error);
+                        }
+                    });
+                    this.textContent = 'すべて非表示';
+                    this.style.background = '#3182ce';
+                    allVisible = true;
+                }
+            });
+
+            // 차트 위에 레전드 삽입
+            chartContainer.insertBefore(legendContainer, chartElement);
+        }
+
+        // 마지막 포인트에 팀 로고 추가 함수
+        function addTeamLogosToLastPoint(chart, teams, data) {
+            setTimeout(() => {
+                // 기존 로고들 제거
+                const existingLogos = chart.el.parentElement.querySelectorAll('.chart-end-logo');
+                existingLogos.forEach(logo => logo.remove());
+
+                const chartConfig = chart.w.config;
+                const globals = chart.w.globals;
+
+                teams.forEach((team, index) => {
+                    const meta = NPB_TEAM_META[team.teamCode];
+                    const logoPath = TEAM_LOGOS[team.teamCode];
+
+                    if (!meta || !logoPath) return;
+
+                    // 시리즈 데이터 가져오기
+                    const series = chartConfig.series[index];
+                    if (!series || !series.data || series.data.length === 0) return;
+
+                    const lastDataValue = series.data[series.data.length - 1];
+                    const lastXIndex = series.data.length - 1;
+
+                    // ApexCharts 내부 좌표계를 사용하여 정확한 위치 계산
+                    const xAxisWidth = globals.gridWidth;
+                    const yAxisHeight = globals.gridHeight;
+                    const xAxisLeft = globals.translateX;
+                    const yAxisTop = globals.translateY;
+
+                    // X 좌표 (마지막 데이터 포인트)
+                    const xPos = xAxisLeft + (xAxisWidth * (lastXIndex / Math.max(1, data.dates.length - 1)));
+
+                    // Y 좌표 (실제 데이터 값 기반)
+                    const minValue = Math.min(...chartConfig.series.flatMap(s => s.data));
+                    const maxValue = Math.max(...chartConfig.series.flatMap(s => s.data));
+                    const valueRange = maxValue - minValue;
+                    const yPos = yAxisTop + yAxisHeight - ((lastDataValue - minValue) / valueRange * yAxisHeight);
+
+                    // 로고 HTML 요소 생성
+                    const logoDiv = document.createElement('div');
+                    logoDiv.className = 'chart-end-logo';
+                    logoDiv.style.cssText = `
+                        position: absolute;
+                        width: 22px;
+                        height: 22px;
+                        background-image: url('${logoPath}');
+                        background-size: 16px 16px;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        border: 2px solid ${meta.color};
+                        border-radius: 50%;
+                        background-color: white;
+                        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+                        z-index: 1000;
+                        pointer-events: none;
+                        left: ${xPos + 8}px;
+                        top: ${yPos - 11}px;
+                        transform: translate(0, 0);
+                    `;
+
+                    chart.el.appendChild(logoDiv);
+                });
+            }, 1000);
+        }
+
+        // 차트 내부 HTML 오버레이 레전드 생성 함수 (백업용)
+        function createInChartLegend(canvas, teams, chartInstance) {
+            const chartContainer = canvas.parentElement;
+
+            // 기존 레전드가 있으면 제거
+            const existingLegend = chartContainer.querySelector('.in-chart-legend');
+            if (existingLegend) {
+                existingLegend.remove();
+            }
+
+            // 오버레이 레전드 컨테이너 생성
+            const legendOverlay = document.createElement('div');
+            legendOverlay.className = 'in-chart-legend';
+            legendOverlay.style.cssText = `
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                background: rgba(255, 255, 255, 0.95);
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                padding: 12px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                max-width: calc(100% - 30px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+                font-size: 12px;
+            `;
+
+            teams.forEach((team, index) => {
+                const meta = NPB_TEAM_META[team.teamCode];
+                if (!meta) return;
+
+                const logoPath = TEAM_LOGOS[team.teamCode] || '';
+
+                const legendItem = document.createElement('div');
+                legendItem.className = 'in-chart-legend-item';
+                legendItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    background: rgba(255, 255, 255, 0.8);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                `;
+
+                // 색상 점
+                const colorDot = document.createElement('div');
+                colorDot.style.cssText = `
+                    width: 10px;
+                    height: 10px;
+                    background-color: ${meta.color};
+                    border-radius: 50%;
+                    flex-shrink: 0;
+                `;
+
+                // 팀 로고
+                const logoImg = document.createElement('img');
+                if (logoPath) {
+                    logoImg.src = logoPath;
+                    logoImg.alt = meta.shortName;
+                    logoImg.style.cssText = `
+                        width: 16px;
+                        height: 16px;
+                        object-fit: contain;
+                        flex-shrink: 0;
+                    `;
+                }
+
+                // 팀 이름
+                const teamName = document.createElement('span');
+                teamName.textContent = meta.shortName;
+                teamName.style.cssText = `
+                    font-weight: 500;
+                    color: #333;
+                    white-space: nowrap;
+                `;
+
+                legendItem.appendChild(colorDot);
+                if (logoPath) {
+                    legendItem.appendChild(logoImg);
+                }
+                legendItem.appendChild(teamName);
+
+                // 클릭 이벤트
+                legendItem.addEventListener('click', function() {
+                    const datasetMeta = chartInstance.getDatasetMeta(index);
+                    if (datasetMeta) {
+                        datasetMeta.hidden = datasetMeta.hidden === null ? !chartInstance.data.datasets[index].hidden : !datasetMeta.hidden;
+                        chartInstance.update();
+
+                        // 시각적 피드백
+                        if (datasetMeta.hidden) {
+                            this.style.opacity = '0.4';
+                            this.style.textDecoration = 'line-through';
+                        } else {
+                            this.style.opacity = '1';
+                            this.style.textDecoration = 'none';
+                        }
+                    }
+                });
+
+                // 호버 효과
+                legendItem.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(248, 249, 250, 0.9)';
+                    this.style.transform = 'translateY(-1px)';
+                });
+
+                legendItem.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.8)';
+                    this.style.transform = 'translateY(0)';
+                });
+
+                legendOverlay.appendChild(legendItem);
+            });
+
+            // 차트 컨테이너에 레전드 추가
+            chartContainer.style.position = 'relative';
+            chartContainer.appendChild(legendOverlay);
+        }
+
+        // NPB ApexCharts 차트 생성 함수
+        function createNPBChart(canvasId, legendContainerId, data, type, league) {
+            const chartElement = document.getElementById(canvasId);
+            if (!chartElement) return null;
+
+            // 기존 차트 인스턴스 정리
+            if (npbChartInstances[league] && npbChartInstances[league][type]) {
+                npbChartInstances[league][type].destroy();
+            }
+
+            // 팀별 데이터 정렬 (순위별로)
+            const sortedTeams = data.teams.sort((a, b) => {
+                const rankA = a.rankings[a.rankings.length - 1] || 6;
+                const rankB = b.rankings[b.rankings.length - 1] || 6;
+                return rankA - rankB;
+            });
+
+            // ApexCharts 시리즈 데이터 생성
+            const series = sortedTeams.map(team => {
+                const meta = NPB_TEAM_META[team.teamCode];
+                if (!meta) return null;
+
+                let chartData = [];
+                switch (type) {
+                    case 'ranking':
+                        chartData = team.rankings;
+                        break;
+                    case 'winrate':
+                        chartData = team.winRates.map(rate => (rate * 100).toFixed(1));
+                        break;
+                    case 'gamesBehind':
+                        chartData = team.gamesBehind.map(gb => gb.toFixed(1));
+                        break;
+                    case 'wins':
+                        chartData = team.wins;
+                        break;
+                }
+
+                return {
+                    name: meta.shortName,
+                    data: chartData,
+                    color: meta.color
+                };
+            }).filter(series => series !== null);
+
+            // Y축 설정
+            const yAxisConfig = {
+                title: {
+                    text: (() => {
+                        switch (type) {
+                            case 'ranking': return '順位';
+                            case 'winrate': return '勝率 (%)';
+                            case 'gamesBehind': return 'ゲーム差';
+                            case 'wins': return '勝数';
+                            default: return '';
+                        }
+                    })()
+                },
+                reversed: type === 'ranking' || type === 'gamesBehind', // 순위와 게임차는 역순 (0이 위)
+                labels: {
+                    formatter: function(value) {
+                        switch (type) {
+                            case 'ranking':
+                                return value + '位';
+                            case 'winrate':
+                                return value + '%';
+                            case 'gamesBehind':
+                                return value;
+                            case 'wins':
+                                return value + '勝';
+                            default:
+                                return value;
+                        }
+                    }
+                }
+            };
+
+            // ApexCharts 옵션 설정
+            const options = {
+                series: series,
+                chart: {
+                    type: 'line',
+                    height: 400,
+                    zoom: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: true,
+                        easing: 'easeinout',
+                        speed: 800
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                title: {
+                    text: (() => {
+                        const leagueName = league === 'central' ? 'セントラルリーグ' : 'パシフィックリーグ';
+                        switch (type) {
+                            case 'ranking': return `${leagueName} 順位推移`;
+                            case 'winrate': return `${leagueName} 勝率推移`;
+                            case 'gamesBehind': return `${leagueName} ゲーム差推移`;
+                            case 'wins': return `${leagueName} 勝数推移`;
+                            default: return leagueName;
+                        }
+                    })(),
+                    align: 'left'
+                },
+                legend: {
+                    show: false  // ApexCharts 내장 레전드 비활성화, 커스텀 HTML 레전드 사용
+                },
+                markers: {
+                    size: 4,
+                    strokeWidth: 2,
+                    strokeColors: '#fff',
+                    hover: {
+                        size: 8
+                    }
+                },
+                xaxis: {
+                    categories: data.dates.map(date => {
+                        const d = new Date(date);
+                        return `${d.getMonth() + 1}/${d.getDate()}`;
+                    }),
+                    title: {
+                        text: '日付'
+                    },
+                    labels: {
+                        show: true,
+                        maxHeight: 160,
+                        style: {
+                            fontSize: '11px'
+                        },
+                        formatter: function(value, timestamp, opts) {
+                            return value;
+                        }
+                    },
+                    tickAmount: Math.min(data.dates.length, 20), // 최대 20개 날짜 표시
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                yaxis: yAxisConfig,
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: {
+                        formatter: function(value, opts) {
+                            const seriesName = opts.series[opts.seriesIndex][opts.dataPointIndex];
+                            switch (type) {
+                                case 'ranking':
+                                    return value + '位';
+                                case 'winrate':
+                                    return value + '%';
+                                case 'gamesBehind':
+                                    return value + 'ゲーム差';
+                                case 'wins':
+                                    return value + '勝';
+                                default:
+                                    return value;
+                            }
+                        }
+                    }
+                },
+                grid: {
+                    borderColor: '#e7e7e7',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'],
+                        opacity: 0.5
+                    }
+                },
+                annotations: {
+                    points: []  // 팀 로고 포인트들이 여기에 추가됨
+                }
+            };
+
+            // 차트 생성
+            const chart = new ApexCharts(chartElement, options);
+            chart.render();
+
+            // 차트 인스턴스 저장
+            npbChartInstances[league][type] = chart;
+
+            // 커스텀 HTML 레전드 생성 (로고 포함)
+            createCustomHTMLLegend(chartElement, sortedTeams, chart);
+
+            // 마지막 포인트에 팀 로고 추가
+            addTeamLogosToLastPoint(chart, sortedTeams, data);
+
+            return chart;
+        }
+
+        // NPB 실제 시즌 데이터 처리 함수 (KBO 스타일)
+        function processNPBRealSeasonData() {
+            const npbData = loadRealNPBData();
+            if (!npbData) {
+                return null;
+            }
+
+            const { teamStats, dates } = npbData;
+            const processedData = { central: {}, pacific: {} };
+
+            // 각 날짜별 순위 계산 및 데이터 정리
+            dates.forEach(date => {
+                const rankings = calculateNPBRankings(teamStats, date);
+
+                Object.keys(rankings).forEach(league => {
+                    if (!processedData[league].teams) {
+                        processedData[league].teams = rankings[league].map(team => ({
+                            teamCode: team.teamCode,
+                            rankings: [],
+                            winRates: [],
+                            gamesBehind: [],
+                            wins: []
+                        }));
+                        processedData[league].dates = [];
+                    }
+
+                    processedData[league].dates.push(date);
+
+                    rankings[league].forEach((team, index) => {
+                        const teamData = processedData[league].teams.find(t => t.teamCode === team.teamCode);
+                        if (teamData) {
+                            teamData.rankings.push(team.rank);
+                            teamData.winRates.push(team.winRate);
+                            teamData.wins.push(team.wins);
+
+                            // 게임차 계산 (1위팀 대비)
+                            const firstPlace = rankings[league][0];
+                            const gamesBehind = firstPlace ?
+                                Math.max(0, (firstPlace.wins - team.wins + team.losses - firstPlace.losses) / 2) : 0;
+                            teamData.gamesBehind.push(gamesBehind);
+                        }
+                    });
+                });
+            });
+
+            return processedData;
+        }
+
+        // NPB 시즌 분석 차트 업데이트 메인 함수
+        function updateNPBSeasonAnalysis() {
+            console.log('=== NPB 시즌 분석 업데이트 시작 ===');
+            console.log('ApexCharts 상태:', typeof ApexCharts !== 'undefined' ? '로드됨' : '로드 안됨');
+            console.log('gamesData 상태:', gamesData ? `${gamesData.length}개 게임` : '데이터 없음');
+
+            if (typeof ApexCharts === 'undefined') {
+                console.error('ApexCharts가 로드되지 않았습니다.');
+                return;
+            }
+
+            // 실제 데이터가 없으면 샘플 데이터로 테스트
+            if (!gamesData || !gamesData.length) {
+                console.warn('실제 게임 데이터가 없습니다. 샘플 데이터를 생성합니다.');
+                createNPBSampleData();
+                return;
+            }
+
+            const processedData = processNPBRealSeasonData();
+            console.log('처리된 데이터:', processedData);
+
+            if (!processedData) {
+                console.error('데이터 처리 실패');
+                createNPBSampleData();
+                return;
+            }
+
+            // 세트럴 리그 차트들 생성
+            if (processedData.central && processedData.central.teams && processedData.central.teams.length > 0) {
+                console.log('세트럴 리그 차트 생성 중...');
+                createNPBChart('central-ranking-canvas', 'central-ranking-legend', processedData.central, 'ranking', 'central');
+                createNPBChart('central-winrate-canvas', 'central-winrate-legend', processedData.central, 'winrate', 'central');
+                createNPBChart('central-gamesbehind-canvas', 'central-gamesbehind-legend', processedData.central, 'gamesBehind', 'central');
+                createNPBChart('central-wins-canvas', 'central-wins-legend', processedData.central, 'wins', 'central');
+            } else {
+                console.warn('세트럴 리그 데이터 없음');
+            }
+
+            // 퍼시픽 리그 차트들 생성
+            if (processedData.pacific && processedData.pacific.teams && processedData.pacific.teams.length > 0) {
+                console.log('퍼시픽 리그 차트 생성 중...');
+                createNPBChart('pacific-ranking-canvas', 'pacific-ranking-legend', processedData.pacific, 'ranking', 'pacific');
+                createNPBChart('pacific-winrate-canvas', 'pacific-winrate-legend', processedData.pacific, 'winrate', 'pacific');
+                createNPBChart('pacific-gamesbehind-canvas', 'pacific-gamesbehind-legend', processedData.pacific, 'gamesBehind', 'pacific');
+                createNPBChart('pacific-wins-canvas', 'pacific-wins-legend', processedData.pacific, 'wins', 'pacific');
+            } else {
+                console.warn('퍼시픽 리그 데이터 없음');
+            }
+
+            console.log('=== NPB 시즌 분석 업데이트 완료 ===');
+        }
+
+        // NPB 샘플 데이터 생성 및 차트 표시
+        function createNPBSampleData() {
+            console.log('NPB 샘플 데이터 생성 중...');
+
+            // 샘플 데이터 구조 생성
+            const sampleData = {
+                central: {
+                    teams: [],
+                    dates: []
+                },
+                pacific: {
+                    teams: [],
+                    dates: []
+                }
+            };
+
+            // 최근 30일 날짜 생성
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                sampleData.central.dates.push(date.toISOString().split('T')[0]);
+                sampleData.pacific.dates.push(date.toISOString().split('T')[0]);
+            }
+
+            // 세트럴 리그 팀들
+            const centralTeams = ['YOG', 'HAN', 'CHU', 'HIR', 'YDB', 'YAK'];
+            centralTeams.forEach((teamCode, teamIndex) => {
+                const rankings = [];
+                const winRates = [];
+                const gamesBehind = [];
+                const wins = [];
+
+                for (let day = 0; day < 30; day++) {
+                    // 순위 (1-6위, 약간의 변동)
+                    const ranking = Math.max(1, Math.min(6, teamIndex + 1 + Math.floor(Math.random() * 3) - 1));
+                    rankings.push(ranking);
+
+                    // 승률 (0.3 ~ 0.7 사이)
+                    const baseWinRate = 0.6 - (teamIndex * 0.05) + (Math.random() - 0.5) * 0.1;
+                    const winRate = Math.max(0.3, Math.min(0.7, baseWinRate));
+                    winRates.push(winRate);
+
+                    // 승수 (날짜에 비례)
+                    const winCount = Math.floor((day + 1) * winRate * 0.5);
+                    wins.push(winCount);
+
+                    // 게임차 (순위에 따라)
+                    const gb = Math.max(0, (ranking - 1) * 1.5 + Math.random() * 2);
+                    gamesBehind.push(gb);
+                }
+
+                sampleData.central.teams.push({
+                    teamCode,
+                    rankings,
+                    winRates,
+                    gamesBehind,
+                    wins
+                });
+            });
+
+            // 퍼시픽 리그 팀들
+            const pacificTeams = ['SOF', 'LOT', 'SEI', 'ORI', 'NIP', 'RAK'];
+            pacificTeams.forEach((teamCode, teamIndex) => {
+                const rankings = [];
+                const winRates = [];
+                const gamesBehind = [];
+                const wins = [];
+
+                for (let day = 0; day < 30; day++) {
+                    const ranking = Math.max(1, Math.min(6, teamIndex + 1 + Math.floor(Math.random() * 3) - 1));
+                    rankings.push(ranking);
+
+                    const baseWinRate = 0.6 - (teamIndex * 0.05) + (Math.random() - 0.5) * 0.1;
+                    const winRate = Math.max(0.3, Math.min(0.7, baseWinRate));
+                    winRates.push(winRate);
+
+                    const winCount = Math.floor((day + 1) * winRate * 0.5);
+                    wins.push(winCount);
+
+                    const gb = Math.max(0, (ranking - 1) * 1.5 + Math.random() * 2);
+                    gamesBehind.push(gb);
+                }
+
+                sampleData.pacific.teams.push({
+                    teamCode,
+                    rankings,
+                    winRates,
+                    gamesBehind,
+                    wins
+                });
+            });
+
+            console.log('샘플 데이터 생성 완료:', sampleData);
+
+            // 차트 생성
+            createNPBChart('central-ranking-canvas', 'central-ranking-legend', sampleData.central, 'ranking', 'central');
+            createNPBChart('central-winrate-canvas', 'central-winrate-legend', sampleData.central, 'winrate', 'central');
+            createNPBChart('central-gamesbehind-canvas', 'central-gamesbehind-legend', sampleData.central, 'gamesBehind', 'central');
+            createNPBChart('central-wins-canvas', 'central-wins-legend', sampleData.central, 'wins', 'central');
+
+            createNPBChart('pacific-ranking-canvas', 'pacific-ranking-legend', sampleData.pacific, 'ranking', 'pacific');
+            createNPBChart('pacific-winrate-canvas', 'pacific-winrate-legend', sampleData.pacific, 'winrate', 'pacific');
+            createNPBChart('pacific-gamesbehind-canvas', 'pacific-gamesbehind-legend', sampleData.pacific, 'gamesBehind', 'pacific');
+            createNPBChart('pacific-wins-canvas', 'pacific-wins-legend', sampleData.pacific, 'wins', 'pacific');
+        }
+
         function getLeagueScenarioTeams(league) {
             const teams = league === 'central'
                 ? (standingsData?.central_league?.standings || [])
@@ -3615,35 +4776,53 @@
                 });
             });
 
-            // 팀명 매핑 (일본어 → 영어 약자)
-            const teamNameMap = {
-                '巨人': 'YOG', 'ヤクルト': 'YAK', 'ＤｅＮＡ': 'YDB', '阪神': 'HAN', '広島': 'HIR', '中日': 'CHU',
-                'ソフトバンク': 'SOF', '日本ハム': 'NIP', '西武': 'SEI', '楽天': 'RAK', 'オリックス': 'ORI', 'ロッテ': 'LOT'
-            };
+            // games.json 데이터 사용
+            if (window.gamesData && Array.isArray(window.gamesData)) {
+                window.gamesData.forEach(game => {
+                    // 연기된 경기는 건너뛰기
+                    if (game.game_status === 'postponed') {
+                        return;
+                    }
 
-            // gamesRawData가 있다면 실제 경기 결과 파싱
-            if (window.gamesRawData) {
+                    const homeTeam = game.home_team_abbr;
+                    const awayTeam = game.away_team_abbr;
+                    const homeScore = game.home_score;
+                    const awayScore = game.away_score;
+
+                    if (h2hData[homeTeam] && h2hData[awayTeam]) {
+                        if (game.is_draw) {
+                            // 무승부
+                            h2hData[homeTeam][awayTeam].draws++;
+                            h2hData[awayTeam][homeTeam].draws++;
+                        } else if (homeScore > awayScore) {
+                            // 홈팀 승리
+                            h2hData[homeTeam][awayTeam].wins++;
+                            h2hData[awayTeam][homeTeam].losses++;
+                        } else {
+                            // 원정팀 승리
+                            h2hData[homeTeam][awayTeam].losses++;
+                            h2hData[awayTeam][homeTeam].wins++;
+                        }
+                    }
+                });
+            }
+            // gamesRawData가 있다면 실제 경기 결과 파싱 (폴백)
+            else if (window.gamesRawData) {
+                const teamNameMap = {
+                    '巨人': 'YOG', 'ヤクルト': 'YAK', 'ＤｅＮＡ': 'YDB', '阪神': 'HAN', '広島': 'HIR', '中日': 'CHU',
+                    'ソフトバンク': 'SOF', '日本ハム': 'NIP', '西武': 'SEI', '楽天': 'RAK', 'オリックス': 'ORI', 'ロッテ': 'LOT'
+                };
+
                 const gameLines = window.gamesRawData.split('\n');
-                let totalParsedGames = 0;
-
                 gameLines.forEach(line => {
                     line = line.trim();
-
-                    // 연기 경기는 건너뛰기
-                    if (line.includes('[POSTPONED]')) {
+                    if (line.includes('[POSTPONED]') || line.startsWith('#') || line === '') {
                         return;
                     }
 
-                    // 주석이나 빈 줄은 건너뛰기
-                    if (line.startsWith('#') || line === '') {
-                        return;
-                    }
-
-                    // 경기 결과 라인인지 확인 (팀명 스코어-스코어 팀명 형식)
                     const gameMatch = line.match(/^(.+?)\s+(\d+)-(\d+)\s+(.+?)\s+\(.*?\)/);
                     if (gameMatch) {
                         const [, team1Name, score1, score2, team2Name] = gameMatch;
-
                         const team1Code = teamNameMap[team1Name.trim()];
                         const team2Code = teamNameMap[team2Name.trim()];
 
@@ -3651,25 +4830,19 @@
                             const team1Score = parseInt(score1);
                             const team2Score = parseInt(score2);
 
-                            totalParsedGames++;
-
                             if (team1Score > team2Score) {
-                                // team1 승리
                                 h2hData[team1Code][team2Code].wins++;
                                 h2hData[team2Code][team1Code].losses++;
                             } else if (team2Score > team1Score) {
-                                // team2 승리
                                 h2hData[team1Code][team2Code].losses++;
                                 h2hData[team2Code][team1Code].wins++;
                             } else {
-                                // 무승부
                                 h2hData[team1Code][team2Code].draws++;
                                 h2hData[team2Code][team1Code].draws++;
                             }
                         }
                     }
                 });
-
             }
 
             // 계산된 결과를 캐시에 저장
@@ -4307,6 +5480,2746 @@
             });
         }
 
+        // ===== 시즌 분석 차트 업데이트 =====
+        function updateSeasonAnalysis() {
+            updateNPBSeasonAnalysis();
+        }
+
+        function displayFallbackMessage() {
+            const leagues = ['central', 'pacific'];
+            leagues.forEach(league => {
+                const container = document.querySelector(`#${league}-season-analysis`);
+                if (container) {
+                    container.innerHTML = `
+                        <div style="padding: 40px; text-align: center; background: #f8f9fa; border-radius: 8px; margin: 20px 0;">
+                            <h3>📊 시즌 분석 준비 중...</h3>
+                            <p>경기 데이터를 불러오는 중입니다. 잠시만 기다려주세요.</p>
+                            <div style="margin-top: 20px;">
+                                <small>데이터 로드 상태: ${gamesData ? `${gamesData.length}개 경기` : '데이터 없음'}</small>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function drawSimpleTestCharts() {
+            console.log('Drawing simple test charts on all canvases...');
+
+            const canvasIds = [
+                'central-ranking-canvas', 'central-winrate-canvas', 'central-gamesbehind-canvas', 'central-wins-canvas',
+                'pacific-ranking-canvas', 'pacific-winrate-canvas', 'pacific-gamesbehind-canvas', 'pacific-wins-canvas'
+            ];
+
+            canvasIds.forEach(canvasId => {
+                const canvas = document.getElementById(canvasId);
+                if (canvas) {
+                    console.log(`Drawing on canvas: ${canvasId}`);
+                    const ctx = canvas.getContext('2d');
+
+                    // 배경 채우기
+                    ctx.fillStyle = '#f0f8ff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // 테스트 텍스트
+                    ctx.fillStyle = '#333';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('차트 테스트', canvas.width / 2, 50);
+
+                    ctx.font = '16px Arial';
+                    ctx.fillText(canvasId, canvas.width / 2, 80);
+                    ctx.fillText('차트가 여기에 표시됩니다', canvas.width / 2, 110);
+
+                    // 간단한 선 그리기
+                    ctx.strokeStyle = '#ff6b6b';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(50, 150);
+                    ctx.lineTo(canvas.width - 50, 150);
+                    ctx.stroke();
+
+                    // 원 그리기
+                    ctx.fillStyle = '#4ecdc4';
+                    ctx.beginPath();
+                    ctx.arc(canvas.width / 2, 200, 30, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    console.log(`Successfully drew on ${canvasId}`);
+                } else {
+                    console.error(`Canvas ${canvasId} not found!`);
+                }
+            });
+        }
+
+        // 전역 테스트 함수들 (브라우저 콘솔에서 호출 가능)
+        window.testCharts = function() {
+            console.log('Manual chart test triggered');
+            drawSimpleTestCharts();
+        };
+
+        window.testSeasonAnalysis = function() {
+            console.log('Manual season analysis test triggered');
+            updateSeasonAnalysis();
+        };
+
+        // 디버깅용 함수들
+        window.debugChartStatus = function() {
+            console.log('=== 차트 상태 디버깅 ===');
+            console.log('Chart.js 로드됨:', typeof Chart !== 'undefined');
+            console.log('gamesData:', gamesData ? `${gamesData.length}개 게임` : '없음');
+            console.log('chartInstances:', Object.keys(chartInstances));
+            console.log('chartCreating:', chartCreating);
+
+            // 캔버스 상태 확인
+            const canvases = ['central-ranking-canvas', 'central-winrate-canvas', 'pacific-ranking-canvas', 'pacific-winrate-canvas'];
+            canvases.forEach(id => {
+                const canvas = document.getElementById(id);
+                console.log(`Canvas ${id}:`, canvas ? '존재함' : '없음');
+            });
+        };
+
+        window.forceChartJS = function() {
+            console.log('Chart.js 강제 실행 시도...');
+            if (typeof Chart !== 'undefined') {
+                processRealSeasonData();
+            } else {
+                console.error('Chart.js 여전히 로드되지 않음');
+            }
+        };
+
+        function processRealSeasonData() {
+
+            // Chart.js 로드 확인
+            if (typeof Chart === 'undefined') {
+                drawSampleSeasonCharts();
+                return;
+            }
+
+            if (!gamesData || !gamesData.length) {
+                drawSampleSeasonCharts();
+                return;
+            }
+
+            const seasonData = {
+                central: {},
+                pacific: {}
+            };
+
+            const teamMapping = {
+                'YOG': { name: '巨人', league: 'central' },
+                'YAK': { name: 'ヤクルト', league: 'central' },
+                'YDB': { name: 'DeNA', league: 'central' },
+                'HAN': { name: '阪神', league: 'central' },
+                'HIR': { name: '広島', league: 'central' },
+                'CHU': { name: '中日', league: 'central' },
+                'SOF': { name: 'ソフトバンク', league: 'pacific' },
+                'NIP': { name: '日本ハム', league: 'pacific' },
+                'SEI': { name: '西武', league: 'pacific' },
+                'RAK': { name: '楽天', league: 'pacific' },
+                'ORI': { name: 'オリックス', league: 'pacific' },
+                'LOT': { name: 'ロッテ', league: 'pacific' }
+            };
+
+            // 팀별 날짜순 누적 스탯 계산
+            Object.keys(teamMapping).forEach(abbr => {
+                const league = teamMapping[abbr].league;
+                seasonData[league][abbr] = {
+                    name: teamMapping[abbr].name,
+                    games: [],
+                    winRate: [],
+                    ranking: [],
+                    gamesBehind: [],
+                    wins: []
+                };
+            });
+
+            // 날짜별로 정렬된 게임 데이터
+            const sortedGames = [...gamesData].sort((a, b) => new Date(a.game_date) - new Date(b.game_date));
+            const dateMap = {};
+
+            // 각 날짜별로 누적 스탯 계산
+            sortedGames.forEach(game => {
+                const date = game.game_date;
+                if (!dateMap[date]) {
+                    dateMap[date] = {};
+                    Object.keys(teamMapping).forEach(abbr => {
+                        dateMap[date][abbr] = { wins: 0, losses: 0, draws: 0, games: 0 };
+                    });
+                }
+
+                // 승패 기록
+                const homeWin = game.home_score > game.away_score;
+                const awayWin = game.away_score > game.home_score;
+                const isDraw = game.home_score === game.away_score;
+
+                if (homeWin) {
+                    dateMap[date][game.home_team_abbr].wins++;
+                    dateMap[date][game.away_team_abbr].losses++;
+                } else if (awayWin) {
+                    dateMap[date][game.away_team_abbr].wins++;
+                    dateMap[date][game.home_team_abbr].losses++;
+                } else if (isDraw) {
+                    dateMap[date][game.home_team_abbr].draws++;
+                    dateMap[date][game.away_team_abbr].draws++;
+                }
+
+                dateMap[date][game.home_team_abbr].games++;
+                dateMap[date][game.away_team_abbr].games++;
+            });
+
+            // 누적 스탯 계산 및 순위 매기기
+            const dates = Object.keys(dateMap).sort();
+            const cumulativeStats = {};
+
+            Object.keys(teamMapping).forEach(abbr => {
+                cumulativeStats[abbr] = { wins: 0, losses: 0, draws: 0, games: 0 };
+            });
+
+            dates.forEach(date => {
+                Object.keys(teamMapping).forEach(abbr => {
+                    cumulativeStats[abbr].wins += dateMap[date][abbr].wins;
+                    cumulativeStats[abbr].losses += dateMap[date][abbr].losses;
+                    cumulativeStats[abbr].draws += dateMap[date][abbr].draws;
+                    cumulativeStats[abbr].games += dateMap[date][abbr].games;
+
+                    const league = teamMapping[abbr].league;
+                    const winRate = cumulativeStats[abbr].games > 0 ? cumulativeStats[abbr].wins / cumulativeStats[abbr].games : 0;
+
+                    seasonData[league][abbr].winRate.push(winRate);
+                    seasonData[league][abbr].wins.push(cumulativeStats[abbr].wins);
+                });
+
+                // 리그별 순위 계산
+                ['central', 'pacific'].forEach(league => {
+                    const leagueTeams = Object.keys(teamMapping).filter(abbr => teamMapping[abbr].league === league);
+                    const sorted = leagueTeams.sort((a, b) => {
+                        const aRate = cumulativeStats[a].games > 0 ? cumulativeStats[a].wins / cumulativeStats[a].games : 0;
+                        const bRate = cumulativeStats[b].games > 0 ? cumulativeStats[b].wins / cumulativeStats[b].games : 0;
+                        return bRate - aRate; // 승률 내림차순
+                    });
+
+                    sorted.forEach((abbr, index) => {
+                        seasonData[league][abbr].ranking.push(index + 1);
+                    });
+
+                    // 게임차 계산 (1위 팀과의 차이)
+                    const leader = sorted[0];
+                    const leaderWins = cumulativeStats[leader].wins;
+                    const leaderLosses = cumulativeStats[leader].losses;
+
+                    sorted.forEach(abbr => {
+                        const teamWins = cumulativeStats[abbr].wins;
+                        const teamLosses = cumulativeStats[abbr].losses;
+                        const gamesBehind = ((leaderWins - teamWins) + (teamLosses - leaderLosses)) / 2;
+                        seasonData[league][abbr].gamesBehind.push(Math.max(0, gamesBehind));
+                    });
+                });
+            });
+
+            drawRealSeasonCharts(seasonData);
+        }
+
+        function drawRealSeasonCharts(seasonData) {
+            const colors = [
+                'rgba(255, 107, 107, 0.8)',
+                'rgba(78, 205, 196, 0.8)',
+                'rgba(69, 183, 209, 0.8)',
+                'rgba(150, 206, 180, 0.8)',
+                'rgba(254, 202, 87, 0.8)',
+                'rgba(255, 159, 243, 0.8)'
+            ];
+            const borderColors = [
+                'rgba(255, 107, 107, 1)',
+                'rgba(78, 205, 196, 1)',
+                'rgba(69, 183, 209, 1)',
+                'rgba(150, 206, 180, 1)',
+                'rgba(254, 202, 87, 1)',
+                'rgba(255, 159, 243, 1)'
+            ];
+
+            ['central', 'pacific'].forEach(league => {
+                const teams = Object.keys(seasonData[league]);
+                if (teams.length === 0) return;
+
+                // 차트 제목 개선
+                const leagueName = league === 'central' ? 'セントラルリーグ' : 'パシフィックリーグ';
+
+                // 순위 변동 차트
+                drawChartJS(`${league}-ranking-canvas`, `${leagueName} 順位推移チャート 📊`, seasonData[league], 'ranking', colors, borderColors, true);
+                // 승률 변동 차트
+                drawChartJS(`${league}-winrate-canvas`, `${leagueName} 勝率推移チャート 📈`, seasonData[league], 'winRate', colors, borderColors);
+                // 게임차 변동 차트
+                drawChartJS(`${league}-gamesbehind-canvas`, `${leagueName} ゲーム差推移チャート 📉`, seasonData[league], 'gamesBehind', colors, borderColors);
+                // 승수 변동 차트
+                drawChartJS(`${league}-wins-canvas`, `${leagueName} 勝利数推移チャート 🏆`, seasonData[league], 'wins', colors, borderColors);
+            });
+        }
+
+        // Chart.js 차트 인스턴스 저장소
+        const chartInstances = {};
+        // 차트 생성 중인지 추적하는 플래그
+        const chartCreating = {};
+
+        function drawChartJS(canvasId, title, leagueData, dataType, colors, borderColors, invertY = false) {
+            // 차트가 이미 생성 중이거나 존재하면 건너뛰기
+            if (chartCreating[canvasId] || chartInstances[canvasId]) {
+                return;
+            }
+
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                return;
+            }
+
+            // Chart.js가 없으면 간단한 canvas 차트로 대체
+            if (typeof Chart === 'undefined') {
+                drawSimpleCanvasChart(canvasId, title, leagueData, dataType, colors, invertY);
+                return;
+            }
+
+            // 차트 생성 중 플래그 설정
+            chartCreating[canvasId] = true;
+
+            // 기존 차트 인스턴스가 있으면 완전히 삭제
+            if (chartInstances[canvasId]) {
+                try {
+                    chartInstances[canvasId].destroy();
+                    delete chartInstances[canvasId];
+                } catch (e) {}
+            }
+
+            // Chart.js의 전역 차트 레지스트리에서도 제거
+            try {
+                Chart.getChart(canvasId)?.destroy();
+            } catch (e) {}
+
+            // 캔버스 컨텍스트를 새로 가져오기
+            const ctx = canvas.getContext('2d');
+
+            // 캔버스 완전 초기화
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 약간의 지연을 두고 차트 생성 (DOM 안정화)
+            setTimeout(() => {
+                createChart(canvasId, canvas, ctx, title, leagueData, dataType, colors, borderColors, invertY);
+                // 생성 완료 후 플래그 해제
+                chartCreating[canvasId] = false;
+            }, 100);
+        }
+
+        function createChart(canvasId, canvas, ctx, title, leagueData, dataType, colors, borderColors, invertY) {
+            const allTeams = Object.keys(leagueData);
+            if (allTeams.length === 0) {
+                return;
+            }
+
+            // 팀을 현재 순위대로 정렬 (마지막 순위 데이터 기준)
+            const teams = allTeams.sort((a, b) => {
+                const aData = leagueData[a];
+                const bData = leagueData[b];
+
+                if (dataType === 'ranking') {
+                    // 순위는 낮은 숫자가 상위
+                    const aLastRank = aData.ranking && aData.ranking.length > 0 ?
+                        aData.ranking[aData.ranking.length - 1] : 6;
+                    const bLastRank = bData.ranking && bData.ranking.length > 0 ?
+                        bData.ranking[bData.ranking.length - 1] : 6;
+                    return aLastRank - bLastRank;
+                } else {
+                    // 승률, 승수는 높은 값이 상위, 게임차는 낮은 값이 상위
+                    const aLastValue = aData[dataType] && aData[dataType].length > 0 ?
+                        aData[dataType][aData[dataType].length - 1] : 0;
+                    const bLastValue = bData[dataType] && bData[dataType].length > 0 ?
+                        bData[dataType][bData[dataType].length - 1] : 0;
+
+                    if (dataType === 'gamesBehind') {
+                        return aLastValue - bLastValue; // 게임차는 낮은 값이 상위
+                    } else {
+                        return bLastValue - aLastValue; // 승률, 승수는 높은 값이 상위
+                    }
+                }
+            });
+
+            const maxDataLength = Math.max(...teams.map(team => leagueData[team][dataType].length));
+            if (maxDataLength === 0) {
+                return;
+            }
+
+            // 더 나은 라벨 생성 (날짜 표시)
+            const today = new Date();
+            const labels = Array.from({length: maxDataLength}, (_, i) => {
+                const date = new Date(today);
+                date.setDate(date.getDate() - (maxDataLength - i - 1));
+                return `${date.getMonth() + 1}/${date.getDate()}`;
+            });
+
+            // 데이터셋 생성 (순위대로 정렬된 팀 데이터 사용)
+            const datasets = teams.map((team, index) => {
+                const teamMeta = NPB_TEAM_META[team] || { fullName: leagueData[team].name, color: '#666666' };
+                return {
+                    label: teamMeta.shortName || teamMeta.fullName || leagueData[team].name,
+                    data: leagueData[team][dataType],
+                    borderColor: teamMeta.color,
+                    backgroundColor: teamMeta.color + '20', // 투명도 추가
+                    borderWidth: 3,
+                    fill: dataType === 'gamesBehind' ? '+origin' : false,
+                    tension: 0.4,
+                    pointRadius: 2,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointHoverBorderWidth: 3,
+                    pointBorderColor: teamMeta.color
+                };
+            });
+
+            // Y축 설정
+            let yAxisConfig = {
+                beginAtZero: false,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                },
+                ticks: {
+                    color: '#666'
+                }
+            };
+
+            // 데이터 타입별 Y축 설정
+            if (dataType === 'ranking') {
+                yAxisConfig.reverse = true; // 순위는 낮은 숫자가 위쪽
+                yAxisConfig.min = 1;
+                yAxisConfig.max = 6;
+                yAxisConfig.ticks.stepSize = 1;
+            } else if (dataType === 'winRate') {
+                yAxisConfig.min = 0;
+                yAxisConfig.max = 1;
+                yAxisConfig.ticks.callback = function(value) {
+                    return (value * 100).toFixed(1) + '%';
+                };
+            } else if (dataType === 'gamesBehind') {
+                yAxisConfig.min = 0;
+                yAxisConfig.ticks.callback = function(value) {
+                    return value.toFixed(1);
+                };
+            }
+
+            // Chart.js 3.x 차트 생성 (전문적인 스타일링)
+            try {
+                chartInstances[canvasId] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    },
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 20,
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: title,
+                            font: {
+                                size: 20,
+                                weight: 'bold',
+                                family: "'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif"
+                            },
+                            color: '#2c3e50',
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        },
+                        legend: {
+                            display: false  // 커스텀 레전드 사용
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#fff',
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyColor: '#fff',
+                            bodyFont: {
+                                size: 13
+                            },
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    return '日付: ' + tooltipItems[0].label;
+                                },
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (dataType === 'winRate') {
+                                        const percentage = (context.parsed.y * 100).toFixed(2);
+                                        label += percentage + '%';
+                                        // 勝率に応じて絵文字追加
+                                        if (context.parsed.y > 0.6) label += ' 🔥';
+                                        else if (context.parsed.y < 0.4) label += ' ❄️';
+                                    } else if (dataType === 'ranking') {
+                                        label += context.parsed.y + '位';
+                                        if (context.parsed.y === 1) label += ' 👑';
+                                        else if (context.parsed.y === 2) label += ' 🥈';
+                                        else if (context.parsed.y === 3) label += ' 🥉';
+                                    } else if (dataType === 'gamesBehind') {
+                                        const gb = context.parsed.y.toFixed(1);
+                                        label += gb + 'ゲーム差';
+                                        if (context.parsed.y === 0) label += ' (首位)';
+                                    } else {
+                                        label += context.parsed.y + '勝';
+                                        if (context.parsed.y >= 50) label += ' ⚾';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        axis: 'x',
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: dataType === 'ranking' ? '試合日程' : '2025年シーズン',
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                color: '#4a5568'
+                            },
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#718096',
+                                font: {
+                                    size: 11
+                                },
+                                autoSkip: true,
+                                maxTicksLimit: 15,
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
+                        },
+                        y: {
+                            ...yAxisConfig,
+                            title: {
+                                display: true,
+                                text: dataType === 'ranking' ? '順位' :
+                                      dataType === 'winRate' ? '勝率' :
+                                      dataType === 'gamesBehind' ? 'ゲーム差' : '勝利数',
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                color: '#4a5568'
+                            },
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                ...yAxisConfig.ticks,
+                                font: {
+                                    size: 12
+                                },
+                                padding: 8
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            borderJoinStyle: 'round'
+                        },
+                        point: {
+                            radius: 4,
+                            hitRadius: 10,
+                            hoverRadius: 7,
+                            hoverBackgroundColor: '#fff',
+                            hoverBorderWidth: 3
+                        }
+                    },
+                    // 팀 로고 플러그인
+                    plugins: [{
+                        id: 'teamLogoAtEndPoints',
+                        afterDatasetsDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            const meta = chart.getDatasetMeta(0);
+
+                            // 모든 팀 로고를 미리 로드하고 렌더링
+                            const logoPromises = [];
+                            chart.data.datasets.forEach((dataset, datasetIndex) => {
+                                const teamCode = teams[datasetIndex];
+                                const teamLogo = TEAM_LOGOS[teamCode];
+
+                                if (teamLogo) {
+                                    const promise = new Promise((resolve) => {
+                                        const img = new Image();
+                                        img.onload = () => resolve({ img, datasetIndex });
+                                        img.onerror = () => resolve({ img: null, datasetIndex });
+                                        img.src = teamLogo;
+                                    });
+                                    logoPromises.push(promise);
+                                } else {
+                                    logoPromises.push(Promise.resolve({ img: null, datasetIndex }));
+                                }
+                            });
+
+                            Promise.all(logoPromises).then(results => {
+                                results.forEach(({ img, datasetIndex }) => {
+                                    const dataset = chart.data.datasets[datasetIndex];
+                                    const teamCode = teams[datasetIndex];
+                                    const teamMeta = NPB_TEAM_META[teamCode];
+                                    const datasetMeta = chart.getDatasetMeta(datasetIndex);
+
+                                    if (datasetMeta.data.length > 0) {
+                                        const lastPoint = datasetMeta.data[datasetMeta.data.length - 1];
+                                        const x = lastPoint.x;
+                                        const y = lastPoint.y;
+
+                                        ctx.save();
+
+                                        // 배경 원 그리기
+                                        ctx.beginPath();
+                                        ctx.arc(x + 20, y, 14, 0, 2 * Math.PI);
+                                        ctx.fillStyle = 'white';
+                                        ctx.fill();
+                                        ctx.strokeStyle = teamMeta?.color || dataset.borderColor;
+                                        ctx.lineWidth = 2;
+                                        ctx.stroke();
+
+                                        if (img) {
+                                            // SVG 로고 그리기
+                                            ctx.drawImage(img, x + 20 - 10, y - 10, 20, 20);
+                                        } else {
+                                            // 팀 약자 표시
+                                            ctx.font = 'bold 10px Arial';
+                                            ctx.textAlign = 'center';
+                                            ctx.textBaseline = 'middle';
+                                            ctx.fillStyle = teamMeta?.color || dataset.borderColor;
+                                            const shortName = teamMeta?.shortName || teamCode;
+                                            ctx.fillText(shortName, x + 20, y);
+                                        }
+
+                                        ctx.restore();
+                                    }
+                                });
+                            });
+                        }
+                    }]
+                }
+            });
+
+            // HTML 레전드 생성 및 차트 컨테이너에 추가
+            createInlineHtmlLegend(canvasId, datasets, teams);
+
+            } catch (error) {
+                // 에러 발생시 차트 인스턴스 정리
+                if (chartInstances[canvasId]) {
+                    delete chartInstances[canvasId];
+                }
+            }
+        }
+
+        // 인라인 HTML 레전드 생성 함수
+        function createInlineHtmlLegend(canvasId, datasets, teams) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            // 캔버스 부모 컨테이너를 relative position으로 설정
+            const parentContainer = canvas.parentElement;
+            if (parentContainer.style.position !== 'relative') {
+                parentContainer.style.position = 'relative';
+            }
+
+            // 기존 레전드 제거
+            const existingLegend = parentContainer.querySelector('.inline-legend');
+            if (existingLegend) {
+                existingLegend.remove();
+            }
+
+            // 새 레전드 컨테이너 생성
+            const legendContainer = document.createElement('div');
+            legendContainer.className = 'inline-legend';
+            legendContainer.style.cssText = `
+                position: absolute;
+                top: 20px;
+                right: 10px;
+                background: rgba(255, 255, 255, 0.95);
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                padding: 12px 8px;
+                font-size: 11px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                z-index: 1000;
+                max-width: 120px;
+            `;
+
+            datasets.forEach((dataset, index) => {
+                const teamCode = teams[index];
+                const teamMeta = NPB_TEAM_META[teamCode];
+                const teamLogo = TEAM_LOGOS[teamCode];
+
+                const legendItem = document.createElement('div');
+                legendItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    margin-bottom: 6px;
+                    cursor: pointer;
+                    padding: 2px 4px;
+                    border-radius: 3px;
+                    transition: background-color 0.2s;
+                `;
+
+                legendItem.onmouseover = () => {
+                    legendItem.style.backgroundColor = 'rgba(0,0,0,0.05)';
+                };
+                legendItem.onmouseout = () => {
+                    legendItem.style.backgroundColor = 'transparent';
+                };
+
+                // 색상 표시
+                const colorBox = document.createElement('div');
+                colorBox.style.cssText = `
+                    width: 10px;
+                    height: 10px;
+                    background-color: ${teamMeta?.color || dataset.borderColor};
+                    border-radius: 2px;
+                    flex-shrink: 0;
+                `;
+
+                // 팀 로고
+                let logoElement;
+                if (teamLogo) {
+                    logoElement = document.createElement('img');
+                    logoElement.src = teamLogo;
+                    logoElement.alt = teamMeta?.fullName || teamCode;
+                    logoElement.style.cssText = `
+                        width: 14px;
+                        height: 14px;
+                        object-fit: contain;
+                        flex-shrink: 0;
+                    `;
+                } else {
+                    logoElement = document.createElement('span');
+                    logoElement.textContent = '⚾';
+                    logoElement.style.cssText = `
+                        font-size: 10px;
+                        flex-shrink: 0;
+                    `;
+                }
+
+                // 팀명
+                const teamName = document.createElement('span');
+                teamName.textContent = teamMeta?.shortName || teamCode;
+                teamName.style.cssText = `
+                    color: #4a5568;
+                    font-weight: 500;
+                    font-size: 10px;
+                    line-height: 1.2;
+                `;
+
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(logoElement);
+                legendItem.appendChild(teamName);
+                legendContainer.appendChild(legendItem);
+            });
+
+            // 컨테이너에 레전드 추가
+            parentContainer.appendChild(legendContainer);
+        }
+
+        // HTML 레전드 생성 함수 (기존 - 사용하지 않음)
+        function createHtmlLegend(canvasId, datasets, teams) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            // 기존 레전드 제거
+            const existingLegend = canvas.parentElement.querySelector('.custom-legend');
+            if (existingLegend) {
+                existingLegend.remove();
+            }
+
+            // 새 레전드 컨테이너 생성
+            const legendContainer = document.createElement('div');
+            legendContainer.className = 'custom-legend';
+            legendContainer.style.cssText = `
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 15px;
+                padding: 10px;
+                font-size: 13px;
+            `;
+
+            datasets.forEach((dataset, index) => {
+                const teamCode = teams[index];
+                const teamMeta = NPB_TEAM_META[teamCode];
+                const teamLogo = TEAM_LOGOS[teamCode];
+
+                const legendItem = document.createElement('div');
+                legendItem.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    transition: background-color 0.2s;
+                `;
+
+                legendItem.onmouseover = () => {
+                    legendItem.style.backgroundColor = '#f0f0f0';
+                };
+                legendItem.onmouseout = () => {
+                    legendItem.style.backgroundColor = 'transparent';
+                };
+
+                // 색상 표시
+                const colorBox = document.createElement('div');
+                colorBox.style.cssText = `
+                    width: 12px;
+                    height: 12px;
+                    background-color: ${dataset.borderColor};
+                    border-radius: 2px;
+                `;
+
+                // 팀 로고
+                let logoElement;
+                if (teamLogo) {
+                    logoElement = document.createElement('img');
+                    logoElement.src = teamLogo;
+                    logoElement.alt = teamMeta?.fullName || teamCode;
+                    logoElement.style.cssText = `
+                        width: 16px;
+                        height: 16px;
+                        object-fit: contain;
+                    `;
+                } else {
+                    logoElement = document.createElement('span');
+                    logoElement.textContent = teamMeta?.shortName || teamCode;
+                    logoElement.style.cssText = `
+                        font-size: 10px;
+                        font-weight: bold;
+                        color: ${dataset.borderColor};
+                    `;
+                }
+
+                // 팀명
+                const teamName = document.createElement('span');
+                teamName.textContent = teamMeta?.fullName || dataset.label;
+                teamName.style.cssText = `
+                    color: #4a5568;
+                    font-weight: 500;
+                `;
+
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(logoElement);
+                legendItem.appendChild(teamName);
+                legendContainer.appendChild(legendItem);
+            });
+
+            // 캔버스 부모에 레전드 추가
+            canvas.parentElement.appendChild(legendContainer);
+        }
+
+        // Chart.js 없을 때 사용할 간단한 canvas 차트
+        function drawSimpleCanvasChart(canvasId, title, leagueData, dataType, colors, invertY = false) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth - 20;
+            canvas.height = 400;
+
+            // 배경 및 제목
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(title, canvas.width / 2, 30);
+
+            const teams = Object.keys(leagueData);
+            if (teams.length === 0) return;
+
+            const maxDataLength = Math.max(...teams.map(team => leagueData[team][dataType].length));
+            if (maxDataLength === 0) return;
+
+            const chartArea = { x: 80, y: 50, width: canvas.width - 200, height: 300 };
+            const xStep = chartArea.width / Math.max(1, maxDataLength - 1);
+
+            // 간단한 그리드
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = chartArea.y + (chartArea.height * i / 5);
+                ctx.beginPath();
+                ctx.moveTo(chartArea.x, y);
+                ctx.lineTo(chartArea.x + chartArea.width, y);
+                ctx.stroke();
+            }
+
+            // 팀별 데이터 그리기
+            teams.forEach((team, index) => {
+                const data = leagueData[team][dataType];
+                if (data.length < 2) return;
+
+                const color = typeof colors[index] === 'string' ? colors[index] : '#4ECDC4';
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                // 데이터 범위 계산
+                let minValue = Math.min(...data);
+                let maxValue = Math.max(...data);
+                if (dataType === 'ranking') {
+                    minValue = 1;
+                    maxValue = 6;
+                } else if (dataType === 'winRate') {
+                    minValue = 0;
+                    maxValue = 1;
+                }
+                const valueRange = maxValue - minValue || 1;
+
+                data.forEach((value, dataIndex) => {
+                    const x = chartArea.x + (dataIndex * xStep);
+                    let y = chartArea.y + chartArea.height - ((value - minValue) / valueRange * chartArea.height);
+
+                    if (invertY && dataType === 'ranking') {
+                        y = chartArea.y + ((value - minValue) / valueRange * chartArea.height);
+                    }
+
+                    if (dataIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+
+                // 범례
+                const legendY = 370 + (index * 20);
+                ctx.fillStyle = color;
+                ctx.fillRect(20, legendY - 8, 15, 15);
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(leagueData[team].name, 45, legendY + 4);
+            });
+
+            // 제목 다시 그리기
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(title + ' (간단 차트)', canvas.width / 2, 30);
+        }
+
+        function drawSampleSeasonCharts() {
+            console.log('Drawing sample season charts with realistic data...');
+
+            const leagues = {
+                central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
+                pacific: ['ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ']
+            };
+
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3'];
+
+            ['central', 'pacific'].forEach(league => {
+                const teams = leagues[league];
+
+                // 순위 차트
+                drawSampleChart(`${league}-ranking-canvas`, '순위 변동', teams, colors,
+                    (teamIndex, dataIndex) => Math.max(1, Math.min(6, teamIndex + 1 + Math.sin(dataIndex * 0.3) * 2)));
+
+                // 승률 차트
+                drawSampleChart(`${league}-winrate-canvas`, '승률 변화', teams, colors,
+                    (teamIndex, dataIndex) => Math.max(0.3, Math.min(0.7, 0.5 + (3 - teamIndex) * 0.05 + Math.sin(dataIndex * 0.2) * 0.1)));
+
+                // 게임차 차트
+                drawSampleChart(`${league}-gamesbehind-canvas`, '게임차 변화', teams, colors,
+                    (teamIndex, dataIndex) => Math.max(0, teamIndex * 1.5 + Math.sin(dataIndex * 0.25) * 3));
+
+                // 승수 차트
+                drawSampleChart(`${league}-wins-canvas`, '승수 변화', teams, colors,
+                    (teamIndex, dataIndex) => Math.floor(dataIndex * (0.5 + (3 - teamIndex) * 0.03)));
+            });
+        }
+
+        function drawSampleChart(canvasId, title, teams, colors, dataGenerator) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) {
+                console.error(`Canvas ${canvasId} not found`);
+                return;
+            }
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const margin = { top: 50, right: 180, bottom: 80, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 제목
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(title, canvas.width / 2, 25);
+
+            // 데이터 포인트 수 (30일)
+            const dataPoints = 30;
+
+            // Y축 범위 설정
+            let minY = Infinity, maxY = -Infinity;
+            teams.forEach((team, teamIndex) => {
+                for (let i = 0; i < dataPoints; i++) {
+                    const value = dataGenerator(teamIndex, i);
+                    minY = Math.min(minY, value);
+                    maxY = Math.max(maxY, value);
+                }
+            });
+
+            // 순위 차트는 Y축 뒤집기
+            const isRanking = title.includes('순위');
+            if (isRanking) {
+                [minY, maxY] = [1, 6];
+            }
+
+            const yRange = maxY - minY;
+
+            // 격자선
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i <= 5; i++) {
+                const y = margin.top + i * height / 5;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                const value = isRanking ?
+                    (i + 1) :
+                    (maxY - i * yRange / 5);
+
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(
+                    title.includes('승률') ? `${(value * 100).toFixed(0)}%` :
+                    title.includes('승수') ? `${Math.round(value)}승` :
+                    title.includes('게임차') ? `${value.toFixed(1)}G` :
+                    `${Math.round(value)}위`,
+                    margin.left - 10, y + 4
+                );
+            }
+
+            // X축 격자선
+            for (let i = 0; i <= 6; i++) {
+                const x = margin.left + i * width / 6;
+                ctx.beginPath();
+                ctx.moveTo(x, margin.top);
+                ctx.lineTo(x, margin.top + height);
+                ctx.stroke();
+
+                // X축 레이블
+                if (i <= 6) {
+                    ctx.fillStyle = '#666';
+                    ctx.font = '11px Arial';
+                    ctx.textAlign = 'center';
+                    const date = new Date();
+                    date.setDate(date.getDate() - (6 - i) * 5);
+                    const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
+                    ctx.fillText(dateStr, x, margin.top + height + 20);
+                }
+            }
+
+            // 팀별 라인 그리기
+            teams.forEach((team, teamIndex) => {
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                for (let i = 0; i < dataPoints; i++) {
+                    const value = dataGenerator(teamIndex, i);
+                    const x = margin.left + (i * width / (dataPoints - 1));
+                    const y = isRanking ?
+                        margin.top + ((value - 1) * height / 5) :
+                        margin.top + ((maxY - value) * height / yRange);
+
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+
+                // 데이터 포인트
+                ctx.fillStyle = colors[teamIndex];
+                for (let i = 0; i < dataPoints; i += 5) { // 5개마다 점 표시
+                    const value = dataGenerator(teamIndex, i);
+                    const x = margin.left + (i * width / (dataPoints - 1));
+                    const y = isRanking ?
+                        margin.top + ((value - 1) * height / 5) :
+                        margin.top + ((maxY - value) * height / yRange);
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+
+                // 범례
+                const legendY = margin.top + teamIndex * 22;
+                ctx.fillStyle = colors[teamIndex];
+                ctx.fillRect(margin.left + width + 20, legendY - 8, 15, 15);
+                ctx.fillStyle = '#333';
+                ctx.font = '13px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(team, margin.left + width + 40, legendY + 4);
+            });
+
+            console.log(`Drew sample chart: ${title} on ${canvasId}`);
+        }
+
+        // ===== 실제 시즌 분석 데이터 처리 =====
+        function processSeasonAnalysisData() {
+            console.log('Processing season analysis data...');
+            console.log('gamesData status:', gamesData ? `${gamesData.length} games` : 'null/undefined');
+
+            if (!gamesData || gamesData.length === 0) {
+                console.log('No games data available - creating sample data for demonstration');
+                return createSampleSeasonData();
+            }
+
+            // 팀 매핑 (약자 -> 일본어 이름)
+            const teamMapping = {
+                'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                'SOF': 'ソフトバンク', 'NIP': '日本ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+            };
+
+            const leagues = {
+                central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
+                pacific: ['ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ']
+            };
+
+            const seasonData = {
+                central: {},
+                pacific: {}
+            };
+
+            // 각 리그별로 팀 데이터 초기화
+            Object.keys(leagues).forEach(league => {
+                leagues[league].forEach(team => {
+                    seasonData[league][team] = {
+                        dailyStats: [],
+                        rankings: [],
+                        winRates: [],
+                        gamesBehind: [],
+                        wins: [],
+                        dates: []
+                    };
+                });
+            });
+
+            // 완료된 경기만 필터링하고 날짜별로 그룹화
+            const completedGames = gamesData.filter(game => {
+                const status = (game.game_status || game.status || '').toLowerCase();
+                return status === 'completed' && game.home_score !== undefined && game.away_score !== undefined;
+            });
+
+            const gamesByDate = {};
+            completedGames.forEach(game => {
+                const dateStr = game.game_date;
+                if (!gamesByDate[dateStr]) {
+                    gamesByDate[dateStr] = [];
+                }
+                gamesByDate[dateStr].push({
+                    date: dateStr,
+                    home: teamMapping[game.home_team_abbr] || game.home_team_abbr,
+                    away: teamMapping[game.away_team_abbr] || game.away_team_abbr,
+                    homeScore: parseInt(game.home_score),
+                    awayScore: parseInt(game.away_score)
+                });
+            });
+
+            const sortedDates = Object.keys(gamesByDate).sort();
+
+            // 각 날짜까지의 누적 통계 계산
+            sortedDates.forEach(date => {
+                const currentStats = calculateStandingsAtDate(date, gamesByDate);
+
+                Object.keys(leagues).forEach(league => {
+                    const leagueTeams = leagues[league];
+                    const leagueStandings = currentStats.filter(stat =>
+                        leagueTeams.includes(stat.team)
+                    ).sort((a, b) => {
+                        if (b.winRate !== a.winRate) return b.winRate - a.winRate;
+                        if (b.wins !== a.wins) return b.wins - a.wins;
+                        return a.losses - b.losses;
+                    });
+
+                    leagueStandings.forEach((stat, index) => {
+                        const team = stat.team;
+                        const teamData = seasonData[league][team];
+
+                        if (teamData) {
+                            teamData.dates.push(date);
+                            teamData.rankings.push(index + 1);
+                            teamData.winRates.push(stat.winRate);
+                            teamData.wins.push(stat.wins);
+
+                            // 게임차 계산 (1위와의 차이)
+                            const firstPlace = leagueStandings[0];
+                            const gamesBehind = calculateGamesBehind(stat, firstPlace);
+                            teamData.gamesBehind.push(gamesBehind);
+                        }
+                    });
+                });
+            });
+
+            return seasonData;
+        }
+
+        function createSampleSeasonData() {
+            console.log('Creating sample season data for demonstration');
+
+            const leagues = {
+                central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
+                pacific: ['ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ']
+            };
+
+            const seasonData = {
+                central: {},
+                pacific: {}
+            };
+
+            // 샘플 날짜 생성 (지난 30일)
+            const dates = [];
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dates.push(date.toISOString().split('T')[0]);
+            }
+
+            Object.keys(leagues).forEach(league => {
+                leagues[league].forEach((team, teamIndex) => {
+                    const rankings = [];
+                    const winRates = [];
+                    const gamesBehind = [];
+                    const wins = [];
+
+                    // 각 날짜별로 샘플 데이터 생성
+                    dates.forEach((date, dateIndex) => {
+                        // 순위: 팀 인덱스 + 랜덤 변동
+                        const ranking = Math.max(1, Math.min(6, teamIndex + 1 + Math.floor(Math.random() * 3) - 1));
+                        rankings.push(ranking);
+
+                        // 승률: 0.3 ~ 0.7 사이에서 변동
+                        const baseWinRate = 0.5 + (3 - teamIndex) * 0.03;
+                        const winRate = Math.max(0.3, Math.min(0.7, baseWinRate + (Math.random() - 0.5) * 0.2));
+                        winRates.push(winRate);
+
+                        // 게임차: 순위에 따라 결정
+                        const gb = Math.max(0, (ranking - 1) * 2 + Math.random() * 3);
+                        gamesBehind.push(gb);
+
+                        // 승수: 날짜에 비례하여 증가
+                        const winCount = Math.floor(dateIndex * winRate);
+                        wins.push(winCount);
+                    });
+
+                    seasonData[league][team] = {
+                        dates: [...dates],
+                        rankings,
+                        winRates,
+                        gamesBehind,
+                        wins
+                    };
+                });
+            });
+
+            return seasonData;
+        }
+
+        function calculateStandingsAtDate(targetDate, gamesByDate) {
+            const stats = {};
+
+            // 모든 팀 초기화
+            const allTeams = ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日',
+                             'ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ'];
+            allTeams.forEach(team => {
+                stats[team] = { wins: 0, losses: 0, draws: 0 };
+            });
+
+            // 해당 날짜까지의 모든 게임 결과 누적
+            Object.keys(gamesByDate).forEach(date => {
+                if (date <= targetDate) {
+                    const games = gamesByDate[date];
+                    games.forEach(game => {
+                        const homeTeam = game.home;
+                        const awayTeam = game.away;
+
+                        if (!stats[homeTeam]) stats[homeTeam] = { wins: 0, losses: 0, draws: 0 };
+                        if (!stats[awayTeam]) stats[awayTeam] = { wins: 0, losses: 0, draws: 0 };
+
+                        if (game.homeScore > game.awayScore) {
+                            stats[homeTeam].wins++;
+                            stats[awayTeam].losses++;
+                        } else if (game.homeScore < game.awayScore) {
+                            stats[awayTeam].wins++;
+                            stats[homeTeam].losses++;
+                        } else {
+                            stats[homeTeam].draws++;
+                            stats[awayTeam].draws++;
+                        }
+                    });
+                }
+            });
+
+            // 승률 계산하여 반환
+            return Object.keys(stats).map(team => {
+                const { wins, losses, draws } = stats[team];
+                const totalGames = wins + losses + draws;
+                const winRate = totalGames > 0 ? wins / (wins + losses) : 0;
+
+                return {
+                    team,
+                    wins,
+                    losses,
+                    draws,
+                    winRate,
+                    totalGames
+                };
+            });
+        }
+
+        function calculateGamesBehind(teamStat, firstPlaceStat) {
+            const teamWins = teamStat.wins;
+            const teamLosses = teamStat.losses;
+            const firstWins = firstPlaceStat.wins;
+            const firstLosses = firstPlaceStat.losses;
+
+            return Math.max(0, ((firstWins - teamWins) + (teamLosses - firstLosses)) / 2);
+        }
+
+        // ===== 개선된 차트 그리기 함수들 =====
+        function drawRealRankingChart(league, teamData) {
+            console.log(`Drawing ranking chart for ${league}:`, teamData);
+
+            const canvas = document.getElementById(`${league}-ranking-canvas`);
+            if (!canvas) {
+                console.error(`Canvas not found: ${league}-ranking-canvas`);
+                return;
+            }
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const margin = { top: 40, right: 180, bottom: 80, left: 50 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const teams = Object.keys(teamData);
+            const colors = generateTeamColors(teams);
+
+            if (teams.length === 0) {
+                drawTestChart(canvas, ctx, '순위 변동 차트');
+                return;
+            }
+
+            // 첫 번째 팀의 날짜 배열을 기준으로 사용
+            const dates = teamData[teams[0]]?.dates || [];
+            if (dates.length === 0) {
+                drawTestChart(canvas, ctx, '순위 변동 차트');
+                return;
+            }
+
+            // 격자선 그리기
+            drawGrid(ctx, margin, width, height, 6, dates.length);
+
+            // Y축 레이블 (순위)
+            drawYAxisLabels(ctx, margin, height, 6, (i) => `${i}위`, true);
+
+            // X축 레이블 (날짜)
+            drawXAxisLabels(ctx, margin, width, height, dates, 10);
+
+            // 각 팀의 순위 변동 라인 그리기
+            teams.forEach((team, teamIndex) => {
+                const rankings = teamData[team].rankings;
+                if (rankings.length === 0) return;
+
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                rankings.forEach((ranking, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((ranking - 1) * height / 5);
+
+                    if (dateIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                ctx.stroke();
+
+                // 데이터 포인트 그리기
+                ctx.fillStyle = colors[teamIndex];
+                rankings.forEach((ranking, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((ranking - 1) * height / 5);
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+            });
+
+            // 범례
+            drawLegend(ctx, margin, width, teams, colors);
+
+            // 제목
+            drawTitle(ctx, canvas.width, '순위 변동 (낮은 숫자일수록 상위)');
+        }
+
+        function drawRealWinRateChart(league, teamData) {
+            const canvas = document.getElementById(`${league}-winrate-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const margin = { top: 40, right: 180, bottom: 80, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const teams = Object.keys(teamData);
+            const colors = generateTeamColors(teams);
+
+            if (teams.length === 0) return;
+
+            const dates = teamData[teams[0]]?.dates || [];
+            if (dates.length === 0) return;
+
+            // 승률 범위 계산
+            let minWinRate = 1, maxWinRate = 0;
+            teams.forEach(team => {
+                const winRates = teamData[team].winRates;
+                if (winRates.length > 0) {
+                    minWinRate = Math.min(minWinRate, ...winRates);
+                    maxWinRate = Math.max(maxWinRate, ...winRates);
+                }
+            });
+
+            // 적절한 Y축 범위 설정
+            const yMin = Math.max(0, Math.floor((minWinRate - 0.05) * 10) / 10);
+            const yMax = Math.min(1, Math.ceil((maxWinRate + 0.05) * 10) / 10);
+            const yRange = yMax - yMin;
+
+            // 격자선
+            const ySteps = 5;
+            for (let i = 0; i <= ySteps; i++) {
+                const y = margin.top + (i * height / ySteps);
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                const winRate = yMax - (i * yRange / ySteps);
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText((winRate * 100).toFixed(0) + '%', margin.left - 10, y + 4);
+            }
+
+            // X축 레이블
+            drawXAxisLabels(ctx, margin, width, height, dates, 10);
+
+            // 각 팀의 승률 변화 라인 그리기
+            teams.forEach((team, teamIndex) => {
+                const winRates = teamData[team].winRates;
+                if (winRates.length === 0) return;
+
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                winRates.forEach((winRate, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((yMax - winRate) * height / yRange);
+
+                    if (dateIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                ctx.stroke();
+
+                // 데이터 포인트
+                ctx.fillStyle = colors[teamIndex];
+                winRates.forEach((winRate, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((yMax - winRate) * height / yRange);
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+            });
+
+            // 범례
+            drawLegend(ctx, margin, width, teams, colors);
+
+            // 제목
+            drawTitle(ctx, canvas.width, '승률 변화');
+        }
+
+        function drawRealGamesBehindChart(league, teamData) {
+            const canvas = document.getElementById(`${league}-gamesbehind-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const margin = { top: 40, right: 180, bottom: 80, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const teams = Object.keys(teamData);
+            const colors = generateTeamColors(teams);
+
+            if (teams.length === 0) return;
+
+            const dates = teamData[teams[0]]?.dates || [];
+            if (dates.length === 0) return;
+
+            // 게임차 범위 계산
+            let maxGB = 0;
+            teams.forEach(team => {
+                const gbs = teamData[team].gamesBehind;
+                if (gbs.length > 0) {
+                    maxGB = Math.max(maxGB, ...gbs);
+                }
+            });
+
+            maxGB = Math.ceil(maxGB + 1);
+
+            // 격자선
+            const ySteps = Math.min(maxGB, 10);
+            for (let i = 0; i <= ySteps; i++) {
+                const y = margin.top + (i * height / ySteps);
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                const gb = maxGB - (i * maxGB / ySteps);
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(gb.toFixed(1), margin.left - 10, y + 4);
+            }
+
+            // X축 레이블
+            drawXAxisLabels(ctx, margin, width, height, dates, 10);
+
+            // 각 팀의 게임차 변화 라인 그리기
+            teams.forEach((team, teamIndex) => {
+                const gamesBehind = teamData[team].gamesBehind;
+                if (gamesBehind.length === 0) return;
+
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                gamesBehind.forEach((gb, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((maxGB - gb) * height / maxGB);
+
+                    if (dateIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                ctx.stroke();
+
+                // 데이터 포인트
+                ctx.fillStyle = colors[teamIndex];
+                gamesBehind.forEach((gb, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((maxGB - gb) * height / maxGB);
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+            });
+
+            // 범례
+            drawLegend(ctx, margin, width, teams, colors);
+
+            // 제목
+            drawTitle(ctx, canvas.width, '게임차 변화 (1위와의 차이)');
+        }
+
+        function drawRealWinsChart(league, teamData) {
+            const canvas = document.getElementById(`${league}-wins-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const margin = { top: 40, right: 180, bottom: 80, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const teams = Object.keys(teamData);
+            const colors = generateTeamColors(teams);
+
+            if (teams.length === 0) return;
+
+            const dates = teamData[teams[0]]?.dates || [];
+            if (dates.length === 0) return;
+
+            // 승수 범위 계산
+            let maxWins = 0;
+            teams.forEach(team => {
+                const wins = teamData[team].wins;
+                if (wins.length > 0) {
+                    maxWins = Math.max(maxWins, ...wins);
+                }
+            });
+
+            maxWins = Math.ceil(maxWins / 10) * 10; // 10 단위로 올림
+
+            // 격자선
+            const ySteps = Math.min(maxWins / 10, 10);
+            for (let i = 0; i <= ySteps; i++) {
+                const y = margin.top + (i * height / ySteps);
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                const wins = maxWins - (i * maxWins / ySteps);
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(wins.toString(), margin.left - 10, y + 4);
+            }
+
+            // X축 레이블
+            drawXAxisLabels(ctx, margin, width, height, dates, 10);
+
+            // 각 팀의 승수 변화 라인 그리기
+            teams.forEach((team, teamIndex) => {
+                const wins = teamData[team].wins;
+                if (wins.length === 0) return;
+
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                wins.forEach((winCount, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((maxWins - winCount) * height / maxWins);
+
+                    if (dateIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                ctx.stroke();
+
+                // 데이터 포인트
+                ctx.fillStyle = colors[teamIndex];
+                wins.forEach((winCount, dateIndex) => {
+                    const x = margin.left + (dateIndex * width / Math.max(1, dates.length - 1));
+                    const y = margin.top + ((maxWins - winCount) * height / maxWins);
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+            });
+
+            // 범례
+            drawLegend(ctx, margin, width, teams, colors);
+
+            // 제목
+            drawTitle(ctx, canvas.width, '승수 변화');
+        }
+
+        // ===== 차트 헬퍼 함수들 =====
+        function generateTeamColors(teams) {
+            const baseColors = [
+                '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3',
+                '#A8E6CF', '#FFD93D', '#6C5CE7', '#FD79A8', '#00B894', '#FDCB6E'
+            ];
+            return teams.map((_, index) => baseColors[index % baseColors.length]);
+        }
+
+        function drawGrid(ctx, margin, width, height, ySteps, xSteps) {
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            // Y축 격자선
+            for (let i = 0; i <= ySteps; i++) {
+                const y = margin.top + (i * height / ySteps);
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+            }
+
+            // X축 격자선
+            const xStep = Math.max(1, Math.floor(xSteps / 10));
+            for (let i = 0; i <= xSteps; i += xStep) {
+                const x = margin.left + (i * width / Math.max(1, xSteps - 1));
+                ctx.beginPath();
+                ctx.moveTo(x, margin.top);
+                ctx.lineTo(x, margin.top + height);
+                ctx.stroke();
+            }
+        }
+
+        function drawYAxisLabels(ctx, margin, height, steps, labelFunc, reverse = false) {
+            ctx.fillStyle = '#666';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'right';
+
+            for (let i = 0; i <= steps; i++) {
+                const y = margin.top + (i * height / steps);
+                const labelIndex = reverse ? i + 1 : steps - i;
+                ctx.fillText(labelFunc(labelIndex), margin.left - 10, y + 4);
+            }
+        }
+
+        function drawXAxisLabels(ctx, margin, width, height, dates, maxLabels) {
+            if (dates.length === 0) return;
+
+            ctx.fillStyle = '#666';
+            ctx.font = '11px Arial';
+            ctx.textAlign = 'center';
+
+            const step = Math.max(1, Math.floor(dates.length / maxLabels));
+
+            for (let i = 0; i < dates.length; i += step) {
+                const x = margin.left + (i * width / Math.max(1, dates.length - 1));
+                const y = margin.top + height + 20;
+
+                // 날짜 형식 변환 (YYYY-MM-DD → MM/DD)
+                const dateStr = dates[i];
+                const formattedDate = dateStr.substring(5).replace('-', '/');
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(-Math.PI / 6); // -30도 회전
+                ctx.fillText(formattedDate, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        function drawLegend(ctx, margin, width, teams, colors) {
+            const legendX = margin.left + width + 20;
+            let legendY = margin.top;
+
+            ctx.font = '13px Arial';
+            ctx.textAlign = 'left';
+
+            teams.forEach((team, index) => {
+                // 색상 박스
+                ctx.fillStyle = colors[index];
+                ctx.fillRect(legendX, legendY - 8, 15, 15);
+
+                // 팀 이름
+                ctx.fillStyle = '#333';
+                ctx.fillText(team, legendX + 20, legendY + 4);
+
+                legendY += 22;
+            });
+        }
+
+        function drawTitle(ctx, canvasWidth, title) {
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(title, canvasWidth / 2, 25);
+        }
+
+        function drawTestChart(canvas, ctx, title) {
+            console.log(`Drawing test chart: ${title}`);
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 테스트 메시지
+            ctx.fillStyle = '#333';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(title, canvas.width / 2, 50);
+
+            ctx.font = '14px Arial';
+            ctx.fillText('데이터 준비 중...', canvas.width / 2, 80);
+            ctx.fillText('경기 데이터를 처리하고 있습니다', canvas.width / 2, 100);
+
+            // 간단한 그리드 그리기
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i < 5; i++) {
+                const y = 150 + i * 40;
+                ctx.beginPath();
+                ctx.moveTo(50, y);
+                ctx.lineTo(canvas.width - 50, y);
+                ctx.stroke();
+            }
+
+            for (let i = 0; i < 10; i++) {
+                const x = 50 + i * (canvas.width - 100) / 9;
+                ctx.beginPath();
+                ctx.moveTo(x, 150);
+                ctx.lineTo(x, 310);
+                ctx.stroke();
+            }
+
+            // 샘플 라인 그리기
+            ctx.strokeStyle = '#FF6B6B';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let i = 0; i < 10; i++) {
+                const x = 50 + i * (canvas.width - 100) / 9;
+                const y = 150 + Math.random() * 160;
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+        }
+
+        // ===== 고급 시즌 분석 기능 =====
+        function addAdvancedAnalytics() {
+            try {
+                addStreakAnalysis();
+                addMomentumIndicators();
+                addChartInteractivity();
+                addTeamPerformanceMetrics();
+            } catch (error) {
+                console.warn('Advanced analytics failed:', error);
+                console.log('Continuing without advanced analytics...');
+            }
+        }
+
+        function addStreakAnalysis() {
+            const streakData = calculateTeamStreaks();
+            displayStreakSummary(streakData);
+        }
+
+        function calculateTeamStreaks() {
+            if (!gamesData || gamesData.length === 0) {
+                return {};
+            }
+
+            const streaks = {};
+            const allTeams = ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日',
+                             'ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ'];
+
+            // 팀 매핑
+            const teamMapping = {
+                'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                'SOF': 'ソフトバンク', 'NIP': '日本ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+            };
+
+            allTeams.forEach(team => {
+                // 해당 팀의 모든 경기를 날짜순으로 정렬
+                const teamGames = gamesData
+                    .filter(game => {
+                        const status = (game.game_status || game.status || '').toLowerCase();
+                        if (status !== 'completed') return false;
+
+                        const homeTeam = teamMapping[game.home_team_abbr] || game.home_team_abbr;
+                        const awayTeam = teamMapping[game.away_team_abbr] || game.away_team_abbr;
+                        return homeTeam === team || awayTeam === team;
+                    })
+                    .sort((a, b) => new Date(a.game_date) - new Date(b.game_date))
+                    .map(game => ({
+                        date: game.game_date,
+                        home: teamMapping[game.home_team_abbr] || game.home_team_abbr,
+                        away: teamMapping[game.away_team_abbr] || game.away_team_abbr,
+                        homeScore: parseInt(game.home_score),
+                        awayScore: parseInt(game.away_score)
+                    }));
+
+                const recentGames = teamGames.slice(-10);
+
+                let currentStreak = 0;
+                let streakType = 'N/A';
+                let longestWinStreak = 0;
+                let longestLoseStreak = 0;
+
+                // 현재 연속 기록 계산
+                for (let i = recentGames.length - 1; i >= 0; i--) {
+                    const game = recentGames[i];
+                    const result = getGameResult(game, team);
+
+                    if (i === recentGames.length - 1) {
+                        if (result === 'W') {
+                            currentStreak = 1;
+                            streakType = 'W';
+                        } else if (result === 'L') {
+                            currentStreak = 1;
+                            streakType = 'L';
+                        } else {
+                            currentStreak = 1;
+                            streakType = 'D';
+                        }
+                    } else {
+                        if (result === streakType) {
+                            currentStreak++;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                // 최장 연승/연패 기록 계산
+                let tempWinStreak = 0;
+                let tempLoseStreak = 0;
+
+                teamGames.forEach(game => {
+                    const result = getGameResult(game, team);
+                    if (result === 'W') {
+                        tempWinStreak++;
+                        tempLoseStreak = 0;
+                        longestWinStreak = Math.max(longestWinStreak, tempWinStreak);
+                    } else if (result === 'L') {
+                        tempLoseStreak++;
+                        tempWinStreak = 0;
+                        longestLoseStreak = Math.max(longestLoseStreak, tempLoseStreak);
+                    } else {
+                        tempWinStreak = 0;
+                        tempLoseStreak = 0;
+                    }
+                });
+
+                streaks[team] = {
+                    current: { length: currentStreak, type: streakType },
+                    longestWin: longestWinStreak,
+                    longestLose: longestLoseStreak,
+                    recent10: recentGames.length
+                };
+            });
+
+            return streaks;
+        }
+
+        function getGameResult(game, team) {
+            if (game.home === team) {
+                if (game.homeScore > game.awayScore) return 'W';
+                if (game.homeScore < game.awayScore) return 'L';
+                return 'D';
+            } else if (game.away === team) {
+                if (game.awayScore > game.homeScore) return 'W';
+                if (game.awayScore < game.homeScore) return 'L';
+                return 'D';
+            }
+            return 'N/A';
+        }
+
+        function addMomentumIndicators() {
+            const momentumData = calculateMomentumIndicators();
+            displayMomentumIndicators(momentumData);
+        }
+
+        function calculateMomentumIndicators() {
+            if (!gamesData || gamesData.length === 0) {
+                return {};
+            }
+
+            const momentum = {};
+            const allTeams = ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日',
+                             'ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ'];
+
+            // 팀 매핑
+            const teamMapping = {
+                'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                'SOF': 'ソフトバンク', 'NIP': '日本ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+            };
+
+            allTeams.forEach(team => {
+                // 해당 팀의 모든 경기를 날짜순으로 정렬
+                const teamGames = gamesData
+                    .filter(game => {
+                        const status = (game.game_status || game.status || '').toLowerCase();
+                        if (status !== 'completed') return false;
+
+                        const homeTeam = teamMapping[game.home_team_abbr] || game.home_team_abbr;
+                        const awayTeam = teamMapping[game.away_team_abbr] || game.away_team_abbr;
+                        return homeTeam === team || awayTeam === team;
+                    })
+                    .sort((a, b) => new Date(a.game_date) - new Date(b.game_date))
+                    .map(game => ({
+                        date: game.game_date,
+                        home: teamMapping[game.home_team_abbr] || game.home_team_abbr,
+                        away: teamMapping[game.away_team_abbr] || game.away_team_abbr,
+                        homeScore: parseInt(game.home_score),
+                        awayScore: parseInt(game.away_score)
+                    }));
+
+                const recent20 = teamGames.slice(-20);
+                const recent10 = teamGames.slice(-10);
+                const recent5 = teamGames.slice(-5);
+
+                const calculate20 = calculateWinRate(recent20, team);
+                const calculate10 = calculateWinRate(recent10, team);
+                const calculate5 = calculateWinRate(recent5, team);
+
+                const momentumScore = (calculate5.winRate * 0.5) + (calculate10.winRate * 0.3) + (calculate20.winRate * 0.2);
+
+                let trend = 'stable';
+                if (calculate5.winRate > calculate10.winRate + 0.1) trend = 'rising';
+                else if (calculate5.winRate < calculate10.winRate - 0.1) trend = 'falling';
+
+                momentum[team] = {
+                    score: momentumScore,
+                    trend,
+                    recent5: calculate5,
+                    recent10: calculate10,
+                    recent20: calculate20
+                };
+            });
+
+            return momentum;
+        }
+
+        function calculateWinRate(games, team) {
+            let wins = 0, losses = 0, draws = 0;
+
+            games.forEach(game => {
+                const result = getGameResult(game, team);
+                if (result === 'W') wins++;
+                else if (result === 'L') losses++;
+                else if (result === 'D') draws++;
+            });
+
+            const totalDecisiveGames = wins + losses;
+            const winRate = totalDecisiveGames > 0 ? wins / totalDecisiveGames : 0;
+
+            return { wins, losses, draws, winRate, total: games.length };
+        }
+
+        function addChartInteractivity() {
+            ['central', 'pacific'].forEach(league => {
+                ['ranking', 'winrate', 'gamesbehind', 'wins'].forEach(chartType => {
+                    const canvas = document.getElementById(`${league}-${chartType}-canvas`);
+                    if (canvas) {
+                        addCanvasTooltip(canvas, league, chartType);
+                    }
+                });
+            });
+        }
+
+        function addCanvasTooltip(canvas, league, chartType) {
+            const tooltip = document.createElement('div');
+            tooltip.style.cssText = `
+                position: absolute;
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                pointer-events: none;
+                z-index: 1000;
+                display: none;
+                max-width: 200px;
+            `;
+            document.body.appendChild(tooltip);
+
+            canvas.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        }
+
+        function displayStreakSummary(streakData) {
+            const leagues = {
+                central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
+                pacific: ['ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ']
+            };
+
+            Object.keys(leagues).forEach(league => {
+                const container = document.querySelector(`#${league}-season-analysis`);
+                if (!container) return;
+
+                let streakSection = container.querySelector('.streak-summary');
+                if (!streakSection) {
+                    streakSection = document.createElement('div');
+                    streakSection.className = 'streak-summary';
+                    streakSection.style.cssText = `
+                        margin: 20px 0;
+                        padding: 15px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                        border-left: 4px solid #007bff;
+                    `;
+                    container.insertBefore(streakSection, container.firstChild);
+                }
+
+                const leagueTeams = leagues[league];
+                let html = '<h4 style="margin-top: 0; color: #333;">🔥 연속 기록 현황</h4>';
+                html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">';
+
+                leagueTeams.forEach(team => {
+                    const streak = streakData[team];
+                    if (!streak) return;
+
+                    const currentStreakText = streak.current.type === 'W' ? `${streak.current.length}연승` :
+                                            streak.current.type === 'L' ? `${streak.current.length}연패` :
+                                            streak.current.type === 'D' ? `${streak.current.length}연무` : '-';
+
+                    const streakColor = streak.current.type === 'W' ? '#28a745' :
+                                      streak.current.type === 'L' ? '#dc3545' : '#6c757d';
+
+                    html += `
+                        <div style="background: white; padding: 10px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">${team}</div>
+                            <div style="color: ${streakColor}; font-weight: bold; margin-bottom: 3px;">
+                                현재: ${currentStreakText}
+                            </div>
+                            <div style="font-size: 12px; color: #666;">
+                                최대 연승: ${streak.longestWin}경기<br>
+                                최대 연패: ${streak.longestLose}경기
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                streakSection.innerHTML = html;
+            });
+        }
+
+        function displayMomentumIndicators(momentumData) {
+            const leagues = {
+                central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
+                pacific: ['ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ']
+            };
+
+            Object.keys(leagues).forEach(league => {
+                const container = document.querySelector(`#${league}-season-analysis`);
+                if (!container) return;
+
+                let momentumSection = container.querySelector('.momentum-indicators');
+                if (!momentumSection) {
+                    momentumSection = document.createElement('div');
+                    momentumSection.className = 'momentum-indicators';
+                    momentumSection.style.cssText = `
+                        margin: 20px 0;
+                        padding: 15px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                        border-left: 4px solid #28a745;
+                    `;
+                    const streakSection = container.querySelector('.streak-summary');
+                    if (streakSection) {
+                        container.insertBefore(momentumSection, streakSection.nextSibling);
+                    } else {
+                        container.insertBefore(momentumSection, container.firstChild);
+                    }
+                }
+
+                const leagueTeams = leagues[league];
+                let html = '<h4 style="margin-top: 0; color: #333;">📈 팀 모멘텀 지표</h4>';
+                html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">';
+
+                const sortedTeams = leagueTeams.sort((a, b) => {
+                    const scoreA = momentumData[a]?.score || 0;
+                    const scoreB = momentumData[b]?.score || 0;
+                    return scoreB - scoreA;
+                });
+
+                sortedTeams.forEach(team => {
+                    const momentum = momentumData[team];
+                    if (!momentum) return;
+
+                    const trendIcon = momentum.trend === 'rising' ? '🔥' :
+                                    momentum.trend === 'falling' ? '📉' : '➡️';
+
+                    const trendColor = momentum.trend === 'rising' ? '#28a745' :
+                                     momentum.trend === 'falling' ? '#dc3545' : '#6c757d';
+
+                    const momentumBar = (momentum.score * 100).toFixed(0);
+
+                    html += `
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <span style="font-weight: bold;">${team}</span>
+                                <span style="color: ${trendColor};">${trendIcon}</span>
+                            </div>
+                            <div style="background: #e9ecef; height: 8px; border-radius: 4px; margin-bottom: 8px;">
+                                <div style="background: linear-gradient(90deg, #dc3545 0%, #ffc107 50%, #28a745 100%);
+                                           height: 100%; width: ${momentumBar}%; border-radius: 4px;"></div>
+                            </div>
+                            <div style="font-size: 11px; color: #666; line-height: 1.3;">
+                                최근 5경기: ${momentum.recent5.wins}-${momentum.recent5.losses}-${momentum.recent5.draws}
+                                (${(momentum.recent5.winRate * 100).toFixed(0)}%)<br>
+                                최근 10경기: ${momentum.recent10.wins}-${momentum.recent10.losses}-${momentum.recent10.draws}
+                                (${(momentum.recent10.winRate * 100).toFixed(0)}%)
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                momentumSection.innerHTML = html;
+            });
+        }
+
+        function addTeamPerformanceMetrics() {
+            const performanceData = calculateTeamPerformanceMetrics();
+            displayTeamPerformanceMetrics(performanceData);
+        }
+
+        function calculateTeamPerformanceMetrics() {
+            if (!gamesData || gamesData.length === 0) {
+                return {};
+            }
+
+            const metrics = {};
+            const allTeams = ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日',
+                             'ソフトバンク', '日本ハム', '西武', '楽天', 'オリックス', 'ロッテ'];
+
+            // 팀 매핑
+            const teamMapping = {
+                'YOG': '巨人', 'YAK': 'ヤクルト', 'YDB': 'DeNA', 'HAN': '阪神', 'HIR': '広島', 'CHU': '中日',
+                'SOF': 'ソフトバンク', 'NIP': '日본ハム', 'SEI': '西武', 'RAK': '楽天', 'ORI': 'オリックス', 'LOT': 'ロッテ'
+            };
+
+            allTeams.forEach(team => {
+                // 해당 팀의 모든 경기를 가져오기
+                const teamGames = gamesData
+                    .filter(game => {
+                        const status = (game.game_status || game.status || '').toLowerCase();
+                        if (status !== 'completed') return false;
+
+                        const homeTeam = teamMapping[game.home_team_abbr] || game.home_team_abbr;
+                        const awayTeam = teamMapping[game.away_team_abbr] || game.away_team_abbr;
+                        return homeTeam === team || awayTeam === team;
+                    })
+                    .map(game => ({
+                        date: game.game_date,
+                        home: teamMapping[game.home_team_abbr] || game.home_team_abbr,
+                        away: teamMapping[game.away_team_abbr] || game.away_team_abbr,
+                        homeScore: parseInt(game.home_score),
+                        awayScore: parseInt(game.away_score)
+                    }));
+
+                let homeWins = 0, homeLosses = 0, homeDraws = 0;
+                let awayWins = 0, awayLosses = 0, awayDraws = 0;
+                let totalRuns = 0, totalRunsAllowed = 0;
+                let closeGames = 0;
+                let blowouts = 0;
+
+                teamGames.forEach(game => {
+                    const isHome = game.home === team;
+                    const result = getGameResult(game, team);
+                    const scoreDiff = Math.abs(game.homeScore - game.awayScore);
+
+                    if (isHome) {
+                        if (result === 'W') homeWins++;
+                        else if (result === 'L') homeLosses++;
+                        else homeDraws++;
+                        totalRuns += game.homeScore;
+                        totalRunsAllowed += game.awayScore;
+                    } else {
+                        if (result === 'W') awayWins++;
+                        else if (result === 'L') awayLosses++;
+                        else awayDraws++;
+                        totalRuns += game.awayScore;
+                        totalRunsAllowed += game.homeScore;
+                    }
+
+                    if (scoreDiff === 1) closeGames++;
+                    if (scoreDiff >= 5) blowouts++;
+                });
+
+                const totalGames = teamGames.length;
+
+                metrics[team] = {
+                    home: { wins: homeWins, losses: homeLosses, draws: homeDraws },
+                    away: { wins: awayWins, losses: awayLosses, draws: awayDraws },
+                    runsPerGame: totalGames > 0 ? (totalRuns / totalGames).toFixed(2) : 0,
+                    runsAllowedPerGame: totalGames > 0 ? (totalRunsAllowed / totalGames).toFixed(2) : 0,
+                    runDifferential: totalRuns - totalRunsAllowed,
+                    closeGames,
+                    blowouts
+                };
+            });
+
+            return metrics;
+        }
+
+        function displayTeamPerformanceMetrics(performanceData) {
+        }
+
+        // ===== 반응형 차트 및 품질 개선 =====
+        function makeChartsResponsive() {
+            const canvases = document.querySelectorAll('#season-analysis canvas');
+            canvases.forEach(canvas => {
+                resizeCanvas(canvas);
+            });
+
+            window.addEventListener('resize', () => {
+                setTimeout(() => {
+                    canvases.forEach(canvas => {
+                        resizeCanvas(canvas);
+                    });
+                    updateSeasonAnalysis();
+                }, 100);
+            });
+        }
+
+        function resizeCanvas(canvas) {
+            const container = canvas.parentElement;
+            if (!container) return;
+
+            const containerWidth = container.clientWidth - 20;
+            const aspectRatio = 400 / 800;
+            const newHeight = Math.max(300, containerWidth * aspectRatio);
+
+            canvas.width = containerWidth;
+            canvas.height = newHeight;
+            canvas.style.width = containerWidth + 'px';
+            canvas.style.height = newHeight + 'px';
+        }
+
+
+        function drawRankingChart(league, teams, colors) {
+            const canvas = document.getElementById(`${league}-ranking-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 차트 영역 설정
+            const margin = { top: 40, right: 150, bottom: 60, left: 50 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 격자선 그리기 (순위 1-6위)
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            for (let i = 1; i <= 6; i++) {
+                const y = margin.top + (i - 1) * (height / 5);
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블 (순위)
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${i}位`, margin.left - 10, y + 4);
+            }
+
+            // X축 레이블 (월)
+            const months = ['3月', '4月', '5월', '6月', '7月', '8月', '9月'];
+            months.forEach((month, i) => {
+                const x = margin.left + (i * width / (months.length - 1));
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(month, x, canvas.height - 15);
+            });
+
+            // 샘플 순위 데이터로 라인 그리기
+            teams.forEach((team, teamIndex) => {
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                // 각 팀의 샘플 순위 변동 (랜덤하지만 일관성 있는 패턴)
+                const rankingData = generateSampleRankingData(teamIndex, months.length);
+
+                rankingData.forEach((rank, monthIndex) => {
+                    const x = margin.left + (monthIndex * width / (months.length - 1));
+                    const y = margin.top + (rank - 1) * (height / 5);
+
+                    if (monthIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+
+                // 범례
+                const legendY = margin.top + teamIndex * 25;
+                ctx.fillStyle = colors[teamIndex];
+                ctx.fillRect(margin.left + width + 20, legendY - 8, 15, 15);
+                ctx.fillStyle = '#333';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(team, margin.left + width + 40, legendY + 4);
+            });
+
+            // 제목
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('順位変動 (順位が낮을수록 上位)', canvas.width / 2, 25);
+        }
+
+        function drawWinRateChart(league, teams, colors) {
+            const canvas = document.getElementById(`${league}-winrate-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 차트 영역 설정
+            const margin = { top: 40, right: 150, bottom: 60, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Y축 격자선 (승률 0.3-0.7)
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            for (let rate = 0.3; rate <= 0.7; rate += 0.1) {
+                const y = margin.top + (0.7 - rate) * height / 0.4;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(rate.toFixed(1), margin.left - 10, y + 4);
+            }
+
+            // 샘플 데이터로 차트 그리기
+            teams.forEach((team, teamIndex) => {
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                const winRateData = generateSampleWinRateData(teamIndex, 20);
+
+                winRateData.forEach((rate, gameIndex) => {
+                    const x = margin.left + (gameIndex * width / (winRateData.length - 1));
+                    const y = margin.top + (0.7 - rate) * height / 0.4;
+
+                    if (gameIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+
+                // 범례
+                const legendY = margin.top + teamIndex * 25;
+                ctx.fillStyle = colors[teamIndex];
+                ctx.fillRect(margin.left + width + 20, legendY - 8, 15, 15);
+                ctx.fillStyle = '#333';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(team, margin.left + width + 40, legendY + 4);
+            });
+
+            // 제목
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('승률 변화 (시즌 진행)', canvas.width / 2, 25);
+        }
+
+        function drawGamesBehindChart(league, teams, colors) {
+            const canvas = document.getElementById(`${league}-gamesbehind-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 차트 영역 설정
+            const margin = { top: 40, right: 150, bottom: 60, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Y축 격자선 (게임차 0-15)
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            for (let gb = 0; gb <= 15; gb += 3) {
+                const y = margin.top + (15 - gb) * height / 15;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${gb}G`, margin.left - 10, y + 4);
+            }
+
+            // 샘플 데이터로 차트 그리기
+            teams.forEach((team, teamIndex) => {
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                const gbData = generateSampleGamesBehindData(teamIndex, 20);
+
+                gbData.forEach((gb, gameIndex) => {
+                    const x = margin.left + (gameIndex * width / (gbData.length - 1));
+                    const y = margin.top + (15 - gb) * height / 15;
+
+                    if (gameIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+
+                // 범례
+                const legendY = margin.top + teamIndex * 25;
+                ctx.fillStyle = colors[teamIndex];
+                ctx.fillRect(margin.left + width + 20, legendY - 8, 15, 15);
+                ctx.fillStyle = '#333';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(team, margin.left + width + 40, legendY + 4);
+            });
+
+            // 제목
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('게임차 변화 (1위와의 차이)', canvas.width / 2, 25);
+        }
+
+        function drawWinsChart(league, teams, colors) {
+            const canvas = document.getElementById(`${league}-wins-canvas`);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 차트 영역 설정
+            const margin = { top: 40, right: 150, bottom: 60, left: 70 };
+            const width = canvas.width - margin.left - margin.right;
+            const height = canvas.height - margin.top - margin.bottom;
+
+            // 배경
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Y축 격자선 (승수 0-100)
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+
+            for (let wins = 0; wins <= 100; wins += 20) {
+                const y = margin.top + (100 - wins) * height / 100;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + width, y);
+                ctx.stroke();
+
+                // Y축 레이블
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${wins}승`, margin.left - 10, y + 4);
+            }
+
+            // 샘플 데이터로 차트 그리기
+            teams.forEach((team, teamIndex) => {
+                ctx.strokeStyle = colors[teamIndex];
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                const winsData = generateSampleWinsData(teamIndex, 100);
+
+                winsData.forEach((wins, gameIndex) => {
+                    const x = margin.left + (gameIndex * width / (winsData.length - 1));
+                    const y = margin.top + (100 - wins) * height / 100;
+
+                    if (gameIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+
+                // 범례
+                const legendY = margin.top + teamIndex * 25;
+                ctx.fillStyle = colors[teamIndex];
+                ctx.fillRect(margin.left + width + 20, legendY - 8, 15, 15);
+                ctx.fillStyle = '#333';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(team, margin.left + width + 40, legendY + 4);
+            });
+
+            // 제목
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('누적 승수 변화', canvas.width / 2, 25);
+        }
+
+        // 샘플 데이터 생성 함수들
+        function generateSampleRankingData(teamIndex, length) {
+            const baseRank = teamIndex + 1;
+            const data = [baseRank];
+
+            for (let i = 1; i < length; i++) {
+                let change = (Math.random() - 0.5) * 2; // -1 to 1
+                let newRank = data[i-1] + change;
+                newRank = Math.max(1, Math.min(6, Math.round(newRank)));
+                data.push(newRank);
+            }
+
+            return data;
+        }
+
+        function generateSampleWinRateData(teamIndex, length) {
+            const baseRate = 0.5 + (3 - teamIndex) * 0.03; // 상위팀일수록 높은 승률
+            const data = [0.5]; // 시즌 초기 승률
+
+            for (let i = 1; i < length; i++) {
+                let change = (Math.random() - 0.5) * 0.1;
+                let newRate = data[i-1] + change;
+                newRate = Math.max(0.3, Math.min(0.7, newRate));
+                data.push(newRate);
+            }
+
+            return data;
+        }
+
+        function generateSampleGamesBehindData(teamIndex, length) {
+            if (teamIndex === 0) {
+                return new Array(length).fill(0); // 1위팀은 항상 0게임차
+            }
+
+            const data = [0];
+
+            for (let i = 1; i < length; i++) {
+                let change = (Math.random() - 0.3) * 2; // 약간 뒤처지는 경향
+                let newGB = Math.max(0, data[i-1] + change);
+                newGB = Math.min(15, newGB);
+                data.push(newGB);
+            }
+
+            return data;
+        }
+
+        function generateSampleWinsData(teamIndex, maxGames) {
+            const winRate = 0.5 + (3 - teamIndex) * 0.03;
+            const data = [0];
+
+            for (let game = 1; game < maxGames; game++) {
+                const prevWins = data[game - 1];
+                const shouldWin = Math.random() < winRate;
+                data.push(prevWins + (shouldWin ? 1 : 0));
+            }
+
+            return data;
+        }
+
         // ===== 전체 경기 결과 표시 =====
         function updateAllGames() {
             if (!gamesData || !gamesData.length) {
@@ -4693,16 +8606,27 @@
                 
                 const rawData = await response.json();
 
-                // 경기 결과 텍스트 파일 로딩
+                // 경기 결과 JSON 파일 로딩
                 try {
-                    const gamesRawPath = './data/simple/games_raw.txt';
-                    const gamesRawUrl = gamesRawPath + '?' + cacheBust;
-                    const gamesRawResponse = await fetch(gamesRawUrl, { cache: 'no-store' });
-                    if (gamesRawResponse.ok) {
-                        window.gamesRawData = await gamesRawResponse.text();
+                    const gamesJsonPath = './data/games.json';
+                    const gamesJsonUrl = gamesJsonPath + '?' + cacheBust;
+                    const gamesJsonResponse = await fetch(gamesJsonUrl, { cache: 'no-store' });
+                    if (gamesJsonResponse.ok) {
+                        window.gamesData = await gamesJsonResponse.json();
                     }
-                } catch (gamesRawError) {
-                    console.warn('games_raw.txt 로드 실패:', gamesRawError);
+                } catch (gamesJsonError) {
+                    console.warn('games.json 로드 실패, 텍스트 파일로 폴백:', gamesJsonError);
+                    // 경기 결과 텍스트 파일 로딩 (폴백)
+                    try {
+                        const gamesRawPath = './data/simple/games_raw.txt';
+                        const gamesRawUrl = gamesRawPath + '?' + cacheBust;
+                        const gamesRawResponse = await fetch(gamesRawUrl, { cache: 'no-store' });
+                        if (gamesRawResponse.ok) {
+                            window.gamesRawData = await gamesRawResponse.text();
+                        }
+                    } catch (gamesRawError) {
+                        console.warn('games_raw.txt 로드 실패:', gamesRawError);
+                    }
                 }
 
                 // 시즌 설정 데이터 로딩 (dashboard.json, cache-busting 동일 적용)
@@ -4775,6 +8699,7 @@
                 updateH2HRecords();
                 updateRemainingGames();
                 updateProgress();
+                updateSeasonAnalysis();
                 updateAllGames();
                 setupGameFilters();
                 // Initialize '経路の数' sub-views (matrix/detailed/table) and default to matrix
