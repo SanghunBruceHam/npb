@@ -54,7 +54,7 @@ def run_web_crawler(mode="7", use_legacy=False):
             cmd = ['python3', str(crawler_path), '--full-season']
         else:
             # 최근 데이터만 수집하여 기존 데이터 보호
-            cmd = ['python3', str(crawler_path), '--days', str(mode)]
+            cmd = ['python3', str(crawler_path), str(mode)]
 
         result = subprocess.run(
             cmd,
