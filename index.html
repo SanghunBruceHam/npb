@@ -61,6 +61,20 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
 
+    <!-- Disable verbose console output in production -->
+    <script>
+      (function() {
+        const noop = () => {};
+        ['log', 'info', 'debug', 'warn'].forEach(method => {
+          try {
+            console[method] = noop;
+          } catch (err) {
+            // ignore assignment failures
+          }
+        });
+      })();
+    </script>
+
     <!-- ApexCharts 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
     <script>
