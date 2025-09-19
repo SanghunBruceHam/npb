@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-19T17:15:13.581074
+# UPDATED: 2025-09-19T17:36:10.873229
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1122,6 +1122,7 @@
 日本ハム 2-3 ソフトバンク (Pacific) @ 福岡PayPayドーム
 
 # 2025-09-19
-広島 0-0 巨人 (Central) [SCHEDULED] @ 東京ドーム
-ヤクルト 0-0 中日 (Central) [SCHEDULED] @ バンテリンドーム ナゴヤ
-西武 0-0 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城
+広島 0-0 巨人 (Central) @ 東京ドーム
+ヤクルト 0-0 中日 (Central) @ バンテリンドーム ナゴヤ
+西武 0-0 楽天 (Pacific) @ 楽天モバイルパーク宮城
+ＤｅＮＡ 0-0 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
