@@ -63,6 +63,12 @@
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-5508768187151867",
+              enable_page_level_ads: true
+         });
+    </script>
 
     <!-- Disable verbose console output in production -->
     <script>
@@ -3211,13 +3217,8 @@
                 return;
             }
 
-            try {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (adError) {
-                if (attempt < MAX_AD_ATTEMPTS) {
-                    setTimeout(() => initializeAdSlot(ad, attempt + 1), 100 + attempt * 50);
-                }
-            }
+            // HTML에 이미 push 스크립트가 있으므로 중복 push 제거
+            // AdSense는 이미 HTML의 개별 script 태그에서 초기화됨
         }
 
         // ===== タブ切り替え機能 =====
