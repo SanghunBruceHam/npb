@@ -12026,11 +12026,12 @@
     "away_team_id": 10,
     "away_team_abbr": "ORI",
     "away_team_name": "オリックスバファローズ",
-    "home_score": 3,
-    "away_score": 3,
+    "home_score": 4,
+    "away_score": 5,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": true,
-    "stadium": "福岡PayPayドーム"
+    "is_draw": false,
+    "stadium": "◇開始14時00分◇みずほペイペイドーム",
+    "final_inning": 9
   }
 ]

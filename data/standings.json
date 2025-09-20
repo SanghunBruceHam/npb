@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-20T08:26:45.452Z",
+  "updated_at": "2025-09-20T08:44:39.009Z",
   "central_league": {
     "standings": [
       {
@@ -109,12 +109,12 @@
         "league": "Pacific",
         "games_played": 132,
         "wins": 80,
-        "losses": 47,
-        "draws": 5,
-        "runs_scored": 507,
-        "runs_allowed": 369,
-        "win_percentage": 0.6299212598425197,
-        "run_differential": 138,
+        "losses": 48,
+        "draws": 4,
+        "runs_scored": 508,
+        "runs_allowed": 371,
+        "win_percentage": 0.625,
+        "run_differential": 137,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -132,7 +132,7 @@
         "win_percentage": 0.5954198473282443,
         "run_differential": 142,
         "position_rank": 2,
-        "games_behind": 4
+        "games_behind": 3.5
       },
       {
         "team_id": 10,
@@ -140,15 +140,15 @@
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
         "games_played": 132,
-        "wins": 65,
+        "wins": 66,
         "losses": 63,
-        "draws": 4,
-        "runs_scored": 457,
-        "runs_allowed": 484,
-        "win_percentage": 0.5078125,
-        "run_differential": -27,
+        "draws": 3,
+        "runs_scored": 459,
+        "runs_allowed": 485,
+        "win_percentage": 0.5116279069767442,
+        "run_differential": -26,
         "position_rank": 3,
-        "games_behind": 15.5
+        "games_behind": 14.5
       },
       {
         "team_id": 9,
@@ -164,7 +164,7 @@
         "win_percentage": 0.4883720930232558,
         "run_differential": -60,
         "position_rank": 4,
-        "games_behind": 18
+        "games_behind": 17.5
       },
       {
         "team_id": 11,
@@ -180,7 +180,7 @@
         "win_percentage": 0.4609375,
         "run_differential": -43,
         "position_rank": 5,
-        "games_behind": 21.5
+        "games_behind": 21
       },
       {
         "team_id": 8,
@@ -196,7 +196,7 @@
         "win_percentage": 0.3953488372093023,
         "run_differential": -113,
         "position_rank": 6,
-        "games_behind": 30
+        "games_behind": 29.5
       }
     ]
   }
