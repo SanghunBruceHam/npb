@@ -11995,12 +11995,13 @@
     "away_team_id": 8,
     "away_team_abbr": "LOT",
     "away_team_name": "千葉ロッテマリーンズ",
-    "home_score": 7,
-    "away_score": 4,
+    "home_score": 8,
+    "away_score": 7,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO"
+    "stadium": "エスコンフィールドHOKKAIDO",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-20",
