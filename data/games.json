@@ -11952,7 +11952,8 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム"
+    "stadium": "◇開始14時00分◇東京ドーム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-20",
@@ -11967,7 +11968,8 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "バンテリンドーム ナゴヤ"
+    "stadium": "◇開始14時00分◇バンテリンドーム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-20",
@@ -11977,12 +11979,13 @@
     "away_team_id": 3,
     "away_team_abbr": "YDB",
     "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": 0,
-    "away_score": 2,
+    "home_score": 1,
+    "away_score": 4,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-20",
@@ -12012,7 +12015,8 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城"
+    "stadium": "◇開始14時00分◇楽天モバイルパーク",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-20",
