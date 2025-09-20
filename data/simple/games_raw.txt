@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-20T16:20:40.545700
+# UPDATED: 2025-09-20T16:41:01.283401
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1128,9 +1128,9 @@
 ＤｅＮＡ 0-4 阪神 (Central) @ 阪神甲子園球場
 
 # 2025-09-20
-広島 1-3 巨人 (Central) [SCHEDULED] @ 東京ドーム
-ヤクルト 0-3 中日 (Central) [SCHEDULED] @ バンテリンドーム ナゴヤ
-ＤｅＮＡ 2-0 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
-ロッテ 4-7 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO
-西武 1-2 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城
-オリックス 3-3 ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム
+広島 1-3 巨人 (Central) @ 東京ドーム
+ヤクルト 0-3 中日 (Central) @ バンテリンドーム ナゴヤ
+ＤｅＮＡ 2-0 阪神 (Central) @ 阪神甲子園球場
+ロッテ 4-7 日本ハム (Pacific) @ エスコンフィールドHOKKAIDO
+西武 1-2 楽天 (Pacific) @ 楽天モバイルパーク宮城
+オリックス 3-3 ソフトバンク (Pacific) @ 福岡PayPayドーム
