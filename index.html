@@ -64,6 +64,223 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
 
+    <!-- AdSense slot initialization helpers -->
+    <script>
+      (function() {
+        const MAX_ATTEMPTS = 20;
+        const ATTEMPT_DELAY_MS = 150;
+        const MIN_SLOT_WIDTH_PX = 120;
+        const fallbackTimers = new WeakMap();
+        const observedAds = new WeakSet();
+        const resizeObserver = typeof ResizeObserver === 'function'
+          ? new ResizeObserver(entries => {
+              entries.forEach(entry => {
+                const ad = entry.target;
+                if (!ad) {
+                  return;
+                }
+                attemptAdInitialization(ad, 0);
+              });
+            })
+          : null;
+
+        function ensurePendingStore() {
+          if (!window.pendingAds) {
+            window.pendingAds = [];
+          }
+          return window.pendingAds;
+        }
+
+        function isInActiveTab(ad) {
+          const parentTab = typeof ad?.closest === 'function' ? ad.closest('.tab-content') : null;
+          return !parentTab || parentTab.classList.contains('active');
+        }
+
+        function isElementConnected(ad) {
+          return !!(ad && ad.isConnected);
+        }
+
+        function getRectWidth(element) {
+          if (!element) {
+            return 0;
+          }
+          const rect = typeof element.getBoundingClientRect === 'function' ? element.getBoundingClientRect() : null;
+          if (rect && rect.width > 0) {
+            return rect.width;
+          }
+          if (element.clientWidth > 0) {
+            return element.clientWidth;
+          }
+          return 0;
+        }
+
+        function elementHasLayout(ad) {
+          if (!isElementConnected(ad)) {
+            return false;
+          }
+          const width = getRectWidth(ad);
+          const parentWidth = getRectWidth(ad.parentElement) || width;
+          const hasOffsetParent = !!(ad.offsetParent || ad.getClientRects().length);
+          return width >= MIN_SLOT_WIDTH_PX && parentWidth >= MIN_SLOT_WIDTH_PX && hasOffsetParent;
+        }
+
+        function prepareSlot(ad) {
+          if (!ad) {
+            return;
+          }
+          ad.style.display = 'block';
+          ad.style.width = '100%';
+          ad.style.maxWidth = '100%';
+          ad.style.visibility = 'visible';
+
+          const parent = ad.parentElement;
+          if (parent) {
+            parent.style.minWidth = '320px';
+            parent.style.width = '100%';
+            parent.style.maxWidth = '100%';
+            parent.style.overflow = 'visible';
+          }
+        }
+
+        function observeAd(ad) {
+          if (!resizeObserver || !ad || observedAds.has(ad)) {
+            return;
+          }
+          resizeObserver.observe(ad);
+          observedAds.add(ad);
+        }
+
+        function unobserveAd(ad) {
+          if (!resizeObserver || !ad || !observedAds.has(ad)) {
+            return;
+          }
+          resizeObserver.unobserve(ad);
+          observedAds.delete(ad);
+        }
+
+        function clearFallback(ad) {
+          const timerId = fallbackTimers.get(ad);
+          if (timerId) {
+            clearTimeout(timerId);
+            fallbackTimers.delete(ad);
+          }
+        }
+
+        function markInitialized(ad) {
+          if (!ad) {
+            return;
+          }
+          ad.dataset.adsenseInitialized = 'true';
+          clearFallback(ad);
+          unobserveAd(ad);
+
+          if (window.pendingAds) {
+            const idx = window.pendingAds.indexOf(ad);
+            if (idx !== -1) {
+              window.pendingAds.splice(idx, 1);
+            }
+          }
+        }
+
+        function scheduleAdRetry(ad, attempt) {
+          if (!ad) {
+            return;
+          }
+          const nextAttempt = attempt + 1;
+          if (nextAttempt >= MAX_ATTEMPTS) {
+            const pending = ensurePendingStore();
+            if (pending.indexOf(ad) === -1) {
+              pending.push(ad);
+            }
+            clearFallback(ad);
+            return;
+          }
+          const delay = ATTEMPT_DELAY_MS * Math.min(nextAttempt, 10);
+          clearFallback(ad);
+          const timerId = setTimeout(() => {
+            fallbackTimers.delete(ad);
+            attemptAdInitialization(ad, nextAttempt);
+          }, delay);
+          fallbackTimers.set(ad, timerId);
+        }
+
+        function shouldDelay(ad) {
+          return !isInActiveTab(ad);
+        }
+
+        function attemptInitializationOnceReady(ad, attempt) {
+          requestAnimationFrame(() => {
+            if (!ad || ad.dataset.adsenseInitialized === 'true') {
+              return;
+            }
+            if (shouldDelay(ad) || !elementHasLayout(ad)) {
+              scheduleAdRetry(ad, attempt);
+              return;
+            }
+            try {
+              (window.adsbygoogle = window.adsbygoogle || []).push({});
+              markInitialized(ad);
+            } catch (error) {
+              scheduleAdRetry(ad, attempt);
+            }
+          });
+        }
+
+        function attemptAdInitialization(ad, attempt = 0) {
+          if (!ad || ad.dataset.adsenseInitialized === 'true' || ad.getAttribute('data-adsbygoogle-status')) {
+            markInitialized(ad);
+            return;
+          }
+
+          if (!isElementConnected(ad)) {
+            scheduleAdRetry(ad, attempt);
+            return;
+          }
+
+          prepareSlot(ad);
+
+          if (shouldDelay(ad)) {
+            const pending = ensurePendingStore();
+            if (pending.indexOf(ad) === -1) {
+              pending.push(ad);
+            }
+            return;
+          }
+
+          observeAd(ad);
+
+          if (!elementHasLayout(ad)) {
+            scheduleAdRetry(ad, attempt);
+            return;
+          }
+
+          attemptInitializationOnceReady(ad, attempt);
+        }
+
+        function queueAdInitialization(ad) {
+          if (!ad) {
+            return;
+          }
+
+          prepareSlot(ad);
+          observeAd(ad);
+
+          if (window.pendingAds) {
+            const idx = window.pendingAds.indexOf(ad);
+            if (idx !== -1) {
+              window.pendingAds.splice(idx, 1);
+            }
+          }
+
+          attemptAdInitialization(ad, 0);
+        }
+
+        window.npbAds = window.npbAds || {};
+        window.npbAds.queueAdInitialization = queueAdInitialization;
+        window.npbAds.attemptAdInitialization = attemptAdInitialization;
+      })();
+    </script>
+
     <!-- Disable verbose console output in production -->
     <script>
       (function() {
@@ -100,71 +317,70 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": ["WebApplication", "SportsOrganization"],
-      "name": "NPB Statistics Dashboard",
-      "description": "NPB(日本プロ野球)2025年シーズンの順位表とマジックナンバー情報をリアルタイムで追跡するダッシュボード",
-      "url": "https://npb-dashboard.com/",
-      "applicationCategory": "Sports Statistics",
-      "operatingSystem": "Any",
-      "browserRequirements": "Modern web browser",
-      "sport": "Baseball",
-      "foundingDate": "2025",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "featureList": [
-        "リアルタイム順位表",
-        "マジックナンバー計算",
-        "プレーオフ進出状況",
-        "勝率シナリオ分析",
-        "残り試合数統計"
-      ],
-      "keywords": "日本プロ野球,NPB,順位表,マジック,優勝,プレーオフ,CS,野球統計",
-      "inLanguage": "ja",
-      "audience": {
-        "@type": "Audience",
-        "audienceType": "Baseball fans",
-        "geographicArea": {
-          "@type": "Country",
-          "name": "Japan"
-        }
-      },
-      "about": {
-        "@type": "SportsEvent",
-        "name": "NPB 2025 Regular Season",
-        "startDate": "2025-03-29",
-        "endDate": "2025-10-31",
-        "sport": "Baseball",
-        "location": {
-          "@type": "Country",
-          "name": "Japan"
-        },
-        "organizer": {
-          "@type": "SportsOrganization",
-          "name": "Nippon Professional Baseball",
-          "url": "https://npb.jp"
-        },
-        "subEvent": [
-          {
-            "@type": "SportsEvent",
-            "name": "セントラル・リーグ",
-            "sport": "Baseball"
-          },
-          {
-            "@type": "SportsEvent", 
-            "name": "パシフィック・リーグ",
-            "sport": "Baseball"
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://npb-dashboard.com/#website",
+          "url": "https://npb-dashboard.com/",
+          "name": "NPB Dashboard",
+          "description": "2025年シーズン最新のNPB順位表。セ・パ両リーグの勝率・ゲーム差・残り試合・優勝マジックナンバー・CS進出状況をリアルタイム更新。",
+          "inLanguage": "ja",
+          "publisher": {
+            "@id": "https://npb-dashboard.com/#organization"
           }
-        ]
-      },
-      "provider": {
-        "@type": "Organization",
-        "name": "NPB Statistics"
-      },
-      "dateModified": "2025-09-08",
-      "isAccessibleForFree": true
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://npb-dashboard.com/#webapp",
+          "name": "NPB Statistics Dashboard",
+          "description": "NPB(日本プロ野球)2025年シーズンの順位表とマジックナンバー情報をリアルタイムで追跡するダッシュボード",
+          "url": "https://npb-dashboard.com/",
+          "applicationCategory": "Sports Statistics Application",
+          "operatingSystem": "Any",
+          "browserRequirements": "Modern web browser",
+          "isAccessibleForFree": true,
+          "featureList": [
+            "リアルタイム順位表",
+            "マジックナンバー計算",
+            "プレーオフ進出状況",
+            "勝率シナリオ分析",
+            "残り試合数統計"
+          ],
+          "keywords": "日本プロ野球,NPB,順位表,マジック,優勝,プレーオフ,CS,野球統計",
+          "inLanguage": "ja",
+          "audience": {
+            "@type": "Audience",
+            "audienceType": "Baseball fans",
+            "geographicArea": {
+              "@type": "Country",
+              "name": "Japan"
+            }
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "JPY"
+          },
+          "publisher": {
+            "@id": "https://npb-dashboard.com/#organization"
+          }
+        },
+        {
+          "@type": "SportsOrganization",
+          "@id": "https://npb-dashboard.com/#organization",
+          "name": "NPB Dashboard",
+          "sport": "Baseball",
+          "url": "https://npb-dashboard.com/",
+          "logo": "https://npb-dashboard.com/favicon.png",
+          "image": "https://npb-dashboard.com/favicon.png",
+          "foundingDate": "2025",
+          "memberOf": {
+            "@type": "SportsOrganization",
+            "name": "Nippon Professional Baseball",
+            "url": "https://npb.jp"
+          }
+        }
+      ]
     }
     </script>
     
@@ -1718,18 +1934,10 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
                     </script>
@@ -1815,18 +2023,10 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
                     </script>
@@ -1900,22 +2100,13 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
-                    </script>
-            </div>
+                    </script>            </div>
 
             <!-- Pacific League Scenario Views -->
             <div>
@@ -1986,22 +2177,13 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
-                    </script>
-            </div>
+                    </script>            </div>
 
             <div class="scroll-table" style="margin-top: 30px;">
                 <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
@@ -2059,22 +2241,13 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
-                    </script>
-            </div>
+                    </script>            </div>
 
             <div style="margin: 20px 0;">
                 <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
@@ -2115,22 +2288,13 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
-                    </script>
-            </div>
+                    </script>            </div>
 
             <div style="margin: 20px 0;">
                 <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
@@ -2182,22 +2346,13 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
-                    </script>
-            </div>
+                    </script>            </div>
 
             <!-- Team progress section -->
             <div style="margin: 20px 0;">
@@ -2287,18 +2442,10 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
                     </script>
@@ -2332,22 +2479,13 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
-                    </script>
-            </div>
+                    </script>            </div>
 
             <div style="margin: 20px 0;">
                 <h3 data-i18n="pacific-league">パシフィックリーグ</h3>
@@ -2379,18 +2517,10 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
                     </script>
@@ -2557,18 +2687,10 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        // 조건부 광고 초기화 (숨겨진 탭 에러 방지)
                         (function() {
                             const adElement = document.currentScript.previousElementSibling;
-                            const parentTab = adElement.closest('.tab-content');
-
-                            if (!parentTab || parentTab.classList.contains('active')) {
-                                // 활성 탭이거나 탭 밖의 광고만 즉시 초기화
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            } else {
-                                // 숨겨진 탭의 광고는 지연 초기화 대기열에 추가
-                                window.pendingAds = window.pendingAds || [];
-                                window.pendingAds.push(adElement);
+                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                                window.npbAds.queueAdInitialization(adElement);
                             }
                         })();
                     </script>
@@ -3095,6 +3217,232 @@
         let homeAwayRemainingByTeam = {}; // { team_id: { home: n, away: n, opponents: {} } }
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
+        // Structured data helpers for upcoming events
+        const EVENT_BASE_URL = 'https://npb-dashboard.com';
+        const EVENT_STRUCTURED_DATA_ID = 'ldjson-upcoming-events';
+        const EVENT_TIMEZONE_OFFSET = '+09:00';
+        const DEFAULT_EVENT_TIME = '12:00';
+        const EVENT_DURATION_HOURS = 3;
+        const TEAM_LOGO_MAP = {
+            YOG: 'yomiuri-giants.svg',
+            YAK: 'tokyo-yakult-swallows.svg',
+            YDB: 'yokohama-dena-baystars.svg',
+            HAN: 'hanshin-tigers.svg',
+            HIR: 'hiroshima-toyo-carp.svg',
+            CHU: 'chunichi-dragons.svg',
+            SOF: 'fukuoka-softbank-hawks.svg',
+            NIP: 'hokkaido-nippon-ham-fighters.svg',
+            SEI: 'saitama-seibu-lions.svg',
+            RAK: 'tohoku-rakuten-golden-eagles.svg',
+            ORI: 'orix-buffaloes.svg',
+            LOT: 'chiba-lotte-marines.svg'
+        };
+
+        function slugify(value) {
+            if (!value) return 'item';
+            const slug = value.toString().trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            return slug || 'item';
+        }
+
+        function normalizeTime(value) {
+            if (!value) return null;
+            const withAsciiDigits = value
+                .replace(/[０-９]/g, char => String.fromCharCode(char.charCodeAt(0) - 0xFEE0));
+            const normalized = withAsciiDigits.replace(/[：]/g, ':').trim();
+            const [hour, minute] = normalized.split(':');
+            if (!hour || !minute) return null;
+            const parsedHour = Number.parseInt(hour, 10);
+            const parsedMinute = Number.parseInt(minute, 10);
+            if (Number.isNaN(parsedHour) || Number.isNaN(parsedMinute)) {
+                return null;
+            }
+            return `${String(parsedHour).padStart(2, '0')}:${String(parsedMinute).padStart(2, '0')}`;
+        }
+
+        function extractStadiumDetails(rawValue) {
+            if (!rawValue || typeof rawValue !== 'string') {
+                return { name: null, time: null };
+            }
+            const normalized = rawValue.replace(/[：]/g, ':').trim();
+            const match = normalized.match(/(.+?)\s*(\d{1,2}:\d{2})$/);
+            if (match) {
+                return {
+                    name: match[1].trim(),
+                    time: normalizeTime(match[2])
+                };
+            }
+            return { name: normalized, time: null };
+        }
+
+        function addOneDay(dateStr) {
+            const parts = dateStr ? dateStr.split('-').map(Number) : [];
+            if (parts.length !== 3) return dateStr;
+            const next = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+            next.setUTCDate(next.getUTCDate() + 1);
+            const year = next.getUTCFullYear();
+            const month = String(next.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(next.getUTCDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function buildIsoDate(dateStr, timeStr) {
+            if (!dateStr) return null;
+            const time = normalizeTime(timeStr) || DEFAULT_EVENT_TIME;
+            return `${dateStr}T${time}:00${EVENT_TIMEZONE_OFFSET}`;
+        }
+
+        function buildIsoEndDate(dateStr, timeStr) {
+            if (!dateStr) return null;
+            const time = normalizeTime(timeStr) || DEFAULT_EVENT_TIME;
+            const [hourStr, minuteStr] = time.split(':');
+            let hour = parseInt(hourStr, 10);
+            const minute = parseInt(minuteStr, 10);
+            if (Number.isNaN(hour) || Number.isNaN(minute)) {
+                return `${dateStr}T${DEFAULT_EVENT_TIME}:00${EVENT_TIMEZONE_OFFSET}`;
+            }
+            hour += EVENT_DURATION_HOURS;
+            let endDate = dateStr;
+            while (hour >= 24) {
+                hour -= 24;
+                endDate = addOneDay(endDate);
+            }
+            const endHour = String(hour).padStart(2, '0');
+            const endMinute = String(minute).padStart(2, '0');
+            return `${endDate}T${endHour}:${endMinute}:00${EVENT_TIMEZONE_OFFSET}`;
+        }
+
+        function mapEventStatus(status) {
+            const value = (status || '').toString().toLowerCase();
+            switch (value) {
+                case 'postponed':
+                    return 'https://schema.org/EventPostponed';
+                case 'cancelled':
+                case 'canceled':
+                    return 'https://schema.org/EventCancelled';
+                case 'rescheduled':
+                    return 'https://schema.org/EventRescheduled';
+                default:
+                    return 'https://schema.org/EventScheduled';
+            }
+        }
+
+        function getTeamLogoUrls(homeAbbr, awayAbbr) {
+            const result = [];
+            [awayAbbr, homeAbbr].forEach(code => {
+                const file = TEAM_LOGO_MAP[code];
+                if (file) {
+                    result.push(`${EVENT_BASE_URL}/assets/npb-logos/svg/${file}`);
+                }
+            });
+            if (!result.length) {
+                result.push(`${EVENT_BASE_URL}/favicon.png`);
+            }
+            return result;
+        }
+
+        function buildEventGraph(games) {
+            if (!Array.isArray(games)) return [];
+            const sanitized = games
+                .map(game => {
+                    const date = game.game_date || game.date;
+                    if (!date) return null;
+                    const stadiumDetails = extractStadiumDetails(game.stadium || game.venue || '');
+                    const homeName = game.home_team_name || game.home;
+                    const awayName = game.away_team_name || game.away;
+                    const status = (game.game_status || 'scheduled').toString().toLowerCase();
+                    return {
+                        raw: game,
+                        date,
+                        stadiumDetails,
+                        homeName,
+                        awayName,
+                        status
+                    };
+                })
+                .filter(item => item && item.homeName && item.awayName && !['final', 'finished', 'complete', 'completed'].includes(item.status));
+
+            sanitized.sort((a, b) => {
+                if (a.date === b.date) {
+                    const timeA = a.stadiumDetails.time || DEFAULT_EVENT_TIME;
+                    const timeB = b.stadiumDetails.time || DEFAULT_EVENT_TIME;
+                    return timeA.localeCompare(timeB);
+                }
+                return a.date.localeCompare(b.date);
+            });
+
+            return sanitized
+                .slice(0, 12)
+                .map(item => {
+                    const homeAbbr = item.raw.home_team_abbr || slugify(item.homeName);
+                    const awayAbbr = item.raw.away_team_abbr || slugify(item.awayName);
+                    const eventId = `${EVENT_BASE_URL}/#event-${item.date}-${awayAbbr}-${homeAbbr}`;
+                    const startDate = buildIsoDate(item.date, item.stadiumDetails.time);
+                    const endDate = buildIsoEndDate(item.date, item.stadiumDetails.time);
+                    const status = mapEventStatus(item.raw.game_status);
+                    return {
+                        "@type": "SportsEvent",
+                        "@id": eventId,
+                        "name": `${item.awayName} vs ${item.homeName}`,
+                        "startDate": startDate,
+                        "endDate": endDate,
+                        "eventStatus": status,
+                        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+                        "location": {
+                            "@type": "Place",
+                            "name": item.stadiumDetails.name || '会場未定',
+                            "address": {
+                                "@type": "PostalAddress",
+                                "addressCountry": "JP"
+                            }
+                        },
+                        "description": `${item.date} に開催予定の ${item.awayName} 対 ${item.homeName} の試合。${item.stadiumDetails.name || '会場未定'} で行われます。`,
+                        "image": getTeamLogoUrls(homeAbbr, awayAbbr),
+                        "performer": [
+                            { "@type": "SportsTeam", "name": item.awayName, "sport": "Baseball" },
+                            { "@type": "SportsTeam", "name": item.homeName, "sport": "Baseball" }
+                        ],
+                        "homeTeam": { "@type": "SportsTeam", "name": item.homeName, "sport": "Baseball" },
+                        "awayTeam": { "@type": "SportsTeam", "name": item.awayName, "sport": "Baseball" },
+                        "organizer": {
+                            "@type": "SportsOrganization",
+                            "name": "Nippon Professional Baseball",
+                            "url": "https://npb.jp"
+                        },
+                        "offers": {
+                            "@type": "Offer",
+                            "price": "0",
+                            "priceCurrency": "JPY",
+                            "availability": "https://schema.org/InStock",
+                            "url": eventId
+                        },
+                        "isAccessibleForFree": true
+                    };
+                });
+        }
+
+        function injectEventStructuredData(games) {
+            const graph = buildEventGraph(games);
+            const existing = document.getElementById(EVENT_STRUCTURED_DATA_ID);
+            if (!graph.length) {
+                if (existing) existing.remove();
+                return;
+            }
+            const payload = {
+                "@context": "https://schema.org",
+                "@graph": graph
+            };
+            const scriptContent = JSON.stringify(payload, null, 2);
+            if (existing) {
+                existing.textContent = scriptContent;
+                return;
+            }
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.id = EVENT_STRUCTURED_DATA_ID;
+            script.textContent = scriptContent;
+            document.head.appendChild(script);
+        }
+
         // Helper to convert existing data format for new calculation functions
         function convertTeamDataForMagic(teams) {
             return teams.map(team => ({
@@ -3325,39 +3673,6 @@
         const img = src ? `<img class="team-logo" src="${src}" alt="${safeName}" loading="lazy">` : '';
         return `${img}${safeName}`;
     }
-
-        const MAX_AD_ATTEMPTS = 10;
-
-        function initializeAdSlot(ad, attempt = 0) {
-            if (!ad || ad.getAttribute('data-adsbygoogle-status')) {
-                return;
-            }
-
-            const parent = ad.parentElement;
-            if (parent) {
-                parent.style.minWidth = '320px';
-                parent.style.width = '100%';
-                parent.style.maxWidth = '100%';
-            }
-
-            ad.style.display = 'block';
-            ad.style.minWidth = '320px';
-            ad.style.width = '100%';
-            ad.style.maxWidth = '100%';
-            ad.style.visibility = 'visible';
-
-            const width = ad.offsetWidth || ad.getBoundingClientRect().width || parent?.offsetWidth || 0;
-            if (width <= 0) {
-                if (attempt < MAX_AD_ATTEMPTS) {
-                    requestAnimationFrame(() => initializeAdSlot(ad, attempt + 1));
-                }
-                return;
-            }
-
-            // HTML에 이미 push 스크립트가 있으므로 중복 push 제거
-            // AdSense는 이미 HTML의 개별 script 태그에서 초기화됨
-        }
-
         // ===== タブ切り替え機能 =====
         function showTab(tabId, el) {
             // Hide all tabs
@@ -3416,30 +3731,20 @@
 
             // 탭 전환 후 지연된 광고 초기화
             requestAnimationFrame(() => {
-                if (window.pendingAds && window.pendingAds.length > 0) {
-                    // 새로 활성화된 탭의 지연된 광고들을 찾아서 초기화
-                    const tabAds = selectedTab.querySelectorAll('ins.adsbygoogle');
+                const tabAds = selectedTab.querySelectorAll('ins.adsbygoogle');
 
-                    tabAds.forEach(ad => {
+                tabAds.forEach(ad => {
+                    if (window.pendingAds) {
                         const index = window.pendingAds.indexOf(ad);
                         if (index !== -1) {
-                            // 지연 대기열에서 제거하고 초기화
                             window.pendingAds.splice(index, 1);
-
-                            // 잠시 후 초기화 (탭 애니메이션 완료 대기)
-                            setTimeout(() => {
-                                if (ad.parentElement && ad.parentElement.offsetWidth > 0) {
-                                    try {
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                        console.log('Initialized delayed ad in tab:', tabId);
-                                    } catch (e) {
-                                        console.error('Failed to initialize delayed ad:', e);
-                                    }
-                                }
-                            }, 300);
                         }
-                    });
-                }
+                    }
+
+                    if (window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                        setTimeout(() => window.npbAds.queueAdInitialization(ad), 250);
+                    }
+                });
             });
         }
 
@@ -9934,8 +10239,12 @@
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
-            // 모바일 광고는 항상 즉시 초기화 (탭 밖에 위치)
-            (adsbygoogle = window.adsbygoogle || []).push({});
+            (function() {
+                const adElement = document.currentScript.previousElementSibling;
+                if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
+                    window.npbAds.queueAdInitialization(adElement);
+                }
+            })();
         </script>
     </div>
 
@@ -9950,26 +10259,34 @@
 
     <!-- AdSense 지연 초기화 관리 스크립트 -->
     <script>
-    // 지연된 광고 관리 및 에러 방지
     window.addEventListener('load', function() {
-        console.log('AdSense delayed initialization manager loaded');
-        console.log('Pending ads count:', window.pendingAds ? window.pendingAds.length : 0);
-
-        // 정리: 이미 제거된 요소들을 대기열에서 제거
-        if (window.pendingAds) {
-            window.pendingAds = window.pendingAds.filter(ad => {
-                return ad.parentElement && document.contains(ad);
-            });
-            console.log('Cleaned pending ads count:', window.pendingAds.length);
+        if (!window.npbAds || typeof window.npbAds.queueAdInitialization !== 'function') {
+            return;
         }
 
-        // 5초 후 남은 지연된 광고들 강제 정리 (메모리 누수 방지)
+        if (window.pendingAds && window.pendingAds.length > 0) {
+            const pending = window.pendingAds.slice();
+            window.pendingAds.length = 0;
+            pending.forEach(ad => {
+                if (ad && document.contains(ad)) {
+                    window.npbAds.queueAdInitialization(ad);
+                }
+            });
+        }
+
         setTimeout(() => {
-            if (window.pendingAds && window.pendingAds.length > 0) {
-                console.log('Cleaning up remaining pending ads:', window.pendingAds.length);
-                window.pendingAds = [];
+            if (!window.pendingAds || window.pendingAds.length === 0) {
+                return;
             }
-        }, 5000);
+
+            const remaining = window.pendingAds.slice();
+            window.pendingAds.length = 0;
+            remaining.forEach(ad => {
+                if (ad && document.contains(ad)) {
+                    window.npbAds.queueAdInitialization(ad);
+                }
+            });
+        }, 3000);
     });
     </script>
 
@@ -10018,7 +10335,7 @@
                 const games = await gamesResponse.json();
                 const upcoming = await upcomingResponse.json();
                 const teams = await teamsResponse.json();
-                
+
                 allGames = [...games, ...upcoming];
 
                 const dateKeys = [...new Set(allGames
