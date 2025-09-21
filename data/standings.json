@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-21T12:58:49.892Z",
+  "updated_at": "2025-09-21T13:28:12.484Z",
   "central_league": {
     "standings": [
       {
@@ -7,14 +7,14 @@
         "team_abbreviation": "HAN",
         "team_name": "阪神タイガース",
         "league": "Central",
-        "games_played": 136,
+        "games_played": 137,
         "wins": 83,
-        "losses": 50,
+        "losses": 51,
         "draws": 3,
-        "runs_scored": 474,
-        "runs_allowed": 326,
-        "win_percentage": 0.6240601503759399,
-        "run_differential": 148,
+        "runs_scored": 475,
+        "runs_allowed": 334,
+        "win_percentage": 0.6194029850746269,
+        "run_differential": 141,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5151515151515151,
         "run_differential": 44,
         "position_rank": 2,
-        "games_behind": 14.5
+        "games_behind": 14
       },
       {
         "team_id": 1,
@@ -48,7 +48,7 @@
         "win_percentage": 0.5,
         "run_differential": 2,
         "position_rank": 3,
-        "games_behind": 16.5
+        "games_behind": 16
       },
       {
         "team_id": 5,
@@ -64,7 +64,7 @@
         "win_percentage": 0.4444444444444444,
         "run_differential": -58,
         "position_rank": 4,
-        "games_behind": 24
+        "games_behind": 23.5
       },
       {
         "team_id": 4,
@@ -80,23 +80,23 @@
         "win_percentage": 0.4393939393939394,
         "run_differential": -34,
         "position_rank": 5,
-        "games_behind": 24.5
+        "games_behind": 24
       },
       {
         "team_id": 6,
         "team_abbreviation": "YAK",
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
-        "games_played": 132,
-        "wins": 50,
+        "games_played": 133,
+        "wins": 51,
         "losses": 76,
         "draws": 6,
-        "runs_scored": 392,
-        "runs_allowed": 531,
-        "win_percentage": 0.3968253968253968,
-        "run_differential": -139,
+        "runs_scored": 400,
+        "runs_allowed": 532,
+        "win_percentage": 0.4015748031496063,
+        "run_differential": -132,
         "position_rank": 6,
-        "games_behind": 29.5
+        "games_behind": 28.5
       }
     ]
   },
