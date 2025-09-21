@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-21T12:31:09.971Z",
+  "updated_at": "2025-09-21T12:58:49.892Z",
   "central_league": {
     "standings": [
       {
@@ -23,16 +23,16 @@
         "team_abbreviation": "YDB",
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
-        "games_played": 136,
-        "wins": 67,
+        "games_played": 137,
+        "wins": 68,
         "losses": 64,
         "draws": 5,
-        "runs_scored": 465,
-        "runs_allowed": 426,
-        "win_percentage": 0.5114503816793893,
-        "run_differential": 39,
+        "runs_scored": 472,
+        "runs_allowed": 428,
+        "win_percentage": 0.5151515151515151,
+        "run_differential": 44,
         "position_rank": 2,
-        "games_behind": 15
+        "games_behind": 14.5
       },
       {
         "team_id": 1,
@@ -71,16 +71,16 @@
         "team_abbreviation": "HIR",
         "team_name": "広島東洋カープ",
         "league": "Central",
-        "games_played": 136,
+        "games_played": 137,
         "wins": 58,
-        "losses": 73,
+        "losses": 74,
         "draws": 5,
-        "runs_scored": 428,
-        "runs_allowed": 457,
-        "win_percentage": 0.44274809160305345,
-        "run_differential": -29,
+        "runs_scored": 430,
+        "runs_allowed": 464,
+        "win_percentage": 0.4393939393939394,
+        "run_differential": -34,
         "position_rank": 5,
-        "games_behind": 24
+        "games_behind": 24.5
       },
       {
         "team_id": 6,

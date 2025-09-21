@@ -12092,5 +12092,21 @@
     "is_draw": false,
     "stadium": "◇開始14時00分◇みずほペイペイドーム",
     "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-21",
+    "home_team_id": 3,
+    "home_team_abbr": "YDB",
+    "home_team_name": "横浜DeNAベイスターズ",
+    "away_team_id": 4,
+    "away_team_abbr": "HIR",
+    "away_team_name": "広島東洋カープ",
+    "home_score": 7,
+    "away_score": 2,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "横浜スタジアム",
+    "final_inning": 9
   }
 ]
