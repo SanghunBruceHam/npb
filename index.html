@@ -3364,8 +3364,11 @@
         function showTab(tabId, el) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-                tab.setAttribute('aria-hidden', 'true');
+                // Ensure we're not modifying body element
+                if (tab.tagName !== 'BODY') {
+                    tab.classList.remove('active');
+                    tab.setAttribute('aria-hidden', 'true');
+                }
             });
 
             // Reset all nav buttons
@@ -3376,7 +3379,7 @@
 
             // Show selected tab
             const selectedTab = document.getElementById(tabId);
-            if (!selectedTab) {
+            if (!selectedTab || selectedTab.tagName === 'BODY') {
                 return;
             }
             selectedTab.classList.add('active');
