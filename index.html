@@ -2904,6 +2904,22 @@
         let homeAwayRemainingByTeam = {}; // { team_id: { home: n, away: n, opponents: {} } }
         let TOTAL_GAMES = 143;         // NPB 正規シーズン: 1チーム143試合
 
+        // ===== チームロゴ（略称→ファイルパス） =====
+        const TEAM_LOGOS = {
+            YOG: 'assets/npb-logos/svg/yomiuri-giants.svg',
+            HAN: 'assets/npb-logos/svg/hanshin-tigers.svg',
+            CHU: 'assets/npb-logos/svg/chunichi-dragons.svg',
+            HIR: 'assets/npb-logos/svg/hiroshima-toyo-carp.svg',
+            YDB: 'assets/npb-logos/svg/yokohama-dena-baystars.svg',
+            YAK: 'assets/npb-logos/svg/tokyo-yakult-swallows.svg',
+            SOF: 'assets/npb-logos/svg/fukuoka-softbank-hawks.svg',
+            LOT: 'assets/npb-logos/svg/chiba-lotte-marines.svg',
+            SEI: 'assets/npb-logos/svg/saitama-seibu-lions.svg',
+            ORI: 'assets/npb-logos/svg/orix-buffaloes.svg',
+            NIP: 'assets/npb-logos/svg/hokkaido-nippon-ham-fighters.svg',
+            RAK: 'assets/npb-logos/svg/tohoku-rakuten-golden-eagles.svg'
+        };
+
         // Structured data helpers for upcoming events
         const EVENT_BASE_URL = 'https://npb-dashboard.com';
         const EVENT_STRUCTURED_DATA_ID = 'ldjson-upcoming-events';
@@ -3334,21 +3350,6 @@
             });
         }
 
-        // ===== チームロゴ（略称→ファイルパス） =====
-        const TEAM_LOGOS = {
-            YOG: 'assets/npb-logos/svg/yomiuri-giants.svg',
-            HAN: 'assets/npb-logos/svg/hanshin-tigers.svg',
-            CHU: 'assets/npb-logos/svg/chunichi-dragons.svg',
-            HIR: 'assets/npb-logos/svg/hiroshima-toyo-carp.svg',
-            YDB: 'assets/npb-logos/svg/yokohama-dena-baystars.svg',
-            YAK: 'assets/npb-logos/svg/tokyo-yakult-swallows.svg',
-            SOF: 'assets/npb-logos/svg/fukuoka-softbank-hawks.svg',
-            LOT: 'assets/npb-logos/svg/chiba-lotte-marines.svg',
-            SEI: 'assets/npb-logos/svg/saitama-seibu-lions.svg',
-            ORI: 'assets/npb-logos/svg/orix-buffaloes.svg',
-            NIP: 'assets/npb-logos/svg/hokkaido-nippon-ham-fighters.svg',
-            RAK: 'assets/npb-logos/svg/tohoku-rakuten-golden-eagles.svg'
-        };
 
         function renderTeamLabel(abbr, name, shortName = false) {
             const src = TEAM_LOGOS[abbr] || '';
