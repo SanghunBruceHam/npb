@@ -10221,97 +10221,144 @@
 
     <script>
       (function() {
+        const initializedAds = new WeakSet();
+        const adObservers = new WeakMap();
+
         function tryInitAd(ad, attempt = 0) {
-          if (!ad || !ad.isConnected || ad.dataset.adsInitialized === 'true') {
+          // Skip if already initialized
+          if (!ad || !ad.isConnected || initializedAds.has(ad)) {
             return;
           }
 
-          // Get computed style to ensure accurate width measurement
+          // Check if already has data-adsbygoogle-status attribute (Google's indicator)
+          if (ad.hasAttribute('data-adsbygoogle-status')) {
+            initializedAds.add(ad);
+            return;
+          }
+
+          // Get all dimensions
+          const rect = ad.getBoundingClientRect();
           const computedStyle = window.getComputedStyle(ad);
           const parentElement = ad.parentElement;
-          const parentWidth = parentElement ? parentElement.offsetWidth : 0;
-          const measuredWidth = ad.offsetWidth || parseInt(computedStyle.width) || parentWidth;
 
-          // Check if element or parent is hidden
-          const isHidden = computedStyle.display === 'none' ||
-                          computedStyle.visibility === 'hidden' ||
-                          (parentElement && window.getComputedStyle(parentElement).display === 'none');
+          // Check multiple width sources
+          const widths = [
+            rect.width,
+            ad.offsetWidth,
+            ad.clientWidth,
+            parseInt(computedStyle.width) || 0,
+            parentElement ? parentElement.offsetWidth : 0
+          ];
 
-          if (measuredWidth <= 0 || isHidden) {
-            if (attempt < 20) {
-              // Increased retry attempts and wait time
-              window.setTimeout(() => tryInitAd(ad, attempt + 1), 1000);
-            } else {
-              console.warn('AdSense slot skipped after max retries', ad.dataset.adSlot || 'unknown');
+          const maxWidth = Math.max(...widths);
+
+          // Check visibility
+          const isVisible = rect.height > 0 &&
+                           computedStyle.display !== 'none' &&
+                           computedStyle.visibility !== 'hidden' &&
+                           computedStyle.opacity !== '0';
+
+          // For hidden tabs, check if parent tab panel is active
+          const isInHiddenTab = parentElement &&
+                               parentElement.closest('.tab-pane:not(.active)');
+
+          if ((maxWidth <= 0 || !isVisible) && !isInHiddenTab) {
+            if (attempt < 10) {
+              window.setTimeout(() => tryInitAd(ad, attempt + 1), 500 + (attempt * 200));
             }
             return;
           }
 
-          // Set minimum width if needed
-          if (ad.style.minWidth === '') {
-            ad.style.minWidth = '250px';
+          // Ensure minimum dimensions
+          if (!ad.style.minWidth) {
+            ad.style.minWidth = '300px';
+          }
+          if (!ad.style.minHeight) {
+            ad.style.minHeight = '50px';
           }
 
+          // Only push if not already initialized
           try {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            ad.dataset.adsInitialized = 'true';
+            if (!ad.hasAttribute('data-adsbygoogle-status')) {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              initializedAds.add(ad);
+            }
           } catch (error) {
-            console.warn('AdSense initialization failed', error);
-            // Retry on error
-            if (attempt < 5) {
-              window.setTimeout(() => tryInitAd(ad, attempt + 1), 2000);
+            // Only retry for width errors
+            if (error.message && error.message.includes('width') && attempt < 5) {
+              window.setTimeout(() => tryInitAd(ad, attempt + 1), 1000);
             }
           }
         }
 
-        // Wait for both DOM and window load
         function initAds() {
-          const adSlots = Array.from(document.querySelectorAll('ins.adsbygoogle'));
+          const adSlots = document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status])');
+
           if (!adSlots.length) {
             return;
           }
 
-          if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver(entries => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0) {
-                  const ad = entry.target;
-                  // Give time for tab to become active
-                  window.setTimeout(() => tryInitAd(ad), 100);
-                  if (ad.dataset.adsInitialized === 'true') {
-                    observer.unobserve(ad);
-                  }
-                }
-              });
-            }, { root: null, threshold: 0.01, rootMargin: '50px' });
+          adSlots.forEach(ad => {
+            // Skip if already being observed
+            if (adObservers.has(ad)) {
+              return;
+            }
 
-            adSlots.forEach(ad => {
-              // Ensure parent container has width
-              const parent = ad.parentElement;
-              if (parent && !parent.style.minWidth) {
-                parent.style.minWidth = '250px';
+            // Ensure parent has dimensions
+            const parent = ad.parentElement;
+            if (parent) {
+              if (!parent.style.minWidth) {
+                parent.style.minWidth = '300px';
               }
+              if (!parent.style.minHeight) {
+                parent.style.minHeight = '50px';
+              }
+            }
+
+            // Use IntersectionObserver for lazy loading
+            if ('IntersectionObserver' in window) {
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting && entry.intersectionRatio > 0) {
+                    tryInitAd(entry.target);
+                    // Keep observing in case of tab switches
+                  }
+                });
+              }, {
+                root: null,
+                threshold: 0.01,
+                rootMargin: '100px'
+              });
+
               observer.observe(ad);
-              // Try immediate init for visible ads
-              if (ad.getBoundingClientRect().width > 0) {
+              adObservers.set(ad, observer);
+
+              // Also try immediate init if visible
+              const rect = ad.getBoundingClientRect();
+              if (rect.width > 0 && rect.top < window.innerHeight && rect.bottom > 0) {
                 tryInitAd(ad);
               }
-            });
-          } else {
-            // Fallback for browsers without IntersectionObserver
-            adSlots.forEach(ad => tryInitAd(ad));
-          }
+            } else {
+              tryInitAd(ad);
+            }
+          });
         }
 
-        // Multiple init strategies
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initAds);
+        // Single init on DOM ready
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          window.setTimeout(initAds, 100);
         } else {
-          initAds();
+          document.addEventListener('DOMContentLoaded', () => {
+            window.setTimeout(initAds, 100);
+          });
         }
 
-        // Also init on window load and tab visibility change
-        window.addEventListener('load', initAds);
+        // Handle tab switches for Bootstrap tabs
+        document.addEventListener('shown.bs.tab', function(event) {
+          window.setTimeout(initAds, 200);
+        });
+
+        // Handle visibility changes
         document.addEventListener('visibilitychange', function() {
           if (!document.hidden) {
             window.setTimeout(initAds, 500);
