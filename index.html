@@ -3397,6 +3397,35 @@
                 });
             }
 
+            // Trigger ad initialization for the newly shown tab
+            window.setTimeout(() => {
+                const tabAds = selectedTab.querySelectorAll('ins.adsbygoogle');
+                tabAds.forEach(ad => {
+                    // Reset ad status to allow re-initialization for hidden tabs
+                    if (!ad.hasAttribute('data-adsbygoogle-status') ||
+                        ad.getAttribute('data-adsbygoogle-status') === 'done') {
+                        // Force dimensions update
+                        const parent = ad.parentElement;
+                        if (parent) {
+                            parent.style.minWidth = '300px';
+                            parent.style.minHeight = '50px';
+                        }
+                        ad.style.minWidth = '300px';
+                        ad.style.minHeight = '50px';
+
+                        // Try to initialize
+                        if (typeof window.tryInitAd === 'function') {
+                            window.tryInitAd(ad, 0);
+                        }
+                    }
+                });
+
+                // Also call general init for any new ads
+                if (typeof window.initAds === 'function') {
+                    window.initAds();
+                }
+            }, 200);
+
             try {
                 sessionStorage.setItem('npb-current-tab', tabId);
             } catch (storageError) {
@@ -10224,7 +10253,8 @@
         const initializedAds = new WeakSet();
         const adObservers = new WeakMap();
 
-        function tryInitAd(ad, attempt = 0) {
+        // Make tryInitAd globally accessible for tab switching
+        window.tryInitAd = function tryInitAd(ad, attempt = 0) {
           // Skip if already initialized
           if (!ad || !ad.isConnected || initializedAds.has(ad)) {
             return;
@@ -10291,7 +10321,8 @@
           }
         }
 
-        function initAds() {
+        // Make initAds globally accessible too
+        window.initAds = function initAds() {
           const adSlots = document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status])');
 
           if (!adSlots.length) {
