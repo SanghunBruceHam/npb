@@ -6610,7 +6610,6 @@
             datasets.forEach((dataset, index) => {
                 const teamCode = teams[index];
                 const teamMeta = NPB_TEAM_META[teamCode];
-                const teamLogo = TEAM_LOGOS[teamCode];
 
                 const legendItem = document.createElement('div');
                 legendItem.style.cssText = `
@@ -6641,27 +6640,6 @@
                     flex-shrink: 0;
                 `;
 
-                // 팀 로고
-                let logoElement;
-                if (teamLogo) {
-                    logoElement = document.createElement('img');
-                    logoElement.src = teamLogo;
-                    logoElement.alt = teamMeta?.fullName || teamCode;
-                    logoElement.style.cssText = `
-                        width: 14px;
-                        height: 14px;
-                        object-fit: contain;
-                        flex-shrink: 0;
-                    `;
-                } else {
-                    logoElement = document.createElement('span');
-                    logoElement.textContent = '⚾';
-                    logoElement.style.cssText = `
-                        font-size: 10px;
-                        flex-shrink: 0;
-                    `;
-                }
-
                 // 팀명
                 const teamName = document.createElement('span');
                 teamName.textContent = teamMeta?.shortName || teamCode;
@@ -6673,7 +6651,6 @@
                 `;
 
                 legendItem.appendChild(colorBox);
-                legendItem.appendChild(logoElement);
                 legendItem.appendChild(teamName);
                 legendContainer.appendChild(legendItem);
             });
@@ -6709,7 +6686,6 @@
             datasets.forEach((dataset, index) => {
                 const teamCode = teams[index];
                 const teamMeta = NPB_TEAM_META[teamCode];
-                const teamLogo = TEAM_LOGOS[teamCode];
 
                 const legendItem = document.createElement('div');
                 legendItem.style.cssText = `
@@ -6738,27 +6714,6 @@
                     border-radius: 2px;
                 `;
 
-                // 팀 로고
-                let logoElement;
-                if (teamLogo) {
-                    logoElement = document.createElement('img');
-                    logoElement.src = teamLogo;
-                    logoElement.alt = teamMeta?.fullName || teamCode;
-                    logoElement.style.cssText = `
-                        width: 16px;
-                        height: 16px;
-                        object-fit: contain;
-                    `;
-                } else {
-                    logoElement = document.createElement('span');
-                    logoElement.textContent = teamMeta?.shortName || teamCode;
-                    logoElement.style.cssText = `
-                        font-size: 10px;
-                        font-weight: bold;
-                        color: ${dataset.borderColor};
-                    `;
-                }
-
                 // 팀명
                 const teamName = document.createElement('span');
                 teamName.textContent = teamMeta?.fullName || dataset.label;
@@ -6768,7 +6723,6 @@
                 `;
 
                 legendItem.appendChild(colorBox);
-                legendItem.appendChild(logoElement);
                 legendItem.appendChild(teamName);
                 legendContainer.appendChild(legendItem);
             });
