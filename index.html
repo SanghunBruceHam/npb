@@ -9585,7 +9585,7 @@
         // Handle browser back/forward buttons
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining'];
+            const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining', 'season-analysis', 'all-games'];
             if (hash && validTabs.includes(hash)) {
                 showTab(hash);
             }
@@ -9594,7 +9594,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Restore tab from URL hash or saved session state
             const hash = window.location.hash.slice(1); // Remove #
-            const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining'];
+            const validTabs = ['magic-regular', 'magic-playoff', 'progress', 'scenarios', 'standings', 'remaining', 'season-analysis', 'all-games'];
             const savedTab = sessionStorage.getItem('npb-current-tab');
 
             if (hash && validTabs.includes(hash)) {
