@@ -64,224 +64,6 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5508768187151867" crossorigin="anonymous"></script>
 
-    <!-- AdSense slot initialization helpers -->
-    <script>
-      (function() {
-        const MAX_ATTEMPTS = 20;
-        const ATTEMPT_DELAY_MS = 150;
-        const MIN_SLOT_WIDTH_PX = 120;
-        const fallbackTimers = new WeakMap();
-        const observedAds = new WeakSet();
-        const resizeObserver = typeof ResizeObserver === 'function'
-          ? new ResizeObserver(entries => {
-              entries.forEach(entry => {
-                const ad = entry.target;
-                if (!ad) {
-                  return;
-                }
-                attemptAdInitialization(ad, 0);
-              });
-            })
-          : null;
-
-        function ensurePendingStore() {
-          if (!window.pendingAds) {
-            window.pendingAds = [];
-          }
-          return window.pendingAds;
-        }
-
-        function isInActiveTab(ad) {
-          const parentTab = typeof ad?.closest === 'function' ? ad.closest('.tab-content') : null;
-          return !parentTab || parentTab.classList.contains('active');
-        }
-
-        function isElementConnected(ad) {
-          return !!(ad && ad.isConnected);
-        }
-
-        function getRectWidth(element) {
-          if (!element) {
-            return 0;
-          }
-          const rect = typeof element.getBoundingClientRect === 'function' ? element.getBoundingClientRect() : null;
-          if (rect && rect.width > 0) {
-            return rect.width;
-          }
-          if (element.clientWidth > 0) {
-            return element.clientWidth;
-          }
-          return 0;
-        }
-
-        function elementHasLayout(ad) {
-          if (!isElementConnected(ad)) {
-            return false;
-          }
-          const width = getRectWidth(ad);
-          const parentWidth = getRectWidth(ad.parentElement) || width;
-          const hasOffsetParent = !!(ad.offsetParent || ad.getClientRects().length);
-          return width >= MIN_SLOT_WIDTH_PX && parentWidth >= MIN_SLOT_WIDTH_PX && hasOffsetParent;
-        }
-
-        function prepareSlot(ad) {
-          if (!ad) {
-            return;
-          }
-          ad.style.display = 'block';
-          ad.style.width = '100%';
-          ad.style.maxWidth = '100%';
-          ad.style.visibility = 'visible';
-
-          const parent = ad.parentElement;
-          if (parent) {
-            parent.style.minWidth = '320px';
-            parent.style.width = '100%';
-            parent.style.maxWidth = '100%';
-            parent.style.overflow = 'visible';
-          }
-        }
-
-        function observeAd(ad) {
-          if (!resizeObserver || !ad || observedAds.has(ad)) {
-            return;
-          }
-          resizeObserver.observe(ad);
-          observedAds.add(ad);
-        }
-
-        function unobserveAd(ad) {
-          if (!resizeObserver || !ad || !observedAds.has(ad)) {
-            return;
-          }
-          resizeObserver.unobserve(ad);
-          observedAds.delete(ad);
-        }
-
-        function clearFallback(ad) {
-          const timerId = fallbackTimers.get(ad);
-          if (timerId) {
-            clearTimeout(timerId);
-            fallbackTimers.delete(ad);
-          }
-        }
-
-        function markInitialized(ad) {
-          if (!ad) {
-            return;
-          }
-          ad.dataset.adsenseInitialized = 'true';
-          clearFallback(ad);
-          unobserveAd(ad);
-
-          if (window.pendingAds) {
-            const idx = window.pendingAds.indexOf(ad);
-            if (idx !== -1) {
-              window.pendingAds.splice(idx, 1);
-            }
-          }
-        }
-
-        function scheduleAdRetry(ad, attempt) {
-          if (!ad) {
-            return;
-          }
-          const nextAttempt = attempt + 1;
-          if (nextAttempt >= MAX_ATTEMPTS) {
-            const pending = ensurePendingStore();
-            if (pending.indexOf(ad) === -1) {
-              pending.push(ad);
-            }
-            clearFallback(ad);
-            return;
-          }
-          const delay = ATTEMPT_DELAY_MS * Math.min(nextAttempt, 10);
-          clearFallback(ad);
-          const timerId = setTimeout(() => {
-            fallbackTimers.delete(ad);
-            attemptAdInitialization(ad, nextAttempt);
-          }, delay);
-          fallbackTimers.set(ad, timerId);
-        }
-
-        function shouldDelay(ad) {
-          return !isInActiveTab(ad);
-        }
-
-        function attemptInitializationOnceReady(ad, attempt) {
-          requestAnimationFrame(() => {
-            if (!ad || ad.dataset.adsenseInitialized === 'true') {
-              return;
-            }
-            if (shouldDelay(ad) || !elementHasLayout(ad)) {
-              scheduleAdRetry(ad, attempt);
-              return;
-            }
-            try {
-              (window.adsbygoogle = window.adsbygoogle || []).push({});
-              markInitialized(ad);
-            } catch (error) {
-              scheduleAdRetry(ad, attempt);
-            }
-          });
-        }
-
-        function attemptAdInitialization(ad, attempt = 0) {
-          if (!ad || ad.dataset.adsenseInitialized === 'true' || ad.getAttribute('data-adsbygoogle-status')) {
-            markInitialized(ad);
-            return;
-          }
-
-          if (!isElementConnected(ad)) {
-            scheduleAdRetry(ad, attempt);
-            return;
-          }
-
-          prepareSlot(ad);
-
-          if (shouldDelay(ad)) {
-            const pending = ensurePendingStore();
-            if (pending.indexOf(ad) === -1) {
-              pending.push(ad);
-            }
-            scheduleAdRetry(ad, attempt);
-            return;
-          }
-
-          observeAd(ad);
-
-          if (!elementHasLayout(ad)) {
-            scheduleAdRetry(ad, attempt);
-            return;
-          }
-
-          attemptInitializationOnceReady(ad, attempt);
-        }
-
-        function queueAdInitialization(ad) {
-          if (!ad) {
-            return;
-          }
-
-          prepareSlot(ad);
-          observeAd(ad);
-
-          if (window.pendingAds) {
-            const idx = window.pendingAds.indexOf(ad);
-            if (idx !== -1) {
-              window.pendingAds.splice(idx, 1);
-            }
-          }
-
-          attemptAdInitialization(ad, 0);
-        }
-
-        window.npbAds = window.npbAds || {};
-        window.npbAds.queueAdInitialization = queueAdInitialization;
-        window.npbAds.attemptAdInitialization = attemptAdInitialization;
-      })();
-    </script>
-
     <!-- Disable verbose console output in production -->
     <script>
       (function() {
@@ -302,7 +84,6 @@
         // ApexCharts 로드 확인
         function checkApexChartsLoad() {
             if (typeof ApexCharts !== 'undefined') {
-                console.log('ApexCharts 로드 완료');
                 return true;
             }
             console.warn('ApexCharts 로드 실패');
@@ -1935,12 +1716,7 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
 
@@ -2023,12 +1799,7 @@
                          data-ad-slot="9345718962"
                          data-ad-format="autorelaxed"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
 
@@ -2100,12 +1871,7 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>            </div>
 
             <!-- Pacific League Scenario Views -->
@@ -2176,12 +1942,7 @@
                      data-ad-slot="9345718962"
                      data-ad-format="autorelaxed"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>            </div>
 
             <div class="scroll-table" style="margin-top: 30px;">
@@ -2240,12 +2001,7 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>            </div>
 
             <div style="margin: 20px 0;">
@@ -2286,12 +2042,7 @@
                      data-ad-slot="9345718962"
                      data-ad-format="autorelaxed"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>            </div>
 
             <div style="margin: 20px 0;">
@@ -2343,12 +2094,7 @@
                      data-ad-slot="9345718962"
                      data-ad-format="autorelaxed"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>            </div>
 
             <!-- Team progress section -->
@@ -2439,12 +2185,7 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
 
@@ -2475,12 +2216,7 @@
                          data-ad-slot="9345718962"
                          data-ad-format="autorelaxed"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>            </div>
 
             <div style="margin: 20px 0;">
@@ -2513,12 +2249,7 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
 
@@ -2682,12 +2413,7 @@
                          data-ad-slot="9345718962"
                          data-ad-format="autorelaxed"></ins>
                     <script>
-                        (function() {
-                            const adElement = document.currentScript.previousElementSibling;
-                            if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                                window.npbAds.queueAdInitialization(adElement);
-                            }
-                        })();
+                        (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
                 </div>
 
@@ -3726,21 +3452,6 @@
 
         }
 
-        // 광고 초기화 비활성화 - HTML push 스크립트가 담당
-        function initializeAdsAfterLoad() {
-            // HTML에 이미 각 광고별 push 스크립트가 있으므로 추가 초기화 불필요
-            return;
-        }
-
-        // 수동 광고 초기화 비활성화
-        function manuallyInitializeAds() {
-            console.log('AdSense ads are managed by individual HTML script tags');
-            return;
-        }
-
-        // 전역 함수로 노출 (개발자 도구에서 사용 가능)
-        window.loadAds = manuallyInitializeAds;
-
 
         // ===== 正規シーズン優勝マジック更新 =====
         function updateMagicRegular() {
@@ -4241,16 +3952,11 @@
 
         // NPB 실제 데이터 로딩 함수 (KBO 스타일)
         function loadRealNPBData() {
-            console.log('=== loadRealNPBData 시작 ===');
-            console.log('gamesData:', gamesData);
 
             if (!gamesData || !gamesData.length) {
-                console.log('gamesData가 없거나 비어있음');
                 return null;
             }
 
-            console.log('첫 번째 게임 데이터 샘플:', gamesData[0]);
-            console.log('총 게임 수:', gamesData.length);
 
             const sortedGames = [...gamesData].sort((a, b) => {
                 const dateA = new Date(a.game_date_jst || a.game_date || a.date || a.played_date);
@@ -4258,7 +3964,6 @@
                 return dateA - dateB;
             });
 
-            console.log('정렬된 게임 수:', sortedGames.length);
 
             const teamStats = {};
             const dates = [];
@@ -4307,11 +4012,6 @@
 
                 // 첫 번째 게임의 경우 상세 로깅
                 if (sortedGames.indexOf(game) === 0) {
-                    console.log('첫 번째 게임 상세 정보:');
-                    console.log('- 홈팀:', homeTeam, '점수:', homeScore);
-                    console.log('- 원정팀:', awayTeam, '점수:', awayScore);
-                    console.log('- 날짜:', dateStr);
-                    console.log('- 원본 게임 객체:', game);
                 }
 
                 if (teamStats[homeTeam] && teamStats[awayTeam]) {
@@ -4332,9 +4032,6 @@
                 }
             });
 
-            console.log('최종 팀 통계:', teamStats);
-            console.log('총 날짜 수:', dates.length);
-            console.log('날짜 범위:', dates[0], '~', dates[dates.length - 1]);
 
             return { teamStats, dates };
         }
@@ -5026,9 +4723,6 @@
 
         // NPB 시즌 분석 차트 업데이트 메인 함수
         function updateNPBSeasonAnalysis() {
-            console.log('=== NPB 시즌 분석 업데이트 시작 ===');
-            console.log('ApexCharts 상태:', typeof ApexCharts !== 'undefined' ? '로드됨' : '로드 안됨');
-            console.log('gamesData 상태:', gamesData ? `${gamesData.length}개 게임` : '데이터 없음');
 
             if (typeof ApexCharts === 'undefined') {
                 console.error('ApexCharts가 로드되지 않았습니다.');
@@ -5043,7 +4737,6 @@
             }
 
             const processedData = processNPBRealSeasonData();
-            console.log('처리된 데이터:', processedData);
 
             if (!processedData) {
                 console.error('데이터 처리 실패');
@@ -5053,7 +4746,6 @@
 
             // 세트럴 리그 차트들 생성
             if (processedData.central && processedData.central.teams && processedData.central.teams.length > 0) {
-                console.log('세트럴 리그 차트 생성 중...');
                 createNPBChart('central-ranking-canvas', 'central-ranking-legend', processedData.central, 'ranking', 'central');
                 createNPBChart('central-winrate-canvas', 'central-winrate-legend', processedData.central, 'winrate', 'central');
                 createNPBChart('central-gamesbehind-canvas', 'central-gamesbehind-legend', processedData.central, 'gamesBehind', 'central');
@@ -5064,7 +4756,6 @@
 
             // 퍼시픽 리그 차트들 생성
             if (processedData.pacific && processedData.pacific.teams && processedData.pacific.teams.length > 0) {
-                console.log('퍼시픽 리그 차트 생성 중...');
                 createNPBChart('pacific-ranking-canvas', 'pacific-ranking-legend', processedData.pacific, 'ranking', 'pacific');
                 createNPBChart('pacific-winrate-canvas', 'pacific-winrate-legend', processedData.pacific, 'winrate', 'pacific');
                 createNPBChart('pacific-gamesbehind-canvas', 'pacific-gamesbehind-legend', processedData.pacific, 'gamesBehind', 'pacific');
@@ -5073,12 +4764,10 @@
                 console.warn('퍼시픽 리그 데이터 없음');
             }
 
-            console.log('=== NPB 시즌 분석 업데이트 완료 ===');
         }
 
         // NPB 샘플 데이터 생성 및 차트 표시
         function createNPBSampleData() {
-            console.log('NPB 샘플 데이터 생성 중...');
 
             // 샘플 데이터 구조 생성
             const sampleData = {
@@ -5168,7 +4857,6 @@
                 });
             });
 
-            console.log('샘플 데이터 생성 완료:', sampleData);
 
             // 차트 생성
             createNPBChart('central-ranking-canvas', 'central-ranking-legend', sampleData.central, 'ranking', 'central');
@@ -6320,7 +6008,6 @@
         }
 
         function drawSimpleTestCharts() {
-            console.log('Drawing simple test charts on all canvases...');
 
             const canvasIds = [
                 'central-ranking-canvas', 'central-winrate-canvas', 'central-gamesbehind-canvas', 'central-wins-canvas',
@@ -6330,7 +6017,6 @@
             canvasIds.forEach(canvasId => {
                 const canvas = document.getElementById(canvasId);
                 if (canvas) {
-                    console.log(`Drawing on canvas: ${canvasId}`);
                     const ctx = canvas.getContext('2d');
 
                     // 배경 채우기
@@ -6361,7 +6047,6 @@
                     ctx.arc(canvas.width / 2, 200, 30, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    console.log(`Successfully drew on ${canvasId}`);
                 } else {
                     console.error(`Canvas ${canvasId} not found!`);
                 }
@@ -6370,33 +6055,24 @@
 
         // 전역 테스트 함수들 (브라우저 콘솔에서 호출 가능)
         window.testCharts = function() {
-            console.log('Manual chart test triggered');
             drawSimpleTestCharts();
         };
 
         window.testSeasonAnalysis = function() {
-            console.log('Manual season analysis test triggered');
             updateSeasonAnalysis();
         };
 
         // 디버깅용 함수들
         window.debugChartStatus = function() {
-            console.log('=== 차트 상태 디버깅 ===');
-            console.log('Chart.js 로드됨:', typeof Chart !== 'undefined');
-            console.log('gamesData:', gamesData ? `${gamesData.length}개 게임` : '없음');
-            console.log('chartInstances:', Object.keys(chartInstances));
-            console.log('chartCreating:', chartCreating);
 
             // 캔버스 상태 확인
             const canvases = ['central-ranking-canvas', 'central-winrate-canvas', 'pacific-ranking-canvas', 'pacific-winrate-canvas'];
             canvases.forEach(id => {
                 const canvas = document.getElementById(id);
-                console.log(`Canvas ${id}:`, canvas ? '존재함' : '없음');
             });
         };
 
         window.forceChartJS = function() {
-            console.log('Chart.js 강제 실행 시도...');
             if (typeof Chart !== 'undefined') {
                 processRealSeasonData();
             } else {
@@ -7263,7 +6939,6 @@
         }
 
         function drawSampleSeasonCharts() {
-            console.log('Drawing sample season charts with realistic data...');
 
             const leagues = {
                 central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
@@ -7431,16 +7106,12 @@
                 ctx.fillText(team, margin.left + width + 40, legendY + 4);
             });
 
-            console.log(`Drew sample chart: ${title} on ${canvasId}`);
         }
 
         // ===== 실제 시즌 분석 데이터 처리 =====
         function processSeasonAnalysisData() {
-            console.log('Processing season analysis data...');
-            console.log('gamesData status:', gamesData ? `${gamesData.length} games` : 'null/undefined');
 
             if (!gamesData || gamesData.length === 0) {
-                console.log('No games data available - creating sample data for demonstration');
                 return createSampleSeasonData();
             }
 
@@ -7534,7 +7205,6 @@
         }
 
         function createSampleSeasonData() {
-            console.log('Creating sample season data for demonstration');
 
             const leagues = {
                 central: ['巨人', 'ヤクルト', 'DeNA', '阪神', '広島', '中日'],
@@ -7657,7 +7327,6 @@
 
         // ===== 개선된 차트 그리기 함수들 =====
         function drawRealRankingChart(league, teamData) {
-            console.log(`Drawing ranking chart for ${league}:`, teamData);
 
             const canvas = document.getElementById(`${league}-ranking-canvas`);
             if (!canvas) {
@@ -8130,7 +7799,6 @@
         }
 
         function drawTestChart(canvas, ctx, title) {
-            console.log(`Drawing test chart: ${title}`);
 
             // 배경
             ctx.fillStyle = '#ffffff';
@@ -8191,7 +7859,6 @@
                 addTeamPerformanceMetrics();
             } catch (error) {
                 console.warn('Advanced analytics failed:', error);
-                console.log('Continuing without advanced analytics...');
             }
         }
 
@@ -10217,13 +9884,8 @@
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
-            (function() {
-                const adElement = document.currentScript.previousElementSibling;
-                if (adElement && window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                    window.npbAds.queueAdInitialization(adElement);
-                }
-            })();
-        </script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
     </div>
 
     <!-- Site footer (static) -->
@@ -10235,38 +9897,6 @@
         </div>
     </footer>
 
-    <!-- AdSense 지연 초기화 관리 스크립트 -->
-    <script>
-    window.addEventListener('load', function() {
-        if (!window.npbAds || typeof window.npbAds.queueAdInitialization !== 'function') {
-            return;
-        }
-
-        if (window.pendingAds && window.pendingAds.length > 0) {
-            const pending = window.pendingAds.slice();
-            window.pendingAds.length = 0;
-            pending.forEach(ad => {
-                if (ad && document.contains(ad)) {
-                    window.npbAds.queueAdInitialization(ad);
-                }
-            });
-        }
-
-        setTimeout(() => {
-            if (!window.pendingAds || window.pendingAds.length === 0) {
-                return;
-            }
-
-            const remaining = window.pendingAds.slice();
-            window.pendingAds.length = 0;
-            remaining.forEach(ad => {
-                if (ad && document.contains(ad)) {
-                    window.npbAds.queueAdInitialization(ad);
-                }
-            });
-        }, 3000);
-    });
-    </script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
