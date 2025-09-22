@@ -244,6 +244,7 @@
             if (pending.indexOf(ad) === -1) {
               pending.push(ad);
             }
+            scheduleAdRetry(ad, attempt);
             return;
           }
 
@@ -3723,23 +3724,6 @@
                 selectedTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
 
-            // 탭 전환 후 지연된 광고 초기화
-            requestAnimationFrame(() => {
-                const tabAds = selectedTab.querySelectorAll('ins.adsbygoogle');
-
-                tabAds.forEach(ad => {
-                    if (window.pendingAds) {
-                        const index = window.pendingAds.indexOf(ad);
-                        if (index !== -1) {
-                            window.pendingAds.splice(index, 1);
-                        }
-                    }
-
-                    if (window.npbAds && typeof window.npbAds.queueAdInitialization === 'function') {
-                        setTimeout(() => window.npbAds.queueAdInitialization(ad), 250);
-                    }
-                });
-            });
         }
 
         // 광고 초기화 비활성화 - HTML push 스크립트가 담당
