@@ -6563,66 +6563,71 @@
                         id: 'teamLogoAtEndPoints',
                         afterDatasetsDraw: function(chart) {
                             const ctx = chart.ctx;
-                            const meta = chart.getDatasetMeta(0);
 
-                            // 모든 팀 로고를 미리 로드하고 렌더링
-                            const logoPromises = [];
                             chart.data.datasets.forEach((dataset, datasetIndex) => {
                                 const teamCode = teams[datasetIndex];
+                                const teamMeta = NPB_TEAM_META[teamCode];
+                                const datasetMeta = chart.getDatasetMeta(datasetIndex);
+
+                                if (!datasetMeta.data || datasetMeta.data.length === 0) return;
+
+                                const lastPoint = datasetMeta.data[datasetMeta.data.length - 1];
+                                if (!lastPoint) return;
+
+                                const x = lastPoint.x;
+                                const y = lastPoint.y;
+
+                                ctx.save();
+
+                                // 배경 원 그리기
+                                ctx.beginPath();
+                                ctx.arc(x + 25, y, 16, 0, 2 * Math.PI);
+                                ctx.fillStyle = 'white';
+                                ctx.fill();
+                                ctx.strokeStyle = teamMeta?.color || dataset.borderColor;
+                                ctx.lineWidth = 2.5;
+                                ctx.stroke();
+
+                                // 팀 로고 또는 약자 표시
                                 const teamLogo = TEAM_LOGOS[teamCode];
-
                                 if (teamLogo) {
-                                    const promise = new Promise((resolve) => {
-                                        const img = new Image();
-                                        img.onload = () => resolve({ img, datasetIndex });
-                                        img.onerror = () => resolve({ img: null, datasetIndex });
-                                        img.src = teamLogo;
-                                    });
-                                    logoPromises.push(promise);
-                                } else {
-                                    logoPromises.push(Promise.resolve({ img: null, datasetIndex }));
-                                }
-                            });
-
-                            Promise.all(logoPromises).then(results => {
-                                results.forEach(({ img, datasetIndex }) => {
-                                    const dataset = chart.data.datasets[datasetIndex];
-                                    const teamCode = teams[datasetIndex];
-                                    const teamMeta = NPB_TEAM_META[teamCode];
-                                    const datasetMeta = chart.getDatasetMeta(datasetIndex);
-
-                                    if (datasetMeta.data.length > 0) {
-                                        const lastPoint = datasetMeta.data[datasetMeta.data.length - 1];
-                                        const x = lastPoint.x;
-                                        const y = lastPoint.y;
-
-                                        ctx.save();
-
-                                        // 배경 원 그리기
-                                        ctx.beginPath();
-                                        ctx.arc(x + 20, y, 14, 0, 2 * Math.PI);
-                                        ctx.fillStyle = 'white';
-                                        ctx.fill();
-                                        ctx.strokeStyle = teamMeta?.color || dataset.borderColor;
-                                        ctx.lineWidth = 2;
-                                        ctx.stroke();
-
-                                        if (img) {
-                                            // SVG 로고 그리기
-                                            ctx.drawImage(img, x + 20 - 10, y - 10, 20, 20);
-                                        } else {
-                                            // 팀 약자 표시
-                                            ctx.font = 'bold 10px Arial';
-                                            ctx.textAlign = 'center';
-                                            ctx.textBaseline = 'middle';
-                                            ctx.fillStyle = teamMeta?.color || dataset.borderColor;
-                                            const shortName = teamMeta?.shortName || teamCode;
-                                            ctx.fillText(shortName, x + 20, y);
-                                        }
-
-                                        ctx.restore();
+                                    // 로고가 캐시되었는지 확인
+                                    if (!chart.teamLogos) {
+                                        chart.teamLogos = {};
                                     }
-                                });
+
+                                    if (chart.teamLogos[teamCode]) {
+                                        // 캐시된 이미지 사용
+                                        ctx.drawImage(chart.teamLogos[teamCode], x + 25 - 11, y - 11, 22, 22);
+                                    } else {
+                                        // 새 이미지 로드
+                                        const img = new Image();
+                                        img.onload = function() {
+                                            chart.teamLogos[teamCode] = img;
+                                            // 로고 로드 완료 후 차트 다시 그리기
+                                            chart.update('none');
+                                        };
+                                        img.src = teamLogo;
+
+                                        // 로드 중에는 텍스트 표시
+                                        ctx.font = 'bold 11px Arial';
+                                        ctx.textAlign = 'center';
+                                        ctx.textBaseline = 'middle';
+                                        ctx.fillStyle = teamMeta?.color || dataset.borderColor;
+                                        const shortName = teamMeta?.shortName || teamCode.substr(0, 3);
+                                        ctx.fillText(shortName, x + 25, y);
+                                    }
+                                } else {
+                                    // 로고가 없으면 팀 약자 표시
+                                    ctx.font = 'bold 11px Arial';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    ctx.fillStyle = teamMeta?.color || dataset.borderColor;
+                                    const shortName = teamMeta?.shortName || teamCode.substr(0, 3);
+                                    ctx.fillText(shortName, x + 25, y);
+                                }
+
+                                ctx.restore();
                             });
                         }
                     }]
