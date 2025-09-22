@@ -10221,22 +10221,51 @@
 
     <script>
       (function() {
-        function tryInitAd(ad) {
-          if (!ad || ad.dataset.adsInitialized === 'true') {
+        function tryInitAd(ad, attempt = 0) {
+          if (!ad || !ad.isConnected || ad.dataset.adsInitialized === 'true') {
             return;
           }
-          if (ad.offsetWidth <= 0) {
+
+          // Get computed style to ensure accurate width measurement
+          const computedStyle = window.getComputedStyle(ad);
+          const parentElement = ad.parentElement;
+          const parentWidth = parentElement ? parentElement.offsetWidth : 0;
+          const measuredWidth = ad.offsetWidth || parseInt(computedStyle.width) || parentWidth;
+
+          // Check if element or parent is hidden
+          const isHidden = computedStyle.display === 'none' ||
+                          computedStyle.visibility === 'hidden' ||
+                          (parentElement && window.getComputedStyle(parentElement).display === 'none');
+
+          if (measuredWidth <= 0 || isHidden) {
+            if (attempt < 20) {
+              // Increased retry attempts and wait time
+              window.setTimeout(() => tryInitAd(ad, attempt + 1), 1000);
+            } else {
+              console.warn('AdSense slot skipped after max retries', ad.dataset.adSlot || 'unknown');
+            }
             return;
           }
+
+          // Set minimum width if needed
+          if (ad.style.minWidth === '') {
+            ad.style.minWidth = '250px';
+          }
+
           try {
             (adsbygoogle = window.adsbygoogle || []).push({});
             ad.dataset.adsInitialized = 'true';
           } catch (error) {
             console.warn('AdSense initialization failed', error);
+            // Retry on error
+            if (attempt < 5) {
+              window.setTimeout(() => tryInitAd(ad, attempt + 1), 2000);
+            }
           }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        // Wait for both DOM and window load
+        function initAds() {
           const adSlots = Array.from(document.querySelectorAll('ins.adsbygoogle'));
           if (!adSlots.length) {
             return;
@@ -10245,27 +10274,47 @@
           if ('IntersectionObserver' in window) {
             const observer = new IntersectionObserver(entries => {
               entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0) {
                   const ad = entry.target;
-                  tryInitAd(ad);
+                  // Give time for tab to become active
+                  window.setTimeout(() => tryInitAd(ad), 100);
                   if (ad.dataset.adsInitialized === 'true') {
                     observer.unobserve(ad);
                   }
                 }
               });
-            }, { root: null, threshold: 0 });
+            }, { root: null, threshold: 0.01, rootMargin: '50px' });
 
             adSlots.forEach(ad => {
+              // Ensure parent container has width
+              const parent = ad.parentElement;
+              if (parent && !parent.style.minWidth) {
+                parent.style.minWidth = '250px';
+              }
               observer.observe(ad);
-              tryInitAd(ad);
-            });
-          } else {
-            adSlots.forEach(ad => {
-              tryInitAd(ad);
-              if (ad.dataset.adsInitialized !== 'true') {
-                setTimeout(() => tryInitAd(ad), 500);
+              // Try immediate init for visible ads
+              if (ad.getBoundingClientRect().width > 0) {
+                tryInitAd(ad);
               }
             });
+          } else {
+            // Fallback for browsers without IntersectionObserver
+            adSlots.forEach(ad => tryInitAd(ad));
+          }
+        }
+
+        // Multiple init strategies
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initAds);
+        } else {
+          initAds();
+        }
+
+        // Also init on window load and tab visibility change
+        window.addEventListener('load', initAds);
+        document.addEventListener('visibilitychange', function() {
+          if (!document.hidden) {
+            window.setTimeout(initAds, 500);
           }
         });
       })();
