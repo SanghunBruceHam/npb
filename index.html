@@ -6348,15 +6348,22 @@
             // 데이터셋 생성 (순위대로 정렬된 팀 데이터 사용)
             const datasets = teams.map((team, index) => {
                 const teamMeta = NPB_TEAM_META[team] || { fullName: leagueData[team].name, color: '#666666' };
+                const dataArray = leagueData[team][dataType];
+
+                // 각 포인트별 radius 설정 (마지막 포인트는 숨김)
+                const pointRadiusArray = dataArray.map((_, idx) =>
+                    idx === dataArray.length - 1 ? 0 : 2
+                );
+
                 return {
                     label: teamMeta.shortName || teamMeta.fullName || leagueData[team].name,
-                    data: leagueData[team][dataType],
+                    data: dataArray,
                     borderColor: teamMeta.color,
                     backgroundColor: teamMeta.color + '20', // 투명도 추가
                     borderWidth: 3,
                     fill: dataType === 'gamesBehind' ? '+origin' : false,
                     tension: 0.4,
-                    pointRadius: 2,
+                    pointRadius: pointRadiusArray,
                     pointHoverRadius: 6,
                     pointBackgroundColor: '#fff',
                     pointBorderWidth: 2,
@@ -6558,10 +6565,25 @@
                             hoverBorderWidth: 3
                         }
                     },
-                    // 팀 로고 플러그인
-                    plugins: [{
-                        id: 'teamLogoAtEndPoints',
-                        afterDatasetsDraw: function(chart) {
+                },
+                plugins: [
+                    {
+                        id: 'teamLogoPlugin',
+                        beforeInit: function(chart) {
+                            // 이미지 미리 로드
+                            chart._teamLogos = {};
+                            teams.forEach(teamCode => {
+                                const teamLogo = TEAM_LOGOS[teamCode];
+                                if (teamLogo) {
+                                    const img = new Image();
+                                    img.onload = function() {
+                                        chart._teamLogos[teamCode] = img;
+                                    };
+                                    img.src = teamLogo;
+                                }
+                            });
+                        },
+                        afterDraw: function(chart) {
                             const ctx = chart.ctx;
 
                             chart.data.datasets.forEach((dataset, datasetIndex) => {
@@ -6569,10 +6591,13 @@
                                 const teamMeta = NPB_TEAM_META[teamCode];
                                 const datasetMeta = chart.getDatasetMeta(datasetIndex);
 
-                                if (!datasetMeta.data || datasetMeta.data.length === 0) return;
+                                if (!datasetMeta.data || datasetMeta.data.length === 0 || datasetMeta.hidden) return;
 
-                                const lastPoint = datasetMeta.data[datasetMeta.data.length - 1];
-                                if (!lastPoint) return;
+                                // 마지막 포인트 가져오기
+                                const lastPointIndex = dataset.data.length - 1;
+                                const lastPoint = datasetMeta.data[lastPointIndex];
+
+                                if (!lastPoint || !lastPoint.x || !lastPoint.y) return;
 
                                 const x = lastPoint.x;
                                 const y = lastPoint.y;
@@ -6580,57 +6605,43 @@
                                 ctx.save();
 
                                 // 배경 원 그리기
+                                const radius = 18;
                                 ctx.beginPath();
-                                ctx.arc(x + 25, y, 16, 0, 2 * Math.PI);
+                                ctx.arc(x, y, radius, 0, 2 * Math.PI);
                                 ctx.fillStyle = 'white';
                                 ctx.fill();
-                                ctx.strokeStyle = teamMeta?.color || dataset.borderColor;
-                                ctx.lineWidth = 2.5;
+                                ctx.strokeStyle = teamMeta?.color || dataset.borderColor || '#000';
+                                ctx.lineWidth = 3;
                                 ctx.stroke();
 
-                                // 팀 로고 또는 약자 표시
-                                const teamLogo = TEAM_LOGOS[teamCode];
-                                if (teamLogo) {
-                                    // 로고가 캐시되었는지 확인
-                                    if (!chart.teamLogos) {
-                                        chart.teamLogos = {};
-                                    }
+                                // 그림자 효과
+                                ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+                                ctx.shadowBlur = 4;
+                                ctx.shadowOffsetX = 0;
+                                ctx.shadowOffsetY = 2;
 
-                                    if (chart.teamLogos[teamCode]) {
-                                        // 캐시된 이미지 사용
-                                        ctx.drawImage(chart.teamLogos[teamCode], x + 25 - 11, y - 11, 22, 22);
-                                    } else {
-                                        // 새 이미지 로드
-                                        const img = new Image();
-                                        img.onload = function() {
-                                            chart.teamLogos[teamCode] = img;
-                                            // 로고 로드 완료 후 차트 다시 그리기
-                                            chart.update('none');
-                                        };
-                                        img.src = teamLogo;
-
-                                        // 로드 중에는 텍스트 표시
-                                        ctx.font = 'bold 11px Arial';
-                                        ctx.textAlign = 'center';
-                                        ctx.textBaseline = 'middle';
-                                        ctx.fillStyle = teamMeta?.color || dataset.borderColor;
-                                        const shortName = teamMeta?.shortName || teamCode.substr(0, 3);
-                                        ctx.fillText(shortName, x + 25, y);
-                                    }
+                                // 로고 또는 텍스트 표시
+                                const logo = chart._teamLogos?.[teamCode];
+                                if (logo && logo.complete) {
+                                    // 로고 그리기
+                                    ctx.shadowColor = 'transparent';
+                                    ctx.drawImage(logo, x - 12, y - 12, 24, 24);
                                 } else {
-                                    // 로고가 없으면 팀 약자 표시
-                                    ctx.font = 'bold 11px Arial';
+                                    // 팀 약자 표시
+                                    ctx.shadowColor = 'transparent';
+                                    ctx.font = 'bold 12px Arial';
                                     ctx.textAlign = 'center';
                                     ctx.textBaseline = 'middle';
-                                    ctx.fillStyle = teamMeta?.color || dataset.borderColor;
-                                    const shortName = teamMeta?.shortName || teamCode.substr(0, 3);
-                                    ctx.fillText(shortName, x + 25, y);
+                                    ctx.fillStyle = teamMeta?.color || dataset.borderColor || '#000';
+                                    const shortName = teamMeta?.shortName || teamCode.substring(0, 3).toUpperCase();
+                                    ctx.fillText(shortName, x, y);
                                 }
 
                                 ctx.restore();
                             });
                         }
-                    }]
+                    }
+                ]
                 }
             });
 
