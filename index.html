@@ -4287,70 +4287,6 @@
             chartContainer.insertBefore(legendContainer, chartElement);
         }
 
-        // 마지막 포인트에 팀 로고 추가 함수
-        function addTeamLogosToLastPoint(chart, teams, data) {
-            setTimeout(() => {
-                // 기존 로고들 제거
-                const existingLogos = chart.el.parentElement.querySelectorAll('.chart-end-logo');
-                existingLogos.forEach(logo => logo.remove());
-
-                const chartConfig = chart.w.config;
-                const globals = chart.w.globals;
-
-                teams.forEach((team, index) => {
-                    const meta = NPB_TEAM_META[team.teamCode];
-                    const logoPath = TEAM_LOGOS[team.teamCode];
-
-                    if (!meta || !logoPath) return;
-
-                    // 시리즈 데이터 가져오기
-                    const series = chartConfig.series[index];
-                    if (!series || !series.data || series.data.length === 0) return;
-
-                    const lastDataValue = series.data[series.data.length - 1];
-                    const lastXIndex = series.data.length - 1;
-
-                    // ApexCharts 내부 좌표계를 사용하여 정확한 위치 계산
-                    const xAxisWidth = globals.gridWidth;
-                    const yAxisHeight = globals.gridHeight;
-                    const xAxisLeft = globals.translateX;
-                    const yAxisTop = globals.translateY;
-
-                    // X 좌표 (마지막 데이터 포인트)
-                    const xPos = xAxisLeft + (xAxisWidth * (lastXIndex / Math.max(1, data.dates.length - 1)));
-
-                    // Y 좌표 (실제 데이터 값 기반)
-                    const minValue = Math.min(...chartConfig.series.flatMap(s => s.data));
-                    const maxValue = Math.max(...chartConfig.series.flatMap(s => s.data));
-                    const valueRange = maxValue - minValue;
-                    const yPos = yAxisTop + yAxisHeight - ((lastDataValue - minValue) / valueRange * yAxisHeight);
-
-                    // 로고 HTML 요소 생성
-                    const logoDiv = document.createElement('div');
-                    logoDiv.className = 'chart-end-logo';
-                    logoDiv.style.cssText = `
-                        position: absolute;
-                        width: 22px;
-                        height: 22px;
-                        background-image: url('${logoPath}');
-                        background-size: 16px 16px;
-                        background-repeat: no-repeat;
-                        background-position: center;
-                        border: 2px solid ${meta.color};
-                        border-radius: 50%;
-                        background-color: white;
-                        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-                        z-index: 1000;
-                        pointer-events: none;
-                        left: ${xPos + 8}px;
-                        top: ${yPos - 11}px;
-                        transform: translate(0, 0);
-                    `;
-
-                    chart.el.appendChild(logoDiv);
-                });
-            }, 1000);
-        }
 
         // 차트 내부 HTML 오버레이 레전드 생성 함수 (백업용)
         function createInChartLegend(canvas, teams, chartInstance) {
@@ -4664,11 +4600,8 @@
             // 차트 인스턴스 저장
             npbChartInstances[league][type] = chart;
 
-            // 커스텀 HTML 레전드 생성 (로고 포함)
+            // 커스텀 HTML 레전드 생성
             createCustomHTMLLegend(chartElement, sortedTeams, chart);
-
-            // 마지막 포인트에 팀 로고 추가
-            addTeamLogosToLastPoint(chart, sortedTeams, data);
 
             return chart;
         }
