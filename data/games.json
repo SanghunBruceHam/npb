@@ -12127,12 +12127,13 @@
     "away_team_id": 2,
     "away_team_abbr": "HAN",
     "away_team_name": "阪神タイガース",
-    "home_score": 2,
+    "home_score": 3,
     "away_score": 2,
     "league": "Central",
     "game_status": "completed",
-    "is_draw": true,
-    "stadium": "明治神宮野球場"
+    "is_draw": false,
+    "stadium": "明治神宮野球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-22",
@@ -12148,6 +12149,22 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "エスコンフィールドHOKKAIDO",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-22",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 10,
+    "away_team_abbr": "ORI",
+    "away_team_name": "オリックスバファローズ",
+    "home_score": 0,
+    "away_score": 1,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時00分◇みずほペイペイドーム",
     "final_inning": 9
   }
 ]

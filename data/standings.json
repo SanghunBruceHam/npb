@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-22T11:40:19.991Z",
+  "updated_at": "2025-09-22T12:42:37.810Z",
   "central_league": {
     "standings": [
       {
@@ -9,12 +9,12 @@
         "league": "Central",
         "games_played": 138,
         "wins": 83,
-        "losses": 51,
-        "draws": 4,
+        "losses": 52,
+        "draws": 3,
         "runs_scored": 477,
-        "runs_allowed": 336,
-        "win_percentage": 0.6194029850746269,
-        "run_differential": 141,
+        "runs_allowed": 337,
+        "win_percentage": 0.6148148148148148,
+        "run_differential": 140,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5151515151515151,
         "run_differential": 44,
         "position_rank": 2,
-        "games_behind": 14
+        "games_behind": 13.5
       },
       {
         "team_id": 1,
@@ -48,7 +48,7 @@
         "win_percentage": 0.5,
         "run_differential": 2,
         "position_rank": 3,
-        "games_behind": 16
+        "games_behind": 15.5
       },
       {
         "team_id": 5,
@@ -64,7 +64,7 @@
         "win_percentage": 0.4444444444444444,
         "run_differential": -58,
         "position_rank": 4,
-        "games_behind": 23.5
+        "games_behind": 23
       },
       {
         "team_id": 4,
@@ -80,7 +80,7 @@
         "win_percentage": 0.4393939393939394,
         "run_differential": -34,
         "position_rank": 5,
-        "games_behind": 24
+        "games_behind": 23.5
       },
       {
         "team_id": 6,
@@ -88,15 +88,15 @@
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
         "games_played": 134,
-        "wins": 51,
+        "wins": 52,
         "losses": 76,
-        "draws": 7,
-        "runs_scored": 402,
+        "draws": 6,
+        "runs_scored": 403,
         "runs_allowed": 534,
-        "win_percentage": 0.4015748031496063,
-        "run_differential": -132,
+        "win_percentage": 0.40625,
+        "run_differential": -131,
         "position_rank": 6,
-        "games_behind": 28.5
+        "games_behind": 27.5
       }
     ]
   },
@@ -107,14 +107,14 @@
         "team_abbreviation": "SOF",
         "team_name": "福岡ソフトバンクホークス",
         "league": "Pacific",
-        "games_played": 133,
+        "games_played": 134,
         "wins": 80,
-        "losses": 49,
+        "losses": 50,
         "draws": 4,
         "runs_scored": 509,
-        "runs_allowed": 373,
-        "win_percentage": 0.6201550387596899,
-        "run_differential": 136,
+        "runs_allowed": 374,
+        "win_percentage": 0.6153846153846154,
+        "run_differential": 135,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -132,23 +132,23 @@
         "win_percentage": 0.5939849624060151,
         "run_differential": 143,
         "position_rank": 2,
-        "games_behind": 3
+        "games_behind": 2.5
       },
       {
         "team_id": 10,
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 133,
-        "wins": 67,
+        "games_played": 134,
+        "wins": 68,
         "losses": 63,
         "draws": 3,
-        "runs_scored": 461,
+        "runs_scored": 462,
         "runs_allowed": 486,
-        "win_percentage": 0.5153846153846153,
-        "run_differential": -25,
+        "win_percentage": 0.5190839694656488,
+        "run_differential": -24,
         "position_rank": 3,
-        "games_behind": 13.5
+        "games_behind": 12.5
       },
       {
         "team_id": 9,
@@ -164,7 +164,7 @@
         "win_percentage": 0.4846153846153846,
         "run_differential": -66,
         "position_rank": 4,
-        "games_behind": 17.5
+        "games_behind": 17
       },
       {
         "team_id": 11,
@@ -180,7 +180,7 @@
         "win_percentage": 0.46511627906976744,
         "run_differential": -37,
         "position_rank": 5,
-        "games_behind": 20
+        "games_behind": 19.5
       },
       {
         "team_id": 8,
@@ -196,7 +196,7 @@
         "win_percentage": 0.3969465648854962,
         "run_differential": -114,
         "position_rank": 6,
-        "games_behind": 29
+        "games_behind": 28.5
       }
     ]
   }
