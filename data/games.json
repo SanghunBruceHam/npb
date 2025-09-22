@@ -12121,6 +12121,21 @@
   },
   {
     "game_date": "2025-09-22",
+    "home_team_id": 6,
+    "home_team_abbr": "YAK",
+    "home_team_name": "東京ヤクルトスワローズ",
+    "away_team_id": 2,
+    "away_team_abbr": "HAN",
+    "away_team_name": "阪神タイガース",
+    "home_score": 2,
+    "away_score": 2,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true,
+    "stadium": "明治神宮野球場"
+  },
+  {
+    "game_date": "2025-09-22",
     "home_team_id": 12,
     "home_team_abbr": "NIP",
     "home_team_name": "北海道日本ハムファイターズ",
