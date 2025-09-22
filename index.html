@@ -6584,56 +6584,64 @@
                                 }
                             });
                         },
-                        afterDraw: function(chart) {
+                        afterDatasetsDraw: function(chart) {
                             const ctx = chart.ctx;
 
                             chart.data.datasets.forEach((dataset, datasetIndex) => {
                                 const teamCode = teams[datasetIndex];
                                 const teamMeta = NPB_TEAM_META[teamCode];
-                                const datasetMeta = chart.getDatasetMeta(datasetIndex);
+                                const meta = chart.getDatasetMeta(datasetIndex);
 
-                                if (!datasetMeta.data || datasetMeta.data.length === 0 || datasetMeta.hidden) return;
+                                // Skip if hidden or no data
+                                if (meta.hidden || !meta.data || meta.data.length === 0) return;
 
-                                // 마지막 포인트 가져오기
-                                const lastPointIndex = dataset.data.length - 1;
-                                const lastPoint = datasetMeta.data[lastPointIndex];
+                                // Get the last visible data point
+                                const dataLength = dataset.data.length;
+                                if (dataLength === 0) return;
 
-                                if (!lastPoint || !lastPoint.x || !lastPoint.y) return;
+                                // Find the last point element
+                                const lastPoint = meta.data[dataLength - 1];
+                                if (!lastPoint) return;
 
+                                // Get precise coordinates
                                 const x = lastPoint.x;
                                 const y = lastPoint.y;
 
+                                // Skip if coordinates are invalid
+                                if (isNaN(x) || isNaN(y)) return;
+
                                 ctx.save();
 
-                                // 배경 원 그리기
-                                const radius = 18;
+                                // Draw white background circle
+                                const radius = 16;
                                 ctx.beginPath();
                                 ctx.arc(x, y, radius, 0, 2 * Math.PI);
                                 ctx.fillStyle = 'white';
                                 ctx.fill();
-                                ctx.strokeStyle = teamMeta?.color || dataset.borderColor || '#000';
-                                ctx.lineWidth = 3;
+
+                                // Draw border
+                                ctx.strokeStyle = teamMeta?.color || dataset.borderColor || '#333';
+                                ctx.lineWidth = 2.5;
                                 ctx.stroke();
 
-                                // 그림자 효과
-                                ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
-                                ctx.shadowBlur = 4;
-                                ctx.shadowOffsetX = 0;
-                                ctx.shadowOffsetY = 2;
-
-                                // 로고 또는 텍스트 표시
+                                // Draw logo or text
                                 const logo = chart._teamLogos?.[teamCode];
-                                if (logo && logo.complete) {
-                                    // 로고 그리기
-                                    ctx.shadowColor = 'transparent';
-                                    ctx.drawImage(logo, x - 12, y - 12, 24, 24);
+                                if (logo && logo.complete && logo.naturalWidth > 0) {
+                                    // Draw logo image
+                                    const logoSize = 20;
+                                    ctx.drawImage(
+                                        logo,
+                                        x - logoSize/2,
+                                        y - logoSize/2,
+                                        logoSize,
+                                        logoSize
+                                    );
                                 } else {
-                                    // 팀 약자 표시
-                                    ctx.shadowColor = 'transparent';
-                                    ctx.font = 'bold 12px Arial';
+                                    // Draw team abbreviation
+                                    ctx.font = 'bold 11px sans-serif';
                                     ctx.textAlign = 'center';
                                     ctx.textBaseline = 'middle';
-                                    ctx.fillStyle = teamMeta?.color || dataset.borderColor || '#000';
+                                    ctx.fillStyle = teamMeta?.color || dataset.borderColor || '#333';
                                     const shortName = teamMeta?.shortName || teamCode.substring(0, 3).toUpperCase();
                                     ctx.fillText(shortName, x, y);
                                 }
