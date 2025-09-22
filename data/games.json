@@ -12042,8 +12042,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時30分◇バンテリンドーム",
-    "final_inning": 9
+    "stadium": "バンテリンドーム ナゴヤ"
   },
   {
     "game_date": "2025-09-21",
@@ -12058,8 +12057,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-21",
@@ -12074,8 +12072,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始13時00分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-21",
@@ -12090,8 +12087,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始14時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-09-21",
@@ -12106,8 +12102,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-21",
@@ -12122,7 +12117,22 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
+    "stadium": "横浜スタジアム"
+  },
+  {
+    "game_date": "2025-09-22",
+    "home_team_id": 12,
+    "home_team_abbr": "NIP",
+    "home_team_name": "北海道日本ハムファイターズ",
+    "away_team_id": 8,
+    "away_team_abbr": "LOT",
+    "away_team_name": "千葉ロッテマリーンズ",
+    "home_score": 0,
+    "away_score": 2,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "エスコンフィールドHOKKAIDO",
     "final_inning": 9
   }
 ]
