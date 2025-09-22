@@ -3401,21 +3401,22 @@
             window.setTimeout(() => {
                 const tabAds = selectedTab.querySelectorAll('ins.adsbygoogle');
                 tabAds.forEach(ad => {
-                    // Reset ad status to allow re-initialization for hidden tabs
-                    if (!ad.hasAttribute('data-adsbygoogle-status') ||
-                        ad.getAttribute('data-adsbygoogle-status') === 'done') {
-                        // Force dimensions update
+                    // Only process ads that haven't been initialized or failed
+                    const status = ad.getAttribute('data-adsbygoogle-status');
+                    if (!status || status === 'unfilled') {
+                        // Ensure parent exists and is connected
                         const parent = ad.parentElement;
-                        if (parent) {
+                        if (parent && parent.isConnected) {
+                            // Force dimensions update
                             parent.style.minWidth = '300px';
                             parent.style.minHeight = '50px';
-                        }
-                        ad.style.minWidth = '300px';
-                        ad.style.minHeight = '50px';
+                            ad.style.minWidth = '300px';
+                            ad.style.minHeight = '50px';
 
-                        // Try to initialize
-                        if (typeof window.tryInitAd === 'function') {
-                            window.tryInitAd(ad, 0);
+                            // Try to initialize
+                            if (typeof window.tryInitAd === 'function') {
+                                window.tryInitAd(ad, 0);
+                            }
                         }
                     }
                 });
@@ -3424,7 +3425,7 @@
                 if (typeof window.initAds === 'function') {
                     window.initAds();
                 }
-            }, 200);
+            }, 300);
 
             try {
                 sessionStorage.setItem('npb-current-tab', tabId);
@@ -10260,8 +10261,17 @@
             return;
           }
 
+          // Ensure ad element has a parent before processing
+          if (!ad.parentElement || !ad.parentElement.isConnected) {
+            if (attempt < 3) {
+              window.setTimeout(() => tryInitAd(ad, attempt + 1), 500);
+            }
+            return;
+          }
+
           // Check if already has data-adsbygoogle-status attribute (Google's indicator)
-          if (ad.hasAttribute('data-adsbygoogle-status')) {
+          if (ad.hasAttribute('data-adsbygoogle-status') &&
+              ad.getAttribute('data-adsbygoogle-status') !== 'unfilled') {
             initializedAds.add(ad);
             return;
           }
@@ -10307,15 +10317,22 @@
             ad.style.minHeight = '50px';
           }
 
-          // Only push if not already initialized
+          // Only push if not already initialized and parent exists
           try {
-            if (!ad.hasAttribute('data-adsbygoogle-status')) {
-              (adsbygoogle = window.adsbygoogle || []).push({});
-              initializedAds.add(ad);
+            if (!ad.hasAttribute('data-adsbygoogle-status') && ad.parentElement) {
+              // Double check parent before push
+              const parent = ad.parentElement;
+              if (parent && parent.isConnected && document.body.contains(ad)) {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                initializedAds.add(ad);
+              }
             }
           } catch (error) {
-            // Only retry for width errors
-            if (error.message && error.message.includes('width') && attempt < 5) {
+            // Don't retry for replaceChild errors
+            if (error.message && error.message.includes('replaceChild')) {
+              console.warn('AdSense replaceChild error - skipping ad', ad);
+              initializedAds.add(ad); // Mark as processed to avoid retries
+            } else if (error.message && error.message.includes('width') && attempt < 5) {
               window.setTimeout(() => tryInitAd(ad, attempt + 1), 1000);
             }
           }
