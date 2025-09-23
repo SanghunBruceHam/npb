@@ -1,15 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-09-22T23:16:40.450181
+# UPDATED: 2025-09-23T20:13:26.527325
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-09-22
-ヤクルト vs 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場 18：00
-# 6|2|東京ヤクルトスワローズ|阪神タイガース
-日本ハム vs ロッテ (Pacific) [SCHEDULED] @ ZOZOマリンスタジアム 14：00
-# 12|8|北海道日本ハムファイターズ|千葉ロッテマリーンズ
-ソフトバンク vs オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪 18：00
-# 7|10|福岡ソフトバンクホークス|オリックスバファローズ
 
 # 2025-09-23
 ヤクルト vs 中日 (Central) [SCHEDULED] @ バンテリンドーム ナゴヤ 18：00

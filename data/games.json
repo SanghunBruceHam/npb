@@ -12132,8 +12132,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場",
-    "final_inning": 9
+    "stadium": "明治神宮野球場"
   },
   {
     "game_date": "2025-09-22",
@@ -12148,8 +12147,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   },
   {
     "game_date": "2025-09-22",
@@ -12164,7 +12162,54 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
+    "stadium": "福岡PayPayドーム"
+  },
+  {
+    "game_date": "2025-09-23",
+    "home_team_id": 3,
+    "home_team_abbr": "YDB",
+    "home_team_name": "横浜DeNAベイスターズ",
+    "away_team_id": 2,
+    "away_team_abbr": "HAN",
+    "away_team_name": "阪神タイガース",
+    "home_score": 2,
+    "away_score": 2,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true,
+    "stadium": "横浜スタジアム",
+    "final_inning": 12
+  },
+  {
+    "game_date": "2025-09-23",
+    "home_team_id": 12,
+    "home_team_abbr": "NIP",
+    "home_team_name": "北海道日本ハムファイターズ",
+    "away_team_id": 9,
+    "away_team_abbr": "RAK",
+    "away_team_name": "東北楽天ゴールデンイーグルス",
+    "home_score": 0,
+    "away_score": 7,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "エスコンフィールドHOKKAIDO",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-23",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 10,
+    "away_team_abbr": "ORI",
+    "away_team_name": "オリックスバファローズ",
+    "home_score": 0,
+    "away_score": 1,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始14時00分◇みずほペイペイドーム",
     "final_inning": 9
   }
 ]
