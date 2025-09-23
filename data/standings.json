@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-23T11:39:45.744Z",
+  "updated_at": "2025-09-23T12:41:07.762Z",
   "central_league": {
     "standings": [
       {
@@ -44,9 +44,9 @@
         "losses": 68,
         "draws": 3,
         "runs_scored": 437,
-        "runs_allowed": 439,
+        "runs_allowed": 440,
         "win_percentage": 0.4962962962962963,
-        "run_differential": -2,
+        "run_differential": -3,
         "position_rank": 3,
         "games_behind": 16
       },
@@ -59,10 +59,10 @@
         "wins": 61,
         "losses": 75,
         "draws": 2,
-        "runs_scored": 387,
+        "runs_scored": 388,
         "runs_allowed": 443,
         "win_percentage": 0.4485294117647059,
-        "run_differential": -56,
+        "run_differential": -55,
         "position_rank": 4,
         "games_behind": 22.5
       },
@@ -75,10 +75,10 @@
         "wins": 59,
         "losses": 74,
         "draws": 5,
-        "runs_scored": 434,
+        "runs_scored": 435,
         "runs_allowed": 464,
         "win_percentage": 0.44360902255639095,
-        "run_differential": -30,
+        "run_differential": -29,
         "position_rank": 5,
         "games_behind": 23
       },
@@ -92,9 +92,9 @@
         "losses": 77,
         "draws": 6,
         "runs_scored": 403,
-        "runs_allowed": 536,
+        "runs_allowed": 537,
         "win_percentage": 0.40310077519379844,
-        "run_differential": -133,
+        "run_differential": -134,
         "position_rank": 6,
         "games_behind": 28
       }

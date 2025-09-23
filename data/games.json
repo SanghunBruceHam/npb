@@ -12173,11 +12173,12 @@
     "away_team_abbr": "CHU",
     "away_team_name": "中日ドラゴンズ",
     "home_score": 0,
-    "away_score": 2,
+    "away_score": 3,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場"
+    "stadium": "明治神宮野球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-23",
@@ -12203,12 +12204,13 @@
     "away_team_id": 1,
     "away_team_abbr": "YOG",
     "away_team_name": "読売ジャイアンツ",
-    "home_score": 4,
+    "home_score": 5,
     "away_score": 0,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
+    "stadium": "◇開始18時01分◇マツダスタジアム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-23",
