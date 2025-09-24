@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-24T20:12:42.827444
+# UPDATED: 2025-09-24T20:38:45.571570
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1157,5 +1157,5 @@
 オリックス 1-0 ソフトバンク (Pacific) @ 福岡PayPayドーム
 
 # 2025-09-24
-ソフトバンク 8-1 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城
-西武 0-5 ロッテ (Pacific) [SCHEDULED] @ ZOZOマリンスタジアム
+ソフトバンク 8-1 楽天 (Pacific) @ 楽天モバイルパーク宮城
+西武 0-5 ロッテ (Pacific) @ ZOZOマリンスタジアム
