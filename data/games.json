@@ -12262,12 +12262,13 @@
     "away_team_id": 7,
     "away_team_abbr": "SOF",
     "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": 1,
+    "home_score": 3,
     "away_score": 8,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城"
+    "stadium": "◇開始18時00分◇楽天モバイルパーク",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-24",
@@ -12282,6 +12283,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ZOZOマリンスタジアム"
+    "stadium": "ZOZOマリンスタジアム",
+    "final_inning": 9
   }
 ]
