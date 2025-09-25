@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-25T20:13:34.387871
+# UPDATED: 2025-09-25T20:38:55.235658
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1161,6 +1161,6 @@
 西武 0-5 ロッテ (Pacific) @ ZOZOマリンスタジアム
 
 # 2025-09-25
-ソフトバンク 0-0 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城
-日本ハム 4-0 西武 (Pacific) [SCHEDULED] @ ベルーナドーム
-ロッテ 6-0 オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪
+ソフトバンク 0-0 楽天 (Pacific) @ 楽天モバイルパーク宮城
+日本ハム 4-0 西武 (Pacific) @ ベルーナドーム
+ロッテ 6-0 オリックス (Pacific) @ 京セラドーム大阪

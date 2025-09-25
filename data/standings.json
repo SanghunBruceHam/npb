@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-25T11:14:29.034Z",
+  "updated_at": "2025-09-25T11:39:52.650Z",
   "central_league": {
     "standings": [
       {
@@ -123,32 +123,32 @@
         "team_abbreviation": "NIP",
         "team_name": "北海道日本ハムファイターズ",
         "league": "Pacific",
-        "games_played": 137,
-        "wins": 79,
+        "games_played": 138,
+        "wins": 80,
         "losses": 55,
         "draws": 3,
-        "runs_scored": 528,
+        "runs_scored": 532,
         "runs_allowed": 392,
-        "win_percentage": 0.5895522388059702,
-        "run_differential": 136,
+        "win_percentage": 0.5925925925925926,
+        "run_differential": 140,
         "position_rank": 2,
-        "games_behind": 3
+        "games_behind": 2.5
       },
       {
         "team_id": 10,
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 135,
+        "games_played": 136,
         "wins": 69,
-        "losses": 63,
+        "losses": 64,
         "draws": 3,
         "runs_scored": 463,
-        "runs_allowed": 486,
-        "win_percentage": 0.5227272727272727,
-        "run_differential": -23,
+        "runs_allowed": 492,
+        "win_percentage": 0.518796992481203,
+        "run_differential": -29,
         "position_rank": 3,
-        "games_behind": 12
+        "games_behind": 12.5
       },
       {
         "team_id": 9,
@@ -171,32 +171,32 @@
         "team_abbreviation": "SEI",
         "team_name": "埼玉西武ライオンズ",
         "league": "Pacific",
-        "games_played": 134,
+        "games_played": 135,
         "wins": 60,
-        "losses": 71,
+        "losses": 72,
         "draws": 3,
         "runs_scored": 377,
-        "runs_allowed": 420,
-        "win_percentage": 0.4580152671755725,
-        "run_differential": -43,
+        "runs_allowed": 424,
+        "win_percentage": 0.45454545454545453,
+        "run_differential": -47,
         "position_rank": 5,
-        "games_behind": 20.5
+        "games_behind": 21
       },
       {
         "team_id": 8,
         "team_abbreviation": "LOT",
         "team_name": "千葉ロッテマリーンズ",
         "league": "Pacific",
-        "games_played": 136,
-        "wins": 54,
+        "games_played": 137,
+        "wins": 55,
         "losses": 79,
         "draws": 3,
-        "runs_scored": 426,
+        "runs_scored": 432,
         "runs_allowed": 534,
-        "win_percentage": 0.40601503759398494,
-        "run_differential": -108,
+        "win_percentage": 0.41044776119402987,
+        "run_differential": -102,
         "position_rank": 6,
-        "games_behind": 27.5
+        "games_behind": 27
       }
     ]
   }

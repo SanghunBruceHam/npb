@@ -12283,5 +12283,35 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "ZOZOマリンスタジアム"
+  },
+  {
+    "game_date": "2025-09-25",
+    "home_team_id": 11,
+    "home_team_abbr": "SEI",
+    "home_team_name": "埼玉西武ライオンズ",
+    "away_team_id": 12,
+    "away_team_abbr": "NIP",
+    "away_team_name": "北海道日本ハムファイターズ",
+    "home_score": 0,
+    "away_score": 4,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "ベルーナドーム"
+  },
+  {
+    "game_date": "2025-09-25",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 8,
+    "away_team_abbr": "LOT",
+    "away_team_name": "千葉ロッテマリーンズ",
+    "home_score": 0,
+    "away_score": 6,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "京セラドーム大阪"
   }
 ]
