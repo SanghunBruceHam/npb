@@ -12297,8 +12297,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇楽天モバイルパーク",
-    "final_inning": 9
+    "stadium": "楽天モバイルパーク宮城"
   },
   {
     "game_date": "2025-09-25",
@@ -12313,8 +12312,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時01分◇ベルーナドーム",
-    "final_inning": 9
+    "stadium": "ベルーナドーム"
   },
   {
     "game_date": "2025-09-25",
@@ -12329,7 +12327,6 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇京セラドーム大阪",
-    "final_inning": 9
+    "stadium": "京セラドーム大阪"
   }
 ]
