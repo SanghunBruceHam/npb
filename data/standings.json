@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-26T12:41:43.086Z",
+  "updated_at": "2025-09-26T13:05:01.771Z",
   "central_league": {
     "standings": [
       {
@@ -24,15 +24,15 @@
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
         "games_played": 139,
-        "wins": 68,
+        "wins": 69,
         "losses": 64,
-        "draws": 7,
-        "runs_scored": 478,
+        "draws": 6,
+        "runs_scored": 479,
         "runs_allowed": 434,
-        "win_percentage": 0.5151515151515151,
-        "run_differential": 44,
+        "win_percentage": 0.518796992481203,
+        "run_differential": 45,
         "position_rank": 2,
-        "games_behind": 14
+        "games_behind": 13.5
       },
       {
         "team_id": 1,
@@ -41,14 +41,14 @@
         "league": "Central",
         "games_played": 139,
         "wins": 67,
-        "losses": 68,
-        "draws": 4,
+        "losses": 69,
+        "draws": 3,
         "runs_scored": 441,
-        "runs_allowed": 444,
-        "win_percentage": 0.4962962962962963,
-        "run_differential": -3,
+        "runs_allowed": 445,
+        "win_percentage": 0.49264705882352944,
+        "run_differential": -4,
         "position_rank": 3,
-        "games_behind": 16.5
+        "games_behind": 17
       },
       {
         "team_id": 5,
