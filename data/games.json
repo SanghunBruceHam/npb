@@ -12337,12 +12337,13 @@
     "away_team_id": 4,
     "away_team_abbr": "HIR",
     "away_team_name": "広島東洋カープ",
-    "home_score": 9,
+    "home_score": 11,
     "away_score": 1,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "明治神宮野球場"
+    "stadium": "明治神宮野球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-26",
@@ -12357,7 +12358,8 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-26",
@@ -12382,12 +12384,13 @@
     "away_team_id": 12,
     "away_team_abbr": "NIP",
     "away_team_name": "北海道日本ハムファイターズ",
-    "home_score": 4,
+    "home_score": 5,
     "away_score": 8,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム"
+    "stadium": "◇開始18時01分◇ベルーナドーム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-26",
@@ -12398,10 +12401,11 @@
     "away_team_abbr": "SOF",
     "away_team_name": "福岡ソフトバンクホークス",
     "home_score": 3,
-    "away_score": 2,
+    "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城"
+    "stadium": "◇開始18時00分◇楽天モバイルパーク",
+    "final_inning": 9
   }
 ]
