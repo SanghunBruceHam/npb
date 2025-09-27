@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-27T16:19:34.895604
+# UPDATED: 2025-09-27T16:39:47.105827
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1173,5 +1173,5 @@
 ソフトバンク 4-3 楽天 (Pacific) @ 楽天モバイルパーク宮城
 
 # 2025-09-27
-巨人 1-6 ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム
-中日 4-0 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
+巨人 1-6 ＤｅＮＡ (Central) @ 横浜スタジアム
+中日 4-0 阪神 (Central) @ 阪神甲子園球場

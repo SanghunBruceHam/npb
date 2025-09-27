@@ -12403,5 +12403,35 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "楽天モバイルパーク宮城"
+  },
+  {
+    "game_date": "2025-09-27",
+    "home_team_id": 3,
+    "home_team_abbr": "YDB",
+    "home_team_name": "横浜DeNAベイスターズ",
+    "away_team_id": 1,
+    "away_team_abbr": "YOG",
+    "away_team_name": "読売ジャイアンツ",
+    "home_score": 6,
+    "away_score": 1,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "横浜スタジアム"
+  },
+  {
+    "game_date": "2025-09-27",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 5,
+    "away_team_abbr": "CHU",
+    "away_team_name": "中日ドラゴンズ",
+    "home_score": 0,
+    "away_score": 4,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場"
   }
 ]
