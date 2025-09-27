@@ -12435,5 +12435,21 @@
     "is_draw": false,
     "stadium": "阪神甲子園球場",
     "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-27",
+    "home_team_id": 8,
+    "home_team_abbr": "LOT",
+    "home_team_name": "千葉ロッテマリーンズ",
+    "away_team_id": 12,
+    "away_team_abbr": "NIP",
+    "away_team_name": "北海道日本ハムファイターズ",
+    "home_score": 0,
+    "away_score": 2,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "ZOZOマリンスタジアム",
+    "final_inning": 9
   }
 ]
