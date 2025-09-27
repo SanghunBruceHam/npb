@@ -12438,6 +12438,38 @@
   },
   {
     "game_date": "2025-09-27",
+    "home_team_id": 6,
+    "home_team_abbr": "YAK",
+    "home_team_name": "東京ヤクルトスワローズ",
+    "away_team_id": 4,
+    "away_team_abbr": "HIR",
+    "away_team_name": "広島東洋カープ",
+    "home_score": 3,
+    "away_score": 1,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "明治神宮野球場",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-27",
+    "home_team_id": 11,
+    "home_team_abbr": "SEI",
+    "home_team_name": "埼玉西武ライオンズ",
+    "away_team_id": 7,
+    "away_team_abbr": "SOF",
+    "away_team_name": "福岡ソフトバンクホークス",
+    "home_score": 1,
+    "away_score": 4,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時00分◇ベルーナドーム",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-27",
     "home_team_id": 8,
     "home_team_abbr": "LOT",
     "home_team_name": "千葉ロッテマリーンズ",
@@ -12450,6 +12482,22 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "ZOZOマリンスタジアム",
+    "final_inning": 9
+  },
+  {
+    "game_date": "2025-09-27",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 9,
+    "away_team_abbr": "RAK",
+    "away_team_name": "東北楽天ゴールデンイーグルス",
+    "home_score": 2,
+    "away_score": 0,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時00分◇京セラドーム大阪",
     "final_inning": 9
   }
 ]
