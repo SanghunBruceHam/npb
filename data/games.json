@@ -12503,11 +12503,12 @@
     "away_team_abbr": "CHU",
     "away_team_name": "中日ドラゴンズ",
     "home_score": 2,
-    "away_score": 1,
+    "away_score": 4,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-28",
@@ -12534,10 +12535,11 @@
     "away_team_abbr": "RAK",
     "away_team_name": "東北楽天ゴールデンイーグルス",
     "home_score": 10,
-    "away_score": 1,
+    "away_score": 5,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪"
+    "stadium": "◇開始14時00分◇京セラドーム大阪",
+    "final_inning": 9
   }
 ]

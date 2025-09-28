@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-28T08:25:49.664Z",
+  "updated_at": "2025-09-28T08:43:16.589Z",
   "central_league": {
     "standings": [
       {
@@ -8,13 +8,13 @@
         "team_name": "阪神タイガース",
         "league": "Central",
         "games_played": 142,
-        "wins": 85,
-        "losses": 53,
+        "wins": 84,
+        "losses": 54,
         "draws": 4,
         "runs_scored": 490,
-        "runs_allowed": 347,
-        "win_percentage": 0.6159420289855072,
-        "run_differential": 143,
+        "runs_allowed": 350,
+        "win_percentage": 0.6086956521739131,
+        "run_differential": 140,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5149253731343284,
         "run_differential": 44,
         "position_rank": 2,
-        "games_behind": 14
+        "games_behind": 13
       },
       {
         "team_id": 1,
@@ -48,7 +48,7 @@
         "win_percentage": 0.49635036496350365,
         "run_differential": -3,
         "position_rank": 3,
-        "games_behind": 16.5
+        "games_behind": 15.5
       },
       {
         "team_id": 5,
@@ -56,15 +56,15 @@
         "team_name": "中日ドラゴンズ",
         "league": "Central",
         "games_played": 141,
-        "wins": 62,
-        "losses": 77,
+        "wins": 63,
+        "losses": 76,
         "draws": 2,
-        "runs_scored": 396,
+        "runs_scored": 399,
         "runs_allowed": 454,
-        "win_percentage": 0.4460431654676259,
-        "run_differential": -58,
+        "win_percentage": 0.45323741007194246,
+        "run_differential": -55,
         "position_rank": 4,
-        "games_behind": 23.5
+        "games_behind": 21.5
       },
       {
         "team_id": 4,
@@ -80,7 +80,7 @@
         "win_percentage": 0.43703703703703706,
         "run_differential": -41,
         "position_rank": 5,
-        "games_behind": 24.5
+        "games_behind": 23.5
       },
       {
         "team_id": 6,
@@ -96,7 +96,7 @@
         "win_percentage": 0.4122137404580153,
         "run_differential": -122,
         "position_rank": 6,
-        "games_behind": 27.5
+        "games_behind": 26.5
       }
     ]
   },
@@ -144,9 +144,9 @@
         "losses": 64,
         "draws": 3,
         "runs_scored": 479,
-        "runs_allowed": 493,
+        "runs_allowed": 497,
         "win_percentage": 0.5259259259259259,
-        "run_differential": -14,
+        "run_differential": -18,
         "position_rank": 3,
         "games_behind": 13.5
       },
@@ -159,10 +159,10 @@
         "wins": 64,
         "losses": 72,
         "draws": 2,
-        "runs_scored": 429,
+        "runs_scored": 433,
         "runs_allowed": 511,
         "win_percentage": 0.47058823529411764,
-        "run_differential": -82,
+        "run_differential": -78,
         "position_rank": 4,
         "games_behind": 21
       },
