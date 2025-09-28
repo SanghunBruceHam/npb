@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-28T11:05:24.416Z",
+  "updated_at": "2025-09-28T11:36:15.519Z",
   "central_league": {
     "standings": [
       {
@@ -123,16 +123,16 @@
         "team_abbreviation": "NIP",
         "team_name": "北海道日本ハムファイターズ",
         "league": "Pacific",
-        "games_played": 140,
-        "wins": 81,
+        "games_played": 141,
+        "wins": 82,
         "losses": 56,
         "draws": 3,
-        "runs_scored": 542,
-        "runs_allowed": 402,
-        "win_percentage": 0.5912408759124088,
-        "run_differential": 140,
+        "runs_scored": 546,
+        "runs_allowed": 405,
+        "win_percentage": 0.5942028985507246,
+        "run_differential": 141,
         "position_rank": 2,
-        "games_behind": 4.5
+        "games_behind": 4
       },
       {
         "team_id": 10,
@@ -187,16 +187,16 @@
         "team_abbreviation": "LOT",
         "team_name": "千葉ロッテマリーンズ",
         "league": "Pacific",
-        "games_played": 138,
+        "games_played": 139,
         "wins": 55,
-        "losses": 80,
+        "losses": 81,
         "draws": 3,
-        "runs_scored": 432,
-        "runs_allowed": 540,
-        "win_percentage": 0.4074074074074074,
-        "run_differential": -108,
+        "runs_scored": 435,
+        "runs_allowed": 544,
+        "win_percentage": 0.40441176470588236,
+        "run_differential": -109,
         "position_rank": 6,
-        "games_behind": 29.5
+        "games_behind": 30
       }
     ]
   }
