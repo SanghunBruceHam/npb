@@ -12493,5 +12493,50 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "京セラドーム大阪"
+  },
+  {
+    "game_date": "2025-09-28",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 5,
+    "away_team_abbr": "CHU",
+    "away_team_name": "中日ドラゴンズ",
+    "home_score": 2,
+    "away_score": 1,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場"
+  },
+  {
+    "game_date": "2025-09-28",
+    "home_team_id": 11,
+    "home_team_abbr": "SEI",
+    "home_team_name": "埼玉西武ライオンズ",
+    "away_team_id": 7,
+    "away_team_abbr": "SOF",
+    "away_team_name": "福岡ソフトバンクホークス",
+    "home_score": 1,
+    "away_score": 3,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "ベルーナドーム"
+  },
+  {
+    "game_date": "2025-09-28",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 9,
+    "away_team_abbr": "RAK",
+    "away_team_name": "東北楽天ゴールデンイーグルス",
+    "home_score": 10,
+    "away_score": 1,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "京セラドーム大阪"
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-09-28T07:21:27.383Z",
+  "updated_at": "2025-09-28T07:40:49.009Z",
   "central_league": {
     "standings": [
       {
@@ -7,14 +7,14 @@
         "team_abbreviation": "HAN",
         "team_name": "阪神タイガース",
         "league": "Central",
-        "games_played": 141,
-        "wins": 84,
+        "games_played": 142,
+        "wins": 85,
         "losses": 53,
         "draws": 4,
-        "runs_scored": 488,
-        "runs_allowed": 346,
-        "win_percentage": 0.6131386861313869,
-        "run_differential": 142,
+        "runs_scored": 490,
+        "runs_allowed": 347,
+        "win_percentage": 0.6159420289855072,
+        "run_differential": 143,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5149253731343284,
         "run_differential": 44,
         "position_rank": 2,
-        "games_behind": 13.5
+        "games_behind": 14
       },
       {
         "team_id": 1,
@@ -48,23 +48,23 @@
         "win_percentage": 0.49635036496350365,
         "run_differential": -3,
         "position_rank": 3,
-        "games_behind": 16
+        "games_behind": 16.5
       },
       {
         "team_id": 5,
         "team_abbreviation": "CHU",
         "team_name": "中日ドラゴンズ",
         "league": "Central",
-        "games_played": 140,
+        "games_played": 141,
         "wins": 62,
-        "losses": 76,
+        "losses": 77,
         "draws": 2,
-        "runs_scored": 395,
-        "runs_allowed": 452,
-        "win_percentage": 0.4492753623188406,
-        "run_differential": -57,
+        "runs_scored": 396,
+        "runs_allowed": 454,
+        "win_percentage": 0.4460431654676259,
+        "run_differential": -58,
         "position_rank": 4,
-        "games_behind": 22.5
+        "games_behind": 23.5
       },
       {
         "team_id": 4,
@@ -80,7 +80,7 @@
         "win_percentage": 0.43703703703703706,
         "run_differential": -41,
         "position_rank": 5,
-        "games_behind": 24
+        "games_behind": 24.5
       },
       {
         "team_id": 6,
@@ -96,7 +96,7 @@
         "win_percentage": 0.4122137404580153,
         "run_differential": -122,
         "position_rank": 6,
-        "games_behind": 27
+        "games_behind": 27.5
       }
     ]
   },
@@ -107,14 +107,14 @@
         "team_abbreviation": "SOF",
         "team_name": "福岡ソフトバンクホークス",
         "league": "Pacific",
-        "games_played": 139,
-        "wins": 84,
+        "games_played": 140,
+        "wins": 85,
         "losses": 51,
         "draws": 4,
-        "runs_scored": 531,
-        "runs_allowed": 382,
-        "win_percentage": 0.6222222222222222,
-        "run_differential": 149,
+        "runs_scored": 534,
+        "runs_allowed": 383,
+        "win_percentage": 0.625,
+        "run_differential": 151,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -132,21 +132,21 @@
         "win_percentage": 0.5912408759124088,
         "run_differential": 140,
         "position_rank": 2,
-        "games_behind": 4
+        "games_behind": 4.5
       },
       {
         "team_id": 10,
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 137,
-        "wins": 70,
+        "games_played": 138,
+        "wins": 71,
         "losses": 64,
         "draws": 3,
-        "runs_scored": 469,
-        "runs_allowed": 492,
-        "win_percentage": 0.5223880597014925,
-        "run_differential": -23,
+        "runs_scored": 479,
+        "runs_allowed": 493,
+        "win_percentage": 0.5259259259259259,
+        "run_differential": -14,
         "position_rank": 3,
         "games_behind": 13.5
       },
@@ -155,32 +155,32 @@
         "team_abbreviation": "RAK",
         "team_name": "東北楽天ゴールデンイーグルス",
         "league": "Pacific",
-        "games_played": 137,
+        "games_played": 138,
         "wins": 64,
-        "losses": 71,
+        "losses": 72,
         "draws": 2,
-        "runs_scored": 428,
-        "runs_allowed": 501,
-        "win_percentage": 0.4740740740740741,
-        "run_differential": -73,
+        "runs_scored": 429,
+        "runs_allowed": 511,
+        "win_percentage": 0.47058823529411764,
+        "run_differential": -82,
         "position_rank": 4,
-        "games_behind": 20
+        "games_behind": 21
       },
       {
         "team_id": 11,
         "team_abbreviation": "SEI",
         "team_name": "埼玉西武ライオンズ",
         "league": "Pacific",
-        "games_played": 137,
+        "games_played": 138,
         "wins": 61,
-        "losses": 73,
+        "losses": 74,
         "draws": 3,
-        "runs_scored": 388,
-        "runs_allowed": 436,
-        "win_percentage": 0.4552238805970149,
-        "run_differential": -48,
+        "runs_scored": 389,
+        "runs_allowed": 439,
+        "win_percentage": 0.45185185185185184,
+        "run_differential": -50,
         "position_rank": 5,
-        "games_behind": 22.5
+        "games_behind": 23.5
       },
       {
         "team_id": 8,
@@ -196,7 +196,7 @@
         "win_percentage": 0.4074074074074074,
         "run_differential": -108,
         "position_rank": 6,
-        "games_behind": 29
+        "games_behind": 29.5
       }
     ]
   }
