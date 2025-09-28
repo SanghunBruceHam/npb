@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-28T17:42:24.257257
+# UPDATED: 2025-09-28T18:15:05.891525
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1189,4 +1189,4 @@
 楽天 5-10 オリックス (Pacific) @ ◇開始14時00分◇京セラドーム大阪
 # 📊 이닝별: 1회(0-0) 2회(0-5) 3회(0-4) 4회(0-1) 5회(1-0) 6회(0-0) 7회(0-0) 8회(2-0) 9회(2-X)
 巨人 0-0 ヤクルト (Central) @ 明治神宮野球場
-ＤｅＮＡ 0-0 広島 (Central) [SCHEDULED] @ MAZDA Zoom-Zoom スタジアム広島
+ＤｅＮＡ 0-0 広島 (Central) @ MAZDA Zoom-Zoom スタジアム広島
