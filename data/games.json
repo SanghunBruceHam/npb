@@ -12560,6 +12560,22 @@
   },
   {
     "game_date": "2025-09-28",
+    "home_team_id": 6,
+    "home_team_abbr": "YAK",
+    "home_team_name": "東京ヤクルトスワローズ",
+    "away_team_id": 1,
+    "away_team_abbr": "YOG",
+    "away_team_name": "読売ジャイアンツ",
+    "home_score": 4,
+    "away_score": 4,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": true,
+    "stadium": "明治神宮野球場",
+    "final_inning": 12
+  },
+  {
+    "game_date": "2025-09-28",
     "home_team_id": 4,
     "home_team_abbr": "HIR",
     "home_team_name": "広島東洋カープ",
