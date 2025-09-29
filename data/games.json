@@ -12597,7 +12597,8 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "ベルーナドーム"
+    "stadium": "◇開始18時00分◇ベルーナドーム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-09-29",
