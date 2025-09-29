@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-29T20:13:37.050067
+# UPDATED: 2025-09-29T20:38:54.063227
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1189,5 +1189,6 @@
 ＤｅＮＡ 10-2 広島 (Central) @ MAZDA Zoom-Zoom スタジアム広島
 
 # 2025-09-29
-ロッテ 0-2 西武 (Pacific) [SCHEDULED] @ ベルーナドーム
-楽天 0-4 オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪
+ロッテ 0-2 西武 (Pacific) @ ベルーナドーム
+楽天 0-4 オリックス (Pacific) @ ◇開始18時01分◇京セラドーム大阪
+# 📊 이닝별: 1회(0-1) 2회(0-2) 3회(0-0) 4회(0-0) 5회(0-1) 6회(0-0) 7회(0-0) 8회(0-0) 9회(0-X)

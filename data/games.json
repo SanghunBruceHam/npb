@@ -12583,5 +12583,36 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "MAZDA Zoom-Zoom スタジアム広島"
+  },
+  {
+    "game_date": "2025-09-29",
+    "home_team_id": 11,
+    "home_team_abbr": "SEI",
+    "home_team_name": "埼玉西武ライオンズ",
+    "away_team_id": 8,
+    "away_team_abbr": "LOT",
+    "away_team_name": "千葉ロッテマリーンズ",
+    "home_score": 2,
+    "away_score": 0,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "ベルーナドーム"
+  },
+  {
+    "game_date": "2025-09-29",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 9,
+    "away_team_abbr": "RAK",
+    "away_team_name": "東北楽天ゴールデンイーグルス",
+    "home_score": 4,
+    "away_score": 0,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時01分◇京セラドーム大阪",
+    "final_inning": 9
   }
 ]
