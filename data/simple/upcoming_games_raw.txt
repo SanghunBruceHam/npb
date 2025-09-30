@@ -1,13 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-09-29T23:15:42.113921
+# UPDATED: 2025-09-30T20:14:16.024383
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-09-29
-西武 vs ロッテ (Pacific) [SCHEDULED] @ ZOZOマリンスタジアム 18：00
-# 11|8|埼玉西武ライオンズ|千葉ロッテマリーンズ
-オリックス vs 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城 18：00
-# 10|9|オリックスバファローズ|東北楽天ゴールデンイーグルス
 
 # 2025-09-30
 巨人 vs 中日 (Central) [SCHEDULED] @ バンテリンドーム ナゴヤ 18：00
