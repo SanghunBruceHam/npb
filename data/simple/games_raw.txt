@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-09-30T20:13:23.498847
+# UPDATED: 2025-09-30T20:39:42.449118
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1193,7 +1193,7 @@
 楽天 0-4 オリックス (Pacific) @ 京セラドーム大阪
 
 # 2025-09-30
-中日 2-3 巨人 (Central) [SCHEDULED] @ 東京ドーム
-ヤクルト 3-1 ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム
-日本ハム 2-1 ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム
-楽天 0-1 ロッテ (Pacific) [SCHEDULED] @ ZOZOマリンスタジアム
+中日 2-3 巨人 (Central) @ 東京ドーム
+ヤクルト 3-1 ＤｅＮＡ (Central) @ 横浜スタジアム
+日本ハム 2-1 ソフトバンク (Pacific) @ 福岡PayPayドーム
+楽天 0-1 ロッテ (Pacific) @ ZOZOマリンスタジアム
