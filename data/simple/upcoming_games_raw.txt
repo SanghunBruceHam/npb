@@ -1,17 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-09-30T23:16:13.177202
+# UPDATED: 2025-10-01T20:14:57.262379
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-09-30
-巨人 vs 中日 (Central) [SCHEDULED] @ バンテリンドーム ナゴヤ 18：00
-# 1|5|読売ジャイアンツ|中日ドラゴンズ
-ＤｅＮＡ vs ヤクルト (Central) [SCHEDULED] @ 明治神宮野球場 18：00
-# 3|6|横浜DeNAベイスターズ|東京ヤクルトスワローズ
-ロッテ vs 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城 18：00
-# 8|9|千葉ロッテマリーンズ|東北楽天ゴールデンイーグルス
-ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
-# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
 
 # 2025-10-01
 巨人 vs 中日 (Central) [SCHEDULED] @ バンテリンドーム ナゴヤ 18：00
