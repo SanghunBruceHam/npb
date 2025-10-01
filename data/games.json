@@ -12683,11 +12683,12 @@
     "away_team_abbr": "CHU",
     "away_team_name": "中日ドラゴンズ",
     "home_score": 5,
-    "away_score": 0,
+    "away_score": 2,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "東京ドーム"
+    "stadium": "◇開始18時00分◇東京ドーム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-01",
@@ -12713,10 +12714,11 @@
     "away_team_abbr": "SEI",
     "away_team_name": "埼玉西武ライオンズ",
     "home_score": 10,
-    "away_score": 3,
+    "away_score": 5,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪"
+    "stadium": "◇開始18時01分◇京セラドーム大阪",
+    "final_inning": 9
   }
 ]
