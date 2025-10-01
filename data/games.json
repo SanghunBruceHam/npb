@@ -12698,12 +12698,13 @@
     "away_team_id": 6,
     "away_team_abbr": "YAK",
     "away_team_name": "東京ヤクルトスワローズ",
-    "home_score": 5,
-    "away_score": 4,
+    "home_score": 9,
+    "away_score": 6,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム"
+    "stadium": "横浜スタジアム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-01",
