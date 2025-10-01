@@ -12673,5 +12673,50 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "ZOZOマリンスタジアム"
+  },
+  {
+    "game_date": "2025-10-01",
+    "home_team_id": 1,
+    "home_team_abbr": "YOG",
+    "home_team_name": "読売ジャイアンツ",
+    "away_team_id": 5,
+    "away_team_abbr": "CHU",
+    "away_team_name": "中日ドラゴンズ",
+    "home_score": 5,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "東京ドーム"
+  },
+  {
+    "game_date": "2025-10-01",
+    "home_team_id": 3,
+    "home_team_abbr": "YDB",
+    "home_team_name": "横浜DeNAベイスターズ",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 5,
+    "away_score": 4,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "横浜スタジアム"
+  },
+  {
+    "game_date": "2025-10-01",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 11,
+    "away_team_abbr": "SEI",
+    "away_team_name": "埼玉西武ライオンズ",
+    "home_score": 10,
+    "away_score": 3,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "京セラドーム大阪"
   }
 ]
