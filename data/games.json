@@ -12718,5 +12718,35 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "京セラドーム大阪"
+  },
+  {
+    "game_date": "2025-10-02",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 6,
+    "away_score": 2,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場"
+  },
+  {
+    "game_date": "2025-10-02",
+    "home_team_id": 10,
+    "home_team_abbr": "ORI",
+    "home_team_name": "オリックスバファローズ",
+    "away_team_id": 11,
+    "away_team_abbr": "SEI",
+    "away_team_name": "埼玉西武ライオンズ",
+    "home_score": 2,
+    "away_score": 6,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "京セラドーム大阪"
   }
 ]

@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-10-02T20:12:09.004307
+# UPDATED: 2025-10-02T20:38:47.103268
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1204,5 +1204,5 @@
 西武 5-10 オリックス (Pacific) @ 京セラドーム大阪
 
 # 2025-10-02
-ヤクルト 2-6 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
-西武 6-2 オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪
+ヤクルト 2-6 阪神 (Central) @ 阪神甲子園球場
+西武 6-2 オリックス (Pacific) @ 京セラドーム大阪
