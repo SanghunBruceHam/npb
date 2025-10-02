@@ -12732,7 +12732,8 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-02",
@@ -12742,11 +12743,12 @@
     "away_team_id": 11,
     "away_team_abbr": "SEI",
     "away_team_name": "埼玉西武ライオンズ",
-    "home_score": 2,
+    "home_score": 5,
     "away_score": 6,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "京セラドーム大阪"
+    "stadium": "◇開始18時00分◇京セラドーム大阪",
+    "final_inning": 9
   }
 ]
