@@ -12789,11 +12789,12 @@
     "away_team_id": 11,
     "away_team_abbr": "SEI",
     "away_team_name": "埼玉西武ライオンズ",
-    "home_score": 0,
-    "away_score": 2,
+    "home_score": 7,
+    "away_score": 6,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "楽天モバイルパーク宮城"
+    "stadium": "◇開始18時00分◇楽天モバイルパーク",
+    "final_inning": 9
   }
 ]

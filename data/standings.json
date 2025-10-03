@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-03T12:40:23.556Z",
+  "updated_at": "2025-10-03T13:03:03.093Z",
   "central_league": {
     "standings": [
       {
@@ -156,15 +156,15 @@
         "team_name": "東北楽天ゴールデンイーグルス",
         "league": "Pacific",
         "games_played": 141,
-        "wins": 65,
-        "losses": 74,
+        "wins": 66,
+        "losses": 73,
         "draws": 2,
-        "runs_scored": 435,
-        "runs_allowed": 518,
-        "win_percentage": 0.4676258992805755,
-        "run_differential": -83,
+        "runs_scored": 442,
+        "runs_allowed": 522,
+        "win_percentage": 0.4748201438848921,
+        "run_differential": -80,
         "position_rank": 4,
-        "games_behind": 21.5
+        "games_behind": 20.5
       },
       {
         "team_id": 11,
@@ -172,15 +172,15 @@
         "team_name": "埼玉西武ライオンズ",
         "league": "Pacific",
         "games_played": 142,
-        "wins": 64,
-        "losses": 75,
+        "wins": 63,
+        "losses": 76,
         "draws": 3,
-        "runs_scored": 404,
-        "runs_allowed": 455,
-        "win_percentage": 0.460431654676259,
-        "run_differential": -51,
+        "runs_scored": 408,
+        "runs_allowed": 462,
+        "win_percentage": 0.45323741007194246,
+        "run_differential": -54,
         "position_rank": 5,
-        "games_behind": 22.5
+        "games_behind": 23.5
       },
       {
         "team_id": 8,
