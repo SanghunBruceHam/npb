@@ -12748,5 +12748,50 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "京セラドーム大阪"
+  },
+  {
+    "game_date": "2025-10-03",
+    "home_team_id": 4,
+    "home_team_abbr": "HIR",
+    "home_team_name": "広島東洋カープ",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 1,
+    "away_score": 6,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
+  },
+  {
+    "game_date": "2025-10-03",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 10,
+    "away_team_abbr": "ORI",
+    "away_team_name": "オリックスバファローズ",
+    "home_score": 9,
+    "away_score": 0,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "福岡PayPayドーム"
+  },
+  {
+    "game_date": "2025-10-03",
+    "home_team_id": 9,
+    "home_team_abbr": "RAK",
+    "home_team_name": "東北楽天ゴールデンイーグルス",
+    "away_team_id": 11,
+    "away_team_abbr": "SEI",
+    "away_team_name": "埼玉西武ライオンズ",
+    "home_score": 0,
+    "away_score": 2,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "楽天モバイルパーク宮城"
   }
 ]

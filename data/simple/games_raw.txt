@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-10-03T20:12:12.439281
+# UPDATED: 2025-10-03T20:38:12.533952
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1208,6 +1208,6 @@
 西武 6-5 オリックス (Pacific) @ 京セラドーム大阪
 
 # 2025-10-03
-ヤクルト 6-1 広島 (Central) [SCHEDULED] @ MAZDA Zoom-Zoom スタジアム広島
-オリックス 0-9 ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム
-西武 2-0 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城
+ヤクルト 6-1 広島 (Central) @ MAZDA Zoom-Zoom スタジアム広島
+オリックス 0-9 ソフトバンク (Pacific) @ 福岡PayPayドーム
+西武 2-0 楽天 (Pacific) @ 楽天モバイルパーク宮城
