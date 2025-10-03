@@ -12762,7 +12762,8 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
+    "stadium": "◇開始18時05分◇マツダスタジアム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-03",
@@ -12772,12 +12773,13 @@
     "away_team_id": 10,
     "away_team_abbr": "ORI",
     "away_team_name": "オリックスバファローズ",
-    "home_score": 9,
-    "away_score": 0,
+    "home_score": 10,
+    "away_score": 2,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム"
+    "stadium": "◇開始18時00分◇みずほペイペイドーム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-03",
