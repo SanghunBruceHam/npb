@@ -12762,8 +12762,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時05分◇マツダスタジアム",
-    "final_inning": 9
+    "stadium": "MAZDA Zoom-Zoom スタジアム広島"
   },
   {
     "game_date": "2025-10-03",
@@ -12778,8 +12777,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 9
+    "stadium": "福岡PayPayドーム"
   },
   {
     "game_date": "2025-10-03",
@@ -12794,7 +12792,22 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇楽天モバイルパーク",
+    "stadium": "楽天モバイルパーク宮城"
+  },
+  {
+    "game_date": "2025-10-04",
+    "home_team_id": 4,
+    "home_team_abbr": "HIR",
+    "home_team_name": "広島東洋カープ",
+    "away_team_id": 6,
+    "away_team_abbr": "YAK",
+    "away_team_name": "東京ヤクルトスワローズ",
+    "home_score": 1,
+    "away_score": 3,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始13時30分◇マツダスタジアム",
     "final_inning": 9
   }
 ]

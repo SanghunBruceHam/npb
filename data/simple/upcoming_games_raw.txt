@@ -1,15 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-03T23:14:55.173462
+# UPDATED: 2025-10-04T16:20:59.252930
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-10-03
-広島 vs ヤクルト (Central) [SCHEDULED] @ 明治神宮野球場 18：00
-# 4|6|広島東洋カープ|東京ヤクルトスワローズ
-楽天 vs 西武 (Pacific) [SCHEDULED] @ ベルーナドーム 18：00
-# 9|11|東北楽天ゴールデンイーグルス|埼玉西武ライオンズ
-ソフトバンク vs オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪 18：00
-# 7|10|福岡ソフトバンクホークス|オリックスバファローズ
 
 # 2025-10-04
 広島 vs ヤクルト (Central) [SCHEDULED] @ 明治神宮野球場 13：30

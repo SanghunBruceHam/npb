@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-03T14:14:58.491Z",
+  "updated_at": "2025-10-04T07:21:01.201Z",
   "central_league": {
     "standings": [
       {
@@ -71,32 +71,32 @@
         "team_abbreviation": "HIR",
         "team_name": "広島東洋カープ",
         "league": "Central",
-        "games_played": 142,
+        "games_played": 143,
         "wins": 59,
-        "losses": 78,
+        "losses": 79,
         "draws": 5,
-        "runs_scored": 440,
-        "runs_allowed": 494,
-        "win_percentage": 0.4306569343065693,
-        "run_differential": -54,
+        "runs_scored": 441,
+        "runs_allowed": 497,
+        "win_percentage": 0.427536231884058,
+        "run_differential": -56,
         "position_rank": 5,
-        "games_behind": 25
+        "games_behind": 25.5
       },
       {
         "team_id": 6,
         "team_abbreviation": "YAK",
         "team_name": "東京ヤクルトスワローズ",
         "league": "Central",
-        "games_played": 142,
-        "wins": 56,
+        "games_played": 143,
+        "wins": 57,
         "losses": 79,
         "draws": 7,
-        "runs_scored": 440,
-        "runs_allowed": 563,
-        "win_percentage": 0.4148148148148148,
-        "run_differential": -123,
+        "runs_scored": 443,
+        "runs_allowed": 564,
+        "win_percentage": 0.41911764705882354,
+        "run_differential": -121,
         "position_rank": 6,
-        "games_behind": 27
+        "games_behind": 26.5
       }
     ]
   },
