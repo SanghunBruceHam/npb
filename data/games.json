@@ -12809,5 +12809,50 @@
     "is_draw": false,
     "stadium": "◇開始13時30分◇マツダスタジアム",
     "final_inning": 9
+  },
+  {
+    "game_date": "2025-10-04",
+    "home_team_id": 9,
+    "home_team_abbr": "RAK",
+    "home_team_name": "東北楽天ゴールデンイーグルス",
+    "away_team_id": 11,
+    "away_team_abbr": "SEI",
+    "away_team_name": "埼玉西武ライオンズ",
+    "home_score": 2,
+    "away_score": 1,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "楽天モバイルパーク宮城"
+  },
+  {
+    "game_date": "2025-10-04",
+    "home_team_id": 8,
+    "home_team_abbr": "LOT",
+    "home_team_name": "千葉ロッテマリーンズ",
+    "away_team_id": 12,
+    "away_team_abbr": "NIP",
+    "away_team_name": "北海道日本ハムファイターズ",
+    "home_score": 1,
+    "away_score": 0,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "ZOZOマリンスタジアム"
+  },
+  {
+    "game_date": "2025-10-04",
+    "home_team_id": 1,
+    "home_team_abbr": "YOG",
+    "home_team_name": "読売ジャイアンツ",
+    "away_team_id": 5,
+    "away_team_abbr": "CHU",
+    "away_team_name": "中日ドラゴンズ",
+    "home_score": 0,
+    "away_score": 16,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "東京ドーム"
   }
 ]
