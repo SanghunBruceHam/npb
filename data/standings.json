@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-04T07:41:03.579Z",
+  "updated_at": "2025-10-04T08:25:37.754Z",
   "central_league": {
     "standings": [
       {
@@ -43,10 +43,10 @@
         "wins": 70,
         "losses": 70,
         "draws": 4,
-        "runs_scored": 463,
+        "runs_scored": 466,
         "runs_allowed": 477,
         "win_percentage": 0.5,
-        "run_differential": -14,
+        "run_differential": -11,
         "position_rank": 3,
         "games_behind": 15.5
       },
@@ -60,9 +60,9 @@
         "losses": 78,
         "draws": 2,
         "runs_scored": 419,
-        "runs_allowed": 463,
+        "runs_allowed": 466,
         "win_percentage": 0.4507042253521127,
-        "run_differential": -44,
+        "run_differential": -47,
         "position_rank": 4,
         "games_behind": 22.5
       },
@@ -128,9 +128,9 @@
         "losses": 57,
         "draws": 3,
         "runs_scored": 548,
-        "runs_allowed": 407,
+        "runs_allowed": 409,
         "win_percentage": 0.5928571428571429,
-        "run_differential": 141,
+        "run_differential": 139,
         "position_rank": 2,
         "games_behind": 4
       },
@@ -159,8 +159,8 @@
         "wins": 67,
         "losses": 73,
         "draws": 2,
-        "runs_scored": 444,
-        "runs_allowed": 523,
+        "runs_scored": 445,
+        "runs_allowed": 524,
         "win_percentage": 0.4785714285714286,
         "run_differential": -79,
         "position_rank": 4,
@@ -175,8 +175,8 @@
         "wins": 63,
         "losses": 77,
         "draws": 3,
-        "runs_scored": 409,
-        "runs_allowed": 464,
+        "runs_scored": 410,
+        "runs_allowed": 465,
         "win_percentage": 0.45,
         "run_differential": -55,
         "position_rank": 5,
@@ -191,10 +191,10 @@
         "wins": 56,
         "losses": 83,
         "draws": 3,
-        "runs_scored": 437,
+        "runs_scored": 439,
         "runs_allowed": 548,
         "win_percentage": 0.4028776978417266,
-        "run_differential": -111,
+        "run_differential": -109,
         "position_rank": 6,
         "games_behind": 30.5
       }
