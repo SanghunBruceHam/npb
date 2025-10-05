@@ -12853,5 +12853,35 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "東京ドーム"
+  },
+  {
+    "game_date": "2025-10-05",
+    "home_team_id": 9,
+    "home_team_abbr": "RAK",
+    "home_team_name": "東北楽天ゴールデンイーグルス",
+    "away_team_id": 10,
+    "away_team_abbr": "ORI",
+    "away_team_name": "オリックスバファローズ",
+    "home_score": 1,
+    "away_score": 1,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": true,
+    "stadium": "楽天モバイルパーク宮城"
+  },
+  {
+    "game_date": "2025-10-05",
+    "home_team_id": 8,
+    "home_team_abbr": "LOT",
+    "home_team_name": "千葉ロッテマリーンズ",
+    "away_team_id": 7,
+    "away_team_abbr": "SOF",
+    "away_team_name": "福岡ソフトバンクホークス",
+    "home_score": 1,
+    "away_score": 5,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "ZOZOマリンスタジアム"
   }
 ]

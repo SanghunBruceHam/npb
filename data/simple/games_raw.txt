@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-10-05T16:20:12.787998
+# UPDATED: 2025-10-05T16:40:12.914262
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1219,5 +1219,5 @@
 中日 16-3 巨人 (Central) @ 東京ドーム
 
 # 2025-10-05
-オリックス 1-1 楽天 (Pacific) [SCHEDULED] @ 楽天モバイルパーク宮城
-ソフトバンク 5-1 ロッテ (Pacific) [SCHEDULED] @ ZOZOマリンスタジアム
+オリックス 1-1 楽天 (Pacific) @ 楽天モバイルパーク宮城
+ソフトバンク 5-1 ロッテ (Pacific) @ ZOZOマリンスタジアム
