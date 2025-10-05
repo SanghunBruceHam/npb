@@ -12863,11 +12863,12 @@
     "away_team_abbr": "ORI",
     "away_team_name": "オリックスバファローズ",
     "home_score": 1,
-    "away_score": 1,
+    "away_score": 2,
     "league": "Pacific",
     "game_status": "completed",
-    "is_draw": true,
-    "stadium": "楽天モバイルパーク宮城"
+    "is_draw": false,
+    "stadium": "◇開始14時00分◇楽天モバイルパーク",
+    "final_inning": 11
   },
   {
     "game_date": "2025-10-05",

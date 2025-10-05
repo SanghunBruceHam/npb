@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-05T08:25:08.417Z",
+  "updated_at": "2025-10-05T08:42:50.474Z",
   "central_league": {
     "standings": [
       {
@@ -140,15 +140,15 @@
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
         "games_played": 143,
-        "wins": 73,
+        "wins": 74,
         "losses": 66,
-        "draws": 4,
-        "runs_scored": 501,
+        "draws": 3,
+        "runs_scored": 502,
         "runs_allowed": 519,
-        "win_percentage": 0.5251798561151079,
-        "run_differential": -18,
+        "win_percentage": 0.5285714285714286,
+        "run_differential": -17,
         "position_rank": 3,
-        "games_behind": 14
+        "games_behind": 13.5
       },
       {
         "team_id": 9,
@@ -157,14 +157,14 @@
         "league": "Pacific",
         "games_played": 143,
         "wins": 67,
-        "losses": 73,
-        "draws": 3,
+        "losses": 74,
+        "draws": 2,
         "runs_scored": 446,
-        "runs_allowed": 525,
-        "win_percentage": 0.4785714285714286,
-        "run_differential": -79,
+        "runs_allowed": 526,
+        "win_percentage": 0.475177304964539,
+        "run_differential": -80,
         "position_rank": 4,
-        "games_behind": 20.5
+        "games_behind": 21
       },
       {
         "team_id": 11,
