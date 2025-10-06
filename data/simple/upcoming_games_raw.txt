@@ -1,13 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-05T22:27:44.264517
+# UPDATED: 2025-10-06T20:14:29.936461
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-10-05
-楽天 vs オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪 14：00
-# 9|10|東北楽天ゴールデンイーグルス|オリックスバファローズ
-ロッテ vs ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム 14：00
-# 8|7|千葉ロッテマリーンズ|福岡ソフトバンクホークス
 
 # 2025-10-11
 ＤｅＮＡ vs 巨人 (Central) [SCHEDULED] @ 東京ドーム 14：00
