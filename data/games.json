@@ -12892,12 +12892,13 @@
     "away_team_id": 1,
     "away_team_abbr": "YOG",
     "away_team_name": "読売ジャイアンツ",
-    "home_score": 4,
+    "home_score": 6,
     "away_score": 2,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム"
+    "stadium": "横浜スタジアム",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-11",
@@ -12912,6 +12913,7 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO"
+    "stadium": "エスコンフィールドHOKKAIDO",
+    "final_inning": 9
   }
 ]
