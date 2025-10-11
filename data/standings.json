@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-11T07:21:13.145Z",
+  "updated_at": "2025-10-11T07:40:42.063Z",
   "central_league": {
     "standings": [
       {
@@ -23,32 +23,32 @@
         "team_abbreviation": "YDB",
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
-        "games_played": 143,
-        "wins": 71,
+        "games_played": 144,
+        "wins": 72,
         "losses": 66,
         "draws": 6,
-        "runs_scored": 510,
-        "runs_allowed": 456,
-        "win_percentage": 0.5182481751824818,
-        "run_differential": 54,
+        "runs_scored": 514,
+        "runs_allowed": 458,
+        "win_percentage": 0.5217391304347826,
+        "run_differential": 56,
         "position_rank": 2,
-        "games_behind": 13
+        "games_behind": 12.5
       },
       {
         "team_id": 1,
         "team_abbreviation": "YOG",
         "team_name": "読売ジャイアンツ",
         "league": "Central",
-        "games_played": 144,
+        "games_played": 145,
         "wins": 70,
-        "losses": 70,
+        "losses": 71,
         "draws": 4,
-        "runs_scored": 466,
-        "runs_allowed": 477,
-        "win_percentage": 0.5,
-        "run_differential": -11,
+        "runs_scored": 468,
+        "runs_allowed": 481,
+        "win_percentage": 0.49645390070921985,
+        "run_differential": -13,
         "position_rank": 3,
-        "games_behind": 15.5
+        "games_behind": 16
       },
       {
         "team_id": 5,
@@ -123,32 +123,32 @@
         "team_abbreviation": "NIP",
         "team_name": "北海道日本ハムファイターズ",
         "league": "Pacific",
-        "games_played": 143,
-        "wins": 83,
+        "games_played": 144,
+        "wins": 84,
         "losses": 57,
         "draws": 3,
-        "runs_scored": 548,
+        "runs_scored": 550,
         "runs_allowed": 409,
-        "win_percentage": 0.5928571428571429,
-        "run_differential": 139,
+        "win_percentage": 0.5957446808510638,
+        "run_differential": 141,
         "position_rank": 2,
-        "games_behind": 4.5
+        "games_behind": 4
       },
       {
         "team_id": 10,
         "team_abbreviation": "ORI",
         "team_name": "オリックスバファローズ",
         "league": "Pacific",
-        "games_played": 143,
+        "games_played": 144,
         "wins": 74,
-        "losses": 66,
+        "losses": 67,
         "draws": 3,
         "runs_scored": 502,
-        "runs_allowed": 519,
-        "win_percentage": 0.5285714285714286,
-        "run_differential": -17,
+        "runs_allowed": 521,
+        "win_percentage": 0.524822695035461,
+        "run_differential": -19,
         "position_rank": 3,
-        "games_behind": 13.5
+        "games_behind": 14
       },
       {
         "team_id": 9,
