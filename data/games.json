@@ -12937,11 +12937,12 @@
     "away_team_id": 10,
     "away_team_abbr": "ORI",
     "away_team_name": "オリックスバファローズ",
-    "home_score": 3,
+    "home_score": 5,
     "away_score": 4,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO"
+    "stadium": "エスコンフィールドHOKKAIDO",
+    "final_inning": 9
   }
 ]
