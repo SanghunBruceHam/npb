@@ -1,13 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-11T22:27:39.284779
+# UPDATED: 2025-10-12T16:21:33.374179
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-10-11
-ＤｅＮＡ vs 巨人 (Central) [SCHEDULED] @ 東京ドーム 14：00
-# 3|1|横浜DeNAベイスターズ|読売ジャイアンツ
-日本ハム vs オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪 14：00
-# 12|10|北海道日本ハムファイターズ|オリックスバファローズ
 
 # 2025-10-12
 ＤｅＮＡ vs 巨人 (Central) [SCHEDULED] @ 東京ドーム 14：00
