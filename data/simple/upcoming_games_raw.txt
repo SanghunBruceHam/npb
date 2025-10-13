@@ -1,16 +1,40 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-12T22:27:57.404338
+# UPDATED: 2025-10-13T20:14:23.322150
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
 
-# 2025-10-12
-ＤｅＮＡ vs 巨人 (Central) [SCHEDULED] @ 東京ドーム 14：00
-# 3|1|横浜DeNAベイスターズ|読売ジャイアンツ
-日本ハム vs オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪 14：00
-# 12|10|北海道日本ハムファイターズ|オリックスバファローズ
+# 2025-10-15
+阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 18：00
+# 2|3|阪神タイガース|横浜DeNAベイスターズ
+ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
+# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
 
-# 2025-10-13
-ＤｅＮＡ vs 巨人 (Central) [SCHEDULED] @ 東京ドーム 14：00
-# 3|1|横浜DeNAベイスターズ|読売ジャイアンツ
-日本ハム vs オリックス (Pacific) [SCHEDULED] @ 京セラドーム大阪 14：00
-# 12|10|北海道日本ハムファイターズ|オリックスバファローズ
+# 2025-10-16
+阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 18：00
+# 2|3|阪神タイガース|横浜DeNAベイスターズ
+ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
+# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
+
+# 2025-10-17
+阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 18：00
+# 2|3|阪神タイガース|横浜DeNAベイスターズ
+ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
+# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
+
+# 2025-10-18
+阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 14：00
+# 2|3|阪神タイガース|横浜DeNAベイスターズ
+ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 14：00
+# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
+
+# 2025-10-19
+阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 14：00
+# 2|3|阪神タイガース|横浜DeNAベイスターズ
+ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 13：00
+# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
+
+# 2025-10-20
+阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 18：00
+# 2|3|阪神タイガース|横浜DeNAベイスターズ
+ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
+# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
