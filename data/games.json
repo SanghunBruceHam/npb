@@ -12927,8 +12927,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "横浜スタジアム",
-    "final_inning": 11
+    "stadium": "横浜スタジアム"
   },
   {
     "game_date": "2025-10-12",
@@ -12943,7 +12942,6 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO",
-    "final_inning": 9
+    "stadium": "エスコンフィールドHOKKAIDO"
   }
 ]
