@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-10-15T20:13:32.379329
+# UPDATED: 2025-10-15T20:38:41.327875
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1231,5 +1231,5 @@
 オリックス 4-5 日本ハム (Pacific) @ エスコンフィールドHOKKAIDO
 
 # 2025-10-15
-ＤｅＮＡ 0-0 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
-日本ハム 0-1 ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム
+ＤｅＮＡ 0-0 阪神 (Central) @ 阪神甲子園球場
+日本ハム 0-1 ソフトバンク (Pacific) @ 福岡PayPayドーム
