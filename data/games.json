@@ -12957,8 +12957,7 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場",
-    "final_inning": 9
+    "stadium": "阪神甲子園球場"
   },
   {
     "game_date": "2025-10-15",
@@ -12973,7 +12972,6 @@
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "◇開始18時00分◇みずほペイペイドーム",
-    "final_inning": 10
+    "stadium": "福岡PayPayドーム"
   }
 ]
