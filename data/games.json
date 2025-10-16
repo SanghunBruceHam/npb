@@ -12982,12 +12982,13 @@
     "away_team_id": 3,
     "away_team_abbr": "YDB",
     "away_team_name": "横浜DeNAベイスターズ",
-    "home_score": 2,
+    "home_score": 5,
     "away_score": 3,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 10
   },
   {
     "game_date": "2025-10-16",

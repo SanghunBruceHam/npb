@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-16T13:08:47.106Z",
+  "updated_at": "2025-10-16T13:32:57.747Z",
   "central_league": {
     "standings": [
       {
@@ -8,13 +8,13 @@
         "team_name": "阪神タイガース",
         "league": "Central",
         "games_played": 145,
-        "wins": 86,
-        "losses": 55,
+        "wins": 87,
+        "losses": 54,
         "draws": 4,
-        "runs_scored": 500,
+        "runs_scored": 503,
         "runs_allowed": 355,
-        "win_percentage": 0.6099290780141844,
-        "run_differential": 145,
+        "win_percentage": 0.6170212765957447,
+        "run_differential": 148,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -24,15 +24,15 @@
         "team_name": "横浜DeNAベイスターズ",
         "league": "Central",
         "games_played": 147,
-        "wins": 74,
-        "losses": 67,
+        "wins": 73,
+        "losses": 68,
         "draws": 6,
         "runs_scored": 526,
-        "runs_allowed": 468,
-        "win_percentage": 0.524822695035461,
-        "run_differential": 58,
+        "runs_allowed": 471,
+        "win_percentage": 0.5177304964539007,
+        "run_differential": 55,
         "position_rank": 2,
-        "games_behind": 12
+        "games_behind": 14
       },
       {
         "team_id": 1,
@@ -48,7 +48,7 @@
         "win_percentage": 0.49295774647887325,
         "run_differential": -16,
         "position_rank": 3,
-        "games_behind": 16.5
+        "games_behind": 17.5
       },
       {
         "team_id": 5,
@@ -64,7 +64,7 @@
         "win_percentage": 0.4507042253521127,
         "run_differential": -47,
         "position_rank": 4,
-        "games_behind": 22.5
+        "games_behind": 23.5
       },
       {
         "team_id": 4,
@@ -80,7 +80,7 @@
         "win_percentage": 0.427536231884058,
         "run_differential": -56,
         "position_rank": 5,
-        "games_behind": 25.5
+        "games_behind": 26.5
       },
       {
         "team_id": 6,
@@ -96,7 +96,7 @@
         "win_percentage": 0.41911764705882354,
         "run_differential": -121,
         "position_rank": 6,
-        "games_behind": 26.5
+        "games_behind": 27.5
       }
     ]
   },
