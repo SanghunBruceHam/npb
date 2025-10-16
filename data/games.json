@@ -12988,5 +12988,21 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "阪神甲子園球場"
+  },
+  {
+    "game_date": "2025-10-16",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 12,
+    "away_team_abbr": "NIP",
+    "away_team_name": "北海道日本ハムファイターズ",
+    "home_score": 3,
+    "away_score": 0,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時01分◇みずほペイペイドーム",
+    "final_inning": 9
   }
 ]
