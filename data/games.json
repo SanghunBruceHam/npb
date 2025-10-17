@@ -13003,5 +13003,35 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "福岡PayPayドーム"
+  },
+  {
+    "game_date": "2025-10-17",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 3,
+    "away_team_abbr": "YDB",
+    "away_team_name": "横浜DeNAベイスターズ",
+    "home_score": 4,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場"
+  },
+  {
+    "game_date": "2025-10-17",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 12,
+    "away_team_abbr": "NIP",
+    "away_team_name": "北海道日本ハムファイターズ",
+    "home_score": 0,
+    "away_score": 3,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "福岡PayPayドーム"
   }
 ]
