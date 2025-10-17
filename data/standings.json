@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-17T11:39:29.081Z",
+  "updated_at": "2025-10-17T12:42:18.156Z",
   "central_league": {
     "standings": [
       {
@@ -112,9 +112,9 @@
         "losses": 53,
         "draws": 4,
         "runs_scored": 556,
-        "runs_allowed": 393,
+        "runs_allowed": 396,
         "win_percentage": 0.6267605633802817,
-        "run_differential": 163,
+        "run_differential": 160,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -127,10 +127,10 @@
         "wins": 86,
         "losses": 59,
         "draws": 3,
-        "runs_scored": 559,
+        "runs_scored": 562,
         "runs_allowed": 418,
         "win_percentage": 0.593103448275862,
-        "run_differential": 141,
+        "run_differential": 144,
         "position_rank": 2,
         "games_behind": 4.5
       },

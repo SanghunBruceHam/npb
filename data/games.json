@@ -13017,7 +13017,8 @@
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   },
   {
     "game_date": "2025-10-17",
@@ -13028,10 +13029,11 @@
     "away_team_abbr": "NIP",
     "away_team_name": "北海道日本ハムファイターズ",
     "home_score": 0,
-    "away_score": 3,
+    "away_score": 6,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム"
+    "stadium": "◇開始18時00分◇みずほペイペイドーム",
+    "final_inning": 9
   }
 ]
