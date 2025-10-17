@@ -1,35 +1,5 @@
 [
   {
-    "game_date": "2025-10-16",
-    "home_team_id": 3,
-    "home_team_abbr": "YDB",
-    "home_team_name": "横浜DeNAベイスターズ",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "横浜スタジアム 18：00"
-  },
-  {
-    "game_date": "2025-10-16",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO 18：00"
-  },
-  {
     "game_date": "2025-10-17",
     "home_team_id": 3,
     "home_team_abbr": "YDB",
