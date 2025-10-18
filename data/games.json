@@ -13043,10 +13043,11 @@
     "away_team_abbr": "NIP",
     "away_team_name": "北海道日本ハムファイターズ",
     "home_score": 3,
-    "away_score": 7,
+    "away_score": 9,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム"
+    "stadium": "◇開始14時00分◇みずほペイペイドーム",
+    "final_inning": 9
   }
 ]
