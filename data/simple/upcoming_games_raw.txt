@@ -1,28 +1,16 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-17T23:15:38.390810
+# UPDATED: 2025-10-18T16:21:46.206103
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
 
-# 2025-10-17
-阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 18：00
-# 2|3|阪神タイガース|横浜DeNAベイスターズ
-ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
-# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
-
 # 2025-10-18
-阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 14：00
-# 2|3|阪神タイガース|横浜DeNAベイスターズ
 ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 14：00
 # 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
 
 # 2025-10-19
-阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 14：00
-# 2|3|阪神タイガース|横浜DeNAベイスターズ
 ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 13：00
 # 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
 
 # 2025-10-20
-阪神 vs ＤｅＮＡ (Central) [SCHEDULED] @ 横浜スタジアム 18：00
-# 2|3|阪神タイガース|横浜DeNAベイスターズ
 ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
 # 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
