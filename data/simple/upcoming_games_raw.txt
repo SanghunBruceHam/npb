@@ -1,11 +1,7 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-18T22:28:49.854311
+# UPDATED: 2025-10-19T16:21:45.804862
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
-
-# 2025-10-18
-ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 14：00
-# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
 
 # 2025-10-19
 ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 13：00
