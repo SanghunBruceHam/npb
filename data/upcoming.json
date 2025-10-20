@@ -1,20 +1,5 @@
 [
   {
-    "game_date": "2025-10-19",
-    "home_team_id": 12,
-    "home_team_abbr": "NIP",
-    "home_team_name": "北海道日本ハムファイターズ",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "エスコンフィールドHOKKAIDO 13：00"
-  },
-  {
     "game_date": "2025-10-20",
     "home_team_id": 12,
     "home_team_abbr": "NIP",
