@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-10-20T20:13:46.997320
+# UPDATED: 2025-10-20T20:38:43.562631
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1249,4 +1249,4 @@
 日本ハム 7-1 ソフトバンク (Pacific) @ 福岡PayPayドーム
 
 # 2025-10-20
-日本ハム 1-2 ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム
+日本ハム 1-2 ソフトバンク (Pacific) @ 福岡PayPayドーム

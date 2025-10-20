@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-20T11:14:38.637Z",
+  "updated_at": "2025-10-20T11:39:34.953Z",
   "central_league": {
     "standings": [
       {
@@ -107,14 +107,14 @@
         "team_abbreviation": "SOF",
         "team_name": "福岡ソフトバンクホークス",
         "league": "Pacific",
-        "games_played": 148,
-        "wins": 89,
+        "games_played": 149,
+        "wins": 90,
         "losses": 55,
         "draws": 4,
-        "runs_scored": 560,
-        "runs_allowed": 412,
-        "win_percentage": 0.6180555555555556,
-        "run_differential": 148,
+        "runs_scored": 562,
+        "runs_allowed": 413,
+        "win_percentage": 0.6206896551724138,
+        "run_differential": 149,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -123,16 +123,16 @@
         "team_abbreviation": "NIP",
         "team_name": "北海道日本ハムファイターズ",
         "league": "Pacific",
-        "games_played": 150,
+        "games_played": 151,
         "wins": 88,
-        "losses": 59,
+        "losses": 60,
         "draws": 3,
-        "runs_scored": 578,
-        "runs_allowed": 422,
-        "win_percentage": 0.5986394557823129,
-        "run_differential": 156,
+        "runs_scored": 579,
+        "runs_allowed": 424,
+        "win_percentage": 0.5945945945945946,
+        "run_differential": 155,
         "position_rank": 2,
-        "games_behind": 2.5
+        "games_behind": 3.5
       },
       {
         "team_id": 10,
@@ -148,7 +148,7 @@
         "win_percentage": 0.5211267605633803,
         "run_differential": -20,
         "position_rank": 3,
-        "games_behind": 14
+        "games_behind": 14.5
       },
       {
         "team_id": 9,
@@ -164,7 +164,7 @@
         "win_percentage": 0.475177304964539,
         "run_differential": -80,
         "position_rank": 4,
-        "games_behind": 20.5
+        "games_behind": 21
       },
       {
         "team_id": 11,
@@ -180,7 +180,7 @@
         "win_percentage": 0.45,
         "run_differential": -55,
         "position_rank": 5,
-        "games_behind": 24
+        "games_behind": 24.5
       },
       {
         "team_id": 8,
@@ -196,7 +196,7 @@
         "win_percentage": 0.4,
         "run_differential": -112,
         "position_rank": 6,
-        "games_behind": 31
+        "games_behind": 31.5
       }
     ]
   }
