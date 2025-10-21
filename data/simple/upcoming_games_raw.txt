@@ -1,8 +1,32 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-20T23:15:40.960561
+# UPDATED: 2025-10-21T20:14:19.354697
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
 
-# 2025-10-20
-ソフトバンク vs 日本ハム (Pacific) [SCHEDULED] @ エスコンフィールドHOKKAIDO 18：00
-# 7|12|福岡ソフトバンクホークス|北海道日本ハムファイターズ
+# 2025-10-25
+ソフトバンク vs 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場 18：30
+# 7|2|福岡ソフトバンクホークス|阪神タイガース
+
+# 2025-10-26
+ソフトバンク vs 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場 18：30
+# 7|2|福岡ソフトバンクホークス|阪神タイガース
+
+# 2025-10-28
+阪神 vs ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム 18：00
+# 2|7|阪神タイガース|福岡ソフトバンクホークス
+
+# 2025-10-29
+阪神 vs ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム 18：00
+# 2|7|阪神タイガース|福岡ソフトバンクホークス
+
+# 2025-10-30
+阪神 vs ソフトバンク (Pacific) [SCHEDULED] @ 福岡PayPayドーム 18：00
+# 2|7|阪神タイガース|福岡ソフトバンクホークス
+
+# 2025-11-01
+ソフトバンク vs 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場 18：30
+# 7|2|福岡ソフトバンクホークス|阪神タイガース
+
+# 2025-11-02
+ソフトバンク vs 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場 18：00
+# 7|2|福岡ソフトバンクホークス|阪神タイガース
