@@ -1,5 +1,5 @@
 # NPB SCHEDULED GAMES DATA
-# UPDATED: 2025-10-23T22:09:10.462905
+# UPDATED: 2025-10-23T22:32:42.739807
 # FORMAT: Date-grouped scheduled games with venue and time info
 #
 
