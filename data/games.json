@@ -13088,10 +13088,11 @@
     "away_team_abbr": "HAN",
     "away_team_name": "阪神タイガース",
     "home_score": 1,
-    "away_score": 0,
+    "away_score": 2,
     "league": "Pacific",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "福岡PayPayドーム"
+    "stadium": "◇開始18時32分◇みずほペイペイドーム",
+    "final_inning": 9
   }
 ]

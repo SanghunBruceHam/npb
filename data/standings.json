@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-10-25T12:32:08.223Z",
+  "updated_at": "2025-10-25T12:59:54.167Z",
   "central_league": {
     "standings": [
       {
@@ -8,13 +8,13 @@
         "team_name": "阪神タイガース",
         "league": "Central",
         "games_played": 147,
-        "wins": 88,
-        "losses": 55,
+        "wins": 89,
+        "losses": 54,
         "draws": 4,
-        "runs_scored": 507,
+        "runs_scored": 509,
         "runs_allowed": 356,
-        "win_percentage": 0.6153846153846154,
-        "run_differential": 151,
+        "win_percentage": 0.6223776223776224,
+        "run_differential": 153,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -32,7 +32,7 @@
         "win_percentage": 0.5140845070422535,
         "run_differential": 51,
         "position_rank": 2,
-        "games_behind": 14.5
+        "games_behind": 15.5
       },
       {
         "team_id": 1,
@@ -48,7 +48,7 @@
         "win_percentage": 0.49295774647887325,
         "run_differential": -16,
         "position_rank": 3,
-        "games_behind": 17.5
+        "games_behind": 18.5
       },
       {
         "team_id": 5,
@@ -64,7 +64,7 @@
         "win_percentage": 0.4507042253521127,
         "run_differential": -47,
         "position_rank": 4,
-        "games_behind": 23.5
+        "games_behind": 24.5
       },
       {
         "team_id": 4,
@@ -80,7 +80,7 @@
         "win_percentage": 0.427536231884058,
         "run_differential": -56,
         "position_rank": 5,
-        "games_behind": 26.5
+        "games_behind": 27.5
       },
       {
         "team_id": 6,
@@ -96,7 +96,7 @@
         "win_percentage": 0.41911764705882354,
         "run_differential": -121,
         "position_rank": 6,
-        "games_behind": 27.5
+        "games_behind": 28.5
       }
     ]
   },
@@ -108,13 +108,13 @@
         "team_name": "福岡ソフトバンクホークス",
         "league": "Pacific",
         "games_played": 150,
-        "wins": 91,
-        "losses": 55,
+        "wins": 90,
+        "losses": 56,
         "draws": 4,
         "runs_scored": 563,
-        "runs_allowed": 413,
-        "win_percentage": 0.6232876712328768,
-        "run_differential": 150,
+        "runs_allowed": 415,
+        "win_percentage": 0.6164383561643836,
+        "run_differential": 148,
         "position_rank": 1,
         "games_behind": 0
       },
@@ -132,7 +132,7 @@
         "win_percentage": 0.5945945945945946,
         "run_differential": 155,
         "position_rank": 2,
-        "games_behind": 4
+        "games_behind": 3
       },
       {
         "team_id": 10,
@@ -148,7 +148,7 @@
         "win_percentage": 0.5211267605633803,
         "run_differential": -20,
         "position_rank": 3,
-        "games_behind": 15
+        "games_behind": 14
       },
       {
         "team_id": 9,
@@ -164,7 +164,7 @@
         "win_percentage": 0.475177304964539,
         "run_differential": -80,
         "position_rank": 4,
-        "games_behind": 21.5
+        "games_behind": 20.5
       },
       {
         "team_id": 11,
@@ -180,7 +180,7 @@
         "win_percentage": 0.45,
         "run_differential": -55,
         "position_rank": 5,
-        "games_behind": 25
+        "games_behind": 24
       },
       {
         "team_id": 8,
@@ -196,7 +196,7 @@
         "win_percentage": 0.4,
         "run_differential": -112,
         "position_rank": 6,
-        "games_behind": 32
+        "games_behind": 31
       }
     ]
   }
