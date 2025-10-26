@@ -13093,5 +13093,21 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "福岡PayPayドーム"
+  },
+  {
+    "game_date": "2025-10-26",
+    "home_team_id": 7,
+    "home_team_abbr": "SOF",
+    "home_team_name": "福岡ソフトバンクホークス",
+    "away_team_id": 2,
+    "away_team_abbr": "HAN",
+    "away_team_name": "阪神タイガース",
+    "home_score": 10,
+    "away_score": 1,
+    "league": "Pacific",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "◇開始18時33分◇みずほペイペイドーム",
+    "final_inning": 9
   }
 ]
