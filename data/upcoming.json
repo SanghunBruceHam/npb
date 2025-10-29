@@ -1,20 +1,5 @@
 [
   {
-    "game_date": "2025-10-28",
-    "home_team_id": 7,
-    "home_team_abbr": "SOF",
-    "home_team_name": "福岡ソフトバンクホークス",
-    "away_team_id": 2,
-    "away_team_abbr": "HAN",
-    "away_team_name": "阪神タイガース",
-    "home_score": null,
-    "away_score": null,
-    "league": "Pacific",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "福岡PayPayドーム 18：00"
-  },
-  {
     "game_date": "2025-10-29",
     "home_team_id": 7,
     "home_team_abbr": "SOF",
