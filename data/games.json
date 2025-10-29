@@ -13132,11 +13132,12 @@
     "away_team_id": 7,
     "away_team_abbr": "SOF",
     "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": 0,
+    "home_score": 2,
     "away_score": 3,
     "league": "Central",
     "game_status": "completed",
     "is_draw": false,
-    "stadium": "阪神甲子園球場"
+    "stadium": "阪神甲子園球場",
+    "final_inning": 9
   }
 ]
