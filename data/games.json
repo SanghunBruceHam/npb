@@ -13138,5 +13138,20 @@
     "game_status": "completed",
     "is_draw": false,
     "stadium": "阪神甲子園球場"
+  },
+  {
+    "game_date": "2025-10-30",
+    "home_team_id": 2,
+    "home_team_abbr": "HAN",
+    "home_team_name": "阪神タイガース",
+    "away_team_id": 7,
+    "away_team_abbr": "SOF",
+    "away_team_name": "福岡ソフトバンクホークス",
+    "home_score": 2,
+    "away_score": 0,
+    "league": "Central",
+    "game_status": "completed",
+    "is_draw": false,
+    "stadium": "阪神甲子園球場"
   }
 ]

@@ -1,5 +1,5 @@
 # NPB GAMES DATA
-# UPDATED: 2025-10-30T20:13:29.709430
+# UPDATED: 2025-10-30T20:39:07.007404
 # FORMAT: Date-grouped games with readable format
 #
 
@@ -1264,4 +1264,4 @@
 ソフトバンク 3-2 阪神 (Central) @ 阪神甲子園球場
 
 # 2025-10-30
-ソフトバンク 0-2 阪神 (Central) [SCHEDULED] @ 阪神甲子園球場
+ソフトバンク 0-2 阪神 (Central) @ 阪神甲子園球場
