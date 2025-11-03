@@ -1,17 +1,1 @@
-[
-  {
-    "game_date": "2025-11-02",
-    "home_team_id": 2,
-    "home_team_abbr": "HAN",
-    "home_team_name": "阪神タイガース",
-    "away_team_id": 7,
-    "away_team_abbr": "SOF",
-    "away_team_name": "福岡ソフトバンクホークス",
-    "home_score": null,
-    "away_score": null,
-    "league": "Central",
-    "game_status": "scheduled",
-    "is_draw": false,
-    "stadium": "阪神甲子園球場 18：00"
-  }
-]
+[]
